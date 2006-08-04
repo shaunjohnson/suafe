@@ -134,4 +134,20 @@ public class Validator {
 			throw new ValidatorException("Field \"" + field + "\" is required");
 		}
 	}
+
+	/**
+	 * @param path
+	 * @throws ValidatorException
+	 */
+	public static void validatePath(String path) throws ValidatorException {
+		if (path == null) {
+			throw new ValidatorException("Invalid path");
+		}
+		
+		String value = path.trim();
+			
+		if (value.length() == 0) {
+			throw new ValidatorException("Invalid path");
+		}
+	}
 }

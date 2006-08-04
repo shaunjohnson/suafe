@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -68,6 +70,7 @@ import org.xiaoniu.suafe.dialogs.AddUserDialog;
 import org.xiaoniu.suafe.dialogs.ChangeMembershipDialog;
 import org.xiaoniu.suafe.dialogs.DialogUtil;
 import org.xiaoniu.suafe.dialogs.EditGroupDialog;
+import org.xiaoniu.suafe.dialogs.EditPathDialog;
 import org.xiaoniu.suafe.dialogs.EditRepositoryDialog;
 import org.xiaoniu.suafe.dialogs.EditUserDialog;
 import org.xiaoniu.suafe.dialogs.LicenseDialog;
@@ -81,9 +84,14 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
 /**
  * @author Shaun Johnson
  */
-public class MainFrame extends BaseFrame implements ActionListener,
+public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		ListSelectionListener, MouseListener, TreeSelectionListener {
 
+	private ImageIcon pathEditIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/PathEdit.gif"));
+	private ImageIcon pathDeleteIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/PathDelete.gif"));
+	private ImageIcon repositoryEditIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/RepositoryEdit.gif"));
+	private ImageIcon repositoryDeleteIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/RepositoryDelete.gif"));
+	
 	private JPanel jContentPane = null;  //  @jve:decl-index=0:
 
 	private JTabbedPane mainTabbedPane = null;  //  @jve:decl-index=0:
@@ -141,8 +149,6 @@ public class MainFrame extends BaseFrame implements ActionListener,
 	private JMenuItem newUserMenuItem = null;
 
 	private JMenuItem newGroupMenuItem = null;
-
-	private JMenuItem newRepositoryMenuItem = null;
 
 	private JMenuItem newAccessRuleMenuItem = null;  //  @jve:decl-index=0:
 
@@ -294,6 +300,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 				"Untitled"));
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.center();
+		this.addKeyListener(this);
 	}
 
 	/**
@@ -621,7 +628,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/UserAdd.gif")));
 			addUserToolbarButton.setToolTipText("Add User");
 			addUserToolbarButton.addActionListener(this);
 		}
@@ -643,7 +650,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/GroupAdd.gif")));
 			addGroupToolbarButton.setToolTipText("Add Group");
 			addGroupToolbarButton.addActionListener(this);
 		}
@@ -687,7 +694,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/AccessRuleAdd.gif")));
 			addAccessRuleButton.setToolTipText("Add Access Rule");
 			addAccessRuleButton.addActionListener(this);
 		}
@@ -1134,14 +1141,18 @@ public class MainFrame extends BaseFrame implements ActionListener,
 		Object userObject = node.getUserObject();
 				
 		if (userObject instanceof Path) {
-//			JDialog dialog = new EditPathDialog((Path)userObject);
-//			DialogUtil.center(this, dialog);
-//			dialog.setVisible(true);
-		}
-
-		refreshUserDetails();
-		refreshGroupDetails();
-		refreshAccessRuleTree(null);
+			Message message = new Message();
+			
+			JDialog dialog = new EditPathDialog((Path)userObject, message);
+			DialogUtil.center(this, dialog);
+			dialog.setVisible(true);
+			
+			if (message.getState() == Message.SUCCESS) {
+				refreshUserDetails();
+				refreshGroupDetails();
+				refreshAccessRuleTree(message.getUserObject());				
+			}
+		}		
 	}
 
 	private void deleteRepository() {
@@ -1185,14 +1196,18 @@ public class MainFrame extends BaseFrame implements ActionListener,
 		Object userObject = node.getUserObject();
 				
 		if (userObject instanceof Repository) {
-			JDialog dialog = new EditRepositoryDialog((Repository)userObject);
+			Message message = new Message();
+			
+			JDialog dialog = new EditRepositoryDialog((Repository)userObject, message);
 			DialogUtil.center(this, dialog);
 			dialog.setVisible(true);
+			
+			if (message.getState() == Message.SUCCESS) {
+				refreshUserDetails();
+				refreshGroupDetails();
+				refreshAccessRuleTree(message.getUserObject());
+			}
 		}
-
-		refreshUserDetails();
-		refreshGroupDetails();
-		refreshAccessRuleTree(null);
 	}
 
 	private void filePrint() {
@@ -1238,6 +1253,11 @@ public class MainFrame extends BaseFrame implements ActionListener,
 		}
 
 	}
+	
+	private void showHelp() {
+		JFrame frame = new HelpFrame();
+		frame.setVisible(true);
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("NewFile")) {
@@ -1253,7 +1273,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 		} else if (e.getActionCommand().equals("Exit")) {
 			System.exit(0);
 		} else if (e.getActionCommand().equals("Help")) {
-
+			showHelp();
 		} else if (e.getActionCommand().equals("License")) {
 			helpLicense();
 		} else if (e.getActionCommand().equals("About")) {
@@ -1455,7 +1475,6 @@ public class MainFrame extends BaseFrame implements ActionListener,
 			actionMenu.setText(ResourceUtil.getString("menu.action"));
 			actionMenu.add(getNewUserMenuItem());
 			actionMenu.add(getNewGroupMenuItem());
-			actionMenu.add(getNewRepositoryMenuItem());
 			actionMenu.add(getNewAccessRuleMenuItem());
 		}
 		return actionMenu;
@@ -1476,7 +1495,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/UserAdd.gif")));
 			newUserMenuItem.addActionListener(this);
 		}
 		return newUserMenuItem;
@@ -1497,31 +1516,10 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/GroupAdd.gif")));
 			newGroupMenuItem.addActionListener(this);
 		}
 		return newGroupMenuItem;
-	}
-
-	/**
-	 * This method initializes jMenuItem2
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	private JMenuItem getNewRepositoryMenuItem() {
-		if (newRepositoryMenuItem == null) {
-			newRepositoryMenuItem = new JMenuItem();
-			newRepositoryMenuItem.setText(ResourceUtil
-					.getString("menu.action.addrepository"));
-			newRepositoryMenuItem.setActionCommand("AddRepository");
-			newRepositoryMenuItem
-					.setIcon(new ImageIcon(
-							getClass()
-									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
-			newRepositoryMenuItem.addActionListener(this);
-		}
-		return newRepositoryMenuItem;
 	}
 
 	/**
@@ -1539,7 +1537,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/AccessRuleAdd.gif")));
 			newAccessRuleMenuItem.addActionListener(this);
 		}
 		return newAccessRuleMenuItem;
@@ -1608,7 +1606,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Edit16.gif")));
+											"/org/xiaoniu/suafe/resources/UserEdit.gif")));
 			editUserButton.setToolTipText("Edit User");
 			editUserButton.setEnabled(false);
 			editUserButton.addActionListener(this);
@@ -1630,7 +1628,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/UserAdd.gif")));
 			addUserButton.setToolTipText("Add User");
 			addUserButton.addActionListener(this);
 		}
@@ -1651,7 +1649,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Delete16.gif")));
+											"/org/xiaoniu/suafe/resources/UserDelete.gif")));
 			deleteUserButton.setToolTipText("Delete User");
 			deleteUserButton.setEnabled(false);
 			deleteUserButton.addActionListener(this);
@@ -1714,7 +1712,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/GroupAdd.gif")));
 			addGroupButton.setToolTipText("Add Group");
 			addGroupButton.addActionListener(this);
 		}
@@ -1735,7 +1733,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Edit16.gif")));
+											"/org/xiaoniu/suafe/resources/GroupEdit.gif")));
 			editGroupButton.setToolTipText("Edit Group");
 			editGroupButton.addActionListener(this);
 			editGroupButton.setEnabled(false);
@@ -1757,7 +1755,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Delete16.gif")));
+											"/org/xiaoniu/suafe/resources/GroupDelete.gif")));
 			deleteGroupButton.setToolTipText("Delete Group");
 			deleteGroupButton.addActionListener(this);
 			deleteGroupButton.setEnabled(false);
@@ -1821,7 +1819,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/UserAdd.gif")));
 			addUserMenuItem.setToolTipText("Add user");
 			addUserMenuItem.addActionListener(this);
 		}
@@ -1842,7 +1840,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Edit16.gif")));
+											"/org/xiaoniu/suafe/resources/UserEdit.gif")));
 			editUserMenuItem.setToolTipText("Edit user");
 			editUserMenuItem.addActionListener(this);
 			editUserMenuItem.setEnabled(false);
@@ -1864,7 +1862,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Delete16.gif")));
+											"/org/xiaoniu/suafe/resources/UserDelete.gif")));
 			deleteUserMenuItem.setToolTipText("Delete user");
 			deleteUserMenuItem.addActionListener(this);
 			deleteUserMenuItem.setEnabled(false);
@@ -1950,7 +1948,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/GroupAdd.gif")));
 			addGroupMenuItem.setToolTipText("Add Group");
 			addGroupMenuItem.addActionListener(this);
 		}
@@ -1971,7 +1969,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Edit16.gif")));
+											"/org/xiaoniu/suafe/resources/GroupEdit.gif")));
 			editGroupMenuItem.setToolTipText("Edit Selected Groups");
 			editGroupMenuItem.addActionListener(this);
 			editGroupMenuItem.setEnabled(false);
@@ -1993,7 +1991,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Delete16.gif")));
+											"/org/xiaoniu/suafe/resources/GroupDelete.gif")));
 			deleteGroupMenuItem.setToolTipText("Delete Selected Groups");
 			deleteGroupMenuItem.addActionListener(this);
 			deleteGroupMenuItem.setEnabled(false);
@@ -2038,7 +2036,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Add16.gif")));
+											"/org/xiaoniu/suafe/resources/AccessRuleAdd.gif")));
 			addAccessRuleButton1.setToolTipText("Add Access Rule");
 			addAccessRuleButton1.addActionListener(this);
 		}
@@ -2059,7 +2057,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Edit16.gif")));
+											"/org/xiaoniu/suafe/resources/AccessRuleEdit.gif")));
 			editAccessRuleButton.setToolTipText("Edit Access Rule");
 			editAccessRuleButton.addActionListener(this);
 			editAccessRuleButton.setEnabled(false);
@@ -2081,7 +2079,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Delete16.gif")));
+											"/org/xiaoniu/suafe/resources/AccessRuleDelete.gif")));
 			deleteAccessRuleButton.setToolTipText("Delete Access Rule");
 			deleteAccessRuleButton.addActionListener(this);
 			deleteAccessRuleButton.setEnabled(false);
@@ -2439,7 +2437,7 @@ public class MainFrame extends BaseFrame implements ActionListener,
 		if (accessRulesTable == null) {
 			accessRulesTable = new JTable();
 			accessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			accessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);			
+			accessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);		
 		}
 		return accessRulesTable;
 	}
@@ -2810,6 +2808,9 @@ public class MainFrame extends BaseFrame implements ActionListener,
 			getEditTreeItemButton().setEnabled(true);
 			getDeleteTreeItemButton().setEnabled(true);
 			
+			getEditTreeItemButton().setIcon(repositoryEditIcon);
+			getDeleteTreeItemButton().setIcon(repositoryDeleteIcon);
+			
 			getEditTreeItemButton().setActionCommand("EditRepository");
 			getDeleteTreeItemButton().setActionCommand("DeleteRepository");
 			
@@ -2822,6 +2823,9 @@ public class MainFrame extends BaseFrame implements ActionListener,
 			getEditTreeItemButton().setEnabled(true);
 			getDeleteTreeItemButton().setEnabled(true);
 			
+			getEditTreeItemButton().setIcon(pathEditIcon);
+			getDeleteTreeItemButton().setIcon(pathDeleteIcon);
+			
 			getEditTreeItemButton().setActionCommand("EditPath");
 			getDeleteTreeItemButton().setActionCommand("DeletePath");
 			
@@ -2833,6 +2837,9 @@ public class MainFrame extends BaseFrame implements ActionListener,
 			
 			getEditTreeItemButton().setEnabled(false);
 			getDeleteTreeItemButton().setEnabled(false);
+			
+			getEditTreeItemButton().setIcon(null);
+			getDeleteTreeItemButton().setIcon(null);
 			
 			getEditTreeItemButton().setActionCommand(null);
 			getDeleteTreeItemButton().setActionCommand(null);
@@ -2879,10 +2886,6 @@ public class MainFrame extends BaseFrame implements ActionListener,
 			editTreeItemButton.addActionListener(this);
 			editTreeItemButton.setText("Edit");
 			editTreeItemButton.setEnabled(false);
-			editTreeItemButton.setIcon(new ImageIcon(
-					getClass()
-					.getResource(
-							"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Edit16.gif")));
 		}
 		return editTreeItemButton;
 	}
@@ -2897,11 +2900,32 @@ public class MainFrame extends BaseFrame implements ActionListener,
 			deleteTreeItemButton.addActionListener(this);
 			deleteTreeItemButton.setText("Delete");
 			deleteTreeItemButton.setEnabled(false);
-			deleteTreeItemButton.setIcon(new ImageIcon(
-					getClass()
-					.getResource(
-							"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Delete16.gif")));
 		}
 		return deleteTreeItemButton;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
+	public void keyPressed(KeyEvent e) {
+		if (e.getID() == KeyEvent.VK_F1) {
+			showHelp();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }  //  @jve:decl-index=0:

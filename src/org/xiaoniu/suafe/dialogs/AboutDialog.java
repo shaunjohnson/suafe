@@ -103,10 +103,10 @@ public class AboutDialog extends JDialog implements ActionListener {
 			titleLabel = new JLabel();
 			contentPanel = new JPanel();
 			contentPanel.setLayout(new BorderLayout());
-			titleLabel.setText("SVN Auth 0.1");
+			titleLabel.setText("Suafe 0.1");
 			titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			titleLabel.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 18));
-			descriptionLabel.setText("<html>A (hopefully) handy tool for<br>maintaining SVN auth files.</html>");
+			descriptionLabel.setText("<html>A handy administrator's tool for<br>maintaining SVN authorization files.</html>");
 			descriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			contentPanel.add(titleLabel, java.awt.BorderLayout.NORTH);
 			contentPanel.add(descriptionLabel, java.awt.BorderLayout.CENTER);

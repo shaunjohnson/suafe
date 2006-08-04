@@ -16,6 +16,7 @@ import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
+import javax.swing.ImageIcon;
 /*
  * Created on Jul 8, 2006
  *
@@ -62,7 +63,7 @@ public class AddGroupDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addgroup.title"));
-		this.setSize(300, 142);
+		this.setSize(300, 115);
 		this.setContentPane(getJContentPane());
 	}
 	/**

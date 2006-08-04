@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
-import org.xiaoniu.suafe.beans.Repository;
+import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
@@ -31,27 +31,27 @@ import org.xiaoniu.suafe.validators.Validator;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class EditRepositoryDialog extends JDialog implements ActionListener {
+public class EditPathDialog extends JDialog implements ActionListener {
 
-	private Message message;
+	private Message message = new Message();
 	private javax.swing.JPanel jContentPane = null;
-	private Repository repository = null;
+	private Path path = null;
 	private JPanel buttonPanel = null;
 	private JButton saveButton = null;
 	private JButton cancelButton = null;
 	private JPanel buttonSubPanel = null;
 	private JPanel formPanel = null;
 	private JPanel formSubPanel = null;
-	private JLabel repositoryNameLabel = null;
-	private JTextField repositoryNameText = null;
+	private JLabel pathLabel = null;
+	private JTextField pathText = null;
 	private JLabel instructionsLabel = null;
 	/**
 	 * This is the default constructor
 	 */
-	public EditRepositoryDialog(Repository repository, Message message) {
+	public EditPathDialog(Path path, Message message) {
 		super();
 		
-		this.repository = repository;
+		this.path = path;
 		this.message = message;
 		
 		initialize();
@@ -65,8 +65,8 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 		this.setResizable(false);
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.setTitle(ResourceUtil.getString("editrepository.title"));
-		this.setSize(300, 135);
+		this.setTitle("Edit Path");
+		this.setSize(300, 113);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -79,7 +79,7 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 			instructionsLabel = new JLabel();
 			jContentPane = new javax.swing.JPanel();
 			jContentPane.setLayout(new java.awt.BorderLayout());
-			instructionsLabel.setText(ResourceUtil.getString("editrepository.instructions"));
+			instructionsLabel.setText("Modify the path and click Save");
 			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
 			jContentPane.add(getFormPanel(), java.awt.BorderLayout.CENTER);
 			jContentPane.add(instructionsLabel, java.awt.BorderLayout.NORTH);
@@ -164,12 +164,12 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 	 */    
 	private JPanel getFormSubPanel() {
 		if (formSubPanel == null) {
-			repositoryNameLabel = new JLabel();
+			pathLabel = new JLabel();
 			formSubPanel = new JPanel();
 			formSubPanel.setLayout(new FlowLayout());
-			repositoryNameLabel.setText(ResourceUtil.getString("editrepository.repositoryname"));
-			formSubPanel.add(repositoryNameLabel, null);
-			formSubPanel.add(getRepositoryNameText(), null);
+			pathLabel.setText("Path:");
+			formSubPanel.add(pathLabel, null);
+			formSubPanel.add(getPathText(), null);
 		}
 		return formSubPanel;
 	}
@@ -178,13 +178,13 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 	 * 	
 	 * @return javax.swing.JTextField	
 	 */    
-	private JTextField getRepositoryNameText() {
-		if (repositoryNameText == null) {
-			repositoryNameText = new JTextField();
-			repositoryNameText.setColumns(15);
-			repositoryNameText.setText(repository.getName());
+	private JTextField getPathText() {
+		if (pathText == null) {
+			pathText = new JTextField();
+			pathText.setColumns(20);
+			pathText.setText(path.getPath());
 		}
-		return repositoryNameText;
+		return pathText;
 	}
 	
 	private void displayError(String message) {
@@ -194,19 +194,19 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Save")) {
 			try {
-				String repositoryName = getRepositoryNameText().getText();
+				String pathString = getPathText().getText();
 				
-				Validator.validateNotEmptyString(ResourceUtil.getString("addrepository.repositoryname"), repositoryName);
-				Validator.validateRepositoryName(repositoryName);
+				Validator.validateNotEmptyString("Path", pathString);
+				Validator.validatePath(pathString);
 				
-				if (Document.findRepository(repositoryName) == null) {				
-					repository.setName(repositoryName);
-					message.setUserObject(repository);
+				if (Document.findPath(path.getRepository(), pathString) == null) {				
+					path.setPath(pathString);
+					message.setUserObject(path);
 					message.setState(Message.SUCCESS);
 					dispose();
 				}
 				else {
-					displayError("A repository named \"" + repositoryName + "\" already exists.");
+					displayError("The path \"" + pathString + "\" in repository \"" + path.getRepository() + "\" already exists.");
 				}	
 			}
 			catch (ApplicationException ex) {
@@ -214,8 +214,8 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 			}
 		}
 		else if (e.getActionCommand().equals("Cancel")) {
-			dispose();
 			message.setState(Message.CANCEL);
+			dispose();
 		}
 	}
-}
+}  //  @jve:decl-index=0:visual-constraint="10,10"

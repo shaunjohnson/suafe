@@ -110,7 +110,7 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addaccessrule.title"));
-		this.setSize(370, 313);
+		this.setSize(447, 256);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -212,6 +212,7 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 			formSubPanel = new JPanel();
 			formSubPanel.setLayout(new BoxLayout(formSubPanel, BoxLayout.Y_AXIS));
 			repositoryLabel.setText(ResourceUtil.getString("addaccessrule.repository"));
+			repositoryLabel.setPreferredSize(new java.awt.Dimension(100,15));
 			formSubPanel.add(getRepositoryPanel(), null);
 			formSubPanel.add(getPathPanel(), null);
 			formSubPanel.add(getLevelOfAccessPanel(), null);
@@ -393,6 +394,8 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 			groupPanel = new JPanel();
 			groupPanel.setLayout(flowLayout1);
 			groupLabel.setText(ResourceUtil.getString("addaccessrule.group"));
+			groupLabel.setPreferredSize(new java.awt.Dimension(100,15));
+			groupLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 			flowLayout1.setAlignment(java.awt.FlowLayout.LEFT);
 			groupPanel.add(groupLabel, null);
 			groupPanel.add(getGroupComboBox(), null);
@@ -411,6 +414,8 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 			userPanel = new JPanel();
 			userPanel.setLayout(flowLayout3);
 			userLabel.setText(ResourceUtil.getString("addaccessrule.user"));
+			userLabel.setPreferredSize(new java.awt.Dimension(100,15));
+			userLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 			flowLayout3.setAlignment(java.awt.FlowLayout.LEFT);
 			userPanel.add(userLabel, null);
 			userPanel.add(getUserComboBox(), null);
@@ -459,6 +464,7 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 			applyToPanel.setLayout(flowLayout4);
 			flowLayout4.setAlignment(java.awt.FlowLayout.LEFT);
 			applyToLabel.setText(ResourceUtil.getString("addaccessrule.applyto"));
+			applyToLabel.setPreferredSize(new java.awt.Dimension(100,15));
 			applyToPanel.add(applyToLabel, null);
 			applyToPanel.add(getGroupRadioButton(), null);
 			applyToPanel.add(getUserRadioButton(), null);
@@ -532,9 +538,18 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 			levelOfAccessPanel = new JPanel();
 			levelOfAccessPanel.setLayout(flowLayout7);
 			levelOfAccessLabel.setText(ResourceUtil.getString("addaccessrule.level"));
+			levelOfAccessLabel.setPreferredSize(new java.awt.Dimension(100,15));
 			flowLayout7.setAlignment(java.awt.FlowLayout.LEFT);
 			levelOfAccessPanel.add(levelOfAccessLabel, null);
+			levelOfAccessPanel.add(getReadWriteRadioButton(), null);
+			levelOfAccessPanel.add(getReadOnlyRadioButton(), null);
+			levelOfAccessPanel.add(getDenyAccessRadioButton(), null);
 			levelOfAccessPanel.add(getLevelOfAccessSubPanel(), null);
+			
+			accessLevelButtonGroup = new ButtonGroup();
+			accessLevelButtonGroup.add(getReadWriteRadioButton());
+			accessLevelButtonGroup.add(getReadOnlyRadioButton());			
+			accessLevelButtonGroup.add(getDenyAccessRadioButton());
 		}
 		return levelOfAccessPanel;
 	}
@@ -590,14 +605,6 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 			levelOfAccessSubPanel.setLayout(gridLayout6);
 			gridLayout6.setRows(3);
 			gridLayout6.setColumns(1);
-			levelOfAccessSubPanel.add(getReadWriteRadioButton(), null);
-			levelOfAccessSubPanel.add(getReadOnlyRadioButton(), null);
-			levelOfAccessSubPanel.add(getDenyAccessRadioButton(), null);
-			
-			accessLevelButtonGroup = new ButtonGroup();
-			accessLevelButtonGroup.add(getReadOnlyRadioButton());
-			accessLevelButtonGroup.add(getReadWriteRadioButton());
-			accessLevelButtonGroup.add(getDenyAccessRadioButton());
 		}
 		return levelOfAccessSubPanel;
 	}
@@ -629,6 +636,7 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 			pathPanel.setLayout(flowLayout8);
 			flowLayout8.setAlignment(java.awt.FlowLayout.LEFT);
 			pathLabel.setText(ResourceUtil.getString("addaccessrule.path"));
+			pathLabel.setPreferredSize(new java.awt.Dimension(100,15));
 			pathPanel.add(pathLabel, null);
 			pathPanel.add(getPathTextField(), null);
 			pathPanel.add(getBrowseButton(), null);
