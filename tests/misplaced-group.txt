@@ -1,0 +1,20 @@
+[mcm:/]
+* = r
+
+[suafe:/]
+* = r
+
+[suafe:/branches]
+@developers = rw
+
+[suafe:/tags]
+amy = rw
+@developers = r
+
+[suafe:/trunk]
+@developers = rw
+
+[groups]
+developers = amy, mike, shaun, susan
+managers = shaun
+qa = @developers, bob, brian, daniel
