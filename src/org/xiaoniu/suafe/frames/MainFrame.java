@@ -18,7 +18,9 @@ import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -63,6 +65,7 @@ import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.Path;
+import org.xiaoniu.suafe.beans.PathComparator;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.dialogs.AboutDialog;
@@ -930,30 +933,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		else {
 			Object[] selectedItems = getGroupList().getSelectedValues();
-
-//			if (selectedItems.length == 0) {
-//				return;
-//			} else {
-//				Group selectedGroup = null;
-//				
-//				for (int i = 0; i < selectedItems.length; i++) {
-//					Message message = new Message();
-//					
-//					JDialog dialog = new EditGroupDialog((Group)selectedItems[i], message);
-//					DialogUtil.center(this, dialog);
-//					dialog.setVisible(true);
-//					
-//					if (message.getState() == Message.SUCCESS) {
-//						selectedGroup = (Group)message.getUserObject();
-//					}
-//					else if (message.getUserObject() == null) {
-//						selectedGroup = (Group)selectedItems[i];
-//					}
-//				}
-//
-//				refreshGroupList(selectedGroup);
-//				refreshAccessRuleTree(null);
-//			}
 			
 			try {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
@@ -1011,14 +990,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				
 				if (message.getState() == Message.SUCCESS) {
 					// selectedGroup = (Group)message.getUserObject();
+					
+					refreshUserDetails();
+					refreshGroupDetails();
+					refreshAccessRuleTree(null);
 				}
 				else if (message.getUserObject() == null) {
 					// selectedGroup = (Group)selectedItems[i];
 				}
-				
-				refreshUserDetails();
-				refreshGroupDetails();
-				refreshAccessRuleTree(null);
 			}
 			catch (ApplicationException ae) {
 				displayError("Error deleting access rule: " + ae.getMessage());
@@ -1752,7 +1731,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			userListScrollPane.setViewportView(getUserList());
 			userListScrollPane
 					.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			userListScrollPane.setPreferredSize(new Dimension(180, 150));
+			userListScrollPane.setPreferredSize(new Dimension(250, 150));
 		}
 		return userListScrollPane;
 	}
@@ -1766,7 +1745,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (jScrollPane2 == null) {
 			jScrollPane2 = new JScrollPane();
 			jScrollPane2.setViewportView(getGroupList());
-			jScrollPane2.setPreferredSize(new Dimension(180, 150));
+			jScrollPane2.setPreferredSize(new Dimension(250, 150));
 		}
 		return jScrollPane2;
 	}
@@ -2535,7 +2514,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (accessRulesScrollPane == null) {
 			accessRulesScrollPane = new JScrollPane();
 			accessRulesScrollPane.setViewportView(getAccessRulesTree());
-			accessRulesScrollPane.setPreferredSize(new Dimension(180, 150));
+			accessRulesScrollPane.setPreferredSize(new Dimension(250, 150));
 		}
 		return accessRulesScrollPane;
 	}
@@ -2563,7 +2542,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode("Server");
 		accessRuleTreeModel = new DefaultTreeModel(node);
 
-		Iterator repositories = Document.getRepositories().iterator();
+		List repositoryList = Document.getRepositories();
+		
+		Collections.sort(repositoryList);
+		
+		Iterator repositories = repositoryList.iterator();
 
 		while (repositories.hasNext()) {
 			Repository repository = (Repository) repositories.next();
@@ -2576,7 +2559,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				treePath = new TreePath(repositoryNode.getPath());
 			}
 
-			Iterator paths = repository.getPaths().iterator();
+			List pathList = repository.getPaths();
+			
+			Collections.sort(pathList, new PathComparator());
+			
+			Iterator paths = pathList.iterator();
 
 			while (paths.hasNext()) {
 				Path path = (Path) paths.next();
@@ -2652,6 +2639,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			accessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);
 			accessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			accessRulesTable.getSelectionModel().addListSelectionListener(this);
+			accessRulesTable.addMouseListener(this);
 		}
 		return accessRulesTable;
 	}
@@ -2943,6 +2931,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				else {
 					displayUser(getGroupMemberList().getSelectedValue());
 				}
+			}
+			else if (e.getSource() == getAccessRulesTable()) {
+				editAccessRule();
 			}
 		}
 	}
