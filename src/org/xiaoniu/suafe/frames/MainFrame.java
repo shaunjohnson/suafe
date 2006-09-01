@@ -74,6 +74,8 @@ import org.xiaoniu.suafe.dialogs.AddGroupDialog;
 import org.xiaoniu.suafe.dialogs.AddRemoveMembersDialog;
 import org.xiaoniu.suafe.dialogs.AddUserDialog;
 import org.xiaoniu.suafe.dialogs.ChangeMembershipDialog;
+import org.xiaoniu.suafe.dialogs.CloneGroupDialog;
+import org.xiaoniu.suafe.dialogs.CloneUserDialog;
 import org.xiaoniu.suafe.dialogs.DialogUtil;
 import org.xiaoniu.suafe.dialogs.EditAccessRuleDialog;
 import org.xiaoniu.suafe.dialogs.EditGroupDialog;
@@ -219,8 +221,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JList userGroupList = null;  //  @jve:decl-index=0:
 
-	private JLabel jLabel1 = null;
-
 	private JTable userAccessRulesTable = null;
 
 	private JScrollPane userAccessRulesScrollPane = null;  //  @jve:decl-index=0:
@@ -281,6 +281,13 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton deleteTreeItemButton = null;
 	private JPanel jPanel = null;
 	private JPanel jPanel11 = null;
+	private JPanel jPanel13 = null;
+	private JPanel jPanel14 = null;
+	private JLabel jLabel2 = null;
+	private JLabel jLabel1 = null;
+	private JLabel jLabel4 = null;
+	private JMenuItem cloneUserMenuItem = null;
+	private JMenuItem cloneGroupMenuItem = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -339,10 +346,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 					.getString("mainframe.tabs.groups"), new ImageIcon(
 					getClass().getResource("/org/xiaoniu/suafe/resources/MorePeople.gif")),
 					getGroupsSplitPane(), null);
-//			mainTabbedPane.addTab(ResourceUtil
-//					.getString("mainframe.tabs.repositories"), new ImageIcon(
-//							getClass().getResource("/org/xiaoniu/suafe/resources/Repository24.gif")),
-//					getRepositoriesSplitPane(), null);
 			mainTabbedPane.addTab(ResourceUtil
 					.getString("mainframe.tabs.accessrules"), new ImageIcon(
 					getClass().getResource("/org/xiaoniu/suafe/resources/Reversed.gif")),
@@ -361,8 +364,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (usersSplitPane == null) {
 			usersSplitPane = new JSplitPane();
 			usersSplitPane.setRightComponent(getUserDetailsPanel());
-			usersSplitPane.setLeftComponent(getUserListScrollPane());
 			usersSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+			usersSplitPane.setLeftComponent(getJPanel13());
 		}
 		return usersSplitPane;
 	}
@@ -392,8 +395,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (groupsSplitPane == null) {
 			groupsSplitPane = new JSplitPane();
 			groupsSplitPane.setRightComponent(getGroupDetailsPanel());
-			groupsSplitPane.setLeftComponent(getJScrollPane2());
 			groupsSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+			groupsSplitPane.setLeftComponent(getJPanel14());
 		}
 		return groupsSplitPane;
 	}
@@ -407,7 +410,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (userDetailsPanel == null) {
 			userDetailsPanel = new JPanel();
 			userDetailsPanel.setLayout(new BorderLayout());
-			userDetailsPanel.add(getUsersPaneActionsPanel(), java.awt.BorderLayout.NORTH);
 			userDetailsPanel.add(getJPanel4(), java.awt.BorderLayout.CENTER);
 		}
 		return userDetailsPanel;
@@ -465,7 +467,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/New16.gif")));
 			newMenuItem.addActionListener(this);
-			newMenuItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+			newMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.new.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
 		return newMenuItem;
 	}
@@ -486,7 +488,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Open16.gif")));
 			openMenuItem.addActionListener(this);
-			openMenuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+			openMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.open.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
 		return openMenuItem;
 	}
@@ -507,7 +509,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Save16.gif")));
 			saveMenuItem.addActionListener(this);
-			saveMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+			saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.save.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
 		return saveMenuItem;
 	}
@@ -528,7 +530,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/SaveAs16.gif")));
 			saveAsMenuItem.addActionListener(this);
-			saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_MASK, false));
+			saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.saveas.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_MASK, false));
 		}
 		return saveAsMenuItem;
 	}
@@ -566,6 +568,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Help16.gif")));
 			helpMenuItem.addActionListener(this);
+			helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 		}
 		return helpMenuItem;
 	}
@@ -601,7 +604,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			exitMenuItem.setText(ResourceUtil.getString("menu.file.exit"));
 			exitMenuItem.setActionCommand("Exit");
 			exitMenuItem.addActionListener(this);
-			exitMenuItem.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+			exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.exit.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
 		return exitMenuItem;
 	}
@@ -639,7 +642,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/UserAdd.gif")));
-			addUserToolbarButton.setToolTipText("Add User");
+			addUserToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.adduser.tooltip"));
 			addUserToolbarButton.addActionListener(this);
 		}
 		return addUserToolbarButton;
@@ -661,7 +664,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/GroupAdd.gif")));
-			addGroupToolbarButton.setToolTipText("Add Group");
+			addGroupToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
 			addGroupToolbarButton.addActionListener(this);
 		}
 		return addGroupToolbarButton;
@@ -683,7 +686,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Refresh16.gif")));
-			previewToolbarButton.setToolTipText("Preview Output");
+			previewToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.preview.tooltip"));
 			previewToolbarButton.addActionListener(this);
 		}
 		return previewToolbarButton;
@@ -705,7 +708,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/AccessRuleAdd.gif")));
-			addAccessRuleButton.setToolTipText("Add Access Rule");
+			addAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.addaccessrule.tooltip"));
 			addAccessRuleButton.addActionListener(this);
 		}
 		return addAccessRuleButton;
@@ -806,12 +809,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 		fcSaveAs.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fcSaveAs.setDialogType(JFileChooser.SAVE_DIALOG);
-		fcSaveAs.setDialogTitle("Save As");
-
-//		File directory = (Document.getFile() == null) ? null : Document
-//				.getFile().getParentFile();
-
-//		fcSaveAs.setSelectedFile(directory);
+		fcSaveAs.setDialogTitle(ResourceUtil.getString("saveas.title"));
 
 		int returnVal = fcSaveAs.showSaveDialog(this);
 
@@ -839,6 +837,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		getEditUserMenuItem().setEnabled(enabled);
 		getDeleteUserMenuItem().setEnabled(enabled);
 		getChangeMembershipMenuItem().setEnabled(changeMembershipEnabled);
+		
+		getCloneUserMenuItem().setEnabled(enabled);
 	}
 	
 	private void toggleGroupActions(boolean enabled) {
@@ -849,6 +849,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		getEditGroupMenuItem().setEnabled(enabled);
 		getDeleteGroupMenuItem().setEnabled(enabled);
 		getAddRemoveMembersMenuItem().setEnabled(enabled);
+		
+		getCloneGroupMenuItem().setEnabled(enabled);
 	}
 
 	private void toggleAccessRulesActions(boolean enabled) {
@@ -929,7 +931,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private void editAccessRule() {
 		if (getAccessRulesTable().getSelectedRowCount() < 1) {
-			displayWarning("No access rule selected");
+			displayWarning(ResourceUtil.getString("mainframe.warning.noaccessruleselected"));
 		}
 		else {
 			Object[] selectedItems = getGroupList().getSelectedValues();
@@ -1000,7 +1002,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				}
 			}
 			catch (ApplicationException ae) {
-				displayError("Error deleting access rule: " + ae.getMessage());
+				displayError(ResourceUtil.getString("mainframe.error.erroreditingaccessrule"));
 			}
 			
 		}
@@ -1008,13 +1010,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	
 	private void deleteAccessRule() {
 		if (getAccessRulesTable().getSelectedRowCount() < 1) {
-			displayWarning("No access rule selected");
+			displayWarning(ResourceUtil.getString("mainframe.warnming.noaccessrule"));
 		} else {
 			int choice = JOptionPane
 					.showConfirmDialog(
 							this,
-							"Delete the selected access rules?",
-							"Delete Access Rules", JOptionPane.YES_NO_OPTION);
+							ResourceUtil.getString("mainframe.deleteaccessrule.prompt"),
+							ResourceUtil.getString("mainframe.deleteaccessrule.title"), 
+							JOptionPane.YES_NO_OPTION);
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
@@ -1069,7 +1072,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 					refreshAccessRuleTree(null);
 				}
 				catch (ApplicationException ae) {
-					displayError("Error deleting access rule: " + ae.getMessage());
+					displayError(ResourceUtil.getString("mainframe.error.errordeletingaccessrule"));
 				}
 			}
 		}
@@ -1090,7 +1093,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private void preview() {
 		
 		if (Document.isEmpty()) {
-			displayWarning("Document is empty");
+			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
 		}
 		else {
 			JDialog dialog = new PreviewDialog();
@@ -1101,7 +1104,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private void deleteUser() {
 		if (getUserList().isSelectionEmpty()) {
-			displayWarning("No user selected");
+			displayWarning(ResourceUtil.getString("mainframe.warning.nouserselected"));
 		} else {
 			Object[] values = getUserList().getSelectedValues(); 
 			int choice;
@@ -1110,15 +1113,17 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				choice = JOptionPane
 				.showConfirmDialog(
 						this,
-						"Deleting the selected user will also delete all access rules defined for the user. Continue?",
-						"Delete User", JOptionPane.YES_NO_OPTION);
+						ResourceUtil.getString("mainframe.deleteuser.prompt"),
+						ResourceUtil.getString("mainframe.deleteuser.title"),
+						JOptionPane.YES_NO_OPTION);
 			}
 			else {
 				choice = JOptionPane
 				.showConfirmDialog(
 						this,
-						"Deleting the selected users will also delete all access rules defined for the users. Continue?",
-						"Delete Users", JOptionPane.YES_NO_OPTION);
+						ResourceUtil.getString("mainframe.deleteusers.prompt"),
+						ResourceUtil.getString("mainframe.deleteusers.title"),
+						JOptionPane.YES_NO_OPTION);
 			}
 			
 			if (choice == JOptionPane.YES_OPTION) {
@@ -1126,7 +1131,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 					Document.deleteUsers(values);
 				}
 				catch (ApplicationException ae) {
-					displayError("Error deleting user: " + ae.getMessage());
+					displayError(ResourceUtil.getString("mainframe.error.errordeletinguser"));
 				}
 				
 				refreshUserList(null);
@@ -1168,11 +1173,76 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 	}
 	
+	private void cloneUser() {
+		Object[] selectedItems = getUserList().getSelectedValues();
+
+		if (selectedItems.length == 0) {
+			return;
+		} else {
+			User selectedUser = null;
+			
+			for (int i = 0; i < selectedItems.length; i++) {
+				Message message = new Message();
+				JDialog dialog = new CloneUserDialog((User)selectedItems[i], message);
+				DialogUtil.center(this, dialog);
+				dialog.setVisible(true);
+				
+				if (message.getState() == Message.SUCCESS) {
+					selectedUser = (User)message.getUserObject();
+				}
+				else if (message.getUserObject() == null) {
+					selectedUser = (User)selectedItems[i];
+				}
+				
+				// Don't edit any other users if Cancel was clicked
+				if (message.getState() == Message.CANCEL) {
+					break;
+				}
+			}
+
+			refreshUserList(selectedUser);
+			refreshAccessRuleTree(null);
+		}
+	}
+	
+	private void cloneGroup() {
+		Object[] selectedItems = getGroupList().getSelectedValues();
+
+		if (selectedItems.length == 0) {
+			return;
+		} else {
+			Group selectedGroup = null;
+			
+			for (int i = 0; i < selectedItems.length; i++) {
+				Message message = new Message();
+				
+				JDialog dialog = new CloneGroupDialog((Group)selectedItems[i], message);
+				DialogUtil.center(this, dialog);
+				dialog.setVisible(true);
+				
+				if (message.getState() == Message.SUCCESS) {
+					selectedGroup = (Group)message.getUserObject();
+				}
+				else if (message.getUserObject() == null) {
+					selectedGroup = (Group)selectedItems[i];
+				}
+				
+				// Don't edit any other groups if Cancel was clicked
+				if (message.getState() == Message.CANCEL) {
+					break;
+				}
+			}
+
+			refreshGroupList(selectedGroup);
+			refreshAccessRuleTree(null);
+		}
+	}
+	
 	private void changeMembership() {
 		Object[] selectedItems = getUserList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
-			displayWarning("No user selected");
+			displayWarning(ResourceUtil.getString("mainframe.warning.nouserselected"));
 		} else {
 			User selectedUser = null;
 			
@@ -1204,7 +1274,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		Object[] selectedItems = getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
-			displayWarning("No group selected");
+			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
 		} else {
 			Group selectedGroup = null;
 			
@@ -1235,7 +1305,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private void deleteGroup() {
 		if (getGroupList().isSelectionEmpty()) {
-			displayWarning("No group selected");
+			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
 		} else {
 			Object[] values = getGroupList().getSelectedValues();
 			int choice;
@@ -1243,23 +1313,25 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			if (values.length == 1) {
 				choice = JOptionPane
 				.showConfirmDialog(
-						this,
-						"Deleting the selected group will also delete all access rules defined for the group. Continue?",
-						"Delete Group", JOptionPane.YES_NO_OPTION);
+						this, 
+						ResourceUtil.getString("mainframe.deletegroup.prompt"),
+						ResourceUtil.getString("mainframe.deletegroup.title"),
+						JOptionPane.YES_NO_OPTION);
 			}
 			else {
 				choice = JOptionPane
 				.showConfirmDialog(
-						this,
-						"Deleting the selected groups will also delete all access rules defined for the groups. Continue?",
-						"Delete Groups", JOptionPane.YES_NO_OPTION);
+						this, 
+						ResourceUtil.getString("mainframe.deletegroup.prompt"),
+						ResourceUtil.getString("mainframe.deletegroup.title"),
+						JOptionPane.YES_NO_OPTION);
 			}
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
 					Document.deleteGroups(values);
 				}
 				catch (ApplicationException ae) {
-					displayError("Error deleting user: " + ae.getMessage());
+					displayError(ResourceUtil.getString("mainframe.error.errordeletinggroup"));
 				}
 				
 				refreshGroupList(null);
@@ -1314,15 +1386,16 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			int choice = JOptionPane
 			.showConfirmDialog(
 					this,
-					"Deleting the selected path will also delete all access rules defined for the path. Continue?",
-					"Delete Path", JOptionPane.YES_NO_OPTION);
+					ResourceUtil.getString("mainframe.deletepath.prompt"),
+					ResourceUtil.getString("mainframe.deletepath.title"),
+					JOptionPane.YES_NO_OPTION);
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
 					Document.deletePath((Path)userObject);
 				}
 				catch (ApplicationException ae) {
-					displayError("Error deleting path: " + ae.getMessage());
+					displayError(ResourceUtil.getString("mainframe.error.errordeletingpath"));
 				}
 				
 				refreshUserDetails();
@@ -1369,15 +1442,16 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			int choice = JOptionPane
 			.showConfirmDialog(
 					this,
-					"Deleting the selected repository will also delete all access rules defined for the repository. Continue?",
-					"Delete Repository", JOptionPane.YES_NO_OPTION);
+					ResourceUtil.getString("mainframe.deleteepository.prompt"),
+					ResourceUtil.getString("mainframe.deleterepository.title"),
+					JOptionPane.YES_NO_OPTION);
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
 					Document.deleteRepository((Repository)userObject);
 				}
 				catch (ApplicationException ae) {
-					displayError("Error deleting repository: " + ae.getMessage());
+					displayError(ResourceUtil.getString("mainframe.error.errordeletingrepository"));
 				}
 				
 				refreshUserDetails();
@@ -1448,7 +1522,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 			} catch (PrinterException exception) {
 
-				System.err.println("Printing error: " + exception);
+				System.err.println(ResourceUtil.getString("mainframe.error.errorprinting"));
 
 			}
 		}
@@ -1485,6 +1559,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			addUser();
 		} else if (e.getActionCommand().equals("EditUser")) {
 			editUser();
+		} else if (e.getActionCommand().equals("CloneUser")) {
+			cloneUser();
 		} else if (e.getActionCommand().equals("DeleteUser")) {
 			deleteUser();
 		} else if (e.getActionCommand().equals("ChangeMembership")) {
@@ -1493,6 +1569,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			addGroup();
 		} else if (e.getActionCommand().equals("EditGroup")) {
 			editGroup();
+		} else if (e.getActionCommand().equals("CloneGroup")) {
+			cloneGroup();
 		} else if (e.getActionCommand().equals("DeleteGroup")) {
 			deleteGroup();
 		} else if (e.getActionCommand().equals("AddRemoveMembers")) {
@@ -1512,7 +1590,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		} else if (e.getActionCommand().equals("DeleteAccessRule")) {
 			deleteAccessRule();
 		} else {
-			displayError("Unknown action command");
+			displayError(ResourceUtil.getString("application.error"));
 		}
 	}
 
@@ -1540,9 +1618,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getLicenseMenuItem() {
 		if (licenseMenuItem == null) {
 			licenseMenuItem = new JMenuItem();
-			licenseMenuItem.setActionCommand(ResourceUtil
+			licenseMenuItem.setActionCommand("License");
+			licenseMenuItem.setText(ResourceUtil
 					.getString("menu.help.license"));
-			licenseMenuItem.setText("License");
 			licenseMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
@@ -1562,7 +1640,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (groupDetailsPanel == null) {
 			groupDetailsPanel = new JPanel();
 			groupDetailsPanel.setLayout(new BorderLayout());
-			groupDetailsPanel.add(getGroupsPaneActionsPanel(), java.awt.BorderLayout.NORTH);
 			groupDetailsPanel.add(getJPanel6(), java.awt.BorderLayout.CENTER);
 		}
 		return groupDetailsPanel;
@@ -1776,14 +1853,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getEditUserButton() {
 		if (editUserButton == null) {
 			editUserButton = new JButton();
-			editUserButton.setText("Edit");
+			editUserButton.setText(ResourceUtil.getString("button.edit"));
 			editUserButton.setActionCommand("EditUser");
 			editUserButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/UserEdit.gif")));
-			editUserButton.setToolTipText("Edit User");
+			editUserButton.setToolTipText(ResourceUtil.getString("mainframe.button.edituser.tooltip"));
 			editUserButton.setEnabled(false);
 			editUserButton.addActionListener(this);
 		}
@@ -1798,14 +1875,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getAddUserButton() {
 		if (addUserButton == null) {
 			addUserButton = new JButton();
-			addUserButton.setText("Add");
+			addUserButton.setText(ResourceUtil.getString("button.add"));
 			addUserButton.setActionCommand("AddUser");
 			addUserButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/UserAdd.gif")));
-			addUserButton.setToolTipText("Add User");
+			addUserButton.setToolTipText(ResourceUtil.getString("mainframe.button.adduser.tooltip"));
 			addUserButton.addActionListener(this);
 		}
 		return addUserButton;
@@ -1819,14 +1896,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getDeleteUserButton() {
 		if (deleteUserButton == null) {
 			deleteUserButton = new JButton();
-			deleteUserButton.setText("Delete");
+			deleteUserButton.setText(ResourceUtil.getString("button.delete"));
 			deleteUserButton.setActionCommand("DeleteUser");
 			deleteUserButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/UserDelete.gif")));
-			deleteUserButton.setToolTipText("Delete User");
+			deleteUserButton.setToolTipText(ResourceUtil.getString("mainframe.button.deleteuser.tooltip"));
 			deleteUserButton.setEnabled(false);
 			deleteUserButton.addActionListener(this);
 		}
@@ -1841,14 +1918,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getChangeMembershipButton() {
 		if (changeMembershipButton == null) {
 			changeMembershipButton = new JButton();
-			changeMembershipButton.setText("Change Membership");
+			changeMembershipButton.setText(ResourceUtil.getString("mainframe.button.changemembership"));
 			changeMembershipButton.setActionCommand("ChangeMembership");
 			changeMembershipButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Preferences16.gif")));
-			changeMembershipButton.setToolTipText("Change Group Membership");
+			changeMembershipButton.setToolTipText(ResourceUtil.getString("mainframe.button.changemembership.tooltip"));
 			changeMembershipButton.setEnabled(false);
 			changeMembershipButton.addActionListener(this);
 		}
@@ -1881,14 +1958,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getAddGroupButton() {
 		if (addGroupButton == null) {
 			addGroupButton = new JButton();
-			addGroupButton.setText("Add");
+			addGroupButton.setText(ResourceUtil.getString("button.add"));
 			addGroupButton.setActionCommand("AddGroup");
 			addGroupButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/GroupAdd.gif")));
-			addGroupButton.setToolTipText("Add Group");
+			addGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
 			addGroupButton.addActionListener(this);
 		}
 		return addGroupButton;
@@ -1902,14 +1979,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getEditGroupButton() {
 		if (editGroupButton == null) {
 			editGroupButton = new JButton();
-			editGroupButton.setText("Edit");
+			editGroupButton.setText(ResourceUtil.getString("button.edit"));
 			editGroupButton.setActionCommand("EditGroup");
 			editGroupButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/GroupEdit.gif")));
-			editGroupButton.setToolTipText("Edit Group");
+			editGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.editgroup.tooltip"));
 			editGroupButton.addActionListener(this);
 			editGroupButton.setEnabled(false);
 		}
@@ -1924,14 +2001,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getDeleteGroupButton() {
 		if (deleteGroupButton == null) {
 			deleteGroupButton = new JButton();
-			deleteGroupButton.setText("Delete");
+			deleteGroupButton.setText(ResourceUtil.getString("button.delete"));
 			deleteGroupButton.setActionCommand("DeleteGroup");
 			deleteGroupButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/GroupDelete.gif")));
-			deleteGroupButton.setToolTipText("Delete Group");
+			deleteGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.deletegroup.tooltip"));
 			deleteGroupButton.addActionListener(this);
 			deleteGroupButton.setEnabled(false);
 		}
@@ -1946,14 +2023,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getAddRemoveMembersButton() {
 		if (addRemoveMembersButton == null) {
 			addRemoveMembersButton = new JButton();
-			addRemoveMembersButton.setText("Add/Remove Members");
+			addRemoveMembersButton.setText(ResourceUtil.getString("mainframe.button.addremovemembers"));
 			addRemoveMembersButton.setActionCommand("AddRemoveMembers");
 			addRemoveMembersButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Preferences16.gif")));
-			addRemoveMembersButton.setToolTipText("Add/Remove Members From Group");
+			addRemoveMembersButton.setToolTipText(ResourceUtil.getString("mainframe.button.addremovemembers.tooltip"));
 			addRemoveMembersButton.addActionListener(this);
 			addRemoveMembersButton.setEnabled(false);
 		}
@@ -1973,6 +2050,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			usersPopupMenu.add(getDeleteUserMenuItem());
 			usersPopupMenu.add(getChangeMembershipMenuItem());
 
+			usersPopupMenu.add(getCloneUserMenuItem());
 			// Add listener to the text area so the popup menu can come up.
 			MouseListener popupListener = new PopupListener(usersPopupMenu);
 			getUserList().addMouseListener(popupListener);
@@ -1988,14 +2066,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getAddUserMenuItem() {
 		if (addUserMenuItem == null) {
 			addUserMenuItem = new JMenuItem();
-			addUserMenuItem.setText("Add");
+			addUserMenuItem.setText(ResourceUtil.getString("button.add"));
 			addUserMenuItem.setActionCommand("AddUser");
 			addUserMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/UserAdd.gif")));
-			addUserMenuItem.setToolTipText("Add user");
+			addUserMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.adduser.tooltip"));
 			addUserMenuItem.addActionListener(this);
 		}
 		return addUserMenuItem;
@@ -2009,14 +2087,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getEditUserMenuItem() {
 		if (editUserMenuItem == null) {
 			editUserMenuItem = new JMenuItem();
-			editUserMenuItem.setText("Edit");
+			editUserMenuItem.setText(ResourceUtil.getString("button.edit"));
 			editUserMenuItem.setActionCommand("EditUser");
 			editUserMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/UserEdit.gif")));
-			editUserMenuItem.setToolTipText("Edit user");
+			editUserMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.edituser.tooltip"));
 			editUserMenuItem.addActionListener(this);
 			editUserMenuItem.setEnabled(false);
 		}
@@ -2031,14 +2109,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getDeleteUserMenuItem() {
 		if (deleteUserMenuItem == null) {
 			deleteUserMenuItem = new JMenuItem();
-			deleteUserMenuItem.setText("Delete");
+			deleteUserMenuItem.setText(ResourceUtil.getString("button.delete"));
 			deleteUserMenuItem.setActionCommand("DeleteUser");
 			deleteUserMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/UserDelete.gif")));
-			deleteUserMenuItem.setToolTipText("Delete user");
+			deleteUserMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.deleteuser.tooltip"));
 			deleteUserMenuItem.addActionListener(this);
 			deleteUserMenuItem.setEnabled(false);
 		}
@@ -2053,14 +2131,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getChangeMembershipMenuItem() {
 		if (changeMembershipMenuItem == null) {
 			changeMembershipMenuItem = new JMenuItem();
-			changeMembershipMenuItem.setText("Change Membership");
+			changeMembershipMenuItem.setText(ResourceUtil.getString("mainframe.button.changemembership"));
 			changeMembershipMenuItem.setActionCommand("ChangeMembership");
 			changeMembershipMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Preferences16.gif")));
-			changeMembershipMenuItem.setToolTipText("Change group membership");
+			changeMembershipMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.changemembership.tooltip"));
 			changeMembershipMenuItem.addActionListener(this);
 			changeMembershipMenuItem.setEnabled(false);
 		}
@@ -2103,6 +2181,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			groupsPopupMenu.add(getDeleteGroupMenuItem());
 			groupsPopupMenu.add(getAddRemoveMembersMenuItem());
 
+			groupsPopupMenu.add(getCloneGroupMenuItem());
 			MouseListener popupListener = new PopupListener(groupsPopupMenu);
 			getGroupList().addMouseListener(popupListener);
 		}
@@ -2117,14 +2196,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getAddGroupMenuItem() {
 		if (addGroupMenuItem == null) {
 			addGroupMenuItem = new JMenuItem();
-			addGroupMenuItem.setText("Add");
+			addGroupMenuItem.setText(ResourceUtil.getString("button.add"));
 			addGroupMenuItem.setActionCommand("AddGroup");
 			addGroupMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/GroupAdd.gif")));
-			addGroupMenuItem.setToolTipText("Add Group");
+			addGroupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
 		}
 		return addGroupMenuItem;
 	}
@@ -2137,14 +2216,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getEditGroupMenuItem() {
 		if (editGroupMenuItem == null) {
 			editGroupMenuItem = new JMenuItem();
-			editGroupMenuItem.setText("Edit");
+			editGroupMenuItem.setText(ResourceUtil.getString("button.edit"));
 			editGroupMenuItem.setActionCommand("EditGroup");
 			editGroupMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/GroupEdit.gif")));
-			editGroupMenuItem.setToolTipText("Edit Selected Groups");
+			editGroupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.editgroup.tooltip"));
 			editGroupMenuItem.addActionListener(this);
 			editGroupMenuItem.setEnabled(false);
 		}
@@ -2159,14 +2238,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getDeleteGroupMenuItem() {
 		if (deleteGroupMenuItem == null) {
 			deleteGroupMenuItem = new JMenuItem();
-			deleteGroupMenuItem.setText("Delete");
+			deleteGroupMenuItem.setText(ResourceUtil.getString("button.delete"));
 			deleteGroupMenuItem.setActionCommand("DeleteGroup");
 			deleteGroupMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/GroupDelete.gif")));
-			deleteGroupMenuItem.setToolTipText("Delete Selected Groups");
+			deleteGroupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.deletegroup.tooltip"));
 			deleteGroupMenuItem.addActionListener(this);
 			deleteGroupMenuItem.setEnabled(false);
 		}
@@ -2181,7 +2260,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getAddRemoveMembersMenuItem() {
 		if (addRemoveMembersMenuItem == null) {
 			addRemoveMembersMenuItem = new JMenuItem();
-			addRemoveMembersMenuItem.setText("Add/Remove Members");
+			addRemoveMembersMenuItem.setText(ResourceUtil.getString("mainframe.button.addremovemembers"));
 			addRemoveMembersMenuItem.setActionCommand("AddRemoveMembers");
 			addRemoveMembersMenuItem
 					.setIcon(new ImageIcon(
@@ -2189,7 +2268,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Preferences16.gif")));
 			addRemoveMembersMenuItem
-					.setToolTipText("Add/Remove members from selected groups");
+					.setToolTipText(ResourceUtil.getString("mainframe.button.addremovemembers.tooltip"));
 			addRemoveMembersMenuItem.addActionListener(this);
 			addRemoveMembersMenuItem.setEnabled(false);
 		}
@@ -2204,14 +2283,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getAddAccessRuleButton1() {
 		if (addAccessRuleButton1 == null) {
 			addAccessRuleButton1 = new JButton();
-			addAccessRuleButton1.setText("Add");
+			addAccessRuleButton1.setText(ResourceUtil.getString("button.add"));
 			addAccessRuleButton1.setActionCommand("AddAccessRule");
 			addAccessRuleButton1
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/AccessRuleAdd.gif")));
-			addAccessRuleButton1.setToolTipText("Add Access Rule");
+			addAccessRuleButton1.setToolTipText(ResourceUtil.getString("mainframe.button.addaccessrule.tooltip"));
 			addAccessRuleButton1.addActionListener(this);
 		}
 		return addAccessRuleButton1;
@@ -2225,14 +2304,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getEditAccessRuleButton() {
 		if (editAccessRuleButton == null) {
 			editAccessRuleButton = new JButton();
-			editAccessRuleButton.setText("Edit");
+			editAccessRuleButton.setText(ResourceUtil.getString("button.edit"));
 			editAccessRuleButton.setActionCommand("EditAccessRule");
 			editAccessRuleButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/AccessRuleEdit.gif")));
-			editAccessRuleButton.setToolTipText("Edit Access Rule");
+			editAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.editaccessrule.tooltip"));
 			editAccessRuleButton.addActionListener(this);
 			editAccessRuleButton.setEnabled(false);
 		}
@@ -2247,14 +2326,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton getDeleteAccessRuleButton() {
 		if (deleteAccessRuleButton == null) {
 			deleteAccessRuleButton = new JButton();
-			deleteAccessRuleButton.setText("Delete");
+			deleteAccessRuleButton.setText(ResourceUtil.getString("button.delete"));
 			deleteAccessRuleButton.setActionCommand("DeleteAccessRule");
 			deleteAccessRuleButton
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/AccessRuleDelete.gif")));
-			deleteAccessRuleButton.setToolTipText("Delete Access Rule");
+			deleteAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.deleteaccessrule.tooltip"));
 			deleteAccessRuleButton.addActionListener(this);
 			deleteAccessRuleButton.setEnabled(false);
 		}
@@ -2353,7 +2432,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			}
 		}
 		catch (ApplicationException ae) {
-			displayError("Error loading user groups: " + ae.getMessage());
+			displayError(ResourceUtil.getString("mainframe.error.errorloadingusers"));
 		}
 		
 		boolean enabled = getUserList().isSelectionEmpty() == false;
@@ -2365,7 +2444,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			model.setDataVector(Document.getUserAccessRuleObjects(user), getUserAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
-			displayError("Error loading access rules for user: " + ae.getMessage());
+			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforuser"));
 		}
 		
 		getUserAccessRulesTable().setModel(model);
@@ -2386,7 +2465,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			}
 		}
 		catch (ApplicationException ae) {
-			displayError("Error loading group's members: " + ae.getMessage());
+			displayError(ResourceUtil.getString("mainframe.error.errorloadinggroupmembers"));
 		}
 		
 		toggleGroupActions(getGroupList().isSelectionEmpty() == false);
@@ -2397,7 +2476,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			model.setDataVector(Document.getGroupAccessRules(group), getGroupAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
-			displayError("Error loading access rules for group: " + ae.getMessage());
+			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforgroup"));
 		}
 		
 		getGroupAccessRulesTable().setModel(model);
@@ -2415,11 +2494,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			refreshGroupDetails();
 		}
 		else if (e.getSource() == getAccessRulesTable().getSelectionModel() 
-				&& getAccessRulesTable().getRowSelectionAllowed()) {
-	 
-//			int first = e.getFirstIndex();
-//			int last = e.getLastIndex();
-			
+				&& getAccessRulesTable().getRowSelectionAllowed()) {			
 			getEditAccessRuleButton().setEnabled(true);
 			getDeleteAccessRuleButton().setEnabled(true);
 		} 
@@ -2435,7 +2510,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jPanel5 = new JPanel();
 			jPanel5.setLayout(new BorderLayout());
 			jLabel20 = new JLabel();
-			jLabel20.setText("Access Rules");
+			jLabel20.setText(ResourceUtil.getString("mainframe.tabs.accessrules"));
 			jPanel5.add(jLabel20, java.awt.BorderLayout.NORTH);
 			jPanel5.add(getUserAccessRulesScrollPane(), java.awt.BorderLayout.CENTER);
 		}
@@ -2526,7 +2601,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */
 	private JTree getAccessRulesTree() {
 		if (accessRulesTree == null) {
-			accessRulesTree = new JTree(new DefaultMutableTreeNode("Server"));
+			accessRulesTree = new JTree(new DefaultMutableTreeNode(ResourceUtil.getString("application.server")));
 			accessRulesTree.setShowsRootHandles(true);
 			accessRulesTree.addTreeSelectionListener(this);
 			accessRulesTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -2539,7 +2614,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	
 	private void refreshAccessRuleTree(Object selectedObject) {
 		TreePath treePath = null;
-		DefaultMutableTreeNode node = new DefaultMutableTreeNode("Server");
+		DefaultMutableTreeNode node = new DefaultMutableTreeNode(ResourceUtil.getString("application.server"));
 		accessRuleTreeModel = new DefaultTreeModel(node);
 
 		List repositoryList = Document.getRepositories();
@@ -2603,7 +2678,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (jPanel8 == null) {
 			jPanel8 = new JPanel();
 			jPanel8.setLayout(new BorderLayout());
-			jPanel8.add(getAccessRulesPaneActionsPanel(), java.awt.BorderLayout.NORTH);
+			jPanel8.add(getAccessRulesPaneActionsPanel(), java.awt.BorderLayout.SOUTH);
 			jPanel8.add(getJPanel1(), java.awt.BorderLayout.CENTER);
 		}
 		return jPanel8;
@@ -2713,10 +2788,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			GridLayout gridLayout3 = new GridLayout();
 			toolbarPanel = new JPanel();
 			toolbarPanel.setLayout(gridLayout3);
-			//gridLayout3.setRows(2);
 			gridLayout3.setRows(1);
 			gridLayout3.setColumns(1);
-			//jPanel3.add(getFileToolBar(), null);
 			toolbarPanel.add(getActionToolBar(), null);
 		}
 		return toolbarPanel;
@@ -2772,16 +2845,16 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuItem getPrintMenuItem() {
 		if (printMenuItem == null) {
 			printMenuItem = new JMenuItem();
-			printMenuItem.setText("Print");
+			printMenuItem.setText(ResourceUtil.getString("menu.file.print"));
 			printMenuItem.setActionCommand("Print");
 			printMenuItem
 					.setIcon(new ImageIcon(
 							getClass()
 									.getResource(
 											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Print16.gif")));
-			printMenuItem.setToolTipText("Print File");
+			printMenuItem.setToolTipText(ResourceUtil.getString("menu.file.print.tooltip"));
 			printMenuItem.addActionListener(this);
-			printMenuItem.setAccelerator(KeyStroke.getKeyStroke('P', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+			printMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.print.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
 		return printMenuItem;
 	}
@@ -2807,7 +2880,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jLabel5 = new JLabel();
 			jPanel1 = new JPanel();
 			jPanel1.setLayout(new BorderLayout());
-			jLabel5.setText("Access Rules");
+			jLabel5.setText(ResourceUtil.getString("mainframe.accessrules"));
 			jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 0, 0));
 			jPanel1.add(jLabel5, java.awt.BorderLayout.NORTH);
 			jPanel1.add(getAccessRulesScrollPane1(), java.awt.BorderLayout.CENTER);
@@ -2824,7 +2897,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jLabel3 = new JLabel();
 			jPanel2 = new JPanel();
 			jPanel2.setLayout(new BorderLayout());
-			jLabel3.setText("Access Rules");
+			jLabel3.setText(ResourceUtil.getString("mainframe.accessrules"));
 			jPanel2.add(jLabel3, java.awt.BorderLayout.NORTH);
 			jPanel2.add(getGroupAccessRulesScrollPane(), java.awt.BorderLayout.CENTER);
 		}
@@ -2841,7 +2914,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jPanel3.setLayout(new BorderLayout());
 			
 			jLabel22 = new JLabel();
-			jLabel22.setText("Members");
+			jLabel22.setText(ResourceUtil.getString("mainframe.members"));
 			
 			jPanel3.add(jLabel22, java.awt.BorderLayout.NORTH);
 			jPanel3.add(getJScrollPane(), java.awt.BorderLayout.CENTER);
@@ -2885,7 +2958,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jLabel = new JLabel();
 			jPanel10 = new JPanel();
 			jPanel10.setLayout(new BorderLayout());
-			jLabel.setText("Groups");
+			jLabel.setText(ResourceUtil.getString("mainframe.groups"));
 			jPanel10.add(jLabel, java.awt.BorderLayout.NORTH);
 			jPanel10.add(getUserGroupListScrollPane(), java.awt.BorderLayout.CENTER);
 			jPanel10.add(getJPanel(), java.awt.BorderLayout.SOUTH);
@@ -2963,7 +3036,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			model.setDataVector(Document.getRepositoryAccessRules(repository), getRepositoryAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
-			displayError("Error loading access rules for repository: " + ae.getMessage());
+			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforrepository"));
 		}
 		
 		getAccessRulesTable().setModel(model);
@@ -2978,7 +3051,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			model.setDataVector(Document.getPathAccessRules(path), getPathAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
-			displayError("Error loading access rules for path: " + ae.getMessage());
+			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforpath"));
 		}
 		
 		getAccessRulesTable().setModel(model);
@@ -2991,7 +3064,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			model.setDataVector(Document.getServerAccessRules(), getServerAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
-			displayError("Error loading access rules for server: " + ae.getMessage());
+			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforserver"));
 		}
 		
 		getAccessRulesTable().setModel(model);
@@ -3018,8 +3091,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			getEditTreeItemButton().setActionCommand("EditRepository");
 			getDeleteTreeItemButton().setActionCommand("DeleteRepository");
 			
-			getEditTreeItemButton().setToolTipText("Edit Repository");
-			getDeleteTreeItemButton().setToolTipText("Delete Repository");
+			getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editrepository.tooltip"));
+			getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deleterepository.tooltip"));
 		}
 		else if (userObject instanceof Path) {
 			refreshPathAccessRules((Path)userObject);
@@ -3033,8 +3106,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			getEditTreeItemButton().setActionCommand("EditPath");
 			getDeleteTreeItemButton().setActionCommand("DeletePath");
 			
-			getEditTreeItemButton().setToolTipText("Edit Path");
-			getDeleteTreeItemButton().setToolTipText("Delete Path");
+			getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editpath.tooltip"));
+			getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deletepath.tooltip"));
 		}
 		else {
 			refreshServerAccessRules();
@@ -3059,10 +3132,13 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */    
 	private JPanel getJPanel7() {
 		if (jPanel7 == null) {
+			jLabel4 = new JLabel();
 			jPanel7 = new JPanel();
 			jPanel7.setLayout(new BorderLayout());
+			jLabel4.setText(ResourceUtil.getString("mainframe.serverstructure"));
 			jPanel7.add(getAccessRulesScrollPane(), java.awt.BorderLayout.CENTER);
 			jPanel7.add(getJPanel9(), java.awt.BorderLayout.SOUTH);
+			jPanel7.add(jLabel4, java.awt.BorderLayout.NORTH);
 		}
 		return jPanel7;
 	}
@@ -3088,7 +3164,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (editTreeItemButton == null) {
 			editTreeItemButton = new JButton();
 			editTreeItemButton.addActionListener(this);
-			editTreeItemButton.setText("Edit");
+			editTreeItemButton.setText(ResourceUtil.getString("button.edit"));
 			editTreeItemButton.setEnabled(false);
 		}
 		return editTreeItemButton;
@@ -3102,7 +3178,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (deleteTreeItemButton == null) {
 			deleteTreeItemButton = new JButton();
 			deleteTreeItemButton.addActionListener(this);
-			deleteTreeItemButton.setText("Delete");
+			deleteTreeItemButton.setText(ResourceUtil.getString("button.delete"));
 			deleteTreeItemButton.setEnabled(false);
 		}
 		return deleteTreeItemButton;
@@ -3155,4 +3231,68 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		return jPanel11;
 	}
-  }  //  @jve:decl-index=0:
+	/**
+	 * This method initializes jPanel13	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getJPanel13() {
+		if (jPanel13 == null) {
+			jLabel1 = new JLabel();
+			jPanel13 = new JPanel();
+			jPanel13.setLayout(new BorderLayout());
+			jLabel1.setText(ResourceUtil.getString("mainframe.users"));
+			jPanel13.add(getUserListScrollPane(), java.awt.BorderLayout.CENTER);
+			jPanel13.add(getUsersPaneActionsPanel(), java.awt.BorderLayout.SOUTH);
+			jPanel13.add(jLabel1, java.awt.BorderLayout.NORTH);
+		}
+		return jPanel13;
+	}
+	/**
+	 * This method initializes jPanel14	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getJPanel14() {
+		if (jPanel14 == null) {
+			jLabel2 = new JLabel();
+			jPanel14 = new JPanel();
+			jPanel14.setLayout(new BorderLayout());
+			jLabel2.setText(ResourceUtil.getString("mainframe.groups"));
+			jPanel14.add(getJScrollPane2(), java.awt.BorderLayout.CENTER);
+			jPanel14.add(getGroupsPaneActionsPanel(), java.awt.BorderLayout.SOUTH);
+			jPanel14.add(jLabel2, java.awt.BorderLayout.NORTH);
+		}
+		return jPanel14;
+	}
+	/**
+	 * This method initializes jMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */    
+	private JMenuItem getCloneUserMenuItem() {
+		if (cloneUserMenuItem == null) {
+			cloneUserMenuItem = new JMenuItem();
+			cloneUserMenuItem.setText(ResourceUtil.getString("menu.clone"));
+			cloneUserMenuItem.setActionCommand("CloneUser");
+			cloneUserMenuItem.setEnabled(false);
+			cloneUserMenuItem.addActionListener(this);
+		}
+		return cloneUserMenuItem;
+	}
+	/**
+	 * This method initializes jMenuItem1	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */    
+	private JMenuItem getCloneGroupMenuItem() {
+		if (cloneGroupMenuItem == null) {
+			cloneGroupMenuItem = new JMenuItem();
+			cloneGroupMenuItem.setText(ResourceUtil.getString("menu.clone"));
+			cloneGroupMenuItem.setActionCommand("CloneGroup");
+			cloneGroupMenuItem.setEnabled(false);
+			cloneGroupMenuItem.addActionListener(this);
+		}
+		return cloneGroupMenuItem;
+	}
+        }  //  @jve:decl-index=0:

@@ -1,9 +1,3 @@
-/*
- * Created on Jul 8, 2006
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
@@ -14,11 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.xiaoniu.suafe.resources.ResourceUtil;
 /**
  * @author Shaun Johnson
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class AboutDialog extends JDialog implements ActionListener {
 
@@ -44,7 +37,7 @@ public class AboutDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.setTitle("About");
+		this.setTitle(ResourceUtil.getString("about.title"));
 		this.setSize(300,200);
 		this.setContentPane(getJContentPane());
 		this.setModal(true);
@@ -84,7 +77,7 @@ public class AboutDialog extends JDialog implements ActionListener {
 	private JButton getOkButton() {
 		if (okButton == null) {
 			okButton = new JButton();
-			okButton.setText("OK");
+			okButton.setText(ResourceUtil.getString("button.ok"));
 			okButton.setActionCommand("OK");
 			okButton.addActionListener(this);
 			
@@ -103,10 +96,10 @@ public class AboutDialog extends JDialog implements ActionListener {
 			titleLabel = new JLabel();
 			contentPanel = new JPanel();
 			contentPanel.setLayout(new BorderLayout());
-			titleLabel.setText("Suafe 0.2");
+			titleLabel.setText(ResourceUtil.getString("application.nameversion"));
 			titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			titleLabel.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 18));
-			descriptionLabel.setText("<html>A handy administrator's tool for<br>maintaining SVN authorization files.</html>");
+			descriptionLabel.setText(ResourceUtil.getString("about.content"));
 			descriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			contentPanel.add(titleLabel, java.awt.BorderLayout.NORTH);
 			contentPanel.add(descriptionLabel, java.awt.BorderLayout.CENTER);

@@ -196,7 +196,7 @@ public class EditUserDialog extends JDialog implements ActionListener {
 					dispose();
 				}
 				else {
-					displayError("A user named \"" + userName + "\" already exists.");
+					displayError(ResourceUtil.getFormattedString("edituser.error.useralreadyexist", userName));
 				}	
 			}
 			catch (Exception ex) {

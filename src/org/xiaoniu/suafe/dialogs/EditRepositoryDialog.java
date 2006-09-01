@@ -1,4 +1,5 @@
 package org.xiaoniu.suafe.dialogs;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -36,6 +37,7 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 	private JLabel repositoryNameLabel = null;
 	private JTextField repositoryNameText = null;
 	private JLabel instructionsLabel = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -47,6 +49,7 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 		
 		initialize();
 	}
+	
 	/**
 	 * This method initializes this
 	 * 
@@ -60,6 +63,7 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 		this.setSize(300, 135);
 		this.setContentPane(getJContentPane());
 	}
+	
 	/**
 	 * This method initializes jContentPane
 	 * 
@@ -77,6 +81,7 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 		}
 		return jContentPane;
 	}
+	
 	/**
 	 * This method initializes jPanel	
 	 * 	
@@ -187,7 +192,7 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 			try {
 				String repositoryName = getRepositoryNameText().getText();
 				
-				Validator.validateNotEmptyString(ResourceUtil.getString("addrepository.repositoryname"), repositoryName);
+				Validator.validateNotEmptyString(ResourceUtil.getString("editrepository.repositoryname"), repositoryName);
 				Validator.validateRepositoryName(repositoryName);
 				
 				Repository existingRepository = Document.findRepository(repositoryName);
@@ -199,7 +204,7 @@ public class EditRepositoryDialog extends JDialog implements ActionListener {
 					dispose();
 				}
 				else {
-					displayError("A repository named \"" + repositoryName + "\" already exists.");
+					displayError(ResourceUtil.getFormattedString("editrepository.error.repositoryalreadyexists", repositoryName));
 				}	
 			}
 			catch (ApplicationException ex) {

@@ -1,4 +1,5 @@
 package org.xiaoniu.suafe.dialogs;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -18,18 +19,8 @@ import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
-/*
- * Created on Jul 8, 2006
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
-
 /**
  * @author Shaun Johnson
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class AddRepositoryDialog extends JDialog implements ActionListener {
 
@@ -205,7 +196,7 @@ public class AddRepositoryDialog extends JDialog implements ActionListener {
 					dispose();
 				}
 				else {
-					displayError("A repository named \"" + repositoryName + "\" already exists.");
+					displayError(ResourceUtil.getFormattedString("addrepository.error.repositoryalreadyexists", repositoryName));
 				}	
 			}
 			catch (ApplicationException ex) {

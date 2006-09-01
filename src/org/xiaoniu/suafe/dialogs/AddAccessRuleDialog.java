@@ -112,7 +112,6 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 		this.setTitle(ResourceUtil.getString("addaccessrule.title"));
 		this.setSize(447, 256);
 		this.setContentPane(getJContentPane());
-		//this.getRootPane().getInputMap().put(KeyStroke.getKeyStroke("F1"), "Cancel");
 		
 	}
 	/**
@@ -323,7 +322,8 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 						dispose();
 					}
 					else {
-						displayError("A matching access rule for that group already exists.");
+						
+						displayError(ResourceUtil.getString("addaccessrule.error.grouprulealreadyexists"));
 					}
 				}
 				else if (user != null) {
@@ -334,11 +334,11 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 						dispose();
 					}
 					else {
-						displayError("A matching access rule for that user already exists.");
+						displayError(ResourceUtil.getString("addaccessrule.error.userrulealreadyexists"));
 					}					
 				}	
 				else {
-					displayError("Error adding access rule.");
+					displayError(ResourceUtil.getString("addaccessrule.error.erroraddingrule"));
 				}
 			}
 			catch (ApplicationException ex) {
@@ -677,8 +677,8 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 		if (addRepositoryButton == null) {
 			addRepositoryButton = new JButton();
 			addRepositoryButton.setActionCommand("AddRepository");
-			addRepositoryButton.setToolTipText("Add Repository");
-			addRepositoryButton.setText("Add");
+			addRepositoryButton.setToolTipText(ResourceUtil.getString("addaccessrule.addrepository.tooltip"));
+			addRepositoryButton.setText(ResourceUtil.getString("addaccessrule.addrepository"));
 			addRepositoryButton.setPreferredSize(new java.awt.Dimension(56,25));
 			addRepositoryButton.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12));
 			addRepositoryButton.addActionListener(this);
@@ -693,7 +693,8 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 	private JButton getBrowseButton() {
 		if (browseButton == null) {
 			browseButton = new JButton();
-			browseButton.setText("Browse");
+			browseButton.setText(ResourceUtil.getString("addaccessrule.browse"));
+			browseButton.setToolTipText(ResourceUtil.getString("addaccessrule.browse.tooltip"));
 			browseButton.setActionCommand("Browse");
 			browseButton.setEnabled(false);
 			browseButton.addActionListener(this);

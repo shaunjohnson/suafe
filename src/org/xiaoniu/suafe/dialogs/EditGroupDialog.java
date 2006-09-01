@@ -18,18 +18,9 @@ import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
-/*
- * Created on Jul 8, 2006
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 
 /**
  * @author Shaun Johnson
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class EditGroupDialog extends JDialog implements ActionListener {
 
@@ -45,6 +36,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 	private JLabel groupNameLabel = null;
 	private JTextField groupNameText = null;
 	private JLabel instructionsLabel = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -56,6 +48,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 		
 		initialize();
 	}
+	
 	/**
 	 * This method initializes this
 	 * 
@@ -69,6 +62,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 		this.setSize(300, 135);
 		this.setContentPane(getJContentPane());
 	}
+	
 	/**
 	 * This method initializes jContentPane
 	 * 
@@ -86,6 +80,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 		}
 		return jContentPane;
 	}
+	
 	/**
 	 * This method initializes jPanel	
 	 * 	
@@ -101,6 +96,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 		}
 		return buttonPanel;
 	}
+	
 	/**
 	 * This method initializes jButton	
 	 * 	
@@ -196,7 +192,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 			try {
 				String groupName = getGroupNameText().getText();
 				
-				Validator.validateNotEmptyString(ResourceUtil.getString("addgroup.groupname"), groupName);
+				Validator.validateNotEmptyString(ResourceUtil.getString("editgroup.groupname"), groupName);
 				Validator.validateGroupName(groupName);
 				
 				Group existingGroup = Document.findGroup(groupName);
@@ -208,7 +204,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 					dispose();
 				}
 				else {
-					displayError("A group named \"" + groupName + "\" already exists.");
+					displayError(ResourceUtil.getFormattedString("editgroup.error.groupalreadyexists", groupName));
 				}	
 			}
 			catch (ApplicationException ex) {

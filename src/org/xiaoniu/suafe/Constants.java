@@ -23,6 +23,7 @@ public class Constants {
 	public static final int ACCESS_RULE_TABLE_ROW_HEIGHT = 18;
 	
 	public static final String HEADER_0_2 = "# Created by Suafe 0.2 (http://suafe.xiaoniu.org)";
+	public static final String HEADER_0_3 = "# Created by Suafe 0.3 (http://suafe.xiaoniu.org)";
 	
-	public static final String HEADER_CURRENT = HEADER_0_2;
+	public static final String HEADER_CURRENT = HEADER_0_3;
 }

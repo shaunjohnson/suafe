@@ -311,7 +311,7 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 						dispose();
 					}
 					else {
-						displayError("A matching access rule for that group already exists.");
+						displayError(ResourceUtil.getString("editaccessrule.error.grouprulealreadyexists"));
 					}
 				}
 				else if (user != null) {
@@ -328,11 +328,11 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 						dispose();
 					}
 					else {
-						displayError("A matching access rule for that user already exists.");
+						displayError(ResourceUtil.getString("editaccessrule.error.userrulealreadyexists"));
 					}					
 				}	
 				else {
-					displayError("Error saving access rule.");
+					displayError(ResourceUtil.getString("editaccessrule.error.errorsavingrule"));
 				}
 			}
 			catch (ApplicationException ex) {
@@ -701,8 +701,8 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 		if (addRepositoryButton == null) {
 			addRepositoryButton = new JButton();
 			addRepositoryButton.setActionCommand("AddRepository");
-			addRepositoryButton.setToolTipText("Add Repository");
-			addRepositoryButton.setText("Add");
+			addRepositoryButton.setToolTipText(ResourceUtil.getString("editaccessrule.addrepository.tooltip"));
+			addRepositoryButton.setText(ResourceUtil.getString("editaccessrule.addrepository"));
 			addRepositoryButton.setPreferredSize(new java.awt.Dimension(56,25));
 			addRepositoryButton.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12));
 			addRepositoryButton.addActionListener(this);
@@ -717,7 +717,8 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 	private JButton getBrowseButton() {
 		if (browseButton == null) {
 			browseButton = new JButton();
-			browseButton.setText("Browse");
+			browseButton.setText(ResourceUtil.getString("editaccessrule.browse"));
+			browseButton.setToolTipText(ResourceUtil.getString("editaccessrule.browse.tooltip"));
 			browseButton.setActionCommand("Browse");
 			browseButton.addActionListener(this);
 			browseButton.setEnabled(false);

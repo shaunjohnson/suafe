@@ -104,13 +104,13 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 			}
 		}
 		catch (ApplicationException e) {
-			displayError("Error loading user groups: " + e.getMessage());
+			displayError(ResourceUtil.getFormattedString("changemembership.error.errorloadinggroups", e.getMessage()));
 		}
 		
 		this.setBounds(0, 0, 500, 320);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setModal(true);
-		this.setTitle("Change Membership");
+		this.setTitle(ResourceUtil.getString("changemembership.title"));
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -148,7 +148,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 	private JButton getJButton() {
 		if (jButton == null) {
 			jButton = new JButton();
-			jButton.setText("Cancel");
+			jButton.setText(ResourceUtil.getString("button.cancel"));
 			jButton.setActionCommand("Cancel");
 			jButton.addActionListener(this);
 		}
@@ -162,7 +162,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 	private JButton getJButton1() {
 		if (jButton1 == null) {
 			jButton1 = new JButton();
-			jButton1.setText("Save");
+			jButton1.setText(ResourceUtil.getString("button.save"));
 			jButton1.setActionCommand("Save");
 			jButton1.addActionListener(this);
 			
@@ -281,7 +281,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 			jLabel1 = new JLabel();
 			jPanel4 = new JPanel();
 			jPanel4.setLayout(new BorderLayout());
-			jLabel1.setText("Not Member Of:");
+			jLabel1.setText(ResourceUtil.getString("changemembership.notmemberof"));
 			jPanel4.setPreferredSize(new java.awt.Dimension(200,200));
 			jPanel4.add(jLabel1, java.awt.BorderLayout.NORTH);
 			jPanel4.add(getJScrollPane(), java.awt.BorderLayout.CENTER);
@@ -298,7 +298,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 			jLabel2 = new JLabel();
 			jPanel5 = new JPanel();
 			jPanel5.setLayout(new BorderLayout());
-			jLabel2.setText("Member Of:");
+			jLabel2.setText(ResourceUtil.getString("changemembership.memberof"));
 			jPanel5.setPreferredSize(new java.awt.Dimension(200,200));
 			jPanel5.add(jLabel2, java.awt.BorderLayout.NORTH);
 			jPanel5.add(getJScrollPane1(), java.awt.BorderLayout.CENTER);
@@ -434,7 +434,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 			jLabel = new JLabel();
 			jPanel = new JPanel();
 			jPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,0,5,0));
-			jLabel.setText("Change the groups of which " + user.getName() + " is a member.");
+			jLabel.setText(ResourceUtil.getFormattedString("changemembership.instructions", user.getName()));
 			jPanel.add(jLabel, null);
 		}
 		return jPanel;

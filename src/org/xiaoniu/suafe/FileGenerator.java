@@ -1,9 +1,3 @@
-/*
- * Created on Jul 12, 2006
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package org.xiaoniu.suafe;
 
 import java.io.BufferedWriter;
@@ -25,10 +19,7 @@ import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
- * @author spjohnso
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * @author Shaun Johnson
  */
 public class FileGenerator {
 	public static String generate() throws ApplicationException {

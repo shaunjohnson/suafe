@@ -1,6 +1,3 @@
-/*
- * 
- */
 package org.xiaoniu.suafe;
 
 import java.io.BufferedReader;
@@ -132,7 +129,7 @@ public class FileParser {
 					String path = line.substring(1, line.length() - 1).trim();
 					
 					if (Document.findServerPath(path) != null) {
-						throw new ParserException(lineNumber, "Duplicate definition of path \"" + path + "\" found.");
+						throw new ParserException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicatepath", path));
 					}
 					
 					try {
@@ -160,7 +157,10 @@ public class FileParser {
 					}
 					
 					if (Document.findPath(repositoryObject, path) != null) {
-						throw new ParserException(lineNumber, "Duplicate definition of path \"" + path + "\" for repository \"" + repository + "\" found");
+						Object[] args = new Object[2];
+						args[0] = path;
+						args[1] = repository;
+						throw new ParserException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicatepathrepository", args));
 					}
 					
 					try {
@@ -185,7 +185,7 @@ public class FileParser {
 					String level = line.substring(index + 1).trim();
 					
 					if (Document.findGroup(group) == null) {
-						throw new ParserException(lineNumber, "Group \"" + group + "\" is not defined.");
+						throw new ParserException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.undefinedgroup", group));
 					}
 					
 					try {
@@ -228,7 +228,7 @@ public class FileParser {
 					}
 					
 					if (Document.findGroup(name) != null) {
-						throw new ParserException(lineNumber, "Duplicate definition of group \"" + name + "\" found.");
+						throw new ParserException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicategroup", name));
 					}
 					
 					try {

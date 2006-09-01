@@ -62,7 +62,7 @@ public class AddGroupDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addgroup.title"));
-		this.setSize(300, 115);
+		this.setSize(300, 135);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -200,7 +200,7 @@ public class AddGroupDialog extends JDialog implements ActionListener {
 					dispose();
 				}
 				else {
-					displayError("A group named \"" + groupName + "\" already exists.");
+					displayError(ResourceUtil.getFormattedString("addgroup.error.groupalreadyexists", groupName));
 				}	
 			}
 			catch (ApplicationException ex) {

@@ -1,9 +1,3 @@
-/*
- * Created on Aug 1, 2006
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package org.xiaoniu.suafe.renderers;
 
 import java.awt.Component;
@@ -20,7 +14,7 @@ import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
 
 /**
- * @author spjohnso
+ * @author Shaun Johnson
  */
 public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
 

@@ -189,7 +189,16 @@ public class Document {
 				Iterator iterator = groupMembers.iterator();
 	
 				while (iterator.hasNext()) {
-					Group member = addGroup((String)iterator.next(), null, null);					
+					Object object = iterator.next();
+					Group member = null;
+					
+					if (object instanceof Group) {
+						member = (Group)object;
+					}
+					else {
+						member = addGroup((String)object, null, null);
+					}
+					
 					member.addGroup(group);
 					groupMemberList.add(member);
 				}
@@ -200,7 +209,16 @@ public class Document {
 				Iterator iterator = userMembers.iterator();
 				
 				while (iterator.hasNext()) {
-					User member = addUser((String)iterator.next());					
+					Object object = iterator.next();
+					User member = null;
+					
+					if (object instanceof User) {
+						member = (User)object;
+					}
+					else {
+						member = addUser((String)object);	
+					}
+					
 					member.addGroup(group);
 					userMemberList.add(member);
 				}
@@ -1248,5 +1266,47 @@ public class Document {
 		}
 		
 		String name = group.getName();
+	}
+	
+	public static User cloneUser(User user, String userName) throws ApplicationException {
+		User clone = addUser(userName);
+		Iterator groups = user.getGroups().iterator();
+		Iterator accessRules = user.getAccessRules().iterator();
+		
+		while (groups.hasNext()) {
+			Group group = (Group)groups.next();
+			
+			group.addUserMember(clone);
+			clone.addGroup(group);
+		}
+		
+		while (accessRules.hasNext()) {
+			AccessRule accessRule = (AccessRule)accessRules.next();
+						
+			addAccessRuleForUser(accessRule.getPath(), clone, accessRule.getLevel());
+		}
+		
+		return clone;
+	}
+	
+	public static Group cloneGroup(Group group, String groupName) throws ApplicationException {
+		Group clone = addGroup(groupName, group.getGroupMembers(), group.getUserMembers());
+		Iterator groups = group.getGroups().iterator();
+		Iterator accessRules = group.getAccessRules().iterator();
+		
+		while (groups.hasNext()) {
+			Group groupObject = (Group)groups.next();
+			
+			groupObject.addGroupMember(clone);
+			clone.addGroup(group);
+		}
+		
+		while (accessRules.hasNext()) {
+			AccessRule accessRule = (AccessRule)accessRules.next();
+						
+			addAccessRuleForGroup(accessRule.getPath(), clone, accessRule.getLevel());
+		}
+		
+		return clone;
 	}
 }

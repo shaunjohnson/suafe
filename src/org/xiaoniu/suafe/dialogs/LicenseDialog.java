@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.resources.License;
+import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
  * @author Shaun Johnson
@@ -48,7 +49,7 @@ public class LicenseDialog extends JDialog implements ActionListener {
 	 */
 	private void initialize() {
 		this.setModal(true);
-		this.setTitle("License");
+		this.setTitle(ResourceUtil.getString("license.title"));
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setSize(600, 400);
 		this.setContentPane(getJContentPane());
@@ -88,7 +89,7 @@ public class LicenseDialog extends JDialog implements ActionListener {
 	private JButton getOkButton() {
 		if (okButton == null) {
 			okButton = new JButton();
-			okButton.setText("OK");
+			okButton.setText(ResourceUtil.getString("button.ok"));
 			okButton.setActionCommand("OK");
 			okButton.addActionListener(this);
 			

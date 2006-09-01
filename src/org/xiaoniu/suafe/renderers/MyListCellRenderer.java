@@ -37,10 +37,6 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer {
 		accessRuleIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Reversed.gif"));
 	}
 	
-	
-	// This is the only method defined by ListCellRenderer.
-	// We just reconfigure the JLabel each time we're called.
-	
 	public Component getListCellRendererComponent(
 			JList list,
 			Object value,            // value to display

@@ -55,7 +55,7 @@ public class EditPathDialog extends JDialog implements ActionListener {
 		this.setResizable(false);
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.setTitle("Edit Path");
+		this.setTitle(ResourceUtil.getString("editpath.title"));
 		this.setSize(300, 113);
 		this.setContentPane(getJContentPane());
 	}
@@ -69,7 +69,7 @@ public class EditPathDialog extends JDialog implements ActionListener {
 			instructionsLabel = new JLabel();
 			jContentPane = new javax.swing.JPanel();
 			jContentPane.setLayout(new java.awt.BorderLayout());
-			instructionsLabel.setText("Modify the path and click Save");
+			instructionsLabel.setText(ResourceUtil.getString("editpath.instructions"));
 			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
 			jContentPane.add(getFormPanel(), java.awt.BorderLayout.CENTER);
 			jContentPane.add(instructionsLabel, java.awt.BorderLayout.NORTH);
@@ -157,7 +157,7 @@ public class EditPathDialog extends JDialog implements ActionListener {
 			pathLabel = new JLabel();
 			formSubPanel = new JPanel();
 			formSubPanel.setLayout(new FlowLayout());
-			pathLabel.setText("Path:");
+			pathLabel.setText(ResourceUtil.getString("editpath.path"));
 			formSubPanel.add(pathLabel, null);
 			formSubPanel.add(getPathText(), null);
 		}
@@ -197,7 +197,10 @@ public class EditPathDialog extends JDialog implements ActionListener {
 					dispose();
 				}
 				else {
-					displayError("The path \"" + pathString + "\" in repository \"" + path.getRepository() + "\" already exists.");
+					Object[] args = new Object[2];
+					args[0] = pathString;
+					args[1] = path.getRepository();
+					displayError(ResourceUtil.getFormattedString("editpath.edit.pathrepositoryalreadyexists", args));
 				}	
 			}
 			catch (ApplicationException ex) {

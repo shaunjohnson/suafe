@@ -1,9 +1,3 @@
-/*
- * Created on Jul 28, 2006
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package org.xiaoniu.suafe.renderers;
 
 import java.awt.Component;
@@ -19,7 +13,7 @@ import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
 
 /**
- * @author spjohnso
+ * @author Shaun Johnson
  */
 public class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 

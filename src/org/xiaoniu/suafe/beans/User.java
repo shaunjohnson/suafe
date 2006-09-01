@@ -141,6 +141,15 @@ public class User implements Comparable {
 	}
 	
 	/**
+	 * Sets the list of AccessRules in which the User is referenced.
+	 * 
+	 * @param groups New list of AccessRules in which the user is referenced.
+	 */
+	public void setAccessRules(List accessRules) {
+		this.accessRules = accessRules;
+	}
+	
+	/**
 	 * Adds an AccessRule to the User's list of referenced AccessRules.
 	 * 
 	 * @param accessRule AccessRule in which the User is referenced.
@@ -166,3 +175,4 @@ public class User implements Comparable {
 		return this.toString().compareTo(otherUser.toString());
 	}
 }
+
