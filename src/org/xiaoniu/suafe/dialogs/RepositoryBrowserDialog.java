@@ -1,9 +1,21 @@
-/*
- * Created on Jul 27, 2006
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
  */
+
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
@@ -23,12 +35,15 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.xiaoniu.suafe.beans.Subversion;
+
 /**
- * @author spjohnso
+ * Dialog that allows a user to browse a Subversion repository.
+ * 
+ * @author Shaun Johnson
  */
 public class RepositoryBrowserDialog extends JDialog implements TreeSelectionListener, ActionListener {
 
-	private String path;
+	private static final long serialVersionUID = -7885952822602660234L;
 	private javax.swing.JPanel jContentPane = null;
 	private JScrollPane jScrollPane = null;
 	private JTree jTree = null;
@@ -46,8 +61,6 @@ public class RepositoryBrowserDialog extends JDialog implements TreeSelectionLis
 	public RepositoryBrowserDialog(String path) {
 		super();
 		initialize();
-		
-		this.path = path;
 	}
 	
 	/**
@@ -192,7 +205,6 @@ public class RepositoryBrowserDialog extends JDialog implements TreeSelectionLis
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("OK")) {
-			path = "Something new!!";
 			dispose();			
 		}
 		else if (e.getActionCommand().equals("Cancel")) {

@@ -1,4 +1,23 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.dialogs;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,21 +35,18 @@ import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
-/*
- * Created on Jul 8, 2006
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 
 /**
+ * Dialog that allows a user to add a group.
+ * 
  * @author Shaun Johnson
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class AddGroupDialog extends JDialog implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4479594491319664611L;
 	private Message message;
 	private javax.swing.JPanel jContentPane = null;
 	private JPanel buttonPanel = null;
@@ -42,6 +58,7 @@ public class AddGroupDialog extends JDialog implements ActionListener {
 	private JLabel groupNameLabel = null;
 	private JTextField groupNameText = null;
 	private JLabel instructionsLabel = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -62,7 +79,7 @@ public class AddGroupDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addgroup.title"));
-		this.setSize(300, 135);
+		this.setSize(450, 135);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -177,7 +194,7 @@ public class AddGroupDialog extends JDialog implements ActionListener {
 	private JTextField getGroupNameText() {
 		if (groupNameText == null) {
 			groupNameText = new JTextField();
-			groupNameText.setColumns(15);
+			groupNameText.setColumns(30);
 		}
 		return groupNameText;
 	}

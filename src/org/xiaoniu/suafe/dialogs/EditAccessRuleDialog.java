@@ -1,3 +1,21 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.FlowLayout;
@@ -32,10 +50,13 @@ import org.xiaoniu.suafe.validators.Validator;
 
 
 /**
+ * Dialog that allows a user to edit an AccessRule.
+ * 
  * @author Shaun Johnson
  */
 public class EditAccessRuleDialog extends JDialog implements ActionListener {
 
+	private static final long serialVersionUID = 6133079344065972989L;
 	private AccessRule accessRule = null;
 	private javax.swing.JPanel jContentPane = null;
 	private Message message = null;
@@ -73,6 +94,7 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 	private JTextField pathTextField = null;
 	private JButton addRepositoryButton = null;
 	private JButton browseButton = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -84,6 +106,7 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 		
 		initialize();
 	}
+	
 	/**
 	 * This method initializes this
 	 * 
@@ -94,7 +117,7 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("editaccessrule.title"));
-		this.setSize(447, 256);
+		this.setSize(550, 256);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -299,14 +322,14 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 				
 				if (group != null) {
 					if (Document.findGroupAccessRule(repository, pathString, group) == null) {
-						AccessRule rule = Document.addAccessRuleForGroup(repository, pathString, group, levelOfAccess);
-						
+						accessRule.getPath().removeAccessRule(accessRule);
 						accessRule.setPath(Document.addPath(repository, pathString));
+						accessRule.getPath().addAccessRule(accessRule);
 						accessRule.setGroup(group);
 						accessRule.setUser(null);
 						accessRule.setLevel(levelOfAccess);
 						
-						message.setUserObject(rule);
+						message.setUserObject(accessRule);
 						message.setState(Message.SUCCESS);
 						dispose();
 					}
@@ -316,14 +339,14 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 				}
 				else if (user != null) {
 					if (Document.findUserAccessRule(repository, pathString, user) == null) {
-						AccessRule rule = Document.addAccessRuleForUser(repository, pathString, user, levelOfAccess);
-						
+						accessRule.getPath().removeAccessRule(accessRule);
 						accessRule.setPath(Document.addPath(repository, pathString));
+						accessRule.getPath().addAccessRule(accessRule);
 						accessRule.setGroup(null);
 						accessRule.setUser(user);
 						accessRule.setLevel(levelOfAccess);
 						
-						message.setUserObject(rule);
+						message.setUserObject(accessRule);
 						message.setState(Message.SUCCESS);
 						dispose();
 					}
@@ -686,7 +709,7 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 		if (pathTextField == null) {
 			pathTextField = new JTextField();
 			
-			pathTextField.setColumns(20);
+			pathTextField.setColumns(30);
 			
 			pathTextField.setText(accessRule.getPath().getPath());
 		}

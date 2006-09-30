@@ -1,4 +1,23 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.dialogs;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,10 +39,13 @@ import org.xiaoniu.suafe.validators.Validator;
 
 
 /**
+ * Dialog tha allows a user to edit a group.
+ * 
  * @author Shaun Johnson
  */
 public class EditGroupDialog extends JDialog implements ActionListener {
 
+	private static final long serialVersionUID = 2123191216212377517L;
 	private Message message = null;
 	private javax.swing.JPanel jContentPane = null;
 	private Group group = null;
@@ -59,7 +81,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("editgroup.title"));
-		this.setSize(300, 135);
+		this.setSize(450, 135);
 		this.setContentPane(getJContentPane());
 	}
 	
@@ -177,7 +199,7 @@ public class EditGroupDialog extends JDialog implements ActionListener {
 	private JTextField getGroupNameText() {
 		if (groupNameText == null) {
 			groupNameText = new JTextField();
-			groupNameText.setColumns(15);
+			groupNameText.setColumns(30);
 			groupNameText.setText(group.getName());
 		}
 		return groupNameText;

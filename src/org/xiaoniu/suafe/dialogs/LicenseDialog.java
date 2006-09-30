@@ -1,15 +1,27 @@
-/*
- * Created on Jul 8, 2006
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
  */
+
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
+//import java.io.BufferedReader;
+//import java.io.FileReader;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,17 +29,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.xiaoniu.suafe.beans.Document;
+//import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.resources.License;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
+ * Dialog that displays the application license to the user.
+ * 
  * @author Shaun Johnson
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class LicenseDialog extends JDialog implements ActionListener {
+
+	private static final long serialVersionUID = 3553343708226187634L;
 
 	private javax.swing.JPanel jContentPane = null;
 
@@ -35,6 +48,7 @@ public class LicenseDialog extends JDialog implements ActionListener {
 	private JButton okButton = null;
 	private JTextArea licenseTextArea = null;
 	private JScrollPane licenseScrollPane = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -42,6 +56,7 @@ public class LicenseDialog extends JDialog implements ActionListener {
 		super();
 		initialize();
 	}
+	
 	/**
 	 * This method initializes this
 	 * 
@@ -51,7 +66,7 @@ public class LicenseDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setTitle(ResourceUtil.getString("license.title"));
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.setSize(600, 400);
+		this.setSize(800, 600);
 		this.setContentPane(getJContentPane());
 		this.getRootPane().setDefaultButton(getOkButton());
 	}
@@ -98,28 +113,28 @@ public class LicenseDialog extends JDialog implements ActionListener {
 		return okButton;
 	}
 	
-	private String readLicense() {
-		StringBuffer license = new StringBuffer();
-		
-		try {
-			BufferedReader input = new BufferedReader(new FileReader("org/svn/resources/gpl.txt"));
-			String line = input.readLine();
-			
-			Document.initialize();
-			
-			while (line != null) {
-				license.append(line).append("\n");
-				line = input.readLine();
-			}
-			
-			input.close();
-		}
-		catch (Exception e) {
-			license.append(e.getMessage());
-		}
-		
-		return license.toString();
-	}
+//	private String readLicense() {
+//		StringBuffer license = new StringBuffer();
+//		
+//		try {
+//			BufferedReader input = new BufferedReader(new FileReader("org/svn/resources/gpl.txt"));
+//			String line = input.readLine();
+//			
+//			Document.initialize();
+//			
+//			while (line != null) {
+//				license.append(line).append("\n");
+//				line = input.readLine();
+//			}
+//			
+//			input.close();
+//		}
+//		catch (Exception e) {
+//			license.append(e.getMessage());
+//		}
+//		
+//		return license.toString();
+//	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("OK")) {

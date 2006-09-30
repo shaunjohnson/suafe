@@ -1,3 +1,21 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.frames;
 
 import java.awt.BorderLayout;
@@ -19,7 +37,6 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -90,20 +107,25 @@ import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
+
 /**
+ * Main Suafe application window.
+ * 
  * @author Shaun Johnson
  */
 public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		ListSelectionListener, MouseListener, TreeSelectionListener {
-
+	
+	private static final long serialVersionUID = -4378074679449146788L;
 	private ImageIcon pathEditIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/PathEdit.gif"));
 	private ImageIcon pathDeleteIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/PathDelete.gif"));
 	private ImageIcon repositoryEditIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/RepositoryEdit.gif"));
 	private ImageIcon repositoryDeleteIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/RepositoryDelete.gif"));
+	private ImageIcon previewIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Preview.gif"));
 	
-	private JPanel jContentPane = null;  //  @jve:decl-index=0:
+	private JPanel jContentPane = null;  
 
-	private JTabbedPane mainTabbedPane = null;  //  @jve:decl-index=0:
+	private JTabbedPane mainTabbedPane = null;  
 
 	private JSplitPane usersSplitPane = null;
 
@@ -111,15 +133,15 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JSplitPane groupsSplitPane = null;
 
-	private JPanel userDetailsPanel = null;  //  @jve:decl-index=0:
+	private JPanel userDetailsPanel = null;  
 
-	private JMenuBar jJMenuBar = null;  //  @jve:decl-index=0:
+	private JMenuBar jJMenuBar = null;  
 
-	private JMenu fileMenu = null;  //  @jve:decl-index=0:
+	private JMenu fileMenu = null;  
 
 	private JMenuItem newMenuItem = null;
 
-	private JMenuItem openMenuItem = null;  //  @jve:decl-index=0:
+	private JMenuItem openMenuItem = null;  
 
 	private JMenuItem saveMenuItem = null;
 
@@ -133,7 +155,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JMenuItem exitMenuItem = null;
 
-	private JList groupList = null;  //  @jve:decl-index=0:
+	private JList groupList = null;  
 
 	private JMenuItem licenseMenuItem = null;
 
@@ -149,59 +171,59 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	
 	private Object[] serverAccessRulesColumnNames;
 	
-	private JMenu actionMenu = null;  //  @jve:decl-index=0:
+	private JMenu actionMenu = null;  
 
 	private JMenuItem newUserMenuItem = null;
 
 	private JMenuItem newGroupMenuItem = null;
 
-	private JMenuItem newAccessRuleMenuItem = null;  //  @jve:decl-index=0:
+	private JMenuItem newAccessRuleMenuItem = null;  
 
 	private JScrollPane userListScrollPane = null;
 
 	private JScrollPane jScrollPane2 = null;
 
-	private JToolBar actionToolBar = null;  //  @jve:decl-index=0:
+	private JToolBar actionToolBar = null;  
 
 	private JButton addUserToolbarButton = null;
 
-	private JButton addGroupToolbarButton = null;  //  @jve:decl-index=0:
+	private JButton addGroupToolbarButton = null;  
 
 	private JButton previewToolbarButton = null;
 
-	private JButton addAccessRuleButton = null;  //  @jve:decl-index=0:
+	private JButton addAccessRuleButton = null;  
 
 	private JPanel usersPaneActionsPanel = null;
 
-	private JButton editUserButton = null;  //  @jve:decl-index=0:
+	private JButton editUserButton = null;  
 
-	private JButton addUserButton = null;  //  @jve:decl-index=0:
+	private JButton addUserButton = null;  
 
 	private JButton deleteUserButton = null;
 
 	private JButton changeMembershipButton = null;
 
-	private JPanel groupsPaneActionsPanel = null;  //  @jve:decl-index=0:
+	private JPanel groupsPaneActionsPanel = null;  
 
-	private JButton addGroupButton = null;  //  @jve:decl-index=0:
+	private JButton addGroupButton = null;  
 
-	private JButton editGroupButton = null;  //  @jve:decl-index=0:
+	private JButton editGroupButton = null;  
 
 	private JButton deleteGroupButton = null;
 
 	private JButton addRemoveMembersButton = null;
 
-	private JPopupMenu usersPopupMenu = null; //  @jve:decl-index=0:visual-constraint="131,4"
+	private JPopupMenu usersPopupMenu = null; 
 
-	private JMenuItem addUserMenuItem = null;  //  @jve:decl-index=0:
+	private JMenuItem addUserMenuItem = null;  
 
 	private JMenuItem editUserMenuItem = null;
 
-	private JMenuItem deleteUserMenuItem = null;  //  @jve:decl-index=0:
+	private JMenuItem deleteUserMenuItem = null;  
 
 	private JMenuItem changeMembershipMenuItem = null;
 
-	private JPopupMenu groupsPopupMenu = null;  //  @jve:decl-index=0:visual-constraint="277,6"
+	private JPopupMenu groupsPopupMenu = null;  
 
 	private JMenuItem addGroupMenuItem = null;
 
@@ -209,31 +231,31 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JMenuItem deleteGroupMenuItem = null;
 
-	private JMenuItem addRemoveMembersMenuItem = null;  //  @jve:decl-index=0:
+	private JMenuItem addRemoveMembersMenuItem = null;  
 
 	private JButton addAccessRuleButton1 = null;
 
 	private JButton editAccessRuleButton = null;
 
-	private JButton deleteAccessRuleButton = null;  //  @jve:decl-index=0:
+	private JButton deleteAccessRuleButton = null;  
 
-	private JSplitPane jPanel4 = null;  //  @jve:decl-index=0:
+	private JSplitPane jPanel4 = null;  
 
-	private JList userGroupList = null;  //  @jve:decl-index=0:
+	private JList userGroupList = null;  
 
 	private JTable userAccessRulesTable = null;
 
-	private JScrollPane userAccessRulesScrollPane = null;  //  @jve:decl-index=0:
+	private JScrollPane userAccessRulesScrollPane = null;  
 
 	private JScrollPane userGroupListScrollPane = null;
 
-	private JPanel jPanel5 = null;  //  @jve:decl-index=0:
+	private JPanel jPanel5 = null;  
 
-	private JSplitPane jPanel6 = null;  //  @jve:decl-index=0:
+	private JSplitPane jPanel6 = null;  
 
-	private JTable groupAccessRulesTable = null;  //  @jve:decl-index=0:
+	private JTable groupAccessRulesTable = null;  
 
-	private JScrollPane groupAccessRulesScrollPane = null;  //  @jve:decl-index=0:
+	private JScrollPane groupAccessRulesScrollPane = null;  
 
 	private JSplitPane accessRulesSplitPane = null;
 
@@ -243,41 +265,31 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private TreeModel accessRuleTreeModel = null;
 
-	private JPanel jPanel8 = null;  //  @jve:decl-index=0:
+	private JPanel jPanel8 = null;  
 
 	private JPanel accessRulesPaneActionsPanel = null;
 
 	private JTable accessRulesTable = null;
 
-	private JToolBar fileToolBar = null;  //  @jve:decl-index=0:
-
-	private JButton newFileButton = null;  //  @jve:decl-index=0:
-
-	private JButton openFileButton = null;
-
-	private JPanel toolbarPanel = null;  //  @jve:decl-index=0:
-
-	private JButton saveFileButton = null;
-
-	private JButton saveFileAsButton = null;
+	private JPanel toolbarPanel = null;  
 
 	private JMenuItem printMenuItem = null;
 
 	private JScrollPane accessRulesScrollPane1 = null;
-	private JPanel jPanel1 = null;  //  @jve:decl-index=0:
-	private JLabel jLabel5 = null;  //  @jve:decl-index=0:
-	private JPanel jPanel2 = null;  //  @jve:decl-index=0:
-	private JLabel jLabel3 = null;  //  @jve:decl-index=0:
-	private JPanel jPanel3 = null;  //  @jve:decl-index=0:
+	private JPanel jPanel1 = null;  
+	private JLabel jLabel5 = null;  
+	private JPanel jPanel2 = null;  
+	private JLabel jLabel3 = null;  
+	private JPanel jPanel3 = null;  
 	private JLabel jLabel20 = null;
 	private JLabel jLabel22 = null;
 	private JScrollPane jScrollPane = null;
 	private JList groupMemberList = null;
 	private JPanel jPanel10 = null;
 	private JLabel jLabel = null;
-	private JPanel jPanel7 = null;  //  @jve:decl-index=0:
-	private JPanel jPanel9 = null;  //  @jve:decl-index=0:
-	private JButton editTreeItemButton = null;  //  @jve:decl-index=0:
+	private JPanel jPanel7 = null;
+	private JPanel jPanel9 = null;
+	private JButton editTreeItemButton = null;
 	private JButton deleteTreeItemButton = null;
 	private JPanel jPanel = null;
 	private JPanel jPanel11 = null;
@@ -682,10 +694,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 					.getString("mainframe.button.preview"));
 			previewToolbarButton.setActionCommand("Preview");
 			previewToolbarButton
-					.setIcon(new ImageIcon(
-							getClass()
-									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Refresh16.gif")));
+					.setIcon(previewIcon);
 			previewToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.preview.tooltip"));
 			previewToolbarButton.addActionListener(this);
 		}
@@ -934,8 +943,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			displayWarning(ResourceUtil.getString("mainframe.warning.noaccessruleselected"));
 		}
 		else {
-			Object[] selectedItems = getGroupList().getSelectedValues();
-			
 			try {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
 				
@@ -1442,7 +1449,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			int choice = JOptionPane
 			.showConfirmDialog(
 					this,
-					ResourceUtil.getString("mainframe.deleteepository.prompt"),
+					ResourceUtil.getString("mainframe.deleterepository.prompt"),
 					ResourceUtil.getString("mainframe.deleterepository.title"),
 					JOptionPane.YES_NO_OPTION);
 
@@ -2349,7 +2356,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (jPanel4 == null) {
 			
 			jPanel4 = new JSplitPane();
-			jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 0, 0));
+			jPanel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 7, 0, 0));
 			
 			jPanel4.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			jPanel4.setTopComponent(getJPanel10());
@@ -2424,7 +2431,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			getUserGroupList().setModel(new DefaultListModel());
 			
 			if (!getUserList().isSelectionEmpty()) {
-				Object[] listData = Document.getUserGroupObjects(user);
+				Object[] listData = (Object[])Document.getUserGroupObjects(user);
 				
 				if (listData != null) {
 					getUserGroupList().setListData(listData);						
@@ -2509,6 +2516,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (jPanel5 == null) {
 			jPanel5 = new JPanel();
 			jPanel5.setLayout(new BorderLayout());
+			jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 0, 0, 0));
 			jLabel20 = new JLabel();
 			jLabel20.setText(ResourceUtil.getString("mainframe.tabs.accessrules"));
 			jPanel5.add(jLabel20, java.awt.BorderLayout.NORTH);
@@ -2526,7 +2534,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (jPanel6 == null) {
 			
 			jPanel6 = new JSplitPane();
-			jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 0, 0));
+			jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 7, 0, 0));
 			
 			jPanel6.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			jPanel6.setTopComponent(getJPanel3());
@@ -2617,14 +2625,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode(ResourceUtil.getString("application.server"));
 		accessRuleTreeModel = new DefaultTreeModel(node);
 
-		List repositoryList = Document.getRepositories();
+		List<Repository> repositoryList = Document.getRepositories();
 		
 		Collections.sort(repositoryList);
-		
-		Iterator repositories = repositoryList.iterator();
 
-		while (repositories.hasNext()) {
-			Repository repository = (Repository) repositories.next();
+		for (Repository repository : repositoryList) {
 			DefaultMutableTreeNode repositoryNode = new DefaultMutableTreeNode(
 					repository);
 
@@ -2634,15 +2639,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				treePath = new TreePath(repositoryNode.getPath());
 			}
 
-			List pathList = repository.getPaths();
+			List<Path> pathList = repository.getPaths();
 			
 			Collections.sort(pathList, new PathComparator());
-			
-			Iterator paths = pathList.iterator();
-
-			while (paths.hasNext()) {
-				Path path = (Path) paths.next();
 				
+			for (Path path : pathList) {
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(path);
 				repositoryNode.add(newNode);
 				
@@ -2654,6 +2655,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 		getAccessRulesTree().setModel(accessRuleTreeModel);
 		getAccessRulesTree().setSelectionPath(treePath);
+		getAccessRulesTree().scrollPathToVisible(treePath);
 		
 		if (selectedObject instanceof Repository) {
 			refreshRepositoryAccessRules((Repository)selectedObject);
@@ -2720,65 +2722,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	}
 
 	/**
-	 * This method initializes fileToolBar
-	 * 
-	 * @return javax.swing.JToolBar
-	 */
-	private JToolBar getFileToolBar() {
-		if (fileToolBar == null) {
-			fileToolBar = new JToolBar();
-			fileToolBar.setFloatable(false);
-			fileToolBar.add(getNewFileButton());
-			fileToolBar.add(getOpenFileButton());
-			fileToolBar.add(getSaveFileButton());
-			fileToolBar.add(getSaveFileAsButton());
-		}
-		return fileToolBar;
-	}
-
-	/**
-	 * This method initializes jButton14
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getNewFileButton() {
-		if (newFileButton == null) {
-			newFileButton = new JButton();
-			newFileButton.setText("New");
-			newFileButton.setActionCommand("NewFile");
-			newFileButton
-					.setIcon(new ImageIcon(
-							getClass()
-									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/New16.gif")));
-			newFileButton.setToolTipText("New File");
-			newFileButton.addActionListener(this);
-		}
-		return newFileButton;
-	}
-
-	/**
-	 * This method initializes jButton15
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getOpenFileButton() {
-		if (openFileButton == null) {
-			openFileButton = new JButton();
-			openFileButton.setText("Open");
-			openFileButton.setActionCommand("OpenFile");
-			openFileButton
-					.setIcon(new ImageIcon(
-							getClass()
-									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Open16.gif")));
-			openFileButton.setToolTipText("Open File");
-			openFileButton.addActionListener(this);
-		}
-		return openFileButton;
-	}
-
-	/**
 	 * This method initializes jPanel3
 	 * 
 	 * @return javax.swing.JPanel
@@ -2793,48 +2736,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			toolbarPanel.add(getActionToolBar(), null);
 		}
 		return toolbarPanel;
-	}
-
-	/**
-	 * This method initializes jButton16
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getSaveFileButton() {
-		if (saveFileButton == null) {
-			saveFileButton = new JButton();
-			saveFileButton.setText("Save");
-			saveFileButton.setActionCommand("SaveFile");
-			saveFileButton
-					.setIcon(new ImageIcon(
-							getClass()
-									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Save16.gif")));
-			saveFileButton.setToolTipText("Save File");
-			saveFileButton.addActionListener(this);
-		}
-		return saveFileButton;
-	}
-
-	/**
-	 * This method initializes jButton17
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getSaveFileAsButton() {
-		if (saveFileAsButton == null) {
-			saveFileAsButton = new JButton();
-			saveFileAsButton.setText("Save As");
-			saveFileAsButton.setActionCommand("SaveFileAs");
-			saveFileAsButton
-					.setIcon(new ImageIcon(
-							getClass()
-									.getResource(
-											"/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/SaveAs16.gif")));
-			saveFileAsButton.setToolTipText("Save File As");
-			saveFileAsButton.addActionListener(this);
-		}
-		return saveFileAsButton;
 	}
 
 	/**
@@ -2881,7 +2782,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jPanel1 = new JPanel();
 			jPanel1.setLayout(new BorderLayout());
 			jLabel5.setText(ResourceUtil.getString("mainframe.accessrules"));
-			jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 0, 0));
+			jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 7, 0, 0));
 			jPanel1.add(jLabel5, java.awt.BorderLayout.NORTH);
 			jPanel1.add(getAccessRulesScrollPane1(), java.awt.BorderLayout.CENTER);
 		}
@@ -2897,6 +2798,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jLabel3 = new JLabel();
 			jPanel2 = new JPanel();
 			jPanel2.setLayout(new BorderLayout());
+			jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 0, 0, 0));
 			jLabel3.setText(ResourceUtil.getString("mainframe.accessrules"));
 			jPanel2.add(jLabel3, java.awt.BorderLayout.NORTH);
 			jPanel2.add(getGroupAccessRulesScrollPane(), java.awt.BorderLayout.CENTER);
@@ -2912,6 +2814,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (jPanel3 == null) {
 			jPanel3 = new JPanel();
 			jPanel3.setLayout(new BorderLayout());
+			jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 7, 0));
 			
 			jLabel22 = new JLabel();
 			jLabel22.setText(ResourceUtil.getString("mainframe.members"));
@@ -2958,6 +2861,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jLabel = new JLabel();
 			jPanel10 = new JPanel();
 			jPanel10.setLayout(new BorderLayout());
+			jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 7, 0));
 			jLabel.setText(ResourceUtil.getString("mainframe.groups"));
 			jPanel10.add(jLabel, java.awt.BorderLayout.NORTH);
 			jPanel10.add(getUserGroupListScrollPane(), java.awt.BorderLayout.CENTER);
@@ -3135,6 +3039,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jLabel4 = new JLabel();
 			jPanel7 = new JPanel();
 			jPanel7.setLayout(new BorderLayout());
+			jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 7));
 			jLabel4.setText(ResourceUtil.getString("mainframe.serverstructure"));
 			jPanel7.add(getAccessRulesScrollPane(), java.awt.BorderLayout.CENTER);
 			jPanel7.add(getJPanel9(), java.awt.BorderLayout.SOUTH);
@@ -3241,6 +3146,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jLabel1 = new JLabel();
 			jPanel13 = new JPanel();
 			jPanel13.setLayout(new BorderLayout());
+			jPanel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 7));
 			jLabel1.setText(ResourceUtil.getString("mainframe.users"));
 			jPanel13.add(getUserListScrollPane(), java.awt.BorderLayout.CENTER);
 			jPanel13.add(getUsersPaneActionsPanel(), java.awt.BorderLayout.SOUTH);
@@ -3258,6 +3164,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			jLabel2 = new JLabel();
 			jPanel14 = new JPanel();
 			jPanel14.setLayout(new BorderLayout());
+			jPanel14.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 7));
 			jLabel2.setText(ResourceUtil.getString("mainframe.groups"));
 			jPanel14.add(getJScrollPane2(), java.awt.BorderLayout.CENTER);
 			jPanel14.add(getGroupsPaneActionsPanel(), java.awt.BorderLayout.SOUTH);
@@ -3295,4 +3202,4 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		return cloneGroupMenuItem;
 	}
-        }  //  @jve:decl-index=0:
+        }  

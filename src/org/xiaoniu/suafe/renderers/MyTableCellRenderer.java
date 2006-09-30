@@ -1,3 +1,21 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.renderers;
 
 import java.awt.Component;
@@ -14,14 +32,15 @@ import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
 
 /**
+ * Default table cell renderer.
+ * 
  * @author Shaun Johnson
  */
 public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
 
+	private static final long serialVersionUID = 2879090147475742072L;
 	private static ImageIcon userIcon = null;
 	private static ImageIcon groupIcon = null;
-	private static ImageIcon pathIcon = null;
-	private static ImageIcon repositoryIcon = null;
 	private static ImageIcon readOnlyIcon = null;
 	private static ImageIcon readWriteIcon = null;
 	private static ImageIcon denyAccessIcon = null;
@@ -31,8 +50,6 @@ public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
 		
 		userIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/ListUser.gif"));
 		groupIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/ListGroup.gif"));
-		pathIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Path16.gif"));
-		repositoryIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Repository16.gif"));
 		readOnlyIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/ReadOnly16.gif"));
 		readWriteIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/ReadWrite16.gif"));
 		denyAccessIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/DenyAccess16.gif"));
@@ -53,11 +70,9 @@ public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
 			setIcon(groupIcon);
 		}
 		else if (value instanceof Path) {
-//			setIcon(pathIcon);
 			setIcon(null);
 		}
 		else if (value instanceof Repository) {
-//			setIcon(repositoryIcon);
 			setIcon(null);
 		}
 		else if (value instanceof String) {

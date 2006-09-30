@@ -1,20 +1,32 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.beans;
 
 import java.util.Comparator;
 
 /**
- * @author spjohnso
+ * Comparator for Path objects.
+ * 
+ * @author Shaun Johnson
  */
-public class PathComparator implements Comparator {
-
-	public int compare(Object object1, Object object2) {
-		if (!(object1 instanceof Path) || !(object2 instanceof Path)) {
-			throw new ClassCastException("Invalid object type. Cannot cast to Path.");
-		}	
-		
-		Path path1 = (Path)object1;
-		Path path2 = (Path)object2; 
-		
+public class PathComparator implements Comparator<Path> {
+	public int compare(Path path1, Path path2) {
 		String string1 = ((path1.getRepository() == null) ? "" : path1.getRepository().toString()) + ":" +
 			((path1.getPath() == null) ? "" : path1.getPath());
 		

@@ -1,16 +1,34 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.beans;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a single Subversion user group.
+ * Represents a single Subversion user Group.
  * Groups are persisted regardless of whether they contain users or
  * are referenced by an AccessRule.
  * 
  * @author Shaun Johnson
  */
-public class Group implements Comparable {
+public class Group extends GroupMemberObject implements Comparable<Group> {
 	
 	/**
 	 * Name of the group.
@@ -20,22 +38,22 @@ public class Group implements Comparable {
 	/**
 	 * List of Groups in which this Group is a member.
 	 */
-	protected List groups;
+	protected List<Group> groups;
 	
 	/**
 	 * List of Users that are a member of the Group.
 	 */
-	protected List userMembers;
+	protected List<User> userMembers;
 	
 	/**
 	 * List of Groups that are a member of the Group.
 	 */
-	protected List groupMembers;
+	protected List<Group> groupMembers;
 	
 	/**
 	 * List of AccessRules that reference the Group.
 	 */
-	protected List accessRules;
+	protected List<AccessRule> accessRules;
 	
 	/**
 	 * Default Constructor.
@@ -44,10 +62,10 @@ public class Group implements Comparable {
 		super();
 		
 		this.name = null;
-		this.groups = new ArrayList();
-		this.userMembers = new ArrayList();
-		this.groupMembers = new ArrayList();
-		this.accessRules = new ArrayList();
+		this.groups = new ArrayList<Group>();
+		this.userMembers = new ArrayList<User>();
+		this.groupMembers = new ArrayList<Group>();
+		this.accessRules = new ArrayList<AccessRule>();
 	}
 	
 	/**
@@ -57,14 +75,14 @@ public class Group implements Comparable {
 	 * @param groupMembers List of Groups that are a member of the Group.
 	 * @param userMembers List of Users that are a member of the Group.
 	 */
-	public Group(String name, List groupMembers, List userMembers) {
+	public Group(String name, List<Group> groupMembers, List<User> userMembers) {
 		super();
 		
 		this.name = name;
-		this.groups = new ArrayList();
+		this.groups = new ArrayList<Group>();
 		this.userMembers = userMembers;
 		this.groupMembers = groupMembers;
-		this.accessRules = new ArrayList();
+		this.accessRules = new ArrayList<AccessRule>();
 	}
 	
 	/**
@@ -96,7 +114,7 @@ public class Group implements Comparable {
 	 * 
 	 * @return list of Groups to which the Group is assigned.
 	 */
-	public List getGroups() {
+	public List<Group> getGroups() {
 		return groups;
 	}
 	
@@ -123,7 +141,7 @@ public class Group implements Comparable {
 	 * 
 	 * @return Returns the list of Group members.
 	 */
-	public List getGroupMembers() {
+	public List<Group> getGroupMembers() {
 		return groupMembers;
 	}
 	
@@ -150,7 +168,7 @@ public class Group implements Comparable {
 	 * 
 	 * @return Returns the list of User members..
 	 */
-	public List getUserMembers() {
+	public List<User> getUserMembers() {
 		return userMembers;
 	}
 	
@@ -177,7 +195,7 @@ public class Group implements Comparable {
 	 * 
 	 * @return Returns the list of AccessRules.
 	 */
-	public List getAccessRules() {
+	public List<AccessRule> getAccessRules() {
 		return accessRules;
 	}
 
@@ -200,21 +218,11 @@ public class Group implements Comparable {
 	public void removeAccessRule(AccessRule accessRule) {
 		accessRules.remove(accessRule);
 	}
-	
+
 	/**
-	 * Compares this to the specified object.
-	 * Used when sorting lists of Group objects.
 	 * 
-	 * @param other Other Group object to which this is compared.
-	 * @throws ClassCastException Other is not an instance of Group.
 	 */
-	public int compareTo(Object other) throws ClassCastException {
-		if (!(other instanceof Group)) {
-			throw new ClassCastException("Invalid object type. Cannot cast to Group.");
-		}	
-		
-		Group otherGroup = (Group)other;
-		
+	public int compareTo(Group otherGroup) {
 		return this.toString().compareTo(otherGroup.toString());
 	}
 }

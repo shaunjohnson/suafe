@@ -1,3 +1,20 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
 package org.xiaoniu.suafe;
 
 import java.io.BufferedReader;
@@ -27,8 +44,11 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
 public class FileParser {
 	
 	private static final int STATE_START = 1;
+	
 	private static final int STATE_PROCESS_GROUPS = 2;	
+	
 	private static final int STATE_PROCESS_SERVER_RULES = 3;
+	
 	private static final int STATE_PROCESS_RULES = 4;
 	
 	private static int currentState = STATE_START;
@@ -38,8 +58,8 @@ public class FileParser {
 	/**
 	 * Validates whether the supplied file is readable.
 	 * 
-	 * @param file
-	 * @throws Exception
+	 * @param file File to be validated.
+	 * @throws ValidatorException
 	 */
 	public static void validateReadable(File file) throws ValidatorException {
 		if (!file.canRead()) {
@@ -48,9 +68,11 @@ public class FileParser {
 	}
 	
 	/**
-	 * @param selectedFile
+	 * Reads and parses information from the specified authz file.
+	 * 
+	 * @param file File to be processed.
+	 * @throws ParserException
 	 * @throws ValidatorException
-	 * @throws Exception
 	 */
 	public static void parse(File file) throws ParserException, ValidatorException {
 		BufferedReader input = null;
@@ -106,6 +128,14 @@ public class FileParser {
 		}		
 	}
 	
+	/**
+	 * Parses a single line in the authz file.
+	 * 
+	 * @param lineNumber Number of the line being processed.
+	 * @param line Content of the line.
+	 * @throws ParserException
+	 * @throws ApplicationException
+	 */
 	private static void parseLine(int lineNumber, String line) throws ParserException, ApplicationException {
 		switch(line.charAt(0)) {
 			case '#':
@@ -213,8 +243,8 @@ public class FileParser {
 					String members = line.substring(index + 1).trim();
 					StringTokenizer tokens = new StringTokenizer(members, " ,");
 					int memberCount = tokens.countTokens();
-					List groupMembers = new ArrayList();
-					List userMembers = new ArrayList();
+					List<String> groupMembers = new ArrayList<String>();
+					List<String> userMembers = new ArrayList<String>();
 					
 					for(int i = 0; i < memberCount; i++) {
 						String member = tokens.nextToken();

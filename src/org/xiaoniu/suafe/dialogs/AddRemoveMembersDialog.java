@@ -1,7 +1,25 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +27,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -25,26 +42,32 @@ import javax.swing.JScrollPane;
 
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
+import org.xiaoniu.suafe.beans.GroupMemberObject;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-import java.awt.FlowLayout;
 /**
+ * Dialog that allows a user to add/remove members of a group.
+ * 
  * @author Shaun Johnson
  */
 public class AddRemoveMembersDialog extends JDialog implements ActionListener, MouseListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2808087711449246371L;
 	private Message message = null;
 	private Group group = null;
-	private Vector groupMembers = null;
-	private Vector groupNonMembers =  null;
-	private Vector userMembers = null;
-	private Vector userNonMembers = null;
-	private Vector members = null;
-	private Vector nonMembers = null;
+	private Vector<Group> groupMembers = null;
+	private Vector<Group> groupNonMembers =  null;
+	private Vector<User> userMembers = null;
+	private Vector<User> userNonMembers = null;
+	private Vector<GroupMemberObject> members = null;
+	private Vector<GroupMemberObject> nonMembers = null;
 	private javax.swing.JPanel jContentPane = null;
 	private JPanel buttonPanel = null;
 	private JButton jButton = null;
@@ -84,22 +107,22 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 	private void initialize() {
 		try {
 			// Initialize groups
-			Object[] groupMembersObjects = Document.getGroupMemberGroupObjects(group);
+			Group[] groupMembersObjects = (Group[])Document.getGroupMemberGroupObjects(group);
 			
 			if (groupMembersObjects != null) {
-				List groupMembersList = Arrays.asList(groupMembersObjects);
-				groupMembers = new Vector(groupMembersList);
+				List<Group> groupMembersList = Arrays.asList(groupMembersObjects);
+				groupMembers = new Vector<Group>(groupMembersList);
 				Collections.sort(groupMembers);
 			}
 			else {
-				groupMembers = new Vector();
+				groupMembers = new Vector<Group>();
 			}
 			
-			Object[] groupObjects = Document.getGroupObjects();
+			Group[] groupObjects = (Group[])Document.getGroupObjects();
 			
 			if (groupObjects != null) {
-				List groupNonMembersList = Arrays.asList(groupObjects);
-				groupNonMembers = new Vector(groupNonMembersList);
+				List<Group> groupNonMembersList = Arrays.asList(groupObjects);
+				groupNonMembers = new Vector<Group>(groupNonMembersList);
 
 				// Remove group being edited
 				groupNonMembers.remove(group);
@@ -111,35 +134,35 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 				groupNonMembers.remove(group.getName());
 			}
 			else {
-				groupNonMembers = new Vector();
+				groupNonMembers = new Vector<Group>();
 			}			
 			
 			// Initialize users
-			Object[] userMembersObjects = Document.getGroupMemberUserObjects(group);
+			User[] userMembersObjects = (User[])Document.getGroupMemberUserObjects(group);
 			
 			if (userMembersObjects != null) {
-				List userMembersList = Arrays.asList(userMembersObjects);
-				userMembers = new Vector(userMembersList);
+				List<User> userMembersList = Arrays.asList(userMembersObjects);
+				userMembers = new Vector<User>(userMembersList);
 				Collections.sort(userMembers);
 			}
 			else {
-				userMembers = new Vector();
+				userMembers = new Vector<User>();
 			}
 			
-			Object[] userObjects = Document.getUserObjectsExcludeAllUsers();
+			User[] userObjects = (User[])Document.getUserObjectsExcludeAllUsers();
 			
 			if (userObjects != null) {
-				List userNonMembersList = Arrays.asList(userObjects);
-				userNonMembers = new Vector(userNonMembersList);
+				List<User> userNonMembersList = Arrays.asList(userObjects);
+				userNonMembers = new Vector<User>(userNonMembersList);
 				Collections.sort(userNonMembers);			
 				userNonMembers.removeAll(userMembers);
 			}
 			else {
-				userNonMembers = new Vector();
+				userNonMembers = new Vector<User>();
 			}
 			
-			members = new Vector(groupMembers.size() + userMembers.size());
-			nonMembers = new Vector(groupNonMembers.size() + userNonMembers.size());
+			members = new Vector<GroupMemberObject>(groupMembers.size() + userMembers.size());
+			nonMembers = new Vector<GroupMemberObject>(groupNonMembers.size() + userNonMembers.size());
 			
 			members.addAll(groupMembers);
 			members.addAll(userMembers);
@@ -150,11 +173,12 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 			displayError(ResourceUtil.getFormattedString("addremovemembers.error.errorloadinggroups", e.getMessage()));
 		}
 		
-		this.setBounds(0, 0, 500, 320);
+		this.setBounds(0, 0, 600, 500);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setTitle(ResourceUtil.getString("addremovemembers.title"));
 		this.setContentPane(getJContentPane());
+		this.setResizable(false);
 	}
 	/**
 	 * This method initializes jContentPane
@@ -325,7 +349,7 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 			jPanel4 = new JPanel();
 			jPanel4.setLayout(new BorderLayout());
 			jLabel1.setText(ResourceUtil.getString("addremovemembers.nonmembers"));
-			jPanel4.setPreferredSize(new java.awt.Dimension(200,200));
+			jPanel4.setPreferredSize(new java.awt.Dimension(250,250));
 			jPanel4.add(jLabel1, java.awt.BorderLayout.NORTH);
 			jPanel4.add(getJScrollPane(), java.awt.BorderLayout.CENTER);
 		}
@@ -342,7 +366,7 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 			jPanel5 = new JPanel();
 			jPanel5.setLayout(new BorderLayout());
 			jLabel2.setText(ResourceUtil.getString("addremovemembers.members"));
-			jPanel5.setPreferredSize(new java.awt.Dimension(200,200));
+			jPanel5.setPreferredSize(new java.awt.Dimension(250,250));
 			jPanel5.add(jLabel2, java.awt.BorderLayout.NORTH);
 			jPanel5.add(getJScrollPane1(), java.awt.BorderLayout.CENTER);
 		}
@@ -389,18 +413,14 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 	private void assignMember() {
 		if (!getNonMemberList().isSelectionEmpty()) {
 			List values = Arrays.asList(getNonMemberList().getSelectedValues());
-			
-			Iterator iterator = values.iterator();
-			
-			while (iterator.hasNext()) {
-				Object object = iterator.next();
-				
+					
+			for (Object object : values) {
 				if (object instanceof Group) {
-					groupMembers.add(object);
+					groupMembers.add((Group) object);
 					groupNonMembers.remove(object);
 				}
 				if (object instanceof User) {
-					userMembers.add(object);
+					userMembers.add((User) object);
 					userNonMembers.remove(object);
 				}
 			}
@@ -413,18 +433,14 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 		if (!getMemberList().isSelectionEmpty()) {
 			List values = Arrays.asList(getMemberList().getSelectedValues());
 			
-			Iterator iterator = values.iterator();
-			
-			while (iterator.hasNext()) {
-				Object object = iterator.next();
-				
+			for (Object object : values) {	
 				if (object instanceof Group) {
 					groupMembers.remove(object);
-					groupNonMembers.add(object);
+					groupNonMembers.add((Group) object);
 				}
 				if (object instanceof User) {
 					userMembers.remove(object);
-					userNonMembers.add(object);
+					userNonMembers.add((User) object);
 				}
 			}
 			
@@ -438,8 +454,8 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 		Collections.sort(groupNonMembers);
 		Collections.sort(userNonMembers);
 		
-		members = new Vector(groupMembers.size() + userMembers.size());
-		nonMembers = new Vector(groupNonMembers.size() + userNonMembers.size());
+		members = new Vector<GroupMemberObject>(groupMembers.size() + userMembers.size());
+		nonMembers = new Vector<GroupMemberObject>(groupNonMembers.size() + userNonMembers.size());
 		
 		members.addAll(groupMembers);
 		members.addAll(userMembers);

@@ -1,3 +1,21 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.beans;
 
 import java.util.ArrayList;
@@ -25,7 +43,7 @@ public class Path implements Comparable {
 	/**
 	 * List of AccessRules in which the Path is referenced.
 	 */
-	protected List accessRules;
+	protected List<AccessRule> accessRules;
 	
 	/**
 	 * Default Constructor.
@@ -35,7 +53,7 @@ public class Path implements Comparable {
 		
 		this.repository = null;
 		this.path = null;
-		this.accessRules = new ArrayList();
+		this.accessRules = new ArrayList<AccessRule>();
 	}
 	
 	/**
@@ -49,7 +67,7 @@ public class Path implements Comparable {
 		
 		this.repository = repository;
 		this.path = path;
-		this.accessRules = new ArrayList();
+		this.accessRules = new ArrayList<AccessRule>();
 	}
 
 	/**
@@ -93,7 +111,7 @@ public class Path implements Comparable {
 	 * 
 	 * @return List of AccessRules in which the Path is referenced.
 	 */
-	public List getAccessRules() {
+	public List<AccessRule> getAccessRules() {
 		return accessRules;
 	}
 	

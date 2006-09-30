@@ -16,22 +16,13 @@
  * @endcopyright
  */
 
-package org.xiaoniu.suafe.exceptions;
+package org.xiaoniu.suafe.beans;
 
 /**
- * Exception thrown when a general error occurs.
+ * Parent class for User and Group objects.
  * 
  * @author Shaun Johnson
  */
-public class ApplicationException extends Exception {
+public abstract class GroupMemberObject {
 
-	private static final long serialVersionUID = -6917550556439119411L;
-
-	public ApplicationException() {
-		super();
-	}
-	
-	public ApplicationException(String message) {
-		super(message);
-	}
 }

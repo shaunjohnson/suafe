@@ -1,4 +1,23 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.dialogs;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -19,10 +38,13 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
 /**
+ * Dialog that allows a user to edit a Path.
+ * 
  * @author Shaun Johnson
  */
 public class EditPathDialog extends JDialog implements ActionListener {
 
+	private static final long serialVersionUID = -2933098765030949443L;
 	private Message message = new Message();
 	private javax.swing.JPanel jContentPane = null;
 	private Path path = null;
@@ -56,7 +78,7 @@ public class EditPathDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("editpath.title"));
-		this.setSize(300, 113);
+		this.setSize(450, 135);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -171,7 +193,7 @@ public class EditPathDialog extends JDialog implements ActionListener {
 	private JTextField getPathText() {
 		if (pathText == null) {
 			pathText = new JTextField();
-			pathText.setColumns(20);
+			pathText.setColumns(35);
 			pathText.setText(path.getPath());
 		}
 		return pathText;

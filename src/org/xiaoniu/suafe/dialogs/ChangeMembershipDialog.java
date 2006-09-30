@@ -1,9 +1,21 @@
-/*
- * Created on Jul 14, 2006
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
  */
+
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
@@ -28,22 +40,27 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.xiaoniu.suafe.beans.Document;
+import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import java.awt.FlowLayout;
+
 /**
+ * Dialog that allows a user to change a user's group membership.
+ * 
  * @author Shaun Johnson
  */
 public class ChangeMembershipDialog extends JDialog implements ActionListener, MouseListener {
 
+	private static final long serialVersionUID = 4595558087993098499L;
 	private Message message = null;
 	private User user = null;
-	private Vector memberOf = null;
-	private Vector notMemberOf =  null;
-	private javax.swing.JPanel jContentPane = null;
+	private Vector<Group> memberOf = null;
+	private Vector<Group> notMemberOf =  null;
+	private JPanel jContentPane = null;
 	private JPanel buttonPanel = null;
 	private JButton jButton = null;
 	private JButton jButton1 = null;
@@ -62,6 +79,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 	private JPanel jPanel2 = null;
 	private JPanel jPanel = null;
 	private JLabel jLabel = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -73,6 +91,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 		
 		initialize();		
 	}
+	
 	/**
 	 * This method initializes this
 	 * 
@@ -80,38 +99,39 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 	 */
 	private void initialize() {
 		try {
-			Object[] groups = Document.getUserGroupObjects(user);
+			Group[] groups = (Group[])Document.getUserGroupObjects(user);
 			
 			if (groups != null) {
-				List memberOfList = Arrays.asList(groups);
-				memberOf = new Vector(memberOfList);
+				List<Group> memberOfList = Arrays.asList(groups);
+				memberOf = new Vector<Group>(memberOfList);
 				Collections.sort(memberOf);
 			}
 			else {
-				memberOf = new Vector();
+				memberOf = new Vector<Group>();
 			}
 			
-			Object[] allGroups = Document.getGroupObjects();
+			Group[] allGroups = (Group[])Document.getGroupObjects();
 			
 			if (allGroups != null) {
-				List notMemberOfList = Arrays.asList(allGroups);
-				notMemberOf = new Vector(notMemberOfList);
+				List<Group> notMemberOfList = Arrays.asList(allGroups);
+				notMemberOf = new Vector<Group>(notMemberOfList);
 				Collections.sort(notMemberOf);
 				notMemberOf.removeAll(memberOf);
 			}
 			else {
-				notMemberOf = new Vector();
+				notMemberOf = new Vector<Group>();
 			}
 		}
 		catch (ApplicationException e) {
 			displayError(ResourceUtil.getFormattedString("changemembership.error.errorloadinggroups", e.getMessage()));
 		}
 		
-		this.setBounds(0, 0, 500, 320);
+		this.setBounds(0, 0, 600, 500);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setTitle(ResourceUtil.getString("changemembership.title"));
 		this.setContentPane(getJContentPane());
+		this.setResizable(false);
 	}
 	/**
 	 * This method initializes jContentPane
@@ -282,7 +302,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 			jPanel4 = new JPanel();
 			jPanel4.setLayout(new BorderLayout());
 			jLabel1.setText(ResourceUtil.getString("changemembership.notmemberof"));
-			jPanel4.setPreferredSize(new java.awt.Dimension(200,200));
+			jPanel4.setPreferredSize(new java.awt.Dimension(250,250));
 			jPanel4.add(jLabel1, java.awt.BorderLayout.NORTH);
 			jPanel4.add(getJScrollPane(), java.awt.BorderLayout.CENTER);
 		}
@@ -299,7 +319,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 			jPanel5 = new JPanel();
 			jPanel5.setLayout(new BorderLayout());
 			jLabel2.setText(ResourceUtil.getString("changemembership.memberof"));
-			jPanel5.setPreferredSize(new java.awt.Dimension(200,200));
+			jPanel5.setPreferredSize(new java.awt.Dimension(250,250));
 			jPanel5.add(jLabel2, java.awt.BorderLayout.NORTH);
 			jPanel5.add(getJScrollPane1(), java.awt.BorderLayout.CENTER);
 		}
@@ -344,7 +364,8 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 
 	private void assign() {
 		if (!getNotMemberOfList().isSelectionEmpty()) {
-			List values = Arrays.asList(getNotMemberOfList().getSelectedValues());
+			Group[] groupObjects = (Group[])getNotMemberOfList().getSelectedValues();
+			List<Group> values = Arrays.asList(groupObjects); 
 			
 			memberOf.addAll(values);
 			notMemberOf.removeAll(values);
@@ -358,8 +379,9 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 	}
 	
 	private void unassign() {
-		if (!getMemberOfList().isSelectionEmpty()) {
-			List values = Arrays.asList(getMemberOfList().getSelectedValues());
+		if (!getMemberOfList().isSelectionEmpty()) {		
+			Group[] groupObjects = (Group[])getMemberOfList().getSelectedValues();
+			List<Group> values = Arrays.asList(groupObjects);
 			
 			memberOf.removeAll(values);
 			notMemberOf.addAll(values);

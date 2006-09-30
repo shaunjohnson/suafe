@@ -1,8 +1,19 @@
-/*
- * Created on Jul 14, 2006
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
  */
 package org.xiaoniu.suafe;
 
@@ -18,22 +29,38 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
 /**
- * @author spjohnso
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Handles authz printing task.
+ * 
+ * @author Shaun Johnson
  */
 public class Printer implements Printable {
 	private static PageFormat format  = new PageFormat();
 	
+	/**
+	 * Gets the current <code>PageFormat<code> object.
+	 * 
+	 * @return <code>PageFormat</code> object
+	 */
 	public static PageFormat getFormat() {
 		return Printer.format;
 	}
 	
+	/**
+	 * Sets the current <code>PageFormat</code> object.
+	 * 
+	 * @param format <code>PageFormat</code> object
+	 */
 	public static void setFormat(PageFormat format) {
 		Printer.format = format;
 	}
 	
+	/**
+	 * Prints the authz document.
+	 * 
+	 * @param g Graphics object
+	 * @param format PageFormat object
+	 * @param pageIndex 
+	 */
 	public int print(Graphics g, PageFormat format, int pageIndex) {
 		int retval = Printable.PAGE_EXISTS;
 		

@@ -1,3 +1,21 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.FlowLayout;
@@ -20,10 +38,16 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
 /**
+ * Dialog that allows the user to add a Repository.
+ * 
  * @author Shaun Johnson
  */
 public class AddRepositoryDialog extends JDialog implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7128331795528493807L;
 	private javax.swing.JPanel jContentPane = null;
 	private Message message = null;
 	private JPanel buttonPanel = null;
@@ -45,6 +69,7 @@ public class AddRepositoryDialog extends JDialog implements ActionListener {
 		
 		initialize();
 	}
+	
 	/**
 	 * This method initializes this
 	 * 
@@ -55,9 +80,10 @@ public class AddRepositoryDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addrepository.title"));
-		this.setSize(300, 135);
+		this.setSize(470, 135);
 		this.setContentPane(getJContentPane());
 	}
+	
 	/**
 	 * This method initializes jContentPane
 	 * 
@@ -170,7 +196,7 @@ public class AddRepositoryDialog extends JDialog implements ActionListener {
 	private JTextField getRepositoryNameText() {
 		if (repositoryNameText == null) {
 			repositoryNameText = new JTextField();
-			repositoryNameText.setColumns(15);
+			repositoryNameText.setColumns(30);
 		}
 		return repositoryNameText;
 	}

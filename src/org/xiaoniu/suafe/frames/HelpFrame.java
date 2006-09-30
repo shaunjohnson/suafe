@@ -1,9 +1,21 @@
-/*
- * Created on Aug 4, 2006
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
  */
+
 package org.xiaoniu.suafe.frames;
 
 import java.io.IOException;
@@ -18,11 +30,15 @@ import java.awt.Toolkit;
 import javax.swing.JSplitPane;
 
 import org.xiaoniu.suafe.resources.ResourceUtil;
+
 /**
- * @author spjohnso
+ * Main Suafe help window.
+ * 
+ * @author Shaun Johnson
  */
 public class HelpFrame extends BaseFrame implements HyperlinkListener {
 
+	private static final long serialVersionUID = 5057005120918134417L;
 	private javax.swing.JPanel jContentPane = null;
 	private JScrollPane jScrollPane = null;
 	private JEditorPane jEditorPane = null;

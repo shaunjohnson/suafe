@@ -1,3 +1,20 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
 package org.xiaoniu.suafe;
 
 import java.io.BufferedWriter;
@@ -19,9 +36,18 @@ import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
+ * Provides methods to output the authz file information from memory.
+ * 
  * @author Shaun Johnson
  */
 public class FileGenerator {
+	
+	/**
+	 * Generates authz content from the current document in memory.
+	 * 
+	 * @return Authz file content
+	 * @throws ApplicationException
+	 */
 	public static String generate() throws ApplicationException {
 		StringBuffer output = null;
 		
@@ -34,15 +60,13 @@ public class FileGenerator {
 			output.append("[groups]" + Constants.newline);
 			
 			Collections.sort(Document.getGroups());
-			Iterator groups = Document.getGroups().iterator();
 			
-			while(groups.hasNext()) {
-				Group group = (Group)groups.next();
-				
+			for (Group group : Document.getGroups()) {	
 				output.append(group.getName() + " = ");
 				
 				if (group.getGroupMembers() != null) {
 					Collections.sort(group.getGroupMembers());
+					
 					Iterator members = group.getGroupMembers().iterator();
 					
 					while(members.hasNext()) {
@@ -84,11 +108,8 @@ public class FileGenerator {
 			
 			// Process access rules
 			Collections.sort(Document.getPaths(), new PathComparator());
-			Iterator paths = Document.getPaths().iterator();
 			
-			while(paths.hasNext()) {
-				Path path = (Path)paths.next();
-				
+			for (Path path : Document.getPaths()) {
 				if (path.getAccessRules().size() == 0) {
 					continue;
 				}
@@ -103,11 +124,8 @@ public class FileGenerator {
 				}
 				
 				Collections.sort(path.getAccessRules());
-				Iterator accessRules = path.getAccessRules().iterator();
 				
-				while(accessRules.hasNext()) {
-					AccessRule rule = (AccessRule)accessRules.next();
-					
+				for (AccessRule rule : path.getAccessRules()) {
 					if (rule.getGroup() != null) {
 						output.append("@" + rule.getGroup().getName() + " = " + rule.getLevel() + "" + Constants.newline);
 					}
@@ -131,6 +149,12 @@ public class FileGenerator {
 		return output.toString();
 	}
 	
+	/**
+	 * Generates and saves the current authz content in memory.
+	 * 
+	 * @param file File where authz content is to be written.
+	 * @throws ApplicationException
+	 */
 	public static void generate(File file) throws ApplicationException {
 		PrintWriter output = null;
 		

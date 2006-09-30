@@ -1,16 +1,33 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
 package org.xiaoniu.suafe.beans;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a singled Subversion repository.
+ * Represents a single Subversion repository.
  * Repositories are not persisted unless they are used in conjunction
  * with a path to define AccessRules.
  * 
  * @author Shaun Johnson
  */
-public class Repository implements Comparable {
+public class Repository implements Comparable<Repository> {
 	
 	/**
 	 * Name of the Repository. This field must contain a unique value.
@@ -20,7 +37,7 @@ public class Repository implements Comparable {
 	/**
 	 * List of paths in which the Repository is referenced.
 	 */
-	protected List paths;
+	protected List<Path> paths;
 	
 	/**
 	 * Default Constuctor.
@@ -29,7 +46,7 @@ public class Repository implements Comparable {
 		super();
 		
 		this.name = null;
-		this.paths = new ArrayList();
+		this.paths = new ArrayList<Path>();
 	}
 	
 	/**
@@ -41,7 +58,7 @@ public class Repository implements Comparable {
 		super();
 		
 		this.name = name;
-		this.paths = new ArrayList();
+		this.paths = new ArrayList<Path>();
 	}
 	
 	/**
@@ -73,7 +90,7 @@ public class Repository implements Comparable {
 	 * 
 	 * @return Returns the paths.
 	 */
-	public List getPaths() {
+	public List<Path> getPaths() {
 		return paths;
 	}
 	
@@ -98,19 +115,9 @@ public class Repository implements Comparable {
 	}
 	
 	/**
-	 * Compares this to the specified object.
-	 * Used when sorting lists of Repository objects.
 	 * 
-	 * @param other Other Repository object to which this is compared.
-	 * @throws ClassCastException Other is not an instance of Repository.
 	 */
-	public int compareTo(Object other) throws ClassCastException {
-		if (!(other instanceof Repository)) {
-			throw new ClassCastException("Invalid object type. Cannot cast to Repository.");
-		}	 
-	
-		Repository otherRepository = (Repository)other;
-		
+	public int compareTo(Repository otherRepository) {
 		return this.toString().compareTo(otherRepository.toString());
 	}
 }

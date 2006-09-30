@@ -1,4 +1,23 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.dialogs;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -18,10 +37,16 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
 /**
+ * Dialog that allows a user to edit a user.
+ * 
  * @author Shaun Johnson
  */
 public class EditUserDialog extends JDialog implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1431014425510381594L;
 	private Message message = null;
 	private User user = null;
 	private javax.swing.JPanel jContentPane = null;
@@ -54,7 +79,7 @@ public class EditUserDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("edituser.title"));
-		this.setSize(300, 135);
+		this.setSize(450, 135);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -169,7 +194,7 @@ public class EditUserDialog extends JDialog implements ActionListener {
 	private JTextField getUserNameText() {
 		if (userNameText == null) {
 			userNameText = new JTextField();
-			userNameText.setColumns(15);
+			userNameText.setColumns(30);
 			userNameText.setText(user.getName());
 		}
 		return userNameText;

@@ -1,10 +1,31 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.validators;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 
 /**
- * Home to all validator helper methods.
+ * Utility class containing application data validators.
  * 
  * @author Shaun Johnson
  */
@@ -18,13 +39,21 @@ public class Validator {
 	 */
 	public static void validateGroupName(String groupName) throws ValidatorException {
 		if (groupName == null) {
-			throw new ValidatorException("Invalid group name");
+			throw new ValidatorException("Invalid group name: Name is null");
 		}
 		
 		String value = groupName.trim();
 			
 		if (value.length() == 0) {
-			throw new ValidatorException("Invalid group name");
+			throw new ValidatorException("Invalid group name: Name too short");
+		}
+		
+		// Check group name for invalid characters
+		Pattern pattern = Pattern.compile("=");
+		Matcher matcher = pattern.matcher(value);
+		
+		if (matcher.find()) {
+			throw new ValidatorException("Invalid group name: Name may not contain '='");
 		}
 	}
 	
@@ -52,17 +81,17 @@ public class Validator {
 	 * @param relativePath The relative path name to validate.
 	 * @throws ValidatorException
 	 */
-	public static void validateRelativePath(String relativePath) throws ValidatorException {
-		if (relativePath == null) {
-			throw new ValidatorException("Invalid path");
-		}
-		
-		String value = relativePath.trim();
-			
-		if (value.length() == 0) {
-			throw new ValidatorException("Invalid path");
-		}
-	}
+//	public static void validateRelativePath(String relativePath) throws ValidatorException {
+//		if (relativePath == null) {
+//			throw new ValidatorException("Invalid path");
+//		}
+//		
+//		String value = relativePath.trim();
+//			
+//		if (value.length() == 0) {
+//			throw new ValidatorException("Invalid path");
+//		}
+//	}
 	
 	/**
 	 * Validates repository names.
@@ -79,6 +108,14 @@ public class Validator {
 			
 		if (value.length() == 0) {
 			throw new ValidatorException("Invalid repository name");
+		}
+		
+		// Check repository name for invalid characters
+		Pattern pattern = Pattern.compile("=");
+		Matcher matcher = pattern.matcher(value);
+		
+		if (matcher.find()) {
+			throw new ValidatorException("Invalid repository name: Name may not contain '='");
 		}
 	}
 	
@@ -97,6 +134,14 @@ public class Validator {
 			
 		if (value.length() == 0) {
 			throw new ValidatorException("Invalid user name");
+		}
+		
+		// Check user name for invalid characters
+		Pattern pattern = Pattern.compile("=");
+		Matcher matcher = pattern.matcher(value);
+		
+		if (matcher.find()) {
+			throw new ValidatorException("Invalid user name: Name may not contain '='");
 		}
 	}
 
@@ -125,8 +170,8 @@ public class Validator {
 	}
 
 	/**
-	 * @param string
-	 * @param group
+	 * @param field
+	 * @param value
 	 * @throws ValidatorException
 	 */
 	public static void validateNotNull(String field, Object value) throws ValidatorException {
@@ -148,6 +193,22 @@ public class Validator {
 			
 		if (value.length() == 0) {
 			throw new ValidatorException("Invalid path");
+		}
+		
+		// Check path for invalid characters
+		Pattern pattern = Pattern.compile("=");
+		Matcher matcher = pattern.matcher(value);
+		
+		if (matcher.find()) {
+			throw new ValidatorException("Invalid path: Path may not contain '='");
+		}		
+		
+		if (value.charAt(0) != '/') {
+			throw new ValidatorException("Invalid path: Path must start with '/'");
+		}
+		
+		if (value.length() > 1 && value.charAt(value.length() - 1) == '/') {
+			throw new ValidatorException("Invalid path: Path may not end with '/'");
 		}
 	}
 }

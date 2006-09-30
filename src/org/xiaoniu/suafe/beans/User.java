@@ -1,3 +1,21 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.beans;
 
 import java.util.ArrayList;
@@ -12,7 +30,7 @@ import org.xiaoniu.suafe.Constants;
  * 
  * @author Shaun Johnson
  */
-public class User implements Comparable {
+public class User extends GroupMemberObject implements Comparable<User> {
 	
 	/**
 	 * The User's name. This field must contain a unique value.
@@ -22,12 +40,12 @@ public class User implements Comparable {
 	/**
 	 * List of Groups to which the User is assigned.
 	 */
-	protected List groups;
+	protected List<Group> groups;
 	
 	/**
 	 * List of AccessRules in which the User is referenced.
 	 */
-	protected List accessRules;
+	protected List<AccessRule> accessRules;
 	
 	/**
 	 * Default constructor.
@@ -36,8 +54,8 @@ public class User implements Comparable {
 		super();
 		
 		this.name = null;
-		this.groups = new ArrayList();
-		this.accessRules = new ArrayList();
+		this.groups = new ArrayList<Group>();
+		this.accessRules = new ArrayList<AccessRule>();
 	}
 	
 	/**
@@ -49,8 +67,8 @@ public class User implements Comparable {
 		super();
 		
 		this.name = name;
-		this.groups = new ArrayList();
-		this.accessRules = new ArrayList();
+		this.groups = new ArrayList<Group>();
+		this.accessRules = new ArrayList<AccessRule>();
 	}
 	
 	/**
@@ -92,7 +110,7 @@ public class User implements Comparable {
 	 * 
 	 * @return list of Groups to which the User is assigned.
 	 */
-	public List getGroups() {
+	public List<Group> getGroups() {
 		return groups;
 	}
 
@@ -101,7 +119,7 @@ public class User implements Comparable {
 	 * 
 	 * @param groups New list of groups to which the user is assigned.
 	 */
-	public void setGroups(List groups) {
+	public void setGroups(List<Group> groups) {
 		this.groups = groups;
 	}
 	
@@ -136,16 +154,16 @@ public class User implements Comparable {
 	 * 
 	 * @return Returns the AccessRules in which the User is referenced.
 	 */
-	public List getAccessRules() {
+	public List<AccessRule> getAccessRules() {
 		return accessRules;
 	}
 	
 	/**
 	 * Sets the list of AccessRules in which the User is referenced.
 	 * 
-	 * @param groups New list of AccessRules in which the user is referenced.
+	 * @param accessRules New list of AccessRules in which the user is referenced.
 	 */
-	public void setAccessRules(List accessRules) {
+	public void setAccessRules(List<AccessRule> accessRules) {
 		this.accessRules = accessRules;
 	}
 	
@@ -157,21 +175,11 @@ public class User implements Comparable {
 	public void addAccessRule(AccessRule accessRule) {
 		accessRules.add(accessRule);
 	}
-	
+
 	/**
-	 * Compares this to the specified object.
-	 * Used when sorting lists of User objects.
 	 * 
-	 * @param other Other User object to which this is compared.
-	 * @throws ClassCastException Other is not an instance of User.
 	 */
-	public int compareTo(Object other) throws ClassCastException {
-		if (!(other instanceof User)) {
-			throw new ClassCastException("Invalid object type. Cannot cast to User.");
-		}	
-		
-		User otherUser = (User)other;
-		
+	public int compareTo(User otherUser) {
 		return this.toString().compareTo(otherUser.toString());
 	}
 }

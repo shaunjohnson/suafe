@@ -1,3 +1,20 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
 package org.xiaoniu.suafe.beans;
 
 import org.xiaoniu.suafe.Constants;
@@ -13,7 +30,7 @@ import org.xiaoniu.suafe.validators.Validator;
  * 
  * @author Shaun Johsnon
  */
-public class AccessRule implements Comparable {
+public class AccessRule implements Comparable<AccessRule> {
 		
 	/**
 	 * Path referenced by the AccessRule.
@@ -207,19 +224,11 @@ public class AccessRule implements Comparable {
 	}
 	
 	/**
-	 * Compares this to the specified object.
-	 * Used when sorting lists of AccessRule objects.
+	 * Compares this object to another. 
 	 * 
-	 * @param other Other AccessRule object to which this is compared.
-	 * @throws ClassCastException Other is not an instance of AccessRule.
+	 * @param otherAccessRule The other AccessRule to use for comparison.
 	 */
-	public int compareTo(Object other) throws ClassCastException {
-		if (!(other instanceof AccessRule)) {
-			throw new ClassCastException("Invalid object type. Cannot cast to AccessRule.");
-		}		
-		
-		AccessRule otherAccessRule = (AccessRule)other;
-		
+	public int compareTo(AccessRule otherAccessRule) {
 		return this.toString().compareTo(otherAccessRule.toString());
 	}
 }

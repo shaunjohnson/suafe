@@ -1,9 +1,21 @@
-/*
- * Created on Jul 26, 2006
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
  */
+
 package org.xiaoniu.suafe.renderers;
 
 import java.awt.Component;
@@ -19,10 +31,13 @@ import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
 
 /**
- * @author spjohnso
+ * Default list cell renderer.
+ * 
+ * @author Shaun Johnson
  */
 public class MyListCellRenderer extends JLabel implements ListCellRenderer {
 
+	private static final long serialVersionUID = 2612512361404880700L;
 	private static ImageIcon userIcon = null;
 	private static ImageIcon groupIcon = null;
 	private static ImageIcon repositoryIcon = null;

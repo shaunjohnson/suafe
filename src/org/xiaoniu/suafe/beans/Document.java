@@ -1,10 +1,26 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
 package org.xiaoniu.suafe.beans;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -23,7 +39,7 @@ public class Document {
 	/**
 	 * List of all AccessRules.
 	 */
-	protected static List accessRules = new ArrayList();
+	protected static List<AccessRule> accessRules = null;
 
 	/**
 	 * Authentication file being edited.
@@ -33,22 +49,22 @@ public class Document {
 	/**
 	 * List of all Groups.
 	 */
-	protected static List groups = new ArrayList();
+	protected static List<Group> groups = null;
 
 	/**
 	 * List of all Paths.
 	 */
-	protected static List paths = new ArrayList();
+	protected static List<Path> paths = null;
 
 	/**
 	 * List of all Repositories.
 	 */
-	protected static List repositories = new ArrayList();
+	protected static List<Repository> repositories = null;
 
 	/**
 	 * List of all Users.
 	 */
-	protected static List users = new ArrayList();
+	protected static List<User> users = null;
 
 	/**
 	 * Resets all data stored within the document.
@@ -56,11 +72,11 @@ public class Document {
 	public static void initialize() {
 		file = null;
 
-		users = new ArrayList();
-		groups = new ArrayList();
-		repositories = new ArrayList();
-		accessRules = new ArrayList();
-		paths = new ArrayList();
+		users = new ArrayList<User>();
+		groups = new ArrayList<Group>();
+		repositories = new ArrayList<Repository>();
+		accessRules = new ArrayList<AccessRule>();
+		paths = new ArrayList<Path>();
 	}
 	
 	/**
@@ -162,7 +178,7 @@ public class Document {
 		
 		return addAccessRuleForUser(path, user, level);
 	}
-	
+		
 	/**
 	 * Adds a new Group if one by the same name doesn't already exist.
 	 * If an existing group exists it will be returned intact.
@@ -179,17 +195,14 @@ public class Document {
 		Group group = findGroup(groupName);
 	
 		if (group == null) {
-			List groupMemberList = new ArrayList();
-			List userMemberList = new ArrayList();
+			List<Group> groupMemberList = new ArrayList<Group>();
+			List<User> userMemberList = new ArrayList<User>();
 			
 			group = new Group(groupName, groupMemberList, userMemberList);
 	
 			// Add Group members
 			if (groupMembers != null) {
-				Iterator iterator = groupMembers.iterator();
-	
-				while (iterator.hasNext()) {
-					Object object = iterator.next();
+				for (Object object : groupMembers) {
 					Group member = null;
 					
 					if (object instanceof Group) {
@@ -206,10 +219,8 @@ public class Document {
 
 			// Add User members
 			if (userMembers != null) {
-				Iterator iterator = userMembers.iterator();
 				
-				while (iterator.hasNext()) {
-					Object object = iterator.next();
+				for (Object object : userMembers) {
 					User member = null;
 					
 					if (object instanceof User) {
@@ -240,7 +251,7 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public static Path addPath(Repository repository, String relativePath) throws ApplicationException {
-		Validator.validateRelativePath(relativePath);
+		Validator.validatePath(relativePath);
 		
 		Path path = findPath(repository, relativePath);
 		
@@ -355,13 +366,9 @@ public class Document {
 	}
 
 	private static void deleteGroupAccessRules(Group group) {
-		List deleteList = new ArrayList();
-		Iterator iterator = accessRules.iterator();
-		AccessRule rule = null;
+		List<AccessRule> deleteList = new ArrayList<AccessRule>();
 		
-		while(iterator.hasNext()) {
-			rule = (AccessRule)iterator.next();
-			
+		for (AccessRule rule : accessRules) {
 			if (rule.getGroup() != null && rule.getGroup().equals(group)) {
 				deleteList.add(rule);
 			}
@@ -387,13 +394,9 @@ public class Document {
 	}
 
 	private static void deletePathAccessRules(Path path) {
-		List deleteList = new ArrayList();
-		Iterator iterator = accessRules.iterator();
-		AccessRule rule = null;
-		
-		while(iterator.hasNext()) {
-			rule = (AccessRule)iterator.next();
-			
+		List<AccessRule> deleteList = new ArrayList<AccessRule>();
+
+		for (AccessRule rule : accessRules) {	
 			if (rule.getPath() != null && rule.getPath().equals(path)) {
 				deleteList.add(rule);
 				
@@ -418,13 +421,9 @@ public class Document {
 	}
 
 	private static void deleteRepositoryAccessRules(Repository repository) {
-		List deleteList = new ArrayList();
-		Iterator iterator = accessRules.iterator();
-		AccessRule rule = null;
-		
-		while(iterator.hasNext()) {
-			rule = (AccessRule)iterator.next();
-			
+		List<AccessRule> deleteList = new ArrayList<AccessRule>();
+
+		for (AccessRule rule : accessRules) {	
 			if (rule.getPath().getRepository()!= null && rule.getPath().getRepository().equals(repository)) {
 				deleteList.add(rule);
 				
@@ -442,13 +441,9 @@ public class Document {
 	}
 
 	private static void deleteRepositoryPaths(Repository repository) throws ApplicationException {
-		List deleteList = new ArrayList();
-		Iterator iterator = repository.getPaths().iterator();
-		Path path = null;
+		List<Path> deleteList = new ArrayList<Path>();
 		
-		while(iterator.hasNext()) {
-			path = (Path)iterator.next();
-			
+		for (Path path : repository.getPaths()) {
 			deleteList.add(path);
 			deletePathAccessRules(path);
 		}
@@ -469,13 +464,9 @@ public class Document {
 	}
 
 	private static void deleteUserAccessRules(User user) {
-		List deleteList = new ArrayList();
-		Iterator iterator = accessRules.iterator();
-		AccessRule rule = null;
-		
-		while(iterator.hasNext()) {
-			rule = (AccessRule)iterator.next();
-			
+		List<AccessRule> deleteList = new ArrayList<AccessRule>();
+
+		for (AccessRule rule : accessRules) {	
 			if (rule.getUser() != null && rule.getUser().equals(user)) {
 				// Remove access rule from path
 				rule.getPath().removeAccessRule(rule);
@@ -531,12 +522,9 @@ public class Document {
 			return null;
 		}
 		
-		Iterator iterator = group.getAccessRules().iterator();
 		AccessRule foundRule = null;
 		
-		while (iterator.hasNext()) {
-			AccessRule rule = (AccessRule)iterator.next();
-			
+		for (AccessRule rule : group.getAccessRules()) {
 			if (rule.getPath() == path) {
 				foundRule = rule;
 				break;
@@ -557,12 +545,9 @@ public class Document {
 			return null;
 		}
 		
-		Iterator iterator = user.getAccessRules().iterator();
 		AccessRule foundRule = null;
 		
-		while (iterator.hasNext()) {
-			AccessRule rule = (AccessRule)iterator.next();
-			
+		for (AccessRule rule : user.getAccessRules()) {	
 			if (rule.getPath() == path) {
 				foundRule = rule;
 				break;
@@ -579,7 +564,7 @@ public class Document {
 	}
 
 	public static Path findPath(Repository repository, String relativePath) throws ApplicationException {
-		Validator.validateRelativePath(relativePath);
+		Validator.validatePath(relativePath);
 		
 		Path path = null;
 		boolean found = false;
@@ -716,13 +701,11 @@ public class Document {
 	 * relative path and level of access for each AccessRule in which the
 	 * Group is referenced.
 	 * 
-	 * @param groupName Name of the Group.
+	 * @param group Group.
 	 * @return Object array of AccessRule information.
 	 * @throws ApplicationException
 	 */
 	public static Object[][] getGroupAccessRules(Group group) throws ApplicationException {
-		Object[][] retval = null;
-		
 		if (group == null || group.getAccessRules() == null) {
 			return null;
 		} else {
@@ -770,7 +753,7 @@ public class Document {
 		} else {	
 			Collections.sort(groups);
 	
-			return groups.toArray();
+			return (Object[]) groups.toArray();
 		}
 	}
 
@@ -801,7 +784,7 @@ public class Document {
 			Collections.sort(group.getGroupMembers());
 			Collections.sort(group.getUserMembers());
 			
-			List combinedList = new ArrayList();
+			List<Object> combinedList = new ArrayList<Object>();
 			
 			combinedList.addAll(group.getGroupMembers());
 			combinedList.addAll(group.getUserMembers());
@@ -816,7 +799,7 @@ public class Document {
 		} else {
 			Collections.sort(group.getGroupMembers());
 	
-			return group.getGroupMembers().toArray();
+			return (Object[]) group.getGroupMembers().toArray();
 		}
 	}
 	
@@ -846,7 +829,7 @@ public class Document {
 		} else {
 			Collections.sort(group.getUserMembers());
 	
-			return group.getUserMembers().toArray();
+			return (Object[]) group.getUserMembers().toArray();
 		}
 	}
 
@@ -855,7 +838,7 @@ public class Document {
 	 * 
 	 * @return List of Groups.
 	 */
-	public static List getGroups() {
+	public static List<Group> getGroups() {
 		return groups;
 	}
 
@@ -865,14 +848,11 @@ public class Document {
 	 * Group name and level of access for each AccessRule defined for the
 	 * Path.
 	 * 
-	 * @param repositoryName Name of the Repository.
-	 * @param pathString Relative path within the Repository.
+	 * @param path Relative path within the Repository.
 	 * @return Object array of AccessRule information.
 	 * @throws ApplicationException
 	 */
 	public static Object[][] getPathAccessRules(Path path) throws ApplicationException {
-		Object[][] retval = null;
-				
 		if (path == null || path.getAccessRules() == null) {
 			return null;
 		} else {
@@ -896,7 +876,7 @@ public class Document {
 		}
 	}
 
-	public static List getPaths() {
+	public static List<Path> getPaths() {
 		return paths;
 	}
 
@@ -906,28 +886,21 @@ public class Document {
 	 * relative path, User or Group name and level of access for 
 	 * each AccessRule in which the Repostiory is referenced.
 	 * 
-	 * @param repositoryName Name of the Repository.
+	 * @param repository Repository.
 	 * @return Object array of AccessRule information.
 	 * @throws ApplicationException
 	 */
 	public static Object[][] getRepositoryAccessRules(Repository repository) throws ApplicationException {
-		Object[][] retval = null;
-		
 		if (repository == null || repository.getPaths() == null) {
 			return null;
 		} else {
-			Iterator paths = repository.getPaths().iterator();
-			List accessRules = new ArrayList();
+			List<AccessRule> accessRules = new ArrayList<AccessRule>();
 			
-			while (paths.hasNext()) {
-				Path path = (Path)paths.next();
-				
+			for (Path path : repository.getPaths()) {	
 				if (path.getAccessRules() != null) {
-					Iterator rules = path.getAccessRules().iterator();
-				
-					while (rules.hasNext()) {
-						accessRules.add(rules.next());
-					}					
+					for (AccessRule rule : path.getAccessRules()) {
+						accessRules.add(rule);
+					}
 				}
 			}
 			 
@@ -952,7 +925,7 @@ public class Document {
 		}
 	}
 
-	public static List getRepositories() {
+	public static List<Repository> getRepositories() {
 		return repositories;
 	}
 
@@ -980,13 +953,11 @@ public class Document {
 		} else {
 			Collections.sort(repositories);
 
-			return repositories.toArray();
+			return (Object[])repositories.toArray();
 		}
 	}
 	
 	public static Object[][] getServerAccessRules() throws ApplicationException {
-		Object[][] retval = null;
-		
 		if (accessRules == null) {
 			return null;
 		} else {
@@ -1026,7 +997,6 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public static Object[][] getUserAccessRules(String userName) throws ApplicationException {
-		Object[][] retval = null;
 		User user = findUser(userName);
 		
 		if (user == null || user.getAccessRules() == null) {
@@ -1049,8 +1019,6 @@ public class Document {
 	}
 
 	public static Object[][] getUserAccessRuleObjects(User user) throws ApplicationException {
-		Object[][] retval = null;
-		
 		if (user == null || user.getAccessRules() == null) {
 			return null;
 		} else {
@@ -1101,11 +1069,11 @@ public class Document {
 		if (user == null || user.getGroups() == null) {
 			return null;
 		} else {
-			List groups = user.getGroups();
+			List<Group> groups = user.getGroups();
 			
 			Collections.sort(groups);
 			
-			return groups.toArray();
+			return (Object[])groups.toArray();
 		}
 	}
 	
@@ -1115,7 +1083,7 @@ public class Document {
 		} else {
 			Collections.sort(users);
 			
-			return users.toArray();
+			return (Object[])users.toArray();
 		}
 	}
 	
@@ -1123,7 +1091,7 @@ public class Document {
 		if (users == null) {
 			return null;
 		} else {
-			List filteredUsers = users;
+			List<User> filteredUsers = users;
 			User allUsers = findUser(Constants.ALL_USERS);
 			
 			if (allUsers != null) {
@@ -1132,7 +1100,7 @@ public class Document {
 			
 			Collections.sort(filteredUsers);
 			
-			return filteredUsers.toArray();
+			return (Object[]) filteredUsers.toArray();
 		}
 	}
 	
@@ -1169,16 +1137,11 @@ public class Document {
 	}
 
 	private static void removeUserFromAssignedGroups(User user) {
-		Iterator iterator = user.getGroups().iterator();
-		Group group = null;
-		
-		while(iterator.hasNext()) {
-			group = (Group)iterator.next();
-			
+		for (Group group : user.getGroups()) {
 			group.getUserMembers().remove(user);
 		}
 		
-		user.setGroups(new ArrayList());
+		user.setGroups(new ArrayList<Group>());
 	}
 	
 	/**
@@ -1188,17 +1151,14 @@ public class Document {
 		Document.file = file;
 	}
 
-	public static void changeUserMembership(User user, Vector newGroupObjects) throws ApplicationException {
+	public static void changeUserMembership(User user, Vector<Group> newGroupObjects) throws ApplicationException {
 		// Remove from old groups
 		 removeUserFromAssignedGroups(user);
 		
 		// Add to new groups
-		List newGroups = new ArrayList(newGroupObjects.size());
-		Iterator iterator = newGroupObjects.iterator();
+		List<Group> newGroups = new ArrayList<Group>(newGroupObjects.size());
 		
-		while (iterator.hasNext()) {
-			Group group = (Group)iterator.next();
-			
+		for (Group group : newGroupObjects) {
 			group.addUserMember(user);
 			newGroups.add(group);
 		}
@@ -1208,25 +1168,17 @@ public class Document {
 
 	private static void removeGroupMembers(Group group) {
 		// Remove groups
-		Iterator groups = group.getGroupMembers().iterator();
-		
-		while (groups.hasNext()) {
-			Group member = (Group)groups.next();
-			
+		for (Group member : group.getGroupMembers()) {
 			member.removeGroup(group);
 		}
-		
+				
 		group.getGroupMembers().clear();
 		
 		// Removed users
-		Iterator users = group.getUserMembers().iterator();
-		
-		while (users.hasNext()) {
-			User member = (User)users.next();
-			
+		for (User member : group.getUserMembers()) {
 			member.removeGroup(group);
 		}
-		
+				
 		group.getUserMembers().clear();
 	}	
 	
@@ -1236,75 +1188,45 @@ public class Document {
 	 * @param userMembers
 	 * @throws ApplicationException
 	 */
-	public static void changeGroupMembers(Group group, Vector groupMembers, Vector userMembers) throws ApplicationException {
+	public static void changeGroupMembers(Group group, Vector<Group> groupMembers, Vector<User> userMembers) throws ApplicationException {
 		removeGroupMembers(group);
 				
-		Iterator iterator = groupMembers.iterator();
-		
-		while (iterator.hasNext()) {
-			Group member = (Group)iterator.next();
-			
-			if (member == null) {
-				throw new ApplicationException("Error finding group");
-			}
-			
+		for (Group member : groupMembers) {
 			member.addGroup(group);
 			group.addGroupMember(member);
 		}
 		
-		iterator = userMembers.iterator();
-		
-		while (iterator.hasNext()) {
-			User member = (User)iterator.next();
-			
-			if (member == null) {
-				throw new ApplicationException("Error finding user");
-			}
-			
+		for (User member : userMembers) {
 			member.addGroup(group);
 			group.addUserMember(member);
 		}
-		
-		String name = group.getName();
 	}
 	
 	public static User cloneUser(User user, String userName) throws ApplicationException {
 		User clone = addUser(userName);
-		Iterator groups = user.getGroups().iterator();
-		Iterator accessRules = user.getAccessRules().iterator();
 		
-		while (groups.hasNext()) {
-			Group group = (Group)groups.next();
-			
+		for (Group group : user.getGroups()) {
 			group.addUserMember(clone);
 			clone.addGroup(group);
 		}
 		
-		while (accessRules.hasNext()) {
-			AccessRule accessRule = (AccessRule)accessRules.next();
-						
-			addAccessRuleForUser(accessRule.getPath(), clone, accessRule.getLevel());
+		for (AccessRule rule : user.getAccessRules()) {
+			addAccessRuleForUser(rule.getPath(), clone, rule.getLevel());
 		}
-		
+				
 		return clone;
 	}
 	
 	public static Group cloneGroup(Group group, String groupName) throws ApplicationException {
 		Group clone = addGroup(groupName, group.getGroupMembers(), group.getUserMembers());
-		Iterator groups = group.getGroups().iterator();
-		Iterator accessRules = group.getAccessRules().iterator();
 		
-		while (groups.hasNext()) {
-			Group groupObject = (Group)groups.next();
-			
+		for (Group groupObject : group.getGroups()) {
 			groupObject.addGroupMember(clone);
 			clone.addGroup(group);
 		}
 		
-		while (accessRules.hasNext()) {
-			AccessRule accessRule = (AccessRule)accessRules.next();
-						
-			addAccessRuleForGroup(accessRule.getPath(), clone, accessRule.getLevel());
+		for (AccessRule rule : group.getAccessRules()) {
+			addAccessRuleForGroup(rule.getPath(), clone, rule.getLevel());
 		}
 		
 		return clone;

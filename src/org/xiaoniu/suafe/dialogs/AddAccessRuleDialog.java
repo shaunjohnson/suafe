@@ -1,3 +1,21 @@
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
+ *
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
+ */
+
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.FlowLayout;
@@ -31,12 +49,14 @@ import org.xiaoniu.suafe.models.UserListModel;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
-
 /**
+ * Dialog that allows a user to add an access rule.
+ * 
  * @author Shaun Johnson
  */
 public class AddAccessRuleDialog extends JDialog implements ActionListener {
 
+	private static final long serialVersionUID = -1001510687982587543L;
 	private javax.swing.JPanel jContentPane = null;
 	private Message message = null;
 	private Repository repository = null;
@@ -75,6 +95,7 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 	private JTextField pathTextField = null;
 	private JButton addRepositoryButton = null;
 	private JButton browseButton = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -100,6 +121,7 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 		
 		initialize();
 	}
+	
 	/**
 	 * This method initializes this
 	 * 
@@ -110,7 +132,7 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addaccessrule.title"));
-		this.setSize(447, 256);
+		this.setSize(550, 256);
 		this.setContentPane(getJContentPane());
 		
 	}
@@ -662,7 +684,7 @@ public class AddAccessRuleDialog extends JDialog implements ActionListener {
 		if (pathTextField == null) {
 			pathTextField = new JTextField();
 			
-			pathTextField.setColumns(20);
+			pathTextField.setColumns(30);
 			
 			pathTextField.setText(path);
 		}

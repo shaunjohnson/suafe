@@ -1,9 +1,21 @@
-/*
- * Created on Jul 28, 2006
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
  */
+
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.FlowLayout;
@@ -19,11 +31,15 @@ import javax.swing.JTextField;
 
 import org.xiaoniu.suafe.beans.Subversion;
 import javax.swing.JPasswordField;
+
 /**
- * @author spjohnso
+ * Dialog that allows a user to specify Subversion credentials.
+ * 
+ * @author Shaun Johnson
  */
 public class SubversionLoginDialog extends JDialog implements ActionListener {
 
+	private static final long serialVersionUID = 8590748922235609033L;
 	private javax.swing.JPanel jContentPane = null;
 	private JPanel buttonPanel = null;
 	private JButton loginButton = null;

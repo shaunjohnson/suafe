@@ -1,15 +1,26 @@
-/*
- * Created on Jul 28, 2006
+/**
+ * @copyright
+ * ====================================================================
+ * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * This software is licensed as described in the file LICENSE, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://suafe.xiaoniu.org.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals.  For exact contribution history, see the revision
+ * history and logs, available at http://suafe.xiaoniu.org/.
+ * ====================================================================
+ * @endcopyright
  */
+
 package org.xiaoniu.suafe.dialogs;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -22,13 +33,15 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
 /**
- * @author spjohnso
+ * Represents a node in the Subversion path tree.
+ * 
+ * @author Shaun Johnson
  */
 public class SvnTreeNode implements MutableTreeNode {
 	
 	private MutableTreeNode parent;
 	
-	private Vector children;
+	private Vector<MutableTreeNode> children;
 	
 	private Object userObject;
 	
@@ -137,20 +150,18 @@ public class SvnTreeNode implements MutableTreeNode {
 		return path.toString();
 	}
 	
-	private Vector getChildren() {	
+	@SuppressWarnings("unchecked")
+	private Vector<MutableTreeNode> getChildren() {	
 		if (children == null) {
-			children = new Vector();
+			children = new Vector<MutableTreeNode>();
 			
 			if (repository != null) {
 				try {
-					List entries = new Vector(repository.getDir(getPath(), -1, null, (Collection) null));
+					List<SVNDirEntry> entries = new Vector(repository.getDir(getPath(), -1, null, (Collection) null));
 					
 					Collections.sort(entries);
 					
-					Iterator iterator = entries.iterator();
-					
-					while (iterator.hasNext()) {
-						SVNDirEntry entry = (SVNDirEntry) iterator.next();
+					for(SVNDirEntry entry : entries) {
 						
 						if (entry.getKind() == SVNNodeKind.DIR) {
 							SvnTreeNode newNode = new SvnTreeNode(entry.getName(), repository);
