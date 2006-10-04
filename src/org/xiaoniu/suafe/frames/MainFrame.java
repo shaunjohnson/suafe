@@ -31,6 +31,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
@@ -114,7 +116,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * @author Shaun Johnson
  */
 public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
-		ListSelectionListener, MouseListener, TreeSelectionListener {
+		ListSelectionListener, MouseListener, TreeSelectionListener, WindowListener {
 	
 	private static final long serialVersionUID = -4378074679449146788L;
 	private ImageIcon pathEditIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/PathEdit.gif"));
@@ -320,11 +322,12 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		getGroupsPopupMenu();
 		this.setSize(800, 700);
 		this.setContentPane(getJContentPane());
-		this.setTitle(ResourceUtil.getFormattedString("application.name",
-				"Untitled"));
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.center();
 		this.addKeyListener(this);
+		this.addWindowListener(this);
+		
+		updateTitle();
 	}
 
 	/**
@@ -735,8 +738,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 		getMainTabbedPane().setSelectedComponent(getUsersSplitPane());
 
-		this.setTitle(ResourceUtil.getFormattedString("application.name",
-				"Untitled"));
+		updateTitle();
 	}
 
 	private void fileOpen() {
@@ -762,8 +764,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 				refreshAccessRuleTree(null);
 
-				this.setTitle(ResourceUtil.getFormattedString(
-						"application.name", file.getName()));
+				Document.resetUnsavedChangesFlag();
+				updateTitle();
 			} catch (Exception e) {
 				displayError(e.getMessage());
 			}
@@ -797,9 +799,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 					File file = fcSave.getSelectedFile();
 
 					FileGenerator.generate(file);
+					
+					Document.setFile(file);
 
-					this.setTitle(ResourceUtil.getFormattedString(
-							"application.name", file.getName()));
+					Document.resetUnsavedChangesFlag();
+					updateTitle();
 				} catch (Exception e) {
 					displayError(e.getMessage());
 				}
@@ -807,6 +811,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		} else {
 			try {
 				FileGenerator.generate(Document.getFile());
+				
+				Document.resetUnsavedChangesFlag();
+				updateTitle();
 			} catch (Exception e) {
 				displayError(e.getMessage());
 			}
@@ -830,8 +837,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 				Document.setFile(file);
 
-				this.setTitle(ResourceUtil.getFormattedString(
-						"application.name", file.getName()));
+				Document.resetUnsavedChangesFlag();
+				updateTitle();
 			} catch (Exception e) {
 				displayError(e.getMessage());
 			}
@@ -902,6 +909,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (message.getState() == Message.SUCCESS) {
 			refreshUserList((User)message.getUserObject());
 		}
+		
+		updateTitle();
 	}
 	
 	private void addGroup() {
@@ -915,6 +924,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (message.getState() == Message.SUCCESS) {
 			refreshGroupList((Group)message.getUserObject());
 		}
+		
+		updateTitle();
 	}
 
 	private void addAccessRule() {
@@ -936,6 +947,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		else {
 			refreshAccessRuleTree(userObject);
 		}
+		
+		updateTitle();
 	}
 
 	private void editAccessRule() {
@@ -1010,9 +1023,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			}
 			catch (ApplicationException ae) {
 				displayError(ResourceUtil.getString("mainframe.error.erroreditingaccessrule"));
-			}
-			
+			}			
 		}
+		
+		updateTitle();
 	}
 	
 	private void deleteAccessRule() {
@@ -1083,6 +1097,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				}
 			}
 		}
+		
+		updateTitle();
 	}
 	
 	private void helpAbout() {
@@ -1146,6 +1162,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				refreshAccessRuleTree(null);
 			}
 		}
+		
+		updateTitle();
 	}
 
 	private void editUser() {
@@ -1178,6 +1196,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			refreshUserList(selectedUser);
 			refreshAccessRuleTree(null);
 		}
+		
+		updateTitle();
 	}
 	
 	private void cloneUser() {
@@ -1210,6 +1230,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			refreshUserList(selectedUser);
 			refreshAccessRuleTree(null);
 		}
+		
+		updateTitle();
 	}
 	
 	private void cloneGroup() {
@@ -1243,6 +1265,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			refreshGroupList(selectedGroup);
 			refreshAccessRuleTree(null);
 		}
+		
+		updateTitle();
 	}
 	
 	private void changeMembership() {
@@ -1275,6 +1299,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			refreshUserList(selectedUser);
 			refreshAccessRuleTree(null);
 		}
+		
+		updateTitle();
 	}
 	
 	private void addRemoveMembers() {
@@ -1308,6 +1334,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			refreshGroupList(selectedGroup);
 			refreshAccessRuleTree(null);
 		}
+		
+		updateTitle();
 	}
 
 	private void deleteGroup() {
@@ -1345,6 +1373,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				refreshAccessRuleTree(null);
 			}
 		}
+		
+		updateTitle();
 	}
 
 	private void editGroup() {
@@ -1378,6 +1408,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			refreshGroupList(selectedGroup);
 			refreshAccessRuleTree(null);
 		}
+		
+		updateTitle();
 	}
 	
 	private void deletePath() {
@@ -1410,6 +1442,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				refreshAccessRuleTree(null);
 			}
 		}		
+		
+		updateTitle();
 	}
 	
 	private void editPath() {
@@ -1434,6 +1468,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				refreshAccessRuleTree(message.getUserObject());				
 			}
 		}		
+		
+		updateTitle();
 	}
 
 	private void deleteRepository() {
@@ -1466,6 +1502,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				refreshAccessRuleTree(null);
 			}
 		}		
+		
+		updateTitle();
 	}
 
 	private void editRepository() {
@@ -1490,6 +1528,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				refreshAccessRuleTree(message.getUserObject());
 			}
 		}
+		
+		updateTitle();
 	}
 
 	private void filePrint() {
@@ -1553,6 +1593,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		} else if (e.getActionCommand().equals("Print")) {
 			filePrint();
 		} else if (e.getActionCommand().equals("Exit")) {
+			checkForUnsavedChanges();
 			System.exit(0);
 		} else if (e.getActionCommand().equals("Help")) {
 			showHelp();
@@ -3202,4 +3243,66 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		return cloneGroupMenuItem;
 	}
-        }  
+	
+	private void updateTitle() {
+		final String untitled = ResourceUtil.getString("application.untitled");
+		String filename = "";
+		
+		// Add an asterisk if the file has changed.
+		if (Document.hasUnsavedChanges()) {
+			filename = "*";
+		}
+		
+		// Add Untitled for new files or the file name for existing files
+		if (Document.getFile() == null) {
+			filename += untitled;
+		}
+		else {
+			filename += Document.getFile().getName();
+		}
+		
+		this.setTitle(ResourceUtil.getFormattedString("application.name", filename));
+	}
+	
+	private void checkForUnsavedChanges() {
+		if (Document.hasUnsavedChanges()) {
+			int response = JOptionPane.showConfirmDialog(this,
+					ResourceUtil.getString("application.unsavedchanges"),
+					ResourceUtil.getString("application.warning"), 
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+			
+			if (response == JOptionPane.YES_OPTION) {
+				fileSave();
+			}
+		}
+	}
+
+	public void windowActivated(WindowEvent event) {
+		// Do nothing
+	}
+
+	public void windowClosed(WindowEvent event) {
+		// Do nothing
+	}
+
+	public void windowClosing(WindowEvent event) {
+		checkForUnsavedChanges();
+	}
+
+	public void windowDeactivated(WindowEvent event) {
+		// Do nothing	
+	}
+
+	public void windowDeiconified(WindowEvent event) {
+		// Do nothing	
+	}
+
+	public void windowIconified(WindowEvent event) {
+		// Do nothing
+	}
+
+	public void windowOpened(WindowEvent event) {
+		// Do nothing
+	}
+}  
