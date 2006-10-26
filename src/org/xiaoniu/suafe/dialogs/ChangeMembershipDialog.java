@@ -20,6 +20,7 @@ package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.xiaoniu.suafe.Utilities;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Message;
@@ -46,7 +48,6 @@ import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
-import java.awt.FlowLayout;
 
 /**
  * Dialog that allows a user to change a user's group membership.
@@ -99,7 +100,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 	 */
 	private void initialize() {
 		try {
-			Group[] groups = (Group[])Document.getUserGroupObjects(user);
+			Group[] groups = Document.getUserGroupsArray(user);
 			
 			if (groups != null) {
 				List<Group> memberOfList = Arrays.asList(groups);
@@ -110,7 +111,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 				memberOf = new Vector<Group>();
 			}
 			
-			Group[] allGroups = (Group[])Document.getGroupObjects();
+			Group[] allGroups = Document.getGroupsArray();
 			
 			if (allGroups != null) {
 				List<Group> notMemberOfList = Arrays.asList(allGroups);
@@ -364,7 +365,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 
 	private void assign() {
 		if (!getNotMemberOfList().isSelectionEmpty()) {
-			Group[] groupObjects = (Group[])getNotMemberOfList().getSelectedValues();
+			Group[] groupObjects = Utilities.convertToArray(getNotMemberOfList().getSelectedValues(), new Group[0]);
 			List<Group> values = Arrays.asList(groupObjects); 
 			
 			memberOf.addAll(values);
@@ -380,7 +381,7 @@ public class ChangeMembershipDialog extends JDialog implements ActionListener, M
 	
 	private void unassign() {
 		if (!getMemberOfList().isSelectionEmpty()) {		
-			Group[] groupObjects = (Group[])getMemberOfList().getSelectedValues();
+			Group[] groupObjects = Utilities.convertToArray(getMemberOfList().getSelectedValues(), new Group[0]);
 			List<Group> values = Arrays.asList(groupObjects);
 			
 			memberOf.removeAll(values);

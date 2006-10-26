@@ -803,6 +803,16 @@ public class Document {
 		}
 	}
 	
+	public static Group[] getGroupsArray() {
+		if (groups == null) {
+			return null;
+		} else {	
+			Collections.sort(groups);
+	
+			return groups.toArray(new Group[0]);
+		}
+	}
+	
 	public static Object[] getGroupObjects() {
 		if (groups == null) {
 			return null;
@@ -849,13 +859,13 @@ public class Document {
 		}
 	}
 	
-	public static Object[] getGroupMemberGroupObjects(Group group) throws ApplicationException {
+	public static Group[] getGroupMemberGroups(Group group) throws ApplicationException {
 		if (group == null || group.getGroupMembers() == null) {
 			return null;
 		} else {
 			Collections.sort(group.getGroupMembers());
 	
-			return (Object[]) group.getGroupMembers().toArray();
+			return group.getGroupMembers().toArray(new Group[0]);
 		}
 	}
 	
@@ -879,13 +889,13 @@ public class Document {
 		}
 	}
 	
-	public static Object[] getGroupMemberUserObjects(Group group) throws ApplicationException {
+	public static User[] getGroupMemberUsers(Group group) throws ApplicationException {
 		if (group == null || group.getUserMembers() == null) {
 			return null;
 		} else {
 			Collections.sort(group.getUserMembers());
 	
-			return (Object[]) group.getUserMembers().toArray();
+			return group.getUserMembers().toArray(new User[0]);
 		}
 	}
 
@@ -1120,6 +1130,18 @@ public class Document {
 			return groupNames;
 		}
 	}
+	
+	public static Group[] getUserGroupsArray(User user) throws ApplicationException {		
+		if (user == null || user.getGroups() == null) {
+			return null;
+		} else {
+			List<Group> groups = user.getGroups();
+			
+			Collections.sort(groups);
+			
+			return groups.toArray(new Group[0]);
+		}
+	}
 
 	public static Object[] getUserGroupObjects(User user) throws ApplicationException {		
 		if (user == null || user.getGroups() == null) {
@@ -1143,7 +1165,7 @@ public class Document {
 		}
 	}
 	
-	public static Object[] getUserObjectsExcludeAllUsers() throws ApplicationException {
+	public static User[] getUserObjectsExcludeAllUsers() throws ApplicationException {
 		if (users == null) {
 			return null;
 		} else {
@@ -1156,7 +1178,7 @@ public class Document {
 			
 			Collections.sort(filteredUsers);
 			
-			return (Object[]) filteredUsers.toArray();
+			return filteredUsers.toArray(new User[0]);
 		}
 	}
 	

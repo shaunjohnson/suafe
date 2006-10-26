@@ -42,6 +42,7 @@ public class Constants {
 	public static final String HEADER_0_2 = "# Created by Suafe 0.2 (http://suafe.xiaoniu.org)";
 	public static final String HEADER_0_3 = "# Created by Suafe 0.3 (http://suafe.xiaoniu.org)";
 	public static final String HEADER_0_4 = "# Created by Suafe 0.4 (http://suafe.xiaoniu.org)";
+	public static final String HEADER_0_4_1 = "# Created by Suafe 0.4.1 (http://suafe.xiaoniu.org)";
 	
-	public static final String HEADER_CURRENT = HEADER_0_4;
+	public static final String HEADER_CURRENT = HEADER_0_4_1;
 }

@@ -107,7 +107,7 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 	private void initialize() {
 		try {
 			// Initialize groups
-			Group[] groupMembersObjects = (Group[])Document.getGroupMemberGroupObjects(group);
+			Group[] groupMembersObjects = Document.getGroupMemberGroups(group);
 			
 			if (groupMembersObjects != null) {
 				List<Group> groupMembersList = Arrays.asList(groupMembersObjects);
@@ -118,7 +118,7 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 				groupMembers = new Vector<Group>();
 			}
 			
-			Group[] groupObjects = (Group[])Document.getGroupObjects();
+			Group[] groupObjects = Document.getGroupsArray();
 			
 			if (groupObjects != null) {
 				List<Group> groupNonMembersList = Arrays.asList(groupObjects);
@@ -138,7 +138,7 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 			}			
 			
 			// Initialize users
-			User[] userMembersObjects = (User[])Document.getGroupMemberUserObjects(group);
+			User[] userMembersObjects = Document.getGroupMemberUsers(group);
 			
 			if (userMembersObjects != null) {
 				List<User> userMembersList = Arrays.asList(userMembersObjects);
@@ -149,7 +149,7 @@ public class AddRemoveMembersDialog extends JDialog implements ActionListener, M
 				userMembers = new Vector<User>();
 			}
 			
-			User[] userObjects = (User[])Document.getUserObjectsExcludeAllUsers();
+			User[] userObjects = Document.getUserObjectsExcludeAllUsers();
 			
 			if (userObjects != null) {
 				List<User> userNonMembersList = Arrays.asList(userObjects);

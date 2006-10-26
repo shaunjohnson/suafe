@@ -727,6 +727,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	}
 
 	private void fileNew() {
+		checkForUnsavedChanges();
+		
 		Document.initialize();
 		refreshUserList(null);
 		refreshUserDetails();
@@ -743,6 +745,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private void fileOpen() {
 		final JFileChooser fcOpen = new JFileChooser();
+		
+		checkForUnsavedChanges();
 
 		fcOpen.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
@@ -785,7 +789,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				.getString("application.warning"), JOptionPane.WARNING_MESSAGE);
 	}
 
-	private void fileSave() {
+	private void fileSave() {		
 		if (Document.getFile() == null) {
 			final JFileChooser fcSave = new JFileChooser();
 
