@@ -2616,10 +2616,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	}
 
 	public void valueChanged(ListSelectionEvent e) {
-		if (e.getValueIsAdjusting() == false) {
-			return;
-		}
-
 		if (e.getSource() == getUserList()) {
 			refreshUserDetails();
 		} 

@@ -93,7 +93,6 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 	private JLabel pathLabel = null;
 	private JTextField pathTextField = null;
 	private JButton addRepositoryButton = null;
-	private JButton browseButton = null;
 	
 	/**
 	 * This is the default constructor
@@ -117,7 +116,7 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("editaccessrule.title"));
-		this.setSize(550, 256);
+		this.setSize(500, 256);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -253,14 +252,6 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 		}
 	}
 	
-	private void browse() {
-		String path = getPathTextField().getText();
-		
-		JDialog dialog = new RepositoryBrowserDialog(path);
-		DialogUtil.center(this, dialog);
-		dialog.setVisible(true);
-	}
-	
 	private void refereshApplyToPanels() {
 		if (getGroupRadioButton().isSelected()) {
 			getGroupPanel().setVisible(true);
@@ -364,9 +355,6 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 		}
 		else if (e.getActionCommand().equals("AddRepository")) {
 			addRepository();
-		}
-		else if (e.getActionCommand().equals("Browse")) {
-			browse();
 		}
 		else if (e.getActionCommand().equals("Cancel")) {
 			message.setState(Message.CANCEL);
@@ -696,7 +684,6 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 			pathLabel.setPreferredSize(new java.awt.Dimension(100,15));
 			pathPanel.add(pathLabel, null);
 			pathPanel.add(getPathTextField(), null);
-			pathPanel.add(getBrowseButton(), null);
 		}
 		return pathPanel;
 	}
@@ -732,20 +719,4 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 		}
 		return addRepositoryButton;
 	}
-	/**
-	 * This method initializes jButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
-	private JButton getBrowseButton() {
-		if (browseButton == null) {
-			browseButton = new JButton();
-			browseButton.setText(ResourceUtil.getString("editaccessrule.browse"));
-			browseButton.setToolTipText(ResourceUtil.getString("editaccessrule.browse.tooltip"));
-			browseButton.setActionCommand("Browse");
-			browseButton.addActionListener(this);
-			browseButton.setEnabled(false);
-		}
-		return browseButton;
-	}
-                   }  //  @jve:decl-index=0:visual-constraint="10,10"
+}
