@@ -119,6 +119,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		ListSelectionListener, MouseListener, TreeSelectionListener, WindowListener {
 	
 	private static final long serialVersionUID = -4378074679449146788L;
+	private ImageIcon newIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/New16.gif"));
+	private ImageIcon openIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Open16.gif"));
+	private ImageIcon saveIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/Save16.gif"));
+	private ImageIcon saveAsIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/toolbarButtonGraphics/general/SaveAs16.gif"));
+	
 	private ImageIcon pathEditIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/PathEdit.gif"));
 	private ImageIcon pathDeleteIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/PathDelete.gif"));
 	private ImageIcon repositoryEditIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/RepositoryEdit.gif"));
@@ -189,6 +194,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JButton addUserToolbarButton = null;
 
+	private JButton newToolbarButton = null;
+	
+	private JButton openToolbarButton = null;
+	
+	private JButton saveToolbarButton = null;
+	
+	private JButton saveAsToolbarButton = null;
+	
 	private JButton addGroupToolbarButton = null;  
 
 	private JButton previewToolbarButton = null;
@@ -632,7 +645,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JToolBar getActionToolBar() {
 		if (actionToolBar == null) {
 			actionToolBar = new JToolBar();
-			actionToolBar.setFloatable(true);
+			actionToolBar.setFloatable(false);
+			actionToolBar.add(getNewToolbarButton());
+			actionToolBar.add(getOpenToolbarButton());
+			actionToolBar.add(getSaveToolbarButton());
+			actionToolBar.add(getSaveAsToolbarButton());			
 			actionToolBar.add(getAddUserToolbarButton());
 			actionToolBar.add(getAddGroupToolbarButton());
 			actionToolBar.add(getAddAccessRuleButton());
@@ -641,6 +658,70 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		return actionToolBar;
 	}
 
+	/**
+	 * This method initializes jButton
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getNewToolbarButton() {
+		if (newToolbarButton == null) {
+			newToolbarButton = new JButton();
+			newToolbarButton.setActionCommand("NewFile");
+			newToolbarButton.setIcon(newIcon);
+			newToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.new.tooltip"));
+			newToolbarButton.addActionListener(this);
+		}
+		return newToolbarButton;
+	}
+	
+	/**
+	 * This method initializes jButton
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getOpenToolbarButton() {
+		if (openToolbarButton == null) {
+			openToolbarButton = new JButton();
+			openToolbarButton.setActionCommand("OpenFile");
+			openToolbarButton.setIcon(openIcon);
+			openToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.open.tooltip"));
+			openToolbarButton.addActionListener(this);
+		}
+		return openToolbarButton;
+	}
+	
+	/**
+	 * This method initializes jButton
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getSaveToolbarButton() {
+		if (saveToolbarButton == null) {
+			saveToolbarButton = new JButton();
+			saveToolbarButton.setActionCommand("SaveFile");
+			saveToolbarButton.setIcon(saveIcon);
+			saveToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.save.tooltip"));
+			saveToolbarButton.addActionListener(this);
+		}
+		return saveToolbarButton;
+	}
+	
+	/**
+	 * This method initializes jButton
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getSaveAsToolbarButton() {
+		if (saveAsToolbarButton == null) {
+			saveAsToolbarButton = new JButton();
+			saveAsToolbarButton.setActionCommand("SaveFileAs");
+			saveAsToolbarButton.setIcon(saveAsIcon);
+			saveAsToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.saveas.tooltip"));
+			saveAsToolbarButton.addActionListener(this);
+		}
+		return saveAsToolbarButton;
+	}
+	
 	/**
 	 * This method initializes jButton
 	 * 
