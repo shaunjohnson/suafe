@@ -91,7 +91,7 @@ public class Printer implements Printable {
 			while (measurer.getPosition() < charIterator.getEndIndex()) {
 				TextLayout layout = measurer.nextLayout(wrappingWidth);
 				pen.y += layout.getAscent();
-				float dx = layout.isLeftToRight()? 0 : (wrappingWidth - layout.getAdvance());
+				float dx = layout.isLeftToRight() ? 0 : (wrappingWidth - layout.getAdvance());
 				
 				layout.draw(g2d, pen.x + dx, pen.y);
 				pen.y += layout.getDescent() + layout.getLeading();

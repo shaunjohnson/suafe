@@ -37,7 +37,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class HelpFrame extends BaseFrame implements HyperlinkListener {
+public class HelpFrame extends ParentFrame implements HyperlinkListener {
 
 	private static final long serialVersionUID = 5057005120918134417L;
 	private javax.swing.JPanel jContentPane = null;

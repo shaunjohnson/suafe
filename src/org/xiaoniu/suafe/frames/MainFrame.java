@@ -475,8 +475,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			fileMenu.add(getSaveMenuItem());
 			fileMenu.add(getSaveAsMenuItem());
 			fileMenu.add(new JSeparator());
-			fileMenu.add(getPrintMenuItem());
-			fileMenu.add(new JSeparator());
+			//fileMenu.add(getPrintMenuItem());
+			//fileMenu.add(new JSeparator());
 			fileMenu.add(getExitMenuItem());
 		}
 		return fileMenu;
