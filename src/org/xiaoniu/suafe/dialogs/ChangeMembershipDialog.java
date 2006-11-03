@@ -33,7 +33,6 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -54,7 +53,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class ChangeMembershipDialog extends JDialog implements ActionListener, MouseListener {
+public class ChangeMembershipDialog extends ParentDialog implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 4595558087993098499L;
 	private Message message = null;

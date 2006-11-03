@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -42,7 +41,7 @@ import org.xiaoniu.suafe.validators.Validator;
  * 
  * @author Shaun Johnson
  */
-public class CloneUserDialog extends JDialog implements ActionListener {
+public class CloneUserDialog extends ParentDialog implements ActionListener {
 
 	/**
 	 * 
@@ -81,7 +80,7 @@ public class CloneUserDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("cloneuser.title"));
-		this.setSize(300, 135);
+		this.setSize(450, 135);
 		this.setContentPane(getJContentPane());
 	}
 	/**
@@ -196,7 +195,7 @@ public class CloneUserDialog extends JDialog implements ActionListener {
 	private JTextField getUserNameText() {
 		if (userNameText == null) {
 			userNameText = new JTextField();
-			userNameText.setColumns(15);
+			userNameText.setColumns(30);
 		}
 		return userNameText;
 	}

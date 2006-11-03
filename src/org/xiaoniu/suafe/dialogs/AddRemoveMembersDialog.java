@@ -33,7 +33,6 @@ import java.util.Vector;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -54,7 +53,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class AddRemoveMembersDialog extends JDialog implements ActionListener, MouseListener {
+public class AddRemoveMembersDialog extends ParentDialog implements ActionListener, MouseListener {
 
 	/**
 	 * 

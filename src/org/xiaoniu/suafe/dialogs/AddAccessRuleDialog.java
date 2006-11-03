@@ -54,7 +54,7 @@ import org.xiaoniu.suafe.validators.Validator;
  * 
  * @author Shaun Johnson
  */
-public class AddAccessRuleDialog extends JDialog implements ActionListener {
+public class AddAccessRuleDialog extends ParentDialog implements ActionListener {
 
 	private static final long serialVersionUID = -1001510687982587543L;
 	private javax.swing.JPanel jContentPane = null;

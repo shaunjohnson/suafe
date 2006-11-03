@@ -20,16 +20,12 @@ package org.xiaoniu.suafe.dialogs;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//import java.io.BufferedReader;
-//import java.io.FileReader;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-//import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.resources.License;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
@@ -38,7 +34,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class LicenseDialog extends JDialog implements ActionListener {
+public class LicenseDialog extends ParentDialog implements ActionListener {
 
 	private static final long serialVersionUID = 3553343708226187634L;
 

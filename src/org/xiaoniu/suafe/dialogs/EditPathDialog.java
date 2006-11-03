@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -42,7 +41,7 @@ import org.xiaoniu.suafe.validators.Validator;
  * 
  * @author Shaun Johnson
  */
-public class EditPathDialog extends JDialog implements ActionListener {
+public class EditPathDialog extends ParentDialog implements ActionListener {
 
 	private static final long serialVersionUID = -2933098765030949443L;
 	private Message message = new Message();

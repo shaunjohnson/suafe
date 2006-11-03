@@ -54,7 +54,7 @@ import org.xiaoniu.suafe.validators.Validator;
  * 
  * @author Shaun Johnson
  */
-public class EditAccessRuleDialog extends JDialog implements ActionListener {
+public class EditAccessRuleDialog extends ParentDialog implements ActionListener {
 
 	private static final long serialVersionUID = 6133079344065972989L;
 	private AccessRule accessRule = null;
@@ -312,7 +312,9 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 				}
 				
 				if (group != null) {
-					if (Document.findGroupAccessRule(repository, pathString, group) == null) {
+					AccessRule foundRule = Document.findGroupAccessRule(repository, pathString, group);
+					
+					if (foundRule == null || accessRule == foundRule) {
 						accessRule.getPath().removeAccessRule(accessRule);
 						accessRule.setPath(Document.addPath(repository, pathString));
 						accessRule.getPath().addAccessRule(accessRule);
@@ -329,7 +331,9 @@ public class EditAccessRuleDialog extends JDialog implements ActionListener {
 					}
 				}
 				else if (user != null) {
-					if (Document.findUserAccessRule(repository, pathString, user) == null) {
+					AccessRule foundRule = Document.findUserAccessRule(repository, pathString, user);
+					
+					if (foundRule == null || accessRule == foundRule) {
 						accessRule.getPath().removeAccessRule(accessRule);
 						accessRule.setPath(Document.addPath(repository, pathString));
 						accessRule.getPath().addAccessRule(accessRule);

@@ -339,6 +339,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		this.center();
 		this.addKeyListener(this);
 		this.addWindowListener(this);
+		this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		
 		updateTitle();
 	}
@@ -394,6 +395,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			usersSplitPane.setRightComponent(getUserDetailsPanel());
 			usersSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			usersSplitPane.setLeftComponent(getJPanel13());
+			usersSplitPane.setDividerLocation(350);
 		}
 		return usersSplitPane;
 	}
@@ -425,6 +427,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			groupsSplitPane.setRightComponent(getGroupDetailsPanel());
 			groupsSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			groupsSplitPane.setLeftComponent(getJPanel14());
+			groupsSplitPane.setDividerLocation(350);
 		}
 		return groupsSplitPane;
 	}
@@ -2706,6 +2709,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			accessRulesSplitPane.setRightComponent(getJPanel8());
 			accessRulesSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			accessRulesSplitPane.setLeftComponent(getJPanel7());
+			accessRulesSplitPane.setDividerLocation(350);
 		}
 		return accessRulesSplitPane;
 	}
@@ -3176,7 +3180,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */    
 	private JPanel getJPanel9() {
 		if (jPanel9 == null) {
+			FlowLayout flowLayout = new FlowLayout();
+			flowLayout.setAlignment(java.awt.FlowLayout.LEFT);
 			jPanel9 = new JPanel();
+			jPanel9.setLayout(flowLayout);
 			jPanel9.add(getEditTreeItemButton(), null);
 			jPanel9.add(getDeleteTreeItemButton(), null);
 		}
@@ -3306,6 +3313,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			cloneUserMenuItem.setActionCommand("CloneUser");
 			cloneUserMenuItem.setEnabled(false);
 			cloneUserMenuItem.addActionListener(this);
+			cloneUserMenuItem
+			.setIcon(new ImageIcon(
+					getClass()
+							.getResource(
+									"/org/xiaoniu/suafe/resources/Clone.gif")));
 		}
 		return cloneUserMenuItem;
 	}
@@ -3321,6 +3333,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			cloneGroupMenuItem.setActionCommand("CloneGroup");
 			cloneGroupMenuItem.setEnabled(false);
 			cloneGroupMenuItem.addActionListener(this);
+			cloneGroupMenuItem
+			.setIcon(new ImageIcon(
+					getClass()
+							.getResource(
+									"/org/xiaoniu/suafe/resources/Clone.gif")));
 		}
 		return cloneGroupMenuItem;
 	}

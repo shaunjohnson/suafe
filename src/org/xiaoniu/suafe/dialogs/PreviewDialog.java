@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -36,7 +35,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class PreviewDialog extends JDialog implements ActionListener {
+public class PreviewDialog extends ParentDialog implements ActionListener {
 
 	private static final long serialVersionUID = 7030606022506692974L;
 
