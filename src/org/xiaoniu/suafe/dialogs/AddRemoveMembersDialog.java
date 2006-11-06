@@ -290,7 +290,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JButton getUnassignGroupButton() {
 		if (unassignGroupButton == null) {
 			unassignGroupButton = new JButton();
-			unassignGroupButton.setIcon(new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/toolbarButtonGraphics/navigation/Back24.gif")));
+			unassignGroupButton.setIcon(ResourceUtil.unassignIcon);
 			unassignGroupButton.setActionCommand("UnassignMember");
 			unassignGroupButton.setPreferredSize(new Dimension(75, 50));
 			unassignGroupButton.addActionListener(this);
@@ -305,7 +305,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JButton getAssignGroupButton() {
 		if (assignGroupButton == null) {
 			assignGroupButton = new JButton();
-			assignGroupButton.setIcon(new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/toolbarButtonGraphics/navigation/Forward24.gif")));
+			assignGroupButton.setIcon(ResourceUtil.assignIcon);
 			assignGroupButton.setActionCommand("AssignMember");
 			assignGroupButton.setPreferredSize(new Dimension(75, 50));
 			assignGroupButton.addActionListener(this);

@@ -244,7 +244,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	private JButton getUnassignButton() {
 		if (unassignButton == null) {
 			unassignButton = new JButton();
-			unassignButton.setIcon(new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/toolbarButtonGraphics/navigation/Back24.gif")));
+			unassignButton.setIcon(ResourceUtil.unassignIcon);
 			unassignButton.setActionCommand("Unassign");
 			unassignButton.addActionListener(this);
 			unassignButton.setPreferredSize(new Dimension(75, 50));
@@ -259,7 +259,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	private JButton getAssignButton() {
 		if (assignButton == null) {
 			assignButton = new JButton();
-			assignButton.setIcon(new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/toolbarButtonGraphics/navigation/Forward24.gif")));
+			assignButton.setIcon(ResourceUtil.assignIcon);
 			assignButton.setActionCommand("Assign");
 			assignButton.addActionListener(this);
 			assignButton.setPreferredSize(new Dimension(75, 50));

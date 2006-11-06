@@ -24,11 +24,9 @@ import java.net.URL;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-
-import java.awt.Toolkit;
-import javax.swing.JSplitPane;
 
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
@@ -57,7 +55,7 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 	 * This method initializes this
 	 */
 	private void initialize() {
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/xiaoniu/suafe/resources/Server16.gif")));
+		this.setIconImage(ResourceUtil.serverImage);
 		this.setTitle(ResourceUtil.getFormattedString("application.name", "Help"));
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setSize(800, 700);
