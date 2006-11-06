@@ -32,15 +32,12 @@ import java.awt.Toolkit;
 public class DialogUtil {
 	
 	public static void center(Component component) {
-		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
 		
-		// Calculate the frame location
 		int x = (screenSize.width - component.getWidth()) / 2;
 		int y = (screenSize.height - component.getHeight()) / 2;
 
-		// Set the new frame location
 		component.setLocation(x, y);
 	}
 	

@@ -65,6 +65,7 @@ public class EditGroupDialog extends ParentDialog implements ActionListener {
 		super();
 		
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		this.group = group;
 		
 		initialize();
@@ -72,8 +73,6 @@ public class EditGroupDialog extends ParentDialog implements ActionListener {
 	
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setResizable(false);

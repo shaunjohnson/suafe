@@ -64,14 +64,13 @@ public class CloneGroupDialog extends ParentDialog implements ActionListener {
 		super();
 		
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		this.group = group;
 		
 		initialize();
 	}
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setResizable(false);

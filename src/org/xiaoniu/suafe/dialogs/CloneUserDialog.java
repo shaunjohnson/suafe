@@ -67,13 +67,12 @@ public class CloneUserDialog extends ParentDialog implements ActionListener {
 		
 		this.user = user;
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		
 		initialize();
 	}
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setResizable(false);

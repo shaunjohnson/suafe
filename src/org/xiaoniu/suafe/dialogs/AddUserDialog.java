@@ -65,14 +65,13 @@ public class AddUserDialog extends ParentDialog implements ActionListener {
 		super();
 		
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		
 		initialize();
 	}
 	
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setResizable(false);

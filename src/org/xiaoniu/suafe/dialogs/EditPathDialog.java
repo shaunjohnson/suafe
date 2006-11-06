@@ -64,13 +64,12 @@ public class EditPathDialog extends ParentDialog implements ActionListener {
 		
 		this.path = path;
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		
 		initialize();
 	}
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setResizable(false);

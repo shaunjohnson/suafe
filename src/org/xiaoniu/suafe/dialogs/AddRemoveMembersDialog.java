@@ -94,14 +94,13 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 		super();
 		
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		this.group = group;
 		
 		initialize();		
 	}
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		try {

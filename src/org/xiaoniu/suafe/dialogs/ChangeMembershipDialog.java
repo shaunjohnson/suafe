@@ -87,6 +87,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		super();
 		
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		this.user = user;
 		
 		initialize();		
@@ -94,8 +95,6 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		try {

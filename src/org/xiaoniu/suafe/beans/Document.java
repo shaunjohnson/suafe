@@ -1218,6 +1218,10 @@ public class Document {
 		return unsavedChanges;
 	}
 	
+	public static void setUnsavedChanges() {
+		unsavedChanges = true;
+	}
+	
 	public static void resetUnsavedChangesFlag() {
 		unsavedChanges = false;
 	}

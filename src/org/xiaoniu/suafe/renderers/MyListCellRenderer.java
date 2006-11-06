@@ -20,7 +20,6 @@ package org.xiaoniu.suafe.renderers;
 
 import java.awt.Component;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -29,6 +28,7 @@ import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
+import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
  * Default list cell renderer.
@@ -38,18 +38,9 @@ import org.xiaoniu.suafe.beans.User;
 public class MyListCellRenderer extends JLabel implements ListCellRenderer {
 
 	private static final long serialVersionUID = 2612512361404880700L;
-	private static ImageIcon userIcon = null;
-	private static ImageIcon groupIcon = null;
-	private static ImageIcon repositoryIcon = null;
-	private static ImageIcon accessRuleIcon = null;
 	
 	public MyListCellRenderer() {
 		super();
-		
-		userIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/ListUser.gif"));
-		groupIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/ListGroup.gif"));
-		repositoryIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Repository16.gif"));
-		accessRuleIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Reversed.gif"));
 	}
 	
 	public Component getListCellRendererComponent(
@@ -63,16 +54,16 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer {
 		setText(s);
 		
 		if (value instanceof User) {
-			setIcon(userIcon);
+			setIcon(ResourceUtil.userIcon);
 		}
 		else if (value instanceof Group) {
-			setIcon(groupIcon);
+			setIcon(ResourceUtil.groupIcon);
 		}
 		else if (value instanceof Repository) {
-			setIcon(repositoryIcon);
+			setIcon(ResourceUtil.repositoryIcon);
 		}
 		else if (value instanceof AccessRule) {
-			setIcon(accessRuleIcon);
+			setIcon(ResourceUtil.accessRuleIcon);
 		}
 		else {
 			setIcon(null);

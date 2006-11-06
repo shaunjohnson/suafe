@@ -55,13 +55,10 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 	}
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/org/xiaoniu/suafe/resources/Server16.gif")));
-		this.setTitle(ResourceUtil.getFormattedString("application.name",
-		"Help"));
+		this.setTitle(ResourceUtil.getFormattedString("application.name", "Help"));
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setSize(800, 700);
 		this.setContentPane(getJContentPane());

@@ -41,12 +41,17 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 	private static final long serialVersionUID = 2009320543683373156L;
 
 	private javax.swing.JPanel jContentPane = null;
-
+	
 	private JPanel buttonPanel = null;
+	
 	private JButton okButton = null;
+	
 	private JPanel contentPanel = null;
+	
 	private JLabel titleLabel = null;
+	
 	private JLabel descriptionLabel = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -54,20 +59,20 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 		super();
 		initialize();
 	}
+	
 	/**
-	 * This method initializes this
-	 * 
-	 * @return void
+	 * This method initializes this.
 	 */
 	private void initialize() {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("about.title"));
-		this.setSize(300,200);
+		this.setSize(300, 200);
 		this.setContentPane(getJContentPane());
 		this.setModal(true);
 		this.getRootPane().setDefaultButton(getOkButton());
 	}
+	
 	/**
 	 * This method initializes jContentPane
 	 * 
@@ -82,6 +87,7 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 		}
 		return jContentPane;
 	}
+	
 	/**
 	 * This method initializes jPanel	
 	 * 	

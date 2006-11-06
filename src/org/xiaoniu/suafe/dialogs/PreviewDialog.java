@@ -54,8 +54,6 @@ public class PreviewDialog extends ParentDialog implements ActionListener {
 	}
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setBounds(0, 0, 800, 600);

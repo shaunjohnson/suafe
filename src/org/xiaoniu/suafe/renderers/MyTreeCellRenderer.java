@@ -20,7 +20,6 @@ package org.xiaoniu.suafe.renderers;
 
 import java.awt.Component;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -29,6 +28,7 @@ import javax.swing.tree.TreeCellRenderer;
 
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
+import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
  * Default tree cell renderer.
@@ -38,44 +38,48 @@ import org.xiaoniu.suafe.beans.Repository;
 public class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
 	private static final long serialVersionUID = -3819189157641390968L;
-
-	private static ImageIcon pathIcon = null;
-	
-	private static ImageIcon repositoryIcon = null;
-	
-	private static ImageIcon serverIcon = null;
 	
 	private static DefaultTreeCellRenderer render = null;
 	
+	/**
+	 * Default constructor.
+	 */
 	public MyTreeCellRenderer() {
 		super();
-		
-		pathIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Path16.gif"));
-		repositoryIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Repository16.gif"));
-		serverIcon = new ImageIcon(getClass().getResource("/org/xiaoniu/suafe/resources/Server16.gif"));
 		
 		render = new DefaultTreeCellRenderer();
 	}
 	
+	/**
+	 * Renders tree cells.
+	 * 
+	 * @param tree Tree where the cell resides
+	 * @param value Value of the cell
+	 * @param isSelected Indicates whether the cell is selected
+	 * @param expanded Indicates whether the cell is expanded
+	 * @param leaf Indicates whether this is a leaf
+	 * @param row Row number
+	 * @param hasFocus Indicates whether the cell has focus
+	 */
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		String s = value.toString();
 		Object userObject = ((DefaultMutableTreeNode)value).getUserObject();
 		setText(s);
 		
 		if (userObject instanceof Path) {
-			setIcon(pathIcon);			
+			setIcon(ResourceUtil.pathIcon);			
 			setToolTipText( ((Path)userObject).getPath() );
 		}
 		else if (userObject instanceof Repository) {
-			setIcon(repositoryIcon);
+			setIcon(ResourceUtil.repositoryIcon);
 			setToolTipText( ((Repository)userObject).getName() );
 		}
 		else if (userObject instanceof String) {
-			setIcon(serverIcon);
+			setIcon(ResourceUtil.serverIcon);
 			setToolTipText( (String)userObject );
 		}
 		else {
-			setIcon(serverIcon);
+			setIcon(ResourceUtil.serverIcon);
 		}
 		
 		if (isSelected) {

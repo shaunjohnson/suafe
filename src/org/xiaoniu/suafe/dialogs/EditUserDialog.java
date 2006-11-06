@@ -63,6 +63,7 @@ public class EditUserDialog extends ParentDialog implements ActionListener {
 		super();
 		
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		this.user = user;
 		
 		initialize();
@@ -70,8 +71,6 @@ public class EditUserDialog extends ParentDialog implements ActionListener {
 	
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setResizable(false);

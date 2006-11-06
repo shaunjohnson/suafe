@@ -117,14 +117,13 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 		}
 		
 		this.message = message;
+		this.message.setState(Message.CANCEL);
 		
 		initialize();
 	}
 	
 	/**
 	 * This method initializes this
-	 * 
-	 * @return void
 	 */
 	private void initialize() {
 		this.setResizable(false);

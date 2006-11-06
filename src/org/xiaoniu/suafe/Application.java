@@ -32,12 +32,17 @@ import org.xiaoniu.suafe.frames.MainFrame;
  */
 public class Application {
 
+	/**
+	 * Application starting point.
+	 * 
+	 * @param args Application arguments
+	 */
 	public static void main(String[] args) {	
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 		}
 		catch (Exception e) {
-			
+			// Do nothing
 		}
 		
 		Document.initialize();
