@@ -199,13 +199,13 @@ public class AccessRule implements Comparable<AccessRule> {
 			name = ResourceUtil.getString("application.unknown");
 		}
 		else if (level.equals(Constants.ACCESS_LEVEL_DENY_ACCESS)) {
-			name = Constants.ACCESS_LEVEL_DENY_ACCESS_FULL;
+			name = ResourceUtil.getString("accesslevel.denyaccess");
 		}
 		else if (level.equalsIgnoreCase(Constants.ACCESS_LEVEL_READONLY)) {
-			name = Constants.ACCESS_LEVEL_READONLY_FULL;
+			name = ResourceUtil.getString("accesslevel.readonly");
 		}
 		else if (level.equalsIgnoreCase(Constants.ACCESS_LEVEL_READWRITE)) {
-			name = Constants.ACCESS_LEVEL_READWRITE_FULL;
+			name = ResourceUtil.getString("accesslevel.readwrite");
 		}
 		
 		return name;

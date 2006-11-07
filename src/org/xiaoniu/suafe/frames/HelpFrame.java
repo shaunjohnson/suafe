@@ -100,7 +100,10 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 			contentEditorPane.setContentType("text/html");
 			contentEditorPane.addHyperlinkListener(this);
 			
-			URL helpUrl = this.getClass().getResource("/org/xiaoniu/suafe/resources/help/en/welcome.html");
+			String url = "/org/xiaoniu/suafe/resources/help/"
+				+ ResourceUtil.getString("application.language")
+				+ "/welcome.html";
+			URL helpUrl = this.getClass().getResource(url);
 			
 			if (helpUrl != null) {
 				try {
@@ -176,7 +179,10 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 			tableOfContentsEditorPane.setContentType("text/html");
 			tableOfContentsEditorPane.addHyperlinkListener(this);
 			
-			URL helpUrl = this.getClass().getResource("/org/xiaoniu/suafe/resources/help/en/toc.html");
+			String url = "/org/xiaoniu/suafe/resources/help/"
+				+ ResourceUtil.getString("application.language")
+				+ "/toc.html";
+			URL helpUrl = this.getClass().getResource(url);
 			
 			if (helpUrl != null) {
 				try {

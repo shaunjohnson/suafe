@@ -24,7 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
@@ -67,13 +66,13 @@ public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
 		else if (value instanceof String) {
 			String valueString = (String)value;
 			
-			if (valueString.equals(Constants.ACCESS_LEVEL_READONLY_FULL)) {
+			if (valueString.equals(ResourceUtil.getString("accesslevel.readonly"))) {
 				setIcon(ResourceUtil.readOnlyIcon);
 			}
-			else if (valueString.equals(Constants.ACCESS_LEVEL_READWRITE_FULL)) {
+			else if (valueString.equals(ResourceUtil.getString("accesslevel.readwrite"))) {
 				setIcon(ResourceUtil.readWriteIcon);
 			}
-			else if (valueString.equals(Constants.ACCESS_LEVEL_DENY_ACCESS_FULL)) {
+			else if (valueString.equals(ResourceUtil.getString("accesslevel.denyaccess"))) {
 				setIcon(ResourceUtil.denyAccessIcon);
 			}
 			else {
