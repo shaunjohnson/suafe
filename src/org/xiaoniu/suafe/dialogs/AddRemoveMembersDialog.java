@@ -592,7 +592,8 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	 */    
 	private JPanel getFormPanel() {
 		if (formPanel == null) {
-			formPanel = new JPanel(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+			formPanel = new JPanel();
+			formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
 			formPanel.add(getFormSubPanel());
 			
 		}

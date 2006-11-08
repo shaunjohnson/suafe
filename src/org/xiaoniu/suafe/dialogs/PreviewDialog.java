@@ -18,6 +18,8 @@
 
 package org.xiaoniu.suafe.dialogs;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.FileGenerator;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
@@ -37,23 +40,32 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  */
 public class PreviewDialog extends ParentDialog implements ActionListener {
 
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = 7030606022506692974L;
 
-	private javax.swing.JPanel jContentPane = null;
+	private JPanel jContentPane = null;
 
 	private JPanel buttonPanel = null;
+	
 	private JButton okButton = null;
+	
 	private JTextArea previewTextArea = null;
+	
 	private JScrollPane previewScrollPane = null;
+	
 	/**
-	 * This is the default constructor
+	 * Default constructor.
 	 */
 	public PreviewDialog() {
 		super();
+		
 		initialize();
 	}
+	
 	/**
-	 * This method initializes this
+	 * This method initializes this.
 	 */
 	private void initialize() {
 		this.setBounds(0, 0, 800, 600);
@@ -61,58 +73,68 @@ public class PreviewDialog extends ParentDialog implements ActionListener {
 		this.setTitle(ResourceUtil.getString("preview.title"));
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setContentPane(getJContentPane());
+		
 		this.getRootPane().setDefaultButton(getOkButton());
 	}
+	
 	/**
-	 * This method initializes jContentPane
+	 * This method initializes jContentPane.
 	 * 
 	 * @return javax.swing.JPanel
 	 */
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
-			jContentPane = new javax.swing.JPanel();
-			jContentPane.setLayout(new java.awt.BorderLayout());
-			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
-			jContentPane.add(getPreviewScrollPane(), java.awt.BorderLayout.CENTER);
+			jContentPane = new JPanel(new BorderLayout());
+			jContentPane.add(getPreviewScrollPane(), BorderLayout.CENTER);
+			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 		}
+		
 		return jContentPane;
 	}
+	
 	/**
-	 * This method initializes jPanel	
+	 * This method initializes buttonPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
 			buttonPanel = new JPanel();
-			buttonPanel.add(getOkButton(), null);
+			buttonPanel.add(getOkButton());
 		}
+		
 		return buttonPanel;
 	}
+	
 	/**
-	 * This method initializes jButton	
+	 * This method initializes okButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getOkButton() {
 		if (okButton == null) {
 			okButton = new JButton();
-			okButton.setText(ResourceUtil.getString("button.ok"));
-			okButton.setActionCommand("OK");
 			okButton.addActionListener(this);
-			
-			getRootPane().setDefaultButton(okButton);
+			okButton.setActionCommand(Constants.OK_ACTION);
+			okButton.setText(ResourceUtil.getString("button.ok"));
 		}
+		
 		return okButton;
 	}
 		
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("OK")) {
+	/**
+	 * ActionPerformed event handler.
+	 * 
+	 * @param event ActionEvent object.
+	 */
+	public void actionPerformed(ActionEvent event) {
+		if (event.getActionCommand().equals(Constants.OK_ACTION)) {
 			dispose();
 		}
 	}
+	
 	/**
-	 * This method initializes jTextArea	
+	 * This method initializes previewTextArea.	
 	 * 	
 	 * @return javax.swing.JTextArea	
 	 */    
@@ -127,22 +149,24 @@ public class PreviewDialog extends ParentDialog implements ActionListener {
 				previewTextArea.setText(ae.getMessage());
 			}
 			
-			previewTextArea.setFont(new java.awt.Font("Courier New", java.awt.Font.PLAIN, 12));
+			previewTextArea.setFont(new Font("Courier New", Font.PLAIN, 12));
 			previewTextArea.setEditable(false);
 			previewTextArea.select(0, 0);
 		}
+		
 		return previewTextArea;
 	}
+	
 	/**
-	 * This method initializes jScrollPane	
+	 * This method initializes previewScrollPane.	
 	 * 	
 	 * @return javax.swing.JScrollPane	
 	 */    
 	private JScrollPane getPreviewScrollPane() {
 		if (previewScrollPane == null) {
-			previewScrollPane = new JScrollPane();
-			previewScrollPane.setViewportView(getPreviewTextArea());
+			previewScrollPane = new JScrollPane(getPreviewTextArea());
 		}
+		
 		return previewScrollPane;
 	}
  }

@@ -31,6 +31,8 @@ public class ParentDialog extends JDialog implements ContainerListener, KeyListe
 	/**
 	 * Component Added event handler. Adds listenters to new component
 	 * and all of its children.
+	 * 
+	 * @param containerEvent ContainerEvent object.
 	 */
 	public void componentAdded(ContainerEvent containerEvent)
     {
@@ -40,10 +42,12 @@ public class ParentDialog extends JDialog implements ContainerListener, KeyListe
 	/**
 	 * Component Removed event handler. Removes listeners from component
 	 * and all of its children.
+	 * 
+	 * @param containerEvent ContainerEvent object.
 	 */
-	public void componentRemoved(ContainerEvent e)
+	public void componentRemoved(ContainerEvent containerEvent)
 	{
-		removeListeners(e.getChild());
+		removeListeners(containerEvent.getChild());
 	}
 
 	/**
@@ -68,6 +72,7 @@ public class ParentDialog extends JDialog implements ContainerListener, KeyListe
 	
 	/**
 	 * Removes this as a listener from the component and all of its children.
+	 * 
 	 * @param component Child component from which listeners are removed.
 	 */
 	private void removeListeners(Component component)
@@ -89,6 +94,8 @@ public class ParentDialog extends JDialog implements ContainerListener, KeyListe
 	/**
 	 * Key Pressed event handler. Dispose the current dialog when the
 	 * escape key is pressed.
+	 * 
+	 * @param keyEvent KeyEvent object.
 	 */
 	public void keyPressed(KeyEvent keyEvent) {
 		int keyCode = keyEvent.getKeyCode();
@@ -98,10 +105,20 @@ public class ParentDialog extends JDialog implements ContainerListener, KeyListe
         }
 	}
 
+	/**
+	 * KeyReleased event handler. Not used.
+	 * 
+	 * @param keyEvent KeyEvent object.
+	 */
 	public void keyReleased(KeyEvent keyEvent) {
 		// Do nothing		
 	}
 
+	/**
+	 * KeyTyped event handler. Not used.
+	 * 
+	 * @param keyEvent KeyEvent object.
+	 */
 	public void keyTyped(KeyEvent keyEvent) {
 		// Do nothing		
 	}

@@ -18,6 +18,7 @@
 
 package org.xiaoniu.suafe.dialogs;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
+import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.Repository;
@@ -43,22 +46,33 @@ import org.xiaoniu.suafe.validators.Validator;
  */
 public class EditRepositoryDialog extends ParentDialog implements ActionListener {
 	
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = -6556917867353535060L;
+	
 	private Message message;
-	private javax.swing.JPanel jContentPane = null;
+	
+	private JPanel jContentPane = null;
+	
 	private Repository repository = null;
+	
 	private JPanel buttonPanel = null;
+	
 	private JButton saveButton = null;
+	
 	private JButton cancelButton = null;
+	
 	private JPanel buttonSubPanel = null;
+	
 	private JPanel formPanel = null;
+	
 	private JPanel formSubPanel = null;
-	private JLabel repositoryNameLabel = null;
+	
 	private JTextField repositoryNameText = null;
-	private JLabel instructionsLabel = null;
 	
 	/**
-	 * This is the default constructor
+	 * Default constructor.
 	 */
 	public EditRepositoryDialog(Repository repository, Message message) {
 		super();
@@ -71,82 +85,84 @@ public class EditRepositoryDialog extends ParentDialog implements ActionListener
 	}
 	
 	/**
-	 * This method initializes this
+	 * This method initializes this.
 	 */
 	private void initialize() {
 		this.setResizable(false);
 		this.setModal(true);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("editrepository.title"));
 		this.setSize(470, 135);
 		this.setContentPane(getJContentPane());
+		
+		getRootPane().setDefaultButton(saveButton);
 	}
 	
 	/**
-	 * This method initializes jContentPane
+	 * This method initializes jContentPane.
 	 * 
 	 * @return javax.swing.JPanel
 	 */
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
-			instructionsLabel = new JLabel();
 			jContentPane = new javax.swing.JPanel();
 			jContentPane.setLayout(new java.awt.BorderLayout());
-			instructionsLabel.setText(ResourceUtil.getString("editrepository.instructions"));
-			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
-			jContentPane.add(getFormPanel(), java.awt.BorderLayout.CENTER);
-			jContentPane.add(instructionsLabel, java.awt.BorderLayout.NORTH);
+			jContentPane.add(new JLabel(ResourceUtil.getString("editrepository.instructions")), BorderLayout.NORTH);
+			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
+			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 		}
+		
 		return jContentPane;
 	}
 	
 	/**
-	 * This method initializes jPanel	
+	 * This method initializes buttonPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
-			GridLayout gridLayout1 = new GridLayout();
-			buttonPanel = new JPanel();
-			buttonPanel.setLayout(gridLayout1);
-			gridLayout1.setRows(1);
+			buttonPanel = new JPanel(new GridLayout(1, 1));
 			buttonPanel.add(getButtonSubPanel(), null);
 		}
+		
 		return buttonPanel;
 	}
+	
 	/**
-	 * This method initializes jButton	
+	 * This method initializes saveButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getSaveButton() {
 		if (saveButton == null) {
 			saveButton = new JButton();
-			saveButton.setText(ResourceUtil.getString("button.save"));
-			saveButton.setActionCommand("Save");
 			saveButton.addActionListener(this);
-			
-			getRootPane().setDefaultButton(saveButton);
+			saveButton.setActionCommand(Constants.SAVE_ACTION);
+			saveButton.setText(ResourceUtil.getString("button.save"));
 		}
+		
 		return saveButton;
 	}
+	
 	/**
-	 * This method initializes jButton1	
+	 * This method initializes cancelButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
 			cancelButton = new JButton();
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
-			cancelButton.setActionCommand("Cancel");
 			cancelButton.addActionListener(this);
+			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
+			cancelButton.setText(ResourceUtil.getString("button.cancel"));
 		}
+		
 		return cancelButton;
 	}
+	
 	/**
-	 * This method initializes jPanel1	
+	 * This method initializes buttonSubPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
@@ -156,53 +172,60 @@ public class EditRepositoryDialog extends ParentDialog implements ActionListener
 			buttonSubPanel.add(getSaveButton(), null);
 			buttonSubPanel.add(getCancelButton(), null);
 		}
+		
 		return buttonSubPanel;
 	}
+	
 	/**
-	 * This method initializes jPanel2	
+	 * This method initializes formPanel	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getFormPanel() {
 		if (formPanel == null) {
-			formPanel = new JPanel();
-			formPanel.setLayout(new FlowLayout());
+			formPanel = new JPanel(new FlowLayout());
 			formPanel.add(getFormSubPanel(), null);
 		}
+		
 		return formPanel;
 	}
+	
 	/**
-	 * This method initializes jPanel3	
+	 * This method initializes formSubPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getFormSubPanel() {
 		if (formSubPanel == null) {
-			repositoryNameLabel = new JLabel();
-			formSubPanel = new JPanel();
-			formSubPanel.setLayout(new FlowLayout());
-			repositoryNameLabel.setText(ResourceUtil.getString("editrepository.repositoryname"));
-			formSubPanel.add(repositoryNameLabel, null);
-			formSubPanel.add(getRepositoryNameText(), null);
+			formSubPanel = new JPanel(new FlowLayout());
+			formSubPanel.add(new JLabel(ResourceUtil.getString("editrepository.repositoryname")));
+			formSubPanel.add(getRepositoryNameText());
 		}
+		
 		return formSubPanel;
 	}
+	
 	/**
-	 * This method initializes jTextField	
+	 * This method initializes repositoryNameText.	
 	 * 	
 	 * @return javax.swing.JTextField	
 	 */    
 	private JTextField getRepositoryNameText() {
 		if (repositoryNameText == null) {
-			repositoryNameText = new JTextField();
-			repositoryNameText.setColumns(30);
+			repositoryNameText = new JTextField(30);
 			repositoryNameText.setText(repository.getName());
 		}
+		
 		return repositoryNameText;
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Save")) {
+	/**
+	 * ActionPerformed event handler.
+	 * 
+	 * @param event ActionEvent object.
+	 */
+	public void actionPerformed(ActionEvent event) {
+		if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
 			try {
 				String repositoryName = getRepositoryNameText().getText();
 				
@@ -225,7 +248,7 @@ public class EditRepositoryDialog extends ParentDialog implements ActionListener
 				displayError(ex.getMessage());
 			}
 		}
-		else if (e.getActionCommand().equals("Cancel")) {
+		else if (event.getActionCommand().equals(Constants.CANCEL_ACTION)) {
 			dispose();
 			message.setState(Message.CANCEL);
 		}
