@@ -26,21 +26,21 @@ public class Utilities {
 	/**
 	 * Converts an array of Objects into an array of <T>.
 	 * 
-	 * @param <T>
-	 * @param array
-	 * @param a
-	 * @return
+	 * @param <T> Any type
+	 * @param array Array of <T> objects
+	 * @param typeSample Sample type, matching <T>
+	 * @return Array of <T> objects
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T[] convertToArray(Object[] array, T[] a) {
-        if (a.length < array.length)
-            a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), array.length);
+	public static <T> T[] convertToArray(Object[] array, T[] typeSample) {
+        if (typeSample.length < array.length)
+            typeSample = (T[])java.lang.reflect.Array.newInstance(typeSample.getClass().getComponentType(), array.length);
 	
-        System.arraycopy(array, 0, a, 0, array.length);
+        System.arraycopy(array, 0, typeSample, 0, array.length);
         
-        if (a.length > array.length)
-            a[array.length] = null;
+        if (typeSample.length > array.length)
+            typeSample[array.length] = null;
         
-        return a;
+        return typeSample;
 	}
 }

@@ -18,16 +18,19 @@
 
 package org.xiaoniu.suafe.frames;
 
+import java.awt.BorderLayout;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -37,32 +40,46 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  */
 public class HelpFrame extends ParentFrame implements HyperlinkListener {
 
-	private static final long serialVersionUID = 5057005120918134417L;
-	private javax.swing.JPanel jContentPane = null;
-	private JScrollPane contentScrollPane = null;
-	private JEditorPane contentEditorPane = null;
-	private JSplitPane jSplitPane = null;
-	private JScrollPane tableOfContentsScrollPane = null;
-	private JEditorPane tableOfContentsEditorPane = null;
 	/**
-	 * This is the default constructor
+	 * Serial ID.
+	 */
+	private static final long serialVersionUID = 5057005120918134417L;
+	
+	private JPanel jContentPane = null;
+	
+	private JScrollPane contentScrollPane = null;
+	
+	private JEditorPane contentEditorPane = null;
+	
+	private JSplitPane contentSplitPane = null;
+	
+	private JScrollPane tableOfContentsScrollPane = null;
+	
+	private JEditorPane tableOfContentsEditorPane = null;
+	
+	/**
+	 * Default constructor.
 	 */
 	public HelpFrame() {
 		super();
 		initialize();
 	}
+	
 	/**
-	 * This method initializes this
+	 * This method initializes this.
 	 */
 	private void initialize() {
 		this.setIconImage(ResourceUtil.serverImage);
-		this.setTitle(ResourceUtil.getFormattedString("application.name", "Help"));
+		this.setTitle(ResourceUtil.getString("help.title"));
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setSize(800, 700);
 		this.setContentPane(getJContentPane());
 		this.center();
 		this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		
+		
 	}
+	
 	/**
 	 * This method initializes jContentPane
 	 * 
@@ -70,26 +87,28 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 	 */
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
-			jContentPane = new javax.swing.JPanel();
-			jContentPane.setLayout(new java.awt.BorderLayout());
-			jContentPane.add(getSplitPane(), java.awt.BorderLayout.CENTER);
+			jContentPane = new JPanel(new BorderLayout());
+			jContentPane.add(getContentSplitPane(), BorderLayout.CENTER);
 		}
+		
 		return jContentPane;
 	}
+	
 	/**
-	 * This method initializes jScrollPane	
+	 * This method initializes contentScrollPane.	
 	 * 	
 	 * @return javax.swing.JScrollPane	
 	 */    
 	private JScrollPane getContentScrollPane() {
 		if (contentScrollPane == null) {
-			contentScrollPane = new JScrollPane();
-			contentScrollPane.setViewportView(getContentEditorPane());
+			contentScrollPane = new JScrollPane(getContentEditorPane());
 		}
+		
 		return contentScrollPane;
 	}
+	
 	/**
-	 * This method initializes jEditorPane	
+	 * This method initializes contentEditorPane.	
 	 * 	
 	 * @return javax.swing.JEditorPane	
 	 */    
@@ -100,7 +119,8 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 			contentEditorPane.setContentType("text/html");
 			contentEditorPane.addHyperlinkListener(this);
 			
-			String url = "/org/xiaoniu/suafe/resources/help/"
+			String url = Constants.HELP_DIR
+				+ "/"
 				+ ResourceUtil.getString("application.language")
 				+ "/welcome.html";
 			URL helpUrl = this.getClass().getResource(url);
@@ -108,21 +128,25 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 			if (helpUrl != null) {
 				try {
 					getContentEditorPane().setPage(helpUrl);
-				} catch (IOException e) {
-					
+				} 
+				catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+		
 		return contentEditorPane;
 	}
 	
-	public void hyperlinkUpdate(HyperlinkEvent evt) {
-		if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			//JEditorPane pane = (JEditorPane)evt.getSource();
-			
+	/**
+	 * HyperlinkEvent listener.
+	 * 
+	 * @param event HyperlinkEvent object.
+	 */
+	public void hyperlinkUpdate(HyperlinkEvent event) {
+		if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {			
 			try {
-				URL newUrl = evt.getURL();
+				URL newUrl = event.getURL();
 				
 				getContentEditorPane().setPage(newUrl);
 				
@@ -137,38 +161,42 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 				}
 			} 
 			catch (IOException e) {
-				
+				// Do nothing.
 			}
 		}
 	}
+	
 	/**
-	 * This method initializes jSplitPane	
+	 * This method initializes contentSplitPane.	
 	 * 	
 	 * @return javax.swing.JSplitPane	
 	 */    
-	private JSplitPane getSplitPane() {
-		if (jSplitPane == null) {
-			jSplitPane = new JSplitPane();
-			jSplitPane.setLeftComponent(getTableOfContentsScrollPane());
-			jSplitPane.setRightComponent(getContentScrollPane());
-			jSplitPane.setDividerLocation(200);
+	private JSplitPane getContentSplitPane() {
+		if (contentSplitPane == null) {
+			contentSplitPane = new JSplitPane();
+			contentSplitPane.setLeftComponent(getTableOfContentsScrollPane());
+			contentSplitPane.setRightComponent(getContentScrollPane());
+			contentSplitPane.setDividerLocation(200);
 		}
-		return jSplitPane;
+		
+		return contentSplitPane;
 	}
+	
 	/**
-	 * This method initializes jScrollPane1	
+	 * This method initializes tableOfContentsScrollPane.	
 	 * 	
 	 * @return javax.swing.JScrollPane	
 	 */    
 	private JScrollPane getTableOfContentsScrollPane() {
 		if (tableOfContentsScrollPane == null) {
-			tableOfContentsScrollPane = new JScrollPane();
-			tableOfContentsScrollPane.setViewportView(getTableOfContentsEditorPane());
+			tableOfContentsScrollPane = new JScrollPane(getTableOfContentsEditorPane());
 		}
+		
 		return tableOfContentsScrollPane;
 	}
+	
 	/**
-	 * This method initializes jEditorPane1	
+	 * This method initializes tableOfContentsEditorPane.	
 	 * 	
 	 * @return javax.swing.JEditorPane	
 	 */    
@@ -179,7 +207,8 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 			tableOfContentsEditorPane.setContentType("text/html");
 			tableOfContentsEditorPane.addHyperlinkListener(this);
 			
-			String url = "/org/xiaoniu/suafe/resources/help/"
+			String url = Constants.HELP_DIR 
+				+ "/"
 				+ ResourceUtil.getString("application.language")
 				+ "/toc.html";
 			URL helpUrl = this.getClass().getResource(url);
@@ -187,12 +216,13 @@ public class HelpFrame extends ParentFrame implements HyperlinkListener {
 			if (helpUrl != null) {
 				try {
 					getTableOfContentsEditorPane().setPage(helpUrl);
-				} catch (IOException e) {
-					
-					e.printStackTrace();
+				} 
+				catch (IOException e) {
+					// Do nothing
 				}
 			}
 		}
+		
 		return tableOfContentsEditorPane;
 	}
-     }
+}

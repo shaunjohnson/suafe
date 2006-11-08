@@ -25,7 +25,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -196,10 +195,6 @@ public class EditUserDialog extends ParentDialog implements ActionListener {
 			userNameText.setText(user.getName());
 		}
 		return userNameText;
-	}
-	
-	private void displayError(String message) {
-		JOptionPane.showMessageDialog(this, message, ResourceUtil.getString("application.error"), JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public void actionPerformed(ActionEvent e) {

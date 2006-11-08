@@ -21,12 +21,16 @@ package org.xiaoniu.suafe.models;
 import org.xiaoniu.suafe.beans.Document;
 
 /**
- * Group list for a combo-box.
+ * Group list for a combo-box. A combo-box listing out all Group objects
+ * from the current document.
  * 
  * @author Shaun Johnson
  */
 public class GroupListModel extends BaseComboBoxModel {
 	
+	/**
+	 * Default constructor.
+	 */
 	public GroupListModel() {
 		super();
 		

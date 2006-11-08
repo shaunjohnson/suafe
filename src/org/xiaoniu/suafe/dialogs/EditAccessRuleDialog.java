@@ -18,7 +18,11 @@
 
 package org.xiaoniu.suafe.dialogs;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,10 +33,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.beans.AccessRule;
@@ -56,46 +60,89 @@ import org.xiaoniu.suafe.validators.Validator;
  */
 public class EditAccessRuleDialog extends ParentDialog implements ActionListener {
 
+	private static final String ALL_USERS_ACTION = "ALL_USERS_ACTION";
+	
+	private static final String USER_ACTION = "USER_ACTION";
+	
+	private static final String GROUP_ACTION = "USER_ACTION";
+	
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = 6133079344065972989L;
+	
 	private AccessRule accessRule = null;
-	private javax.swing.JPanel jContentPane = null;
+	
+	private JPanel jContentPane = null;
+	
 	private Message message = null;
+	
 	private JPanel buttonPanel = null;
+	
 	private JButton addButton = null;
+	
 	private JButton cancelButton = null;
+	
 	private JPanel buttonSubPanel = null;
+	
 	private JPanel formPanel = null;
+	
 	private JPanel formSubPanel = null;
+	
 	private JLabel repositoryLabel = null;
-	private JLabel instructionsLabel = null;
+	
 	private JComboBox repositoryComboBox = null;
+	
 	private JPanel repositoryPanel = null;
+	
 	private JPanel groupPanel = null;
+	
 	private JPanel userPanel = null;
+	
 	private JLabel groupLabel = null;
+	
 	private JComboBox groupComboBox = null;
+	
 	private JLabel userLabel = null;
+	
 	private JComboBox userComboBox = null;
+	
 	private JPanel applyToPanel = null;
+	
 	private JRadioButton groupRadioButton = null;
+	
 	private ButtonGroup groupUserButtonGroup = null;
+	
 	private ButtonGroup accessLevelButtonGroup = null;
+	
 	private JRadioButton userRadioButton = null;
+	
 	private JPanel levelOfAccessPanel = null;
+	
 	private JRadioButton readOnlyRadioButton = null;
+	
 	private JRadioButton readWriteRadioButton = null;
+	
 	private JRadioButton denyAccessRadioButton = null;
+	
 	private JLabel levelOfAccessLabel = null;
+	
 	private JPanel levelOfAccessSubPanel = null;
+	
 	private JLabel applyToLabel = null;
+	
 	private JRadioButton allUsersRadioButton = null;
+	
 	private JPanel pathPanel = null;
+	
 	private JLabel pathLabel = null;
+	
 	private JTextField pathTextField = null;
+	
 	private JButton addRepositoryButton = null;
 	
 	/**
-	 * This is the default constructor
+	 * Default constructor.
 	 */
 	public EditAccessRuleDialog(AccessRule accessRule, Message message) {
 		super();
@@ -108,129 +155,135 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	}
 	
 	/**
-	 * This method initializes this
+	 * This method initializes this.
 	 */
 	private void initialize() {
 		this.setResizable(false);
 		this.setModal(true);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("editaccessrule.title"));
 		this.setSize(500, 256);
 		this.setContentPane(getJContentPane());
+		
+		getRootPane().setDefaultButton(addButton);
 	}
+	
 	/**
-	 * This method initializes jContentPane
+	 * This method initializes jContentPane.
 	 * 
 	 * @return javax.swing.JPanel
 	 */
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
-			instructionsLabel = new JLabel();
-			jContentPane = new javax.swing.JPanel();
-			jContentPane.setLayout(new java.awt.BorderLayout());
-			instructionsLabel.setText(ResourceUtil.getString("editaccessrule.instructions"));
-			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
-			jContentPane.add(getFormPanel(), java.awt.BorderLayout.CENTER);
-			jContentPane.add(instructionsLabel, java.awt.BorderLayout.NORTH);
+			jContentPane = new JPanel(new BorderLayout());
+			jContentPane.add(new JLabel(ResourceUtil.getString("editaccessrule.instructions")), BorderLayout.NORTH);
+			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
+			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 		}
+		
 		return jContentPane;
 	}
+	
 	/**
-	 * This method initializes jPanel	
+	 * This method initializes buttonPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
-			GridLayout gridLayout1 = new GridLayout();
-			buttonPanel = new JPanel();
-			buttonPanel.setLayout(gridLayout1);
-			gridLayout1.setRows(1);
-			buttonPanel.add(getButtonSubPanel(), null);
+			buttonPanel = new JPanel(new GridLayout(1, 1));
+			buttonPanel.add(getButtonSubPanel());
 		}
+		
 		return buttonPanel;
 	}
+	
 	/**
-	 * This method initializes jButton	
+	 * This method initializes addButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getAddButton() {
 		if (addButton == null) {
 			addButton = new JButton();
-			addButton.setText(ResourceUtil.getString("button.save"));
-			addButton.setActionCommand("Save");
 			addButton.addActionListener(this);
-			
-			getRootPane().setDefaultButton(addButton);
+			addButton.setText(ResourceUtil.getString("button.save"));
+			addButton.setActionCommand(Constants.SAVE_ACTION);
 		}
+		
 		return addButton;
 	}
+	
 	/**
-	 * This method initializes jButton1	
+	 * This method initializes cancelButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
 			cancelButton = new JButton();
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
-			cancelButton.setActionCommand("Cancel");
 			cancelButton.addActionListener(this);
+			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
+			cancelButton.setText(ResourceUtil.getString("button.cancel"));
 		}
+		
 		return cancelButton;
 	}
+	
 	/**
-	 * This method initializes jPanel1	
+	 * This method initializes buttonSubPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getButtonSubPanel() {
 		if (buttonSubPanel == null) {
 			buttonSubPanel = new JPanel();
-			buttonSubPanel.add(getAddButton(), null);
-			buttonSubPanel.add(getCancelButton(), null);
+			buttonSubPanel.add(getAddButton());
+			buttonSubPanel.add(getCancelButton());
 		}
+		
 		return buttonSubPanel;
 	}
+	
 	/**
-	 * This method initializes jPanel2	
+	 * This method initializes formPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getFormPanel() {
 		if (formPanel == null) {
-			formPanel = new JPanel();
-			formPanel.setLayout(new FlowLayout());
-			formPanel.add(getFormSubPanel(), null);
+			formPanel = new JPanel(new FlowLayout());
+			formPanel.add(getFormSubPanel());
 		}
+		
 		return formPanel;
 	}
+	
 	/**
-	 * This method initializes jPanel3	
+	 * This method initializes formSubPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getFormSubPanel() {
 		if (formSubPanel == null) {
-			repositoryLabel = new JLabel();
 			formSubPanel = new JPanel();
 			formSubPanel.setLayout(new BoxLayout(formSubPanel, BoxLayout.Y_AXIS));
-			repositoryLabel.setText(ResourceUtil.getString("editaccessrule.repository"));
-			repositoryLabel.setPreferredSize(new java.awt.Dimension(100,15));
-			formSubPanel.add(getRepositoryPanel(), null);
-			formSubPanel.add(getPathPanel(), null);
-			formSubPanel.add(getLevelOfAccessPanel(), null);
-			formSubPanel.add(getApplyToPanel(), null);
-			formSubPanel.add(getGroupPanel(), null);
-			formSubPanel.add(getUserPanel(), null);
+			formSubPanel.add(getRepositoryPanel());
+			formSubPanel.add(getPathPanel());
+			formSubPanel.add(getLevelOfAccessPanel());
+			formSubPanel.add(getApplyToPanel());
+			formSubPanel.add(getGroupPanel());
+			formSubPanel.add(getUserPanel());
 		}
+		
 		return formSubPanel;
 	}
-	private void displayError(String message) {
-		JOptionPane.showMessageDialog(this, message, ResourceUtil.getString("application.error"), JOptionPane.ERROR_MESSAGE);
-	}
 	
+	/**
+	 * Refresh list of repositories.
+	 * 
+	 * @param repository Repository to be selected.
+	 */
 	private void refreshRepositoryList(Repository repository) {
 		getRepositoryComboBox().setModel(new RepositoryListModel());
 		
@@ -239,6 +292,9 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		}
 	}
 	
+	/**
+	 * Add Repository event handler.
+	 */
 	private void addRepository() {
 		Message message = new Message();
 		
@@ -251,6 +307,9 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		}
 	}
 	
+	/**
+	 * Refresh apply to panels.
+	 */
 	private void refereshApplyToPanels() {
 		if (getGroupRadioButton().isSelected()) {
 			getGroupPanel().setVisible(true);
@@ -266,17 +325,22 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		}
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Group")) {
+	/**
+	 * ActionPerformed event handler.
+	 * 
+	 * @param event ActionEvent object.
+	 */
+	public void actionPerformed(ActionEvent event) {
+		if (event.getActionCommand().equals(GROUP_ACTION)) {
 			refereshApplyToPanels();
 		}
-		else if (e.getActionCommand().equals("User")) {
+		else if (event.getActionCommand().equals(USER_ACTION)) {
 			refereshApplyToPanels();
 		}
-		else if (e.getActionCommand().equals("AllUsers")) {
+		else if (event.getActionCommand().equals(ALL_USERS_ACTION)) {
 			refereshApplyToPanels();
 		}
-		else if (e.getActionCommand().equals("Save")) {
+		else if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
 			try {
 				Repository repository = (Repository)getRepositoryComboBox().getSelectedItem();								
 				String pathString = (String)getPathTextField().getText();
@@ -284,7 +348,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 				Group group = null;
 				User user = null;
 				
-				Validator.validateNotEmptyString("Path", pathString);
+				Validator.validateNotEmptyString(ResourceUtil.getString("editaccessrule.path"), pathString);
 				
 				if (getReadWriteRadioButton().isSelected()) {
 					levelOfAccess = Constants.ACCESS_LEVEL_READWRITE;
@@ -299,12 +363,12 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 				if (getGroupRadioButton().isSelected()) {
 					group = (Group)getGroupComboBox().getSelectedItem();
 					
-					Validator.validateNotNull("Group", group);
+					Validator.validateNotNull(ResourceUtil.getString("editaccessrule.group"), group);
 				}
 				else if (getUserRadioButton().isSelected()) {
 					user = (User)getUserComboBox().getSelectedItem();
 					
-					Validator.validateNotNull("User", user);
+					Validator.validateNotNull(ResourceUtil.getString("editaccessrule.user"), user);
 				}
 				else if (getAllUsersRadioButton().isSelected()) {
 					user = Document.addUser("*");
@@ -356,143 +420,146 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 				displayError(ex.getMessage());
 			}
 		}
-		else if (e.getActionCommand().equals("AddRepository")) {
+		else if (event.getActionCommand().equals(Constants.ADD_REPOSITORY_ACTION)) {
 			addRepository();
 		}
-		else if (e.getActionCommand().equals("Cancel")) {
+		else if (event.getActionCommand().equals(Constants.CANCEL_ACTION)) {
 			message.setState(Message.CANCEL);
 			dispose();
 		}
 	}
+	
 	/**
-	 * This method initializes jComboBox	
+	 * This method initializes repositoryComboBox.	
 	 * 	
 	 * @return javax.swing.JComboBox	
 	 */    
 	private JComboBox getRepositoryComboBox() {
 		if (repositoryComboBox == null) {
-			repositoryComboBox = new JComboBox();
-			repositoryComboBox.setModel(new RepositoryListModel());
-			
-			repositoryComboBox.setSelectedItem(accessRule.getPath().getRepository());
-			
-			repositoryComboBox.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
-			repositoryComboBox.setBackground(java.awt.Color.white);
+			repositoryComboBox = new JComboBox(new RepositoryListModel());
+			repositoryComboBox.setSelectedItem(accessRule.getPath().getRepository());			
+			repositoryComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+			repositoryComboBox.setBackground(Color.white);
 		}
+		
 		return repositoryComboBox;
 	}
+	
 	/**
-	 * This method initializes jPanel4	
+	 * This method initializes repositoryPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getRepositoryPanel() {
 		if (repositoryPanel == null) {
-			FlowLayout flowLayout2 = new FlowLayout();
-			repositoryPanel = new JPanel();
-			repositoryPanel.setLayout(flowLayout2);
-			flowLayout2.setAlignment(java.awt.FlowLayout.LEFT);
-			repositoryPanel.add(repositoryLabel, null);
-			repositoryPanel.add(getRepositoryComboBox(), null);
-			repositoryPanel.add(getAddRepositoryButton(), null);
+			repositoryLabel = new JLabel();
+			repositoryLabel.setText(ResourceUtil.getString("editaccessrule.repository"));
+			repositoryLabel.setPreferredSize(new Dimension(100, 15));
+			
+			repositoryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			repositoryPanel.add(repositoryLabel);
+			repositoryPanel.add(getRepositoryComboBox());
+			repositoryPanel.add(getAddRepositoryButton());
 		}
+		
 		return repositoryPanel;
 	}
+	
 	/**
-	 * This method initializes jPanel5	
+	 * This method initializes groupPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getGroupPanel() {
 		if (groupPanel == null) {
-			FlowLayout flowLayout1 = new FlowLayout();
 			groupLabel = new JLabel();
-			groupPanel = new JPanel();
-			groupPanel.setLayout(flowLayout1);
 			groupLabel.setText(ResourceUtil.getString("editaccessrule.group"));
 			groupLabel.setPreferredSize(new java.awt.Dimension(100,15));
 			groupLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-			flowLayout1.setAlignment(java.awt.FlowLayout.LEFT);
-			groupPanel.add(groupLabel, null);
-			groupPanel.add(getGroupComboBox(), null);
+			
+			groupPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			groupPanel.add(groupLabel);
+			groupPanel.add(getGroupComboBox());
 		}
+		
 		return groupPanel;
 	}
+	
 	/**
-	 * This method initializes jPanel6	
+	 * This method initializes userPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getUserPanel() {
 		if (userPanel == null) {
-			FlowLayout flowLayout3 = new FlowLayout();
 			userLabel = new JLabel();
-			userPanel = new JPanel();
-			userPanel.setLayout(flowLayout3);
 			userLabel.setText(ResourceUtil.getString("editaccessrule.user"));
 			userLabel.setPreferredSize(new java.awt.Dimension(100,15));
 			userLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-			flowLayout3.setAlignment(java.awt.FlowLayout.LEFT);
-			userPanel.add(userLabel, null);
-			userPanel.add(getUserComboBox(), null);
+			
+			userPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));			
+			userPanel.add(userLabel);
+			userPanel.add(getUserComboBox());
 			userPanel.setVisible(false);
 		}
+		
 		return userPanel;
 	}
+	
 	/**
-	 * This method initializes jComboBox	
+	 * This method initializes groupComboBox.	
 	 * 	
 	 * @return javax.swing.JComboBox	
 	 */    
 	private JComboBox getGroupComboBox() {
 		if (groupComboBox == null) {
-			groupComboBox = new JComboBox();
-			groupComboBox.setModel(new GroupListModel());
-			groupComboBox.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
-			groupComboBox.setBackground(java.awt.Color.white);
+			groupComboBox = new JComboBox(new GroupListModel());
+			groupComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+			groupComboBox.setBackground(Color.white);
 			
 			if (accessRule.getGroup() != null) {
 				groupComboBox.setSelectedItem(accessRule.getGroup());
 			}
 		}
+		
 		return groupComboBox;
 	}
+	
 	/**
-	 * This method initializes jComboBox1	
+	 * This method initializes userComboBox.	
 	 * 	
 	 * @return javax.swing.JComboBox	
 	 */    
 	private JComboBox getUserComboBox() {
 		if (userComboBox == null) {
-			userComboBox = new JComboBox();
-			userComboBox.setModel(new UserListModel());
-			userComboBox.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
-			userComboBox.setBackground(java.awt.Color.white);
+			userComboBox = new JComboBox(new UserListModel());
+			userComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+			userComboBox.setBackground(Color.white);
 			
 			if (accessRule.getUser() != null) {
 				userComboBox.setSelectedItem(accessRule.getUser());
 			}
 		}
+		
 		return userComboBox;
 	}
+	
 	/**
-	 * This method initializes jPanel7	
+	 * This method initializes applyToPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getApplyToPanel() {
 		if (applyToPanel == null) {
 			applyToLabel = new JLabel();
-			FlowLayout flowLayout4 = new FlowLayout();
-			applyToPanel = new JPanel();
-			applyToPanel.setLayout(flowLayout4);
-			flowLayout4.setAlignment(java.awt.FlowLayout.LEFT);
 			applyToLabel.setText(ResourceUtil.getString("editaccessrule.applyto"));
 			applyToLabel.setPreferredSize(new java.awt.Dimension(100,15));
-			applyToPanel.add(applyToLabel, null);
-			applyToPanel.add(getGroupRadioButton(), null);
-			applyToPanel.add(getUserRadioButton(), null);
-			applyToPanel.add(getAllUsersRadioButton(), null);
+			
+			applyToPanel = new JPanel(new FlowLayout());
+			applyToPanel.add(applyToLabel);
+			applyToPanel.add(getGroupRadioButton());
+			applyToPanel.add(getUserRadioButton());
+			applyToPanel.add(getAllUsersRadioButton());
 						
 			groupUserButtonGroup = new ButtonGroup();
 			groupUserButtonGroup.add(getGroupRadioButton());
@@ -501,91 +568,89 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 			
 			if (Document.getGroupObjects().length == 0) {
 				getGroupRadioButton().setEnabled(false);
-//				getUserRadioButton().setSelected(true);
 			}
 			
 			if (Document.getUserObjects().length == 0) {
 				getUserRadioButton().setEnabled(false);
-				
-				if (getGroupRadioButton().isEnabled()) {
-//					getGroupRadioButton().setSelected(true);
-				}
-				else {
-//					getAllUsersRadioButton().setSelected(true);
-				}
 			}
 			
 			refereshApplyToPanels();
 		}
+		
 		return applyToPanel;
 	}
+	
 	/**
-	 * This method initializes jRadioButton	
+	 * This method initializes groupRadioButton.	
 	 * 	
 	 * @return javax.swing.JRadioButton	
 	 */    
 	private JRadioButton getGroupRadioButton() {
 		if (groupRadioButton == null) {
 			groupRadioButton = new JRadioButton();
-			groupRadioButton.setText(ResourceUtil.getString("editaccessrule.applyto.group"));
-			groupRadioButton.setActionCommand("Group");
-			groupRadioButton.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
 			groupRadioButton.addActionListener(this);
+			groupRadioButton.setActionCommand(GROUP_ACTION);
+			groupRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			groupRadioButton.setText(ResourceUtil.getString("editaccessrule.applyto.group"));
 			
 			if (accessRule.getGroup() != null) {
 				groupRadioButton.setSelected(true);
 			}
 		}
+		
 		return groupRadioButton;
 	}
+	
 	/**
-	 * This method initializes jRadioButton1	
+	 * This method initializes userRadioButton.	
 	 * 	
 	 * @return javax.swing.JRadioButton	
 	 */    
 	private JRadioButton getUserRadioButton() {
 		if (userRadioButton == null) {
 			userRadioButton = new JRadioButton();
-			userRadioButton.setText(ResourceUtil.getString("editaccessrule.applyto.user"));
-			userRadioButton.setActionCommand("User");
-			userRadioButton.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
 			userRadioButton.addActionListener(this);
+			userRadioButton.setActionCommand(USER_ACTION);
+			userRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			userRadioButton.setText(ResourceUtil.getString("editaccessrule.applyto.user"));
 			
 			if (accessRule.getUser() != null && !accessRule.getUser().getName().equals("*")) {
 				userRadioButton.setSelected(true);
 			}
 		}
+		
 		return userRadioButton;
 	}
+	
 	/**
-	 * This method initializes jPanel5	
+	 * This method initializes levelOfAccessPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getLevelOfAccessPanel() {
 		if (levelOfAccessPanel == null) {
-			FlowLayout flowLayout7 = new FlowLayout();
 			levelOfAccessLabel = new JLabel();
-			levelOfAccessPanel = new JPanel();
-			levelOfAccessPanel.setLayout(flowLayout7);
 			levelOfAccessLabel.setText(ResourceUtil.getString("editaccessrule.level"));
 			levelOfAccessLabel.setPreferredSize(new java.awt.Dimension(100,15));
-			flowLayout7.setAlignment(java.awt.FlowLayout.LEFT);
-			levelOfAccessPanel.add(levelOfAccessLabel, null);
-			levelOfAccessPanel.add(getReadWriteRadioButton(), null);
-			levelOfAccessPanel.add(getReadOnlyRadioButton(), null);
-			levelOfAccessPanel.add(getDenyAccessRadioButton(), null);
-			levelOfAccessPanel.add(getLevelOfAccessSubPanel(), null);
+			
+			levelOfAccessPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			levelOfAccessPanel.add(levelOfAccessLabel);
+			levelOfAccessPanel.add(getReadWriteRadioButton());
+			levelOfAccessPanel.add(getReadOnlyRadioButton());
+			levelOfAccessPanel.add(getDenyAccessRadioButton());
+			levelOfAccessPanel.add(getLevelOfAccessSubPanel());
 			
 			accessLevelButtonGroup = new ButtonGroup();
 			accessLevelButtonGroup.add(getReadWriteRadioButton());
 			accessLevelButtonGroup.add(getReadOnlyRadioButton());			
 			accessLevelButtonGroup.add(getDenyAccessRadioButton());
 		}
+		
 		return levelOfAccessPanel;
 	}
+	
 	/**
-	 * This method initializes jRadioButton	
+	 * This method initializes readOnlyRadioButton.	
 	 * 	
 	 * @return javax.swing.JRadioButton	
 	 */    
@@ -593,16 +658,18 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		if (readOnlyRadioButton == null) {
 			readOnlyRadioButton = new JRadioButton();
 			readOnlyRadioButton.setText(ResourceUtil.getString("accesslevel.readonly"));
-			readOnlyRadioButton.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			readOnlyRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
 			
 			if (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY)) {
 				readOnlyRadioButton.setSelected(true);
 			}
 		}
+		
 		return readOnlyRadioButton;
 	}
+	
 	/**
-	 * This method initializes jRadioButton1	
+	 * This method initializes readWriteRadioButton	
 	 * 	
 	 * @return javax.swing.JRadioButton	
 	 */    
@@ -610,16 +677,18 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		if (readWriteRadioButton == null) {
 			readWriteRadioButton = new JRadioButton();
 			readWriteRadioButton.setText(ResourceUtil.getString("accesslevel.readwrite"));
-			readWriteRadioButton.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			readWriteRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
 			
 			if (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READWRITE)) {
 				readWriteRadioButton.setSelected(true);
 			}
 		}
+		
 		return readWriteRadioButton;
 	}
+	
 	/**
-	 * This method initializes jRadioButton2	
+	 * This method initializes denyAccessRadioButton.	
 	 * 	
 	 * @return javax.swing.JRadioButton	
 	 */    
@@ -627,41 +696,41 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		if (denyAccessRadioButton == null) {
 			denyAccessRadioButton = new JRadioButton();
 			denyAccessRadioButton.setText(ResourceUtil.getString("accesslevel.denyaccess"));
-			denyAccessRadioButton.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			denyAccessRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
 			
 			if (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_DENY_ACCESS)) {
 				denyAccessRadioButton.setSelected(true);
 			}
 		}
+		
 		return denyAccessRadioButton;
 	}
+	
 	/**
-	 * This method initializes jPanel6	
+	 * This method initializes levelOfAccessSubPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getLevelOfAccessSubPanel() {
 		if (levelOfAccessSubPanel == null) {
-			GridLayout gridLayout6 = new GridLayout();
-			levelOfAccessSubPanel = new JPanel();
-			levelOfAccessSubPanel.setLayout(gridLayout6);
-			gridLayout6.setRows(3);
-			gridLayout6.setColumns(1);
+			levelOfAccessSubPanel = new JPanel(new GridLayout(3, 1));
 		}
+		
 		return levelOfAccessSubPanel;
 	}
+	
 	/**
-	 * This method initializes jRadioButton	
+	 * This method initializes allUsersRadioButton.
 	 * 	
 	 * @return javax.swing.JRadioButton	
 	 */    
 	private JRadioButton getAllUsersRadioButton() {
 		if (allUsersRadioButton == null) {
 			allUsersRadioButton = new JRadioButton();
-			allUsersRadioButton.setText(ResourceUtil.getString("editaccessrule.applyto.allusers"));
-			allUsersRadioButton.setActionCommand("AllUsers");
-			allUsersRadioButton.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
 			allUsersRadioButton.addActionListener(this);
+			allUsersRadioButton.setActionCommand(ALL_USERS_ACTION);
+			allUsersRadioButton.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			allUsersRadioButton.setText(ResourceUtil.getString("editaccessrule.applyto.allusers"));
 			
 			User user = accessRule.getUser();
 			
@@ -669,57 +738,59 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 				allUsersRadioButton.setSelected(true);
 			}
 		}
+		
 		return allUsersRadioButton;
 	}
+	
 	/**
-	 * This method initializes jPanel8	
+	 * This method initializes pathPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getPathPanel() {
 		if (pathPanel == null) {
 			pathLabel = new JLabel();
-			FlowLayout flowLayout8 = new FlowLayout();
-			pathPanel = new JPanel();
-			pathPanel.setLayout(flowLayout8);
-			flowLayout8.setAlignment(java.awt.FlowLayout.LEFT);
 			pathLabel.setText(ResourceUtil.getString("editaccessrule.path"));
-			pathLabel.setPreferredSize(new java.awt.Dimension(100,15));
-			pathPanel.add(pathLabel, null);
-			pathPanel.add(getPathTextField(), null);
+			pathLabel.setPreferredSize(new java.awt.Dimension(100, 15));
+			
+			pathPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			pathPanel.add(pathLabel);
+			pathPanel.add(getPathTextField());
 		}
+		
 		return pathPanel;
 	}
+	
 	/**
-	 * This method initializes jTextField	
+	 * This method initializes pathTextField.	
 	 * 	
 	 * @return javax.swing.JTextField	
 	 */    
 	private JTextField getPathTextField() {
 		if (pathTextField == null) {
-			pathTextField = new JTextField();
-			
-			pathTextField.setColumns(30);
-			
+			pathTextField = new JTextField(30);			
 			pathTextField.setText(accessRule.getPath().getPath());
 		}
+		
 		return pathTextField;
 	}
+	
 	/**
-	 * This method initializes jButton	
+	 * This method initializes addRepositoryButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getAddRepositoryButton() {
 		if (addRepositoryButton == null) {
 			addRepositoryButton = new JButton();
-			addRepositoryButton.setActionCommand("AddRepository");
+			addRepositoryButton.addActionListener(this);
+			addRepositoryButton.setActionCommand(Constants.ADD_REPOSITORY_ACTION);
 			addRepositoryButton.setToolTipText(ResourceUtil.getString("editaccessrule.addrepository.tooltip"));
 			addRepositoryButton.setText(ResourceUtil.getString("editaccessrule.addrepository"));
 			addRepositoryButton.setPreferredSize(new java.awt.Dimension(56,25));
-			addRepositoryButton.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 12));
-			addRepositoryButton.addActionListener(this);
+			addRepositoryButton.setFont(new Font("Dialog", Font.BOLD, 12));
 		}
+		
 		return addRepositoryButton;
 	}
 }

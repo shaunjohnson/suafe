@@ -12,7 +12,7 @@ import org.xiaoniu.suafe.exceptions.ValidatorException;
 import org.xiaoniu.suafe.validators.Validator;
 
 /**
- * @author spjohnso
+ * @author Shaun Johnson
  */
 public class ValidatorTest extends TestCase {
 

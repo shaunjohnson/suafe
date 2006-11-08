@@ -21,12 +21,16 @@ package org.xiaoniu.suafe.models;
 import org.xiaoniu.suafe.beans.Document;
 
 /**
- * User list for a combo-box.
+ * User list for a combo-box. Combo-box of all User for the current 
+ * document.
  * 
  * @author Shaun Johnson
  */
 public class UserListModel extends BaseComboBoxModel {
 	
+	/**
+	 * Default constructor.
+	 */
 	public UserListModel() {
 		super();
 		

@@ -37,8 +37,14 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  */
 public class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = -3819189157641390968L;
 	
+	/**
+	 * Copy of default tree cell renderer. Used for reference.
+	 */
 	private static DefaultTreeCellRenderer render = null;
 	
 	/**
@@ -94,6 +100,7 @@ public class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 		setEnabled(tree.isEnabled());
 		setFont(tree.getFont());
 		setOpaque(true);
+		
 		return this;
 	}
 

@@ -30,18 +30,21 @@ import javax.swing.JFrame;
  */
 public class BaseFrame extends JFrame {
 
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = -6296033233946137131L;
 
+	/**
+	 * Centers the frame on the user's screen.
+	 */
 	public void center() {
-		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
 		
-		// Calculate the frame location
 		int x = (screenSize.width - this.getWidth()) / 2;
 		int y = (screenSize.height - this.getHeight()) / 2;
 
-		// Set the new frame location
 		this.setLocation(x, y);
 	}
 }

@@ -37,13 +37,36 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  */
 public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
 
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = 2879090147475742072L;
 		
+	/**
+	 * Default constructor.
+	 */
 	public MyTableCellRenderer() {
 		super();
 	}
 	
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	/**
+	 * Custom cell painter.
+	 * 
+	 * @param table The table being painted
+	 * @param value Value to display
+	 * @param isSelected Indicates whether item is selected or not
+	 * @param hasFocus True if the item has focus
+	 * @param row Row number
+	 * @param column Column number
+	 */
+	public Component getTableCellRendererComponent(
+			JTable table, 
+			Object value, 
+			boolean isSelected, 
+			boolean hasFocus, 
+			int row, 
+			int column) 
+	{
 		if (value != null) {
 			setText(value.toString());
 		}
@@ -95,6 +118,7 @@ public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
 		setEnabled(table.isEnabled());
 		setFont(table.getFont());
 		setOpaque(true);
+		
 		return this;
 	}
 

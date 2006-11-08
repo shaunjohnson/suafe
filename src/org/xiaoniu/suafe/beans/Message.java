@@ -27,16 +27,34 @@ package org.xiaoniu.suafe.beans;
  */
 public class Message {
 
-	public static int CANCEL = -1;
+	/**
+	 * Status indicating that the user cancelled the operation.
+	 */
+	public static final int CANCEL = -1;
 	
-	public static int UNKNOWN = 0;
+	/**
+	 * Status indicating that the user didn't perform an operation.
+	 */
+	public static final int UNKNOWN = 0;
 	
-	public static int SUCCESS = 1;
+	/**
+	 * Status indicating that the user allowed the operation to succeed.
+	 */
+	public static final int SUCCESS = 1;
 	
+	/**
+	 * Object passed between dialogs.
+	 */
 	private Object userObject;
 	
+	/**
+	 * Current state of the message.
+	 */
 	private int state;
 	
+	/**
+	 * Default constructor.
+	 */
 	public Message() {
 		super();
 		
@@ -45,24 +63,32 @@ public class Message {
 	}
 	
 	/**
+	 * Returns the current state.
+	 * 
 	 * @return Returns the state.
 	 */
 	public int getState() {
 		return state;
 	}
 	/**
+	 * Changes the object state.
+	 * 
 	 * @param state The state to set.
 	 */
 	public void setState(int state) {
 		this.state = state;
 	}
 	/**
+	 * Returns the user object.
+	 * 
 	 * @return Returns the userObject.
 	 */
 	public Object getUserObject() {
 		return userObject;
 	}
 	/**
+	 * Sets the user object.
+	 * 
 	 * @param userObject The userObject to set.
 	 */
 	public void setUserObject(Object userObject) {

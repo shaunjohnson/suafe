@@ -24,6 +24,19 @@ package org.xiaoniu.suafe;
  */
 public class Constants {
 	//
+	// Paths
+	//
+	public static final String RESOURCE_DIR = "org/xiaoniu/suafe/resources";
+	
+	public static final String FULL_RESOURCE_DIR = "/" + RESOURCE_DIR;
+	
+	public static final String HELP_DIR = FULL_RESOURCE_DIR + "/help";
+	
+	public static final String IMAGE_DIR = FULL_RESOURCE_DIR + "/images";
+	
+	public static final String RESOURCE_BUNDLE = RESOURCE_DIR + "/Resources";
+	
+	//
 	// Access Levels
 	//
 	public static final String ACCESS_LEVEL_READONLY = "r";
@@ -60,6 +73,8 @@ public class Constants {
 	//
 	// Actions
 	//
+	public static final String ADD_REPOSITORY_ACTION = "ADD_REPOSITORY_ACTION";
+	
 	public static final String DELETE_ACCESS_RULE_ACTION = "DELETE_ACCESS_RULE_ACTION";
 
 	public static final String EDIT_ACCESS_RULE_ACTION = "EDIT_ACCESS_RULE_ACTION";
@@ -113,4 +128,16 @@ public class Constants {
 	public static final String OPEN_FILE_ACTION = "OPEN_FILE_ACTION";
 
 	public static final String NEW_FILE_ACTION = "NEW_FILE_ACTION";
+	
+	public static final String OK_ACTION = "OK_ACTION";
+	
+	public static final String ADD_ACTION = "ADD_ACTION";
+	
+	public static final String CANCEL_ACTION = "CANCEL_ACTION";
+	
+	public static final String SAVE_ACTION = "SAVE_ACTION";
+	
+	public static final String ASSIGN_ACTION = "ASSIGN_ACTION";
+	
+	public static final String UNASSIGN_ACTION = "UNASSIGN_ACTION";
 }

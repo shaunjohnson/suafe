@@ -138,10 +138,7 @@ public class Path implements Comparable {
 	/**
 	 * Returns the Path object as a String.
 	 */
-	public String toString() {
-//		return ((repository == null) ? "" : repository.toString()) + ":" +
-//			((path == null) ? "" : path);
-		
+	public String toString() {		
 		return ((path == null) ? "" : path);
 	}
 	

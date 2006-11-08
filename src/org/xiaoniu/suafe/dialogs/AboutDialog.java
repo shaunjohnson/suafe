@@ -19,13 +19,17 @@
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
+import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -36,24 +40,43 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
 public class AboutDialog extends ParentDialog implements ActionListener {
 
 	/**
-	 * 
+	 * Unique ID.
 	 */
 	private static final long serialVersionUID = 2009320543683373156L;
 
+	/**
+	 * Main content panel.
+	 */
 	private javax.swing.JPanel jContentPane = null;
 	
+	/**
+	 * Action button panel.
+	 */
 	private JPanel buttonPanel = null;
 	
+	/**
+	 * Confirmation button.
+	 */
 	private JButton okButton = null;
 	
+	/**
+	 * Content panel.
+	 */
 	private JPanel contentPanel = null;
 	
+	/**
+	 * Title panel.
+	 */
 	private JLabel titleLabel = null;
 	
+	/**
+	 * Description label.
+	 */
 	private JLabel descriptionLabel = null;
 	
+	
 	/**
-	 * This is the default constructor
+	 * Default constructor.
 	 */
 	public AboutDialog() {
 		super();
@@ -65,7 +88,7 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 	 */
 	private void initialize() {
 		this.setResizable(false);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("about.title"));
 		this.setSize(300, 200);
 		this.setContentPane(getJContentPane());
@@ -78,68 +101,76 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private javax.swing.JPanel getJContentPane() {
+	private JPanel getJContentPane() {
 		if(jContentPane == null) {
-			jContentPane = new javax.swing.JPanel();
-			jContentPane.setLayout(new java.awt.BorderLayout());
-			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
-			jContentPane.add(getContentPanel(), java.awt.BorderLayout.CENTER);
+			jContentPane = new JPanel(new BorderLayout());
+			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
+			jContentPane.add(getContentPanel(), BorderLayout.CENTER);
 		}
+		
 		return jContentPane;
 	}
 	
 	/**
-	 * This method initializes jPanel	
+	 * This method initializes buttonPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
 			buttonPanel = new JPanel();
-			buttonPanel.add(getOkButton(), null);
+			buttonPanel.add(getOkButton());
 		}
+		
 		return buttonPanel;
 	}
+	
 	/**
-	 * This method initializes jButton	
+	 * This method initializes okButton	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getOkButton() {
 		if (okButton == null) {
 			okButton = new JButton();
-			okButton.setText(ResourceUtil.getString("button.ok"));
-			okButton.setActionCommand("OK");
 			okButton.addActionListener(this);
-			
-			getRootPane().setDefaultButton(okButton);
+			okButton.setActionCommand(Constants.OK_ACTION);
+			okButton.setText(ResourceUtil.getString("button.ok"));
 		}
+		
 		return okButton;
 	}
+	
 	/**
-	 * This method initializes jPanel1	
+	 * This method initializes contentPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getContentPanel() {
 		if (contentPanel == null) {
-			descriptionLabel = new JLabel();
-			titleLabel = new JLabel();
-			contentPanel = new JPanel();
-			contentPanel.setLayout(new BorderLayout());
-			titleLabel.setText(ResourceUtil.getString("application.nameversion"));
-			titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-			titleLabel.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 18));
-			descriptionLabel.setText(ResourceUtil.getString("about.content"));
-			descriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-			contentPanel.add(titleLabel, java.awt.BorderLayout.NORTH);
-			contentPanel.add(descriptionLabel, java.awt.BorderLayout.CENTER);
+			contentPanel = new JPanel(new BorderLayout());
+			
+			titleLabel = new JLabel(ResourceUtil.getString("application.nameversion"));
+			titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			titleLabel.setFont(new Font("Dialog", Font.BOLD, 18));
+			
+			descriptionLabel = new JLabel(ResourceUtil.getString("about.content"));
+			descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			contentPanel.add(titleLabel, BorderLayout.NORTH);
+			contentPanel.add(descriptionLabel, BorderLayout.CENTER);
 		}
+		
 		return contentPanel;
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("OK")) {
+	/**
+	 * ActionPerformed event handler.
+	 * 
+	 * @param event ActionEvent object.
+	 */
+	public void actionPerformed(ActionEvent event) {
+		if (event.getActionCommand().equals(Constants.OK_ACTION)) {
 			dispose();
 		}
 	}

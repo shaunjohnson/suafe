@@ -18,6 +18,7 @@
 
 package org.xiaoniu.suafe.dialogs;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,10 +26,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
+import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
@@ -43,23 +45,30 @@ import org.xiaoniu.suafe.validators.Validator;
 public class AddGroupDialog extends ParentDialog implements ActionListener {
 
 	/**
-	 * 
+	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 4479594491319664611L;
+	
 	private Message message;
-	private javax.swing.JPanel jContentPane = null;
+	
+	private JPanel jContentPane = null;
+	
 	private JPanel buttonPanel = null;
+	
 	private JButton addButton = null;
+	
 	private JButton cancelButton = null;
+	
 	private JPanel buttonSubPanel = null;
+	
 	private JPanel formPanel = null;
+	
 	private JPanel formSubPanel = null;
-	private JLabel groupNameLabel = null;
+	
 	private JTextField groupNameText = null;
-	private JLabel instructionsLabel = null;
 	
 	/**
-	 * This is the default constructor
+	 * Default constructor
 	 */
 	public AddGroupDialog(Message message) {
 		super();
@@ -69,17 +78,21 @@ public class AddGroupDialog extends ParentDialog implements ActionListener {
 		
 		initialize();
 	}
+	
 	/**
 	 * This method initializes this
 	 */
 	private void initialize() {
 		this.setResizable(false);
 		this.setModal(true);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addgroup.title"));
 		this.setSize(450, 135);
 		this.setContentPane(getJContentPane());
+		
+		getRootPane().setDefaultButton(getAddButton());
 	}
+	
 	/**
 	 * This method initializes jContentPane
 	 * 
@@ -87,122 +100,125 @@ public class AddGroupDialog extends ParentDialog implements ActionListener {
 	 */
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
-			instructionsLabel = new JLabel();
-			jContentPane = new javax.swing.JPanel();
-			jContentPane.setLayout(new java.awt.BorderLayout());
-			instructionsLabel.setText(ResourceUtil.getString("addgroup.instructions"));
-			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
-			jContentPane.add(getFormPanel(), java.awt.BorderLayout.CENTER);
-			jContentPane.add(instructionsLabel, java.awt.BorderLayout.NORTH);
+			jContentPane = new JPanel(new BorderLayout());
+			jContentPane.add(new JLabel(ResourceUtil.getString("addgroup.instructions")), BorderLayout.NORTH);
+			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
+			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 		}
+		
 		return jContentPane;
 	}
+	
 	/**
-	 * This method initializes jPanel	
+	 * This method initializes buttonPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
-			GridLayout gridLayout1 = new GridLayout();
-			buttonPanel = new JPanel();
-			buttonPanel.setLayout(gridLayout1);
-			gridLayout1.setRows(1);
-			buttonPanel.add(getButtonSubPanel(), null);
+			buttonPanel = new JPanel(new GridLayout(1, 1));
+			buttonPanel.add(getButtonSubPanel());
 		}
+		
 		return buttonPanel;
 	}
+	
 	/**
-	 * This method initializes jButton	
+	 * This method initializes addButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getAddButton() {
 		if (addButton == null) {
 			addButton = new JButton();
-			addButton.setText(ResourceUtil.getString("button.add"));
-			addButton.setActionCommand("Add");
 			addButton.addActionListener(this);
-			
-			getRootPane().setDefaultButton(addButton);
+			addButton.setActionCommand(Constants.ADD_ACTION);
+			addButton.setText(ResourceUtil.getString("button.add"));
 		}
+		
 		return addButton;
 	}
+	
 	/**
-	 * This method initializes jButton1	
+	 * This method initializes cancelButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
 			cancelButton = new JButton();
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
-			cancelButton.setActionCommand("Cancel");
 			cancelButton.addActionListener(this);
+			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
+			cancelButton.setText(ResourceUtil.getString("button.cancel"));
 		}
+		
 		return cancelButton;
 	}
+	
 	/**
-	 * This method initializes jPanel1	
+	 * This method initializes buttonSubPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getButtonSubPanel() {
 		if (buttonSubPanel == null) {
 			buttonSubPanel = new JPanel();
-			buttonSubPanel.add(getAddButton(), null);
-			buttonSubPanel.add(getCancelButton(), null);
+			buttonSubPanel.add(getAddButton());
+			buttonSubPanel.add(getCancelButton());
 		}
+		
 		return buttonSubPanel;
 	}
+	
 	/**
-	 * This method initializes jPanel2	
+	 * This method initializes formPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getFormPanel() {
 		if (formPanel == null) {
-			formPanel = new JPanel();
-			formPanel.setLayout(new FlowLayout());
-			formPanel.add(getFormSubPanel(), null);
+			formPanel = new JPanel(new FlowLayout());
+			formPanel.add(getFormSubPanel());
 		}
+		
 		return formPanel;
 	}
+	
 	/**
-	 * This method initializes jPanel3	
+	 * This method initializes formSubPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getFormSubPanel() {
 		if (formSubPanel == null) {
-			groupNameLabel = new JLabel();
-			formSubPanel = new JPanel();
-			formSubPanel.setLayout(new FlowLayout());
-			groupNameLabel.setText(ResourceUtil.getString("addgroup.groupname"));
-			formSubPanel.add(groupNameLabel, null);
-			formSubPanel.add(getGroupNameText(), null);
+			formSubPanel = new JPanel(new FlowLayout());
+			formSubPanel.add(new JLabel(ResourceUtil.getString("addgroup.groupname")));
+			formSubPanel.add(getGroupNameText());
 		}
+		
 		return formSubPanel;
 	}
+	
 	/**
-	 * This method initializes jTextField	
+	 * This method initializes groupNameText.	
 	 * 	
 	 * @return javax.swing.JTextField	
 	 */    
 	private JTextField getGroupNameText() {
 		if (groupNameText == null) {
-			groupNameText = new JTextField();
-			groupNameText.setColumns(30);
+			groupNameText = new JTextField(30);
 		}
+		
 		return groupNameText;
 	}
 	
-	private void displayError(String message) {
-		JOptionPane.showMessageDialog(this, message, ResourceUtil.getString("application.error"), JOptionPane.ERROR_MESSAGE);
-	}
-	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Add")) {
+	/**
+	 * ActionPerformed event handler.
+	 * 
+	 * @param event ActionEvent object.
+	 */
+	public void actionPerformed(ActionEvent event) {
+		if (event.getActionCommand().equals(Constants.ADD_ACTION)) {
 			try {
 				String groupName = getGroupNameText().getText();
 				
@@ -222,9 +238,9 @@ public class AddGroupDialog extends ParentDialog implements ActionListener {
 				displayError(ex.getMessage());
 			}
 		}
-		else if (e.getActionCommand().equals("Cancel")) {
+		else if (event.getActionCommand().equals(Constants.CANCEL_ACTION)) {
 			dispose();
 			message.setState(Message.CANCEL);
 		}
 	}
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}

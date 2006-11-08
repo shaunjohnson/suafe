@@ -37,12 +37,27 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  */
 public class MyListCellRenderer extends JLabel implements ListCellRenderer {
 
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = 2612512361404880700L;
 	
+	/**
+	 * Default constructor.
+	 */
 	public MyListCellRenderer() {
 		super();
 	}
 	
+	/**
+	 * Custom cell painter.
+	 * 
+	 * @param list The list being painted
+	 * @param value Value to display
+	 * @param index Cell index
+	 * @param isSelected Indicates whether cell is selected or not
+	 * @param cellHasFocus True if the cell has focus
+	 */
 	public Component getListCellRendererComponent(
 			JList list,
 			Object value,            // value to display
@@ -81,6 +96,7 @@ public class MyListCellRenderer extends JLabel implements ListCellRenderer {
 		setEnabled(list.isEnabled());
 		setFont(list.getFont());
 		setOpaque(true);
+		
 		return this;
 	}
 }

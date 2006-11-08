@@ -7,6 +7,12 @@ import java.awt.event.ContainerListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Base class for some windows. Listens for the user to click the escape
+ * key, which causes the window to close.
+ * 
+ * @author Shaun Johnson
+ */
 public class ParentFrame extends BaseFrame implements ContainerListener, KeyListener {
 
 	/**
@@ -26,6 +32,8 @@ public class ParentFrame extends BaseFrame implements ContainerListener, KeyList
 	/**
 	 * Component Added event handler. Adds listenters to new component
 	 * and all of its children.
+	 * 
+	 * @param containerEvent ContainerEvent object.
 	 */
 	public void componentAdded(ContainerEvent containerEvent)
     {
@@ -35,10 +43,12 @@ public class ParentFrame extends BaseFrame implements ContainerListener, KeyList
 	/**
 	 * Component Removed event handler. Removes listeners from component
 	 * and all of its children.
+	 * 
+	 * @param containerEvent ContainerEvent object.
 	 */
-	public void componentRemoved(ContainerEvent e)
+	public void componentRemoved(ContainerEvent containerEvent)
 	{
-		removeListeners(e.getChild());
+		removeListeners(containerEvent.getChild());
 	}
 
 	/**
@@ -63,6 +73,7 @@ public class ParentFrame extends BaseFrame implements ContainerListener, KeyList
 	
 	/**
 	 * Removes this as a listener from the component and all of its children.
+	 * 
 	 * @param component Child component from which listeners are removed.
 	 */
 	private void removeListeners(Component component)
@@ -84,6 +95,8 @@ public class ParentFrame extends BaseFrame implements ContainerListener, KeyList
 	/**
 	 * Key Pressed event handler. Dispose the current dialog when the
 	 * escape key is pressed.
+	 * 
+	 * @param keyEvent KeyEvent object.
 	 */
 	public void keyPressed(KeyEvent keyEvent) {
 		int keyCode = keyEvent.getKeyCode();
@@ -93,10 +106,20 @@ public class ParentFrame extends BaseFrame implements ContainerListener, KeyList
         }
 	}
 
+	/**
+	 * KeyReleased event handler. Not used.
+	 * 
+	 * @param keyEvent KeyEvent object.
+	 */
 	public void keyReleased(KeyEvent keyEvent) {
 		// Do nothing		
 	}
 
+	/**
+	 * KeyTyped event handler. Not used.
+	 * 
+	 * @param keyEvent KeyEvent object.
+	 */
 	public void keyTyped(KeyEvent keyEvent) {
 		// Do nothing		
 	}

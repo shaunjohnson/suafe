@@ -8,6 +8,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
+import org.xiaoniu.suafe.resources.ResourceUtil;
 
 public class ParentDialog extends JDialog implements ContainerListener, KeyListener {
 
@@ -101,6 +104,15 @@ public class ParentDialog extends JDialog implements ContainerListener, KeyListe
 
 	public void keyTyped(KeyEvent keyEvent) {
 		// Do nothing		
+	}
+
+	/**
+	 * Generic error message dialog.
+	 * 
+	 * @param message Error message to be displayed.
+	 */
+	protected void displayError(String message) {
+		JOptionPane.showMessageDialog(this, message, ResourceUtil.getString("application.error"), JOptionPane.ERROR_MESSAGE);
 	}
 }
 

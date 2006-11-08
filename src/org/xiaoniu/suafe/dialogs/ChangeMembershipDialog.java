@@ -21,6 +21,7 @@ package org.xiaoniu.suafe.dialogs;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,10 +35,10 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.Utilities;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
@@ -54,30 +55,50 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  */
 public class ChangeMembershipDialog extends ParentDialog implements ActionListener, MouseListener {
 
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = 4595558087993098499L;
+	
 	private Message message = null;
+	
 	private User user = null;
+	
 	private Vector<Group> memberOf = null;
+	
 	private Vector<Group> notMemberOf =  null;
+	
 	private JPanel jContentPane = null;
+	
 	private JPanel buttonPanel = null;
-	private JButton jButton = null;
-	private JButton jButton1 = null;
-	private JPanel jPanel1 = null;
+	
+	private JButton cancelButton = null;
+	
+	private JButton saveButton = null;
+	
+	private JPanel formPanel = null;
+	
 	private JList notMemberOfList = null;
+	
 	private JList memberOfList = null;
+	
 	private JButton unassignButton = null;
+	
 	private JButton assignButton = null;
-	private JScrollPane jScrollPane = null;
-	private JScrollPane jScrollPane1 = null;
-	private JPanel jPanel4 = null;
-	private JLabel jLabel1 = null;
-	private JPanel jPanel5 = null;
-	private JLabel jLabel2 = null;
-	private JPanel jPanel6 = null;
-	private JPanel jPanel2 = null;
-	private JPanel jPanel = null;
-	private JLabel jLabel = null;
+	
+	private JScrollPane nonMemberListScrollPane = null;
+	
+	private JScrollPane memberListScrollPane = null;
+	
+	private JPanel nonMemberPanel = null;
+	
+	private JPanel memberPanel = null;
+	
+	private JPanel actionSubPanel = null;
+	
+	private JPanel actionPanel = null;
+	
+	private JPanel instructionsPanel = null;
 	
 	/**
 	 * This is the default constructor
@@ -130,83 +151,92 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		this.setTitle(ResourceUtil.getString("changemembership.title"));
 		this.setContentPane(getJContentPane());
 		this.setResizable(false);
+		
+		getRootPane().setDefaultButton(saveButton);
 	}
+	
 	/**
-	 * This method initializes jContentPane
+	 * This method initializes jContentPane.
 	 * 
 	 * @return javax.swing.JPanel
 	 */
 	private javax.swing.JPanel getJContentPane() {
 		if(jContentPane == null) {
-			jContentPane = new javax.swing.JPanel();
-			jContentPane.setLayout(new java.awt.BorderLayout());
+			jContentPane = new JPanel(new BorderLayout());
+			jContentPane.add(getFormPanel(), java.awt.BorderLayout.CENTER);
 			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
-			jContentPane.add(getJPanel1(), java.awt.BorderLayout.CENTER);
 		}
+		
 		return jContentPane;
 	}
+	
 	/**
-	 * This method initializes jPanel	
+	 * This method initializes buttonPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
 			buttonPanel = new JPanel();
-			buttonPanel.add(getJButton1(), null);
-			buttonPanel.add(getJButton(), null);
+			buttonPanel.add(getJButton1());
+			buttonPanel.add(getCancelButton());
 		}
+		
 		return buttonPanel;
 	}
+	
 	/**
-	 * This method initializes jButton	
+	 * This method initializes cancelButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
-	private JButton getJButton() {
-		if (jButton == null) {
-			jButton = new JButton();
-			jButton.setText(ResourceUtil.getString("button.cancel"));
-			jButton.setActionCommand("Cancel");
-			jButton.addActionListener(this);
+	private JButton getCancelButton() {
+		if (cancelButton == null) {
+			cancelButton = new JButton();
+			cancelButton.addActionListener(this);
+			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
+			cancelButton.setText(ResourceUtil.getString("button.cancel"));
 		}
-		return jButton;
+		
+		return cancelButton;
 	}
+	
 	/**
-	 * This method initializes jButton1	
+	 * This method initializes saveButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
 	private JButton getJButton1() {
-		if (jButton1 == null) {
-			jButton1 = new JButton();
-			jButton1.setText(ResourceUtil.getString("button.save"));
-			jButton1.setActionCommand("Save");
-			jButton1.addActionListener(this);
-			
-			getRootPane().setDefaultButton(jButton1);
+		if (saveButton == null) {
+			saveButton = new JButton();
+			saveButton.addActionListener(this);
+			saveButton.setActionCommand(Constants.SAVE_ACTION);
+			saveButton.setText(ResourceUtil.getString("button.save"));
 		}
-		return jButton1;
+		
+		return saveButton;
 	}
+	
 	/**
-	 * This method initializes jPanel1	
+	 * This method initializes formPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
-	private JPanel getJPanel1() {
-		if (jPanel1 == null) {
-			jPanel1 = new JPanel();
-			jPanel1.setLayout(new BorderLayout());
-			jPanel1.setPreferredSize(new java.awt.Dimension(500,200));
-			jPanel1.add(getJPanel4(), java.awt.BorderLayout.WEST);
-			jPanel1.add(getJPanel2(), java.awt.BorderLayout.CENTER);
-			jPanel1.add(getJPanel5(), java.awt.BorderLayout.EAST);
-			jPanel1.add(getJPanel(), java.awt.BorderLayout.NORTH);
+	private JPanel getFormPanel() {
+		if (formPanel == null) {
+			formPanel = new JPanel(new BorderLayout());
+			formPanel.setPreferredSize(new Dimension(500,200));
+			formPanel.add(getInstructionsPanel(), java.awt.BorderLayout.NORTH);
+			formPanel.add(getActionPanel(), java.awt.BorderLayout.CENTER);
+			formPanel.add(getNonMemberPanel(), java.awt.BorderLayout.WEST);
+			formPanel.add(getMemberPanel(), java.awt.BorderLayout.EAST);
 		}
-		return jPanel1;
+		
+		return formPanel;
 	}
+	
 	/**
-	 * This method initializes jList	
+	 * This method initializes notMemberOfList.	
 	 * 	
 	 * @return javax.swing.JList	
 	 */    
@@ -216,12 +246,14 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			notMemberOfList.setListData(notMemberOf);
 			notMemberOfList.addMouseListener(this);
 			notMemberOfList.setCellRenderer(new MyListCellRenderer());
-			notMemberOfList.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			notMemberOfList.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
+		
 		return notMemberOfList;
 	}
+	
 	/**
-	 * This method initializes jList1	
+	 * This method initializes memberOfList.	
 	 * 	
 	 * @return javax.swing.JList	
 	 */    
@@ -231,12 +263,14 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			memberOfList.setListData(memberOf);
 			memberOfList.addMouseListener(this);
 			memberOfList.setCellRenderer(new MyListCellRenderer());
-			memberOfList.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			memberOfList.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
+		
 		return memberOfList;
 	}
+	
 	/**
-	 * This method initializes jButton2	
+	 * This method initializes unassignButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
@@ -244,14 +278,16 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		if (unassignButton == null) {
 			unassignButton = new JButton();
 			unassignButton.setIcon(ResourceUtil.unassignIcon);
-			unassignButton.setActionCommand("Unassign");
 			unassignButton.addActionListener(this);
+			unassignButton.setActionCommand(Constants.UNASSIGN_ACTION);
 			unassignButton.setPreferredSize(new Dimension(75, 50));
 		}
+		
 		return unassignButton;
 	}
+	
 	/**
-	 * This method initializes jButton3	
+	 * This method initializes assignButton.	
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
@@ -259,107 +295,105 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		if (assignButton == null) {
 			assignButton = new JButton();
 			assignButton.setIcon(ResourceUtil.assignIcon);
-			assignButton.setActionCommand("Assign");
 			assignButton.addActionListener(this);
+			assignButton.setActionCommand(Constants.ASSIGN_ACTION);
 			assignButton.setPreferredSize(new Dimension(75, 50));
 		}
+		
 		return assignButton;
 	}
+	
 	/**
-	 * This method initializes jScrollPane	
+	 * This method initializes nonMemberListScrollPane.	
 	 * 	
 	 * @return javax.swing.JScrollPane	
 	 */    
-	private JScrollPane getJScrollPane() {
-		if (jScrollPane == null) {
-			jScrollPane = new JScrollPane();
-			jScrollPane.setViewportView(getNotMemberOfList());
+	private JScrollPane getNonMemberListScrollPane() {
+		if (nonMemberListScrollPane == null) {
+			nonMemberListScrollPane = new JScrollPane(getNotMemberOfList());
 		}
-		return jScrollPane;
-	}
-	/**
-	 * This method initializes jScrollPane1	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */    
-	private JScrollPane getJScrollPane1() {
-		if (jScrollPane1 == null) {
-			jScrollPane1 = new JScrollPane();
-			jScrollPane1.setViewportView(getMemberOfList());
-		}
-		return jScrollPane1;
-	}
-	/**
-	 * This method initializes jPanel4	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getJPanel4() {
-		if (jPanel4 == null) {
-			jLabel1 = new JLabel();
-			jPanel4 = new JPanel();
-			jPanel4.setLayout(new BorderLayout());
-			jLabel1.setText(ResourceUtil.getString("changemembership.notmemberof"));
-			jPanel4.setPreferredSize(new java.awt.Dimension(250,250));
-			jPanel4.add(jLabel1, java.awt.BorderLayout.NORTH);
-			jPanel4.add(getJScrollPane(), java.awt.BorderLayout.CENTER);
-		}
-		return jPanel4;
-	}
-	/**
-	 * This method initializes jPanel5	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getJPanel5() {
-		if (jPanel5 == null) {
-			jLabel2 = new JLabel();
-			jPanel5 = new JPanel();
-			jPanel5.setLayout(new BorderLayout());
-			jLabel2.setText(ResourceUtil.getString("changemembership.memberof"));
-			jPanel5.setPreferredSize(new java.awt.Dimension(250,250));
-			jPanel5.add(jLabel2, java.awt.BorderLayout.NORTH);
-			jPanel5.add(getJScrollPane1(), java.awt.BorderLayout.CENTER);
-		}
-		return jPanel5;
-	}
-	/**
-	 * This method initializes jPanel6	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getJPanel6() {
-		if (jPanel6 == null) {
-			GridLayout gridLayout3 = new GridLayout();
-			jPanel6 = new JPanel();
-			jPanel6.setLayout(gridLayout3);
-			gridLayout3.setRows(2);
-			gridLayout3.setColumns(1);
-			jPanel6.add(getAssignButton(), null);
-			jPanel6.add(getUnassignButton(), null);
-		}
-		return jPanel6;
-	}
-	/**
-	 * This method initializes jPanel2	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getJPanel2() {
-		if (jPanel2 == null) {
-			FlowLayout flowLayout4 = new FlowLayout();
-			jPanel2 = new JPanel();
-			jPanel2.setLayout(flowLayout4);
-			flowLayout4.setVgap(15);
-			jPanel2.add(getJPanel6(), null);
-		}
-		return jPanel2;
+		
+		return nonMemberListScrollPane;
 	}
 	
-	private void displayError(String message) {
-		JOptionPane.showMessageDialog(this, message, ResourceUtil.getString("application.error"), JOptionPane.ERROR_MESSAGE);
+	/**
+	 * This method initializes memberListScrollPane.	
+	 * 	
+	 * @return javax.swing.JScrollPane	
+	 */    
+	private JScrollPane getMemberListScrollPane() {
+		if (memberListScrollPane == null) {
+			memberListScrollPane = new JScrollPane(getMemberOfList());
+		}
+		
+		return memberListScrollPane;
 	}
-
+	
+	/**
+	 * This method initializes nonMemberPanel.	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getNonMemberPanel() {
+		if (nonMemberPanel == null) {
+			nonMemberPanel = new JPanel();
+			nonMemberPanel.setLayout(new BorderLayout());
+			nonMemberPanel.setPreferredSize(new Dimension(250,250));
+			nonMemberPanel.add(new JLabel(ResourceUtil.getString("changemembership.notmemberof")), BorderLayout.NORTH);
+			nonMemberPanel.add(getNonMemberListScrollPane(), BorderLayout.CENTER);
+		}
+		
+		return nonMemberPanel;
+	}
+	
+	/**
+	 * This method initializes memberPanel.	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getMemberPanel() {
+		if (memberPanel == null) {
+			memberPanel = new JPanel(new BorderLayout());
+			memberPanel.setPreferredSize(new Dimension(250,250));
+			memberPanel.add(new JLabel(ResourceUtil.getString("changemembership.memberof")), BorderLayout.NORTH);
+			memberPanel.add(getMemberListScrollPane(), BorderLayout.CENTER);
+		}
+		
+		return memberPanel;
+	}
+	
+	/**
+	 * This method initializes actionSubPanel.	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getActionSubPanel() {
+		if (actionSubPanel == null) {
+			actionSubPanel = new JPanel(new GridLayout(2, 1));
+			actionSubPanel.add(getAssignButton());
+			actionSubPanel.add(getUnassignButton());
+		}
+		
+		return actionSubPanel;
+	}
+	
+	/**
+	 * This method initializes actionPanel.	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getActionPanel() {
+		if (actionPanel == null) {
+			actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 15));
+			actionPanel.add(getActionSubPanel());
+		}
+		
+		return actionPanel;
+	}
+	
+	/**
+	 * Assigns user to selected groups.
+	 */
 	private void assign() {
 		if (!getNotMemberOfList().isSelectionEmpty()) {
 			Group[] groupObjects = Utilities.convertToArray(getNotMemberOfList().getSelectedValues(), new Group[0]);
@@ -376,6 +410,9 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		}
 	}
 	
+	/**
+	 * Unassigns user from selected groups.
+	 */
 	private void unassign() {
 		if (!getMemberOfList().isSelectionEmpty()) {		
 			Group[] groupObjects = Utilities.convertToArray(getMemberOfList().getSelectedValues(), new Group[0]);
@@ -392,14 +429,17 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		}
 	}
 	
+	/**
+	 * ActionPerformed event handler.
+	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Assign")) {
+		if (e.getActionCommand().equals(Constants.ASSIGN_ACTION)) {
 			assign();
 		}
-		else if (e.getActionCommand().equals("Unassign")) {
+		else if (e.getActionCommand().equals(Constants.UNASSIGN_ACTION)) {
 			unassign();
 		}		
-		else if (e.getActionCommand().equals("Save")) {
+		else if (e.getActionCommand().equals(Constants.SAVE_ACTION)) {
 			try {
 				Document.changeUserMembership(user, memberOf);
 				message.setUserObject(user);
@@ -416,47 +456,69 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		}		
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() == 2) {
-			if (e.getSource() == getNotMemberOfList()) {
+	/**
+	 * MouseClicked event handler.
+	 * 
+	 * @param event MouseEvent object.
+	 */
+	public void mouseClicked(MouseEvent event) {
+		if (event.getClickCount() == 2) {
+			if (event.getSource() == getNotMemberOfList()) {
 				assign();
 			}
-			else if (e.getSource() == getMemberOfList()) {
+			else if (event.getSource() == getMemberOfList()) {
 				unassign();
 			}
 		}
 	}
 
-	public void mousePressed(MouseEvent e) {
-		// Not used
-	}
-
-
-	public void mouseReleased(MouseEvent e) {
-		// Not used
-	}
-
-
-	public void mouseEntered(MouseEvent e) {
-		// Not used
-	}
-
-	public void mouseExited(MouseEvent e) {
-		// Not used
-	}
 	/**
-	 * This method initializes jPanel	
+	 * MousePressed event handler. Not used.
+	 * 
+	 * @param event MouseEvent object.
+	 */
+	public void mousePressed(MouseEvent event) {
+		// Not used
+	}
+
+	/**
+	 * MouseReleased event handler. Not used.
+	 * 
+	 * @param event MouseEvent object.
+	 */
+	public void mouseReleased(MouseEvent event) {
+		// Not used
+	}
+
+	/**
+	 * MouseEntered event handler. Not used.
+	 * 
+	 * @param event MouseEvent object.
+	 */
+	public void mouseEntered(MouseEvent event) {
+		// Not used
+	}
+
+	/**
+	 * MouseExited event handler. Not used.
+	 * 
+	 * @param event MouseEvent object.
+	 */
+	public void mouseExited(MouseEvent event) {
+		// Not used
+	}
+	
+	/**
+	 * This method initializes instructionsPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
-	private JPanel getJPanel() {
-		if (jPanel == null) {
-			jLabel = new JLabel();
-			jPanel = new JPanel();
-			jPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,0,5,0));
-			jLabel.setText(ResourceUtil.getFormattedString("changemembership.instructions", user.getName()));
-			jPanel.add(jLabel, null);
+	private JPanel getInstructionsPanel() {
+		if (instructionsPanel == null) {
+			instructionsPanel = new JPanel();
+			instructionsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,0,5,0));
+			instructionsPanel.add(new JLabel(ResourceUtil.getFormattedString("changemembership.instructions", user.getName())));
 		}
-		return jPanel;
+		return instructionsPanel;
 	}
- }  //  @jve:decl-index=0:visual-constraint="10,10"
+}

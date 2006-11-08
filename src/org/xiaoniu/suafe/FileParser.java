@@ -43,16 +43,37 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  */
 public class FileParser {
 	
+	/**
+	 * Parser starting state. Indicates that nothing has been processed.
+	 * The parser never returns to this state.
+	 */
 	private static final int STATE_START = 1;
 	
+	/**
+	 * Parser is processing [groups]. The parser never returns to this state. 
+	 */
 	private static final int STATE_PROCESS_GROUPS = 2;	
 	
+	/**
+	 * Parser is processing access rules for the server. The parser returns to
+	 * this state each time a server path is encountered.
+	 */
 	private static final int STATE_PROCESS_SERVER_RULES = 3;
 	
+	/**
+	 * Parser is processing access rules for a repository. The parser returns
+	 * to this state each time a repository path is encountered. 
+	 */
 	private static final int STATE_PROCESS_RULES = 4;
 	
+	/**
+	 * Current parser state.
+	 */
 	private static int currentState = STATE_START;
 	
+	/**
+	 * Path currently being processed.
+	 */
 	private static Path currentPath = null;
 	
 	/**
@@ -102,19 +123,19 @@ public class FileParser {
 			}
 		}
 		catch(FileNotFoundException fne) {
-			throw new ParserException(lineNumber, ResourceUtil.getString("parser.filenotfound"));
+			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.filenotfound"));
 		}
 		catch(IOException ioe) {
-			throw new ParserException(lineNumber, ResourceUtil.getString("parser.error"));
+			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
 		}
 		catch(ParserException pe) {
 			throw pe;
 		}
 		catch(ApplicationException ae) {
-			throw new ParserException(lineNumber, ae.getMessage());
+			throw ParserException.generateException(lineNumber, ae.getMessage());
 		}
 		catch(Exception e) {
-			throw new ParserException(lineNumber, ResourceUtil.getString("parser.error"));
+			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
 		}
 		finally {
 			if (input != null) {
@@ -147,7 +168,7 @@ public class FileParser {
 				if (line.equals("[groups]")) {
 					// Start processing groups
 					if (currentState != STATE_START) {
-						throw new ParserException(lineNumber, ResourceUtil.getString("parser.syntaxerror.multiplegroupsection"));
+						throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.syntaxerror.multiplegroupsection"));
 					}
 					
 					currentState = STATE_PROCESS_GROUPS;
@@ -159,14 +180,14 @@ public class FileParser {
 					String path = line.substring(1, line.length() - 1).trim();
 					
 					if (Document.findServerPath(path) != null) {
-						throw new ParserException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicatepath", path));
+						throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicatepath", path));
 					}
 					
 					try {
 						currentPath = Document.addPath(null, path);
 					}
 					catch (ApplicationException ae) {
-						throw new ParserException(lineNumber, ae.getMessage());
+						throw ParserException.generateException(lineNumber, ae.getMessage());
 					}
 				}
 				else if (line.indexOf(':') >= 0) {
@@ -183,25 +204,25 @@ public class FileParser {
 						repositoryObject = Document.addRepository(repository);
 					}
 					catch (ApplicationException ae) {
-						throw new ParserException(lineNumber, ae.getMessage());
+						throw ParserException.generateException(lineNumber, ae.getMessage());
 					}
 					
 					if (Document.findPath(repositoryObject, path) != null) {
 						Object[] args = new Object[2];
 						args[0] = path;
 						args[1] = repository;
-						throw new ParserException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicatepathrepository", args));
+						throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicatepathrepository", args));
 					}
 					
 					try {
 						currentPath = Document.addPath(repositoryObject, path);
 					}
 					catch (ApplicationException ae) {
-						throw new ParserException(lineNumber, ae.getMessage());
+						throw ParserException.generateException(lineNumber, ae.getMessage());
 					}
 				}
 				else {
-					throw new ParserException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidpath"));
+					throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidpath"));
 				}
 				
 				break;
@@ -215,18 +236,18 @@ public class FileParser {
 					String level = line.substring(index + 1).trim();
 					
 					if (Document.findGroup(group) == null) {
-						throw new ParserException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.undefinedgroup", group));
+						throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.undefinedgroup", group));
 					}
 					
 					try {
 						Document.addAccessRuleForGroup(currentPath, group, level);
 					}
 					catch (ApplicationException ae) {
-						throw new ParserException(lineNumber, ae.getMessage());
+						throw ParserException.generateException(lineNumber, ae.getMessage());
 					}
 				}
 				else {
-					throw new ParserException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidgrouprule"));
+					throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidgrouprule"));
 				}
 				
 				break;
@@ -236,7 +257,7 @@ public class FileParser {
 					int index = line.indexOf('=');
 					
 					if (index == -1) {
-						throw new ParserException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidgroupdefinition"));
+						throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidgroupdefinition"));
 					}
 					
 					String name = line.substring(0, index).trim();
@@ -258,14 +279,14 @@ public class FileParser {
 					}
 					
 					if (Document.findGroup(name) != null) {
-						throw new ParserException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicategroup", name));
+						throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicategroup", name));
 					}
 					
 					try {
 						Document.addGroup(name, groupMembers, userMembers);
 					}
 					catch (ApplicationException ae) {
-						throw new ParserException(lineNumber, ae.getMessage());
+						throw ParserException.generateException(lineNumber, ae.getMessage());
 					}
 				}
 				else if (currentState == STATE_PROCESS_RULES || currentState == STATE_PROCESS_SERVER_RULES) {
@@ -279,7 +300,7 @@ public class FileParser {
 						Document.addAccessRuleForUser(currentPath, user, level);
 					}
 					catch (ApplicationException ae) {
-						throw new ParserException(lineNumber, ae.getMessage());
+						throw ParserException.generateException(lineNumber, ae.getMessage());
 					}
 				}
 				

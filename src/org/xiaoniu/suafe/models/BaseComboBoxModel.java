@@ -32,20 +32,37 @@ import javax.swing.event.ListDataListener;
  */
 public class BaseComboBoxModel implements ComboBoxModel {
 	
+	/**
+	 * List values.
+	 */
 	protected Object[] itemList;
 	
+	/**
+	 * Selected item index.
+	 */
 	protected int selectedItem;
 	
+	/**
+	 * Array of listeners.
+	 */
 	protected List<ListDataListener> listeners;
 	
+	/**
+	 * Default constructor.
+	 */
 	public BaseComboBoxModel() {
 		super();
 		
-		itemList = null;
-		selectedItem = -1;
-		listeners = new ArrayList<ListDataListener>(1);
+		this.itemList = null;
+		this.selectedItem = -1;
+		this.listeners = new ArrayList<ListDataListener>(1);
 	}
 
+	/**
+	 * Sets the selected item index.
+	 * 
+	 * @param anItem Item to be selected.
+	 */
 	public void setSelectedItem(Object anItem) {
 		if (itemList == null || anItem == null) {
 			selectedItem = -1;
@@ -55,23 +72,44 @@ public class BaseComboBoxModel implements ComboBoxModel {
 		}
 	}
 
+	/**
+	 * Gets the selected item.
+	 */
 	public Object getSelectedItem() {
 		return (itemList == null || selectedItem == -1) ? null : itemList[selectedItem];
 	}
 
+	/**
+	 * Gets the list size.
+	 */
 	public int getSize() {
 		return (itemList == null) ? 0 : itemList.length;
 	}
 
+	/**
+	 * Gets object at specified index.
+	 * 
+	 * @param index Index of object to retrieve.
+	 */
 	public Object getElementAt(int index) {
 		return (itemList == null) ? null : itemList[index];
 	}
 
-	public void addListDataListener(ListDataListener l) {
-		listeners.add(l);		
+	/**
+	 * Adds listener.
+	 * 
+	 * @param listener Listener to add.
+	 */
+	public void addListDataListener(ListDataListener listener) {
+		listeners.add(listener);		
 	}
 
-	public void removeListDataListener(ListDataListener l) {
-		listeners.remove(listeners.indexOf(l));
+	/**
+	 * Removes a listener.
+	 * 
+	 * @param listener Listener to remove.
+	 */
+	public void removeListDataListener(ListDataListener listener) {
+		listeners.remove(listeners.indexOf(listener));
 	}	
 }

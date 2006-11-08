@@ -109,6 +109,15 @@ public class Document {
 		return addAccessRuleForGroup(path, group, level);
 	}
 	
+	/**
+	 * Adds a new AccessRule specifying group authorization.
+	 * 
+	 * @param path The Path in which the Group will have access.
+	 * @param group The Group that will have access.
+	 * @param level The level of access.
+	 * @return The newly created AccessRule.
+	 * @throws ApplicationException
+	 */
 	public static AccessRule addAccessRuleForGroup(Path path, Group group, String level) throws ApplicationException {
 		if (path == null) {
 			throw new ValidatorException("Path is missing.");
@@ -135,6 +144,16 @@ public class Document {
 		return accessRule;
 	}
 	
+	/**
+	 * Adds a new AccessRule specifying group authorization.
+	 * 
+	 * @param repository Respository to which the rule is applied.
+	 * @param pathString The Path in which the Group will have access.
+	 * @param group The Group that will have access.
+	 * @param level The level of access.
+	 * @return The newly created AccessRule.
+	 * @throws ApplicationException
+	 */
 	public static AccessRule addAccessRuleForGroup(Repository repository, String pathString, Group group, String level) throws ApplicationException {
 		Path path = addPath(repository, pathString);
 
@@ -167,6 +186,15 @@ public class Document {
 		return addAccessRuleForUser(path, user, level);
 	}
 	
+	/**
+	 * Adds a new AccessRule specifying User authorization.
+	 * 
+	 * @param path The Path in which the User will have access.
+	 * @param user The User that will have access.
+	 * @param level The level of access.
+	 * @return The newly created AccessRule.
+	 * @throws ApplicationException
+	 */
 	public static AccessRule addAccessRuleForUser(Path path, User user, String level) throws ApplicationException {
 		if (path == null) {
 			throw new ValidatorException("Path is missing.");
@@ -189,6 +217,16 @@ public class Document {
 		return accessRule;
 	}
 
+	/**
+	 * Adds a new AccessRule specifying User authorization.
+	 * 
+	 * @param repository Respository to which the rule is applied
+	 * @param pathString The Path in which the User will have access.
+	 * @param user The User that will have access.
+	 * @param level The level of access.
+	 * @return The newly created AccessRule.
+	 * @throws ApplicationException
+	 */
 	public static AccessRule addAccessRuleForUser(Repository repository, String pathString, User user, String level) throws ApplicationException {
 		Path path = addPath(repository, pathString);
 		
@@ -314,6 +352,14 @@ public class Document {
 		return repository;
 	}
 
+	/**
+	 * Adds a new server level AccessRule specifying Group authorization.
+	 * 
+	 * @param groupName Name of the Group that will have access.
+	 * @param level The level of access that is allowed.
+	 * @return Newly created AccessRule.
+	 * @throws ApplicationException
+	 */
 	public static AccessRule addServerAccessRuleForGroup(String groupName, String level) throws ApplicationException {
 		Validator.validateGroupName(groupName);
 		Validator.validateLevelOfAccess(level);
@@ -337,6 +383,14 @@ public class Document {
 		return accessRule;
 	}
 	
+	/**
+	 * Adds a new server level AccessRule specifying User authorization.
+	 * 
+	 * @param userName Name of the User that will have access.
+	 * @param level The level of access that is allowed.
+	 * @return Newly created AccessRule.
+	 * @throws ApplicationException
+	 */
 	public static AccessRule addServerAccessRuleForUser(String userName, String level) throws ApplicationException {
 		Validator.validateUserName(userName);
 		Validator.validateLevelOfAccess(level);
@@ -356,6 +410,13 @@ public class Document {
 		return accessRule;
 	}
 
+	/**
+	 * Adds a new User to the document.
+	 * 
+	 * @param userName Name of the new user.
+	 * @return Newly created User.
+	 * @throws ApplicationException
+	 */
 	public static User addUser(String userName) throws ApplicationException {
 		Validator.validateUserName(userName);
 		
@@ -372,6 +433,16 @@ public class Document {
 		return user;
 	}
 	
+	/**
+	 * Deletes an existing AccessRule. Either group or user must be specified,
+	 * but in no instances should both be provided.
+	 * 
+	 * @param repositoryName Name of Repository to which the rule applies.
+	 * @param pathString Path in the repository to which the rule applies.
+	 * @param group Group to which the rule applies.
+	 * @param user User to which the rule applies.
+	 * @throws ApplicationException
+	 */
 	public static void deleteAccessRule(String repositoryName, String pathString, Group group, User user) throws ApplicationException {
 		Repository repository = findRepository(repositoryName);
 		AccessRule accessRule = null;
@@ -391,6 +462,12 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/**
+	 * Deletes an existing Group. Deletes all Group AccessRules.
+	 * 
+	 * @param group Group to be removed.
+	 * @throws ApplicationException
+	 */
 	public static void deleteGroup(Group group) throws ApplicationException {
 		deleteGroupAccessRules(group);
 		removeGroupMembers(group);
@@ -399,6 +476,11 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/**
+	 * Deletes all AccessRules that apply to a specific Group.
+	 * 
+	 * @param group Group whose AccessRules are to be deleted.
+	 */
 	private static void deleteGroupAccessRules(Group group) {
 		List<AccessRule> deleteList = new ArrayList<AccessRule>();
 		
@@ -413,6 +495,12 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/**
+	 * Delete all groups in array.
+	 * 
+	 * @param groups Array of Groups to be deleted.
+	 * @throws ApplicationException
+	 */
 	public static void deleteGroups(Object[] groups) throws ApplicationException {		
 		for (int i = 0; i < groups.length; i++) {
 			deleteGroup((Group)groups[i]);
@@ -421,6 +509,12 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/**
+	 * Deletes an existing path.
+	 * 
+	 * @param path Path to be deleted.
+	 * @throws ApplicationException
+	 */
 	public static void deletePath(Path path) throws ApplicationException {
 		deletePathAccessRules(path);	
 		
@@ -433,6 +527,11 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/**
+	 * Deletes all AccessRules for a path.
+	 * 
+	 * @param path Path whose AccessRules are to be deleted.
+	 */
 	private static void deletePathAccessRules(Path path) {
 		List<AccessRule> deleteList = new ArrayList<AccessRule>();
 
@@ -455,7 +554,12 @@ public class Document {
 		unsavedChanges = true;
 	}
 
-	
+	/**
+	 * Delete an existing repository.
+	 * 
+	 * @param repository Repository to be deleted.
+	 * @throws ApplicationException
+	 */
 	public static void deleteRepository(Repository repository) throws ApplicationException {
 		deleteRepositoryAccessRules(repository);
 		deleteRepositoryPaths(repository);
@@ -464,6 +568,11 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/**
+	 * Deletes all AccessRules for a Repository.
+	 * 
+	 * @param repository Repository whose AccessRules are to be deleted.
+	 */
 	private static void deleteRepositoryAccessRules(Repository repository) {
 		List<AccessRule> deleteList = new ArrayList<AccessRule>();
 
@@ -486,6 +595,12 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/** 
+	 * Deletes all Paths for a Repository.
+	 * 
+	 * @param repository Repository whose Paths are to be deleted.
+	 * @throws ApplicationException
+	 */
 	private static void deleteRepositoryPaths(Repository repository) throws ApplicationException {
 		List<Path> deleteList = new ArrayList<Path>();
 		
@@ -499,6 +614,12 @@ public class Document {
 		unsavedChanges = true;
 	}
 	
+	/**
+	 * Deletes array of Repositories.
+	 * 
+	 * @param repositories Repositories to be deleted.
+	 * @throws ApplicationException
+	 */
 	public static void deleteRepositories(Object[] repositories) throws ApplicationException {
 		for (int i = 0; i < repositories.length; i++) {
 			deleteRepository((Repository)repositories[i]);
@@ -507,6 +628,12 @@ public class Document {
 		unsavedChanges = true;
 	}
 	
+	/**
+	 * Deletes an existing User.
+	 * 
+	 * @param user User to be deleted.
+	 * @throws ApplicationException
+	 */
 	public static void deleteUser(User user) throws ApplicationException {
 		deleteUserAccessRules(user);		
 		removeUserFromAssignedGroups(user);
@@ -515,6 +642,11 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/**
+	 * Deletes all AccessRules for a user.
+	 * 
+	 * @param user User whose AccessRules are to be deleted.
+	 */
 	private static void deleteUserAccessRules(User user) {
 		List<AccessRule> deleteList = new ArrayList<AccessRule>();
 
@@ -533,6 +665,12 @@ public class Document {
 		unsavedChanges = true;
 	}
 	
+	/**
+	 * Deletes an array of Users.
+	 * 
+	 * @param users Users to be deleted.
+	 * @throws ApplicationException
+	 */
 	public static void deleteUsers(Object[] users) throws ApplicationException {
 		for (int i = 0; i < users.length; i++) {
 			deleteUser((User)users[i]);
@@ -541,6 +679,13 @@ public class Document {
 		unsavedChanges = true;
 	}
 	
+	/**
+	 * Locates an existing Group by name.
+	 * 
+	 * @param groupName Name of Group to find.
+	 * @return Found group.
+	 * @throws ApplicationException
+	 */
 	public static Group findGroup(String groupName) throws ApplicationException {
 		Validator.validateGroupName(groupName);
 		
@@ -567,6 +712,15 @@ public class Document {
 		return group;
 	}
 
+	/**
+	 * Locates an AccessRules by Repository, path and Group.
+	 * 
+	 * @param repository Respository referenced by AccessRule.
+	 * @param pathString Path referenced by AccessRule.
+	 * @param group Group referenced by AccessRule.
+	 * @return Found AccessRule.
+	 * @throws ApplicationException
+	 */
 	public static AccessRule findGroupAccessRule(Repository repository, String pathString, Group group) throws ApplicationException {
 		if (accessRules == null) {
 			return null;
@@ -590,6 +744,15 @@ public class Document {
 		return foundRule;
 	}
 	
+	/**
+	 * Locates an AccessRule by Repository, path and User
+	 * 
+	 * @param repository Repository referenced by AccessRule.
+	 * @param pathString Path referenced by AccessRule.
+	 * @param user User referenced by AccessRule.
+	 * @return Found AccessRule.
+	 * @throws ApplicationException
+	 */
 	public static AccessRule findUserAccessRule(Repository repository, String pathString, User user) throws ApplicationException {
 		if (accessRules == null) {
 			return null;
@@ -613,14 +776,30 @@ public class Document {
 		return foundRule;
 	}
 	
+	/**
+	 * Locates a Path by repository and path.
+	 * 
+	 * @param repositoryName Name of repository referenced by Path.
+	 * @param pathString Path referenced by Path.
+	 * @return Found Path.
+	 * @throws ApplicationException
+	 */
 	public static Path findPath(String repositoryName, String pathString) throws ApplicationException {		
 		Repository repository = findRepository(repositoryName);
 	
 		return findPath(repository, pathString);
 	}
 
-	public static Path findPath(Repository repository, String relativePath) throws ApplicationException {
-		Validator.validatePath(relativePath);
+	/**
+	 * Locates a Path by Repository and path.
+	 * 
+	 * @param repository Repository referenced by Path.
+	 * @param pathString Path referenced by Path.
+	 * @return Found Path.
+	 * @throws ApplicationException
+	 */
+	public static Path findPath(Repository repository, String pathString) throws ApplicationException {
+		Validator.validatePath(pathString);
 		
 		Path path = null;
 		boolean found = false;
@@ -631,7 +810,7 @@ public class Document {
 			for (int i = 0; i < size; i++) {
 				path = (Path)paths.get(i);
 	
-				if (path.getRepository() == repository && path.getPath().equals(relativePath)) {
+				if (path.getRepository() == repository && path.getPath().equals(pathString)) {
 					found = true;
 					break;
 				}
@@ -645,7 +824,14 @@ public class Document {
 		return path;
 	}
 
-	public static Path findServerPath(String relativePath) throws ApplicationException {
+	/**
+	 * Locates a server level Path.
+	 * 
+	 * @param pathString Path referenced by the Path.
+	 * @return Found Path.
+	 * @throws ApplicationException
+	 */
+	public static Path findServerPath(String pathString) throws ApplicationException {
 		Path path = null;
 		boolean found = false;
 	
@@ -655,7 +841,7 @@ public class Document {
 			for (int i = 0; i < size; i++) {
 				path = (Path)paths.get(i);
 	
-				if (path.getRepository() == null && path.getPath().equals(relativePath)) {
+				if (path.getRepository() == null && path.getPath().equals(pathString)) {
 					found = true;
 					break;
 				}
@@ -669,6 +855,13 @@ public class Document {
 		return path;
 	}
 	
+	/**
+	 * Locates a repository by name.
+	 * 
+	 * @param repositoryName Name of Repository to locate.
+	 * @return Found Repository.
+	 * @throws ApplicationException
+	 */
 	public static Repository findRepository(String repositoryName) throws ApplicationException {
 		Validator.validateRepositoryName(repositoryName);
 		
@@ -695,6 +888,13 @@ public class Document {
 		return repository;
 	}
 
+	/**
+	 * Finds a User by name.
+	 * 
+	 * @param userName Name of User to locate.
+	 * @return Found User.
+	 * @throws ApplicationException
+	 */
 	public static User findUser(String userName) throws ApplicationException {
 		Validator.validateUserName(userName);
 		
@@ -719,29 +919,6 @@ public class Document {
 		}
 	
 		return user;
-	}
-
-	public static Object[][] getAccessRulesData() {
-		if (accessRules == null) {
-			return null;
-		} else {
-			int size = accessRules.size();
-			Object[][] accessRulesList = new Object[size][2];
-	
-			for (int i = 0; i < size; i++) {
-				AccessRule rule = (AccessRule) accessRules.get(i);
-	
-				accessRulesList[i][0] = rule.getLevelFullName();
-	
-				if (rule.getGroup() == null) {
-					accessRulesList[i][1] = rule.getUser().getName();
-				} else {
-					accessRulesList[i][1] = rule.getGroup().getName();
-				}
-			}
-	
-			return accessRulesList;
-		}
 	}
 	
 	/**
@@ -803,6 +980,11 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets an array of all Groups.
+	 * 
+	 * @return Group array.
+	 */
 	public static Group[] getGroupsArray() {
 		if (groups == null) {
 			return null;
@@ -813,6 +995,11 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets an array of all Group objects.
+	 * 
+	 * @return Group object array.
+	 */
 	public static Object[] getGroupObjects() {
 		if (groups == null) {
 			return null;
@@ -823,6 +1010,13 @@ public class Document {
 		}
 	}
 
+	/**
+	 * Gets names of all Groups that are a member of a Group.
+	 * 
+	 * @param groupName Name of Group whose member names are to be returned.
+	 * @return Names of all Groups members of Group
+	 * @throws ApplicationException
+	 */
 	public static Object[] getGroupMemberGroupNames(String groupName) throws ApplicationException {
 		Group group = findGroup(groupName);
 		
@@ -843,6 +1037,13 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets all Group objects that are a member of a Group.
+	 * 
+	 * @param group Group whose Group members are to be returned.
+	 * @return Group object array containg all member Groups.
+	 * @throws ApplicationException
+	 */
 	public static Object[] getGroupMemberObjects(Group group) throws ApplicationException {
 		if (group == null || group.getGroupMembers() == null) {
 			return null;
@@ -859,6 +1060,13 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets all Groups that are a member of a Group.
+	 * 
+	 * @param group Group whose Group members are to be returned.
+	 * @return Group array containg all member Groups.
+	 * @throws ApplicationException
+	 */
 	public static Group[] getGroupMemberGroups(Group group) throws ApplicationException {
 		if (group == null || group.getGroupMembers() == null) {
 			return null;
@@ -869,6 +1077,13 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets names of all of a Group's User members.
+	 * 
+	 * @param groupName Name of Group whose member names are to be returned.
+	 * @return Names of all User members of a Group. 
+	 * @throws ApplicationException
+	 */
 	public static Object[] getGroupMemberUserNames(String groupName) throws ApplicationException {
 		Group group = findGroup(groupName);
 		
@@ -889,6 +1104,13 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets all Users that are a member of a Group.
+	 * 
+	 * @param group Group whose User members are to be returned.
+	 * @return User array containg all member User.
+	 * @throws ApplicationException
+	 */
 	public static User[] getGroupMemberUsers(Group group) throws ApplicationException {
 		if (group == null || group.getUserMembers() == null) {
 			return null;
@@ -991,10 +1213,20 @@ public class Document {
 		}
 	}
 
+	/**
+	 * Gets list of all Repositories.
+	 * 
+	 * @return List of Repositories.
+	 */
 	public static List<Repository> getRepositories() {
 		return repositories;
 	}
 
+	/**
+	 * Gets list of all Repository names.
+	 * 
+	 * @return Object array of names.
+	 */
 	public static Object[] getRepositoryNames() {
 		if (repositories == null) {
 			return null;
@@ -1013,6 +1245,11 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets array of repository objects.
+	 * 
+	 * @return Array of Repository objects.
+	 */
 	public static Object[] getRepositoryObjects() {
 		if (repositories == null) {
 			return null;
@@ -1023,6 +1260,18 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets all server AccessRule data as two-dimensional array.
+	 * 
+	 * Array contents:
+	 * [0] - Repository object
+	 * [1] - Path object
+	 * [2] - User or Group object
+	 * [3] - Full text name of access level
+	 * 
+	 * @return Two-dimensional array of AccessRule data.
+	 * @throws ApplicationException
+	 */
 	public static Object[][] getServerAccessRules() throws ApplicationException {
 		if (accessRules == null) {
 			return null;
@@ -1084,6 +1333,13 @@ public class Document {
 		}
 	}
 
+	/**
+	 * Gets all AccessRule data for rules assigned to a User.
+	 * 
+	 * @param user User whose rules are to be returned.
+	 * @return Two-dimensional array of AccessRule data.
+	 * @throws ApplicationException
+	 */
 	public static Object[][] getUserAccessRuleObjects(User user) throws ApplicationException {
 		if (user == null || user.getAccessRules() == null) {
 			return null;
@@ -1131,6 +1387,13 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets array of Groups in which the User is a member.
+	 * 
+	 * @param user User whose Groups are to be returned
+	 * @return Array of Groups in which the User is a member.
+	 * @throws ApplicationException
+	 */
 	public static Group[] getUserGroupsArray(User user) throws ApplicationException {		
 		if (user == null || user.getGroups() == null) {
 			return null;
@@ -1143,6 +1406,13 @@ public class Document {
 		}
 	}
 
+	/**
+	 * Gets array of Group objects in which the User is a member.
+	 * 
+	 * @param user User whose Group objects are to be returned.
+	 * @return Array of Group objects in which the User is a member.
+	 * @throws ApplicationException
+	 */
 	public static Object[] getUserGroupObjects(User user) throws ApplicationException {		
 		if (user == null || user.getGroups() == null) {
 			return null;
@@ -1155,6 +1425,11 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets all Users as object array.
+	 * 
+	 * @return Array of all User objects.
+	 */
 	public static Object[] getUserObjects() {
 		if (users == null) {
 			return null;
@@ -1165,6 +1440,13 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets all Users, except * as object array. The user name * represents
+	 * "all users". This method returns all Users except this special one.
+	 * 
+	 * @return Array of User objects.
+	 * @throws ApplicationException
+	 */
 	public static User[] getUserObjectsExcludeAllUsers() throws ApplicationException {
 		if (users == null) {
 			return null;
@@ -1182,6 +1464,11 @@ public class Document {
 		}
 	}
 	
+	/**
+	 * Gets names of all Users.
+	 * 
+	 * @return Array of User name objects.
+	 */
 	public static Object[] getUserNames() {
 		if (users == null) {
 			return null;
@@ -1214,18 +1501,36 @@ public class Document {
 			paths.size() == 0;
 	}
 	
+	/**
+	 * Determines if the document has any unsaved changes.
+	 * 
+	 * @return True if there are any unsaved changes.
+	 */
 	public static boolean hasUnsavedChanges() {
 		return unsavedChanges;
 	}
 	
+	/**
+	 * Sets the unsaved changes flag to true. Indicates that there are changes
+	 * not persisted to a file.
+	 */
 	public static void setUnsavedChanges() {
 		unsavedChanges = true;
 	}
 	
+	/**
+	 * Resets the unsaved changes flag. Indicates that there are no changes
+	 * that need to be saved.
+	 */
 	public static void resetUnsavedChangesFlag() {
 		unsavedChanges = false;
 	}
 
+	/**
+	 * Removes a User from all Groups in which he is a member. 
+	 * 
+	 * @param user User to be processed.
+	 */
 	private static void removeUserFromAssignedGroups(User user) {
 		for (Group group : user.getGroups()) {
 			group.getUserMembers().remove(user);
@@ -1237,12 +1542,22 @@ public class Document {
 	}
 	
 	/**
+	 * Saves the file object representing the currently edited authz file.
+	 * 
 	 * @param file The file to set.
 	 */
 	public static void setFile(File file) {
 		Document.file = file;
 	}
 
+	/**
+	 * Updates a User's group membership. User is removed from all Groups he
+	 * is currently a member of and is made a member of all specified Groups.
+	 * 
+	 * @param user User to be processed.
+	 * @param newGroupObjects Vector of new Group membership.
+	 * @throws ApplicationException
+	 */
 	public static void changeUserMembership(User user, Vector<Group> newGroupObjects) throws ApplicationException {
 		// Remove from old groups
 		 removeUserFromAssignedGroups(user);
@@ -1260,6 +1575,11 @@ public class Document {
 		unsavedChanges = true;
 	}
 
+	/**
+	 * Removes all members of a Group.
+	 * 
+	 * @param group Group whose members are to be removed.
+	 */
 	private static void removeGroupMembers(Group group) {
 		// Remove groups
 		for (Group member : group.getGroupMembers()) {
@@ -1279,9 +1599,12 @@ public class Document {
 	}	
 	
 	/**
-	 * @param group
-	 * @param groupMembers
-	 * @param userMembers
+	 * Changes the list of members of a Group. Current Group members are
+	 * removed. All new Group and User members are added. 
+	 * 
+	 * @param group Group to be processed.
+	 * @param groupMembers New group memebers.
+	 * @param userMembers New User members.
 	 * @throws ApplicationException
 	 */
 	public static void changeGroupMembers(Group group, Vector<Group> groupMembers, Vector<User> userMembers) throws ApplicationException {
@@ -1300,6 +1623,15 @@ public class Document {
 		unsavedChanges = true;
 	}
 	
+	/**
+	 * Clones an existing User. Creates a complete duplicate of the specified
+	 * User and gives it the specified name.
+	 * 
+	 * @param user User to be cloned.
+	 * @param userName Name of the new clone.
+	 * @return Clone of the User.
+	 * @throws ApplicationException
+	 */
 	public static User cloneUser(User user, String userName) throws ApplicationException {
 		User clone = addUser(userName);
 		
@@ -1317,6 +1649,15 @@ public class Document {
 		return clone;
 	}
 	
+	/**
+	 * Clones an existing Group. Creates a complete duplicate of the specified
+	 * Group and gives it the specified name.
+	 * 
+	 * @param group Group to be cloned.
+	 * @param groupName Name of the new clone.
+	 * @return Clone of the Group.
+	 * @throws ApplicationException
+	 */
 	public static Group cloneGroup(Group group, String groupName) throws ApplicationException {
 		Group clone = addGroup(groupName, group.getGroupMembers(), group.getUserMembers());
 		

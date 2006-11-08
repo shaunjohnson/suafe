@@ -25,8 +25,16 @@ package org.xiaoniu.suafe.exceptions;
  */
 public class ValidatorException extends ApplicationException {	
 	
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = -2790951968306188250L;
 
+	/**
+	 * Constructor that accepts a message.
+	 * 
+	 * @param message Error message.
+	 */
 	public ValidatorException(String message) {
 		super(message);
 	}

@@ -20,13 +20,15 @@ package org.xiaoniu.suafe.dialogs;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
-import org.xiaoniu.suafe.resources.License;
+import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -41,8 +43,11 @@ public class LicenseDialog extends ParentDialog implements ActionListener {
 	private javax.swing.JPanel jContentPane = null;
 
 	private JPanel buttonPanel = null;
+	
 	private JButton okButton = null;
-	private JTextArea licenseTextArea = null;
+	
+	private JEditorPane licenseTextArea = null;
+	
 	private JScrollPane licenseScrollPane = null;
 	
 	/**
@@ -51,19 +56,22 @@ public class LicenseDialog extends ParentDialog implements ActionListener {
 	public LicenseDialog() {
 		super();
 		initialize();
+		loadLicense();
 	}
 	
 	/**
 	 * This method initializes this
 	 */
 	private void initialize() {
+		this.setResizable(false);
 		this.setModal(true);
 		this.setTitle(ResourceUtil.getString("license.title"));
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.setSize(800, 600);
+		this.setSize(600, 600);
 		this.setContentPane(getJContentPane());
 		this.getRootPane().setDefaultButton(getOkButton());
 	}
+	
 	/**
 	 * This method initializes jContentPane
 	 * 
@@ -78,6 +86,7 @@ public class LicenseDialog extends ParentDialog implements ActionListener {
 		}
 		return jContentPane;
 	}
+	
 	/**
 	 * This method initializes jPanel	
 	 * 	
@@ -107,28 +116,19 @@ public class LicenseDialog extends ParentDialog implements ActionListener {
 		return okButton;
 	}
 	
-//	private String readLicense() {
-//		StringBuffer license = new StringBuffer();
-//		
-//		try {
-//			BufferedReader input = new BufferedReader(new FileReader("org/svn/resources/gpl.txt"));
-//			String line = input.readLine();
-//			
-//			Document.initialize();
-//			
-//			while (line != null) {
-//				license.append(line).append("\n");
-//				line = input.readLine();
-//			}
-//			
-//			input.close();
-//		}
-//		catch (Exception e) {
-//			license.append(e.getMessage());
-//		}
-//		
-//		return license.toString();
-//	}
+	private void loadLicense() {
+		String url = Constants.FULL_RESOURCE_DIR + "/LICENSE";
+		URL helpUrl = this.getClass().getResource(url);
+		
+		if (helpUrl != null) {
+			try {
+				getLicenseTextArea().setPage(helpUrl);
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("OK")) {
@@ -140,13 +140,11 @@ public class LicenseDialog extends ParentDialog implements ActionListener {
 	 * 	
 	 * @return javax.swing.JTextArea	
 	 */    
-	private JTextArea getLicenseTextArea() {
+	private JEditorPane getLicenseTextArea() {
 		if (licenseTextArea == null) {
-			licenseTextArea = new JTextArea();
-			licenseTextArea.setText(License.licenseText);
+			licenseTextArea = new JEditorPane();
 			licenseTextArea.setFont(new java.awt.Font("Courier New", java.awt.Font.PLAIN, 12));
 			licenseTextArea.setEditable(false);
-			licenseTextArea.select(0, 0);
 		}
 		return licenseTextArea;
 	}

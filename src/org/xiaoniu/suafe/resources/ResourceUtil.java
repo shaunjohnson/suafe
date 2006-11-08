@@ -25,6 +25,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
+import org.xiaoniu.suafe.Constants;
+
 /**
  * Utility class used to access application resources.
  * 
@@ -32,24 +34,52 @@ import javax.swing.ImageIcon;
  */
 public class ResourceUtil {
 	
+	/**
+	 * Current resource bundle. 
+	 */
 	protected static ResourceBundle bundle;
 	
+	/**
+	 * Gets the current resource bundle.
+	 * 
+	 * @return
+	 */
 	protected static ResourceBundle getBundle() {
 		if (bundle == null) {
-			bundle = ResourceBundle.getBundle("org/xiaoniu/suafe/resources/Resources");
+			bundle = ResourceBundle.getBundle(Constants.RESOURCE_BUNDLE);
 		}
 		
 		return bundle;
 	}
 	
+	/**
+	 * Retrieves a string from the resource bundle.
+	 * 
+	 * @param name Name of string.
+	 * @return String from resource bundle.
+	 */
 	public static String getString(String name) {		
 		return getBundle().getString(name);
 	}
 	
+	/**
+	 * Retrieves a formatted string from the resource bundle.
+	 * 
+	 * @param name Name of string.
+	 * @param args String arguments
+	 * @return Formatted string.
+	 */
 	public static String getFormattedString(String name, Object[] args) {
 		return MessageFormat.format(getBundle().getString(name), args);
 	}
 	
+	/**
+	 * Retrieves a formatted string from the resource bundle.
+	 * 
+	 * @param name Name of string.
+	 * @param arg String argument
+	 * @return Formatted string.
+	 */
 	public static String getFormattedString(String name, String arg) {
 		Object[] args = new Object[1];
 		
@@ -57,86 +87,106 @@ public class ResourceUtil {
 		
 		return MessageFormat.format(getBundle().getString(name), args);
 	}
-	
-	public static final Image serverImage = Toolkit.getDefaultToolkit().getImage(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Server16.gif"));
-	
-	public static final ImageIcon aboutIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/About16.gif"));
 
-	public static final ImageIcon accessRuleIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Reversed.gif"));
+	/**
+	 * Retrieves a formatted string from the resource bundle.
+	 * 
+	 * @param name Name of string.
+	 * @param arg1 Int argument
+	 * @param arg2 String argument
+	 * @return Formatted string.
+	 */
+	public static String getFormattedString(String name, int arg1, String arg2) {
+		Object[] args = new Object[2];
+		
+		args[0] = arg1;
+		args[1] = arg2;
+		
+		return MessageFormat.format(getBundle().getString(name), args);
+	}
 	
-	public static final ImageIcon fullSizeAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Reversed.gif"));
+	//
+	// Images and Icons
+	//
+	public static final Image serverImage = Toolkit.getDefaultToolkit().getImage(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Server16.gif"));
 	
-	public static final ImageIcon addAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/AccessRuleAdd.gif"));
-	
-	public static final ImageIcon addGroupIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/GroupAdd.gif"));
-	
-	public static final ImageIcon addRemoveMembersIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Preferences16.gif"));
-	
-	public static final ImageIcon addUserIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/UserAdd.gif"));
-	
-	public static final ImageIcon assignIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Forward24.gif"));
-	
-	public static final ImageIcon changeMembershipIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Preferences16.gif"));
-	
-	public static final ImageIcon cloneGroupIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Clone.gif"));
-	
-	public static final ImageIcon cloneUserIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Clone.gif"));
-	
-	public static final ImageIcon deleteAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/AccessRuleDelete.gif"));
-	
-	public static final ImageIcon deleteGroupIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/GroupDelete.gif"));
-	
-	public static final ImageIcon deleteUserIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/UserDelete.gif"));
-	
-	public static final ImageIcon denyAccessIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/DenyAccess16.gif"));
-	
-	public static final ImageIcon editAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/AccessRuleEdit.gif"));
-	
-	public static final ImageIcon editGroupIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/GroupEdit.gif"));
-	
-	public static final ImageIcon editUserIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/UserEdit.gif"));
-	
-	public static final ImageIcon fullSizeGroupIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/MorePeople.gif"));
-	
-	public static final ImageIcon fullSizeUserIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/PlainPeople.gif"));
-	
-	public static final ImageIcon groupIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/ListGroup.gif"));
-	
-	public static final ImageIcon helpIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Help16.gif"));
-	
-	public static final ImageIcon licenseIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/History16.gif"));
-	
-	public static final ImageIcon newFileIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/New16.gif"));
-	
-	public static final ImageIcon openFileIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Open16.gif"));
-	
-	public static final ImageIcon pathIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Path16.gif"));
-	
-	public static final ImageIcon pathEditIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/PathEdit.gif"));
-	
-	public static final ImageIcon pathDeleteIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/PathDelete.gif"));
-	
-	public static final ImageIcon previewIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Preview.gif"));
-	
-	public static final ImageIcon printIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Print16.gif"));
-	
-	public static final ImageIcon readOnlyIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/ReadOnly16.gif"));
-	
-	public static final ImageIcon readWriteIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/ReadWrite16.gif"));
-	
-	public static final ImageIcon repositoryIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Repository16.gif"));
-	
-	public static final ImageIcon repositoryEditIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/RepositoryEdit.gif"));
-	
-	public static final ImageIcon repositoryDeleteIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/RepositoryDelete.gif"));
-	
-	public static final ImageIcon saveFileIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Save16.gif"));
-	
-	public static final ImageIcon saveFileAsIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/SaveAs16.gif"));
+	public static final ImageIcon aboutIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/About16.gif"));
 
-	public static final ImageIcon serverIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Server16.gif"));
+	public static final ImageIcon accessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Reversed.gif"));
 	
-	public static final ImageIcon unassignIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/Back24.gif"));
+	public static final ImageIcon fullSizeAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Reversed.gif"));
 	
-	public static final ImageIcon userIcon = new ImageIcon(ResourceUtil.class.getResource("/org/xiaoniu/suafe/resources/images/ListUser.gif"));
+	public static final ImageIcon addAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleAdd.gif"));
+	
+	public static final ImageIcon addGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/GroupAdd.gif"));
+	
+	public static final ImageIcon addRemoveMembersIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Preferences16.gif"));
+	
+	public static final ImageIcon addUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/UserAdd.gif"));
+	
+	public static final ImageIcon assignIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Forward24.gif"));
+	
+	public static final ImageIcon changeMembershipIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Preferences16.gif"));
+	
+	public static final ImageIcon cloneGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Clone.gif"));
+	
+	public static final ImageIcon cloneUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Clone.gif"));
+	
+	public static final ImageIcon deleteAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleDelete.gif"));
+	
+	public static final ImageIcon deleteGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/GroupDelete.gif"));
+	
+	public static final ImageIcon deleteUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/UserDelete.gif"));
+	
+	public static final ImageIcon denyAccessIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/DenyAccess16.gif"));
+	
+	public static final ImageIcon editAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleEdit.gif"));
+	
+	public static final ImageIcon editGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/GroupEdit.gif"));
+	
+	public static final ImageIcon editUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/UserEdit.gif"));
+	
+	public static final ImageIcon fullSizeGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/MorePeople.gif"));
+	
+	public static final ImageIcon fullSizeUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/PlainPeople.gif"));
+	
+	public static final ImageIcon groupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ListGroup.gif"));
+	
+	public static final ImageIcon helpIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Help16.gif"));
+	
+	public static final ImageIcon licenseIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/History16.gif"));
+	
+	public static final ImageIcon newFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/New16.gif"));
+	
+	public static final ImageIcon openFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Open16.gif"));
+	
+	public static final ImageIcon pathIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Path16.gif"));
+	
+	public static final ImageIcon pathEditIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/PathEdit.gif"));
+	
+	public static final ImageIcon pathDeleteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/PathDelete.gif"));
+	
+	public static final ImageIcon previewIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Preview.gif"));
+	
+	public static final ImageIcon printIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Print16.gif"));
+	
+	public static final ImageIcon readOnlyIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ReadOnly16.gif"));
+	
+	public static final ImageIcon readWriteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ReadWrite16.gif"));
+	
+	public static final ImageIcon repositoryIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Repository16.gif"));
+	
+	public static final ImageIcon repositoryEditIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/RepositoryEdit.gif"));
+	
+	public static final ImageIcon repositoryDeleteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/RepositoryDelete.gif"));
+	
+	public static final ImageIcon saveFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Save16.gif"));
+	
+	public static final ImageIcon saveFileAsIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/SaveAs16.gif"));
+
+	public static final ImageIcon serverIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Server16.gif"));
+	
+	public static final ImageIcon unassignIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Back24.gif"));
+	
+	public static final ImageIcon userIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ListUser.gif"));
 }

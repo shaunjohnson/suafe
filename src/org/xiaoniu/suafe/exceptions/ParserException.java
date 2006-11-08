@@ -18,6 +18,8 @@
 
 package org.xiaoniu.suafe.exceptions;
 
+import org.xiaoniu.suafe.resources.ResourceUtil;
+
 /**
  * Exception thrown when a parser error occurs.
  * 
@@ -25,9 +27,35 @@ package org.xiaoniu.suafe.exceptions;
  */
 public class ParserException extends ApplicationException {
 	
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = 3638514503455900657L;
 
-	public ParserException(int lineNumber, String message) {
-		super("Line: " +lineNumber + "\n" + message);
+	/**
+	 * Constructor that an error message.
+	 * 
+	 * @param message Error message
+	 */
+	public ParserException(String message) {
+		super(message);
+	}
+	
+	/**
+	 * Exception factory method that generates ParserException objects.
+	 * The line number and error message may be displayed to the user
+	 * so that he knows where the error occurred.
+	 * 
+	 * @param lineNumber Line number where error occurred.
+	 * @param message Error message
+	 * @return ParserException with localized error message.
+	 */
+	public static ParserException generateException(int lineNumber, String message) {
+		String completeMessage = ResourceUtil.getFormattedString(
+				"parser.exception", 
+				lineNumber, 
+				message);
+		
+		return new ParserException(completeMessage);
 	}
 }

@@ -368,15 +368,15 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			mainTabbedPane.addTab(ResourceUtil
 					.getString("mainframe.tabs.users"), 
 					ResourceUtil.fullSizeUserIcon,
-					getUsersSplitPane(), null);
+					getUsersSplitPane());
 			mainTabbedPane.addTab(ResourceUtil
 					.getString("mainframe.tabs.groups"), 
 					ResourceUtil.fullSizeGroupIcon,
-					getGroupsSplitPane(), null);
+					getGroupsSplitPane());
 			mainTabbedPane.addTab(ResourceUtil
 					.getString("mainframe.tabs.accessrules"), 
 					ResourceUtil.fullSizeAccessRuleIcon,
-					getAccessRulesSplitPane(), null);
+					getAccessRulesSplitPane());
 		}
 		
 		return mainTabbedPane;
@@ -2087,9 +2087,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			layout.setAlignment(java.awt.FlowLayout.LEFT);
 			
 			userActionsPanel = new JPanel(layout);
-			userActionsPanel.add(getAddUserButton(), null);
-			userActionsPanel.add(getEditUserButton(), null);
-			userActionsPanel.add(getDeleteUserButton(), null);
+			userActionsPanel.add(getAddUserButton());
+			userActionsPanel.add(getEditUserButton());
+			userActionsPanel.add(getDeleteUserButton());
 		}
 		
 		return userActionsPanel;
@@ -2181,9 +2181,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			layout.setAlignment(java.awt.FlowLayout.LEFT);
 			
 			groupActionsPanel = new JPanel(layout);			
-			groupActionsPanel.add(getAddGroupButton(), null);
-			groupActionsPanel.add(getEditGroupButton(), null);
-			groupActionsPanel.add(getDeleteGroupButton(), null);
+			groupActionsPanel.add(getAddGroupButton());
+			groupActionsPanel.add(getEditGroupButton());
+			groupActionsPanel.add(getDeleteGroupButton());
 		}
 		
 		return groupActionsPanel;
@@ -2879,9 +2879,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			layout.setAlignment(java.awt.FlowLayout.LEFT);
 			
 			accessRuleActionsPanel = new JPanel(layout);
-			accessRuleActionsPanel.add(getAddAccessRuleButton(), null);
-			accessRuleActionsPanel.add(getEditAccessRuleButton(), null);
-			accessRuleActionsPanel.add(getDeleteAccessRuleButton(), null);
+			accessRuleActionsPanel.add(getAddAccessRuleButton());
+			accessRuleActionsPanel.add(getEditAccessRuleButton());
+			accessRuleActionsPanel.add(getDeleteAccessRuleButton());
 		}
 		
 		return accessRuleActionsPanel;
@@ -2913,7 +2913,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getToolbarPanel() {
 		if (toolbarPanel == null) {
 			toolbarPanel = new JPanel(new GridLayout(1, 1));			
-			toolbarPanel.add(getActionToolBar(), null);
+			toolbarPanel.add(getActionToolBar());
 		}
 		
 		return toolbarPanel;
@@ -3290,8 +3290,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			layout.setAlignment(java.awt.FlowLayout.LEFT);
 			
 			accessRulesTreeActionsPanel = new JPanel(layout);
-			accessRulesTreeActionsPanel.add(getEditTreeItemButton(), null);
-			accessRulesTreeActionsPanel.add(getDeleteTreeItemButton(), null);
+			accessRulesTreeActionsPanel.add(getEditTreeItemButton());
+			accessRulesTreeActionsPanel.add(getDeleteTreeItemButton());
 		}
 		
 		return accessRulesTreeActionsPanel;
@@ -3369,7 +3369,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			layout.setAlignment(java.awt.FlowLayout.LEFT);
 			
 			userGroupsActionPanel = new JPanel(layout);			
-			userGroupsActionPanel.add(getChangeMembershipButton(), null);
+			userGroupsActionPanel.add(getChangeMembershipButton());
 		}
 		
 		return userGroupsActionPanel;
@@ -3386,7 +3386,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			layout.setAlignment(java.awt.FlowLayout.LEFT);
 			
 			groupMemberListActionsPanel = new JPanel(layout);
-			groupMemberListActionsPanel.add(getAddRemoveMembersButton(), null);
+			groupMemberListActionsPanel.add(getAddRemoveMembersButton());
 		}
 		
 		return groupMemberListActionsPanel;

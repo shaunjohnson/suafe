@@ -25,12 +25,23 @@ package org.xiaoniu.suafe.exceptions;
  */
 public class ApplicationException extends Exception {
 
+	/**
+	 * Serial ID.
+	 */
 	private static final long serialVersionUID = -6917550556439119411L;
 
+	/**
+	 * Default constructor.
+	 */
 	public ApplicationException() {
 		super();
 	}
 	
+	/**
+	 * Constructor that accepts a message.
+	 * 
+	 * @param message Error message.
+	 */
 	public ApplicationException(String message) {
 		super(message);
 	}

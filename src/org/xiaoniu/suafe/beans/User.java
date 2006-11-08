@@ -177,7 +177,9 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	}
 
 	/**
+	 * Compares this to another object.
 	 * 
+	 * @param otherUser The other User to which this is compared.
 	 */
 	public int compareTo(User otherUser) {
 		return this.toString().compareTo(otherUser.toString());
