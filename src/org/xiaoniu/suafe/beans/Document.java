@@ -444,11 +444,11 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public static void deleteAccessRule(String repositoryName, String pathString, Group group, User user) throws ApplicationException {
-		Repository repository = null;
+		Repository repository = null;	
 		AccessRule accessRule = null;
 		
 		if (repositoryName != null) {
-			 repository = findRepository(repositoryName);
+			repository = findRepository(repositoryName);
 		}
 		
 		if (group != null) {
@@ -1132,6 +1132,10 @@ public class Document {
 	 */
 	public static List<Group> getGroups() {
 		return groups;
+	}
+	
+	public static List<User> getUsers() {
+		return users;
 	}
 
 	/**

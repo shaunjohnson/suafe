@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -88,6 +90,26 @@ public class FileParser {
 		}
 	}
 	
+	public static void parse(InputStream inputStream) throws ParserException, ValidatorException {
+		BufferedReader input = null;
+		
+		try { 
+			input = new BufferedReader(new InputStreamReader(inputStream));
+			
+			parse(input);
+		}
+		finally {
+			if (input != null) {
+				try {
+					input.close();
+				}
+				catch (IOException ioe) {
+					// Do nothing
+				}
+			}
+		}	
+	}
+	
 	/**
 	 * Reads and parses information from the specified authz file.
 	 * 
@@ -105,6 +127,32 @@ public class FileParser {
 		
 		try {
 			input = new BufferedReader(new FileReader(file));
+			parse(input);
+		}
+		catch(FileNotFoundException fne) {
+			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.filenotfound"));
+		}
+		catch(Exception e) {
+			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
+		}
+		finally {
+			if (input != null) {
+				try {
+					input.close();
+				}
+				catch (IOException ioe) {
+					// Do nothing
+				}
+			}
+		}		
+	}
+	
+	public static void parse(BufferedReader input) throws ParserException, ValidatorException {
+		int lineNumber = 0;
+		
+		currentState = STATE_START;
+		
+		try {
 			String line = input.readLine();
 			lineNumber++;
 			
@@ -122,9 +170,6 @@ public class FileParser {
 				lineNumber++;
 			}
 		}
-		catch(FileNotFoundException fne) {
-			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.filenotfound"));
-		}
 		catch(IOException ioe) {
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
 		}
@@ -136,17 +181,7 @@ public class FileParser {
 		}
 		catch(Exception e) {
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
-		}
-		finally {
-			if (input != null) {
-				try {
-					input.close();
-				}
-				catch (IOException ioe) {
-					// Do nothing
-				}
-			}
-		}		
+		}	
 	}
 	
 	/**

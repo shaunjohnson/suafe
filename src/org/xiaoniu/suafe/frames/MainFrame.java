@@ -39,10 +39,12 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -77,6 +79,7 @@ import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.FileGenerator;
 import org.xiaoniu.suafe.FileParser;
 import org.xiaoniu.suafe.Printer;
+import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
@@ -133,6 +136,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JMenuBar menuBar = null;  
 
 	private JMenu fileMenu = null;  
+	
+	private JMenu recentFilesMenu = null;
 
 	private JMenuItem newFileMenuItem = null;
 
@@ -201,6 +206,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JButton editUserButton = null;  
 
 	private JButton addUserButton = null;  
+	
+	private JButton cloneUserButton = null;
 
 	private JButton deleteUserButton = null;
 
@@ -210,6 +217,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JButton addGroupButton = null;  
 
+	private JButton cloneGroupButton = null;
+	
 	private JButton editGroupButton = null;  
 
 	private JButton deleteGroupButton = null;
@@ -312,6 +321,12 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	
 	private JMenuItem cloneGroupPopupMenuItem = null;
 	
+	private JMenu settingsMenu = null;
+	
+	private JCheckBoxMenuItem openLastFileMenuItem = null;
+	
+	private Stack<String> fileStack = null;
+	
 	/**
 	 * Default constructor
 	 */
@@ -325,9 +340,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * This method initializes this frame.
 	 */
 	private void initialize() {
+		fileStack = UserPreferences.getRecentFiles();
+		
 		this.addKeyListener(this);
 		this.addWindowListener(this);
-		this.setSize(800, 700);
+		this.setSize(840, 700);
 		this.center();
 		this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -338,6 +355,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		getGroupsPopupMenu();
 		getUsersPopupMenu();
 		updateTitle();
+		
+		// Load last opened file if setting is enabled
+		if (UserPreferences.getOpenLastFile()) {
+			fileOpen(fileStack.size() - 1);
+		}
 	}
 
 	/**
@@ -393,7 +415,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			usersSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			usersSplitPane.setLeftComponent(getUserListPanel());
 			usersSplitPane.setRightComponent(getUserDetailsPanel());
-			usersSplitPane.setDividerLocation(350);
+			usersSplitPane.setDividerLocation(400);
 		}
 		
 		return usersSplitPane;
@@ -427,7 +449,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			groupsSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			groupsSplitPane.setLeftComponent(getGroupListPanel());
 			groupsSplitPane.setRightComponent(getGroupDetailsPanel());
-			groupsSplitPane.setDividerLocation(350);
+			groupsSplitPane.setDividerLocation(400);
 		}
 		
 		return groupsSplitPane;
@@ -458,10 +480,69 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			menuBar = new JMenuBar();
 			menuBar.add(getFileMenu());
 			menuBar.add(getActionMenu());
+			menuBar.add(getSettingsMenu());
 			menuBar.add(getHelpMenu());
 		}
 		
 		return menuBar;
+	}
+	
+	/** 
+	 * This method initializes settingsMenu.
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getSettingsMenu() {
+		if (settingsMenu == null) {
+			settingsMenu = new JMenu();
+			settingsMenu.setText(ResourceUtil.getString("menu.settings"));
+			settingsMenu.add(getOpenLastFileMenuItem());
+		}
+		
+		return settingsMenu;
+	}
+	
+	/** 
+	 * This method initializes openLastFileMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getOpenLastFileMenuItem() {
+		if (openLastFileMenuItem == null) {
+			openLastFileMenuItem = new JCheckBoxMenuItem();
+			openLastFileMenuItem.setText(ResourceUtil.getString("menu.settings.openlastfile"));
+			openLastFileMenuItem.addActionListener(this);
+			openLastFileMenuItem.setActionCommand(Constants.OPEN_LAST_EDITED_FILE_ACTION);
+			openLastFileMenuItem.setSelected(UserPreferences.getOpenLastFile());
+		}
+		
+		return openLastFileMenuItem;
+	}
+	
+	/**
+	 * Adds the absolute path of a file to the recent files list and persists
+	 * it to Preferences.
+	 * 
+	 * @param absolutePath Absolute path of newly opened file.
+	 */
+	private void addToRecentFiles(String absolutePath) {
+		fileStack = UserPreferences.getRecentFiles();
+		
+		// If file already appears in list remove it first so that it can
+		// be added to the top of the stack.
+		if (fileStack.search(absolutePath) != -1) {
+			fileStack.remove(absolutePath);
+		}
+		
+		fileStack.push(absolutePath);
+		
+		// Maintain maximum number of recent files
+		if (fileStack.size() > UserPreferences.MAXIMUM_RECENT_FILES) {
+			fileStack.remove(0);
+		}
+		
+		UserPreferences.setRecentFiles(fileStack);
+		refreshRecentFiles();		
 	}
 
 	/**
@@ -477,16 +558,60 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			fileMenu.add(getOpenFileMenuItem());
 			fileMenu.add(getSaveFileMenuItem());
 			fileMenu.add(getSaveAsMenuItem());
+			fileMenu.add(new JSeparator());			
+			fileMenu.add(getRecentFilesMenu());
 			fileMenu.add(new JSeparator());
 			
 			// Printing is currently disabled.
 			//fileMenu.add(getPrintMenuItem());
 			//fileMenu.add(new JSeparator());
-			
+						
 			fileMenu.add(getExitMenuItem());
 		}
 		
 		return fileMenu;
+	}
+	
+	/**
+	 * This method initializes recentFilesMenu.
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getRecentFilesMenu() {
+		if (recentFilesMenu == null) {
+			recentFilesMenu = new JMenu(ResourceUtil.getString("menu.file.recentfiles"));
+			refreshRecentFiles();
+		}
+		
+		return recentFilesMenu;
+	}
+	
+	/**
+	 * Refreshes the recent files menu with the current list of recent files.
+	 * The text displayed is the file name. The tooltip is the absolute path
+	 * of the file.
+	 */
+	private void refreshRecentFiles() {
+		recentFilesMenu.removeAll();
+		
+		if (fileStack.size() == 0) {
+			return;
+		}
+		
+		// Add files to menu in reverse order so that latest is at the top
+		// of the list of files.
+		for(int slot = fileStack.size() - 1; slot >= 0; slot--) {
+			String path = fileStack.elementAt(slot);
+			int index = path.lastIndexOf(Constants.FILE_SEPARATOR);
+			
+			JMenuItem menuItem = new JMenuItem(path.substring(index + 1));
+			
+			menuItem.addActionListener(this);
+			menuItem.setActionCommand(Constants.OPEN_FILE_ACTION + "_" + slot);
+			menuItem.setToolTipText(path);
+			
+			recentFilesMenu.add(menuItem);
+		}
 	}
 
 	/**
@@ -837,10 +962,38 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 				Document.resetUnsavedChangesFlag();
 				updateTitle();
+				
+				addToRecentFiles(file.getAbsolutePath());
 			} 
 			catch (Exception e) {
 				displayError(e.getMessage());
 			}
+		}
+	}
+	
+	/**
+	 * File open action handler.
+	 */
+	private void fileOpen(int index) {		
+		checkForUnsavedChanges();
+
+		try {
+			File file = new File(fileStack.elementAt(index));
+			FileParser.parse(file);
+			getUserList().setListData(Document.getUserObjects());
+			getGroupList().setListData(Document.getGroupObjects());
+
+			Document.setFile(file);
+
+			refreshAccessRuleTree(null);
+
+			Document.resetUnsavedChangesFlag();
+			updateTitle();
+			
+			addToRecentFiles(file.getAbsolutePath());
+		} 
+		catch (Exception e) {
+			displayError(e.getMessage());
 		}
 	}
 
@@ -945,6 +1098,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * @param changeMembershipEnabled If true change membership button enabled, otherwise disabled.
 	 */
 	private void toggleUserActions(boolean enabled, boolean changeMembershipEnabled) {
+		getCloneUserButton().setEnabled(enabled);
 		getEditUserButton().setEnabled(enabled);
 		getDeleteUserButton().setEnabled(enabled);
 		getChangeMembershipButton().setEnabled(changeMembershipEnabled);
@@ -961,6 +1115,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * @param enabled If true group actions are enabled, otherwise disabled.
 	 */
 	private void toggleGroupActions(boolean enabled) {
+		getCloneGroupButton().setEnabled(enabled);
 		getEditGroupButton().setEnabled(enabled);
 		getDeleteGroupButton().setEnabled(enabled);
 		getAddRemoveMembersButton().setEnabled(enabled);
@@ -1784,6 +1939,12 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		frame.setVisible(true);
 	}
 
+	private void openLastEditedFileSettingChange() {
+		boolean selected = openLastFileMenuItem.isSelected();
+		
+		UserPreferences.setOpenLastFile(selected);
+	}
+	
 	/**
 	 * ActionPerformed event handler. Redirects to the appropriate action handler.
 	 */
@@ -1796,6 +1957,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			fileSave();
 		} else if (e.getActionCommand().equals(Constants.SAVE_FILE_AS_ACTION)) {
 			fileSaveAs();
+		} else if (e.getActionCommand().equals(Constants.OPEN_LAST_EDITED_FILE_ACTION)) {
+			openLastEditedFileSettingChange();
 		} else if (e.getActionCommand().equals(Constants.PRINT_ACTION)) {
 			filePrint();
 		} else if (e.getActionCommand().equals(Constants.EXIT_ACTION)) {
@@ -1842,6 +2005,26 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			editAccessRule();
 		} else if (e.getActionCommand().equals(Constants.DELETE_ACCESS_RULE_ACTION)) {
 			deleteAccessRule();
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_0")) {
+			fileOpen(0);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_1")) {
+			fileOpen(1);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_2")) {
+			fileOpen(2);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_3")) {
+			fileOpen(3);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_4")) {
+			fileOpen(4);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_5")) {
+			fileOpen(5);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_6")) {
+			fileOpen(6);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_7")) {
+			fileOpen(7);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_8")) {
+			fileOpen(8);
+		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_9")) {
+			fileOpen(9);
 		} else {
 			displayError(ResourceUtil.getString("application.error"));
 		}
@@ -2089,6 +2272,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			
 			userActionsPanel = new JPanel(layout);
 			userActionsPanel.add(getAddUserButton());
+			userActionsPanel.add(getCloneUserButton());
 			userActionsPanel.add(getEditUserButton());
 			userActionsPanel.add(getDeleteUserButton());
 		}
@@ -2131,6 +2315,25 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		return addUserButton;
+	}
+	
+	/**
+	 * This method initializes cloneUserButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getCloneUserButton() {
+		if (cloneUserButton == null) {
+			cloneUserButton = new JButton();
+			cloneUserButton.addActionListener(this);
+			cloneUserButton.setActionCommand(Constants.CLONE_USER_ACTION);
+			cloneUserButton.setIcon(ResourceUtil.cloneUserIcon);
+			cloneUserButton.setText(ResourceUtil.getString("button.clone"));
+			cloneUserButton.setToolTipText(ResourceUtil.getString("mainframe.button.cloneuser.tooltip"));
+			cloneUserButton.setEnabled(false);
+		}
+		
+		return cloneUserButton;
 	}
 
 	/**
@@ -2183,6 +2386,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			
 			groupActionsPanel = new JPanel(layout);			
 			groupActionsPanel.add(getAddGroupButton());
+			groupActionsPanel.add(getCloneGroupButton());
 			groupActionsPanel.add(getEditGroupButton());
 			groupActionsPanel.add(getDeleteGroupButton());
 		}
@@ -2206,6 +2410,25 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		return addGroupButton;
+	}
+	
+	/**
+	 * This method initializes cloneGroupButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getCloneGroupButton() {
+		if (cloneGroupButton == null) {
+			cloneGroupButton = new JButton();
+			cloneGroupButton.addActionListener(this);
+			cloneGroupButton.setActionCommand(Constants.CLONE_GROUP_ACTION);
+			cloneGroupButton.setIcon(ResourceUtil.cloneGroupIcon);
+			cloneGroupButton.setText(ResourceUtil.getString("button.clone"));
+			cloneGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.clonegroup.tooltip"));
+			cloneGroupButton.setEnabled(false);
+		}
+		
+		return cloneGroupButton;
 	}
 
 	/**
@@ -3515,7 +3738,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * WindowClosed event handler. Does nothing.
 	 */
 	public void windowClosed(WindowEvent event) {
-		// Do nothing
+		// Do nothing.
 	}
 
 	/**

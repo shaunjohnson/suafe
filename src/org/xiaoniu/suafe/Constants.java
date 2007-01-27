@@ -43,11 +43,17 @@ public class Constants {
 	
 	public static final String ACCESS_LEVEL_READWRITE = "rw";
 	
-	public static final String ACCESS_LEVEL_DENY_ACCESS = "";     
+	public static final String ACCESS_LEVEL_DENY_ACCESS = "";
+	
+	public static final String ACCESS_LEVEL_NONE = "none";
 	
 	public static final String ALL_USERS = "*";
 	
+	public static final String GROUP_PREFIX = "@";
+	
 	public static final String newline = System.getProperty("line.separator");
+	
+	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
 	
 	public static final String PATH_SEPARATOR = "/";
 	
@@ -68,7 +74,9 @@ public class Constants {
 	
 	public static final String HEADER_1_0_0_RC = "# Created by Suafe 1.0.0 RC (http://suafe.xiaoniu.org)";
 	
-	public static final String HEADER_CURRENT = HEADER_1_0_0_RC;
+	public static final String HEADER_1_1_0 = "# Created by Suafe 1.1.0 (http://suafe.xiaoniu.org)";
+	
+	public static final String HEADER_CURRENT = HEADER_1_1_0;
 	
 	//
 	// Actions
@@ -140,4 +148,80 @@ public class Constants {
 	public static final String ASSIGN_ACTION = "ASSIGN_ACTION";
 	
 	public static final String UNASSIGN_ACTION = "UNASSIGN_ACTION";
+	
+	public static final String OPEN_LAST_EDITED_FILE_ACTION = "OPEN_LAST_EDITED_FILE_ACTION";
+	
+	// General actions	
+	public static final String ARGS_INPUT_FILE = "input file";
+	public static final char ARGS_INPUT_FILE_SHORTFLAG = 'i';
+	public static final String ARGS_INPUT_FILE_LONGFLAG = "input";
+	
+	public static final String ARGS_OUTPUT_FILE = "output file";
+	public static final char ARGS_OUTPUT_FILE_SHORTFLAG = 'o';
+	public static final String ARGS_OUTPUT_FILE_LONGFLAG = "output";
+	
+	public static final String ARGS_HELP = "help";
+	public static final char ARGS_HELP_SHORTFLAG = 'h';
+	
+	public static final String ARGS_VERBOSE_HELP = "verbosehelp";
+	
+	public static final String ARGS_VERSION = "version";
+	public static final char ARGS_VERSION_SHORTFLAG = 'v';
+	
+	// User actions
+	public static final String ARGS_CLONE_USER = "cloneuser";
+	public static final String ARGS_EDIT_USER = "edituser";
+	public static final String ARGS_DELETE_USER = "deleteuser";
+	public static final String ARGS_ADD_GROUPS = "addgroups";
+	public static final String ARGS_REMOVE_GROUPS = "removegroups";
+	public static final String ARGS_COUNT_USERS = "countusers";
+	public static final String ARGS_GET_USERS = "getusers";
+	public static final String ARGS_GET_USER_GROUPS = "getusergroups";
+	public static final String ARGS_GET_USER_RULES = "getuserrules";
+	
+	// Group actions	
+	public static final String ARGS_ADD_GROUP = "addgroup";
+	public static final String ARGS_CLONE_GROUP = "clonegroup";
+	public static final String ARGS_EDIT_GROUP = "editgroup";
+	public static final String ARGS_DELETE_GROUP = "deletegroup"; 
+	public static final String ARGS_ADD_MEMBERS = "addmembers";
+	public static final String ARGS_REMOVE_MEMBERS = "removemembers"; 
+	public static final String ARGS_COUNT_GROUPS = "countgroups";
+	public static final String ARGS_GET_GROUPS = "getgroups";
+	public static final String ARGS_GET_GROUP_MEMBERS = "getgroupmembers";
+	public static final String ARGS_GET_GROUP_GROUP_MEMBERS = "getgroupgroupmembers"; 
+	public static final String ARGS_GET_GROUP_USER_MEMBERS = "getgroupusermembers"; 
+	public static final String ARGS_GET_GROUP_RULES = "getgrouprules";
+	
+	public static final String ARGS_EDIT_REPOS = "editrepos";
+	public static final String ARGS_DELETE_REPOS = "deleterepos";
+	public static final String ARGS_COUNT_REPOS = "countrepos";
+	public static final String ARGS_GET_REPOS = "getrepos";
+	public static final String ARGS_GET_REPOS_RULES = "getreposrules";
+	 
+	// Access rule actions
+	public static final String ARGS_ADD_RULE = "addrule";
+	public static final String ARGS_EDIT_RULE = "editrule";
+	public static final String ARGS_DELETE_RULE = "deleterule";
+	public static final String ARGS_COUNT_RULES = "countrules";
+	public static final String ARGS_GET_RULES = "getrules";
+	
+	// Generic arguments
+	public static final String ARGS_NAME = "name";	
+	public static final String ARGS_GROUPS = "groups";
+	public static final String ARGS_USERS = "users";
+	public static final String ARGS_REPOS = "repos";
+	public static final String ARGS_PATH = "path";
+	public static final String ARGS_USER = "user";
+	public static final String ARGS_GROUP = "group";
+	public static final String ARGS_ACCESS = "access";
+	public static final String ARGS_NEW_NAME = "newname";
+	public static final String ARGS_NEW_REPOS = "newrepos";
+	public static final String ARGS_NEW_PATH = "newpath";
+	public static final String ARGS_NEW_USER = "newuser";
+	public static final String ARGS_NEW_GROUP = "newgroup";
+	public static final String ARGS_NEW_ACCESS = "newaccess";
+	
+	// Other
+	public static final String ARGS_SUMMARY_REPORT = "summaryreport";
 }
