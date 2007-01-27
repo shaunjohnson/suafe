@@ -444,8 +444,12 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public static void deleteAccessRule(String repositoryName, String pathString, Group group, User user) throws ApplicationException {
-		Repository repository = findRepository(repositoryName);
+		Repository repository = null;
 		AccessRule accessRule = null;
+		
+		if (repositoryName != null) {
+			 repository = findRepository(repositoryName);
+		}
 		
 		if (group != null) {
 			accessRule = findGroupAccessRule(repository, pathString, group);

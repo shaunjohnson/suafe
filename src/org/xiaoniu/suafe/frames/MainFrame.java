@@ -1210,12 +1210,13 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 						Repository repository = (Repository)tableModel.getValueAt(selectedRow, 0);
 						Path path = (Path)tableModel.getValueAt(selectedRow, 1);
 						Object object = tableModel.getValueAt(selectedRow, 2);
+						String repositoryName = (repository == null) ? null : repository.getName();
 						
 						if (object instanceof Group) {
-							Document.deleteAccessRule(repository.getName(), path.getPath(), (Group)object, null);
+							Document.deleteAccessRule(repositoryName, path.getPath(), (Group)object, null);
 						}
 						else if (object instanceof User) {
-							Document.deleteAccessRule(repository.getName(), path.getPath(), null, (User)object);
+							Document.deleteAccessRule(repositoryName, path.getPath(), null, (User)object);
 						}
 					}
 					
