@@ -5,20 +5,77 @@
 <body>
 <h1>Release Notes</h1>
 
-<h2>0.1 alpha</h2>
-<strong>Bug Fixes:</strong>
+<h2>Release 1.0.0 - 2007.01.27</h2>
+<p>What's new in this release:&nbsp;</p>
 <ul>
-<li></li>
+<li>Bug: Allow deletion of server level access rules</li>
+<li>Suafe starts maximized</li>
+<li>All dialogs and the help screen can be closed with a hit of the escape key</li>
+<li>Suafe now keeps track of changes that you make. It'll prompt you to
+save the file before doing anything that would clear the memory like
+closing the application</li>
+<li>More help screens</li>
+<li>Fixed bug with edit access rule</li>
+<li>Fixed bug where the screens didn't change when using cursor keys</li>
+<li>Widened the clone dialogs. Added an icon for the clone menu items</li>
+<li>Corrected a problem with the resource files</li>
 </ul>
 
-<strong>New Features:</strong>
+<p>What's gone missing in this release:</p>
 <ul>
-<li></li>
+<li>Repository browser has been removed. This wasn't available so
+nobody should miss it. Trouble getting the browser to work properly and
+poor performance of the JavaSVN library lead me to remove this feature.
+It is also something that isn't all that important; I don't think it
+would be used much.</li>
+<li>The print function was removed. Printing an authz file is
+interesting, but again not important. It's more important to have a
+good editor than to be able to print files which are unlikely to be
+read by anybody.</li>
 </ul>
 
-<strong>Other Changes:</strong>
+<h2>Release 0.4 - 2006.10.03</h2>
+<p>What's gone missing in this release:</p>
 <ul>
-<li></li>
+<li>If the current file opened is changed then add an indicator to the title bar</li>
+<li>Prompt user to save the current file if it contains unsaved changes when closing the window</li>
+<li>Enlarged many of the screens so that long names and paths can be viewed in their entirety</li>
+<li>Bug: Editing access rules and paths now works as expected</li>
+<li>Added copyright to source</li>
+<li>Updated to comply with Java 5 standards</li>
+</ul>
+
+<p>Known issues:</p>
+<ul>
+<li>Installer isn't the greatest and isn't complete. Use at your own risk</li>
+<li>The about screen still displays 0.3 even though this is the 0.4 release</li>
+</ul>
+
+<h2>Release 0.3 - 2006.09.12</h2>
+<ul><li>Added ability to clone a user or group. The clone has all the same access as the original</li>
+<li>All strings are moved into the resources files</li>
+<li>Implemented Edit Path feature</li>
+<li>Parser now gives the line number when encountering a problem</li>
+<li>Parser now detects duplicate groups and duplicate group members</li>
+<li>Repositioned various buttons on the screens to avoid confusion</li>
+<li>Double-clicking an access rule opens the Edit Access Rule dialog</li>
+<li>Bug: Fix problem where resource file is missing when running within a non-English locale</li>
+<li>Bug: File-New no longer leaves data in the lists</li>
+<li>Bug: Cancel button now cancels all actions instead of just the current action</li>
+<li>Bug: Deleting a user now also deletes all access rules for the user</li>
+<li>Bug: A group can no longer be a member of itself</li>
+<li>Bug: Access rule structure tree now scrolls to the displayed item</li>
+</ul>
+
+<h2>Release 0.2 - 2006.08.25</h2>
+<ul>
+<li>Minor updates</li>
+</ul>
+
+<h2>Release 0.1 - 2006.08.18</h2>
+
+<ul>
+<li>Initial release</li>
 </ul>
 
 </body>
