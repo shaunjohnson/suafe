@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -67,6 +68,7 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -340,6 +342,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	
 	private FileTransferHandler fileTransferHandler = null;
 	
+	private JPanel statusPanel = null;
+
+	private JLabel statusLabel = null;
+	
 	/**
 	 * Default constructor
 	 */
@@ -401,7 +407,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			contentPane = new JPanel();
 			contentPane.setLayout(new BorderLayout());
 			contentPane.add(getToolbarPanel(), java.awt.BorderLayout.NORTH);
-			contentPane.add(getMainTabbedPane(), BorderLayout.CENTER);			
+			contentPane.add(getMainTabbedPane(), BorderLayout.CENTER);
+			contentPane.add(getStatusPanel(), BorderLayout.SOUTH);
 		}
 		
 		return contentPane;
@@ -3757,6 +3764,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private void updateTitle() {
 		final String untitled = ResourceUtil.getString("application.untitled");
 		String filename = "";
+		String fullPath = "";
 		
 		// Add an asterisk if the file has changed.
 		if (Document.hasUnsavedChanges()) {
@@ -3766,12 +3774,16 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		// Add Untitled for new files or the file name for existing files
 		if (Document.getFile() == null) {
 			filename += untitled;
+			fullPath = untitled;
 		}
 		else {
 			filename += Document.getFile().getName();
+			fullPath = Document.getFile().getAbsolutePath();
 		}
 		
 		this.setTitle(ResourceUtil.getFormattedString("application.name", filename));
+		
+		getStatusLabel().setText(fullPath);
 	}
 	
 	/**
@@ -3927,5 +3939,32 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			summaryReportMenuItem.setActionCommand(Constants.SUMMARY_REPORT_ACTION);
 		}
 		return summaryReportMenuItem;
+	}
+	
+	/**
+	 * This method initializes statusPanel	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getStatusPanel() {
+		if (statusPanel == null) {
+			FlowLayout flowLayout = new FlowLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+			
+			statusPanel = new JPanel();
+			statusPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+			statusPanel.setLayout(flowLayout);
+			statusPanel.add(getStatusLabel(), null);
+		}
+		return statusPanel;
+	}
+	
+	private JLabel getStatusLabel() {
+		if (statusLabel == null) {
+			statusLabel = new JLabel();
+			statusLabel.setFont(new Font(null, Font.PLAIN, 12));
+		}
+		
+		return statusLabel;
 	}
 }  
