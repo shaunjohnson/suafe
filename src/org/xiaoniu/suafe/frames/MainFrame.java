@@ -4040,7 +4040,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JRadioButtonMenuItem getMonospacedRadioButtonMenuItem() {
 		if (monospacedRadioButtonMenuItem == null) {
 			monospacedRadioButtonMenuItem = new JRadioButtonMenuItem();
-			monospacedRadioButtonMenuItem.setText("Monospaced");
+			monospacedRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.monospaced"));
 			monospacedRadioButtonMenuItem.setFont(new Font(Constants.FONT_MONOSPACED, Font.BOLD, 12));
 			monospacedRadioButtonMenuItem.addActionListener(this);
 			monospacedRadioButtonMenuItem.setActionCommand(Constants.MONOSPACED_ACTION);
@@ -4060,7 +4060,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JRadioButtonMenuItem getSansSerifRadioButtonMenuItem() {
 		if (sansSerifRadioButtonMenuItem == null) {
 			sansSerifRadioButtonMenuItem = new JRadioButtonMenuItem();
-			sansSerifRadioButtonMenuItem.setText("SansSerif");
+			sansSerifRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.sanserif"));
 			sansSerifRadioButtonMenuItem.setFont(new Font(Constants.FONT_SANS_SERIF, Font.BOLD, 12));
 			sansSerifRadioButtonMenuItem.addActionListener(this);
 			sansSerifRadioButtonMenuItem.setActionCommand(Constants.SANS_SERIF_ACTION);
@@ -4080,7 +4080,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JRadioButtonMenuItem getSerifRadioButtonMenuItem() {
 		if (serifRadioButtonMenuItem == null) {
 			serifRadioButtonMenuItem = new JRadioButtonMenuItem();
-			serifRadioButtonMenuItem.setText("Serif");
+			serifRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.serif"));
 			serifRadioButtonMenuItem.setFont(new Font(Constants.FONT_SERIF, Font.BOLD, 12));
 			serifRadioButtonMenuItem.addActionListener(this);
 			serifRadioButtonMenuItem.setActionCommand(Constants.SERIF_ACTION);

@@ -850,6 +850,12 @@ public class Application {
 						config.getString(Constants.ARGS_GROUP));
 				out.print(FileGenerator.generate());
 			}
+			else if (config.getBoolean(Constants.ARGS_COUNT_RULES)) {
+				countRules(out);
+			}
+			else if (config.getBoolean(Constants.ARGS_GET_RULES)) {
+				getRules(out);
+			}
 			
 			// Close the output stream
 			if (config.getString(Constants.ARGS_OUTPUT_FILE) != null) {
@@ -1394,6 +1400,39 @@ public class Application {
 			out.println(repository.getName() + " " + path.getPath() + " " + userName + " " + accessLevel);
 		}
 	}
+	
+	/**
+	 * Get all access rules.
+	 * 
+	 * @param out Ouptput stream
+	 * @throws ApplicationException Error occurred
+	 */
+	private static void getRules(PrintStream out) throws ApplicationException {
+		List<AccessRule> rules = Document.getAccessRules();
+		
+		for(AccessRule rule : rules) {
+			Path path = rule.getPath();
+			String accessLevel = rule.getLevelFullName();
+			String name = null;
+			String repositoryName = "";
+			
+			if (path.getRepository() != null) {
+				repositoryName = path.getRepository().getName();
+			}
+			
+			if (rule.getGroup() != null) {
+				name = Constants.GROUP_PREFIX + rule.getGroup().getName();
+			}
+			else if (rule.getUser() != null) {
+				name = rule.getUser().getName();
+			}
+			else {
+				throw new ApplicationException(ResourceUtil.getString("application.erroroccurred"));
+			}
+			
+			out.println(repositoryName + " " + path.getPath() + " " + name + " " + accessLevel);
+		}
+	}
 
 	/**
 	 * Get list of groups in which the user is a member.
@@ -1562,6 +1601,15 @@ public class Application {
 	 */
 	private static void countUsers(PrintStream out) {
 		out.println(Document.getUserObjects().length);
+	}
+	
+	/**
+	 * Counts number of rules.
+	 * 
+	 * @param out Output stream
+	 */
+	private static void countRules(PrintStream out) {
+		out.println(Document.getAccessRules().size());
 	}
 
 	/**

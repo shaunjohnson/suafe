@@ -28,6 +28,7 @@ import java.util.Vector;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
+import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
 /**
@@ -1628,7 +1629,12 @@ public class Document {
 	public static void changeGroupMembers(Group group, Vector<Group> groupMembers, Vector<User> userMembers) throws ApplicationException {
 		Group results = hasCircularReference(group, groupMembers);
 		if (results != null) {
-			throw new ApplicationException("Circular reference error. Cannot add group '" + results + "' since '" + group + "' is a member of '" + results + "' or one of it's member groups.");
+			Object[] args = new Object[2];
+			
+			args[0] = results;
+			args[1] = group;
+			
+			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.circularreference", args));
 		}
 		
 		removeGroupMembers(group);
