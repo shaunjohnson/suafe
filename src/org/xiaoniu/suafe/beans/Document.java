@@ -20,6 +20,7 @@ package org.xiaoniu.suafe.beans;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
@@ -1625,6 +1626,11 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public static void changeGroupMembers(Group group, Vector<Group> groupMembers, Vector<User> userMembers) throws ApplicationException {
+		Group results = hasCircularReference(group, groupMembers);
+		if (results != null) {
+			throw new ApplicationException("Circular reference error. Cannot add group '" + results + "' since '" + group + "' is a member of '" + results + "' or one of it's member groups.");
+		}
+		
 		removeGroupMembers(group);
 				
 		for (Group member : groupMembers) {
@@ -1690,5 +1696,21 @@ public class Document {
 		unsavedChanges = true;
 		
 		return clone;
+	}
+	
+	public static Group hasCircularReference(Group group, Collection<Group> groupMembers) {
+		for (Group member : groupMembers) {
+			if (group == member) {
+				return group;
+			}
+			
+			Group results = hasCircularReference(group, member.getGroupMembers());
+			
+			if (results != null) {
+				return member;
+			}
+		}
+		
+		return null;
 	}
 }
