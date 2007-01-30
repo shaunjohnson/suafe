@@ -126,6 +126,8 @@ public class Constants {
 
 	public static final String PREVIEW_ACTION = "PREVIEW_ACTION";
 	
+	public static final String STATISTICS_REPORT_ACTION = "STATISTICS_REPORT_ACTION";
+	
 	public static final String SUMMARY_REPORT_ACTION = "SUMMARY_REPORT_ACTION";
 
 	public static final String ADD_GROUP_ACTION = "ADD_GROUP_ACTION";
@@ -242,6 +244,7 @@ public class Constants {
 	public static final String ARGS_NEW_ACCESS = "newaccess";
 	
 	// Other
+	public static final String ARGS_STATISTICS_REPORT = "statisticsreport";
 	public static final String ARGS_SUMMARY_REPORT = "summaryreport";
 	
 	//

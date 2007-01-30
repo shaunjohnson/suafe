@@ -34,6 +34,7 @@ import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.frames.MainFrame;
 import org.xiaoniu.suafe.reports.GenericReport;
+import org.xiaoniu.suafe.reports.StatisticsReport;
 import org.xiaoniu.suafe.reports.SummaryReport;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
@@ -408,7 +409,13 @@ public class Application {
 				.setLongFlag(Constants.ARGS_GET_RULES);
 			
 			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.getrules.help")));
-			
+
+			swtch = new Switch(Constants.ARGS_STATISTICS_REPORT)
+				.setShortFlag(JSAP.NO_SHORTFLAG) 
+				.setLongFlag(Constants.ARGS_STATISTICS_REPORT);
+		
+			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.statisticsreport.help")));
+
 			swtch = new Switch(Constants.ARGS_SUMMARY_REPORT)
 				.setShortFlag(JSAP.NO_SHORTFLAG) 
 				.setLongFlag(Constants.ARGS_SUMMARY_REPORT);
@@ -663,6 +670,10 @@ public class Application {
 		out.println(ResourceUtil.getFormattedString("application.args.verbose.getrules", args));
 
 		args[0] = SUAFE_EXECUTABLE;
+		args[1] = Constants.ARGS_STATISTICS_REPORT;
+		out.println(ResourceUtil.getFormattedString("application.args.verbose.statisticsreport", args));
+		
+		args[0] = SUAFE_EXECUTABLE;
 		args[1] = Constants.ARGS_SUMMARY_REPORT;
 		out.println(ResourceUtil.getFormattedString("application.args.verbose.summaryreport", args));
 	}
@@ -717,7 +728,11 @@ public class Application {
 			}
 			
 			// Process the specified command
-			if (config.getBoolean(Constants.ARGS_SUMMARY_REPORT)) {
+			if (config.getBoolean(Constants.ARGS_STATISTICS_REPORT)) {
+				GenericReport report = new StatisticsReport();
+				out.print(report.generate());
+			}
+			else if (config.getBoolean(Constants.ARGS_SUMMARY_REPORT)) {
 				GenericReport report = new SummaryReport();
 				out.print(report.generate());
 			}

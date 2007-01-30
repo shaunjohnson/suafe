@@ -118,6 +118,7 @@ import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.reports.GenericReport;
+import org.xiaoniu.suafe.reports.StatisticsReport;
 import org.xiaoniu.suafe.reports.SummaryReport;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
@@ -357,6 +358,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JRadioButtonMenuItem serifRadioButtonMenuItem = null;
 
 	private JMenuItem clearRecentFilesMenuItem = null;
+
+	private JMenuItem statisticsMenuItem = null;
 	
 	/**
 	 * Default constructor
@@ -1499,6 +1502,27 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	}
 	
 	/**
+	 * Statistics Report action handler.
+	 */
+	private void statisticsReport() {
+		if (Document.isEmpty()) {
+			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
+		}
+		else {			
+			try {
+				GenericReport report = new StatisticsReport();
+				JFrame frame = new ViewerFrame(ResourceUtil.getString("statisticsreport.title"),
+						report.generate(),
+						Constants.MIME_HTML);
+				frame.setVisible(true);
+			}
+			catch (ApplicationException e) {
+				displayError(e.getMessage());
+			}
+		}
+	}
+	
+	/**
 	 * Summary Report action handler.
 	 */
 	private void summaryReport() {
@@ -2070,6 +2094,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			helpAbout();
 		} else if (e.getActionCommand().equals(Constants.PREVIEW_ACTION)) {
 			preview();
+		} else if (e.getActionCommand().equals(Constants.STATISTICS_REPORT_ACTION)) {
+			statisticsReport();
 		} else if (e.getActionCommand().equals(Constants.SUMMARY_REPORT_ACTION)) {
 			summaryReport();
 		} else if (e.getActionCommand().equals(Constants.ADD_USER_ACTION)) {
@@ -3946,7 +3972,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			reportsMenu = new JMenu();
 			reportsMenu.setText(ResourceUtil.getString("menu.reports"));
 			reportsMenu.add(getPreviewMenuItem());
-			reportsMenu.add(getSummaryReportMenuItem());
+			reportsMenu.add(getStatisticsReportMenuItem());
+			reportsMenu.add(getSummaryReportMenuItem());			
 		}
 		return reportsMenu;
 	}
@@ -4121,5 +4148,20 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			clearRecentFilesMenuItem.setActionCommand(Constants.CLEAR_RECENT_FILES_ACTION);
 		}
 		return clearRecentFilesMenuItem;
+	}
+
+	/**
+	 * This method initializes statisticsMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getStatisticsReportMenuItem() {
+		if (statisticsMenuItem == null) {
+			statisticsMenuItem = new JMenuItem();
+			statisticsMenuItem.setText(ResourceUtil.getString("menu.reports.statisticsreport"));
+			statisticsMenuItem.addActionListener(this);
+			statisticsMenuItem.setActionCommand(Constants.STATISTICS_REPORT_ACTION);
+		}
+		return statisticsMenuItem;
 	}
 }  
