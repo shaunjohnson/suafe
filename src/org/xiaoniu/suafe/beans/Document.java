@@ -931,6 +931,15 @@ public class Document {
 	public static File getFile() {
 		return file;
 	}
+	
+	/**
+	 * Retrieves a list of all AccessRule objects.
+	 * 
+	 * @return List of AccessRule objects
+	 */
+	public static List<AccessRule> getAccessRules() {
+		return accessRules;
+	}
 
 	/**
 	 * Gets an array of AccessRules data in which the Group is referenced.

@@ -381,6 +381,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (UserPreferences.getOpenLastFile()) {
 			fileOpen(fileStack.size() - 1);
 		}
+		
+		refreshTabNames();
 	}
 
 	private void addTransferHandler(Container container) {
@@ -435,6 +437,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 					.getString("mainframe.tabs.accessrules"), 
 					ResourceUtil.fullSizeAccessRuleIcon,
 					getAccessRulesSplitPane());
+			
+			mainTabbedPane.setFont(new Font(null, Font.PLAIN, 12));
 		}
 		
 		return mainTabbedPane;
@@ -2099,6 +2103,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		} else {
 			displayError(ResourceUtil.getString("application.error"));
 		}
+		
+		refreshTabNames();
 	}
 
 	/**
@@ -3966,5 +3972,22 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		return statusLabel;
+	}
+	
+	private void refreshTabNames() {		
+		String title = "<html><strong>Users</strong>&nbsp;&nbsp;&nbsp;(" + 
+			Document.getUsers().size() + 
+			")</html>";
+		getMainTabbedPane().setTitleAt(0, title);
+		
+		title = "<html><strong>Groups</strong>&nbsp;&nbsp;&nbsp;(" + 
+			Document.getGroups().size() + 
+			")</html>";
+		getMainTabbedPane().setTitleAt(1, title);
+	
+		title = "<html><strong>Access Rules</strong>&nbsp;&nbsp;&nbsp;(" + 
+			Document.getAccessRules().size() + 
+			")</html>";
+		getMainTabbedPane().setTitleAt(2, title);
 	}
 }  
