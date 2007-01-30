@@ -196,6 +196,7 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 			contentEditorPane.setText(content);
 			contentEditorPane.setEditable(false);
 			contentEditorPane.select(0, 0);
+			contentEditorPane.addHyperlinkListener(this);
 			
 			if (contentType == Constants.MIME_TEXT) {
 				contentEditorPane.setFont(new Font("Courier New", Font.PLAIN, 12));

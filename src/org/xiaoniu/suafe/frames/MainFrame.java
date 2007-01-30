@@ -117,6 +117,8 @@ import org.xiaoniu.suafe.models.NonEditableTableModel;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
+import org.xiaoniu.suafe.reports.GenericReport;
+import org.xiaoniu.suafe.reports.SummaryReport;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -1491,8 +1493,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		else {			
 			try {
+				GenericReport report = new SummaryReport();
 				JFrame frame = new ViewerFrame(ResourceUtil.getString("summaryreport.title"),
-						FileGenerator.generate(),
+						report.generate(),
 						Constants.MIME_HTML);
 				frame.setVisible(true);
 			}
