@@ -18,6 +18,7 @@
 
 package org.xiaoniu.suafe;
 
+import java.awt.Font;
 import java.util.Stack;
 import java.util.prefs.Preferences;
 
@@ -40,9 +41,19 @@ public class UserPreferences {
 	public static final String OPEN_LAST_FILE = "open.last.file";
 	
 	/**
+	 * Preference name for the user selected font style.
+	 */
+	public static final String FONT_STYLE = "font.style";
+	
+	/**
 	 * Maximum number of files remembered in the recent files list.
 	 */
 	public static final int MAXIMUM_RECENT_FILES = 10;
+	
+	/**
+	 * Default font style.
+	 */
+	public static final String DEFAULT_FONT_STYLE = Constants.FONT_MONOSPACED;
 	
 	/**
 	 * Handle to the Preferences node for the application.
@@ -111,5 +122,49 @@ public class UserPreferences {
 	 */
 	public static void setOpenLastFile(boolean selected) {
 		prefs.put(OPEN_LAST_FILE, Boolean.toString(selected));
+	}
+	
+	/**
+	 * Retrieves user selected font style from Preferences
+	 * 
+	 * @return user font style
+	 */
+	public static String getUserFontStyle() {
+		String fontStyle = prefs.get(FONT_STYLE, DEFAULT_FONT_STYLE);
+		
+		if (fontStyle.equals(Constants.FONT_MONOSPACED) ||
+				fontStyle.equals(Constants.FONT_SERIF) ||
+				fontStyle.equals(Constants.FONT_SANS_SERIF)) {
+				return fontStyle;
+			}
+			else {
+				return DEFAULT_FONT_STYLE;
+			}
+	}
+	
+	/**
+	 * Persists user selected font style to Preferences.
+	 * Only persists valid font style, otherwise saves the default.
+	 * 
+	 * @param fontStyle User selected font style
+	 */
+	public static void setUserFontStyle(String fontStyle) {
+		if (fontStyle.equals(Constants.FONT_MONOSPACED) ||
+			fontStyle.equals(Constants.FONT_SERIF) ||
+			fontStyle.equals(Constants.FONT_SANS_SERIF)) {
+			prefs.put(FONT_STYLE, fontStyle);
+		}
+		else {
+			prefs.put(FONT_STYLE, DEFAULT_FONT_STYLE);
+		}
+	}
+	
+	/**
+	 * Helper method that returns Font object for the user selected font style.
+	 * 
+	 * @return Font object of user selected font style
+	 */
+	public static Font getUserFont() {
+		return new Font(getUserFontStyle(), Font.PLAIN, 12);
 	}
 }

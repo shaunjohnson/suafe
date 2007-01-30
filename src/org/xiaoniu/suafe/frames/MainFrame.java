@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Stack;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -60,6 +61,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
@@ -346,6 +348,12 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JLabel statusLabel = null;
 	
+	private JRadioButtonMenuItem monospacedRadioButtonMenuItem = null;
+
+	private JRadioButtonMenuItem sansSerifRadioButtonMenuItem = null;
+
+	private JRadioButtonMenuItem serifRadioButtonMenuItem = null;
+	
 	/**
 	 * Default constructor
 	 */
@@ -376,6 +384,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		getGroupsPopupMenu();
 		getUsersPopupMenu();
 		updateTitle();
+		changeFont(null);
 		
 		// Load last opened file if setting is enabled
 		if (UserPreferences.getOpenLastFile()) {
@@ -397,6 +406,21 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				}
 			}
 		}
+	}
+	
+	private void changeFont(String newFontStyle) {
+		if (newFontStyle != null) {
+			UserPreferences.setUserFontStyle(newFontStyle);
+		}
+		
+		getAccessRulesTable().setFont(UserPreferences.getUserFont());
+		getAccessRulesTree().setFont(UserPreferences.getUserFont());
+		getGroupAccessRulesTable().setFont(UserPreferences.getUserFont());
+		getGroupList().setFont(UserPreferences.getUserFont());
+		getGroupMemberList().setFont(UserPreferences.getUserFont());
+		getUserAccessRulesTable().setFont(UserPreferences.getUserFont());
+		getUserGroupList().setFont(UserPreferences.getUserFont());
+		getUserList().setFont(UserPreferences.getUserFont());
 	}
 	
 	/**
@@ -526,21 +550,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		return menuBar;
-	}
-	
-	/** 
-	 * This method initializes settingsMenu.
-	 * 
-	 * @return javax.swing.JMenu
-	 */
-	private JMenu getSettingsMenu() {
-		if (settingsMenu == null) {
-			settingsMenu = new JMenu();
-			settingsMenu.setText(ResourceUtil.getString("menu.settings"));
-			settingsMenu.add(getOpenLastFileMenuItem());
-		}
-		
-		return settingsMenu;
 	}
 	
 	/** 
@@ -2080,6 +2089,12 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			editAccessRule();
 		} else if (e.getActionCommand().equals(Constants.DELETE_ACCESS_RULE_ACTION)) {
 			deleteAccessRule();
+		} else if (e.getActionCommand().equals(Constants.MONOSPACED_ACTION)) {
+			changeFont(Constants.FONT_MONOSPACED);
+		} else if (e.getActionCommand().equals(Constants.SANS_SERIF_ACTION)) {
+			changeFont(Constants.FONT_SANS_SERIF);
+		} else if (e.getActionCommand().equals(Constants.SERIF_ACTION)) {
+			changeFont(Constants.FONT_SERIF);
 		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_0")) {
 			fileOpen(0);
 		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_1")) {
@@ -3972,6 +3987,90 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		return statusLabel;
+	}
+
+	/** 
+	 * This method initializes settingsMenu.
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getSettingsMenu() {
+		if (settingsMenu == null) {
+			settingsMenu = new JMenu();
+			settingsMenu.setText(ResourceUtil.getString("menu.settings"));
+			settingsMenu.add(getOpenLastFileMenuItem());
+			settingsMenu.add(new JSeparator());
+			settingsMenu.add(getMonospacedRadioButtonMenuItem());
+			settingsMenu.add(getSansSerifRadioButtonMenuItem());
+			settingsMenu.add(getSerifRadioButtonMenuItem());
+			
+			ButtonGroup group = new ButtonGroup();
+			group.add(getMonospacedRadioButtonMenuItem());
+			group.add(getSansSerifRadioButtonMenuItem());
+			group.add(getSerifRadioButtonMenuItem());
+		}
+		
+		return settingsMenu;
+	}
+			
+	/**
+	 * This method initializes monospacedRadioButtonMenuItem	
+	 * 	
+	 * @return javax.swing.JRadioButtonMenuItem	
+	 */
+	private JRadioButtonMenuItem getMonospacedRadioButtonMenuItem() {
+		if (monospacedRadioButtonMenuItem == null) {
+			monospacedRadioButtonMenuItem = new JRadioButtonMenuItem();
+			monospacedRadioButtonMenuItem.setText("Monospaced");
+			monospacedRadioButtonMenuItem.setFont(new Font(Constants.FONT_MONOSPACED, Font.BOLD, 12));
+			monospacedRadioButtonMenuItem.addActionListener(this);
+			monospacedRadioButtonMenuItem.setActionCommand(Constants.MONOSPACED_ACTION);
+			
+			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_MONOSPACED)) {
+				monospacedRadioButtonMenuItem.setSelected(true);
+			}
+		}
+		return monospacedRadioButtonMenuItem;
+	}
+
+	/**
+	 * This method initializes sansSerifRadioButtonMenuItem	
+	 * 	
+	 * @return javax.swing.JRadioButtonMenuItem	
+	 */
+	private JRadioButtonMenuItem getSansSerifRadioButtonMenuItem() {
+		if (sansSerifRadioButtonMenuItem == null) {
+			sansSerifRadioButtonMenuItem = new JRadioButtonMenuItem();
+			sansSerifRadioButtonMenuItem.setText("SansSerif");
+			sansSerifRadioButtonMenuItem.setFont(new Font(Constants.FONT_SANS_SERIF, Font.BOLD, 12));
+			sansSerifRadioButtonMenuItem.addActionListener(this);
+			sansSerifRadioButtonMenuItem.setActionCommand(Constants.SANS_SERIF_ACTION);
+			
+			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_SANS_SERIF)) {
+				sansSerifRadioButtonMenuItem.setSelected(true);
+			}
+		}
+		return sansSerifRadioButtonMenuItem;
+	}
+
+	/**
+	 * This method initializes serifRadioButtonMenuItem	
+	 * 	
+	 * @return javax.swing.JRadioButtonMenuItem	
+	 */
+	private JRadioButtonMenuItem getSerifRadioButtonMenuItem() {
+		if (serifRadioButtonMenuItem == null) {
+			serifRadioButtonMenuItem = new JRadioButtonMenuItem();
+			serifRadioButtonMenuItem.setText("Serif");
+			serifRadioButtonMenuItem.setFont(new Font(Constants.FONT_SERIF, Font.BOLD, 12));
+			serifRadioButtonMenuItem.addActionListener(this);
+			serifRadioButtonMenuItem.setActionCommand(Constants.SERIF_ACTION);
+			
+			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_SERIF)) {
+				serifRadioButtonMenuItem.setSelected(true);
+			}
+		}
+		return serifRadioButtonMenuItem;
 	}
 	
 	private void refreshTabNames() {		

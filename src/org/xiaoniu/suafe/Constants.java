@@ -162,6 +162,12 @@ public class Constants {
 	
 	public static final String OPEN_LAST_EDITED_FILE_ACTION = "OPEN_LAST_EDITED_FILE_ACTION";
 	
+	public static final String MONOSPACED_ACTION = "MONOSPACED_ACTION";
+	
+	public static final String SANS_SERIF_ACTION = "SANS_SERIF_ACTION";
+	
+	public static final String SERIF_ACTION = "SERIF_ACTION";
+	
 	// General actions	
 	public static final String ARGS_INPUT_FILE = "input file";
 	public static final char ARGS_INPUT_FILE_SHORTFLAG = 'i';
@@ -235,4 +241,13 @@ public class Constants {
 	
 	// Other
 	public static final String ARGS_SUMMARY_REPORT = "summaryreport";
+	
+	//
+	// Font styles
+	//
+	public static final String FONT_MONOSPACED = "Monospaced";
+	
+	public static final String FONT_SERIF = "Serif";
+	
+	public static final String FONT_SANS_SERIF = "SansSerif";
 }
