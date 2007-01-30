@@ -103,7 +103,6 @@ import org.xiaoniu.suafe.dialogs.EditPathDialog;
 import org.xiaoniu.suafe.dialogs.EditRepositoryDialog;
 import org.xiaoniu.suafe.dialogs.EditUserDialog;
 import org.xiaoniu.suafe.dialogs.LicenseDialog;
-import org.xiaoniu.suafe.dialogs.PreviewDialog;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.models.NonEditableTableModel;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
@@ -326,6 +325,12 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JCheckBoxMenuItem openLastFileMenuItem = null;
 	
 	private Stack<String> fileStack = null;
+
+	private JMenu reportsMenu = null;
+
+	private JMenuItem previewMenuItem = null;
+
+	private JMenuItem summaryReportMenuItem = null;
 	
 	/**
 	 * Default constructor
@@ -480,6 +485,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			menuBar = new JMenuBar();
 			menuBar.add(getFileMenu());
 			menuBar.add(getActionMenu());
+			menuBar.add(getReportsMenu());
 			menuBar.add(getSettingsMenu());
 			menuBar.add(getHelpMenu());
 		}
@@ -1413,10 +1419,36 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (Document.isEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
 		}
-		else {
-			JDialog dialog = new PreviewDialog();
-			DialogUtil.center(this, dialog);
-			dialog.setVisible(true);
+		else {			
+			try {
+				JFrame frame = new ViewerFrame(ResourceUtil.getString("preview.title"),
+						FileGenerator.generate(),
+						Constants.MIME_TEXT);
+				frame.setVisible(true);
+			}
+			catch (ApplicationException e) {
+				displayError(e.getMessage());
+			}
+		}
+	}
+	
+	/**
+	 * Summary Report action handler.
+	 */
+	private void summaryReport() {
+		if (Document.isEmpty()) {
+			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
+		}
+		else {			
+			try {
+				JFrame frame = new ViewerFrame(ResourceUtil.getString("summaryreport.title"),
+						FileGenerator.generate(),
+						Constants.MIME_HTML);
+				frame.setVisible(true);
+			}
+			catch (ApplicationException e) {
+				displayError(e.getMessage());
+			}
 		}
 	}
 
@@ -1971,6 +2003,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			helpAbout();
 		} else if (e.getActionCommand().equals(Constants.PREVIEW_ACTION)) {
 			preview();
+		} else if (e.getActionCommand().equals(Constants.SUMMARY_REPORT_ACTION)) {
+			summaryReport();
 		} else if (e.getActionCommand().equals(Constants.ADD_USER_ACTION)) {
 			addUser();
 		} else if (e.getActionCommand().equals(Constants.EDIT_USER_ACTION)) {
@@ -3818,5 +3852,50 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				popupMenu.show(event.getComponent(), event.getX(), event.getY());
 			}
 		}
+	}
+
+	/**
+	 * This method initializes reportsMenu	
+	 * 	
+	 * @return javax.swing.JMenu	
+	 */
+	private JMenu getReportsMenu() {
+		if (reportsMenu == null) {
+			reportsMenu = new JMenu();
+			reportsMenu.setText(ResourceUtil.getString("menu.reports"));
+			reportsMenu.add(getPreviewMenuItem());
+			reportsMenu.add(getSummaryReportMenuItem());
+		}
+		return reportsMenu;
+	}
+
+	/**
+	 * This method initializes previewMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getPreviewMenuItem() {
+		if (previewMenuItem == null) {
+			previewMenuItem = new JMenuItem();
+			previewMenuItem.setText(ResourceUtil.getString("menu.reports.preview"));
+			previewMenuItem.addActionListener(this);
+			previewMenuItem.setActionCommand(Constants.PREVIEW_ACTION);
+		}
+		return previewMenuItem;
+	}
+
+	/**
+	 * This method initializes summaryReportMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getSummaryReportMenuItem() {
+		if (summaryReportMenuItem == null) {
+			summaryReportMenuItem = new JMenuItem();
+			summaryReportMenuItem.setText(ResourceUtil.getString("menu.reports.summaryreport"));
+			summaryReportMenuItem.addActionListener(this);
+			summaryReportMenuItem.setActionCommand(Constants.SUMMARY_REPORT_ACTION);
+		}
+		return summaryReportMenuItem;
 	}
 }  

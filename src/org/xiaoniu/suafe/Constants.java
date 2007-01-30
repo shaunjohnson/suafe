@@ -79,6 +79,13 @@ public class Constants {
 	public static final String HEADER_CURRENT = HEADER_1_1_0;
 	
 	//
+	// Content types
+	//
+	public static final String MIME_HTML = "text/html";
+	
+	public static final String MIME_TEXT = "text/plain";
+	
+	//
 	// Actions
 	//
 	public static final String ADD_REPOSITORY_ACTION = "ADD_REPOSITORY_ACTION";
@@ -118,6 +125,8 @@ public class Constants {
 	public static final String ADD_ACCESS_RULE_ACTION = "ADD_ACCESS_RULE_ACTION";
 
 	public static final String PREVIEW_ACTION = "PREVIEW_ACTION";
+	
+	public static final String SUMMARY_REPORT_ACTION = "SUMMARY_REPORT_ACTION";
 
 	public static final String ADD_GROUP_ACTION = "ADD_GROUP_ACTION";
 
@@ -138,6 +147,8 @@ public class Constants {
 	public static final String NEW_FILE_ACTION = "NEW_FILE_ACTION";
 	
 	public static final String OK_ACTION = "OK_ACTION";
+	
+	public static final String CLOSE_ACTION = "CLOSE_ACTION";
 	
 	public static final String ADD_ACTION = "ADD_ACTION";
 	
