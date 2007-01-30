@@ -1488,16 +1488,20 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (Document.isEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
 		}
-		else {			
-			try {
-				JFrame frame = new ViewerFrame(ResourceUtil.getString("preview.title"),
-						FileGenerator.generate(),
-						Constants.MIME_TEXT);
-				frame.setVisible(true);
-			}
-			catch (ApplicationException e) {
-				displayError(e.getMessage());
-			}
+		else {
+			new Thread() {
+			    public void run() {
+			    	try {
+						JFrame frame = new ViewerFrame(ResourceUtil.getString("preview.title"),
+								FileGenerator.generate(),
+								Constants.MIME_TEXT);
+						frame.setVisible(true);
+					}
+					catch (ApplicationException e) {
+						displayError(e.getMessage());
+					}
+				}
+			  }.start();
 		}
 	}
 	
@@ -1508,17 +1512,21 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (Document.isEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
 		}
-		else {			
-			try {
-				GenericReport report = new StatisticsReport();
-				JFrame frame = new ViewerFrame(ResourceUtil.getString("statisticsreport.title"),
-						report.generate(),
-						Constants.MIME_HTML);
-				frame.setVisible(true);
-			}
-			catch (ApplicationException e) {
-				displayError(e.getMessage());
-			}
+		else {
+			new Thread() {
+			    public void run() {
+			    	try {
+						GenericReport report = new StatisticsReport();
+						JFrame frame = new ViewerFrame(ResourceUtil.getString("statisticsreport.title"),
+								report.generate(),
+								Constants.MIME_HTML);
+						frame.setVisible(true);
+					}
+					catch (ApplicationException e) {
+						displayError(e.getMessage());
+					}
+				}
+			  }.start();
 		}
 	}
 	
@@ -1529,17 +1537,21 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (Document.isEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
 		}
-		else {			
-			try {
-				GenericReport report = new SummaryReport();
-				JFrame frame = new ViewerFrame(ResourceUtil.getString("summaryreport.title"),
-						report.generate(),
-						Constants.MIME_HTML);
-				frame.setVisible(true);
-			}
-			catch (ApplicationException e) {
-				displayError(e.getMessage());
-			}
+		else {
+			new Thread() {
+			    public void run() {
+					try {
+						GenericReport report = new SummaryReport();
+						JFrame frame = new ViewerFrame(ResourceUtil.getString("summaryreport.title"),
+								report.generate(),
+								Constants.MIME_HTML);
+						frame.setVisible(true);
+					}
+					catch (ApplicationException e) {
+						displayError(e.getMessage());
+					}
+				}
+			  }.start();
 		}
 	}
 
