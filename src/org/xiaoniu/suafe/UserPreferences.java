@@ -104,6 +104,13 @@ public class UserPreferences {
 		}
 	}
 	
+	public static void clearRecentFiles() {
+		// Remove all slots
+		for (int slot = 0; slot < MAXIMUM_RECENT_FILES; slot++) {
+			prefs.remove(RECENT_FILE_PREFIX + slot);
+		}		
+	}
+	
 	/**
 	 * Retrieves "open last edited file" setting from Preferences.
 	 * 

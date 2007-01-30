@@ -168,6 +168,8 @@ public class Constants {
 	
 	public static final String SERIF_ACTION = "SERIF_ACTION";
 	
+	public static final String CLEAR_RECENT_FILES_ACTION = "CLEAR_RECENT_FILES_ACTION";
+	
 	// General actions	
 	public static final String ARGS_INPUT_FILE = "input file";
 	public static final char ARGS_INPUT_FILE_SHORTFLAG = 'i';

@@ -355,6 +355,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JRadioButtonMenuItem sansSerifRadioButtonMenuItem = null;
 
 	private JRadioButtonMenuItem serifRadioButtonMenuItem = null;
+
+	private JMenuItem clearRecentFilesMenuItem = null;
 	
 	/**
 	 * Default constructor
@@ -389,7 +391,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		changeFont(null);
 		
 		// Load last opened file if setting is enabled
-		if (UserPreferences.getOpenLastFile()) {
+		if (UserPreferences.getOpenLastFile() && fileStack.size() > 0) {
 			fileOpen(fileStack.size() - 1);
 		}
 		
@@ -612,6 +614,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			fileMenu.add(getSaveAsMenuItem());
 			fileMenu.add(new JSeparator());			
 			fileMenu.add(getRecentFilesMenu());
+			fileMenu.add(getClearRecentFilesMenuItem());
 			fileMenu.add(new JSeparator());
 			
 			// Printing is currently disabled.
@@ -666,6 +669,12 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 	}
 
+	private void clearRecentFiles() {
+		UserPreferences.clearRecentFiles();
+		
+		recentFilesMenu.removeAll();
+	}
+	
 	/**
 	 * This method initializes newFileMenuItem.
 	 * 
@@ -1016,6 +1025,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				updateTitle();
 				
 				addToRecentFiles(file.getAbsolutePath());
+				refreshTabNames();
 			} 
 			catch (Exception e) {
 				displayError(e.getMessage());
@@ -1049,6 +1059,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			updateTitle();
 			
 			addToRecentFiles(file.getAbsolutePath());
+			refreshTabNames();
 		} 
 		catch (Exception e) {
 			displayError(e.getMessage());
@@ -1101,6 +1112,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 					Document.resetUnsavedChangesFlag();
 					updateTitle();
+					addToRecentFiles(Document.getFile().getAbsolutePath());
 				} 
 				catch (Exception e) {
 					displayError(e.getMessage());
@@ -1113,6 +1125,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				
 				Document.resetUnsavedChangesFlag();
 				updateTitle();
+				addToRecentFiles(Document.getFile().getAbsolutePath());
 			} 
 			catch (Exception e) {
 				displayError(e.getMessage());
@@ -1142,6 +1155,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 				Document.resetUnsavedChangesFlag();
 				updateTitle();
+				addToRecentFiles(Document.getFile().getAbsolutePath());
 			} 
 			catch (Exception e) {
 				displayError(e.getMessage());
@@ -2118,6 +2132,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			fileOpen(8);
 		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_9")) {
 			fileOpen(9);
+		} else if (e.getActionCommand().equals(Constants.CLEAR_RECENT_FILES_ACTION)) {
+			clearRecentFiles();
 		} else {
 			displayError(ResourceUtil.getString("application.error"));
 		}
@@ -4091,5 +4107,19 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			Document.getAccessRules().size() + 
 			")</html>";
 		getMainTabbedPane().setTitleAt(2, title);
+	}
+
+	/**
+	 * This method initializes clearRecentFilesMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getClearRecentFilesMenuItem() {
+		if (clearRecentFilesMenuItem == null) {
+			clearRecentFilesMenuItem = new JMenuItem(ResourceUtil.getString("menu.file.clearrecentfiles"));
+			clearRecentFilesMenuItem.addActionListener(this);
+			clearRecentFilesMenuItem.setActionCommand(Constants.CLEAR_RECENT_FILES_ACTION);
+		}
+		return clearRecentFilesMenuItem;
 	}
 }  
