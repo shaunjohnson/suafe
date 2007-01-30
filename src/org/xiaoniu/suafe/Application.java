@@ -21,10 +21,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -853,6 +851,12 @@ public class Application {
 						config.getString(Constants.ARGS_USER), 
 						config.getString(Constants.ARGS_GROUP));
 				out.print(FileGenerator.generate());
+			}
+			
+			// Close the output stream
+			if (config.getString(Constants.ARGS_OUTPUT_FILE) != null) {
+				out.close();
+				out = null;
 			}
 		}
 		catch(Exception e) {
