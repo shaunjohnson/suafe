@@ -31,11 +31,13 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
+import java.awt.Dimension;
 
 /**
  * Dialog that allows a user to add a group.
@@ -206,7 +208,9 @@ public class AddGroupDialog extends ParentDialog implements ActionListener {
 	 */    
 	private JTextField getGroupNameText() {
 		if (groupNameText == null) {
-			groupNameText = new JTextField(30);
+			groupNameText = new JTextField();
+			groupNameText.setFont(UserPreferences.getUserFont());
+			groupNameText.setPreferredSize(new Dimension(340, 21));
 		}
 		
 		return groupNameText;

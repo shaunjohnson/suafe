@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.GroupMemberObject;
@@ -195,7 +196,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 			displayError(ResourceUtil.getFormattedString("addremovemembers.error.errorloadinggroups", e.getMessage()));
 		}
 		
-		this.setBounds(0, 0, 600, 500);
+		this.setBounds(0, 0, 700, 600);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setTitle(ResourceUtil.getString("addremovemembers.title"));
@@ -295,7 +296,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 			nonMemberList = new JList(nonMembers);
 			nonMemberList.addMouseListener(this);
 			nonMemberList.setCellRenderer(new MyListCellRenderer());
-			nonMemberList.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			nonMemberList.setFont(UserPreferences.getUserFont());
 		}
 		
 		return nonMemberList;
@@ -311,7 +312,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 			memberList = new JList(members);
 			memberList.addMouseListener(this);
 			memberList.setCellRenderer(new MyListCellRenderer());
-			memberList.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			memberList.setFont(UserPreferences.getUserFont());
 		}
 		
 		return memberList;
@@ -385,7 +386,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JPanel getNonMemberPanel() {
 		if (nonMemberPanel == null) {
 			nonMemberPanel = new JPanel(new BorderLayout());			
-			nonMemberPanel.setPreferredSize(new Dimension(250,250));
+			nonMemberPanel.setPreferredSize(new Dimension(300,250));
 			nonMemberPanel.add(new JLabel(ResourceUtil.getString("addremovemembers.nonmembers")), BorderLayout.NORTH);
 			nonMemberPanel.add(getNonMemberListScrollPane(), BorderLayout.CENTER);
 		}
@@ -401,7 +402,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JPanel getMemberPanel() {
 		if (memberPanel == null) {
 			memberPanel = new JPanel(new BorderLayout());
-			memberPanel.setPreferredSize(new Dimension(250,250));
+			memberPanel.setPreferredSize(new Dimension(300,250));
 			memberPanel.add(new JLabel(ResourceUtil.getString("addremovemembers.members")), BorderLayout.NORTH);
 			memberPanel.add(getMemberListScrollPane(), BorderLayout.CENTER);
 		}

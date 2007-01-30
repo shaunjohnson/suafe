@@ -31,12 +31,14 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
+import java.awt.Dimension;
 
 
 /**
@@ -212,8 +214,10 @@ public class EditRepositoryDialog extends ParentDialog implements ActionListener
 	 */    
 	private JTextField getRepositoryNameText() {
 		if (repositoryNameText == null) {
-			repositoryNameText = new JTextField(30);
+			repositoryNameText = new JTextField();
 			repositoryNameText.setText(repository.getName());
+			repositoryNameText.setPreferredSize(new Dimension(340, 21));
+			repositoryNameText.setFont(UserPreferences.getUserFont());
 		}
 		
 		return repositoryNameText;

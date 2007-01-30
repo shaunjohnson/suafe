@@ -40,6 +40,7 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
@@ -445,6 +446,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 			
 			repositoryComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
 			repositoryComboBox.setBackground(Color.white);
+			repositoryComboBox.setFont(UserPreferences.getUserFont());
 		}
 		
 		return repositoryComboBox;
@@ -520,6 +522,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 			groupComboBox = new JComboBox(new GroupListModel());
 			groupComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
 			groupComboBox.setBackground(Color.white);
+			groupComboBox.setFont(UserPreferences.getUserFont());
 		}
 		
 		return groupComboBox;
@@ -535,6 +538,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 			userComboBox = new JComboBox(new UserListModel());
 			userComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
 			userComboBox.setBackground(Color.white);
+			userComboBox.setFont(UserPreferences.getUserFont());
 		}
 		
 		return userComboBox;
@@ -746,8 +750,10 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 	 */    
 	private JTextField getPathTextField() {
 		if (pathTextField == null) {
-			pathTextField = new JTextField(30);		
+			pathTextField = new JTextField();		
 			pathTextField.setText(path);
+			pathTextField.setPreferredSize(new Dimension(350, 21));
+			pathTextField.setFont(UserPreferences.getUserFont());
 		}
 		
 		return pathTextField;

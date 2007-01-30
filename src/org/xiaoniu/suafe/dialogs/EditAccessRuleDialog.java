@@ -39,6 +39,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
@@ -438,7 +439,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		if (repositoryComboBox == null) {
 			repositoryComboBox = new JComboBox(new RepositoryListModel());
 			repositoryComboBox.setSelectedItem(accessRule.getPath().getRepository());			
-			repositoryComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+			repositoryComboBox.setFont(UserPreferences.getUserFont());
 			repositoryComboBox.setBackground(Color.white);
 		}
 		
@@ -514,7 +515,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	private JComboBox getGroupComboBox() {
 		if (groupComboBox == null) {
 			groupComboBox = new JComboBox(new GroupListModel());
-			groupComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+			groupComboBox.setFont(UserPreferences.getUserFont());
 			groupComboBox.setBackground(Color.white);
 			
 			if (accessRule.getGroup() != null) {
@@ -533,7 +534,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	private JComboBox getUserComboBox() {
 		if (userComboBox == null) {
 			userComboBox = new JComboBox(new UserListModel());
-			userComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
+			userComboBox.setFont(UserPreferences.getUserFont());
 			userComboBox.setBackground(Color.white);
 			
 			if (accessRule.getUser() != null) {
@@ -768,8 +769,10 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	 */    
 	private JTextField getPathTextField() {
 		if (pathTextField == null) {
-			pathTextField = new JTextField(30);			
+			pathTextField = new JTextField();			
 			pathTextField.setText(accessRule.getPath().getPath());
+			pathTextField.setPreferredSize(new Dimension(300, 21));
+			pathTextField.setFont(UserPreferences.getUserFont());
 		}
 		
 		return pathTextField;

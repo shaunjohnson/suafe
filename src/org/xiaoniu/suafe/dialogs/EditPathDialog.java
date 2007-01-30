@@ -19,6 +19,7 @@
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -31,6 +32,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.Path;
@@ -211,8 +213,10 @@ public class EditPathDialog extends ParentDialog implements ActionListener {
 	 */    
 	private JTextField getPathText() {
 		if (pathText == null) {
-			pathText = new JTextField(35);
+			pathText = new JTextField();
 			pathText.setText(path.getPath());
+			pathText.setPreferredSize(new Dimension(340, 20));
+			pathText.setFont(UserPreferences.getUserFont());
 		}
 		
 		return pathText;

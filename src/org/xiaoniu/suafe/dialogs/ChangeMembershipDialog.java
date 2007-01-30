@@ -21,7 +21,6 @@ package org.xiaoniu.suafe.dialogs;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.Utilities;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
@@ -145,7 +145,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			displayError(ResourceUtil.getFormattedString("changemembership.error.errorloadinggroups", e.getMessage()));
 		}
 		
-		this.setBounds(0, 0, 600, 500);
+		this.setBounds(0, 0, 700, 600);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setTitle(ResourceUtil.getString("changemembership.title"));
@@ -246,7 +246,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			notMemberOfList.setListData(notMemberOf);
 			notMemberOfList.addMouseListener(this);
 			notMemberOfList.setCellRenderer(new MyListCellRenderer());
-			notMemberOfList.setFont(new Font("Dialog", Font.PLAIN, 12));
+			notMemberOfList.setFont(UserPreferences.getUserFont());
 		}
 		
 		return notMemberOfList;
@@ -263,7 +263,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			memberOfList.setListData(memberOf);
 			memberOfList.addMouseListener(this);
 			memberOfList.setCellRenderer(new MyListCellRenderer());
-			memberOfList.setFont(new Font("Dialog", Font.PLAIN, 12));
+			memberOfList.setFont(UserPreferences.getUserFont());
 		}
 		
 		return memberOfList;
@@ -338,7 +338,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		if (nonMemberPanel == null) {
 			nonMemberPanel = new JPanel();
 			nonMemberPanel.setLayout(new BorderLayout());
-			nonMemberPanel.setPreferredSize(new Dimension(250,250));
+			nonMemberPanel.setPreferredSize(new Dimension(300,250));
 			nonMemberPanel.add(new JLabel(ResourceUtil.getString("changemembership.notmemberof")), BorderLayout.NORTH);
 			nonMemberPanel.add(getNonMemberListScrollPane(), BorderLayout.CENTER);
 		}
@@ -354,7 +354,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	private JPanel getMemberPanel() {
 		if (memberPanel == null) {
 			memberPanel = new JPanel(new BorderLayout());
-			memberPanel.setPreferredSize(new Dimension(250,250));
+			memberPanel.setPreferredSize(new Dimension(300,250));
 			memberPanel.add(new JLabel(ResourceUtil.getString("changemembership.memberof")), BorderLayout.NORTH);
 			memberPanel.add(getMemberListScrollPane(), BorderLayout.CENTER);
 		}
