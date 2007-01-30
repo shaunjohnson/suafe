@@ -19,6 +19,8 @@
 package org.xiaoniu.suafe.frames;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -45,6 +47,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -77,7 +80,9 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.FileGenerator;
+import org.xiaoniu.suafe.FileOpener;
 import org.xiaoniu.suafe.FileParser;
+import org.xiaoniu.suafe.FileTransferHandler;
 import org.xiaoniu.suafe.Printer;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.AccessRule;
@@ -116,7 +121,8 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * @author Shaun Johnson
  */
 public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
-		ListSelectionListener, MouseListener, TreeSelectionListener, WindowListener {
+		ListSelectionListener, MouseListener, TreeSelectionListener, 
+		WindowListener, FileOpener {
 
 	private static final long serialVersionUID = -4378074679449146788L;
 	
@@ -332,6 +338,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JMenuItem summaryReportMenuItem = null;
 	
+	private FileTransferHandler fileTransferHandler = null;
+	
 	/**
 	 * Default constructor
 	 */
@@ -347,6 +355,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private void initialize() {
 		fileStack = UserPreferences.getRecentFiles();
 		
+		this.fileTransferHandler = new FileTransferHandler(this);
 		this.addKeyListener(this);
 		this.addWindowListener(this);
 		this.setSize(840, 700);
@@ -356,6 +365,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		this.setIconImage(ResourceUtil.serverImage);
 		this.setJMenuBar(getJJMenuBar());		
 		this.setContentPane(getJContentPane());
+		addTransferHandler(this);
 		
 		getGroupsPopupMenu();
 		getUsersPopupMenu();
@@ -367,6 +377,20 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 	}
 
+	private void addTransferHandler(Container container) {
+		if (container instanceof JComponent) {
+			((JComponent)container).setTransferHandler(fileTransferHandler);
+		}
+			
+		if (container.getComponentCount() > 0) {
+			for (Component child : container.getComponents()) {
+				if (child instanceof Container) {
+					addTransferHandler((Container)child);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * This method initializes contentPane
 	 * 
@@ -981,10 +1005,16 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * File open action handler.
 	 */
 	private void fileOpen(int index) {		
+		fileOpen(new File(fileStack.elementAt(index)));
+	}
+	
+	/**
+	 * File open action handler.
+	 */
+	public void fileOpen(File file) {
 		checkForUnsavedChanges();
-
+		
 		try {
-			File file = new File(fileStack.elementAt(index));
 			FileParser.parse(file);
 			getUserList().setListData(Document.getUserObjects());
 			getGroupList().setListData(Document.getGroupObjects());
