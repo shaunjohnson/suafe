@@ -28,7 +28,6 @@ import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.HyperlinkEvent;
@@ -88,7 +87,6 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 		this.setSize(800, 700);
 		this.setContentPane(getJContentPane());
 		this.center();
-		this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		
 		getRootPane().setDefaultButton(getCloseButton());
 	}
