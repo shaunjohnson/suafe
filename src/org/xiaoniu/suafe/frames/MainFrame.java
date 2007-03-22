@@ -3131,7 +3131,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			accessRulesSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			accessRulesSplitPane.setLeftComponent(getAccessRulesTreePanel());
 			accessRulesSplitPane.setRightComponent(getAccessRulesPanel());
-			accessRulesSplitPane.setDividerLocation(350);
+			accessRulesSplitPane.setDividerLocation(400);
 		}
 		
 		return accessRulesSplitPane;
