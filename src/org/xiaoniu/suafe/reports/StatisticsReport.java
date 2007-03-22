@@ -12,34 +12,33 @@ public class StatisticsReport implements GenericReport {
 	public String generate() throws ApplicationException {
 		StringBuffer report = new StringBuffer();
 		
-		report.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"");
-		report.append("\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
-		report.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
+		report.append(ResourceUtil.getString("reports.header"));
 		report.append("<head>");
-		report.append("<title>Statistics Report</title>");
-//		report.append("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />");
+		report.append("<title>" + ResourceUtil.getString("statisticsreport.title") + "</title>");
+		report.append(ResourceUtil.getString("reports.contenttype"));
 		report.append("</head><body>");
-		report.append("<h1>Statistics Report</h1>");
+		report.append("<h1>" + ResourceUtil.getString("statisticsreport.title") + "</h1>");
 		
-		report.append("<h2>Users</h2>");
+		report.append("<h2>" + ResourceUtil.getString("statisticsreport.users") + "</h2>");
 		report.append("<p>" + Document.getUsers().size() + " users</p>");
 		
-		report.append("<h2>Groups</h2>");
+		report.append("<h2>" + ResourceUtil.getString("statisticsreport.groups") + "</h2>");
 		report.append("<p>" + Document.getGroups().size() + " groups</p>");
 		
-		report.append("<h2>Repositories</h2>");
+		report.append("<h2>" + ResourceUtil.getString("statisticsreport.repositories") + "</h2>");
 		report.append("<p>" + Document.getRepositories().size() + " repositories</p>");
 		
-		report.append("<h2>Access Rules</h2>");
+		report.append("<h2>" + ResourceUtil.getString("statisticsreport.rules") + "</h2>");
 		report.append("<p>" + Document.getAccessRules().size() + " access rules</p>");
 		
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 		
-		report.append("<hr></hr>");
-		report.append("<p>Generated " + df.format(new Date()) + " using <a href=\"" +
-				ResourceUtil.getString("application.url") + "\">" +
-				ResourceUtil.getString("application.nameversion") + "</a><br></br>");
-		report.append("Valid XHTML 1.0 Strict</p>");
+		Object[] args = new Object[3];
+		args[0] = df.format(new Date());
+		args[1] = ResourceUtil.getString("application.url");
+		args[2] = ResourceUtil.getString("application.nameversion");
+		
+		report.append(ResourceUtil.getFormattedString("reports.footer", args));
 		
 		report.append("</body></html>");
 		

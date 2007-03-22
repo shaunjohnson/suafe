@@ -128,28 +128,26 @@ public class SummaryReport implements GenericReport {
 	public String generate() throws ApplicationException {
 		StringBuffer report = new StringBuffer();
 				
-		report.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"");
-		report.append("\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
-		report.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
+		report.append(ResourceUtil.getString("reports.header"));
 		report.append("<head>");
-		report.append("<title>Summary Report</title>");
-//		report.append("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />");
+		report.append("<title>" + ResourceUtil.getString("summaryreport.title") + "</title>");
+		report.append(ResourceUtil.getString("reports.contenttype"));
 		report.append("</head><body>");
-		report.append("<h1>Summary Report</h1>");
+		report.append("<h1>" + ResourceUtil.getString("summaryreport.title") + "</h1>");
 		
 		report.append("<p>[" + createLink("repositories", "Repositories") + "] " +
-				"[" + createLink("groups", "Groups") + "] " +
-				"[" + createLink("users", "Users") + "] " + 
-				"[" + createLink("projects", "Projects") + "] </p>");
+				"[" + createLink("groups", ResourceUtil.getString("summaryreport.groups")) + "] " +
+				"[" + createLink("users", ResourceUtil.getString("summaryreport.users")) + "] " + 
+				"[" + createLink("projects", ResourceUtil.getString("summaryreport.projects")) + "] </p>");
 		
 		List<Repository> repositories = Document.getRepositories();
 		Collections.sort(repositories);
 		
-		report.append("<h2>" + createAnchor("repositories", "Repositories") + "</h2>");
+		report.append("<h2>" + createAnchor("repositories", ResourceUtil.getString("summaryreport.repositories")) + "</h2>");
 		report.append("<blockquote>");
 		
 		if (repositories.size() == 0) {
-			report.append("<p>No repositories.</p>");
+			report.append("<p>" + ResourceUtil.getString("summaryreport.norepos") + "</p>");
 		}
 		else {
 			report.append("<ul>");
@@ -163,7 +161,7 @@ public class SummaryReport implements GenericReport {
 		
 		report.append("</blockquote>");
 		
-		report.append("<h2>Server Level Access Rules</h2>");
+		report.append("<h2>" + ResourceUtil.getString("summaryreport.serverrules") + "<</h2>");
 		
 		List<Path> serverPaths = Document.getPaths();
 		Collections.sort(serverPaths, new PathComparator());
@@ -189,7 +187,7 @@ public class SummaryReport implements GenericReport {
 						report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 					}
 					else {
-						throw new ApplicationException("Invalid access rule");
+						throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
 					}
 				}
 				
@@ -222,7 +220,7 @@ public class SummaryReport implements GenericReport {
 							report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 						}
 						else {
-							throw new ApplicationException("Invalid access rule");
+							throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
 						}
 					}
 					
@@ -236,7 +234,7 @@ public class SummaryReport implements GenericReport {
 		List<Group> groups = Document.getGroups();
 		Collections.sort(groups);
 		
-		report.append("<h2>" + createAnchor("groups", "Groups") + "</h2>");
+		report.append("<h2>" + createAnchor("groups", ResourceUtil.getString("summaryreport.groups")) + "</h2>");
 		report.append("<blockquote>");
 		
 		for (Group group : groups) {
@@ -253,7 +251,7 @@ public class SummaryReport implements GenericReport {
 			report.append("<blockquote><p>Members</p>");
 			
 			if (groupMembers.size() == 0 && userMembers.size() == 0) {
-				report.append("<blockquote><p>No members</p></blockquote>");
+				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.nomembers") + "<</p></blockquote>");
 			}
 			else {
 				report.append("<ul>");
@@ -269,10 +267,10 @@ public class SummaryReport implements GenericReport {
 				report.append("</ul>");
 			}
 						
-			report.append("<p>Access Rules</p>");
+			report.append("<p>" + ResourceUtil.getString("summaryreport.rules") + "<</p>");
 			
 			if (rules.size() == 0) {
-				report.append("<blockquote><p>No access rules</p></blockquote>");
+				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "<</p></blockquote>");
 			}
 			else {
 				report.append("<ul>");
@@ -296,7 +294,7 @@ public class SummaryReport implements GenericReport {
 		List<User> users = Document.getUsers();
 		Collections.sort(users);
 		
-		report.append("<h2>" + createAnchor("users", "Users") + "</h2>");
+		report.append("<h2>" + createAnchor("users", ResourceUtil.getString("summaryreport.users")) + "</h2>");
 		report.append("<blockquote>");
 		
 		for (User user : users) {
@@ -308,10 +306,10 @@ public class SummaryReport implements GenericReport {
 			Collections.sort(userGroups);
 			Collections.sort(rules);
 			
-			report.append("<blockquote><p>Groups</p>");
+			report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.groups") + "<</p>");
 			
 			if (userGroups.size() == 0) {
-				report.append("<blockquote><p>No groups</p></blockquote>");
+				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.nogroups") + "<</p></blockquote>");
 			}
 			else {
 				report.append("<ul>");
@@ -323,10 +321,10 @@ public class SummaryReport implements GenericReport {
 				report.append("</ul>");
 			}
 			
-			report.append("<p>Access Rules</p>");
+			report.append("<p>" + ResourceUtil.getString("summaryreport.rules") + "<</p>");
 			
 			if (rules.size() == 0) {
-				report.append("<blockquote><p>No access rules</p></blockquote>");
+				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "<</p></blockquote>");
 			}
 			else {
 				report.append("<ul>");
@@ -347,7 +345,7 @@ public class SummaryReport implements GenericReport {
 		
 		report.append("</blockquote>");
 		
-		report.append("<h2>" + createAnchor("projects", "Projects") + "</h2>");
+		report.append("<h2>" + createAnchor("projects", ResourceUtil.getString("summaryreport.projects")) + "</h2>");
 		
 		if (repositories.size() > 0) {
 			for (Repository repository : repositories) {
@@ -362,8 +360,8 @@ public class SummaryReport implements GenericReport {
 
 					String pathString = path.getPath();
 					
-					if (pathString.endsWith("/trunk")) {
-						String projectName = pathString.substring(0, pathString.lastIndexOf("/trunk"));
+					if (pathString.endsWith(ResourceUtil.getString("summaryreport.path.trunk"))) {
+						String projectName = pathString.substring(0, pathString.lastIndexOf(ResourceUtil.getString("summaryreport.path.trunk")));
 						
 						Project projectBean = projects.get(projectName);
 						
@@ -378,8 +376,8 @@ public class SummaryReport implements GenericReport {
 							projectBean.trunk = path;
 						}
 					}	
-					else if (pathString.endsWith("/branches")) {
-						String projectName = pathString.substring(0, pathString.lastIndexOf("/branches"));
+					else if (pathString.endsWith(ResourceUtil.getString("summaryreport.path.branches"))) {
+						String projectName = pathString.substring(0, pathString.lastIndexOf(ResourceUtil.getString("summaryreport.path.branches")));
 						
 						Project projectBean = projects.get(projectName);
 						
@@ -394,8 +392,8 @@ public class SummaryReport implements GenericReport {
 							projectBean.branches = path;
 						}
 					}
-					else if (pathString.endsWith("/tags")) {
-						String projectName = pathString.substring(0, pathString.lastIndexOf("/tags"));
+					else if (pathString.endsWith(ResourceUtil.getString("summaryreport.path.tags"))) {
+						String projectName = pathString.substring(0, pathString.lastIndexOf(ResourceUtil.getString("summaryreport.path.tags")));
 						
 						Project projectBean = projects.get(projectName);
 						
@@ -417,7 +415,7 @@ public class SummaryReport implements GenericReport {
 				report.append("<blockquote>");
 				
 				if (projects.size() == 0) {
-					report.append("<p>No projects</p>");
+					report.append("<p>" + ResourceUtil.getString("summaryreport.noprojects") + "</p>");
 				}
 				
 				for (String key : projects.keySet()) {
@@ -425,13 +423,13 @@ public class SummaryReport implements GenericReport {
 					
 					report.append("<p><strong>" + key + "</strong></p><blockquote>");
 					
-					report.append("<p>Branches</p>");
+					report.append("<p>" + ResourceUtil.getString("summaryreport.branches") + "</p>");
 					
 					List<AccessRule> rules = projectBean.branches.getAccessRules();
 					Collections.sort(rules);
 					
 					if (rules.size() == 0) {
-						report.append("<blockquote><p>No access rules</p></blockquote>>");
+						report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
 					}
 					else {
 						report.append("<ul>");
@@ -444,20 +442,20 @@ public class SummaryReport implements GenericReport {
 								report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 							}
 							else {
-								throw new ApplicationException("Invalid access rule");
+								throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
 							}
 						}
 						
 						report.append("</ul>");
 					}
 					
-					report.append("<p>Tags</p>");
+					report.append("<p>" + ResourceUtil.getString("summaryreport.tags") + "</p>");
 					
 					rules = projectBean.tags.getAccessRules();
 					Collections.sort(rules);
 					
 					if (rules.size() == 0) {
-						report.append("<blockquote><p>No access rules</p></blockquote>>");
+						report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
 					}
 					else {
 						report.append("<ul>");
@@ -470,20 +468,20 @@ public class SummaryReport implements GenericReport {
 								report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 							}
 							else {
-								throw new ApplicationException("Invalid access rule");
+								throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
 							}
 						}
 						
 						report.append("</ul>");
 					}
 					
-					report.append("<p>Trunk</p>");
+					report.append("<p>" + ResourceUtil.getString("summaryreport.trunk") + "</p>");
 					
 					rules = projectBean.trunk.getAccessRules();
 					Collections.sort(rules);
 					
 					if (rules.size() == 0) {
-						report.append("<blockquote><p>No access rules</p></blockquote>>");
+						report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
 					}
 					else {
 						report.append("<ul>");
@@ -496,7 +494,7 @@ public class SummaryReport implements GenericReport {
 								report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 							}
 							else {
-								throw new ApplicationException("Invalid access rule");
+								throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
 							}
 						}
 						
@@ -512,11 +510,12 @@ public class SummaryReport implements GenericReport {
 		
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 		
-		report.append("<hr></hr>");
-		report.append("<p>Generated " + df.format(new Date()) + " using <a href=\"" +
-				ResourceUtil.getString("application.url") + "\">" +
-				ResourceUtil.getString("application.nameversion") + "</a><br></br>");
-		report.append("Valid XHTML 1.0 Strict</p>");
+		Object[] args = new Object[3];
+		args[0] = df.format(new Date());
+		args[1] = ResourceUtil.getString("application.url");
+		args[2] = ResourceUtil.getString("application.nameversion");
+		
+		report.append(ResourceUtil.getFormattedString("reports.footer", args));
 		
 		report.append("</body></html>");
 		
