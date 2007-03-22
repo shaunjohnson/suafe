@@ -35,15 +35,14 @@ public class StatisticsReport implements GenericReport {
 		
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 		
-		report.append("<hr/>");
+		report.append("<hr></hr>");
 		report.append("<p>Generated " + df.format(new Date()) + " using <a href=\"" +
 				ResourceUtil.getString("application.url") + "\">" +
-				ResourceUtil.getString("application.nameversion") + "</a><br/>");
+				ResourceUtil.getString("application.nameversion") + "</a><br></br>");
 		report.append("Valid XHTML 1.0 Strict</p>");
 		
 		report.append("</body></html>");
 		
 		return report.toString();
 	}
-
 }
