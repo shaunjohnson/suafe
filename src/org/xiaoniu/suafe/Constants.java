@@ -5,13 +5,13 @@
  *
  * This software is licensed as described in the file LICENSE, which
  * you should have received as part of this distribution.  The terms
- * are also available at http://suafe.xiaoniu.org.
+ * are also available at http://code.google.com/p/suafe/.
  * If newer versions of this license are posted there, you may use a
  * newer version instead, at your option.
  *
  * This software consists of voluntary contributions made by many
  * individuals.  For exact contribution history, see the revision
- * history and logs, available at http://suafe.xiaoniu.org/.
+ * history and logs, available at http://code.google.com/p/suafe/.
  * ====================================================================
  * @endcopyright
  */
@@ -64,17 +64,7 @@ public class Constants {
 	//
 	// File headers
 	//
-	public static final String HEADER_0_2 = "# Created by Suafe 0.2 (http://suafe.xiaoniu.org)";
-	
-	public static final String HEADER_0_3 = "# Created by Suafe 0.3 (http://suafe.xiaoniu.org)";
-	
-	public static final String HEADER_0_4 = "# Created by Suafe 0.4 (http://suafe.xiaoniu.org)";
-	
-	public static final String HEADER_0_4_1 = "# Created by Suafe 0.4.1 (http://suafe.xiaoniu.org)";
-	
-	public static final String HEADER_1_0_0_RC = "# Created by Suafe 1.0.0 RC (http://suafe.xiaoniu.org)";
-	
-	public static final String HEADER_1_1_0 = "# Created by Suafe 1.1.0 (http://suafe.xiaoniu.org)";
+	public static final String HEADER_1_1_0 = "# Created by Suafe 1.1.0 (http://code.google.com/p/suafe/)";
 	
 	public static final String HEADER_CURRENT = HEADER_1_1_0;
 	
