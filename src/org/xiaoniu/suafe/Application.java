@@ -429,8 +429,6 @@ public class Application {
 	        if (!config.success()) {
 	        	System.err.println();
 	        	System.err.println(ResourceUtil.getString("application.args.invalidsyntax"));
-	        	System.err.println();
-	        	displayUsage(System.err, jsap);
 	        	System.exit(1);
 	        }
 	        
@@ -1819,18 +1817,13 @@ public class Application {
 		PrintStream output = null;
 		
 		try {
-			new PrintStream(new File(filePath));
+			output = new PrintStream(new File(filePath));
 		}
 		catch(FileNotFoundException fne) {
 			throw new ApplicationException(ResourceUtil.getString("generator.filenotfound"));
 		}
 		catch(Exception e) {
 			throw new ApplicationException(ResourceUtil.getString("generator.error"));
-		}
-		finally {
-			if (output != null) {
-				output.close();
-			}
 		}
 		
 		return output;
