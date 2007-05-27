@@ -429,6 +429,14 @@ public class Application {
 	        if (!config.success()) {
 	        	System.err.println();
 	        	System.err.println(ResourceUtil.getString("application.args.invalidsyntax"));
+	        	System.err.println();
+	        	
+//	        	Exception[] exceptions = config.getExceptionArray(null);
+//	        	
+//	        	for (Exception exception : exceptions) {
+//	        		System.err.println(exception.getMessage());
+//	        	}
+	        	
 	        	System.exit(1);
 	        }
 	        
@@ -1655,6 +1663,7 @@ public class Application {
 			}
 			
 			user.removeGroup(group);
+			group.removeUserMember(user);
 		}		
 	}
 
@@ -1677,7 +1686,7 @@ public class Application {
 		User user = Document.findUser(userName);
 		
 		if (user == null) {
-			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
+			user = Document.addUser(userName);
 		}
 		
 		for (String groupName : groupNames) {
@@ -1688,6 +1697,7 @@ public class Application {
 			}
 			
 			user.addGroup(group);
+			group.addUserMember(user);
 		}
 	}
 
