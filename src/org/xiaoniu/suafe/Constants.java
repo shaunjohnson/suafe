@@ -64,7 +64,7 @@ public class Constants {
 	//
 	// File headers
 	//
-	public static final String HEADER_1_1_0 = "# Created by Suafe 1.1.0 (http://code.google.com/p/suafe/)";
+	public static final String HEADER_1_1_0 = "# Created by Suafe 1.1.0 Beta (http://code.google.com/p/suafe/)";
 	
 	public static final String HEADER_CURRENT = HEADER_1_1_0;
 	
