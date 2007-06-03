@@ -931,7 +931,7 @@ public class Application {
 		}
 		else if (groupName != null) {
 			if (repositoryName == null) {
-				Document.addAccessRuleForGroup(null, path, Document.addGroup(groupName, null, null), access);
+				Document.addAccessRuleForGroup(null, path, Document.addGroup(groupName), access);
 			}
 			else {
 				Document.addAccessRuleForGroup(Document.addRepository(repositoryName), path, Document.addGroup(groupName, null, null), access);
@@ -1324,7 +1324,7 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouprequired"));
 		}
 		
-		Document.addGroup(groupName, null, null);
+		Document.addGroup(groupName);
 	}
 	
 	/**

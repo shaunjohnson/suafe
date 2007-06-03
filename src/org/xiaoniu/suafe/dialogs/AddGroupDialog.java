@@ -229,7 +229,7 @@ public class AddGroupDialog extends ParentDialog implements ActionListener {
 				Validator.validateGroupName(groupName);
 				
 				if (Document.findGroup(groupName) == null) {				
-					message.setUserObject(Document.addGroup(groupName, null, null));
+					message.setUserObject(Document.addGroup(groupName));
 					message.setState(Message.SUCCESS);
 					dispose();
 				}

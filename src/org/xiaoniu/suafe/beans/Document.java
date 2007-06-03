@@ -242,6 +242,33 @@ public class Document {
 	 * If an existing group exists it will be returned intact.
 	 * 
 	 * @param groupName Name of the Group.
+	 * @return Newly created or found Group.
+	 * @throws ApplicationException
+	 */
+	public static Group addGroup(String groupName) throws ApplicationException {
+		Validator.validateGroupName(groupName);		
+		
+		Group group = findGroup(groupName);
+	
+		if (group == null) {
+			List<Group> groupMemberList = new ArrayList<Group>();
+			List<User> userMemberList = new ArrayList<User>();
+			
+			group = new Group(groupName, groupMemberList, userMemberList);
+			
+			groups.add(group);
+		}
+		
+		setUnsavedChanges();
+		
+		return group;
+	}
+	
+	/**
+	 * Adds a new Group if one by the same name doesn't already exist.
+	 * If an existing group exists it will be returned intact.
+	 * 
+	 * @param groupName Name of the Group.
 	 * @param groupMembers Group members of the new Group.
 	 * @param userMembers User members of the new Group.
 	 * @return Newly created or found Group.
