@@ -459,6 +459,11 @@ public class Document {
 		}
 		else if (user != null) {
 			accessRule = findUserAccessRule(repository, pathString, user);
+			
+			if (accessRule == null) {
+				throw new ApplicationException(ResourceUtil.getString("application.error.unabletofindrule"));
+			}
+			
 			user.removeAccessRule(accessRule);
 		}
 		
