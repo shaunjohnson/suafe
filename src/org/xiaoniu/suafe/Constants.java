@@ -30,6 +30,8 @@ public class Constants {
 	
 	public static final int DEFAULT_HEIGHT = 700;
 	
+	public static final String DEFAULT_DIVIDER_LOCATION = "400";
+	
 	//
 	// Paths
 	//

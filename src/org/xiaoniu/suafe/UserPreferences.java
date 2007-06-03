@@ -62,6 +62,15 @@ public class UserPreferences {
 	public static final String WINDOW_SIZE = "window.size";
 	
 	/**
+	 * Preference names for divider locations;
+	 */
+	public static final String USERS_PANE_DIVIDER_LOCATION = "users.pane.divider.location";
+	public static final String GROUPS_PANE_DIVIDER_LOCATION = "groups.pane.divider.location";
+	public static final String RULES_PANE_DIVIDER_LOCATION = "rules.pane.divider.location";
+	public static final String USER_DETAILS_DIVIDER_LOCATION = "user.details.divider.location";
+	public static final String GROUP_DETAILS_DIVIDER_LOCATION = "group.details.divider.location";
+	
+	/**
 	 * Maximum number of files remembered in the recent files list.
 	 */
 	public static final int MAXIMUM_RECENT_FILES = 10;
@@ -253,5 +262,50 @@ public class UserPreferences {
 		}
 		
 		return location;
+	}
+
+	public static int getUsersPaneDividerLocation() {
+		return Integer.parseInt(prefs.get(USERS_PANE_DIVIDER_LOCATION, 
+				Constants.DEFAULT_DIVIDER_LOCATION));
+	}
+
+	public static int getGroupsPaneDividerLocation() {
+		return Integer.parseInt(prefs.get(GROUPS_PANE_DIVIDER_LOCATION, 
+				Constants.DEFAULT_DIVIDER_LOCATION));
+	}
+
+	public static int getUserDetailsDividerLocation() {
+		return Integer.parseInt(prefs.get(USER_DETAILS_DIVIDER_LOCATION, 
+				Constants.DEFAULT_DIVIDER_LOCATION));
+	}
+
+	public static int getGroupDetailsDividerLocation() {
+		return Integer.parseInt(prefs.get(GROUP_DETAILS_DIVIDER_LOCATION, 
+				Constants.DEFAULT_DIVIDER_LOCATION));
+	}
+
+	public static int getRulesPaneDividerLocation() {
+		return Integer.parseInt(prefs.get(RULES_PANE_DIVIDER_LOCATION, 
+				Constants.DEFAULT_DIVIDER_LOCATION));
+	}
+	
+	public static void setUsersPaneDividerLocation(int location) {
+		prefs.put(USERS_PANE_DIVIDER_LOCATION, Integer.toString(location));
+	}
+
+	public static void setGroupsPaneDividerLocation(int location) {
+		prefs.put(GROUPS_PANE_DIVIDER_LOCATION, Integer.toString(location));
+	}
+
+	public static void setUserDetailsDividerLocation(int location) {
+		prefs.put(USER_DETAILS_DIVIDER_LOCATION, Integer.toString(location));
+	}
+
+	public static void setGroupDetailsDividerLocation(int location) {
+		prefs.put(GROUP_DETAILS_DIVIDER_LOCATION, Integer.toString(location));
+	}
+
+	public static void setRulesPaneDividerLocation(int location) {
+		prefs.put(RULES_PANE_DIVIDER_LOCATION, Integer.toString(location));
 	}
 }

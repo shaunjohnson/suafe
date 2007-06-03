@@ -263,7 +263,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JButton deleteAccessRuleButton = null;  
 
-	private JSplitPane userDetailsSubPanel = null;  
+	private JSplitPane userDetailsSplitPanel = null;  
 
 	private JList userGroupList = null;  
 
@@ -275,7 +275,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JPanel userAccessRulesFormatPanel = null;  
 
-	private JSplitPane groupDetailsSubPanel = null;  
+	private JSplitPane groupDetailsSplitPanel = null;  
 
 	private JTable groupAccessRulesTable = null;  
 
@@ -448,7 +448,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (contentPane == null) {
 			contentPane = new JPanel();
 			contentPane.setLayout(new BorderLayout());
-			contentPane.add(getToolbarPanel(), java.awt.BorderLayout.NORTH);
+			contentPane.add(getToolbarPanel(), BorderLayout.NORTH);
 			contentPane.add(getMainTabbedPane(), BorderLayout.CENTER);
 			contentPane.add(getStatusPanel(), BorderLayout.SOUTH);
 		}
@@ -495,7 +495,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			usersSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			usersSplitPane.setLeftComponent(getUserListPanel());
 			usersSplitPane.setRightComponent(getUserDetailsPanel());
-			usersSplitPane.setDividerLocation(400);
+			usersSplitPane.setDividerLocation(UserPreferences.getUsersPaneDividerLocation());
 		}
 		
 		return usersSplitPane;
@@ -529,7 +529,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			groupsSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			groupsSplitPane.setLeftComponent(getGroupListPanel());
 			groupsSplitPane.setRightComponent(getGroupDetailsPanel());
-			groupsSplitPane.setDividerLocation(400);
+			groupsSplitPane.setDividerLocation(UserPreferences.getGroupsPaneDividerLocation());
 		}
 		
 		return groupsSplitPane;
@@ -544,7 +544,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (userDetailsPanel == null) {
 			userDetailsPanel = new JPanel();
 			userDetailsPanel.setLayout(new BorderLayout());
-			userDetailsPanel.add(getUserDetailsSubPanel(), java.awt.BorderLayout.CENTER);
+			userDetailsPanel.add(getUserDetailsSplitPanel(), BorderLayout.CENTER);
 		}
 		
 		return userDetailsPanel;
@@ -2231,7 +2231,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (groupDetailsPanel == null) {
 			groupDetailsPanel = new JPanel();
 			groupDetailsPanel.setLayout(new BorderLayout());
-			groupDetailsPanel.add(getGroupDetailsSubPanel(), java.awt.BorderLayout.CENTER);
+			groupDetailsPanel.add(getGroupDetailsSplitPanel(), BorderLayout.CENTER);
 		}
 		
 		return groupDetailsPanel;
@@ -2426,7 +2426,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getUserActionsPanel() {
 		if (userActionsPanel == null) {
 			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(java.awt.FlowLayout.LEFT);
+			layout.setAlignment(FlowLayout.LEFT);
 			
 			userActionsPanel = new JPanel(layout);
 			userActionsPanel.add(getAddUserButton());
@@ -2540,7 +2540,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getGroupActionsPanel() {
 		if (groupActionsPanel == null) {
 			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(java.awt.FlowLayout.LEFT);
+			layout.setAlignment(FlowLayout.LEFT);
 			
 			groupActionsPanel = new JPanel(layout);			
 			groupActionsPanel.add(getAddGroupButton());
@@ -2900,18 +2900,18 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JSplitPane getUserDetailsSubPanel() {
-		if (userDetailsSubPanel == null) {
-			userDetailsSubPanel = new JSplitPane();
-			userDetailsSubPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 7, 0, 0));			
-			userDetailsSubPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-			userDetailsSubPanel.setTopComponent(getUserGroupListPanel());
-			userDetailsSubPanel.setBottomComponent(getUserAccessRulesFormatPanel());
-			userDetailsSubPanel.setOneTouchExpandable(true);
-			userDetailsSubPanel.setDividerLocation(350);
+	private JSplitPane getUserDetailsSplitPanel() {
+		if (userDetailsSplitPanel == null) {
+			userDetailsSplitPanel = new JSplitPane();
+			userDetailsSplitPanel.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));			
+			userDetailsSplitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+			userDetailsSplitPanel.setTopComponent(getUserGroupListPanel());
+			userDetailsSplitPanel.setBottomComponent(getUserAccessRulesFormatPanel());
+			userDetailsSplitPanel.setOneTouchExpandable(true);
+			userDetailsSplitPanel.setDividerLocation(UserPreferences.getUserDetailsDividerLocation());
 		}
 		
-		return userDetailsSubPanel;
+		return userDetailsSplitPanel;
 	}
 
 	/**
@@ -3072,9 +3072,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (userAccessRulesFormatPanel == null) {
 			userAccessRulesFormatPanel = new JPanel();
 			userAccessRulesFormatPanel.setLayout(new BorderLayout());
-			userAccessRulesFormatPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 0, 0, 0));
-			userAccessRulesFormatPanel.add(new JLabel(ResourceUtil.getString("mainframe.tabs.accessrules")), java.awt.BorderLayout.NORTH);
-			userAccessRulesFormatPanel.add(getUserAccessRulesScrollPane(), java.awt.BorderLayout.CENTER);
+			userAccessRulesFormatPanel.setBorder(BorderFactory.createEmptyBorder(7, 0, 0, 0));
+			userAccessRulesFormatPanel.add(new JLabel(ResourceUtil.getString("mainframe.tabs.accessrules")), BorderLayout.NORTH);
+			userAccessRulesFormatPanel.add(getUserAccessRulesScrollPane(), BorderLayout.CENTER);
 		}
 		
 		return userAccessRulesFormatPanel;
@@ -3085,18 +3085,18 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * 
 	 * @return javax.swing.JPanel
 	 */	
-	private JSplitPane getGroupDetailsSubPanel() {
-		if (groupDetailsSubPanel == null) {
-			groupDetailsSubPanel = new JSplitPane();
-			groupDetailsSubPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 7, 0, 0));
-			groupDetailsSubPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-			groupDetailsSubPanel.setTopComponent(getGroupMembersPanel());
-			groupDetailsSubPanel.setBottomComponent(getGroupAccessRulesPanel());
-			groupDetailsSubPanel.setOneTouchExpandable(true);
-			groupDetailsSubPanel.setDividerLocation(350);
+	private JSplitPane getGroupDetailsSplitPanel() {
+		if (groupDetailsSplitPanel == null) {
+			groupDetailsSplitPanel = new JSplitPane();
+			groupDetailsSplitPanel.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));
+			groupDetailsSplitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+			groupDetailsSplitPanel.setTopComponent(getGroupMembersPanel());
+			groupDetailsSplitPanel.setBottomComponent(getGroupAccessRulesPanel());
+			groupDetailsSplitPanel.setOneTouchExpandable(true);
+			groupDetailsSplitPanel.setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
 		}
 		
-		return groupDetailsSubPanel;
+		return groupDetailsSplitPanel;
 	}
 
 	/**
@@ -3140,7 +3140,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			accessRulesSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 			accessRulesSplitPane.setLeftComponent(getAccessRulesTreePanel());
 			accessRulesSplitPane.setRightComponent(getAccessRulesPanel());
-			accessRulesSplitPane.setDividerLocation(400);
+			accessRulesSplitPane.setDividerLocation(UserPreferences.getRulesPaneDividerLocation());
 		}
 		
 		return accessRulesSplitPane;
@@ -3243,8 +3243,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (accessRulesPanel == null) {
 			accessRulesPanel = new JPanel();
 			accessRulesPanel.setLayout(new BorderLayout());
-			accessRulesPanel.add(getAccessRulesFormatPanel(), java.awt.BorderLayout.CENTER);
-			accessRulesPanel.add(getAccessRuleActionsPanel(), java.awt.BorderLayout.SOUTH);			
+			accessRulesPanel.add(getAccessRulesFormatPanel(), BorderLayout.CENTER);
+			accessRulesPanel.add(getAccessRuleActionsPanel(), BorderLayout.SOUTH);			
 		}
 		
 		return accessRulesPanel;
@@ -3258,7 +3258,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getAccessRuleActionsPanel() {
 		if (accessRuleActionsPanel == null) {
 			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(java.awt.FlowLayout.LEFT);
+			layout.setAlignment(FlowLayout.LEFT);
 			
 			accessRuleActionsPanel = new JPanel(layout);
 			accessRuleActionsPanel.add(getAddAccessRuleButton());
@@ -3343,10 +3343,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getAccessRulesFormatPanel() {
 		if (accessRulesFormatPanel == null) {
 			accessRulesFormatPanel = new JPanel();
-			accessRulesFormatPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 7, 0, 0));
+			accessRulesFormatPanel.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));
 			accessRulesFormatPanel.setLayout(new BorderLayout());			
-			accessRulesFormatPanel.add(new JLabel(ResourceUtil.getString("mainframe.accessrules")), java.awt.BorderLayout.NORTH);
-			accessRulesFormatPanel.add(getAccessRulesScrollPane(), java.awt.BorderLayout.CENTER);
+			accessRulesFormatPanel.add(new JLabel(ResourceUtil.getString("mainframe.accessrules")), BorderLayout.NORTH);
+			accessRulesFormatPanel.add(getAccessRulesScrollPane(), BorderLayout.CENTER);
 		}
 		
 		return accessRulesFormatPanel;
@@ -3360,9 +3360,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getGroupAccessRulesPanel() {
 		if (groupAccessRulesPanel == null) {
 			groupAccessRulesPanel = new JPanel(new BorderLayout());
-			groupAccessRulesPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 0, 0, 0));
-			groupAccessRulesPanel.add(new JLabel(ResourceUtil.getString("mainframe.accessrules")), java.awt.BorderLayout.NORTH);
-			groupAccessRulesPanel.add(getGroupAccessRulesScrollPane(), java.awt.BorderLayout.CENTER);
+			groupAccessRulesPanel.setBorder(BorderFactory.createEmptyBorder(7, 0, 0, 0));
+			groupAccessRulesPanel.add(new JLabel(ResourceUtil.getString("mainframe.accessrules")), BorderLayout.NORTH);
+			groupAccessRulesPanel.add(getGroupAccessRulesScrollPane(), BorderLayout.CENTER);
 		}
 		
 		return groupAccessRulesPanel;
@@ -3376,10 +3376,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getGroupMembersPanel() {
 		if (groupMembersPanel == null) {
 			groupMembersPanel = new JPanel(new BorderLayout());
-			groupMembersPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 7, 0));			
-			groupMembersPanel.add(new JLabel(ResourceUtil.getString("mainframe.members")), java.awt.BorderLayout.NORTH);
-			groupMembersPanel.add(getGroupMemberListScrollPane(), java.awt.BorderLayout.CENTER);
-			groupMembersPanel.add(getGroupMemberListActionsPanel(), java.awt.BorderLayout.SOUTH);
+			groupMembersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 7, 0));			
+			groupMembersPanel.add(new JLabel(ResourceUtil.getString("mainframe.members")), BorderLayout.NORTH);
+			groupMembersPanel.add(getGroupMemberListScrollPane(), BorderLayout.CENTER);
+			groupMembersPanel.add(getGroupMemberListActionsPanel(), BorderLayout.SOUTH);
 		}
 		
 		return groupMembersPanel;
@@ -3424,10 +3424,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (userGroupListPanel == null) {
 			userGroupListPanel = new JPanel();
 			userGroupListPanel.setLayout(new BorderLayout());
-			userGroupListPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 7, 0));
-			userGroupListPanel.add(new JLabel(ResourceUtil.getString("mainframe.groups")), java.awt.BorderLayout.NORTH);
-			userGroupListPanel.add(getUserGroupListScrollPane(), java.awt.BorderLayout.CENTER);
-			userGroupListPanel.add(getUserGroupsActionPanel(), java.awt.BorderLayout.SOUTH);
+			userGroupListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 7, 0));
+			userGroupListPanel.add(new JLabel(ResourceUtil.getString("mainframe.groups")), BorderLayout.NORTH);
+			userGroupListPanel.add(getUserGroupListScrollPane(), BorderLayout.CENTER);
+			userGroupListPanel.add(getUserGroupsActionPanel(), BorderLayout.SOUTH);
 		}
 		
 		return userGroupListPanel;
@@ -3652,10 +3652,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getAccessRulesTreePanel() {
 		if (accessRulesTreePanel == null) {
 			accessRulesTreePanel = new JPanel(new BorderLayout());
-			accessRulesTreePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 7));
-			accessRulesTreePanel.add(new JLabel(ResourceUtil.getString("mainframe.serverstructure")), java.awt.BorderLayout.NORTH);
-			accessRulesTreePanel.add(getAccessRulesTreeScrollPane(), java.awt.BorderLayout.CENTER);
-			accessRulesTreePanel.add(getAccessRulesTreeActionsPanel(), java.awt.BorderLayout.SOUTH);
+			accessRulesTreePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
+			accessRulesTreePanel.add(new JLabel(ResourceUtil.getString("mainframe.serverstructure")), BorderLayout.NORTH);
+			accessRulesTreePanel.add(getAccessRulesTreeScrollPane(), BorderLayout.CENTER);
+			accessRulesTreePanel.add(getAccessRulesTreeActionsPanel(), BorderLayout.SOUTH);
 		}
 		
 		return accessRulesTreePanel;
@@ -3669,7 +3669,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getAccessRulesTreeActionsPanel() {
 		if (accessRulesTreeActionsPanel == null) {
 			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(java.awt.FlowLayout.LEFT);
+			layout.setAlignment(FlowLayout.LEFT);
 			
 			accessRulesTreeActionsPanel = new JPanel(layout);
 			accessRulesTreeActionsPanel.add(getEditTreeItemButton());
@@ -3748,7 +3748,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getUserGroupsActionPanel() {
 		if (userGroupsActionPanel == null) {
 			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(java.awt.FlowLayout.LEFT);
+			layout.setAlignment(FlowLayout.LEFT);
 			
 			userGroupsActionPanel = new JPanel(layout);			
 			userGroupsActionPanel.add(getChangeMembershipButton());
@@ -3765,7 +3765,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getGroupMemberListActionsPanel() {
 		if (groupMemberListActionsPanel == null) {
 			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(java.awt.FlowLayout.LEFT);
+			layout.setAlignment(FlowLayout.LEFT);
 			
 			groupMemberListActionsPanel = new JPanel(layout);
 			groupMemberListActionsPanel.add(getAddRemoveMembersButton());
@@ -3782,10 +3782,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JPanel getUserListPanel() {
 		if (userListPanel == null) {
 			userListPanel = new JPanel(new BorderLayout());
-			userListPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 7));
-			userListPanel.add(getUserListScrollPane(), java.awt.BorderLayout.CENTER);
-			userListPanel.add(getUserActionsPanel(), java.awt.BorderLayout.SOUTH);
-			userListPanel.add(new JLabel(ResourceUtil.getString("mainframe.users")), java.awt.BorderLayout.NORTH);
+			userListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
+			userListPanel.add(getUserListScrollPane(), BorderLayout.CENTER);
+			userListPanel.add(getUserActionsPanel(), BorderLayout.SOUTH);
+			userListPanel.add(new JLabel(ResourceUtil.getString("mainframe.users")), BorderLayout.NORTH);
 		}
 		
 		return userListPanel;
@@ -3800,10 +3800,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		if (groupListPanel == null) {
 			groupListPanel = new JPanel();
 			groupListPanel.setLayout(new BorderLayout());
-			groupListPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 7));
-			groupListPanel.add(getGroupListScrollPane(), java.awt.BorderLayout.CENTER);
-			groupListPanel.add(getGroupActionsPanel(), java.awt.BorderLayout.SOUTH);
-			groupListPanel.add(new JLabel(ResourceUtil.getString("mainframe.groups")), java.awt.BorderLayout.NORTH);
+			groupListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
+			groupListPanel.add(getGroupListScrollPane(), BorderLayout.CENTER);
+			groupListPanel.add(getGroupActionsPanel(), BorderLayout.SOUTH);
+			groupListPanel.add(new JLabel(ResourceUtil.getString("mainframe.groups")), BorderLayout.NORTH);
 		}
 		
 		return groupListPanel;
@@ -3913,6 +3913,17 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		UserPreferences.setWindowState(getExtendedState());
 		UserPreferences.setWindowSize(getSize());
 		UserPreferences.setWindowLocation(getLocation());
+		UserPreferences.setUsersPaneDividerLocation(
+				getUsersSplitPane().getDividerLocation());
+		UserPreferences.setGroupsPaneDividerLocation(
+				getGroupsSplitPane().getDividerLocation());
+		UserPreferences.setRulesPaneDividerLocation(
+				getAccessRulesSplitPane().getDividerLocation());
+		UserPreferences.setUserDetailsDividerLocation(
+				getUserDetailsSplitPanel().getDividerLocation());
+		UserPreferences.setUsersPaneDividerLocation(
+				getGroupDetailsSplitPanel().getDividerLocation());
+		
 	}
 
 	/**
