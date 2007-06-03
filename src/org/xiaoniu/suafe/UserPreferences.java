@@ -18,9 +18,13 @@
 
 package org.xiaoniu.suafe;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.util.Stack;
 import java.util.prefs.Preferences;
+
+import javax.swing.JFrame;
 
 /**
  * Retrieves and persists user settings stored using java Preferences.
@@ -44,6 +48,18 @@ public class UserPreferences {
 	 * Preference name for the user selected font style.
 	 */
 	public static final String FONT_STYLE = "font.style";
+	
+	public static final String WINDOW_LOCATION = "window.location";
+	
+	/**
+	 * Preference name for the last window state.
+	 */
+	public static final String WINDOW_STATE = "window.state";
+	
+	/**
+	 * Preference name for the last window dimension.
+	 */
+	public static final String WINDOW_SIZE = "window.size";
 	
 	/**
 	 * Maximum number of files remembered in the recent files list.
@@ -173,5 +189,69 @@ public class UserPreferences {
 	 */
 	public static Font getUserFont() {
 		return new Font(getUserFontStyle(), Font.PLAIN, 12);
+	}
+	
+	public static void setWindowState(int windowState) {
+		prefs.put(WINDOW_STATE, Integer.toString(windowState));
+	}
+	
+	public static int getWindowState() {
+		try {
+			return Integer.parseInt(prefs.get(WINDOW_STATE, 
+					Integer.toString(JFrame.MAXIMIZED_BOTH)));
+		}
+		catch(Exception e) {
+			return JFrame.MAXIMIZED_BOTH;
+		}
+	}
+	
+	public static void setWindowSize(Dimension size) {
+		prefs.put(WINDOW_SIZE, (int)size.getWidth() + "," + (int)size.getHeight());
+	}
+	
+	public static Dimension getWindowSize() {
+		String size = prefs.get(WINDOW_SIZE, 
+				Constants.DEFAULT_WIDTH + "," + Constants.DEFAULT_HEIGHT);
+		
+		String[] sizes = size.split(",");
+		int width = Constants.DEFAULT_WIDTH;
+		int height = Constants.DEFAULT_HEIGHT;
+		
+		if (sizes.length == 2) {
+			try {
+				width = Integer.parseInt(sizes[0]);
+				height = Integer.parseInt(sizes[1]);
+			}
+			catch(Exception e) {
+				width = Constants.DEFAULT_WIDTH;
+				height = Constants.DEFAULT_HEIGHT;
+			}
+		}
+		
+		return new Dimension(width, height);
+	}
+	
+	public static void setWindowLocation(Point location) {
+		prefs.put(WINDOW_LOCATION, (int)location.getX() + "," + (int)location.getY());
+	}
+	
+	public static Point getWindowLocation() {
+		Point location = null;
+		String locationValue = prefs.get(WINDOW_LOCATION, "");
+		String[] locationValues = locationValue.split(",");
+		
+		if (locationValues.length == 2) {
+			try {
+				int x = Integer.parseInt(locationValues[0]);
+				int y = Integer.parseInt(locationValues[1]);
+				
+				location = new Point(x, y);
+			}
+			catch(Exception e) {
+				location = null;
+			}
+		}
+		
+		return location;
 	}
 }

@@ -23,6 +23,7 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -378,9 +379,18 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		this.fileTransferHandler = new FileTransferHandler(this);
 		this.addKeyListener(this);
 		this.addWindowListener(this);
-		this.setSize(840, 700);
-		this.center();
-		this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		this.setSize(UserPreferences.getWindowSize());
+		
+		Point location = UserPreferences.getWindowLocation();
+		
+		if (location == null) {
+			this.center();
+		}
+		else {
+			this.setLocation(location);
+		}
+		
+		this.setExtendedState(UserPreferences.getWindowState());
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setIconImage(ResourceUtil.serverImage);
 		this.setJMenuBar(getJJMenuBar());		
@@ -3900,6 +3910,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */
 	public void windowClosing(WindowEvent event) {
 		checkForUnsavedChanges();
+		UserPreferences.setWindowState(getExtendedState());
+		UserPreferences.setWindowSize(getSize());
+		UserPreferences.setWindowLocation(getLocation());
 	}
 
 	/**

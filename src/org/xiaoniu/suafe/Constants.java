@@ -18,11 +18,18 @@
 package org.xiaoniu.suafe;
 
 /**
- * Constant values used throught the application.
+ * Constant values used throughout the application.
  *  
  * @author Shaun Johnson
  */
 public class Constants {
+	//
+	// Defaults
+	//
+	public static final int DEFAULT_WIDTH = 840;
+	
+	public static final int DEFAULT_HEIGHT = 700;
+	
 	//
 	// Paths
 	//
