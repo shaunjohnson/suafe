@@ -923,7 +923,7 @@ public class Application {
 		
 		if (userName != null) {
 			if (repositoryName == null) {
-				Document.addServerAccessRuleForUser(userName, access);
+				Document.addAccessRuleForUser(null, path, Document.addUser(userName), access);
 			}
 			else {
 				Document.addAccessRuleForUser(Document.addRepository(repositoryName), path, Document.addUser(userName), access);
@@ -931,7 +931,7 @@ public class Application {
 		}
 		else if (groupName != null) {
 			if (repositoryName == null) {
-				Document.addServerAccessRuleForGroup(groupName, access);
+				Document.addAccessRuleForGroup(null, path, Document.addGroup(groupName, null, null), access);
 			}
 			else {
 				Document.addAccessRuleForGroup(Document.addRepository(repositoryName), path, Document.addGroup(groupName, null, null), access);
