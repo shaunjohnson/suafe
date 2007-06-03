@@ -1044,7 +1044,7 @@ public class Application {
 		
 		AccessRule rule = null;
 		
-		if (userName == null) {
+		if (userName != null) {
 			User user = Document.findUser(userName);
 			
 			if (user == null) {
@@ -1067,7 +1067,7 @@ public class Application {
 				throw new ApplicationException(ResourceUtil.getString("application.error.unabletofindrule"));
 			}
 		}
-		else if (groupName == null) {
+		else if (groupName != null) {
 			Group group = Document.findGroup(groupName);
 			
 			if (group == null) {
