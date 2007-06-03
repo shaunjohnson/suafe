@@ -106,7 +106,7 @@ public class Document {
 	
 		Group group = findGroup(groupName);				
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 
 		return addAccessRuleForGroup(path, group, level);
 	}
@@ -141,7 +141,7 @@ public class Document {
 			
 		accessRules.add(accessRule);
 	
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return accessRule;
 	}
@@ -159,7 +159,7 @@ public class Document {
 	public static AccessRule addAccessRuleForGroup(Repository repository, String pathString, Group group, String level) throws ApplicationException {
 		Path path = addPath(repository, pathString);
 
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return addAccessRuleForGroup(path, group, level);
 	}
@@ -183,7 +183,7 @@ public class Document {
 	
 		User user = addUser(userName);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 				
 		return addAccessRuleForUser(path, user, level);
 	}
@@ -214,7 +214,7 @@ public class Document {
 
 		accessRules.add(accessRule);
 	
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return accessRule;
 	}
@@ -232,7 +232,7 @@ public class Document {
 	public static AccessRule addAccessRuleForUser(Repository repository, String pathString, User user, String level) throws ApplicationException {
 		Path path = addPath(repository, pathString);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return addAccessRuleForUser(path, user, level);
 	}
@@ -296,7 +296,7 @@ public class Document {
 			groups.add(group);
 		}
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return group;
 	}
@@ -325,7 +325,7 @@ public class Document {
 			}
 		}
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return path;
 	}
@@ -349,7 +349,7 @@ public class Document {
 			repositories.add(repository);
 		}
 	
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return repository;
 	}
@@ -380,7 +380,7 @@ public class Document {
 		
 		accessRules.add(accessRule);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	
 		return accessRule;
 	}
@@ -407,7 +407,7 @@ public class Document {
 		
 		accessRules.add(accessRule);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	
 		return accessRule;
 	}
@@ -430,7 +430,7 @@ public class Document {
 			users.add(user);
 		}
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	
 		return user;
 	}
@@ -470,7 +470,7 @@ public class Document {
 		accessRule.getPath().removeAccessRule(accessRule);
 		accessRules.remove(accessRule);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -484,7 +484,7 @@ public class Document {
 		removeGroupMembers(group);
 		groups.remove(group);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -503,7 +503,7 @@ public class Document {
 		
 		accessRules.removeAll(deleteList);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -517,7 +517,7 @@ public class Document {
 			deleteGroup((Group)groups[i]);
 		}
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -535,7 +535,7 @@ public class Document {
 		
 		paths.remove(path);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -562,7 +562,7 @@ public class Document {
 		
 		accessRules.removeAll(deleteList);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -576,7 +576,7 @@ public class Document {
 		deleteRepositoryPaths(repository);
 		repositories.remove(repository);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -603,7 +603,7 @@ public class Document {
 		
 		accessRules.removeAll(deleteList);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/** 
@@ -622,7 +622,7 @@ public class Document {
 		
 		paths.removeAll(deleteList);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 	
 	/**
@@ -636,7 +636,7 @@ public class Document {
 			deleteRepository((Repository)repositories[i]);
 		}
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 	
 	/**
@@ -650,7 +650,7 @@ public class Document {
 		removeUserFromAssignedGroups(user);
 		users.remove(user);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -673,7 +673,7 @@ public class Document {
 		
 		accessRules.removeAll(deleteList);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 	
 	/**
@@ -687,7 +687,7 @@ public class Document {
 			deleteUser((User)users[i]);
 		}
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 	
 	/**
@@ -1562,7 +1562,7 @@ public class Document {
 		
 		user.setGroups(new ArrayList<Group>());
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 	
 	/**
@@ -1596,7 +1596,7 @@ public class Document {
 		
 		user.setGroups(newGroups);
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 
 	/**
@@ -1619,7 +1619,7 @@ public class Document {
 				
 		group.getUserMembers().clear();
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}	
 	
 	/**
@@ -1654,7 +1654,7 @@ public class Document {
 			group.addUserMember(member);
 		}
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 	}
 	
 	/**
@@ -1678,7 +1678,7 @@ public class Document {
 			addAccessRuleForUser(rule.getPath(), clone, rule.getLevel());
 		}
 				
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return clone;
 	}
@@ -1704,7 +1704,7 @@ public class Document {
 			addAccessRuleForGroup(rule.getPath(), clone, rule.getLevel());
 		}
 		
-		unsavedChanges = true;
+		setUnsavedChanges();
 		
 		return clone;
 	}
