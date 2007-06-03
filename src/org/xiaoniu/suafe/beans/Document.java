@@ -962,12 +962,12 @@ public class Document {
 		if (group == null || group.getAccessRules() == null) {
 			return null;
 		} else {
-			List accessRules = group.getAccessRules(); 
+			List<AccessRule> accessRules = group.getAccessRules(); 
 			int size = accessRules.size();
 			Object[][] accessRulesList = new Object[size][3];
 	
 			for (int i = 0; i < size; i++) {
-				AccessRule rule = (AccessRule) accessRules.get(i);
+				AccessRule rule = accessRules.get(i);
 	
 				accessRulesList[i][0] = rule.getPath().getRepository();
 				accessRulesList[i][1] = rule.getPath();
@@ -1043,12 +1043,12 @@ public class Document {
 		if (group == null || group.getGroupMembers() == null) {
 			return null;
 		} else {
-			List groups = group.getGroupMembers();
+			List<Group> groups = group.getGroupMembers();
 			int size = groups.size();
 			Object[] groupNames = new Object[size];
 	
 			for (int i = 0; i < size; i++) {
-				groupNames[i] = ((Group) groups.get(i)).getName();
+				groupNames[i] = groups.get(i).getName();
 			}
 	
 			Arrays.sort(groupNames);
@@ -1110,12 +1110,12 @@ public class Document {
 		if (group == null || group.getUserMembers() == null) {
 			return null;
 		} else {
-			List users = group.getUserMembers();
+			List<User> users = group.getUserMembers();
 			int size = users.size();
 			Object[] userNames = new Object[size];
 	
 			for (int i = 0; i < size; i++) {
-				userNames[i] = ((User) users.get(i)).getName();
+				userNames[i] = users.get(i).getName();
 			}
 	
 			Arrays.sort(userNames);
@@ -1168,7 +1168,7 @@ public class Document {
 		if (path == null || path.getAccessRules() == null) {
 			return null;
 		} else {
-			List accessRules = path.getAccessRules(); 
+			List<AccessRule> accessRules = path.getAccessRules(); 
 			int size = accessRules.size();
 			Object[][] accessRulesList = new Object[size][2];
 	
@@ -1341,12 +1341,12 @@ public class Document {
 		if (user == null || user.getAccessRules() == null) {
 			return null;
 		} else {
-			List accessRules = user.getAccessRules(); 
+			List<AccessRule> accessRules = user.getAccessRules(); 
 			int size = accessRules.size();
 			Object[][] accessRulesList = new Object[size][3];
 	
 			for (int i = 0; i < size; i++) {
-				AccessRule rule = (AccessRule) accessRules.get(i);
+				AccessRule rule = accessRules.get(i);
 	
 				accessRulesList[i][0] = rule.getPath().getRepository();
 				accessRulesList[i][1] = rule.getPath();
@@ -1368,12 +1368,12 @@ public class Document {
 		if (user == null || user.getAccessRules() == null) {
 			return null;
 		} else {
-			List accessRules = user.getAccessRules(); 
+			List<AccessRule> accessRules = user.getAccessRules(); 
 			int size = accessRules.size();
 			Object[][] accessRulesList = new Object[size][3];
 	
 			for (int i = 0; i < size; i++) {
-				AccessRule rule = (AccessRule) accessRules.get(i);
+				AccessRule rule = accessRules.get(i);
 	
 				accessRulesList[i][0] = rule.getPath().getRepository();
 				accessRulesList[i][1] = rule.getPath();
@@ -1397,12 +1397,12 @@ public class Document {
 		if (user == null || user.getGroups() == null) {
 			return null;
 		} else {
-			List groups = user.getGroups();
+			List<Group> groups = user.getGroups();
 			int size = groups.size();
 			Object[] groupNames = new Object[size];
 	
 			for (int i = 0; i < size; i++) {
-				groupNames[i] = ((Group) groups.get(i)).getName();
+				groupNames[i] = groups.get(i).getName();
 			}
 	
 			Arrays.sort(groupNames);
