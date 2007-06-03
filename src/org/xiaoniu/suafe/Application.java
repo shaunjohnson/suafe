@@ -1180,7 +1180,7 @@ public class Application {
 			Group memberGroup = Document.findGroup(memberGroupName);
 			
 			if (memberGroup == null) {
-				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
+				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", memberGroupName));
 			}
 			
 			group.addGroupMember(memberGroup);
