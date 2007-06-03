@@ -67,7 +67,7 @@ public class FileGenerator {
 				if (group.getGroupMembers() != null) {
 					Collections.sort(group.getGroupMembers());
 					
-					Iterator members = group.getGroupMembers().iterator();
+					Iterator<Group> members = group.getGroupMembers().iterator();
 					
 					while(members.hasNext()) {
 						Group memberGroup = (Group)members.next();
@@ -87,7 +87,7 @@ public class FileGenerator {
 					}
 					
 					Collections.sort(group.getUserMembers());
-					Iterator members = group.getUserMembers().iterator();
+					Iterator<User> members = group.getUserMembers().iterator();
 					
 					while(members.hasNext()) {
 						User memberUser = (User)members.next();

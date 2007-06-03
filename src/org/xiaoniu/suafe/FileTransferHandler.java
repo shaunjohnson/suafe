@@ -42,17 +42,15 @@ public class FileTransferHandler extends TransferHandler {
     	this.fileOpener = fileOpener;
     }
 
-    public boolean importData(JComponent component, Transferable transferable) {        
+	public boolean importData(JComponent component, Transferable transferable) {        
         //A real application would load the file in another
         //thread in order to not block the UI.  This step
         //was omitted here to simplify the code.
         try {
             if (hasFileFlavor(transferable.getTransferDataFlavors())) {
-                List files = (List)transferable.getTransferData(DataFlavor.javaFileListFlavor);
+                List<File> files = (List<File>)transferable.getTransferData(DataFlavor.javaFileListFlavor);
                 
-                for (int i = 0; i < files.size(); i++) {
-                    File file = (File)files.get(i);
-                    
+                for (File file : files) {
                     // Process file
                     fileOpener.fileOpen(file);
                 }
