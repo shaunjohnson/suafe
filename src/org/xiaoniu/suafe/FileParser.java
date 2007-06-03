@@ -132,6 +132,9 @@ public class FileParser {
 		catch(FileNotFoundException fne) {
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.filenotfound"));
 		}
+		catch(ParserException pe) {
+			throw pe;
+		}
 		catch(Exception e) {
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
 		}
