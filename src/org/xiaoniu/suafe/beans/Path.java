@@ -27,7 +27,7 @@ import java.util.List;
  * 
  * @author Shaun Johnson
  */
-public class Path implements Comparable {
+public class Path implements Comparable<Path> {
 	
 	/**
 	 * Repository in which the Path exists.
@@ -148,13 +148,7 @@ public class Path implements Comparable {
 	 * @param other Other Path object to which this is compared.
 	 * @throws ClassCastException Other is not an instance of Path.
 	 */
-	public int compareTo(Object other) throws ClassCastException {
-		if (!(other instanceof Path)) {
-			throw new ClassCastException("Invalid object type. Cannot cast to Path.");
-		}	
-		
-		Path otherPath = (Path)other;
-		
+	public int compareTo(Path otherPath) throws ClassCastException {
 		return this.toString().compareTo(otherPath.toString());
 	}
 }
