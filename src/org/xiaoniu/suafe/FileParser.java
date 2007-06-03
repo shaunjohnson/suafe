@@ -321,7 +321,7 @@ public class FileParser {
 					}
 					
 					try {
-						Document.addGroup(name, groupMembers, userMembers);
+						Document.addGroupByName(name, groupMembers, userMembers);
 					}
 					catch (ApplicationException ae) {
 						throw ParserException.generateException(lineNumber, ae.getMessage());

@@ -934,7 +934,7 @@ public class Application {
 				Document.addAccessRuleForGroup(null, path, Document.addGroup(groupName), access);
 			}
 			else {
-				Document.addAccessRuleForGroup(Document.addRepository(repositoryName), path, Document.addGroup(groupName, null, null), access);
+				Document.addAccessRuleForGroup(Document.addRepository(repositoryName), path, Document.addGroup(groupName), access);
 			}
 		}
 		else {

@@ -274,7 +274,98 @@ public class Document {
 	 * @return Newly created or found Group.
 	 * @throws ApplicationException
 	 */
-	public static Group addGroup(String groupName, List groupMembers, List userMembers) throws ApplicationException {
+//	public static Group addGroup(String groupName, List groupMembers, List userMembers) throws ApplicationException {
+//		Validator.validateGroupName(groupName);		
+//		
+//		Group group = findGroup(groupName);
+//	
+//		if (group == null) {
+//			List<Group> groupMemberList = new ArrayList<Group>();
+//			List<User> userMemberList = new ArrayList<User>();
+//			
+//			group = new Group(groupName, groupMemberList, userMemberList);
+//	
+//			// Add Group members
+//			if (groupMembers != null) {
+//				for (Object object : groupMembers) {
+//					Group member = null;
+//					
+//					if (object instanceof Group) {
+//						member = (Group)object;
+//					}
+//					else {
+//						member = addGroup((String)object, null, null);
+//					}
+//					
+//					member.addGroup(group);
+//					groupMemberList.add(member);
+//				}
+//			}
+//
+//			// Add User members
+//			if (userMembers != null) {
+//				
+//				for (Object object : userMembers) {
+//					User member = null;
+//					
+//					if (object instanceof User) {
+//						member = (User)object;
+//					}
+//					else {
+//						member = addUser((String)object);	
+//					}
+//					
+//					member.addGroup(group);
+//					userMemberList.add(member);
+//				}
+//			}
+//			
+//			groups.add(group);
+//		}
+//		
+//		setUnsavedChanges();
+//		
+//		return group;
+//	}
+	
+	public static Group addGroupByName(String groupName, List<String> groupMemberNames, List<String> userMemberNames) throws ApplicationException {
+		Validator.validateGroupName(groupName);		
+		
+		Group group = findGroup(groupName);
+	
+		if (group == null) {
+			List<Group> groupMemberList = new ArrayList<Group>();
+			List<User> userMemberList = new ArrayList<User>();
+			
+			group = new Group(groupName, groupMemberList, userMemberList);
+	
+			// Add Group members
+			if (groupMemberNames != null) {
+				for (String groupMemberName : groupMemberNames) {
+					Group member = addGroup(groupMemberName);
+					member.addGroup(group);
+					groupMemberList.add(member);
+				}
+			}
+
+			// Add User members
+			if (userMemberNames != null) {
+				for (String userMemberName : userMemberNames) {
+					User member = addUser(userMemberName);					
+					member.addGroup(group);
+					userMemberList.add(member);
+				}
+			}
+			
+			groups.add(group);
+		}
+		
+		setUnsavedChanges();
+		
+		return group;
+	}
+	
+	public static Group addGroup(String groupName, List<Group> groupMembers, List<User> userMembers) throws ApplicationException {
 		Validator.validateGroupName(groupName);		
 		
 		Group group = findGroup(groupName);
@@ -287,16 +378,7 @@ public class Document {
 	
 			// Add Group members
 			if (groupMembers != null) {
-				for (Object object : groupMembers) {
-					Group member = null;
-					
-					if (object instanceof Group) {
-						member = (Group)object;
-					}
-					else {
-						member = addGroup((String)object, null, null);
-					}
-					
+				for (Group member : groupMembers) {
 					member.addGroup(group);
 					groupMemberList.add(member);
 				}
@@ -304,17 +386,7 @@ public class Document {
 
 			// Add User members
 			if (userMembers != null) {
-				
-				for (Object object : userMembers) {
-					User member = null;
-					
-					if (object instanceof User) {
-						member = (User)object;
-					}
-					else {
-						member = addUser((String)object);	
-					}
-					
+				for (User member : userMembers) {
 					member.addGroup(group);
 					userMemberList.add(member);
 				}
