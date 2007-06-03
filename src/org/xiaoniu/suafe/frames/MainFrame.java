@@ -512,7 +512,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			userList.addListSelectionListener(this);
 			userList.addMouseListener(this);
 			userList.setCellRenderer(new MyListCellRenderer());
-			userList.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			userList.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
 		
 		return userList;
@@ -2199,7 +2199,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			groupList.addListSelectionListener(this);
 			groupList.addMouseListener(this);
 			groupList.setCellRenderer(new MyListCellRenderer());
-			groupList.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			groupList.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
 		
 		return groupList;
@@ -2924,7 +2924,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			userGroupList = new JList();
 			userGroupList.addMouseListener(this);
 			userGroupList.setCellRenderer(new MyListCellRenderer());
-			userGroupList.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			userGroupList.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
 		
 		return userGroupList;
@@ -3409,7 +3409,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			groupMemberList = new JList();
 			groupMemberList.addMouseListener(this);
 			groupMemberList.setCellRenderer(new MyListCellRenderer());
-			groupMemberList.setFont(new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12));
+			groupMemberList.setFont(new Font("Dialog", Font.PLAIN, 12));
 		}
 		
 		return groupMemberList;
