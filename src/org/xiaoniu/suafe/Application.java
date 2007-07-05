@@ -701,17 +701,9 @@ public class Application {
 	 * @param config JSAP configuration
 	 */
 	private static void executeCommands(JSAP jsap, JSAPResult config) {
-		PrintStream out = null;
+		PrintStream out = System.out;
 		
 		try {
-			// Initialize the output stream
-			if (config.getString(Constants.ARGS_OUTPUT_FILE) != null) {
-				out = openOutputFile(config.getString(Constants.ARGS_OUTPUT_FILE));
-			}
-			else {
-				out = System.out;
-			}
-			
 			if (config.getBoolean(Constants.ARGS_HELP)) {
 				displayUsage(out, jsap);
 				System.exit(0);
@@ -731,6 +723,11 @@ public class Application {
 			}
 			else {
 				FileParser.parse(new File(config.getString(Constants.ARGS_INPUT_FILE)));
+			}
+			
+			// Initialize the output stream
+			if (config.getString(Constants.ARGS_OUTPUT_FILE) != null) {
+				out = openOutputFile(config.getString(Constants.ARGS_OUTPUT_FILE));
 			}
 			
 			// Process the specified command
