@@ -37,6 +37,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.UserPreferences;
@@ -85,8 +86,6 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	
 	private JButton saveButton = null;
 	
-	private JPanel formSubPanel = null;
-	
 	private JList nonMemberList = null;
 	
 	private JList memberList = null;
@@ -108,6 +107,8 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JPanel actionPanel = null;
 	
 	private JPanel formPanel = null;
+	
+	private JPanel formSubPanel = null;
 	
 	private JPanel instructionsPanel = null;
 	
@@ -196,14 +197,16 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 			displayError(ResourceUtil.getFormattedString("addremovemembers.error.errorloadinggroups", e.getMessage()));
 		}
 		
-		this.setBounds(0, 0, 700, 600);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.setModal(true);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addremovemembers.title"));
 		this.setContentPane(getJContentPane());
-		this.setResizable(false);
+		this.setIconImage(ResourceUtil.serverImage);
+		this.setMinimumSize(new Dimension(500, 300));
 		
 		getRootPane().setDefaultButton(saveButton);
+		
+		this.pack();
+		this.setModal(true);
 	}
 	
 	/**
@@ -211,7 +214,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private javax.swing.JPanel getJContentPane() {
+	private JPanel getJContentPane() {
 		if(jContentPane == null) {
 			jContentPane = new JPanel(new BorderLayout());
 			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
@@ -269,18 +272,34 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	}
 	
 	/**
-	 * This method initializes formSubPanel.	
+	 * This method initializes formPanel.	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getFormPanel() {
+		if (formPanel == null) {
+			formPanel = new JPanel(new BorderLayout());
+						
+			formPanel.add(getInstructionsPanel(), BorderLayout.NORTH);
+			formPanel.add(getFormSubPanel(), BorderLayout.CENTER);
+		}
+		
+		return formPanel;
+	}
+	
+	/**
+	 * This method initializes formPanel.	
 	 * 	
 	 * @return javax.swing.JPanel	
 	 */    
 	private JPanel getFormSubPanel() {
 		if (formSubPanel == null) {
-			formSubPanel = new JPanel(new BorderLayout());
-						
-			formSubPanel.add(getInstructionsPanel(), BorderLayout.NORTH);
-			formSubPanel.add(getActionPanel(), BorderLayout.CENTER);
-			formSubPanel.add(getNonMemberPanel(), BorderLayout.WEST);
-			formSubPanel.add(getMemberPanel(), BorderLayout.EAST);
+			formSubPanel = new JPanel();
+			formSubPanel.setLayout(new BoxLayout(formSubPanel, BoxLayout.X_AXIS));
+			
+			formSubPanel.add(getNonMemberPanel());
+			formSubPanel.add(getActionPanel());			
+			formSubPanel.add(getMemberPanel());
 		}
 		
 		return formSubPanel;
@@ -328,8 +347,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 			unassignGroupButton = new JButton();
 			unassignGroupButton.addActionListener(this);
 			unassignGroupButton.setActionCommand(Constants.UNASSIGN_ACTION);
-			unassignGroupButton.setIcon(ResourceUtil.unassignIcon);
-			unassignGroupButton.setPreferredSize(new Dimension(75, 50));			
+			unassignGroupButton.setIcon(ResourceUtil.unassignIcon);			
 		}
 		
 		return unassignGroupButton;
@@ -345,7 +363,6 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 			assignGroupButton = new JButton();
 			assignGroupButton.addActionListener(this);
 			assignGroupButton.setActionCommand(Constants.ASSIGN_ACTION);
-			assignGroupButton.setPreferredSize(new Dimension(75, 50));
 			assignGroupButton.setIcon(ResourceUtil.assignIcon);
 		}
 		
@@ -386,7 +403,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JPanel getNonMemberPanel() {
 		if (nonMemberPanel == null) {
 			nonMemberPanel = new JPanel(new BorderLayout());			
-			nonMemberPanel.setPreferredSize(new Dimension(300,250));
+			nonMemberPanel.setPreferredSize(new Dimension(350,500));
 			nonMemberPanel.add(new JLabel(ResourceUtil.getString("addremovemembers.nonmembers")), BorderLayout.NORTH);
 			nonMemberPanel.add(getNonMemberListScrollPane(), BorderLayout.CENTER);
 		}
@@ -402,7 +419,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JPanel getMemberPanel() {
 		if (memberPanel == null) {
 			memberPanel = new JPanel(new BorderLayout());
-			memberPanel.setPreferredSize(new Dimension(300,250));
+			memberPanel.setPreferredSize(new Dimension(350,500));
 			memberPanel.add(new JLabel(ResourceUtil.getString("addremovemembers.members")), BorderLayout.NORTH);
 			memberPanel.add(getMemberListScrollPane(), BorderLayout.CENTER);
 		}
@@ -584,22 +601,6 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	 */
 	public void mouseExited(MouseEvent event) {
 		// Not used
-	}
-	
-	/**
-	 * This method initializes formPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getFormPanel() {
-		if (formPanel == null) {
-			formPanel = new JPanel();
-			formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
-			formPanel.add(getFormSubPanel());
-			
-		}
-		
-		return formPanel;
 	}
 	
 	/**

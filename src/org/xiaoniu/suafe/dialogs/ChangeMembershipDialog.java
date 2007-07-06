@@ -30,11 +30,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.UserPreferences;
@@ -76,6 +79,8 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	private JButton saveButton = null;
 	
 	private JPanel formPanel = null;
+	
+	private JPanel formSubPanel = null;
 	
 	private JList notMemberOfList = null;
 	
@@ -144,14 +149,16 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			displayError(ResourceUtil.getFormattedString("changemembership.error.errorloadinggroups", e.getMessage()));
 		}
 		
-		this.setBounds(0, 0, 700, 600);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		this.setModal(true);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("changemembership.title"));
 		this.setContentPane(getJContentPane());
-		this.setResizable(false);
+		this.setIconImage(ResourceUtil.serverImage);
+		this.setMinimumSize(new Dimension(500, 300));
 		
 		getRootPane().setDefaultButton(saveButton);
+		
+		this.pack();
+		this.setModal(true);
 	}
 	
 	/**
@@ -159,11 +166,11 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private javax.swing.JPanel getJContentPane() {
+	private JPanel getJContentPane() {
 		if(jContentPane == null) {
 			jContentPane = new JPanel(new BorderLayout());
-			jContentPane.add(getFormPanel(), java.awt.BorderLayout.CENTER);
-			jContentPane.add(getButtonPanel(), java.awt.BorderLayout.SOUTH);
+			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
+			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 		}
 		
 		return jContentPane;
@@ -224,14 +231,29 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	private JPanel getFormPanel() {
 		if (formPanel == null) {
 			formPanel = new JPanel(new BorderLayout());
-			formPanel.setPreferredSize(new Dimension(500,200));
-			formPanel.add(getInstructionsPanel(), java.awt.BorderLayout.NORTH);
-			formPanel.add(getActionPanel(), java.awt.BorderLayout.CENTER);
-			formPanel.add(getNonMemberPanel(), java.awt.BorderLayout.WEST);
-			formPanel.add(getMemberPanel(), java.awt.BorderLayout.EAST);
+			formPanel.add(getInstructionsPanel(), BorderLayout.NORTH);
+			formPanel.add(getFormSubPanel(), BorderLayout.CENTER);
 		}
 		
 		return formPanel;
+	}
+	
+	/**
+	 * This method initializes formPanel.	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */    
+	private JPanel getFormSubPanel() {
+		if (formSubPanel == null) {
+			formSubPanel = new JPanel();
+			formSubPanel.setLayout(new BoxLayout(formSubPanel, BoxLayout.X_AXIS));
+			
+			formSubPanel.add(getNonMemberPanel());
+			formSubPanel.add(getActionPanel());			
+			formSubPanel.add(getMemberPanel());
+		}
+		
+		return formSubPanel;
 	}
 	
 	/**
@@ -279,7 +301,6 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			unassignButton.setIcon(ResourceUtil.unassignIcon);
 			unassignButton.addActionListener(this);
 			unassignButton.setActionCommand(Constants.UNASSIGN_ACTION);
-			unassignButton.setPreferredSize(new Dimension(75, 50));
 		}
 		
 		return unassignButton;
@@ -296,7 +317,6 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			assignButton.setIcon(ResourceUtil.assignIcon);
 			assignButton.addActionListener(this);
 			assignButton.setActionCommand(Constants.ASSIGN_ACTION);
-			assignButton.setPreferredSize(new Dimension(75, 50));
 		}
 		
 		return assignButton;
@@ -337,7 +357,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 		if (nonMemberPanel == null) {
 			nonMemberPanel = new JPanel();
 			nonMemberPanel.setLayout(new BorderLayout());
-			nonMemberPanel.setPreferredSize(new Dimension(300,250));
+			nonMemberPanel.setPreferredSize(new Dimension(350,500));
 			nonMemberPanel.add(new JLabel(ResourceUtil.getString("changemembership.notmemberof")), BorderLayout.NORTH);
 			nonMemberPanel.add(getNonMemberListScrollPane(), BorderLayout.CENTER);
 		}
@@ -353,7 +373,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	private JPanel getMemberPanel() {
 		if (memberPanel == null) {
 			memberPanel = new JPanel(new BorderLayout());
-			memberPanel.setPreferredSize(new Dimension(300,250));
+			memberPanel.setPreferredSize(new Dimension(350,500));
 			memberPanel.add(new JLabel(ResourceUtil.getString("changemembership.memberof")), BorderLayout.NORTH);
 			memberPanel.add(getMemberListScrollPane(), BorderLayout.CENTER);
 		}
@@ -515,7 +535,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 	private JPanel getInstructionsPanel() {
 		if (instructionsPanel == null) {
 			instructionsPanel = new JPanel();
-			instructionsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5,0,5,0));
+			instructionsPanel.setBorder(BorderFactory.createEmptyBorder(5,0,5,0));
 			instructionsPanel.add(new JLabel(ResourceUtil.getFormattedString("changemembership.instructions", user.getName())));
 		}
 		return instructionsPanel;
