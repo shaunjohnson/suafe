@@ -449,7 +449,7 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 				displayError(ex.getMessage());
 			}
 		}
-		else if (e.getActionCommand().equals("Cancel")) {
+		else if (e.getActionCommand().equals(Constants.CANCEL_ACTION)) {
 			message.setState(Message.CANCEL);
 			dispose();
 		}		
