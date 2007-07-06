@@ -1825,4 +1825,78 @@ public class Document {
 			}
 		}
 	}
+	
+	public static String validateDocument() {
+		StringBuffer buffer = new StringBuffer();
+	
+		ArrayList<String> unsavedObjects = new ArrayList<String>();
+		
+		for (User user : users) {
+			if (user.getGroups().isEmpty() && user.getAccessRules().isEmpty()) {
+				unsavedObjects.add(user.getName());
+			}
+		}
+		
+		if (!unsavedObjects.isEmpty()) {
+			buffer.append("<p>" + ResourceUtil.getString("document.unreferencedusers") + "</p>");
+			buffer.append("<ul>");
+			
+			for (String name : unsavedObjects) {
+				buffer.append("<li>" + name + "</li>");
+			}
+			
+			buffer.append("</ul>");
+
+			unsavedObjects.clear();
+		}
+		
+		
+		for (Repository repository : repositories) {
+			if (repository.getPaths().isEmpty()) {
+				unsavedObjects.add(repository.getName());
+			}
+		}
+		
+		if (!unsavedObjects.isEmpty()) {
+			buffer.append("<p>" + ResourceUtil.getString("document.unreferencedrepos") + "</p>");
+			buffer.append("<ul>");
+			
+			for (String name : unsavedObjects) {
+				buffer.append("<li>" + name + "</li>");
+			}
+			
+			buffer.append("</ul>");
+
+			unsavedObjects.clear();
+		}
+		
+		for (Path path : paths) {
+			if (path.getAccessRules().isEmpty()) {
+				String repositoryName = (path.getRepository() == null) ? 
+						"" : path.getRepository().getName();
+				
+				unsavedObjects.add(repositoryName + path.getPath());
+			}
+		}
+		
+		if (!unsavedObjects.isEmpty()) {
+			buffer.append("<p>" + ResourceUtil.getString("document.unreferencedpaths") + "</p>");
+			buffer.append("<ul>");
+			
+			for (String name : unsavedObjects) {
+				buffer.append("<li>" + name + "</li>");
+			}
+			
+			buffer.append("</ul>");
+
+			unsavedObjects.clear();
+		}
+		
+		if (buffer.length() > 0) {
+			buffer.append("<p>" + ResourceUtil.getString("document.unreferencedobjectsprompt") + "</p>");
+		}
+		
+		return (buffer.length() == 0) ? 
+				null : "<html>" + buffer.toString() + "</html>";
+	}
 }

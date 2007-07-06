@@ -1157,6 +1157,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * File save action handler.
 	 */
 	private void fileSave() {		
+		if(!checkForUnsaveableData()) {
+			return;
+		}
+		
 		if (Document.getFile() == null) {
 			final JFileChooser fcSave = new JFileChooser();
 
@@ -1168,7 +1172,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				try {
 					File file = fcSave.getSelectedFile();
-
+					
 					FileGenerator.generate(file);
 					
 					Document.setFile(file);
@@ -1201,6 +1205,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */
 	private void fileSaveAs() {
 		final JFileChooser fcSaveAs = new JFileChooser();
+		
+		if(!checkForUnsaveableData()) {
+			return;
+		}
 
 		fcSaveAs.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fcSaveAs.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -3946,6 +3954,25 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 				fileSave();
 			}
 		}
+	}
+	
+	/**
+	 * Prompts user if there is any data that is not going to be saved.
+	 */
+	private boolean checkForUnsaveableData() {
+		String validateMessage = Document.validateDocument();
+		
+		if (validateMessage != null) {
+			int response = JOptionPane.showConfirmDialog(this,
+					validateMessage,
+					ResourceUtil.getString("application.warning"), 
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+			
+			return response == JOptionPane.YES_OPTION;
+		}
+		
+		return true;
 	}
 
 	/**
