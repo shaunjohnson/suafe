@@ -127,16 +127,20 @@ public class FileParser {
 		validateReadable(file);
 		
 		try {
+			Document.initialize();
 			input = new BufferedReader(new FileReader(file));
 			parse(input);
 		}
 		catch(FileNotFoundException fne) {
+			Document.initialize();
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.filenotfound"));
 		}
 		catch(ParserException pe) {
+			Document.initialize();
 			throw pe;
 		}
 		catch(Exception e) {
+			Document.initialize();
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
 		}
 		finally {
@@ -148,8 +152,6 @@ public class FileParser {
 					// Do nothing
 				}
 			}
-			
-			Document.initialize();
 		}		
 	}
 	
@@ -187,7 +189,7 @@ public class FileParser {
 		}
 		catch(Exception e) {
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
-		}	
+		}
 	}
 	
 	/**
