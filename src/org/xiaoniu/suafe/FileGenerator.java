@@ -64,7 +64,7 @@ public class FileGenerator {
 			for (Group group : Document.getGroups()) {	
 				output.append(group.getName() + " = ");
 				
-				if (group.getGroupMembers() != null) {
+				if (!group.getGroupMembers().isEmpty()) {
 					Collections.sort(group.getGroupMembers());
 					
 					Iterator<Group> members = group.getGroupMembers().iterator();
@@ -81,8 +81,8 @@ public class FileGenerator {
 					}
 				}
 				
-				if (group.getUserMembers() != null) {
-					if (group.getGroupMembers() != null && group.getGroupMembers().size() > 0) {
+				if (!group.getUserMembers().isEmpty()) {
+					if (!group.getGroupMembers().isEmpty()) {
 						output.append(", ");
 					}
 					
