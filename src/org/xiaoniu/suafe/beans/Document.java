@@ -334,29 +334,8 @@ public class Document {
 		Group group = findGroup(groupName);
 	
 		if (group == null) {
-			List<Group> groupMemberList = new ArrayList<Group>();
-			List<User> userMemberList = new ArrayList<User>();
-			
-			group = new Group(groupName, groupMemberList, userMemberList);
-	
-			// Add Group members
-			if (groupMemberNames != null) {
-				for (String groupMemberName : groupMemberNames) {
-					Group member = addGroup(groupMemberName);
-					member.addGroup(group);
-					groupMemberList.add(member);
-				}
-			}
-
-			// Add User members
-			if (userMemberNames != null) {
-				for (String userMemberName : userMemberNames) {
-					User member = addUser(userMemberName);					
-					member.addGroup(group);
-					userMemberList.add(member);
-				}
-			}
-			
+			group = new Group(groupName);
+			addMembersByName(group, groupMemberNames, userMemberNames);			
 			groups.add(group);
 		}
 		
@@ -1822,5 +1801,28 @@ public class Document {
 		}
 		
 		return null;
+	}
+
+	public static void addMembersByName(Group group, List<String> groupMemberNames, List<String> userMemberNames) throws ApplicationException {
+		List<Group> groupMemberList = group.getGroupMembers();
+		List<User> userMemberList = group.getUserMembers();
+
+		// Add Group members
+		if (groupMemberNames != null) {
+			for (String groupMemberName : groupMemberNames) {
+				Group member = addGroup(groupMemberName);
+				member.addGroup(group);
+				groupMemberList.add(member);
+			}
+		}
+
+		// Add User members
+		if (userMemberNames != null) {
+			for (String userMemberName : userMemberNames) {
+				User member = addUser(userMemberName);					
+				member.addGroup(group);
+				userMemberList.add(member);
+			}
+		}
 	}
 }

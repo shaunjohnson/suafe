@@ -69,6 +69,21 @@ public class Group extends GroupMemberObject implements Comparable<Group> {
 	}
 	
 	/**
+	 * Constructor that accepts the group name.
+	 * 
+	 * @param name Name of the group.
+	 */
+	public Group(String name) {
+		super();
+		
+		this.name = name;
+		this.groups = new ArrayList<Group>();
+		this.userMembers = new ArrayList<User>();
+		this.groupMembers = new ArrayList<Group>();
+		this.accessRules = new ArrayList<AccessRule>();
+	}
+	
+	/**
 	 * Constructor that accepts the group name and list of User members.
 	 * 
 	 * @param name Name of the group.

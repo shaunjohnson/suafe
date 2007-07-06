@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.xiaoniu.suafe.beans.Document;
+import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
@@ -318,15 +319,28 @@ public class FileParser {
 						}
 					}
 					
-					if (Document.findGroup(name) != null) {
-						throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicategroup", name));
-					}
+					Group existingGroup = Document.findGroup(name);
 					
-					try {
-						Document.addGroupByName(name, groupMembers, userMembers);
+					if (existingGroup == null) {
+						try {
+							Document.addGroupByName(name, groupMembers, userMembers);
+						}
+						catch (ApplicationException ae) {
+							throw ParserException.generateException(lineNumber, ae.getMessage());
+						}
 					}
-					catch (ApplicationException ae) {
-						throw ParserException.generateException(lineNumber, ae.getMessage());
+					else {
+						// Group already exists.
+						
+						if (existingGroup.getGroupMembers().isEmpty() && existingGroup.getUserMembers().isEmpty()) {
+							// Existing group does not have any members
+							Document.addMembersByName(existingGroup, groupMembers, userMembers);
+							
+						}
+						else {
+							// Existing group already has memebers. This is likely a duplicate group definition
+							throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicategroup", name));
+						}
 					}
 				}
 				else if (currentState == STATE_PROCESS_RULES || currentState == STATE_PROCESS_SERVER_RULES) {
