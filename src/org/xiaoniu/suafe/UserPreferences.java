@@ -136,13 +136,26 @@ public class UserPreferences {
 		}		
 	}
 	
+	public static void resetSettings() {
+		prefs.remove(FONT_STYLE);
+		prefs.remove(GROUP_DETAILS_DIVIDER_LOCATION);
+		prefs.remove(GROUPS_PANE_DIVIDER_LOCATION);
+		prefs.remove(OPEN_LAST_FILE);
+		prefs.remove(RULES_PANE_DIVIDER_LOCATION);
+		prefs.remove(USER_DETAILS_DIVIDER_LOCATION);
+		prefs.remove(USERS_PANE_DIVIDER_LOCATION);
+		prefs.remove(WINDOW_LOCATION);
+		prefs.remove(WINDOW_SIZE);
+		prefs.remove(WINDOW_STATE);
+	}
+	
 	/**
 	 * Retrieves "open last edited file" setting from Preferences.
 	 * 
 	 * @return true if setting is enabled, otherwise false
 	 */
 	public static boolean getOpenLastFile() {
-		String selected = prefs.get(OPEN_LAST_FILE, Boolean.toString(false));
+		String selected = prefs.get(OPEN_LAST_FILE, Boolean.toString(true));
 		
 		return Boolean.parseBoolean(selected);
 	}

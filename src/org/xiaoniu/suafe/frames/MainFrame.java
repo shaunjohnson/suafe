@@ -361,6 +361,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 	private JMenuItem statisticsMenuItem = null;
 	
+	private JMenuItem resetSettingsMenuItem = null;
+	
 	/**
 	 * Default constructor
 	 */
@@ -379,23 +381,13 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		this.fileTransferHandler = new FileTransferHandler(this);
 		this.addKeyListener(this);
 		this.addWindowListener(this);
-		this.setSize(UserPreferences.getWindowSize());
-		
-		Point location = UserPreferences.getWindowLocation();
-		
-		if (location == null) {
-			this.center();
-		}
-		else {
-			this.setLocation(location);
-		}
-		
-		this.setExtendedState(UserPreferences.getWindowState());
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setIconImage(ResourceUtil.serverImage);
 		this.setJMenuBar(getJJMenuBar());		
 		this.setContentPane(getJContentPane());
 		addTransferHandler(this);
+		
+		loadUserPreferences();
 		
 		getGroupsPopupMenu();
 		getUsersPopupMenu();
@@ -408,6 +400,58 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		refreshTabNames();
+	}
+	
+	private void loadUserPreferences() {
+		this.setVisible(false);
+		
+		changeFont(UserPreferences.getUserFontStyle());
+		
+		this.setSize(UserPreferences.getWindowSize());
+		
+		Point location = UserPreferences.getWindowLocation();
+		
+		if (location == null) {
+			this.center();
+		}
+		else {
+			this.setLocation(location);
+		}
+		
+		this.setExtendedState(UserPreferences.getWindowState());
+		
+		getGroupDetailsSplitPanel().setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
+		getGroupsSplitPane().setDividerLocation(UserPreferences.getGroupsPaneDividerLocation());
+		getUserDetailsSplitPanel().setDividerLocation(UserPreferences.getUserDetailsDividerLocation());
+		getUsersSplitPane().setDividerLocation(UserPreferences.getUsersPaneDividerLocation());
+		getAccessRulesSplitPane().setDividerLocation(UserPreferences.getRulesPaneDividerLocation());
+		
+		getOpenLastFileMenuItem().setSelected(UserPreferences.getOpenLastFile());
+		
+		this.setVisible(true);
+	}
+	
+	private void saveUserPreferences() {
+		this.setVisible(false);
+		
+		UserPreferences.setWindowState(getExtendedState());
+		
+		this.setExtendedState(JFrame.NORMAL);
+		UserPreferences.setWindowSize(getSize());
+		
+		UserPreferences.setWindowLocation(getLocation());
+		UserPreferences.setGroupDetailsDividerLocation(
+				getGroupDetailsSplitPanel().getDividerLocation());
+		UserPreferences.setGroupsPaneDividerLocation(
+				getGroupsSplitPane().getDividerLocation());
+		
+		UserPreferences.setUserDetailsDividerLocation(
+				getUserDetailsSplitPanel().getDividerLocation());
+		UserPreferences.setUsersPaneDividerLocation(
+				getUsersSplitPane().getDividerLocation());
+	
+		UserPreferences.setRulesPaneDividerLocation(
+				getAccessRulesSplitPane().getDividerLocation());
 	}
 
 	private void addTransferHandler(Container container) {
@@ -685,6 +729,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		UserPreferences.clearRecentFiles();
 		
 		recentFilesMenu.removeAll();
+	}
+	
+	private void resetSettings() {
+		UserPreferences.resetSettings();
+		loadUserPreferences();
 	}
 	
 	/**
@@ -2181,6 +2230,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			fileOpen(9);
 		} else if (e.getActionCommand().equals(Constants.CLEAR_RECENT_FILES_ACTION)) {
 			clearRecentFiles();
+		} else if (e.getActionCommand().equals(Constants.RESET_SETTINGS_ACTION)) {
+			resetSettings();
 		} else {
 			displayError(ResourceUtil.getString("application.error"));
 		}
@@ -3910,23 +3961,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */
 	public void windowClosing(WindowEvent event) {
 		checkForUnsavedChanges();
-		UserPreferences.setWindowState(getExtendedState());
-		
-		this.setExtendedState(JFrame.NORMAL);
-		UserPreferences.setWindowSize(getSize());
-		
-		UserPreferences.setWindowLocation(getLocation());
-		UserPreferences.setUsersPaneDividerLocation(
-				getUsersSplitPane().getDividerLocation());
-		UserPreferences.setGroupsPaneDividerLocation(
-				getGroupsSplitPane().getDividerLocation());
-		UserPreferences.setRulesPaneDividerLocation(
-				getAccessRulesSplitPane().getDividerLocation());
-		UserPreferences.setUserDetailsDividerLocation(
-				getUserDetailsSplitPanel().getDividerLocation());
-		UserPreferences.setUsersPaneDividerLocation(
-				getGroupDetailsSplitPanel().getDividerLocation());
-		
+		saveUserPreferences();
 	}
 
 	/**
@@ -4087,6 +4122,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			settingsMenu.add(getMonospacedRadioButtonMenuItem());
 			settingsMenu.add(getSansSerifRadioButtonMenuItem());
 			settingsMenu.add(getSerifRadioButtonMenuItem());
+			settingsMenu.add(new JSeparator());
+			settingsMenu.add(getResetSettingsMenuItem());
 			
 			ButtonGroup group = new ButtonGroup();
 			group.add(getMonospacedRadioButtonMenuItem());
@@ -4095,6 +4132,22 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		return settingsMenu;
+	}
+	
+	/**
+	 * This method initializes resetSettingsMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getResetSettingsMenuItem() {
+		if (resetSettingsMenuItem == null) {
+			resetSettingsMenuItem = new JMenuItem();
+			resetSettingsMenuItem.addActionListener(this);
+			resetSettingsMenuItem.setActionCommand(Constants.RESET_SETTINGS_ACTION);
+			resetSettingsMenuItem.setText(ResourceUtil.getString("menu.settings.resetsettings"));			
+		}
+		
+		return resetSettingsMenuItem;
 	}
 			
 	/**
