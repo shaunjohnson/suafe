@@ -3911,7 +3911,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	public void windowClosing(WindowEvent event) {
 		checkForUnsavedChanges();
 		UserPreferences.setWindowState(getExtendedState());
+		
+		this.setExtendedState(JFrame.NORMAL);
 		UserPreferences.setWindowSize(getSize());
+		
 		UserPreferences.setWindowLocation(getLocation());
 		UserPreferences.setUsersPaneDividerLocation(
 				getUsersSplitPane().getDividerLocation());
