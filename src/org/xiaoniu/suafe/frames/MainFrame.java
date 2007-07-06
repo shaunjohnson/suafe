@@ -3002,6 +3002,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			userAccessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
 			userAccessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);	
 			userAccessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+			userAccessRulesTable.setAutoCreateRowSorter(true);
 		}
 		
 		return userAccessRulesTable;
@@ -3173,6 +3174,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			groupAccessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
 			groupAccessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);	
 			groupAccessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+			groupAccessRulesTable.setAutoCreateRowSorter(true);
 		}
 		
 		return groupAccessRulesTable;
@@ -3345,6 +3347,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			accessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);
 			accessRulesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			accessRulesTable.getSelectionModel().addListSelectionListener(this);
+			accessRulesTable.setAutoCreateRowSorter(true);
 		}
 		
 		return accessRulesTable;
