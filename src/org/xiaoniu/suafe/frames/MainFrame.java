@@ -70,6 +70,7 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -82,6 +83,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.xiaoniu.suafe.AutofitTableColumns;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.FileGenerator;
 import org.xiaoniu.suafe.FileOpener;
@@ -432,9 +434,9 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	}
 	
 	private void saveUserPreferences() {
-		this.setVisible(false);
-		
 		UserPreferences.setWindowState(getExtendedState());
+		
+		this.setVisible(false);
 		
 		this.setExtendedState(JFrame.NORMAL);
 		UserPreferences.setWindowSize(getSize());
@@ -3059,6 +3061,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		getUserAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getUserAccessRulesTable(), true);
 	}
 	
 	/**
@@ -3094,6 +3097,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		getGroupAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getGroupAccessRulesTable(), true);
 	}
 
 	/**
@@ -3331,8 +3335,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			accessRulesTable.addMouseListener(this);
 			accessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
 			accessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);
-			accessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-			accessRulesTable.getSelectionModel().addListSelectionListener(this);			
+			accessRulesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			accessRulesTable.getSelectionModel().addListSelectionListener(this);
 		}
 		
 		return accessRulesTable;
@@ -3596,6 +3600,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesTable(), true);
 		getEditAccessRuleButton().setEnabled(false);
 		getDeleteAccessRuleButton().setEnabled(false);
 	}
@@ -3616,6 +3621,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesTable(), true);
 	}
 	
 	/**
@@ -3632,6 +3638,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesTable(), true);
 	}
 	
 	/**
