@@ -147,6 +147,8 @@ public class FileParser {
 					// Do nothing
 				}
 			}
+			
+			Document.initialize();
 		}		
 	}
 	
