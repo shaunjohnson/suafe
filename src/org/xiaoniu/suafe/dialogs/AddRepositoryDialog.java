@@ -86,13 +86,14 @@ public class AddRepositoryDialog extends ParentDialog implements ActionListener 
 	 */
 	private void initialize() {
 		this.setResizable(false);
-		this.setModal(true);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addrepository.title"));
-		this.setSize(470, 135);
 		this.setContentPane(getJContentPane());
 		
 		getRootPane().setDefaultButton(addButton);
+		
+		this.pack();
+		this.setModal(true);
 	}
 	
 	/**

@@ -89,10 +89,11 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("about.title"));
-		this.setSize(300, 200);
 		this.setContentPane(getJContentPane());
-		this.setModal(true);
 		this.getRootPane().setDefaultButton(getOkButton());
+		
+		this.setSize(300, 200);
+		this.setModal(true);
 	}
 	
 	/**

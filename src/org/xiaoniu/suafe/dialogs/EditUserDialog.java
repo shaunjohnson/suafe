@@ -90,13 +90,14 @@ public class EditUserDialog extends ParentDialog implements ActionListener {
 	 */
 	private void initialize() {
 		this.setResizable(false);
-		this.setModal(true);
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("edituser.title"));
-		this.setSize(450, 135);
 		this.setContentPane(getJContentPane());
 		
 		getRootPane().setDefaultButton(getSaveButton());
+		
+		this.pack();
+		this.setModal(true);
 	}
 
 	/**

@@ -85,13 +85,14 @@ public class AddGroupDialog extends ParentDialog implements ActionListener {
 	 */
 	private void initialize() {
 		this.setResizable(false);
-		this.setModal(true);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("addgroup.title"));
-		this.setSize(450, 135);
 		this.setContentPane(getJContentPane());
 		
 		getRootPane().setDefaultButton(getAddButton());
+		
+		this.pack();
+		this.setModal(true);
 	}
 	
 	/**

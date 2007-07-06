@@ -158,13 +158,14 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	 */
 	private void initialize() {
 		this.setResizable(false);
-		this.setModal(true);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("editaccessrule.title"));
-		this.setSize(500, 256);
 		this.setContentPane(getJContentPane());
 		
 		getRootPane().setDefaultButton(addButton);
+		
+		this.pack();
+		this.setModal(true);
 	}
 	
 	/**
