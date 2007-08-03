@@ -23,6 +23,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
@@ -55,7 +57,8 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class ChangeMembershipDialog extends ParentDialog implements ActionListener, MouseListener {
+public class ChangeMembershipDialog extends ParentDialog implements 
+	ActionListener, KeyListener, MouseListener {
 
 	/**
 	 * Serial ID.
@@ -539,5 +542,41 @@ public class ChangeMembershipDialog extends ParentDialog implements ActionListen
 			instructionsPanel.add(new JLabel(ResourceUtil.getFormattedString("changemembership.instructions", user.getName())));
 		}
 		return instructionsPanel;
+	}
+	
+	/**
+	 * KeyTyped event handler. Not used.
+	 * 
+	 * @param event KeyEvent object.
+	 */
+	public void keyTyped(KeyEvent event) {
+		// Unused
+	}
+
+	/**
+	 * KeyPressed event handler.
+	 * 
+	 * @param event KeyEvent object.
+	 */
+	public void keyPressed(KeyEvent event) {
+		int code = event.getKeyCode();
+		
+		if (code == KeyEvent.VK_SPACE) {
+			if (event.getComponent() == getMemberOfList()) {
+				unassign();
+			}
+			else if (event.getComponent() == getNotMemberOfList()) {
+				assign();
+			}
+		}
+	}
+
+	/**
+	 * KeyReleased event handler. Not used.
+	 * 
+	 * @param event KeyEvent object.
+	 */
+	public void keyReleased(KeyEvent event) {
+		// Unused
 	}
 }

@@ -113,6 +113,8 @@ public class ResourceUtil {
 
 	public static final ImageIcon accessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Reversed.gif"));
 	
+	public static final ImageIcon listAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Leaf16.gif"));
+	
 	public static final ImageIcon fullSizeAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Reversed.gif"));
 	
 	public static final ImageIcon addAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleAdd.gif"));

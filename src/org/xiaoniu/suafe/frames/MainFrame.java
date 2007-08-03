@@ -365,6 +365,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	
 	private JMenuItem resetSettingsMenuItem = null;
 	
+	private JMenu viewMenu = null;
+	
+	private JMenuItem viewUsersMenuItem = null;
+	
+	private JMenuItem viewGroupsMenuItem = null;
+	
+	private JMenuItem viewRulesMenuItem = null;
+	
 	/**
 	 * Default constructor
 	 */
@@ -606,6 +614,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			menuBar = new JMenuBar();
 			menuBar.add(getFileMenu());
 			menuBar.add(getActionMenu());
+			menuBar.add(getViewMenu());
 			menuBar.add(getReportsMenu());
 			menuBar.add(getSettingsMenu());
 			menuBar.add(getHelpMenu());
@@ -1615,7 +1624,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 								Constants.MIME_HTML);
 						frame.setVisible(true);
 					}
-					catch (ApplicationException e) {
+					catch (ApplicationException ae) {
+						displayError(ae.getMessage());
+					}
+					catch (Exception e) {
 						displayError(e.getMessage());
 					}
 				}
@@ -2242,8 +2254,14 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			clearRecentFiles();
 		} else if (e.getActionCommand().equals(Constants.RESET_SETTINGS_ACTION)) {
 			resetSettings();
+		} else if (e.getActionCommand().equals(Constants.VIEW_USERS_ACTION)) {
+			getMainTabbedPane().setSelectedComponent(getUsersSplitPane());
+		} else if (e.getActionCommand().equals(Constants.VIEW_GROUPS_ACTION)) {
+			getMainTabbedPane().setSelectedComponent(getGroupsSplitPane());
+		} else if (e.getActionCommand().equals(Constants.VIEW_RULES_ACTION)) {
+			getMainTabbedPane().setSelectedComponent(getAccessRulesSplitPane());
 		} else {
-			displayError(ResourceUtil.getString("application.error"));
+			displayError(ResourceUtil.getString("application.erroroccurred"));
 		}
 		
 		refreshTabNames();
@@ -2393,6 +2411,77 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		}
 		
 		return actionMenu;
+	}
+	
+	/**
+	 * This method initializes viewMenu.
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getViewMenu() {
+		if (viewMenu == null) {
+			viewMenu = new JMenu();
+			viewMenu.setText(ResourceUtil.getString("menu.view"));
+			viewMenu.add(getViewUsersMenuItem());
+			viewMenu.add(getViewGroupsMenuItem());
+			viewMenu.add(getViewRulesMenuItem());
+		}
+		
+		return viewMenu;
+	}
+	
+	/**
+	 * This method initializes viewUsersMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getViewUsersMenuItem() {
+		if (viewUsersMenuItem == null) {
+			viewUsersMenuItem = new JMenuItem();
+			viewUsersMenuItem.addActionListener(this);
+			viewUsersMenuItem.setActionCommand(Constants.VIEW_USERS_ACTION);
+			viewUsersMenuItem.setIcon(ResourceUtil.userIcon);
+			viewUsersMenuItem.setText(ResourceUtil.getString("menu.view.viewusers"));
+			viewUsersMenuItem.setAccelerator(KeyStroke.getKeyStroke('1', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+		}
+		
+		return viewUsersMenuItem;
+	}
+
+	/**
+	 * This method initializes viewGroupsMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getViewGroupsMenuItem() {
+		if (viewGroupsMenuItem == null) {
+			viewGroupsMenuItem = new JMenuItem();
+			viewGroupsMenuItem.addActionListener(this);
+			viewGroupsMenuItem.setActionCommand(Constants.VIEW_GROUPS_ACTION);
+			viewGroupsMenuItem.setIcon(ResourceUtil.groupIcon);
+			viewGroupsMenuItem.setText(ResourceUtil.getString("menu.view.viewgroups"));
+			viewGroupsMenuItem.setAccelerator(KeyStroke.getKeyStroke('2', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+		}
+		
+		return viewGroupsMenuItem;
+	}
+
+	/**
+	 * This method initializes viewRulesMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getViewRulesMenuItem() {
+		if (viewRulesMenuItem == null) {
+			viewRulesMenuItem = new JMenuItem();
+			viewRulesMenuItem.addActionListener(this);
+			viewRulesMenuItem.setActionCommand(Constants.VIEW_RULES_ACTION);
+			viewRulesMenuItem.setIcon(ResourceUtil.listAccessRuleIcon);
+			viewRulesMenuItem.setText(ResourceUtil.getString("menu.view.viewrules"));
+			viewRulesMenuItem.setAccelerator(KeyStroke.getKeyStroke('3', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+		}
+		
+		return viewRulesMenuItem;
 	}
 
 	/**

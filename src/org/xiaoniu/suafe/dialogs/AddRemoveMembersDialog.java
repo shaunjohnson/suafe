@@ -23,6 +23,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
@@ -55,7 +57,8 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class AddRemoveMembersDialog extends ParentDialog implements ActionListener, MouseListener {
+public class AddRemoveMembersDialog extends ParentDialog implements 
+	ActionListener, KeyListener, MouseListener {
 
 	/**
 	 * Serial ID.
@@ -313,6 +316,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JList getNonMemberList() {
 		if (nonMemberList == null) {
 			nonMemberList = new JList(nonMembers);
+			nonMemberList.addKeyListener(this);
 			nonMemberList.addMouseListener(this);
 			nonMemberList.setCellRenderer(new MyListCellRenderer());
 			nonMemberList.setFont(UserPreferences.getUserFont());
@@ -329,6 +333,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	private JList getMemberList() {
 		if (memberList == null) {
 			memberList = new JList(members);
+			memberList.addKeyListener(this);
 			memberList.addMouseListener(this);
 			memberList.setCellRenderer(new MyListCellRenderer());
 			memberList.setFont(UserPreferences.getUserFont());
@@ -616,5 +621,41 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 		}
 		
 		return instructionsPanel;
+	}
+	
+	/**
+	 * KeyTyped event handler. Not used.
+	 * 
+	 * @param event KeyEvent object.
+	 */
+	public void keyTyped(KeyEvent event) {
+		// Unused
+	}
+
+	/**
+	 * KeyPressed event handler.
+	 * 
+	 * @param event KeyEvent object.
+	 */
+	public void keyPressed(KeyEvent event) {
+		int code = event.getKeyCode();
+		
+		if (code == KeyEvent.VK_SPACE) {
+			if (event.getComponent() == getMemberList()) {
+				unassignMembers();
+			}
+			else if (event.getComponent() == getNonMemberList()) {
+				assignMembers();
+			}
+		}
+	}
+
+	/**
+	 * KeyReleased event handler. Not used.
+	 * 
+	 * @param event KeyEvent object.
+	 */
+	public void keyReleased(KeyEvent event) {
+		// Unused
 	}
  }

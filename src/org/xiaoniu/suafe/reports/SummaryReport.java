@@ -178,7 +178,7 @@ public class SummaryReport implements GenericReport {
 		
 		report.append("</blockquote>");
 		
-		report.append("<h2>" + ResourceUtil.getString("summaryreport.serverrules") + "<</h2>");
+		report.append("<h2>" + ResourceUtil.getString("summaryreport.serverrules") + "</h2>");
 		
 		List<Path> serverPaths = Document.getPaths();
 		Collections.sort(serverPaths, new PathComparator());
@@ -268,7 +268,7 @@ public class SummaryReport implements GenericReport {
 			report.append("<blockquote><p>Members</p>");
 			
 			if (groupMembers.size() == 0 && userMembers.size() == 0) {
-				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.nomembers") + "<</p></blockquote>");
+				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.nomembers") + "</p></blockquote>");
 			}
 			else {
 				report.append("<ul>");
@@ -284,10 +284,10 @@ public class SummaryReport implements GenericReport {
 				report.append("</ul>");
 			}
 						
-			report.append("<p>" + ResourceUtil.getString("summaryreport.rules") + "<</p>");
+			report.append("<p>" + ResourceUtil.getString("summaryreport.rules") + "</p>");
 			
 			if (rules.size() == 0) {
-				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "<</p></blockquote>");
+				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>");
 			}
 			else {
 				report.append("<ul>");
@@ -323,10 +323,10 @@ public class SummaryReport implements GenericReport {
 			Collections.sort(userGroups);
 			Collections.sort(rules);
 			
-			report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.groups") + "<</p>");
+			report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.groups") + "</p>");
 			
 			if (userGroups.size() == 0) {
-				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.nogroups") + "<</p></blockquote>");
+				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.nogroups") + "</p></blockquote>");
 			}
 			else {
 				report.append("<ul>");
@@ -338,10 +338,10 @@ public class SummaryReport implements GenericReport {
 				report.append("</ul>");
 			}
 			
-			report.append("<p>" + ResourceUtil.getString("summaryreport.rules") + "<</p>");
+			report.append("<p>" + ResourceUtil.getString("summaryreport.rules") + "</p>");
 			
 			if (rules.size() == 0) {
-				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "<</p></blockquote>");
+				report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>");
 			}
 			else {
 				report.append("<ul>");
@@ -437,85 +437,89 @@ public class SummaryReport implements GenericReport {
 				
 				for (String key : projects.keySet()) {
 					Project projectBean = projects.get(key);
+					List<AccessRule> rules = null;
 					
 					report.append("<p><strong>" + key + "</strong></p><blockquote>");
 					
-					report.append("<p>" + ResourceUtil.getString("summaryreport.branches") + "</p>");
-					
-					List<AccessRule> rules = projectBean.branches.getAccessRules();
-					Collections.sort(rules);
-					
-					if (rules.size() == 0) {
-						report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
-					}
-					else {
-						report.append("<ul>");
+					if (projectBean.branches != null) {
+						report.append("<p>" + ResourceUtil.getString("summaryreport.branches") + "</p>");
+						rules = projectBean.branches.getAccessRules();
+						Collections.sort(rules);
 						
-						for (AccessRule rule : rules) {
-							if (rule.getGroup() != null) {
-								report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = " + rule.getLevelFullName() + "</li>");
-							}
-							else if (rule.getUser() != null) {
-								report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
-							}
-							else {
-								throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
-							}
+						if (rules.size() == 0) {
+							report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
 						}
-						
-						report.append("</ul>");
-					}
-					
-					report.append("<p>" + ResourceUtil.getString("summaryreport.tags") + "</p>");
-					
-					rules = projectBean.tags.getAccessRules();
-					Collections.sort(rules);
-					
-					if (rules.size() == 0) {
-						report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
-					}
-					else {
-						report.append("<ul>");
-						
-						for (AccessRule rule : rules) {
-							if (rule.getGroup() != null) {
-								report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = " + rule.getLevelFullName() + "</li>");
+						else {
+							report.append("<ul>");
+							
+							for (AccessRule rule : rules) {
+								if (rule.getGroup() != null) {
+									report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = " + rule.getLevelFullName() + "</li>");
+								}
+								else if (rule.getUser() != null) {
+									report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
+								}
+								else {
+									throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
+								}
 							}
-							else if (rule.getUser() != null) {
-								report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
-							}
-							else {
-								throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
-							}
+							
+							report.append("</ul>");
 						}
-						
-						report.append("</ul>");
 					}
 					
-					report.append("<p>" + ResourceUtil.getString("summaryreport.trunk") + "</p>");
-					
-					rules = projectBean.trunk.getAccessRules();
-					Collections.sort(rules);
-					
-					if (rules.size() == 0) {
-						report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
-					}
-					else {
-						report.append("<ul>");
+					if (projectBean.tags != null) {
+						report.append("<p>" + ResourceUtil.getString("summaryreport.tags") + "</p>");
+						rules = projectBean.tags.getAccessRules();
+						Collections.sort(rules);
 						
-						for (AccessRule rule : rules) {
-							if (rule.getGroup() != null) {
-								report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = " + rule.getLevelFullName() + "</li>");
-							}
-							else if (rule.getUser() != null) {
-								report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
-							}
-							else {
-								throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
-							}
+						if (rules.size() == 0) {
+							report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
 						}
+						else {
+							report.append("<ul>");
+							
+							for (AccessRule rule : rules) {
+								if (rule.getGroup() != null) {
+									report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = " + rule.getLevelFullName() + "</li>");
+								}
+								else if (rule.getUser() != null) {
+									report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
+								}
+								else {
+									throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
+								}
+							}
+							
+							report.append("</ul>");
+						}
+					}
+					
+					if (projectBean.trunk != null) {
+						report.append("<p>" + ResourceUtil.getString("summaryreport.trunk") + "</p>");
+						rules = projectBean.trunk.getAccessRules();
+						Collections.sort(rules);
 						
-						report.append("</ul>");
+						if (rules.size() == 0) {
+							report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules") + "</p></blockquote>>");
+						}
+						else {
+							report.append("<ul>");
+							
+							for (AccessRule rule : rules) {
+								if (rule.getGroup() != null) {
+									report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = " + rule.getLevelFullName() + "</li>");
+								}
+								else if (rule.getUser() != null) {
+									report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
+								}
+								else {
+									throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
+								}
+							}
+							
+							report.append("</ul>");
+						}
 					}
 					
 					report.append("</blockquote>");
