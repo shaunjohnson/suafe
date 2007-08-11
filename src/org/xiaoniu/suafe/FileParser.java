@@ -314,10 +314,16 @@ public class FileParser {
 						String member = tokens.nextToken();
 						
 						if (member.charAt(0) == '@') {
-							groupMembers.add(member.substring(1, member.length()));
+							String memberGroupName = member.substring(1, member.length());
+							
+							if (!groupMembers.contains(memberGroupName)) {
+								groupMembers.add(memberGroupName);
+							}
 						}
 						else {
-							userMembers.add(member);
+							if (!userMembers.contains(member)) {
+								userMembers.add(member);
+							}
 						}
 					}
 					

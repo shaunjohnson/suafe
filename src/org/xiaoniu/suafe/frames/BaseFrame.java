@@ -21,6 +21,9 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
  * Base class for all windows. Provides functions useful in all windows.
@@ -45,5 +48,29 @@ public class BaseFrame extends JFrame {
 		int y = (screenSize.height - this.getHeight()) / 2;
 
 		this.setLocation(x, y);
+	}
+	
+	/**
+	 * Generic error message dialog.
+	 * 
+	 * @param message Error message to display.
+	 */
+	protected void displayError(String message) {
+		JOptionPane.showMessageDialog(this, 
+				message, 
+				ResourceUtil.getString("application.error"), 
+				JOptionPane.ERROR_MESSAGE);
+	}
+
+	/**
+	 * Generic warning message dialog.
+	 * 
+	 * @param message Warning message to display.
+	 */
+	protected void displayWarning(String message) {
+		JOptionPane.showMessageDialog(this, 
+				message, 
+				ResourceUtil.getString("application.warning"), 
+				JOptionPane.WARNING_MESSAGE);
 	}
 }

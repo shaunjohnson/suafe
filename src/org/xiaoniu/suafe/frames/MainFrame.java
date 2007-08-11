@@ -129,241 +129,147 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
-		ListSelectionListener, MouseListener, TreeSelectionListener, 
-		WindowListener, FileOpener {
+public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
+	KeyListener, ListSelectionListener, MouseListener, TreeSelectionListener, 
+	WindowListener {
 
 	private static final long serialVersionUID = -4378074679449146788L;
+
+	private FileTransferHandler fileTransferHandler = null;
+
+	private final Font plainFont = new Font(null, Font.PLAIN, 12);
 	
-	private JPanel contentPane = null;  
-
-	private JTabbedPane mainTabbedPane = null;  
-
-	private JSplitPane usersSplitPane = null;
-
-	private JList userList = null;
-
-	private JSplitPane groupsSplitPane = null;
-
-	private JPanel userDetailsPanel = null;  
-
-	private JMenuBar menuBar = null;  
-
-	private JMenu fileMenu = null;  
-	
-	private JMenu recentFilesMenu = null;
-
-	private JMenuItem newFileMenuItem = null;
-
-	private JMenuItem openFileMenuItem = null;  
-
-	private JMenuItem saveFileMenuItem = null;
-
-	private JMenuItem saveAsMenuItem = null;
-
-	private JMenu helpMenu = null;
-
-	private JMenuItem helpMenuItem = null;
-
-	private JMenuItem aboutMenuItem = null;
-
-	private JMenuItem exitMenuItem = null;
-
-	private JList groupList = null;  
-
-	private JMenuItem licenseMenuItem = null;
-
-	private JPanel groupDetailsPanel = null;
-	
-	private Object[] userAccessRulesColumnNames;
-
-	private Object[] groupAccessRulesColumnNames;
-	
-	private Object[] repositoryAccessRulesColumnNames;
-	
-	private Object[] pathAccessRulesColumnNames;
-	
-	private Object[] serverAccessRulesColumnNames;
-	
-	private JMenu actionMenu = null;  
-
-	private JMenuItem addUserMenuItem = null;
-
-	private JMenuItem addGroupMenuItem = null;
-
-	private JMenuItem addAccessRuleMenuItem = null;  
-
-	private JScrollPane userListScrollPane = null;
-
-	private JScrollPane groupListScrollPane = null;
-
-	private JToolBar actionToolBar = null;  
-
+	private JButton addAccessRuleButton = null;
+	private JButton addAccessRuleToolbarButton = null;  
+	private JButton addGroupButton = null;  
+	private JButton addGroupToolbarButton = null;
+	private JButton addRemoveMembersButton = null;
+	private JButton addUserButton = null;  
 	private JButton addUserToolbarButton = null;
-
+	private JButton changeMembershipButton = null;
+	private JButton cloneGroupButton = null;
+	private JButton cloneUserButton = null;
+	private JButton deleteAccessRuleButton = null; 
+	private JButton deleteGroupButton = null;
+	private JButton deleteTreeItemButton = null;
+	private JButton deleteUserButton = null;
+	private JButton editAccessRuleButton = null;
+	private JButton editGroupButton = null;
+	private JButton editTreeItemButton = null;
+	private JButton editUserButton = null; 
 	private JButton newFileToolbarButton = null;
-	
 	private JButton openFileToolbarButton = null;
-	
+	private JButton previewToolbarButton = null;
+	private JButton saveFileAsToolbarButton = null;
 	private JButton saveFileToolbarButton = null;
 	
-	private JButton saveFileAsToolbarButton = null;
-	
-	private JButton addGroupToolbarButton = null;  
-
-	private JButton previewToolbarButton = null;
-
-	private JButton addAccessRuleToolbarButton = null;  
-
-	private JPanel userActionsPanel = null;
-
-	private JButton editUserButton = null;  
-
-	private JButton addUserButton = null;  
-	
-	private JButton cloneUserButton = null;
-
-	private JButton deleteUserButton = null;
-
-	private JButton changeMembershipButton = null;
-
-	private JPanel groupActionsPanel = null;  
-
-	private JButton addGroupButton = null;  
-
-	private JButton cloneGroupButton = null;
-	
-	private JButton editGroupButton = null;  
-
-	private JButton deleteGroupButton = null;
-
-	private JButton addRemoveMembersButton = null;
-
-	private JPopupMenu usersPopupMenu = null; 
-
-	private JMenuItem addUserPopupMenuItem = null;  
-
-	private JMenuItem editUserPopupMenuItem = null;
-
-	private JMenuItem deleteUserPopupMenuItem = null;  
-
-	private JMenuItem changeMembershipPopupMenuItem = null;
-
-	private JPopupMenu groupsPopupMenu = null;  
-
-	private JMenuItem addGroupPopupMenuItem = null;
-
-	private JMenuItem editGroupPopupMenuItem = null;
-
-	private JMenuItem deleteGroupPopupMenuItem = null;
-
-	private JMenuItem addRemoveMembersPopupMenuItem = null;  
-
-	private JButton addAccessRuleButton = null;
-
-	private JButton editAccessRuleButton = null;
-
-	private JButton deleteAccessRuleButton = null;  
-
-	private JSplitPane userDetailsSplitPanel = null;  
-
-	private JList userGroupList = null;  
-
-	private JTable userAccessRulesTable = null;
-
-	private JScrollPane userAccessRulesScrollPane = null;  
-
-	private JScrollPane userGroupListScrollPane = null;
-
-	private JPanel userAccessRulesFormatPanel = null;  
-
-	private JSplitPane groupDetailsSplitPanel = null;  
-
-	private JTable groupAccessRulesTable = null;  
-
-	private JScrollPane groupAccessRulesScrollPane = null;  
-
-	private JSplitPane accessRulesSplitPane = null;
-
-	private JScrollPane accessRulesTreeScrollPane = null;
-
-	private JTree accessRulesTree = null;
-
-	private TreeModel accessRuleTreeModel = null;
-
-	private JPanel accessRulesPanel = null;  
-
-	private JPanel accessRuleActionsPanel = null;
-
-	private JTable accessRulesTable = null;
-
-	private JPanel toolbarPanel = null;  
-
-	private JMenuItem printMenuItem = null;
-
-	private JScrollPane accessRulesScrollPane = null;
-	
-	private JPanel accessRulesFormatPanel = null;  
-	
-	private JPanel groupAccessRulesPanel = null;  
-	
-	private JPanel groupMembersPanel = null;  
-	
-	private JScrollPane groupMemberListScrollPane = null;
-	
-	private JList groupMemberList = null;
-	
-	private JPanel userGroupListPanel = null;
-	
-	private JPanel accessRulesTreePanel = null;
-	
-	private JPanel accessRulesTreeActionsPanel = null;
-	
-	private JButton editTreeItemButton = null;
-	
-	private JButton deleteTreeItemButton = null;
-	
-	private JPanel userGroupsActionPanel = null;
-	
-	private JPanel groupMemberListActionsPanel = null;
-	
-	private JPanel userListPanel = null;
-	
-	private JPanel groupListPanel = null;
-	
-	private JMenuItem cloneUserPopupMenuItem = null;
-	
-	private JMenuItem cloneGroupPopupMenuItem = null;
-	
-	private JMenu settingsMenu = null;
-	
-	private JCheckBoxMenuItem openLastFileMenuItem = null;
-	
-	private Stack<String> fileStack = null;
-
-	private JMenu reportsMenu = null;
-
-	private JMenuItem previewMenuItem = null;
-
-	private JMenuItem summaryReportMenuItem = null;
-	
-	private FileTransferHandler fileTransferHandler = null;
-	
-	private JPanel statusPanel = null;
-
 	private JLabel statusLabel = null;
 	
+	private JList groupList = null;
+	private JList groupMemberList = null;
+	private JList userGroupList = null; 
+	private JList userList = null;
+	
+	private JMenu actionMenu = null;  
+	private JMenu fileMenu = null;  	
+	private JMenu helpMenu = null;
+	private JMenu recentFilesMenu = null;
+	private JMenu reportsMenu = null;
+	private JMenu settingsMenu = null;
+	
+	private JMenuBar menuBar = null; 
+
+	private JMenuItem aboutMenuItem = null;
+	private JMenuItem addAccessRuleMenuItem = null;  
+	private JMenuItem addGroupMenuItem = null;
+	private JMenuItem addGroupPopupMenuItem = null;
+	private JMenuItem addRemoveMembersPopupMenuItem = null; 
+	private JMenuItem addUserMenuItem = null;
+	private JMenuItem addUserPopupMenuItem = null;  
+	private JMenuItem changeMembershipPopupMenuItem = null;
+	private JMenuItem clearRecentFilesMenuItem = null;
+	private JMenuItem cloneGroupPopupMenuItem = null;
+	private JMenuItem cloneUserPopupMenuItem = null;
+	private JMenuItem deleteGroupPopupMenuItem = null;
+	private JMenuItem deleteUserPopupMenuItem = null;
+	private JMenuItem editGroupPopupMenuItem = null;
+	private JMenuItem editUserPopupMenuItem = null;
+	private JMenuItem exitMenuItem = null;
+	private JMenuItem helpMenuItem = null;
+	private JMenuItem licenseMenuItem = null;
+	private JMenuItem newFileMenuItem = null;
+	private JMenuItem openFileMenuItem = null; 
+	private JMenuItem openLastFileMenuItem = null;
+	private JMenuItem previewMenuItem = null;
+	private JMenuItem printMenuItem = null;
+	private JMenuItem resetSettingsMenuItem = null;
+	private JMenuItem saveFileMenuItem = null;
+	private JMenuItem saveAsMenuItem = null;
+	private JMenuItem statisticsMenuItem = null;
+	private JMenuItem summaryReportMenuItem = null;
+	
+	private JPanel accessRuleActionsPanel = null;
+	private JPanel accessRulesFormatPanel = null;
+	private JPanel accessRulesPanel = null;  
+	private JPanel accessRulesTreeActionsPanel = null;
+	private JPanel accessRulesTreePanel = null;  
+	private JPanel contentPane = null;  
+	private JPanel groupAccessRulesPanel = null;
+	private JPanel groupActionsPanel = null;  
+	private JPanel groupDetailsPanel = null;
+	private JPanel groupListPanel = null;
+	private JPanel groupMemberListActionsPanel = null;
+	private JPanel groupMembersPanel = null;  
+	private JPanel statusPanel = null;
+	private JPanel userAccessRulesFormatPanel = null;  
+	private JPanel userActionsPanel = null;
+	private JPanel userDetailsPanel = null; 
+	private JPanel userGroupListPanel = null;
+	private JPanel userGroupsActionPanel = null;
+	private JPanel userListPanel = null;	
+	
+	private JPopupMenu groupsPopupMenu = null;
+	private JPopupMenu usersPopupMenu = null; 
+	
 	private JRadioButtonMenuItem monospacedRadioButtonMenuItem = null;
-
 	private JRadioButtonMenuItem sansSerifRadioButtonMenuItem = null;
-
 	private JRadioButtonMenuItem serifRadioButtonMenuItem = null;
 
-	private JMenuItem clearRecentFilesMenuItem = null;
-
-	private JMenuItem statisticsMenuItem = null;
+	private JScrollPane accessRulesScrollPane = null;
+	private JScrollPane accessRulesTreeScrollPane = null;
+	private JScrollPane groupAccessRulesScrollPane = null; 
+	private JScrollPane groupListScrollPane = null;
+	private JScrollPane groupMemberListScrollPane = null;
+	private JScrollPane userAccessRulesScrollPane = null;  
+	private JScrollPane userGroupListScrollPane = null;
+	private JScrollPane userListScrollPane = null;
 	
-	private JMenuItem resetSettingsMenuItem = null;
+	private JSplitPane accessRulesSplitPane = null;
+	private JSplitPane groupDetailsSplitPanel = null; 
+	private JSplitPane groupsSplitPane = null;
+	private JSplitPane userDetailsSplitPanel = null; 
+	private JSplitPane usersSplitPane = null;
+	
+	private JTabbedPane mainTabbedPane = null;  
+	
+	private JTable accessRulesTable = null;
+	private JTable groupAccessRulesTable = null;  
+	private JTable userAccessRulesTable = null;
+
+	private JToolBar actionToolBar = null;
+	private JPanel toolbarPanel = null;
+	
+	private JTree accessRulesTree = null;
+	
+	private Object[] groupAccessRulesColumnNames;
+	private Object[] pathAccessRulesColumnNames;	
+	private Object[] repositoryAccessRulesColumnNames;
+	private Object[] serverAccessRulesColumnNames;
+	private Object[] userAccessRulesColumnNames;
+
+	private Stack<String> fileStack = null;
+	
+	private TreeModel accessRuleTreeModel = null;
 	
 	private JMenu viewMenu = null;
 	
@@ -443,8 +349,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	
 	private void saveUserPreferences() {
 		UserPreferences.setWindowState(getExtendedState());
-		
-		this.setVisible(false);
 		
 		this.setExtendedState(JFrame.NORMAL);
 		UserPreferences.setWindowSize(getSize());
@@ -532,7 +436,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 					ResourceUtil.fullSizeAccessRuleIcon,
 					getAccessRulesSplitPane());
 			
-			mainTabbedPane.setFont(new Font(null, Font.PLAIN, 12));
+			mainTabbedPane.setFont(plainFont);
 		}
 		
 		return mainTabbedPane;
@@ -563,10 +467,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JList getUserList() {
 		if (userList == null) {
 			userList = new JList();
+			userList.addKeyListener(this);
 			userList.addListSelectionListener(this);
 			userList.addMouseListener(this);
 			userList.setCellRenderer(new MyListCellRenderer());
-			userList.setFont(new Font("Dialog", Font.PLAIN, 12));
+			userList.setFont(plainFont);
 		}
 		
 		return userList;
@@ -716,7 +621,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private void refreshRecentFiles() {
 		recentFilesMenu.removeAll();
 		
-		if (fileStack.size() == 0) {
+		if (fileStack.isEmpty()) {
 			return;
 		}
 		
@@ -1076,7 +981,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 
 		fcOpen.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-		File directory = (Document.getFile() == null) ? null : Document.getFile().getParentFile();
+		File directory = (Document.getFile() == null) ? 
+				null : Document.getFile().getParentFile();
 
 		fcOpen.setSelectedFile(directory);
 
@@ -1136,30 +1042,6 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 		catch (Exception e) {
 			displayError(e.getMessage());
 		}
-	}
-
-	/**
-	 * Generic error message dialog.
-	 * 
-	 * @param message Error message to display.
-	 */
-	private void displayError(String message) {
-		JOptionPane.showMessageDialog(this, 
-				message, 
-				ResourceUtil.getString("application.error"), 
-				JOptionPane.ERROR_MESSAGE);
-	}
-
-	/**
-	 * Generic warning message dialog.
-	 * 
-	 * @param message Warning message to display.
-	 */
-	private void displayWarning(String message) {
-		JOptionPane.showMessageDialog(this, 
-				message, 
-				ResourceUtil.getString("application.warning"), 
-				JOptionPane.WARNING_MESSAGE);
 	}
 
 	/**
@@ -2164,95 +2046,97 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 * ActionPerformed event handler. Redirects to the appropriate action handler.
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals(Constants.NEW_FILE_ACTION)) {
+		String action = e.getActionCommand();
+		
+		if (action.equals(Constants.NEW_FILE_ACTION)) {
 			fileNew();
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION)) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION)) {
 			fileOpen();
-		} else if (e.getActionCommand().equals(Constants.SAVE_FILE_ACTION)) {
+		} else if (action.equals(Constants.SAVE_FILE_ACTION)) {
 			fileSave();
-		} else if (e.getActionCommand().equals(Constants.SAVE_FILE_AS_ACTION)) {
+		} else if (action.equals(Constants.SAVE_FILE_AS_ACTION)) {
 			fileSaveAs();
-		} else if (e.getActionCommand().equals(Constants.OPEN_LAST_EDITED_FILE_ACTION)) {
+		} else if (action.equals(Constants.OPEN_LAST_EDITED_FILE_ACTION)) {
 			openLastEditedFileSettingChange();
-		} else if (e.getActionCommand().equals(Constants.PRINT_ACTION)) {
+		} else if (action.equals(Constants.PRINT_ACTION)) {
 			filePrint();
-		} else if (e.getActionCommand().equals(Constants.EXIT_ACTION)) {
+		} else if (action.equals(Constants.EXIT_ACTION)) {
 			exit();
-		} else if (e.getActionCommand().equals(Constants.HELP_ACTION)) {
+		} else if (action.equals(Constants.HELP_ACTION)) {
 			showHelp();
-		} else if (e.getActionCommand().equals(Constants.LICENSE_ACTION)) {
+		} else if (action.equals(Constants.LICENSE_ACTION)) {
 			helpLicense();
-		} else if (e.getActionCommand().equals(Constants.ABOUT_ACTION)) {
+		} else if (action.equals(Constants.ABOUT_ACTION)) {
 			helpAbout();
-		} else if (e.getActionCommand().equals(Constants.PREVIEW_ACTION)) {
+		} else if (action.equals(Constants.PREVIEW_ACTION)) {
 			preview();
-		} else if (e.getActionCommand().equals(Constants.STATISTICS_REPORT_ACTION)) {
+		} else if (action.equals(Constants.STATISTICS_REPORT_ACTION)) {
 			statisticsReport();
-		} else if (e.getActionCommand().equals(Constants.SUMMARY_REPORT_ACTION)) {
+		} else if (action.equals(Constants.SUMMARY_REPORT_ACTION)) {
 			summaryReport();
-		} else if (e.getActionCommand().equals(Constants.ADD_USER_ACTION)) {
+		} else if (action.equals(Constants.ADD_USER_ACTION)) {
 			addUser();
-		} else if (e.getActionCommand().equals(Constants.EDIT_USER_ACTION)) {
+		} else if (action.equals(Constants.EDIT_USER_ACTION)) {
 			editUser();
-		} else if (e.getActionCommand().equals(Constants.CLONE_USER_ACTION)) {
+		} else if (action.equals(Constants.CLONE_USER_ACTION)) {
 			cloneUser();
-		} else if (e.getActionCommand().equals(Constants.DELETE_USER_ACTION)) {
+		} else if (action.equals(Constants.DELETE_USER_ACTION)) {
 			deleteUser();
-		} else if (e.getActionCommand().equals(Constants.CHANGE_MEMBERSHIP_ACTION)) {
+		} else if (action.equals(Constants.CHANGE_MEMBERSHIP_ACTION)) {
 			changeMembership();
-		} else if (e.getActionCommand().equals(Constants.ADD_GROUP_ACTION)) {
+		} else if (action.equals(Constants.ADD_GROUP_ACTION)) {
 			addGroup();
-		} else if (e.getActionCommand().equals(Constants.EDIT_GROUP_ACTION)) {
+		} else if (action.equals(Constants.EDIT_GROUP_ACTION)) {
 			editGroup();
-		} else if (e.getActionCommand().equals(Constants.CLONE_GROUP_ACTION)) {
+		} else if (action.equals(Constants.CLONE_GROUP_ACTION)) {
 			cloneGroup();
-		} else if (e.getActionCommand().equals(Constants.DELETE_GROUP_ACTION)) {
+		} else if (action.equals(Constants.DELETE_GROUP_ACTION)) {
 			deleteGroup();
-		} else if (e.getActionCommand().equals(Constants.ADD_REMOVE_MEMBERS_ACTION)) {
+		} else if (action.equals(Constants.ADD_REMOVE_MEMBERS_ACTION)) {
 			addRemoveMembers();
-		} else if (e.getActionCommand().equals(Constants.EDIT_PATH_ACTION)) {
+		} else if (action.equals(Constants.EDIT_PATH_ACTION)) {
 			editPath();
-		} else if (e.getActionCommand().equals(Constants.DELETE_PATH_ACTION)) {
+		} else if (action.equals(Constants.DELETE_PATH_ACTION)) {
 			deletePath();
-		} else if (e.getActionCommand().equals(Constants.EDIT_REPOSITORY_ACTION)) {
+		} else if (action.equals(Constants.EDIT_REPOSITORY_ACTION)) {
 			editRepository();
-		} else if (e.getActionCommand().equals(Constants.DELETE_REPOSITORY_ACTION)) {
+		} else if (action.equals(Constants.DELETE_REPOSITORY_ACTION)) {
 			deleteRepository();
-		} else if (e.getActionCommand().equals(Constants.ADD_ACCESS_RULE_ACTION)) {
+		} else if (action.equals(Constants.ADD_ACCESS_RULE_ACTION)) {
 			addAccessRule();
-		} else if (e.getActionCommand().equals(Constants.EDIT_ACCESS_RULE_ACTION)) {
+		} else if (action.equals(Constants.EDIT_ACCESS_RULE_ACTION)) {
 			editAccessRule();
-		} else if (e.getActionCommand().equals(Constants.DELETE_ACCESS_RULE_ACTION)) {
+		} else if (action.equals(Constants.DELETE_ACCESS_RULE_ACTION)) {
 			deleteAccessRule();
-		} else if (e.getActionCommand().equals(Constants.MONOSPACED_ACTION)) {
+		} else if (action.equals(Constants.MONOSPACED_ACTION)) {
 			changeFont(Constants.FONT_MONOSPACED);
-		} else if (e.getActionCommand().equals(Constants.SANS_SERIF_ACTION)) {
+		} else if (action.equals(Constants.SANS_SERIF_ACTION)) {
 			changeFont(Constants.FONT_SANS_SERIF);
-		} else if (e.getActionCommand().equals(Constants.SERIF_ACTION)) {
+		} else if (action.equals(Constants.SERIF_ACTION)) {
 			changeFont(Constants.FONT_SERIF);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_0")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_0")) {
 			fileOpen(0);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_1")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_1")) {
 			fileOpen(1);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_2")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_2")) {
 			fileOpen(2);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_3")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_3")) {
 			fileOpen(3);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_4")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_4")) {
 			fileOpen(4);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_5")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_5")) {
 			fileOpen(5);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_6")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_6")) {
 			fileOpen(6);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_7")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_7")) {
 			fileOpen(7);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_8")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_8")) {
 			fileOpen(8);
-		} else if (e.getActionCommand().equals(Constants.OPEN_FILE_ACTION + "_9")) {
+		} else if (action.equals(Constants.OPEN_FILE_ACTION + "_9")) {
 			fileOpen(9);
-		} else if (e.getActionCommand().equals(Constants.CLEAR_RECENT_FILES_ACTION)) {
+		} else if (action.equals(Constants.CLEAR_RECENT_FILES_ACTION)) {
 			clearRecentFiles();
-		} else if (e.getActionCommand().equals(Constants.RESET_SETTINGS_ACTION)) {
+		} else if (action.equals(Constants.RESET_SETTINGS_ACTION)) {
 			resetSettings();
 		} else if (e.getActionCommand().equals(Constants.VIEW_USERS_ACTION)) {
 			getMainTabbedPane().setSelectedComponent(getUsersSplitPane());
@@ -2275,10 +2159,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JList getGroupList() {
 		if (groupList == null) {
 			groupList = new JList();
+			groupList.addKeyListener(this);
 			groupList.addListSelectionListener(this);
 			groupList.addMouseListener(this);
 			groupList.setCellRenderer(new MyListCellRenderer());
-			groupList.setFont(new Font("Dialog", Font.PLAIN, 12));
+			groupList.setFont(plainFont);
 		}
 		
 		return groupList;
@@ -2323,10 +2208,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */
 	private Object[] getUserAccessRulesColumnNames() {
 		if (userAccessRulesColumnNames == null) {
-			userAccessRulesColumnNames = new String[3];
-			userAccessRulesColumnNames[0] = ResourceUtil.getString("mainframe.accessrulestable.repository");
-			userAccessRulesColumnNames[1] = ResourceUtil.getString("mainframe.accessrulestable.path");
-			userAccessRulesColumnNames[2] = ResourceUtil.getString("mainframe.accessrulestable.level");
+			userAccessRulesColumnNames = new String[] {
+				ResourceUtil.getString("mainframe.accessrulestable.repository"),
+				ResourceUtil.getString("mainframe.accessrulestable.path"),
+				ResourceUtil.getString("mainframe.accessrulestable.level")
+			};
 		}
 
 		return userAccessRulesColumnNames;
@@ -2339,10 +2225,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */
 	private Object[] getGroupAccessRulesColumnNames() {
 		if (groupAccessRulesColumnNames == null) {
-			groupAccessRulesColumnNames = new String[3];
-			groupAccessRulesColumnNames[0] = ResourceUtil.getString("mainframe.accessrulestable.repository");
-			groupAccessRulesColumnNames[1] = ResourceUtil.getString("mainframe.accessrulestable.path");
-			groupAccessRulesColumnNames[2] = ResourceUtil.getString("mainframe.accessrulestable.level");
+			groupAccessRulesColumnNames = new String[] {
+				ResourceUtil.getString("mainframe.accessrulestable.repository"),
+				ResourceUtil.getString("mainframe.accessrulestable.path"),
+				ResourceUtil.getString("mainframe.accessrulestable.level")
+			};
 		}
 
 		return groupAccessRulesColumnNames;
@@ -2355,10 +2242,11 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */
 	private Object[] getRepositoryAccessRulesColumnNames() {
 		if (repositoryAccessRulesColumnNames == null) {
-			repositoryAccessRulesColumnNames = new String[3];
-			repositoryAccessRulesColumnNames[0] = ResourceUtil.getString("mainframe.accessrulestable.path");
-			repositoryAccessRulesColumnNames[1] = ResourceUtil.getString("mainframe.accessrulestable.usergroup");
-			repositoryAccessRulesColumnNames[2] = ResourceUtil.getString("mainframe.accessrulestable.level");			
+			repositoryAccessRulesColumnNames = new String[] {
+				ResourceUtil.getString("mainframe.accessrulestable.path"),
+				ResourceUtil.getString("mainframe.accessrulestable.usergroup"),
+				ResourceUtil.getString("mainframe.accessrulestable.level")
+			};
 		}
 
 		return repositoryAccessRulesColumnNames;
@@ -2386,11 +2274,12 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	 */
 	private Object[] getServerAccessRulesColumnNames() {
 		if (serverAccessRulesColumnNames == null) {
-			serverAccessRulesColumnNames = new String[4];
-			serverAccessRulesColumnNames[0] = ResourceUtil.getString("mainframe.accessrulestable.repository");
-			serverAccessRulesColumnNames[1] = ResourceUtil.getString("mainframe.accessrulestable.path");
-			serverAccessRulesColumnNames[2] = ResourceUtil.getString("mainframe.accessrulestable.usergroup");
-			serverAccessRulesColumnNames[3] = ResourceUtil.getString("mainframe.accessrulestable.level");
+			serverAccessRulesColumnNames = new String[] {
+				ResourceUtil.getString("mainframe.accessrulestable.repository"),
+				ResourceUtil.getString("mainframe.accessrulestable.path"),
+				ResourceUtil.getString("mainframe.accessrulestable.usergroup"),
+				ResourceUtil.getString("mainframe.accessrulestable.level")
+			};
 		}
 
 		return serverAccessRulesColumnNames;
@@ -2496,7 +2385,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			addUserMenuItem.setActionCommand(Constants.ADD_USER_ACTION);
 			addUserMenuItem.setIcon(ResourceUtil.addUserIcon);
 			addUserMenuItem.setText(ResourceUtil.getString("menu.action.adduser"));
-			addUserMenuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+			addUserMenuItem.setAccelerator(KeyStroke.getKeyStroke('U', 
+					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
 		
 		return addUserMenuItem;
@@ -2514,7 +2404,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			addGroupMenuItem.setActionCommand(Constants.ADD_GROUP_ACTION);
 			addGroupMenuItem.setIcon(ResourceUtil.addGroupIcon);
 			addGroupMenuItem.setText(ResourceUtil.getString("menu.action.addgroup"));
-			addGroupMenuItem.setAccelerator(KeyStroke.getKeyStroke('G', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+			addGroupMenuItem.setAccelerator(KeyStroke.getKeyStroke('G', 
+					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
 		
 		return addGroupMenuItem;
@@ -2532,7 +2423,8 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 			addAccessRuleMenuItem.setActionCommand(Constants.ADD_ACCESS_RULE_ACTION);
 			addAccessRuleMenuItem.setIcon(ResourceUtil.addAccessRuleIcon);
 			addAccessRuleMenuItem.setText(ResourceUtil.getString("menu.action.addaccessrule"));
-			addAccessRuleMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+			addAccessRuleMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', 
+					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
 		
 		return addAccessRuleMenuItem;
@@ -2546,7 +2438,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JScrollPane getUserListScrollPane() {
 		if (userListScrollPane == null) {
 			userListScrollPane = new JScrollPane();
-			userListScrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+			userListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 			userListScrollPane.setViewportView(getUserList());
 		}
 		
@@ -2561,7 +2453,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JScrollPane getGroupListScrollPane() {
 		if (groupListScrollPane == null) {
 			groupListScrollPane = new JScrollPane();
-			groupListScrollPane.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+			groupListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 			groupListScrollPane.setViewportView(getGroupList());			
 		}
 		
@@ -3072,9 +2964,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JList getUserGroupList() {
 		if (userGroupList == null) {
 			userGroupList = new JList();
+			userGroupList.addKeyListener(this);
 			userGroupList.addMouseListener(this);
 			userGroupList.setCellRenderer(new MyListCellRenderer());
-			userGroupList.setFont(new Font("Dialog", Font.PLAIN, 12));
+			userGroupList.setFont(plainFont);
 		}
 		
 		return userGroupList;
@@ -3562,9 +3455,10 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JList getGroupMemberList() {
 		if (groupMemberList == null) {
 			groupMemberList = new JList();
+			groupMemberList.addKeyListener(this);
 			groupMemberList.addMouseListener(this);
 			groupMemberList.setCellRenderer(new MyListCellRenderer());
-			groupMemberList.setFont(new Font("Dialog", Font.PLAIN, 12));
+			groupMemberList.setFont(plainFont);
 		}
 		
 		return groupMemberList;
@@ -3877,6 +3771,92 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	public void keyTyped(KeyEvent event) {
 		// Unused
 	}
+	
+	private void removeMembers() {
+		if (getGroupMemberList().isSelectionEmpty()) {
+			displayWarning(ResourceUtil.getString("mainframe.warning.nomemberselected"));
+		} 
+		else {
+			Object[] values = getGroupMemberList().getSelectedValues(); 
+			Group group = (Group)getGroupList().getSelectedValue();
+			int choice;
+			
+			if (values.length == 1) {
+				choice = JOptionPane
+				.showConfirmDialog(
+						this,
+						ResourceUtil.getString("mainframe.removemember.prompt"),
+						ResourceUtil.getString("mainframe.removemember.title"),
+						JOptionPane.YES_NO_OPTION);
+			}
+			else {
+				choice = JOptionPane
+				.showConfirmDialog(
+						this,
+						ResourceUtil.getString("mainframe.removemembers.prompt"),
+						ResourceUtil.getString("mainframe.removemembers.title"),
+						JOptionPane.YES_NO_OPTION);
+			}
+			
+			if (choice == JOptionPane.YES_OPTION) {
+				try {
+					Document.removeGroupMembers(group, values);
+				}
+				catch (ApplicationException ae) {
+					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
+				}
+				
+				refreshUserList(null);
+				refreshGroupDetails();
+				refreshAccessRuleTree(null);
+			}
+		}
+		
+		updateTitle();
+	}
+	
+	private void removeFromGroups() {
+		if (getUserGroupList().isSelectionEmpty()) {
+			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
+		} 
+		else {
+			Object[] values = getUserGroupList().getSelectedValues(); 
+			User user = (User)getUserList().getSelectedValue();
+			int choice;
+			
+			if (values.length == 1) {
+				choice = JOptionPane
+				.showConfirmDialog(
+						this,
+						ResourceUtil.getString("mainframe.removefromgroup.prompt"),
+						ResourceUtil.getString("mainframe.removefromgroup.title"),
+						JOptionPane.YES_NO_OPTION);
+			}
+			else {
+				choice = JOptionPane
+				.showConfirmDialog(
+						this,
+						ResourceUtil.getString("mainframe.removefromgroups.prompt"),
+						ResourceUtil.getString("mainframe.removefromgroups.title"),
+						JOptionPane.YES_NO_OPTION);
+			}
+			
+			if (choice == JOptionPane.YES_OPTION) {
+				try {
+					Document.removeFromGroups(user, values);
+				}
+				catch (ApplicationException ae) {
+					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
+				}
+				
+				refreshUserList(null);
+				refreshGroupDetails();
+				refreshAccessRuleTree(null);
+			}
+		}
+		
+		updateTitle();	
+	}
 
 	/**
 	 * KeyPressed event handler.
@@ -3886,6 +3866,27 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	public void keyPressed(KeyEvent event) {
 		if (event.getID() == KeyEvent.VK_F1) {
 			showHelp();
+		}
+		else if (event.getKeyCode() == KeyEvent.VK_DELETE) {
+			Component component = event.getComponent();
+			
+			if (component == getUserList()) {
+				deleteUser();
+			}
+			else if (component == getGroupList()) {
+				deleteGroup();
+			}
+			else if (component == getGroupMemberList()) {
+				removeMembers();
+			}
+			else if (component == getUserGroupList()) {
+				removeFromGroups();
+			}
+//			else if (component == getAccessRulesTree()) {
+//				
+//			}
+			
+			refreshTabNames();
 		}
 	}
 
@@ -4228,7 +4229,7 @@ public class MainFrame extends BaseFrame implements ActionListener, KeyListener,
 	private JLabel getStatusLabel() {
 		if (statusLabel == null) {
 			statusLabel = new JLabel();
-			statusLabel.setFont(new Font(null, Font.PLAIN, 12));
+			statusLabel.setFont(plainFont);
 		}
 		
 		return statusLabel;

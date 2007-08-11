@@ -80,6 +80,8 @@ public class UserPreferences {
 	 */
 	public static final String DEFAULT_FONT_STYLE = Constants.FONT_MONOSPACED;
 	
+	private static Font userFont = null;
+	
 	/**
 	 * Handle to the Preferences node for the application.
 	 */
@@ -210,7 +212,11 @@ public class UserPreferences {
 	 * @return Font object of user selected font style
 	 */
 	public static Font getUserFont() {
-		return new Font(getUserFontStyle(), Font.PLAIN, 12);
+		if (userFont == null) { 
+			userFont = new Font(getUserFontStyle(), Font.PLAIN, 12);
+		}
+		
+		return userFont;
 	}
 	
 	public static void setWindowState(int windowState) {

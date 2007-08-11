@@ -22,17 +22,26 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -62,6 +71,8 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 	private JScrollPane contentScrollPane = null;
 
 	private JEditorPane contentEditorPane = null;
+	
+	private JButton saveButton = null;
 	
 	/**
 	 * Default constructor.
@@ -142,6 +153,7 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 		if (buttonPanel == null) {
 			buttonPanel = new JPanel();
 			buttonPanel.setLayout(new FlowLayout());
+			buttonPanel.add(getSaveButton(), null);
 			buttonPanel.add(getCloseButton(), null);
 		}
 		return buttonPanel;
@@ -161,13 +173,74 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 		}
 		return closeButton;
 	}
+	
+	/**
+	 * This method initializes saveButton	
+	 * 	
+	 * @return javax.swing.JButton	
+	 */
+	private JButton getSaveButton() {
+		if (saveButton == null) {
+			saveButton = new JButton();
+			saveButton.setText(ResourceUtil.getString("button.save"));
+			saveButton.addActionListener(this);
+			saveButton.setActionCommand(Constants.SAVE_ACTION);
+		}
+		return saveButton;
+	}
 
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals(Constants.CLOSE_ACTION)) {
 			dispose();
 		}		
+		else if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
+			fileSave();
+		}
 	}
 
+	/**
+	 * File save action handler.
+	 */
+	private void fileSave() {		
+		final JFileChooser fcSave = new JFileChooser();
+		
+		fcSave.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fcSave.setDialogType(JFileChooser.SAVE_DIALOG);
+
+		int returnVal = fcSave.showSaveDialog(this);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			try {				
+				File file = fcSave.getSelectedFile();
+				
+				PrintWriter output = null;
+				
+				try {
+					output = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+
+					output.print(content);
+				}
+				catch(FileNotFoundException fne) {
+					throw new ApplicationException(ResourceUtil.getString("generator.filenotfound"));
+				}
+				catch(IOException ioe) {
+					throw new ApplicationException(ResourceUtil.getString("generator.error"));
+				}
+				catch(Exception e) {
+					throw new ApplicationException(ResourceUtil.getString("generator.error"));
+				}
+				finally {
+					if (output != null) {
+						output.close();
+					}
+				}
+			} 
+			catch (Exception e) {
+				displayError(e.getMessage());
+			}
+		}
+	}
+	
 	/**
 	 * This method initializes contentScrollPane	
 	 * 	

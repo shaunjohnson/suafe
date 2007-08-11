@@ -5,6 +5,42 @@
 <body>
 <h1>Release Notes</h1>
 
+<h2>Release 1.1.0 - 2007.07.09</h2>
+<p>What's new in this release:</p>
+<ul>
+<li>Suafe now has a command line interface. All edit and report functions are available through a scriptable, command line interface. Input/output directly from/to files or through STDIN and STDOUT.</li>
+<li>A recent files list feature has been added. This lists out the last 10 files that were edited using Suafe.</li>
+<li>The last file edited is opened automatically upon startup. This feature can be disabled.</li>
+<li>New reports:
+<ul>
+<li>Summary Report provides a comprehensive,  HTML summary of all the information within an authz file.</li>
+<li>Statistics Report provides a simple summary of user, group, repository and access rule counts.</li>
+</ul>
+</li>
+
+<li>Upon saving changes Suafe warns you if any unreferenced users, repositories or paths exist.</li>
+<li>Fonts are now configurable. You're no longer limited to the default Java font. By default all values are displayed in a monospace font.</li>
+<li>User, Group and Access Rule counts are displayed in the title of each tab. A quick reference to see how many of each object exists.
+<li>Clone user and clone group buttons are now available on the users and groups tabs.</li>
+<li>Preview and report screens are now resizeable.
+<li>Tables are now sortable by column. Just click the header within a table to resort the data.</li>
+<li>Table column widths now size themselves to more accurrately display the data within the table.</li>
+<li>Application status bar at the bottom of the main window displays the full path of the file currently being edited.</li>
+<li>Window size, location and state as well as divider location are now saved when the application is closed. These saved settings can be cleared at anytime.</li>
+<li>The application now checks for circular references. i.e. If group A is a member of group B then group B cannot be a member of group A or any group that is a member of group A.</li>
+<li>Change Membership and Add/Remove Users dialogs are now resizeable. Resize the dialog to accommodate larger amounts of data.</li>
+<li>Drag and drop an authz file from the operating system onto Suafe to open it.</li>
+
+</ul>
+
+<p>What's fixed in this release:</p>
+<ul>
+<li>Dialogs such as the add/edit access rule dialogs now resize themselves according to the size of the data.</li>
+<li>Line numbers reported within error messages displayed when parsing/opening a file now correctly indicate the line number where the problem was encountered.</li>
+<li>Bug where group definitions contained other groups were not being parsed correctly has been addressed.</li>
+<li>Bug where a user and groups appear repeatedly if group or user is assigned to the same group more than once.</li>
+</ul>
+
 <h2>Release 1.0.0 - 2007.01.27</h2>
 <p>What's new in this release:&nbsp;</p>
 <ul>

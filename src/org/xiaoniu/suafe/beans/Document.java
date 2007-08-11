@@ -1899,4 +1899,38 @@ public class Document {
 		return (buffer.length() == 0) ? 
 				null : "<html>" + buffer.toString() + "</html>";
 	}
+
+	public static void removeGroupMembers(Group group, Object[] members) throws ApplicationException {
+		for (Object member : members) {
+			if (member instanceof Group) {
+				Group groupMember = (Group)member;
+				
+				group.removeGroupMember(groupMember);
+				groupMember.removeGroup(group);
+			}
+			else if (member instanceof User) {
+				User userMember = (User)member;
+				
+				group.removeUserMember(userMember);
+				userMember.removeGroup(group);
+			}
+			else {
+				throw new ApplicationException(ResourceUtil.getString("application.erroroccurred"));
+			}
+		}
+	}
+	
+	public static void removeFromGroups(User user, Object[] groups) throws ApplicationException {
+		for (Object groupObject : groups) {
+			if (groupObject instanceof Group) {
+				Group group = (Group)groupObject;
+				
+				group.removeUserMember(user);
+				user.removeGroup(group);
+			}
+			else {
+				throw new ApplicationException(ResourceUtil.getString("application.erroroccurred"));
+			}
+		}
+	}
 }
