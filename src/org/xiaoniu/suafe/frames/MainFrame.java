@@ -176,6 +176,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JMenu recentFilesMenu = null;
 	private JMenu reportsMenu = null;
 	private JMenu settingsMenu = null;
+	private JMenu viewMenu = null;
 	
 	private JMenuBar menuBar = null; 
 
@@ -207,6 +208,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JMenuItem saveAsMenuItem = null;
 	private JMenuItem statisticsMenuItem = null;
 	private JMenuItem summaryReportMenuItem = null;
+	private JMenuItem viewGroupsMenuItem = null;
+	private JMenuItem viewRulesMenuItem = null;
+	private JMenuItem viewUsersMenuItem = null;
 	
 	private JPanel accessRuleActionsPanel = null;
 	private JPanel accessRulesFormatPanel = null;
@@ -270,14 +274,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private Stack<String> fileStack = null;
 	
 	private TreeModel accessRuleTreeModel = null;
-	
-	private JMenu viewMenu = null;
-	
-	private JMenuItem viewUsersMenuItem = null;
-	
-	private JMenuItem viewGroupsMenuItem = null;
-	
-	private JMenuItem viewRulesMenuItem = null;
 	
 	/**
 	 * Default constructor
@@ -3806,8 +3802,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
 				}
 				
-				refreshUserList(null);
-				refreshGroupDetails();
+				refreshUserList((User)getUserList().getSelectedValue());
+				refreshGroupList((Group)getGroupList().getSelectedValue());
 				refreshAccessRuleTree(null);
 			}
 		}
@@ -3849,8 +3845,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
 				}
 				
-				refreshUserList(null);
-				refreshGroupDetails();
+				refreshUserList((User)getUserList().getSelectedValue());
+				refreshGroupList((Group)getGroupList().getSelectedValue());
 				refreshAccessRuleTree(null);
 			}
 		}

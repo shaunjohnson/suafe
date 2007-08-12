@@ -42,6 +42,7 @@ public class FileTransferHandler extends TransferHandler {
     	this.fileOpener = fileOpener;
     }
 
+	@SuppressWarnings("unchecked")
 	public boolean importData(JComponent component, Transferable transferable) {        
         //A real application would load the file in another
         //thread in order to not block the UI.  This step
