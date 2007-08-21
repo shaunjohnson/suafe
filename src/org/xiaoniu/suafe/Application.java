@@ -18,7 +18,6 @@
 package org.xiaoniu.suafe;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.List;
 
@@ -727,7 +726,7 @@ public class Application {
 			
 			// Initialize the output stream
 			if (config.getString(Constants.ARGS_OUTPUT_FILE) != null) {
-				out = openOutputFile(config.getString(Constants.ARGS_OUTPUT_FILE));
+				out = Utilities.openOutputFile(config.getString(Constants.ARGS_OUTPUT_FILE));
 			}
 			
 			// Process the specified command
@@ -1811,28 +1810,5 @@ public class Application {
 		}
 		
 		Document.cloneUser(user, cloneName);		
-	}
-
-	/**
-	 * Open output file.
-	 * 
-	 * @param filePath Path of output file
-	 * @return Output stream for file
-	 * @throws ApplicationException Error occurred
-	 */
-	private static PrintStream openOutputFile(String filePath) throws ApplicationException {
-		PrintStream output = null;
-		
-		try {
-			output = new PrintStream(new File(filePath));
-		}
-		catch(FileNotFoundException fne) {
-			throw new ApplicationException(ResourceUtil.getString("generator.filenotfound"));
-		}
-		catch(Exception e) {
-			throw new ApplicationException(ResourceUtil.getString("generator.error"));
-		}
-		
-		return output;
 	}
 }

@@ -17,6 +17,14 @@
  */
 package org.xiaoniu.suafe;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.resources.ResourceUtil;
+
 /**
  * Generic utility methods.
  * 
@@ -42,5 +50,48 @@ public class Utilities {
             typeSample[array.length] = null;
         
         return typeSample;
+	}
+	
+	/**
+	 * Open output file.
+	 * 
+	 * @param filePath Path of output file
+	 * @return Output stream for file
+	 * @throws ApplicationException Error occurred
+	 */
+	public static PrintStream openOutputFile(String filePath) throws ApplicationException {
+		PrintStream output = null;
+		
+		try {
+			output = new PrintStream(new File(filePath));
+		}
+		catch(FileNotFoundException fne) {
+			throw new ApplicationException(ResourceUtil.getString("generator.filenotfound"));
+		}
+		catch(Exception e) {
+			throw new ApplicationException(ResourceUtil.getString("generator.error"));
+		}
+		
+		return output;
+	}
+	
+	/**
+	 * Open output file.
+	 * 
+	 * @param file File object representing the output file
+	 * @return Output stream for file
+	 * @throws ApplicationException Error occurred
+	 */
+	public static PrintStream openOutputFile(File file) throws ApplicationException {
+		PrintStream output = null;
+		
+		try {
+			output = openOutputFile(file.getCanonicalPath());
+		}
+		catch(IOException e) {
+			throw new ApplicationException(ResourceUtil.getString("generator.error"));
+		}
+		
+		return output;
 	}
 }

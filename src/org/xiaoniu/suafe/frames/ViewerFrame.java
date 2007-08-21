@@ -22,12 +22,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.net.URL;
 
 import javax.swing.JButton;
@@ -39,7 +36,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import org.xiaoniu.suafe.Constants;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.Utilities;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -195,43 +192,26 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 			fileSave();
 		}
 	}
-
-	/**
-	 * File save action handler.
+	
+	/** 
+	 * File save as action handler.
 	 */
-	private void fileSave() {		
-		final JFileChooser fcSave = new JFileChooser();
-		
-		fcSave.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fcSave.setDialogType(JFileChooser.SAVE_DIALOG);
+	private void fileSave() {
+		final JFileChooser fcSaveAs = new JFileChooser();
 
-		int returnVal = fcSave.showSaveDialog(this);
+		fcSaveAs.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fcSaveAs.setDialogType(JFileChooser.SAVE_DIALOG);
+		fcSaveAs.setDialogTitle(ResourceUtil.getString("saveas.title"));
+
+		int returnVal = fcSaveAs.showSaveDialog(this);
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			try {				
-				File file = fcSave.getSelectedFile();
-				
-				PrintWriter output = null;
-				
-				try {
-					output = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+			try {
+				File file = fcSaveAs.getSelectedFile();
 
-					output.print(content);
-				}
-				catch(FileNotFoundException fne) {
-					throw new ApplicationException(ResourceUtil.getString("generator.filenotfound"));
-				}
-				catch(IOException ioe) {
-					throw new ApplicationException(ResourceUtil.getString("generator.error"));
-				}
-				catch(Exception e) {
-					throw new ApplicationException(ResourceUtil.getString("generator.error"));
-				}
-				finally {
-					if (output != null) {
-						output.close();
-					}
-				}
+				PrintStream out = Utilities.openOutputFile(file);
+				
+				out.print(content);
 			} 
 			catch (Exception e) {
 				displayError(e.getMessage());
