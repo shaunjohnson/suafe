@@ -80,12 +80,16 @@ public class FileParser {
 	private static Path currentPath = null;
 	
 	/**
-	 * Validates whether the supplied file is readable.
+	 * Validates whether the supplied file exists and is readable.
 	 * 
 	 * @param file File to be validated.
 	 * @throws ValidatorException
 	 */
 	public static void validateReadable(File file) throws ValidatorException {
+		if (!file.exists()) {
+			throw new ValidatorException(ResourceUtil.getString("parser.filenotfound"));
+		}
+		
 		if (!file.canRead()) {
 			throw new ValidatorException(ResourceUtil.getString("parser.unreadablefile"));
 		}

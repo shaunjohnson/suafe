@@ -47,7 +47,7 @@ public class ParentFrame extends BaseFrame implements ContainerListener, KeyList
 	}
 	
 	/**
-	 * Component Added event handler. Adds listenters to new component
+	 * Component Added event handler. Adds listeners to new component
 	 * and all of its children.
 	 * 
 	 * @param containerEvent ContainerEvent object.

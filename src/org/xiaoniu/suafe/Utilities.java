@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Array;
 
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
@@ -42,7 +43,7 @@ public class Utilities {
 	@SuppressWarnings("unchecked")
 	public static <T> T[] convertToArray(Object[] array, T[] typeSample) {
         if (typeSample.length < array.length)
-            typeSample = (T[])java.lang.reflect.Array.newInstance(typeSample.getClass().getComponentType(), array.length);
+            typeSample = (T[])Array.newInstance(typeSample.getClass().getComponentType(), array.length);
 	
         System.arraycopy(array, 0, typeSample, 0, array.length);
         

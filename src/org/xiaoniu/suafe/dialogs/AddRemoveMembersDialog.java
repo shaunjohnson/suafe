@@ -466,7 +466,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 	 */
 	private void assignMembers() {
 		if (!getNonMemberList().isSelectionEmpty()) {
-			List values = Arrays.asList(getNonMemberList().getSelectedValues());
+			List<Object> values = Arrays.asList(getNonMemberList().getSelectedValues());
 					
 			for (Object object : values) {
 				if (object instanceof Group) {
@@ -488,7 +488,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 	 */
 	private void unassignMembers() {
 		if (!getMemberList().isSelectionEmpty()) {
-			List values = Arrays.asList(getMemberList().getSelectedValues());
+			List<Object> values = Arrays.asList(getMemberList().getSelectedValues());
 			
 			for (Object object : values) {	
 				if (object instanceof Group) {

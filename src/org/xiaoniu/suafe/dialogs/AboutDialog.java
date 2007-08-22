@@ -46,7 +46,7 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 	/**
 	 * Main content panel.
 	 */
-	private javax.swing.JPanel jContentPane = null;
+	private JPanel jContentPane = null;
 	
 	/**
 	 * Action button panel.

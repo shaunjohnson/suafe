@@ -32,6 +32,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -88,7 +89,7 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 	private void initialize() {
 		this.setIconImage(ResourceUtil.serverImage);
 		this.setTitle(title);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setSize(800, 700);
 		this.setContentPane(getJContentPane());
 		this.center();
