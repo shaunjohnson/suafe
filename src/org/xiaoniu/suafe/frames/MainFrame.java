@@ -204,6 +204,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JMenuItem previewMenuItem = null;
 	private JMenuItem printMenuItem = null;
 	private JMenuItem resetSettingsMenuItem = null;
+	private JMenuItem reloadMenuItem = null;
 	private JMenuItem saveFileMenuItem = null;
 	private JMenuItem saveAsMenuItem = null;
 	private JMenuItem statisticsMenuItem = null;
@@ -580,7 +581,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			fileMenu.add(getOpenFileMenuItem());
 			fileMenu.add(getSaveFileMenuItem());
 			fileMenu.add(getSaveAsMenuItem());
-			fileMenu.add(new JSeparator());			
+			fileMenu.add(new JSeparator());
+			fileMenu.add(getReloadMenuItem());
+			fileMenu.add(new JSeparator());
 			fileMenu.add(getRecentFilesMenu());
 			fileMenu.add(getClearRecentFilesMenuItem());
 			fileMenu.add(new JSeparator());
@@ -682,6 +685,24 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 		
 		return openFileMenuItem;
+	}
+	
+	/**
+	 * This method initializes reloadMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getReloadMenuItem() {
+		if (reloadMenuItem == null) {
+			reloadMenuItem = new JMenuItem();
+			reloadMenuItem.addActionListener(this);
+			reloadMenuItem.setActionCommand(Constants.RELOAD_ACTION);
+			reloadMenuItem.setIcon(ResourceUtil.reloadIcon);
+			reloadMenuItem.setText(ResourceUtil.getString("menu.file.reload"));						
+			reloadMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.reload.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+		}
+		
+		return reloadMenuItem;
 	}
 
 	/**
@@ -1004,6 +1025,42 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			catch (Exception e) {
 				displayError(e.getMessage());
 			}
+		}
+	}
+	
+	/**
+	 * File open action handler.
+	 */
+	private void reload() {
+		if (Document.hasUnsavedChanges()) {
+			int response = JOptionPane.showConfirmDialog(this,
+					ResourceUtil.getString("application.unsavedchangesbeforereload"),
+					ResourceUtil.getString("application.warning"), 
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE);
+			
+			if (response == JOptionPane.NO_OPTION) {
+				return;
+			}
+		}
+
+		try {
+			File file = Document.getFile();
+			FileParser.parse(file);
+			getUserList().setListData(Document.getUserObjects());
+			getGroupList().setListData(Document.getGroupObjects());
+
+			Document.setFile(file);
+			
+			refreshAccessRuleTree(null);
+
+			Document.resetUnsavedChangesFlag();
+			updateTitle();
+			
+			refreshTabNames();
+		} 
+		catch (Exception e) {
+			displayError(e.getMessage());
 		}
 	}
 	
@@ -2048,6 +2105,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			fileNew();
 		} else if (action.equals(Constants.OPEN_FILE_ACTION)) {
 			fileOpen();
+		} else if (action.equals(Constants.RELOAD_ACTION)) {
+			reload();
 		} else if (action.equals(Constants.SAVE_FILE_ACTION)) {
 			fileSave();
 		} else if (action.equals(Constants.SAVE_FILE_AS_ACTION)) {

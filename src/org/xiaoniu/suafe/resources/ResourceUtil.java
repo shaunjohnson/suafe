@@ -174,6 +174,8 @@ public class ResourceUtil {
 	public static final ImageIcon readOnlyIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ReadOnly16.gif"));
 	
 	public static final ImageIcon readWriteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ReadWrite16.gif"));
+
+	public static final ImageIcon reloadIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Refresh16.gif"));
 	
 	public static final ImageIcon repositoryIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Repository16.gif"));
 	

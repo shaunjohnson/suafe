@@ -155,6 +155,8 @@ public class Constants {
 	
 	public static final String CANCEL_ACTION = "CANCEL_ACTION";
 	
+	public static final String RELOAD_ACTION = "RELOAD_ACTION";
+	
 	public static final String SAVE_ACTION = "SAVE_ACTION";
 	
 	public static final String ASSIGN_ACTION = "ASSIGN_ACTION";
