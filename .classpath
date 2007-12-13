@@ -2,12 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.0.0/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="JUNIT_HOME/junit.jar"/>
-    <classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/JSAP-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/rundoc-0.11.jar"/>
-	<classpathentry kind="lib" path="lib/snip-0.11.jar"/>
-	<classpathentry kind="lib" path="lib/xstream-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

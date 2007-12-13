@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
@@ -37,6 +38,8 @@ import org.xiaoniu.suafe.validators.Validator;
  * @author Shaun Johnson
  */
 public class Document {
+	
+	private static final Logger logger = Logger.getLogger(Document.class);
 
 	/**
 	 * List of all AccessRules.
@@ -494,11 +497,15 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public static void deleteGroup(Group group) throws ApplicationException {
+		logger.debug("in deleteGroup()");
+		
 		deleteGroupAccessRules(group);
 		removeGroupMembers(group);
 		groups.remove(group);
 		
 		setUnsavedChanges();
+		
+		logger.debug("out deleteGroup()");
 	}
 
 	/**
@@ -507,17 +514,25 @@ public class Document {
 	 * @param group Group whose AccessRules are to be deleted.
 	 */
 	private static void deleteGroupAccessRules(Group group) {
+		logger.debug("in deleteGroupAccessRules()");
+		
 		List<AccessRule> deleteList = new ArrayList<AccessRule>();
 		
 		for (AccessRule rule : accessRules) {
 			if (rule.getGroup() != null && rule.getGroup().equals(group)) {
+				logger.debug("remove group " + rule.getGroup().getName() + " from " + rule);
+				
 				deleteList.add(rule);
+				group.removeAccessRule(rule);
+				rule.getPath().removeAccessRule(rule);
 			}
 		}
 		
 		accessRules.removeAll(deleteList);
 		
 		setUnsavedChanges();
+		
+		logger.debug("out deleteGroupAccessRules()");
 	}
 
 	/**
