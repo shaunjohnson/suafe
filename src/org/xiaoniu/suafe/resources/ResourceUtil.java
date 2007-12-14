@@ -119,6 +119,8 @@ public class ResourceUtil {
 	
 	public static final ImageIcon addAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleAdd.gif"));
 	
+	public static final ImageIcon addProjectAccessRulesIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleAdd.gif"));
+	
 	public static final ImageIcon addGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/GroupAdd.gif"));
 	
 	public static final ImageIcon addRemoveMembersIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Preferences16.gif"));

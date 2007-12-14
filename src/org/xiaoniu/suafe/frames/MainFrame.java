@@ -102,6 +102,7 @@ import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.dialogs.AboutDialog;
 import org.xiaoniu.suafe.dialogs.AddAccessRuleDialog;
 import org.xiaoniu.suafe.dialogs.AddGroupDialog;
+import org.xiaoniu.suafe.dialogs.AddProjectAccessRulesDialog;
 import org.xiaoniu.suafe.dialogs.AddRemoveMembersDialog;
 import org.xiaoniu.suafe.dialogs.AddUserDialog;
 import org.xiaoniu.suafe.dialogs.ChangeMembershipDialog;
@@ -143,6 +144,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JButton addAccessRuleToolbarButton = null;  
 	private JButton addGroupButton = null;  
 	private JButton addGroupToolbarButton = null;
+	private JButton addProjectAccessRulesButton = null;
 	private JButton addRemoveMembersButton = null;
 	private JButton addUserButton = null;  
 	private JButton addUserToolbarButton = null;
@@ -184,6 +186,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JMenuItem addAccessRuleMenuItem = null;  
 	private JMenuItem addGroupMenuItem = null;
 	private JMenuItem addGroupPopupMenuItem = null;
+	private JMenuItem addProjectAccessRulesMenuItem = null;	
 	private JMenuItem addRemoveMembersPopupMenuItem = null; 
 	private JMenuItem addUserMenuItem = null;
 	private JMenuItem addUserPopupMenuItem = null;  
@@ -1322,6 +1325,33 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 
 	/**
+	 * Add Project Access Rules action handler. Displays AddProjectAccessRules
+	 * dialog.
+	 */
+	private void addProjectAccessRules() {
+		getMainTabbedPane().setSelectedComponent(getAccessRulesSplitPane());
+
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+		Object userObject = (node == null) ? null : node.getUserObject();
+		Message message = new Message();
+		JDialog dialog = new AddProjectAccessRulesDialog(userObject, message);
+		DialogUtil.center(this, dialog);
+		dialog.setVisible(true);
+
+		refreshUserList(null);
+		
+		if (message.getState() == Message. SUCCESS) {
+			AccessRule rule = (AccessRule)message.getUserObject();
+			refreshAccessRuleTree(rule.getPath());
+		}
+		else {
+			refreshAccessRuleTree(userObject);
+		}
+		
+		updateTitle();
+	}
+	
+	/**
 	 * Edit access rule handler.
 	 */
 	private void editAccessRule() {
@@ -2159,6 +2189,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			deleteRepository();
 		} else if (action.equals(Constants.ADD_ACCESS_RULE_ACTION)) {
 			addAccessRule();
+		} else if (action.equals(Constants.ADD_PROJECT_ACCESS_RULES_ACTION)) {
+			addProjectAccessRules();
 		} else if (action.equals(Constants.EDIT_ACCESS_RULE_ACTION)) {
 			editAccessRule();
 		} else if (action.equals(Constants.DELETE_ACCESS_RULE_ACTION)) {
@@ -2352,6 +2384,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			actionMenu.add(getAddUserMenuItem());
 			actionMenu.add(getAddGroupMenuItem());
 			actionMenu.add(getAddAccessRuleMenuItem());
+			actionMenu.add(getAddProjectAccessRulesMenuItem());
 		}
 		
 		return actionMenu;
@@ -2485,6 +2518,25 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		return addAccessRuleMenuItem;
 	}
 
+	/**
+	 * This method initializes addProjectAccessRulesMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getAddProjectAccessRulesMenuItem() {
+		if (addProjectAccessRulesMenuItem == null) {
+			addProjectAccessRulesMenuItem = new JMenuItem();
+			addProjectAccessRulesMenuItem.addActionListener(this);
+			addProjectAccessRulesMenuItem.setActionCommand(Constants.ADD_PROJECT_ACCESS_RULES_ACTION);
+			addProjectAccessRulesMenuItem.setIcon(ResourceUtil.addProjectAccessRulesIcon);
+			addProjectAccessRulesMenuItem.setText(ResourceUtil.getString("menu.action.addprojectaccessrules"));
+			addProjectAccessRulesMenuItem.setAccelerator(KeyStroke.getKeyStroke('T', 
+					Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+		}
+		
+		return addProjectAccessRulesMenuItem;
+	}
+	
 	/**
 	 * This method initializes userListScrollPane.
 	 * 
@@ -2956,6 +3008,24 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 
 	/**
+	 * This method initializes addAccessRuleButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	private JButton getAddProjectAccessRulesButton() {
+		if (addProjectAccessRulesButton == null) {
+			addProjectAccessRulesButton = new JButton();
+			addProjectAccessRulesButton.addActionListener(this);
+			addProjectAccessRulesButton.setActionCommand(Constants.ADD_PROJECT_ACCESS_RULES_ACTION);
+			addProjectAccessRulesButton.setIcon(ResourceUtil.addProjectAccessRulesIcon);
+			addProjectAccessRulesButton.setText(ResourceUtil.getString("button.addProjectAccessRules"));
+			addProjectAccessRulesButton.setToolTipText(ResourceUtil.getString("mainframe.button.addprojectaccessrules.tooltip"));			
+		}
+		
+		return addProjectAccessRulesButton;
+	}
+	
+	/**
 	 * This method initializes editAccessRuleButton.
 	 * 
 	 * @return javax.swing.JButton
@@ -3364,6 +3434,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			
 			accessRuleActionsPanel = new JPanel(layout);
 			accessRuleActionsPanel.add(getAddAccessRuleButton());
+			accessRuleActionsPanel.add(getAddProjectAccessRulesButton());
 			accessRuleActionsPanel.add(getEditAccessRuleButton());
 			accessRuleActionsPanel.add(getDeleteAccessRuleButton());
 		}

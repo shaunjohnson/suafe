@@ -122,6 +122,8 @@ public class Constants {
 	public static final String PRINT_ACTION = "PRINT_ACTION";
 
 	public static final String ADD_ACCESS_RULE_ACTION = "ADD_ACCESS_RULE_ACTION";
+	
+	public static final String ADD_PROJECT_ACCESS_RULES_ACTION = "ADD_PROJECT_ACCESS_RULES_ACTION";
 
 	public static final String PREVIEW_ACTION = "PREVIEW_ACTION";
 	
