@@ -1,4 +1,4 @@
-package org.xiaoniu.suafe.frames;
+package org.xiaoniu.suafe.frames.panes;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

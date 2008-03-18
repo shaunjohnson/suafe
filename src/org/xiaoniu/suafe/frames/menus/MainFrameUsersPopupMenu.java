@@ -1,4 +1,4 @@
-package org.xiaoniu.suafe.frames;
+package org.xiaoniu.suafe.frames.menus;
 
 import java.awt.event.ActionListener;
 
