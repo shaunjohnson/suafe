@@ -59,7 +59,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
@@ -132,13 +131,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private final Font plainFont = new Font(null, Font.PLAIN, 12);
 	
 	private JButton addAccessRuleButton = null;
-	private JButton addAccessRuleToolbarButton = null;  
 	private JButton addGroupButton = null;  
-	private JButton addGroupToolbarButton = null;
 	private JButton addProjectAccessRulesButton = null;
 	private JButton addRemoveMembersButton = null;
 	private JButton addUserButton = null;  
-	private JButton addUserToolbarButton = null;
 	private JButton changeMembershipButton = null;
 	private JButton cloneGroupButton = null;
 	private JButton cloneUserButton = null;
@@ -150,11 +146,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JButton editGroupButton = null;
 	private JButton editTreeItemButton = null;
 	private JButton editUserButton = null; 
-	private JButton newFileToolbarButton = null;
-	private JButton openFileToolbarButton = null;
-	private JButton previewToolbarButton = null;
-	private JButton saveFileAsToolbarButton = null;
-	private JButton saveFileToolbarButton = null;
 	
 	private JLabel statusLabel = null;
 	
@@ -204,10 +195,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JTable groupAccessRulesTable = null;  
 	private JTable userAccessRulesTable = null;
 
-	private JToolBar actionToolBar = null;
 	private JPanel toolbarPanel = null;
 	
 	private JTree accessRulesTree = null;
+	
+	private MainFrameToolBar actionToolBar = null;
 	
 	private MainFrameGroupsPopupMenu groupsPopupMenu = null;
 	
@@ -539,161 +531,14 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JToolBar
 	 */
-	private JToolBar getActionToolBar() {
+	private MainFrameToolBar getActionToolBar() {
 		if (actionToolBar == null) {
-			actionToolBar = new JToolBar();
-			actionToolBar.setFloatable(false);
-			actionToolBar.add(getNewFileToolbarButton());
-			actionToolBar.add(getOpenFileToolbarButton());
-			actionToolBar.add(getSaveFileToolbarButton());
-			actionToolBar.add(getSaveFileAsToolbarButton());			
-			actionToolBar.add(getAddUserToolbarButton());
-			actionToolBar.add(getAddGroupToolbarButton());
-			actionToolBar.add(getAddAccessRuleToolbarButton());
-			actionToolBar.add(getPreviewToolbarButton());
+			actionToolBar = new MainFrameToolBar(this);
 		}
 		
 		return actionToolBar;
 	}
-
-	/**
-	 * This method initializes newFileToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getNewFileToolbarButton() {
-		if (newFileToolbarButton == null) {
-			newFileToolbarButton = new JButton();
-			newFileToolbarButton.addActionListener(this);
-			newFileToolbarButton.setActionCommand(Constants.NEW_FILE_ACTION);
-			newFileToolbarButton.setIcon(ResourceUtil.newFileIcon);
-			newFileToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.new.tooltip"));			
-		}
-		
-		return newFileToolbarButton;
-	}
 	
-	/**
-	 * This method initializes openFileToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getOpenFileToolbarButton() {
-		if (openFileToolbarButton == null) {
-			openFileToolbarButton = new JButton();
-			openFileToolbarButton.addActionListener(this);
-			openFileToolbarButton.setActionCommand(Constants.OPEN_FILE_ACTION);
-			openFileToolbarButton.setIcon(ResourceUtil.openFileIcon);
-			openFileToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.open.tooltip"));
-		}
-		
-		return openFileToolbarButton;
-	}
-	
-	/**
-	 * This method initializes saveFileToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getSaveFileToolbarButton() {
-		if (saveFileToolbarButton == null) {
-			saveFileToolbarButton = new JButton();
-			saveFileToolbarButton.addActionListener(this);
-			saveFileToolbarButton.setActionCommand(Constants.SAVE_FILE_ACTION);
-			saveFileToolbarButton.setIcon(ResourceUtil.saveFileIcon);
-			saveFileToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.save.tooltip"));
-		}
-		return saveFileToolbarButton;
-	}
-	
-	/**
-	 * This method initializes saveFileAsToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getSaveFileAsToolbarButton() {
-		if (saveFileAsToolbarButton == null) {
-			saveFileAsToolbarButton = new JButton();
-			saveFileAsToolbarButton.addActionListener(this);
-			saveFileAsToolbarButton.setActionCommand(Constants.SAVE_FILE_AS_ACTION);
-			saveFileAsToolbarButton.setIcon(ResourceUtil.saveFileAsIcon);
-			saveFileAsToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.saveas.tooltip"));
-		}
-		return saveFileAsToolbarButton;
-	}
-	
-	/**
-	 * This method initializes addUserToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getAddUserToolbarButton() {
-		if (addUserToolbarButton == null) {
-			addUserToolbarButton = new JButton();
-			addUserToolbarButton.addActionListener(this);
-			addUserToolbarButton.setActionCommand(Constants.ADD_USER_ACTION);
-			addUserToolbarButton.setIcon(ResourceUtil.addUserIcon);
-			addUserToolbarButton.setText(ResourceUtil.getString("mainframe.button.adduser"));
-			addUserToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.adduser.tooltip"));			
-		}
-		
-		return addUserToolbarButton;
-	}
-
-	/**
-	 * This method initializes addGroupToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getAddGroupToolbarButton() {
-		if (addGroupToolbarButton == null) {
-			addGroupToolbarButton = new JButton();
-			addGroupToolbarButton.addActionListener(this);
-			addGroupToolbarButton.setActionCommand(Constants.ADD_GROUP_ACTION);
-			addGroupToolbarButton.setIcon(ResourceUtil.addGroupIcon);
-			addGroupToolbarButton.setText(ResourceUtil.getString("mainframe.button.addgroup"));
-			addGroupToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
-		}
-		
-		return addGroupToolbarButton;
-	}
-
-	/**
-	 * This method initializes previewToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getPreviewToolbarButton() {
-		if (previewToolbarButton == null) {
-			previewToolbarButton = new JButton();
-			previewToolbarButton.addActionListener(this);
-			previewToolbarButton.setActionCommand(Constants.PREVIEW_ACTION);
-			previewToolbarButton.setIcon(ResourceUtil.previewIcon);
-			previewToolbarButton.setText(ResourceUtil.getString("mainframe.button.preview"));
-			previewToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.preview.tooltip"));
-		}
-		
-		return previewToolbarButton;
-	}
-
-	/**
-	 * This method initializes addAccessRuleToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getAddAccessRuleToolbarButton() {
-		if (addAccessRuleToolbarButton == null) {
-			addAccessRuleToolbarButton = new JButton();
-			addAccessRuleToolbarButton.addActionListener(this);
-			addAccessRuleToolbarButton.setActionCommand(Constants.ADD_ACCESS_RULE_ACTION);
-			addAccessRuleToolbarButton.setIcon(ResourceUtil.addAccessRuleIcon);
-			addAccessRuleToolbarButton.setText(ResourceUtil.getString("mainframe.button.addaccessrule"));
-			addAccessRuleToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addaccessrule.tooltip"));			
-		}
-		
-		return addAccessRuleToolbarButton;
-	}
-
 	/**
 	 * New file action handler.
 	 */
@@ -2339,7 +2184,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JPopupMenu
 	 */
-	private JPopupMenu getUsersPopupMenu() {
+	private MainFrameUsersPopupMenu getUsersPopupMenu() {
 		if (usersPopupMenu == null) {
 			usersPopupMenu = new MainFrameUsersPopupMenu(this);
 			
@@ -2356,7 +2201,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JPopupMenu
 	 */
-	private JPopupMenu getGroupsPopupMenu() {
+	private MainFrameGroupsPopupMenu getGroupsPopupMenu() {
 		if (groupsPopupMenu == null) {
 			groupsPopupMenu = new MainFrameGroupsPopupMenu(this);
 			
