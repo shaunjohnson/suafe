@@ -43,7 +43,6 @@ import java.util.Stack;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -53,12 +52,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTree;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -69,7 +63,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
 
 import org.xiaoniu.suafe.AutofitTableColumns;
 import org.xiaoniu.suafe.Constants;
@@ -105,8 +98,6 @@ import org.xiaoniu.suafe.dialogs.EditUserDialog;
 import org.xiaoniu.suafe.dialogs.LicenseDialog;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.models.NonEditableTableModel;
-import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
-import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.reports.GenericReport;
 import org.xiaoniu.suafe.reports.StatisticsReport;
 import org.xiaoniu.suafe.reports.SummaryReport;
@@ -125,35 +116,17 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 
 	private FileTransferHandler fileTransferHandler = null;
 	
-	private JButton addAccessRuleButton = null;
-	  
-	private JButton addProjectAccessRulesButton = null;
-	private JButton deleteAccessRuleButton = null; 
-	private JButton deleteTreeItemButton = null;
-	private JButton editAccessRuleButton = null;
-	private JButton editTreeItemButton = null; 
-	
 	private JLabel statusLabel = null;
 	
-	private JPanel accessRuleActionsPanel = null;
-	private JPanel accessRulesFormatPanel = null;
-	private JPanel accessRulesPanel = null;  
-	private JPanel accessRulesTreeActionsPanel = null;
-	private JPanel accessRulesTreePanel = null;  
 	private JPanel contentPane = null;    
-	private JPanel statusPanel = null;
 	
-	private JScrollPane accessRulesScrollPane = null;
-	private JScrollPane accessRulesTreeScrollPane = null;
-	private JSplitPane accessRulesSplitPane = null;
+	private JPanel statusPanel = null;
 		
 	private JTabbedPane mainTabbedPane = null;  
 	
-	private JTable accessRulesTable = null;
-	
 	private JPanel toolbarPanel = null;
 	
-	private JTree accessRulesTree = null;
+	private MainFrameAccessRulesPane accessRulesSplitPane = null;
 	
 	private MainFrameToolBar actionToolBar = null;
 	
@@ -168,9 +141,13 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private MainFrameUsersPane usersSplitPane = null;
 	
 	private Object[] groupAccessRulesColumnNames;
+	
 	private Object[] pathAccessRulesColumnNames;	
+	
 	private Object[] repositoryAccessRulesColumnNames;
+	
 	private Object[] serverAccessRulesColumnNames;
+	
 	private Object[] userAccessRulesColumnNames;
 
 	private Stack<String> fileStack = null;
@@ -285,8 +262,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			UserPreferences.setUserFontStyle(newFontStyle);
 		}
 		
-		getAccessRulesTable().setFont(UserPreferences.getUserFont());
-		getAccessRulesTree().setFont(UserPreferences.getUserFont());
+		getAccessRulesSplitPane().getAccessRulesTable().setFont(UserPreferences.getUserFont());
+		getAccessRulesSplitPane().getAccessRulesTree().setFont(UserPreferences.getUserFont());
 		getGroupsSplitPane().getGroupAccessRulesTable().setFont(UserPreferences.getUserFont());
 		getGroupsSplitPane().getGroupList().setFont(UserPreferences.getUserFont());
 		getGroupsSplitPane().getGroupMemberList().setFont(UserPreferences.getUserFont());
@@ -471,8 +448,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		refreshGroupList(null);
 		refreshGroupDetails();
 		refreshAccessRuleTree(null);
-		getEditTreeItemButton().setEnabled(false);
-		getDeleteTreeItemButton().setEnabled(false);
+		getAccessRulesSplitPane().getEditTreeItemButton().setEnabled(false);
+		getAccessRulesSplitPane().getDeleteTreeItemButton().setEnabled(false);
 		getMainTabbedPane().setSelectedComponent(getUsersSplitPane());
 	}
 
@@ -707,8 +684,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param enabled If true access rules actions enabled, otherwise disabled.
 	 */
 	private void toggleAccessRulesActions(boolean enabled) {
-		getEditAccessRuleButton().setEnabled(enabled);
-		getDeleteAccessRuleButton().setEnabled(enabled);
+		getAccessRulesSplitPane().getEditAccessRuleButton().setEnabled(enabled);
+		getAccessRulesSplitPane().getDeleteAccessRuleButton().setEnabled(enabled);
 	}
 	
 	/**
@@ -789,7 +766,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private void addAccessRule() {
 		getMainTabbedPane().setSelectedComponent(getAccessRulesSplitPane());
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 		Object userObject = (node == null) ? null : node.getUserObject();
 		Message message = new Message();
 		JDialog dialog = new AddAccessRuleDialog(userObject, message);
@@ -816,7 +793,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private void addProjectAccessRules() {
 		getMainTabbedPane().setSelectedComponent(getAccessRulesSplitPane());
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 		Object userObject = (node == null) ? null : node.getUserObject();
 		Message message = new Message();
 		JDialog dialog = new AddProjectAccessRulesDialog(userObject, message);
@@ -840,20 +817,20 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit access rule handler.
 	 */
 	private void editAccessRule() {
-		if (getAccessRulesTable().getSelectedRowCount() < 1) {
+		if (getAccessRulesSplitPane().getAccessRulesTable().getSelectedRowCount() < 1) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.noaccessruleselected"));
 		}
 		else {
 			try {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 				
 				if (node == null) {
 					return;
 				}
 				
 				Object userObject = node.getUserObject();
-				DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesTable().getModel();
-				int selectedRow = getAccessRulesTable().getSelectedRow();
+				DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesSplitPane().getAccessRulesTable().getModel();
+				int selectedRow = getAccessRulesSplitPane().getAccessRulesTable().getSelectedRow();
 				AccessRule accessRule = null;
 						
 				if (userObject instanceof Repository) {
@@ -917,7 +894,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete access rule handler.
 	 */
 	private void deleteAccessRule() {
-		if (getAccessRulesTable().getSelectedRowCount() < 1) {
+		if (getAccessRulesSplitPane().getAccessRulesTable().getSelectedRowCount() < 1) {
 			displayWarning(ResourceUtil.getString("mainframe.warnming.noaccessrule"));
 		} 
 		else {
@@ -930,15 +907,15 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 					
 					if (node == null) {
 						return;
 					}
 					
 					Object userObject = node.getUserObject();
-					DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesTable().getModel();
-					int selectedRow = getAccessRulesTable().getSelectedRow();
+					DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesSplitPane().getAccessRulesTable().getModel();
+					int selectedRow = getAccessRulesSplitPane().getAccessRulesTable().getSelectedRow();
 							
 					if (userObject instanceof Repository) {
 						Repository repository = (Repository)userObject;
@@ -1419,7 +1396,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete path action handler.
 	 */
 	private void deletePath() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -1456,7 +1433,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit path action handler.
 	 */
 	private void editPath() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -1486,7 +1463,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete repository action handler.
 	 */
 	private void deleteRepository() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -1523,7 +1500,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit repository action handler.
 	 */
 	private void editRepository() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -1840,79 +1817,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		return groupsPopupMenu;
 	}
-
-	/**
-	 * This method initializes addAccessRuleButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getAddAccessRuleButton() {
-		if (addAccessRuleButton == null) {
-			addAccessRuleButton = new JButton();
-			addAccessRuleButton.addActionListener(this);
-			addAccessRuleButton.setActionCommand(Constants.ADD_ACCESS_RULE_ACTION);
-			addAccessRuleButton.setIcon(ResourceUtil.addAccessRuleIcon);
-			addAccessRuleButton.setText(ResourceUtil.getString("button.add"));
-			addAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.addaccessrule.tooltip"));			
-		}
-		
-		return addAccessRuleButton;
-	}
-
-	/**
-	 * This method initializes addAccessRuleButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getAddProjectAccessRulesButton() {
-		if (addProjectAccessRulesButton == null) {
-			addProjectAccessRulesButton = new JButton();
-			addProjectAccessRulesButton.addActionListener(this);
-			addProjectAccessRulesButton.setActionCommand(Constants.ADD_PROJECT_ACCESS_RULES_ACTION);
-			addProjectAccessRulesButton.setIcon(ResourceUtil.addProjectAccessRulesIcon);
-			addProjectAccessRulesButton.setText(ResourceUtil.getString("button.addProjectAccessRules"));
-			addProjectAccessRulesButton.setToolTipText(ResourceUtil.getString("mainframe.button.addprojectaccessrules.tooltip"));			
-		}
-		
-		return addProjectAccessRulesButton;
-	}
-	
-	/**
-	 * This method initializes editAccessRuleButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getEditAccessRuleButton() {
-		if (editAccessRuleButton == null) {
-			editAccessRuleButton = new JButton();
-			editAccessRuleButton.addActionListener(this);
-			editAccessRuleButton.setActionCommand(Constants.EDIT_ACCESS_RULE_ACTION);
-			editAccessRuleButton.setIcon(ResourceUtil.editAccessRuleIcon);
-			editAccessRuleButton.setText(ResourceUtil.getString("button.edit"));
-			editAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.editaccessrule.tooltip"));
-			editAccessRuleButton.setEnabled(false);
-		}
-		
-		return editAccessRuleButton;
-	}
-
-	/**
-	 * This method initializes deleteAccessRuleButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getDeleteAccessRuleButton() {
-		if (deleteAccessRuleButton == null) {
-			deleteAccessRuleButton = new JButton();
-			deleteAccessRuleButton.addActionListener(this);
-			deleteAccessRuleButton.setActionCommand(Constants.DELETE_ACCESS_RULE_ACTION);
-			deleteAccessRuleButton.setIcon(ResourceUtil.deleteAccessRuleIcon);
-			deleteAccessRuleButton.setText(ResourceUtil.getString("button.delete"));
-			deleteAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.deleteaccessrule.tooltip"));
-			deleteAccessRuleButton.setEnabled(false);
-		}
-		return deleteAccessRuleButton;
-	}
 	
 	/**
 	 * Refresh user details for selected user.
@@ -1998,10 +1902,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		else if (e.getSource() == getGroupsSplitPane().getGroupList()) {
 			refreshGroupDetails();
 		}
-		else if (e.getSource() == getAccessRulesTable().getSelectionModel() 
-				&& getAccessRulesTable().getRowSelectionAllowed()) {			
-			getEditAccessRuleButton().setEnabled(true);
-			getDeleteAccessRuleButton().setEnabled(true);
+		else if (e.getSource() == getAccessRulesSplitPane().getAccessRulesTable().getSelectionModel() 
+				&& getAccessRulesSplitPane().getAccessRulesTable().getRowSelectionAllowed()) {			
+			getAccessRulesSplitPane().getEditAccessRuleButton().setEnabled(true);
+			getAccessRulesSplitPane().getDeleteAccessRuleButton().setEnabled(true);
 		} 
 	}
 
@@ -2010,48 +1914,12 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JSplitPane
 	 */
-	private JSplitPane getAccessRulesSplitPane() {
+	private MainFrameAccessRulesPane getAccessRulesSplitPane() {
 		if (accessRulesSplitPane == null) {
-			accessRulesSplitPane = new JSplitPane();
-			accessRulesSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
-			accessRulesSplitPane.setLeftComponent(getAccessRulesTreePanel());
-			accessRulesSplitPane.setRightComponent(getAccessRulesPanel());
-			accessRulesSplitPane.setDividerLocation(UserPreferences.getRulesPaneDividerLocation());
+			accessRulesSplitPane = new MainFrameAccessRulesPane(this, this, this, this);
 		}
 		
 		return accessRulesSplitPane;
-	}
-
-	/**
-	 * This method initializes accessRulesTreeScrollPane.
-	 * 
-	 * @return javax.swing.JScrollPane
-	 */
-	private JScrollPane getAccessRulesTreeScrollPane() {
-		if (accessRulesTreeScrollPane == null) {
-			accessRulesTreeScrollPane = new JScrollPane();
-			accessRulesTreeScrollPane.setViewportView(getAccessRulesTree());
-		}
-		
-		return accessRulesTreeScrollPane;
-	}
-
-	/**
-	 * This method initializes accessRulesTree.
-	 * 
-	 * @return javax.swing.JTree
-	 */
-	private JTree getAccessRulesTree() {
-		if (accessRulesTree == null) {
-			accessRulesTree = new JTree(new DefaultMutableTreeNode(ResourceUtil.getString("application.server")));
-			accessRulesTree.addTreeSelectionListener(this);
-			accessRulesTree.setShowsRootHandles(true);
-			accessRulesTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-			accessRulesTree.setCellRenderer(new MyTreeCellRenderer());
-			accessRulesTree.setExpandsSelectedPaths(true);
-		}
-		
-		return accessRulesTree;
 	}
 	
 	/**
@@ -2092,9 +1960,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			}
 		}
 
-		getAccessRulesTree().setModel(accessRuleTreeModel);
-		getAccessRulesTree().setSelectionPath(treePath);
-		getAccessRulesTree().scrollPathToVisible(treePath);
+		getAccessRulesSplitPane().getAccessRulesTree().setModel(accessRuleTreeModel);
+		getAccessRulesSplitPane().getAccessRulesTree().setSelectionPath(treePath);
+		getAccessRulesSplitPane().getAccessRulesTree().scrollPathToVisible(treePath);
 		
 		if (selectedObject instanceof Repository) {
 			refreshRepositoryAccessRules((Repository)selectedObject);
@@ -2103,66 +1971,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			refreshPathAccessRules((Path)selectedObject);
 		}
 		else {
-			getAccessRulesTree().setSelectionPath(new TreePath(getAccessRulesTree().getModel().getRoot()));
+			getAccessRulesSplitPane().getAccessRulesTree().setSelectionPath(new TreePath(getAccessRulesSplitPane().getAccessRulesTree().getModel().getRoot()));
 			refreshServerAccessRules();
 		}
 		
 		toggleAccessRulesActions(false);
-	}
-
-	/**
-	 * This method initializes accessRulesPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getAccessRulesPanel() {
-		if (accessRulesPanel == null) {
-			accessRulesPanel = new JPanel();
-			accessRulesPanel.setLayout(new BorderLayout());
-			accessRulesPanel.add(getAccessRulesFormatPanel(), BorderLayout.CENTER);
-			accessRulesPanel.add(getAccessRuleActionsPanel(), BorderLayout.SOUTH);			
-		}
-		
-		return accessRulesPanel;
-	}
-
-	/**
-	 * This method initializes accessRuleActionsPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getAccessRuleActionsPanel() {
-		if (accessRuleActionsPanel == null) {
-			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(FlowLayout.LEFT);
-			
-			accessRuleActionsPanel = new JPanel(layout);
-			accessRuleActionsPanel.add(getAddAccessRuleButton());
-			accessRuleActionsPanel.add(getAddProjectAccessRulesButton());
-			accessRuleActionsPanel.add(getEditAccessRuleButton());
-			accessRuleActionsPanel.add(getDeleteAccessRuleButton());
-		}
-		
-		return accessRuleActionsPanel;
-	}
-
-	/**
-	 * This method initializes accessRulesTable
-	 * 
-	 * @return javax.swing.JTable
-	 */
-	private JTable getAccessRulesTable() {
-		if (accessRulesTable == null) {
-			accessRulesTable = new JTable();
-			accessRulesTable.addMouseListener(this);
-			accessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			accessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);
-			accessRulesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			accessRulesTable.getSelectionModel().addListSelectionListener(this);
-			accessRulesTable.setAutoCreateRowSorter(true);
-		}
-		
-		return accessRulesTable;
 	}
 
 	/**
@@ -2177,37 +1990,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 		
 		return toolbarPanel;
-	}
-	
-	/**
-	 * This method initializes accessRulesScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */    
-	private JScrollPane getAccessRulesScrollPane() {
-		if (accessRulesScrollPane == null) {
-			accessRulesScrollPane = new JScrollPane();
-			accessRulesScrollPane.setViewportView(getAccessRulesTable());
-		}
-		
-		return accessRulesScrollPane;
-	}
-	
-	/**
-	 * This method initializes accessRulesFormatPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getAccessRulesFormatPanel() {
-		if (accessRulesFormatPanel == null) {
-			accessRulesFormatPanel = new JPanel();
-			accessRulesFormatPanel.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));
-			accessRulesFormatPanel.setLayout(new BorderLayout());			
-			accessRulesFormatPanel.add(new JLabel(ResourceUtil.getString("mainframe.accessrules")), BorderLayout.NORTH);
-			accessRulesFormatPanel.add(getAccessRulesScrollPane(), BorderLayout.CENTER);
-		}
-		
-		return accessRulesFormatPanel;
 	}
 
 	/**
@@ -2264,7 +2046,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 					displayUser(getGroupsSplitPane().getGroupMemberList().getSelectedValue());
 				}
 			}
-			else if (event.getSource() == getAccessRulesTable()) {
+			else if (event.getSource() == getAccessRulesSplitPane().getAccessRulesTable()) {
 				editAccessRule();
 			}
 		}
@@ -2321,10 +2103,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforrepository"));
 		}
 		
-		getAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getAccessRulesTable(), true);
-		getEditAccessRuleButton().setEnabled(false);
-		getDeleteAccessRuleButton().setEnabled(false);
+		getAccessRulesSplitPane().getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesSplitPane().getAccessRulesTable(), true);
+		getAccessRulesSplitPane().getEditAccessRuleButton().setEnabled(false);
+		getAccessRulesSplitPane().getDeleteAccessRuleButton().setEnabled(false);
 	}
 
 	/**
@@ -2342,8 +2124,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforpath"));
 		}
 		
-		getAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getAccessRulesTable(), true);
+		getAccessRulesSplitPane().getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesSplitPane().getAccessRulesTable(), true);
 	}
 	
 	/**
@@ -2359,8 +2141,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforserver"));
 		}
 		
-		getAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getAccessRulesTable(), true);
+		getAccessRulesSplitPane().getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesSplitPane().getAccessRulesTable(), true);
 	}
 	
 	/**
@@ -2369,7 +2151,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param event TreeSelectionEven object
 	 */
 	public void valueChanged(TreeSelectionEvent event) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -2380,115 +2162,48 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		if (userObject instanceof Repository) {
 			refreshRepositoryAccessRules((Repository)userObject);
 			
-			getEditTreeItemButton().setEnabled(true);
-			getDeleteTreeItemButton().setEnabled(true);
+			getAccessRulesSplitPane().getEditTreeItemButton().setEnabled(true);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setEnabled(true);
 			
-			getEditTreeItemButton().setIcon(ResourceUtil.repositoryEditIcon);
-			getDeleteTreeItemButton().setIcon(ResourceUtil.repositoryDeleteIcon);
+			getAccessRulesSplitPane().getEditTreeItemButton().setIcon(ResourceUtil.repositoryEditIcon);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setIcon(ResourceUtil.repositoryDeleteIcon);
 			
-			getEditTreeItemButton().setActionCommand(Constants.EDIT_REPOSITORY_ACTION);
-			getDeleteTreeItemButton().setActionCommand(Constants.DELETE_REPOSITORY_ACTION);
+			getAccessRulesSplitPane().getEditTreeItemButton().setActionCommand(Constants.EDIT_REPOSITORY_ACTION);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setActionCommand(Constants.DELETE_REPOSITORY_ACTION);
 			
-			getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editrepository.tooltip"));
-			getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deleterepository.tooltip"));
+			getAccessRulesSplitPane().getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editrepository.tooltip"));
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deleterepository.tooltip"));
 		}
 		else if (userObject instanceof Path) {
 			refreshPathAccessRules((Path)userObject);
 			
-			getEditTreeItemButton().setEnabled(true);
-			getDeleteTreeItemButton().setEnabled(true);
+			getAccessRulesSplitPane().getEditTreeItemButton().setEnabled(true);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setEnabled(true);
 			
-			getEditTreeItemButton().setIcon(ResourceUtil.pathEditIcon);
-			getDeleteTreeItemButton().setIcon(ResourceUtil.pathDeleteIcon);
+			getAccessRulesSplitPane().getEditTreeItemButton().setIcon(ResourceUtil.pathEditIcon);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setIcon(ResourceUtil.pathDeleteIcon);
 			
-			getEditTreeItemButton().setActionCommand(Constants.EDIT_PATH_ACTION);
-			getDeleteTreeItemButton().setActionCommand(Constants.DELETE_PATH_ACTION);
+			getAccessRulesSplitPane().getEditTreeItemButton().setActionCommand(Constants.EDIT_PATH_ACTION);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setActionCommand(Constants.DELETE_PATH_ACTION);
 			
-			getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editpath.tooltip"));
-			getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deletepath.tooltip"));
+			getAccessRulesSplitPane().getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editpath.tooltip"));
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deletepath.tooltip"));
 		}
 		else {
 			refreshServerAccessRules();
 			
-			getEditTreeItemButton().setEnabled(false);
-			getDeleteTreeItemButton().setEnabled(false);
+			getAccessRulesSplitPane().getEditTreeItemButton().setEnabled(false);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setEnabled(false);
 			
-			getEditTreeItemButton().setIcon(null);
-			getDeleteTreeItemButton().setIcon(null);
+			getAccessRulesSplitPane().getEditTreeItemButton().setIcon(null);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setIcon(null);
 			
-			getEditTreeItemButton().setActionCommand(null);
-			getDeleteTreeItemButton().setActionCommand(null);
+			getAccessRulesSplitPane().getEditTreeItemButton().setActionCommand(null);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setActionCommand(null);
 			
-			getEditTreeItemButton().setToolTipText(null);
-			getDeleteTreeItemButton().setToolTipText(null);
+			getAccessRulesSplitPane().getEditTreeItemButton().setToolTipText(null);
+			getAccessRulesSplitPane().getDeleteTreeItemButton().setToolTipText(null);
 		}
-	}
-	
-	/**
-	 * This method initializes accessRulesTreePanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getAccessRulesTreePanel() {
-		if (accessRulesTreePanel == null) {
-			accessRulesTreePanel = new JPanel(new BorderLayout());
-			accessRulesTreePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
-			accessRulesTreePanel.add(new JLabel(ResourceUtil.getString("mainframe.serverstructure")), BorderLayout.NORTH);
-			accessRulesTreePanel.add(getAccessRulesTreeScrollPane(), BorderLayout.CENTER);
-			accessRulesTreePanel.add(getAccessRulesTreeActionsPanel(), BorderLayout.SOUTH);
-		}
-		
-		return accessRulesTreePanel;
-	}
-	
-	/**
-	 * This method initializes accessRulesTreeActionsPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getAccessRulesTreeActionsPanel() {
-		if (accessRulesTreeActionsPanel == null) {
-			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(FlowLayout.LEFT);
-			
-			accessRulesTreeActionsPanel = new JPanel(layout);
-			accessRulesTreeActionsPanel.add(getEditTreeItemButton());
-			accessRulesTreeActionsPanel.add(getDeleteTreeItemButton());
-		}
-		
-		return accessRulesTreeActionsPanel;
-	}
-	
-	/**
-	 * This method initializes editTreeItemButton.	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
-	private JButton getEditTreeItemButton() {
-		if (editTreeItemButton == null) {
-			editTreeItemButton = new JButton();
-			editTreeItemButton.addActionListener(this);
-			editTreeItemButton.setText(ResourceUtil.getString("button.edit"));
-			editTreeItemButton.setEnabled(false);
-		}
-		
-		return editTreeItemButton;
-	}
-	
-	/**
-	 * This method initializes deleteTreeItemButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
-	private JButton getDeleteTreeItemButton() {
-		if (deleteTreeItemButton == null) {
-			deleteTreeItemButton = new JButton();
-			deleteTreeItemButton.addActionListener(this);
-			deleteTreeItemButton.setText(ResourceUtil.getString("button.delete"));
-			deleteTreeItemButton.setEnabled(false);
-		}
-		
-		return deleteTreeItemButton;
 	}
 
 	/**
