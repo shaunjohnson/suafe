@@ -164,9 +164,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 
 	private static final long serialVersionUID = -4378074679449146788L;
 	
-	private AccessRulesPane accessRulesSplitPane = null;
+	private AccessRulesPane accessRulesPane = null;
 	
-	private TreeModel accessRuleTreeModel = null;    
+	private TreeModel accessRulesTreeModel = null;    
 	
 	private MainFrameToolBar actionToolBar = null;
 		
@@ -178,31 +178,31 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	
 	private Object[] groupAccessRulesColumnNames;
 	
-	private GroupsPopupMenu groupsPopupMenu = null;
+	private GroupsPane groupsPane = null;
 	
-	private GroupsPane groupsSplitPane = null; 
+	private GroupsPopupMenu groupsPopupMenu = null; 
 	
-	private JTabbedPane mainTabbedPane = null;
+	private MainFrameMenuBar menuBar = null;
 	
-	private MainFrameMenuBar menuBar = null; 
-	
-	private Object[] pathAccessRulesColumnNames;
+	private Object[] pathAccessRulesColumnNames; 
 	
 	private Object[] repositoryAccessRulesColumnNames;
 	
-	private Object[] serverAccessRulesColumnNames;	
+	private Object[] serverAccessRulesColumnNames;
 	
-	private JLabel statusLabel = null;
+	private JLabel statusLabel = null;	
 	
 	private JPanel statusPanel = null;
+	
+	private JTabbedPane tabbedPane = null;
 	
 	private JPanel toolbarPanel = null;
 
 	private Object[] userAccessRulesColumnNames;
 	
-	private UsersPopupMenu usersPopupMenu = null;
+	private UsersPane usersPane = null;
 	
-	private UsersPane usersSplitPane = null;
+	private UsersPopupMenu usersPopupMenu = null;
 
 	/**
 	 * Default constructor
@@ -314,11 +314,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		} else if (action.equals(Constants.RESET_SETTINGS_ACTION)) {
 			resetSettings();
 		} else if (e.getActionCommand().equals(Constants.VIEW_USERS_ACTION)) {
-			getMainTabbedPane().setSelectedComponent(getUsersSplitPane());
+			getMainTabbedPane().setSelectedComponent(getUsersPane());
 		} else if (e.getActionCommand().equals(Constants.VIEW_GROUPS_ACTION)) {
-			getMainTabbedPane().setSelectedComponent(getGroupsSplitPane());
+			getMainTabbedPane().setSelectedComponent(getGroupsPane());
 		} else if (e.getActionCommand().equals(Constants.VIEW_RULES_ACTION)) {
-			getMainTabbedPane().setSelectedComponent(getAccessRulesSplitPane());
+			getMainTabbedPane().setSelectedComponent(getAccessRulesPane());
 		} else {
 			displayError(ResourceUtil.getString("application.erroroccurred"));
 		}
@@ -330,9 +330,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Add Access Rule action handler. Displays AddAccessRule dialog.
 	 */
 	private void addAccessRule() {
-		getMainTabbedPane().setSelectedComponent(getAccessRulesSplitPane());
+		getMainTabbedPane().setSelectedComponent(getAccessRulesPane());
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 		Object userObject = (node == null) ? null : node.getUserObject();
 		Message message = new Message();
 		JDialog dialog = new AddAccessRuleDialog(userObject, message);
@@ -356,7 +356,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Add Group action handler. Displays AddGroup dialog.
 	 */
 	private void addGroup() {
-		getMainTabbedPane().setSelectedComponent(getGroupsSplitPane());
+		getMainTabbedPane().setSelectedComponent(getGroupsPane());
 
 		Message message = new Message();
 		JDialog dialog = new AddGroupDialog(message);
@@ -375,9 +375,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * dialog.
 	 */
 	private void addProjectAccessRules() {
-		getMainTabbedPane().setSelectedComponent(getAccessRulesSplitPane());
+		getMainTabbedPane().setSelectedComponent(getAccessRulesPane());
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 		Object userObject = (node == null) ? null : node.getUserObject();
 		Message message = new Message();
 		JDialog dialog = new AddProjectAccessRulesDialog(userObject, message);
@@ -401,7 +401,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Add/Remove Members action handler. Displays AddRemoveMembers dialog.
 	 */
 	private void addRemoveMembers() {
-		Object[] selectedItems = getGroupsSplitPane().getGroupList().getSelectedValues();
+		Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
@@ -480,7 +480,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Add User action handler. Displays AddUser dialog.
 	 */
 	private void addUser() {
-		getMainTabbedPane().setSelectedComponent(getUsersSplitPane());
+		getMainTabbedPane().setSelectedComponent(getUsersPane());
 
 		Message message = new Message();
 		JDialog dialog = new AddUserDialog(message);
@@ -499,21 +499,21 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			UserPreferences.setUserFontStyle(newFontStyle);
 		}
 		
-		getAccessRulesSplitPane().getAccessRulesTable().setFont(UserPreferences.getUserFont());
-		getAccessRulesSplitPane().getAccessRulesTree().setFont(UserPreferences.getUserFont());
-		getGroupsSplitPane().getGroupAccessRulesTable().setFont(UserPreferences.getUserFont());
-		getGroupsSplitPane().getGroupList().setFont(UserPreferences.getUserFont());
-		getGroupsSplitPane().getGroupMemberList().setFont(UserPreferences.getUserFont());
-		getUsersSplitPane().getUserAccessRulesTable().setFont(UserPreferences.getUserFont());
-		getUsersSplitPane().getUserGroupList().setFont(UserPreferences.getUserFont());
-		getUsersSplitPane().getUserList().setFont(UserPreferences.getUserFont());
+		getAccessRulesPane().getAccessRulesTable().setFont(UserPreferences.getUserFont());
+		getAccessRulesPane().getAccessRulesTree().setFont(UserPreferences.getUserFont());
+		getGroupsPane().getGroupAccessRulesTable().setFont(UserPreferences.getUserFont());
+		getGroupsPane().getGroupList().setFont(UserPreferences.getUserFont());
+		getGroupsPane().getGroupMemberList().setFont(UserPreferences.getUserFont());
+		getUsersPane().getUserAccessRulesTable().setFont(UserPreferences.getUserFont());
+		getUsersPane().getUserGroupList().setFont(UserPreferences.getUserFont());
+		getUsersPane().getUserList().setFont(UserPreferences.getUserFont());
 	}
 	
 	/**
 	 * Change Membership action handler. Displays ChangeMembership dialog.
 	 */
 	private void changeMembership() {
-		Object[] selectedItems = getUsersSplitPane().getUserList().getSelectedValues();
+		Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nouserselected"));
@@ -593,7 +593,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Clone group action handler.
 	 */
 	private void cloneGroup() {
-		Object[] selectedItems = getGroupsSplitPane().getGroupList().getSelectedValues();
+		Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -632,7 +632,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Clone user action handler.
 	 */
 	private void cloneUser() {
-		Object[] selectedItems = getUsersSplitPane().getUserList().getSelectedValues();
+		Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -670,7 +670,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete access rule handler.
 	 */
 	private void deleteAccessRule() {
-		if (getAccessRulesSplitPane().getAccessRulesTable().getSelectedRowCount() < 1) {
+		if (getAccessRulesPane().getAccessRulesTable().getSelectedRowCount() < 1) {
 			displayWarning(ResourceUtil.getString("mainframe.warnming.noaccessrule"));
 		} 
 		else {
@@ -683,15 +683,15 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 					
 					if (node == null) {
 						return;
 					}
 					
 					Object userObject = node.getUserObject();
-					DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesSplitPane().getAccessRulesTable().getModel();
-					int selectedRow = getAccessRulesSplitPane().getAccessRulesTable().getSelectedRow();
+					DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesPane().getAccessRulesTable().getModel();
+					int selectedRow = getAccessRulesPane().getAccessRulesTable().getSelectedRow();
 							
 					if (userObject instanceof Repository) {
 						Repository repository = (Repository)userObject;
@@ -747,11 +747,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete group action handler.
 	 */
 	private void deleteGroup() {
-		if (getGroupsSplitPane().getGroupList().isSelectionEmpty()) {
+		if (getGroupsPane().getGroupList().isSelectionEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
 		} 
 		else {
-			Object[] values = getGroupsSplitPane().getGroupList().getSelectedValues();
+			Object[] values = getGroupsPane().getGroupList().getSelectedValues();
 			int choice;
 			
 			if (values.length == 1) {
@@ -791,7 +791,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete path action handler.
 	 */
 	private void deletePath() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -828,7 +828,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete repository action handler.
 	 */
 	private void deleteRepository() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -865,11 +865,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete user action handler.
 	 */
 	private void deleteUser() {
-		if (getUsersSplitPane().getUserList().isSelectionEmpty()) {
+		if (getUsersPane().getUserList().isSelectionEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nouserselected"));
 		} 
 		else {
-			Object[] values = getUsersSplitPane().getUserList().getSelectedValues(); 
+			Object[] values = getUsersPane().getUserList().getSelectedValues(); 
 			int choice;
 			
 			if (values.length == 1) {
@@ -916,8 +916,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			return;
 		}
 		
-		getMainTabbedPane().setSelectedComponent(getGroupsSplitPane());
-		getGroupsSplitPane().getGroupList().setSelectedValue(group, true);
+		getMainTabbedPane().setSelectedComponent(getGroupsPane());
+		getGroupsPane().getGroupList().setSelectedValue(group, true);
 		refreshGroupDetails();
 	}
 	
@@ -931,8 +931,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			return;
 		}
 		
-		getMainTabbedPane().setSelectedComponent(getUsersSplitPane());
-		getUsersSplitPane().getUserList().setSelectedValue(user, true);
+		getMainTabbedPane().setSelectedComponent(getUsersPane());
+		getUsersPane().getUserList().setSelectedValue(user, true);
 		refreshUserDetails();
 	}
 	
@@ -940,20 +940,20 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit access rule handler.
 	 */
 	private void editAccessRule() {
-		if (getAccessRulesSplitPane().getAccessRulesTable().getSelectedRowCount() < 1) {
+		if (getAccessRulesPane().getAccessRulesTable().getSelectedRowCount() < 1) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.noaccessruleselected"));
 		}
 		else {
 			try {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 				
 				if (node == null) {
 					return;
 				}
 				
 				Object userObject = node.getUserObject();
-				DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesSplitPane().getAccessRulesTable().getModel();
-				int selectedRow = getAccessRulesSplitPane().getAccessRulesTable().getSelectedRow();
+				DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesPane().getAccessRulesTable().getModel();
+				int selectedRow = getAccessRulesPane().getAccessRulesTable().getSelectedRow();
 				AccessRule accessRule = null;
 						
 				if (userObject instanceof Repository) {
@@ -1017,7 +1017,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit group action handler.
 	 */
 	private void editGroup() {
-		Object[] selectedItems = getGroupsSplitPane().getGroupList().getSelectedValues();
+		Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -1057,7 +1057,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit path action handler.
 	 */
 	private void editPath() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -1087,7 +1087,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit repository action handler.
 	 */
 	private void editRepository() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -1117,7 +1117,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit user action handler.
 	 */
 	private void editUser() {
-		Object[] selectedItems = getUsersSplitPane().getUserList().getSelectedValues();
+		Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -1173,9 +1173,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		refreshGroupList(null);
 		refreshGroupDetails();
 		refreshAccessRuleTree(null);
-		getAccessRulesSplitPane().getEditTreeItemButton().setEnabled(false);
-		getAccessRulesSplitPane().getDeleteTreeItemButton().setEnabled(false);
-		getMainTabbedPane().setSelectedComponent(getUsersSplitPane());
+		getAccessRulesPane().getEditTreeItemButton().setEnabled(false);
+		getAccessRulesPane().getDeleteTreeItemButton().setEnabled(false);
+		getMainTabbedPane().setSelectedComponent(getUsersPane());
 	}
 
 	/**
@@ -1199,8 +1199,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			try {
 				File file = fcOpen.getSelectedFile();
 				FileParser.parse(file);
-				getUsersSplitPane().getUserList().setListData(Document.getUserObjects());
-				getGroupsSplitPane().getGroupList().setListData(Document.getGroupObjects());
+				getUsersPane().getUserList().setListData(Document.getUserObjects());
+				getGroupsPane().getGroupList().setListData(Document.getGroupObjects());
 
 				Document.setFile(file);
 
@@ -1226,8 +1226,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		try {
 			FileParser.parse(file);
-			getUsersSplitPane().getUserList().setListData(Document.getUserObjects());
-			getGroupsSplitPane().getGroupList().setListData(Document.getGroupObjects());
+			getUsersPane().getUserList().setListData(Document.getUserObjects());
+			getGroupsPane().getGroupList().setListData(Document.getGroupObjects());
 
 			Document.setFile(file);
 
@@ -1380,22 +1380,22 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 	
 	/**
-	 * This method initializes accessRulesSplitPane.
+	 * This method initializes accessRulesPane.
 	 * 
-	 * @return javax.swing.JSplitPane
+	 * @return AccessRulesPane
 	 */
-	private AccessRulesPane getAccessRulesSplitPane() {
-		if (accessRulesSplitPane == null) {
-			accessRulesSplitPane = new AccessRulesPane(this, this, this, this);
+	private AccessRulesPane getAccessRulesPane() {
+		if (accessRulesPane == null) {
+			accessRulesPane = new AccessRulesPane(this, this, this, this);
 		}
 		
-		return accessRulesSplitPane;
+		return accessRulesPane;
 	}
 	
 	/**
 	 * This method initializes actionToolBar.
 	 * 
-	 * @return javax.swing.JToolBar
+	 * @return MainFrameToolBar
 	 */
 	private MainFrameToolBar getActionToolBar() {
 		if (actionToolBar == null) {
@@ -1423,9 +1423,22 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 
 	/**
+	 * This method initializes groupsPane.
+	 * 
+	 * @return GroupsPane
+	 */
+	private GroupsPane getGroupsPane() {
+		if (groupsPane == null) {
+			groupsPane = new GroupsPane(this, this, this, this);
+		}
+		
+		return groupsPane;
+	}
+	
+	/**
 	 * This method initializes groupsPopupMenu.
 	 * 
-	 * @return javax.swing.JPopupMenu
+	 * @return GroupsPopupMenu
 	 */
 	private GroupsPopupMenu getGroupsPopupMenu() {
 		if (groupsPopupMenu == null) {
@@ -1433,23 +1446,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			
 			// Add listener to the list.
 			MouseListener popupListener = new PopupListener(groupsPopupMenu);
-			getGroupsSplitPane().getGroupList().addMouseListener(popupListener);
+			getGroupsPane().getGroupList().addMouseListener(popupListener);
 		}
 		
 		return groupsPopupMenu;
-	}
-	
-	/**
-	 * This method initializes groupsSplitPane.
-	 * 
-	 * @return javax.swing.JSplitPane
-	 */
-	private GroupsPane getGroupsSplitPane() {
-		if (groupsSplitPane == null) {
-			groupsSplitPane = new GroupsPane(this, this, this, this);
-		}
-		
-		return groupsSplitPane;
 	}
 	
 	/**
@@ -1472,7 +1472,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	/**
 	 * This method initializes menuBar.
 	 * 
-	 * @return javax.swing.JMenuBar
+	 * @return MainFrameMenuBar
 	 */
 	private MainFrameMenuBar getMainFrameMenuBar() {
 		if (menuBar == null) {
@@ -1489,26 +1489,26 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @return javax.swing.JTabbedPane
 	 */
 	private JTabbedPane getMainTabbedPane() {
-		if (mainTabbedPane == null) {
-			mainTabbedPane = new JTabbedPane();
-			mainTabbedPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
-			mainTabbedPane.addTab(ResourceUtil
+		if (tabbedPane == null) {
+			tabbedPane = new JTabbedPane();
+			tabbedPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
+			tabbedPane.addTab(ResourceUtil
 					.getString("mainframe.tabs.users"), 
 					ResourceUtil.fullSizeUserIcon,
-					getUsersSplitPane());
-			mainTabbedPane.addTab(ResourceUtil
+					getUsersPane());
+			tabbedPane.addTab(ResourceUtil
 					.getString("mainframe.tabs.groups"), 
 					ResourceUtil.fullSizeGroupIcon,
-					getGroupsSplitPane());
-			mainTabbedPane.addTab(ResourceUtil
+					getGroupsPane());
+			tabbedPane.addTab(ResourceUtil
 					.getString("mainframe.tabs.accessrules"), 
 					ResourceUtil.fullSizeAccessRuleIcon,
-					getAccessRulesSplitPane());
+					getAccessRulesPane());
 			
-			mainTabbedPane.setFont(Constants.FONT_PLAIN);
+			tabbedPane.setFont(Constants.FONT_PLAIN);
 		}
 		
-		return mainTabbedPane;
+		return tabbedPane;
 	}
 	
 	/**
@@ -1620,9 +1620,22 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 
 	/**
+	 * This method initializes usersPane.
+	 * 
+	 * @return UsersPane
+	 */
+	private UsersPane getUsersPane() {
+		if (usersPane == null) {
+			usersPane = new UsersPane(this, this, this, this);
+		}
+		
+		return usersPane;
+	}
+	
+	/**
 	 * This method initializes usersPopupMenu.
 	 * 
-	 * @return javax.swing.JPopupMenu
+	 * @return UsersPopupMenu
 	 */
 	private UsersPopupMenu getUsersPopupMenu() {
 		if (usersPopupMenu == null) {
@@ -1630,23 +1643,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			
 			// Add listener to the user list
 			MouseListener popupListener = new PopupListener(usersPopupMenu);
-			getUsersSplitPane().getUserList().addMouseListener(popupListener);
+			getUsersPane().getUserList().addMouseListener(popupListener);
 		}
 		
 		return usersPopupMenu;
-	}
-	
-	/**
-	 * This method initializes usersSplitPane.
-	 * 
-	 * @return javax.swing.JSplitPane
-	 */
-	private UsersPane getUsersSplitPane() {
-		if (usersSplitPane == null) {
-			usersSplitPane = new UsersPane(this, this, this, this);
-		}
-		
-		return usersSplitPane;
 	}
 
 	/**
@@ -1709,16 +1709,16 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		else if (event.getKeyCode() == KeyEvent.VK_DELETE) {
 			Component component = event.getComponent();
 			
-			if (component == getUsersSplitPane().getUserList()) {
+			if (component == getUsersPane().getUserList()) {
 				deleteUser();
 			}
-			else if (component == getGroupsSplitPane().getGroupList()) {
+			else if (component == getGroupsPane().getGroupList()) {
 				deleteGroup();
 			}
-			else if (component == getGroupsSplitPane().getGroupMemberList()) {
+			else if (component == getGroupsPane().getGroupMemberList()) {
 				removeMembers();
 			}
-			else if (component == getUsersSplitPane().getUserGroupList()) {
+			else if (component == getUsersPane().getUserGroupList()) {
 				removeFromGroups();
 			}
 //			else if (component == getAccessRulesTree()) {
@@ -1765,11 +1765,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		this.setExtendedState(UserPreferences.getWindowState());
 		
-		getGroupsSplitPane().getGroupDetailsSplitPanel().setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
-		getGroupsSplitPane().setDividerLocation(UserPreferences.getGroupsPaneDividerLocation());
-		getUsersSplitPane().getUserDetailsSplitPanel().setDividerLocation(UserPreferences.getUserDetailsDividerLocation());
-		getUsersSplitPane().setDividerLocation(UserPreferences.getUsersPaneDividerLocation());
-		getAccessRulesSplitPane().setDividerLocation(UserPreferences.getRulesPaneDividerLocation());
+		getGroupsPane().loadUserPreferences();
+		getUsersPane().loadUserPreferences();
+		getAccessRulesPane().loadUserPreferences();
 		
 		menuBar.getOpenLastFileMenuItem().setSelected(UserPreferences.getOpenLastFile());
 		
@@ -1783,24 +1781,24 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 */
 	public void mouseClicked(MouseEvent event) {
 		if (event.getClickCount() == 2) {
-			if (event.getSource() == getUsersSplitPane().getUserList()) {
+			if (event.getSource() == getUsersPane().getUserList()) {
 				editUser();
 			}
-			else if (event.getSource() == getGroupsSplitPane().getGroupList()) {
+			else if (event.getSource() == getGroupsPane().getGroupList()) {
 				editGroup();
 			}
-			else if (event.getSource() == getUsersSplitPane().getUserGroupList()) {
-				displayGroup(getUsersSplitPane().getUserGroupList().getSelectedValue());
+			else if (event.getSource() == getUsersPane().getUserGroupList()) {
+				displayGroup(getUsersPane().getUserGroupList().getSelectedValue());
 			}
-			else if (event.getSource() == getGroupsSplitPane().getGroupMemberList()) {
-				if (getGroupsSplitPane().getGroupMemberList().getSelectedValue() instanceof Group) {
-					displayGroup(getGroupsSplitPane().getGroupMemberList().getSelectedValue());
+			else if (event.getSource() == getGroupsPane().getGroupMemberList()) {
+				if (getGroupsPane().getGroupMemberList().getSelectedValue() instanceof Group) {
+					displayGroup(getGroupsPane().getGroupMemberList().getSelectedValue());
 				}
 				else {
-					displayUser(getGroupsSplitPane().getGroupMemberList().getSelectedValue());
+					displayUser(getGroupsPane().getGroupMemberList().getSelectedValue());
 				}
 			}
-			else if (event.getSource() == getAccessRulesSplitPane().getAccessRulesTable()) {
+			else if (event.getSource() == getAccessRulesPane().getAccessRulesTable()) {
 				editAccessRule();
 			}
 		}
@@ -1880,7 +1878,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private void refreshAccessRuleTree(Object selectedObject) {
 		TreePath treePath = null;
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode(ResourceUtil.getString("application.server"));
-		accessRuleTreeModel = new DefaultTreeModel(node);
+		accessRulesTreeModel = new DefaultTreeModel(node);
 
 		List<Repository> repositoryList = Document.getRepositories();
 		
@@ -1910,9 +1908,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			}
 		}
 
-		getAccessRulesSplitPane().getAccessRulesTree().setModel(accessRuleTreeModel);
-		getAccessRulesSplitPane().getAccessRulesTree().setSelectionPath(treePath);
-		getAccessRulesSplitPane().getAccessRulesTree().scrollPathToVisible(treePath);
+		getAccessRulesPane().getAccessRulesTree().setModel(accessRulesTreeModel);
+		getAccessRulesPane().getAccessRulesTree().setSelectionPath(treePath);
+		getAccessRulesPane().getAccessRulesTree().scrollPathToVisible(treePath);
 		
 		if (selectedObject instanceof Repository) {
 			refreshRepositoryAccessRules((Repository)selectedObject);
@@ -1921,7 +1919,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			refreshPathAccessRules((Path)selectedObject);
 		}
 		else {
-			getAccessRulesSplitPane().getAccessRulesTree().setSelectionPath(new TreePath(getAccessRulesSplitPane().getAccessRulesTree().getModel().getRoot()));
+			getAccessRulesPane().getAccessRulesTree().setSelectionPath(new TreePath(getAccessRulesPane().getAccessRulesTree().getModel().getRoot()));
 			refreshServerAccessRules();
 		}
 		
@@ -1932,16 +1930,16 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Refresh group details for selected group.
 	 */
 	private void refreshGroupDetails() {		
-		Group group = (Group)getGroupsSplitPane().getGroupList().getSelectedValue();
+		Group group = (Group)getGroupsPane().getGroupList().getSelectedValue();
 		
 		try {
-			getGroupsSplitPane().getGroupMemberList().setModel(new DefaultListModel());
+			getGroupsPane().getGroupMemberList().setModel(new DefaultListModel());
 			
-			if (!getGroupsSplitPane().getGroupList().isSelectionEmpty()) {
+			if (!getGroupsPane().getGroupList().isSelectionEmpty()) {
 				Object[] listData = Document.getGroupMemberObjects(group);
 				
 				if (listData != null) {
-					getGroupsSplitPane().getGroupMemberList().setListData(listData);						
+					getGroupsPane().getGroupMemberList().setListData(listData);						
 				}
 			}
 		}
@@ -1949,7 +1947,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadinggroupmembers"));
 		}
 		
-		toggleGroupActions(getGroupsSplitPane().getGroupList().isSelectionEmpty() == false);
+		toggleGroupActions(getGroupsPane().getGroupList().isSelectionEmpty() == false);
 		
 		DefaultTableModel model = new NonEditableTableModel();
 		
@@ -1960,8 +1958,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforgroup"));
 		}
 		
-		getGroupsSplitPane().getGroupAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getGroupsSplitPane().getGroupAccessRulesTable(), true);
+		getGroupsPane().getGroupAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getGroupsPane().getGroupAccessRulesTable(), true);
 	}
 
 	/**
@@ -1971,11 +1969,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param selectedGroup Group currently selected.
 	 */
 	private void refreshGroupList(Group selectedGroup) {
-		getGroupsSplitPane().getGroupList().setListData(Document.getGroupObjects());
-		toggleGroupActions(getGroupsSplitPane().getGroupList().isSelectionEmpty() == false);
+		getGroupsPane().getGroupList().setListData(Document.getGroupObjects());
+		toggleGroupActions(getGroupsPane().getGroupList().isSelectionEmpty() == false);
 		
 		if (selectedGroup != null) {
-			getGroupsSplitPane().getGroupList().setSelectedValue(selectedGroup, true);
+			getGroupsPane().getGroupList().setSelectedValue(selectedGroup, true);
 		}
 		
 		refreshGroupDetails();
@@ -1996,8 +1994,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforpath"));
 		}
 		
-		getAccessRulesSplitPane().getAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getAccessRulesSplitPane().getAccessRulesTable(), true);
+		getAccessRulesPane().getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesPane().getAccessRulesTable(), true);
 	}
 
 	/**
@@ -2043,10 +2041,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforrepository"));
 		}
 		
-		getAccessRulesSplitPane().getAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getAccessRulesSplitPane().getAccessRulesTable(), true);
-		getAccessRulesSplitPane().getEditAccessRuleButton().setEnabled(false);
-		getAccessRulesSplitPane().getDeleteAccessRuleButton().setEnabled(false);
+		getAccessRulesPane().getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesPane().getAccessRulesTable(), true);
+		getAccessRulesPane().getEditAccessRuleButton().setEnabled(false);
+		getAccessRulesPane().getDeleteAccessRuleButton().setEnabled(false);
 	}
 
 	/**
@@ -2062,8 +2060,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforserver"));
 		}
 		
-		getAccessRulesSplitPane().getAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getAccessRulesSplitPane().getAccessRulesTable(), true);
+		getAccessRulesPane().getAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getAccessRulesPane().getAccessRulesTable(), true);
 	}
 
 	private void refreshTabNames() {		
@@ -2087,16 +2085,16 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Refresh user details for selected user.
 	 */
 	private void refreshUserDetails() {
-		User user = (User) getUsersSplitPane().getUserList().getSelectedValue();
+		User user = (User) getUsersPane().getUserList().getSelectedValue();
 
 		try {
-			getUsersSplitPane().getUserGroupList().setModel(new DefaultListModel());
+			getUsersPane().getUserGroupList().setModel(new DefaultListModel());
 			
-			if (!getUsersSplitPane().getUserList().isSelectionEmpty()) {
+			if (!getUsersPane().getUserList().isSelectionEmpty()) {
 				Object[] listData = (Object[])Document.getUserGroupObjects(user);
 				
 				if (listData != null) {
-					getUsersSplitPane().getUserGroupList().setListData(listData);						
+					getUsersPane().getUserGroupList().setListData(listData);						
 				}
 			}
 		}
@@ -2104,7 +2102,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingusers"));
 		}
 		
-		boolean enabled = getUsersSplitPane().getUserList().isSelectionEmpty() == false;
+		boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
 		toggleUserActions(enabled, (user == null) ? enabled : enabled && !user.isAllUsers());
 		
 		DefaultTableModel model = new NonEditableTableModel();
@@ -2116,8 +2114,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforuser"));
 		}
 		
-		getUsersSplitPane().getUserAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getUsersSplitPane().getUserAccessRulesTable(), true);
+		getUsersPane().getUserAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getUsersPane().getUserAccessRulesTable(), true);
 	}
 
 	/**
@@ -2127,13 +2125,13 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param selectedUser User currently selected.
 	 */
 	private void refreshUserList(User selectedUser) {
-		getUsersSplitPane().getUserList().setListData(Document.getUserObjects());
+		getUsersPane().getUserList().setListData(Document.getUserObjects());
 		
-		boolean enabled = getUsersSplitPane().getUserList().isSelectionEmpty() == false;
+		boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
 		toggleUserActions(enabled, (selectedUser == null) ? enabled : enabled && !selectedUser.isAllUsers());
 		
 		if (selectedUser != null) {
-			getUsersSplitPane().getUserList().setSelectedValue(selectedUser, true);
+			getUsersPane().getUserList().setSelectedValue(selectedUser, true);
 		}
 		
 		refreshUserDetails();
@@ -2158,8 +2156,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		try {
 			File file = Document.getFile();
 			FileParser.parse(file);
-			getUsersSplitPane().getUserList().setListData(Document.getUserObjects());
-			getGroupsSplitPane().getGroupList().setListData(Document.getGroupObjects());
+			getUsersPane().getUserList().setListData(Document.getUserObjects());
+			getGroupsPane().getGroupList().setListData(Document.getGroupObjects());
 
 			Document.setFile(file);
 			
@@ -2176,12 +2174,12 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 	
 	private void removeFromGroups() {
-		if (getUsersSplitPane().getUserGroupList().isSelectionEmpty()) {
+		if (getUsersPane().getUserGroupList().isSelectionEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
 		} 
 		else {
-			Object[] values = getUsersSplitPane().getUserGroupList().getSelectedValues(); 
-			User user = (User)getUsersSplitPane().getUserList().getSelectedValue();
+			Object[] values = getUsersPane().getUserGroupList().getSelectedValues(); 
+			User user = (User)getUsersPane().getUserList().getSelectedValue();
 			int choice;
 			
 			if (values.length == 1) {
@@ -2209,8 +2207,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
 				}
 				
-				refreshUserList((User)getUsersSplitPane().getUserList().getSelectedValue());
-				refreshGroupList((Group)getGroupsSplitPane().getGroupList().getSelectedValue());
+				refreshUserList((User)getUsersPane().getUserList().getSelectedValue());
+				refreshGroupList((Group)getGroupsPane().getGroupList().getSelectedValue());
 				refreshAccessRuleTree(null);
 			}
 		}
@@ -2219,12 +2217,12 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 
 	private void removeMembers() {
-		if (getGroupsSplitPane().getGroupMemberList().isSelectionEmpty()) {
+		if (getGroupsPane().getGroupMemberList().isSelectionEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nomemberselected"));
 		} 
 		else {
-			Object[] values = getGroupsSplitPane().getGroupMemberList().getSelectedValues(); 
-			Group group = (Group)getGroupsSplitPane().getGroupList().getSelectedValue();
+			Object[] values = getGroupsPane().getGroupMemberList().getSelectedValues(); 
+			Group group = (Group)getGroupsPane().getGroupList().getSelectedValue();
 			int choice;
 			
 			if (values.length == 1) {
@@ -2252,8 +2250,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
 				}
 				
-				refreshUserList((User)getUsersSplitPane().getUserList().getSelectedValue());
-				refreshGroupList((Group)getGroupsSplitPane().getGroupList().getSelectedValue());
+				refreshUserList((User)getUsersPane().getUserList().getSelectedValue());
+				refreshGroupList((Group)getGroupsPane().getGroupList().getSelectedValue());
 				refreshAccessRuleTree(null);
 			}
 		}
@@ -2274,17 +2272,17 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		UserPreferences.setWindowLocation(getLocation());
 		UserPreferences.setGroupDetailsDividerLocation(
-				getGroupsSplitPane().getGroupDetailsSplitPanel().getDividerLocation());
+				getGroupsPane().getGroupDetailsSplitPanel().getDividerLocation());
 		UserPreferences.setGroupsPaneDividerLocation(
-				getGroupsSplitPane().getDividerLocation());
+				getGroupsPane().getDividerLocation());
 		
 		UserPreferences.setUserDetailsDividerLocation(
-				getUsersSplitPane().getUserDetailsSplitPanel().getDividerLocation());
+				getUsersPane().getUserDetailsSplitPanel().getDividerLocation());
 		UserPreferences.setUsersPaneDividerLocation(
-				getUsersSplitPane().getDividerLocation());
+				getUsersPane().getDividerLocation());
 	
 		UserPreferences.setRulesPaneDividerLocation(
-				getAccessRulesSplitPane().getDividerLocation());
+				getAccessRulesPane().getDividerLocation());
 	}
 
 	/**
@@ -2354,8 +2352,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param enabled If true access rules actions enabled, otherwise disabled.
 	 */
 	private void toggleAccessRulesActions(boolean enabled) {
-		getAccessRulesSplitPane().getEditAccessRuleButton().setEnabled(enabled);
-		getAccessRulesSplitPane().getDeleteAccessRuleButton().setEnabled(enabled);
+		getAccessRulesPane().getEditAccessRuleButton().setEnabled(enabled);
+		getAccessRulesPane().getDeleteAccessRuleButton().setEnabled(enabled);
 	}
 	
 	/**
@@ -2364,10 +2362,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param enabled If true group actions are enabled, otherwise disabled.
 	 */
 	private void toggleGroupActions(boolean enabled) {
-		getGroupsSplitPane().getCloneGroupButton().setEnabled(enabled);
-		getGroupsSplitPane().getEditGroupButton().setEnabled(enabled);
-		getGroupsSplitPane().getDeleteGroupButton().setEnabled(enabled);
-		getGroupsSplitPane().getAddRemoveMembersButton().setEnabled(enabled);
+		getGroupsPane().getCloneGroupButton().setEnabled(enabled);
+		getGroupsPane().getEditGroupButton().setEnabled(enabled);
+		getGroupsPane().getDeleteGroupButton().setEnabled(enabled);
+		getGroupsPane().getAddRemoveMembersButton().setEnabled(enabled);
 		
 		groupsPopupMenu.getEditGroupPopupMenuItem().setEnabled(enabled);
 		groupsPopupMenu.getDeleteGroupPopupMenuItem().setEnabled(enabled);
@@ -2382,10 +2380,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param changeMembershipEnabled If true change membership button enabled, otherwise disabled.
 	 */
 	private void toggleUserActions(boolean enabled, boolean changeMembershipEnabled) {
-		getUsersSplitPane().getCloneUserButton().setEnabled(enabled);
-		getUsersSplitPane().getEditUserButton().setEnabled(enabled);
-		getUsersSplitPane().getDeleteUserButton().setEnabled(enabled);
-		getUsersSplitPane().getChangeMembershipButton().setEnabled(changeMembershipEnabled);
+		getUsersPane().getCloneUserButton().setEnabled(enabled);
+		getUsersPane().getEditUserButton().setEnabled(enabled);
+		getUsersPane().getDeleteUserButton().setEnabled(enabled);
+		getUsersPane().getChangeMembershipButton().setEnabled(changeMembershipEnabled);
 		
 		usersPopupMenu.getEditUserPopupMenuItem().setEnabled(enabled);
 		usersPopupMenu.getDeleteUserPopupMenuItem().setEnabled(enabled);
@@ -2428,16 +2426,16 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * access rules when new items selected.
 	 */
 	public void valueChanged(ListSelectionEvent e) {
-		if (e.getSource() == getUsersSplitPane().getUserList()) {
+		if (e.getSource() == getUsersPane().getUserList()) {
 			refreshUserDetails();
 		} 
-		else if (e.getSource() == getGroupsSplitPane().getGroupList()) {
+		else if (e.getSource() == getGroupsPane().getGroupList()) {
 			refreshGroupDetails();
 		}
-		else if (e.getSource() == getAccessRulesSplitPane().getAccessRulesTable().getSelectionModel() 
-				&& getAccessRulesSplitPane().getAccessRulesTable().getRowSelectionAllowed()) {			
-			getAccessRulesSplitPane().getEditAccessRuleButton().setEnabled(true);
-			getAccessRulesSplitPane().getDeleteAccessRuleButton().setEnabled(true);
+		else if (e.getSource() == getAccessRulesPane().getAccessRulesTable().getSelectionModel() 
+				&& getAccessRulesPane().getAccessRulesTable().getRowSelectionAllowed()) {			
+			getAccessRulesPane().getEditAccessRuleButton().setEnabled(true);
+			getAccessRulesPane().getDeleteAccessRuleButton().setEnabled(true);
 		} 
 	}
 
@@ -2447,7 +2445,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param event TreeSelectionEven object
 	 */
 	public void valueChanged(TreeSelectionEvent event) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesSplitPane().getAccessRulesTree().getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)getAccessRulesPane().getAccessRulesTree().getLastSelectedPathComponent();
 		
 		if (node == null) {
 			return;
@@ -2458,47 +2456,47 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		if (userObject instanceof Repository) {
 			refreshRepositoryAccessRules((Repository)userObject);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setEnabled(true);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setEnabled(true);
+			getAccessRulesPane().getEditTreeItemButton().setEnabled(true);
+			getAccessRulesPane().getDeleteTreeItemButton().setEnabled(true);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setIcon(ResourceUtil.repositoryEditIcon);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setIcon(ResourceUtil.repositoryDeleteIcon);
+			getAccessRulesPane().getEditTreeItemButton().setIcon(ResourceUtil.repositoryEditIcon);
+			getAccessRulesPane().getDeleteTreeItemButton().setIcon(ResourceUtil.repositoryDeleteIcon);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setActionCommand(Constants.EDIT_REPOSITORY_ACTION);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setActionCommand(Constants.DELETE_REPOSITORY_ACTION);
+			getAccessRulesPane().getEditTreeItemButton().setActionCommand(Constants.EDIT_REPOSITORY_ACTION);
+			getAccessRulesPane().getDeleteTreeItemButton().setActionCommand(Constants.DELETE_REPOSITORY_ACTION);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editrepository.tooltip"));
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deleterepository.tooltip"));
+			getAccessRulesPane().getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editrepository.tooltip"));
+			getAccessRulesPane().getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deleterepository.tooltip"));
 		}
 		else if (userObject instanceof Path) {
 			refreshPathAccessRules((Path)userObject);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setEnabled(true);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setEnabled(true);
+			getAccessRulesPane().getEditTreeItemButton().setEnabled(true);
+			getAccessRulesPane().getDeleteTreeItemButton().setEnabled(true);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setIcon(ResourceUtil.pathEditIcon);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setIcon(ResourceUtil.pathDeleteIcon);
+			getAccessRulesPane().getEditTreeItemButton().setIcon(ResourceUtil.pathEditIcon);
+			getAccessRulesPane().getDeleteTreeItemButton().setIcon(ResourceUtil.pathDeleteIcon);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setActionCommand(Constants.EDIT_PATH_ACTION);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setActionCommand(Constants.DELETE_PATH_ACTION);
+			getAccessRulesPane().getEditTreeItemButton().setActionCommand(Constants.EDIT_PATH_ACTION);
+			getAccessRulesPane().getDeleteTreeItemButton().setActionCommand(Constants.DELETE_PATH_ACTION);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editpath.tooltip"));
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deletepath.tooltip"));
+			getAccessRulesPane().getEditTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.editpath.tooltip"));
+			getAccessRulesPane().getDeleteTreeItemButton().setToolTipText(ResourceUtil.getString("mainframe.button.deletepath.tooltip"));
 		}
 		else {
 			refreshServerAccessRules();
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setEnabled(false);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setEnabled(false);
+			getAccessRulesPane().getEditTreeItemButton().setEnabled(false);
+			getAccessRulesPane().getDeleteTreeItemButton().setEnabled(false);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setIcon(null);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setIcon(null);
+			getAccessRulesPane().getEditTreeItemButton().setIcon(null);
+			getAccessRulesPane().getDeleteTreeItemButton().setIcon(null);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setActionCommand(null);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setActionCommand(null);
+			getAccessRulesPane().getEditTreeItemButton().setActionCommand(null);
+			getAccessRulesPane().getDeleteTreeItemButton().setActionCommand(null);
 			
-			getAccessRulesSplitPane().getEditTreeItemButton().setToolTipText(null);
-			getAccessRulesSplitPane().getDeleteTreeItemButton().setToolTipText(null);
+			getAccessRulesPane().getEditTreeItemButton().setToolTipText(null);
+			getAccessRulesPane().getDeleteTreeItemButton().setToolTipText(null);
 		}
 	}
 

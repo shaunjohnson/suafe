@@ -339,4 +339,8 @@ public class AccessRulesPane extends JSplitPane {
 		
 		return editTreeItemButton;
 	}
+	
+	public void loadUserPreferences() {
+		setDividerLocation(UserPreferences.getRulesPaneDividerLocation());
+	}
 }

@@ -395,4 +395,9 @@ public class GroupsPane extends JSplitPane {
 		
 		return groupMembersPanel;
 	}
+	
+	public void loadUserPreferences() {
+		getGroupDetailsSplitPanel().setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
+		setDividerLocation(UserPreferences.getGroupsPaneDividerLocation());
+	}
 }

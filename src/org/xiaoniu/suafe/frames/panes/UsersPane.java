@@ -396,4 +396,9 @@ public class UsersPane extends JSplitPane {
 		
 		return userListScrollPane;
 	}
+	
+	public void loadUserPreferences() {
+		getUserDetailsSplitPanel().setDividerLocation(UserPreferences.getUserDetailsDividerLocation());
+		setDividerLocation(UserPreferences.getUsersPaneDividerLocation());
+	}
 }
