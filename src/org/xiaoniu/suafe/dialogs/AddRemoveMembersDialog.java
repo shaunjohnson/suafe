@@ -648,6 +648,9 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 				assignMembers();
 			}
 		}
+		else {
+			super.keyPressed(event);
+		}
 	}
 
 	/**

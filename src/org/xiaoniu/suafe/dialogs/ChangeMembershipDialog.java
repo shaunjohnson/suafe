@@ -569,6 +569,9 @@ public class ChangeMembershipDialog extends ParentDialog implements
 				assign();
 			}
 		}
+		else {
+			super.keyPressed(event);
+		}
 	}
 
 	/**
