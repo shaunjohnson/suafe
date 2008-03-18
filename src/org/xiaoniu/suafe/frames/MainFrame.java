@@ -24,7 +24,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -62,7 +61,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
-import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -164,8 +162,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JList groupMemberList = null;
 	private JList userGroupList = null; 
 	private JList userList = null;
-
-	private JMenuItem printMenuItem = null;
 	
 	private JPanel accessRuleActionsPanel = null;
 	private JPanel accessRulesFormatPanel = null;
@@ -2856,26 +2852,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 		
 		return toolbarPanel;
-	}
-
-	/**
-	 * This method initializes printMenuItem.
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	@SuppressWarnings("unused")
-	private JMenuItem getPrintMenuItem() {
-		if (printMenuItem == null) {
-			printMenuItem = new JMenuItem();
-			printMenuItem.addActionListener(this);
-			printMenuItem.setActionCommand(Constants.PRINT_ACTION);
-			printMenuItem.setIcon(ResourceUtil.printIcon);
-			printMenuItem.setText(ResourceUtil.getString("menu.file.print"));
-			printMenuItem.setToolTipText(ResourceUtil.getString("menu.file.print.tooltip"));			
-			printMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.print.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
-		}
-		
-		return printMenuItem;
 	}
 	
 	/**

@@ -64,6 +64,8 @@ public class MainFrameMenuBar extends JMenuBar {
 	
 	private JMenuItem previewMenuItem = null;
 	
+	private JMenuItem printMenuItem = null;
+	
 	private JMenu recentFilesMenu = null;
 	
 	private JMenuItem reloadMenuItem = null;
@@ -417,6 +419,26 @@ public class MainFrameMenuBar extends JMenuBar {
 			previewMenuItem.setActionCommand(Constants.PREVIEW_ACTION);
 		}
 		return previewMenuItem;
+	}
+	
+	/**
+	 * This method initializes printMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	@SuppressWarnings("unused")
+	private JMenuItem getPrintMenuItem() {
+		if (printMenuItem == null) {
+			printMenuItem = new JMenuItem();
+			printMenuItem.addActionListener(actionListener);
+			printMenuItem.setActionCommand(Constants.PRINT_ACTION);
+			printMenuItem.setIcon(ResourceUtil.printIcon);
+			printMenuItem.setText(ResourceUtil.getString("menu.file.print"));
+			printMenuItem.setToolTipText(ResourceUtil.getString("menu.file.print.tooltip"));			
+			printMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.print.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
+		}
+		
+		return printMenuItem;
 	}
 
 	/**
