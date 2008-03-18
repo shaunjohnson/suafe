@@ -49,7 +49,6 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -106,7 +105,6 @@ import org.xiaoniu.suafe.dialogs.EditUserDialog;
 import org.xiaoniu.suafe.dialogs.LicenseDialog;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.models.NonEditableTableModel;
-import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.reports.GenericReport;
@@ -128,51 +126,31 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private FileTransferHandler fileTransferHandler = null;
 	
 	private JButton addAccessRuleButton = null;
-	private JButton addGroupButton = null;  
+	  
 	private JButton addProjectAccessRulesButton = null;
-	private JButton addRemoveMembersButton = null;
-	private JButton cloneGroupButton = null;
 	private JButton deleteAccessRuleButton = null; 
-	private JButton deleteGroupButton = null;
 	private JButton deleteTreeItemButton = null;
 	private JButton editAccessRuleButton = null;
-	private JButton editGroupButton = null;
 	private JButton editTreeItemButton = null; 
 	
 	private JLabel statusLabel = null;
-	
-	private JList groupList = null;
-	private JList groupMemberList = null;
 	
 	private JPanel accessRuleActionsPanel = null;
 	private JPanel accessRulesFormatPanel = null;
 	private JPanel accessRulesPanel = null;  
 	private JPanel accessRulesTreeActionsPanel = null;
 	private JPanel accessRulesTreePanel = null;  
-	private JPanel contentPane = null;  
-	private JPanel groupAccessRulesPanel = null;
-	private JPanel groupActionsPanel = null;  
-	private JPanel groupDetailsPanel = null;
-	private JPanel groupListPanel = null;
-	private JPanel groupMemberListActionsPanel = null;
-	private JPanel groupMembersPanel = null;  
+	private JPanel contentPane = null;    
 	private JPanel statusPanel = null;
 	
 	private JScrollPane accessRulesScrollPane = null;
 	private JScrollPane accessRulesTreeScrollPane = null;
-	private JScrollPane groupAccessRulesScrollPane = null; 
-	private JScrollPane groupListScrollPane = null;
-	private JScrollPane groupMemberListScrollPane = null;
-	
 	private JSplitPane accessRulesSplitPane = null;
-	private JSplitPane groupDetailsSplitPanel = null; 
-	private JSplitPane groupsSplitPane = null; 
 		
 	private JTabbedPane mainTabbedPane = null;  
 	
 	private JTable accessRulesTable = null;
-	private JTable groupAccessRulesTable = null;  
-
+	
 	private JPanel toolbarPanel = null;
 	
 	private JTree accessRulesTree = null;
@@ -180,6 +158,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private MainFrameToolBar actionToolBar = null;
 	
 	private MainFrameGroupsPopupMenu groupsPopupMenu = null;
+	
+	private MainFrameGroupsPane groupsSplitPane = null; 
 	
 	private MainFrameMenuBar menuBar = null;
 	
@@ -254,7 +234,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		this.setExtendedState(UserPreferences.getWindowState());
 		
-		getGroupDetailsSplitPanel().setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
+		getGroupsSplitPane().getGroupDetailsSplitPanel().setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
 		getGroupsSplitPane().setDividerLocation(UserPreferences.getGroupsPaneDividerLocation());
 		getUsersSplitPane().getUserDetailsSplitPanel().setDividerLocation(UserPreferences.getUserDetailsDividerLocation());
 		getUsersSplitPane().setDividerLocation(UserPreferences.getUsersPaneDividerLocation());
@@ -273,7 +253,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		UserPreferences.setWindowLocation(getLocation());
 		UserPreferences.setGroupDetailsDividerLocation(
-				getGroupDetailsSplitPanel().getDividerLocation());
+				getGroupsSplitPane().getGroupDetailsSplitPanel().getDividerLocation());
 		UserPreferences.setGroupsPaneDividerLocation(
 				getGroupsSplitPane().getDividerLocation());
 		
@@ -307,9 +287,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		getAccessRulesTable().setFont(UserPreferences.getUserFont());
 		getAccessRulesTree().setFont(UserPreferences.getUserFont());
-		getGroupAccessRulesTable().setFont(UserPreferences.getUserFont());
-		getGroupList().setFont(UserPreferences.getUserFont());
-		getGroupMemberList().setFont(UserPreferences.getUserFont());
+		getGroupsSplitPane().getGroupAccessRulesTable().setFont(UserPreferences.getUserFont());
+		getGroupsSplitPane().getGroupList().setFont(UserPreferences.getUserFont());
+		getGroupsSplitPane().getGroupMemberList().setFont(UserPreferences.getUserFont());
 		getUsersSplitPane().getUserAccessRulesTable().setFont(UserPreferences.getUserFont());
 		getUsersSplitPane().getUserGroupList().setFont(UserPreferences.getUserFont());
 		getUsersSplitPane().getUserList().setFont(UserPreferences.getUserFont());
@@ -378,13 +358,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JSplitPane
 	 */
-	private JSplitPane getGroupsSplitPane() {
+	private MainFrameGroupsPane getGroupsSplitPane() {
 		if (groupsSplitPane == null) {
-			groupsSplitPane = new JSplitPane();
-			groupsSplitPane.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
-			groupsSplitPane.setLeftComponent(getGroupListPanel());
-			groupsSplitPane.setRightComponent(getGroupDetailsPanel());
-			groupsSplitPane.setDividerLocation(UserPreferences.getGroupsPaneDividerLocation());
+			groupsSplitPane = new MainFrameGroupsPane(this, this, this, this);
 		}
 		
 		return groupsSplitPane;
@@ -522,7 +498,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 				File file = fcOpen.getSelectedFile();
 				FileParser.parse(file);
 				getUsersSplitPane().getUserList().setListData(Document.getUserObjects());
-				getGroupList().setListData(Document.getGroupObjects());
+				getGroupsSplitPane().getGroupList().setListData(Document.getGroupObjects());
 
 				Document.setFile(file);
 
@@ -560,7 +536,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			File file = Document.getFile();
 			FileParser.parse(file);
 			getUsersSplitPane().getUserList().setListData(Document.getUserObjects());
-			getGroupList().setListData(Document.getGroupObjects());
+			getGroupsSplitPane().getGroupList().setListData(Document.getGroupObjects());
 
 			Document.setFile(file);
 			
@@ -592,7 +568,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		try {
 			FileParser.parse(file);
 			getUsersSplitPane().getUserList().setListData(Document.getUserObjects());
-			getGroupList().setListData(Document.getGroupObjects());
+			getGroupsSplitPane().getGroupList().setListData(Document.getGroupObjects());
 
 			Document.setFile(file);
 
@@ -714,10 +690,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param enabled If true group actions are enabled, otherwise disabled.
 	 */
 	private void toggleGroupActions(boolean enabled) {
-		getCloneGroupButton().setEnabled(enabled);
-		getEditGroupButton().setEnabled(enabled);
-		getDeleteGroupButton().setEnabled(enabled);
-		getAddRemoveMembersButton().setEnabled(enabled);
+		getGroupsSplitPane().getCloneGroupButton().setEnabled(enabled);
+		getGroupsSplitPane().getEditGroupButton().setEnabled(enabled);
+		getGroupsSplitPane().getDeleteGroupButton().setEnabled(enabled);
+		getGroupsSplitPane().getAddRemoveMembersButton().setEnabled(enabled);
 		
 		groupsPopupMenu.getEditGroupPopupMenuItem().setEnabled(enabled);
 		groupsPopupMenu.getDeleteGroupPopupMenuItem().setEnabled(enabled);
@@ -761,11 +737,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * @param selectedGroup Group currently selected.
 	 */
 	private void refreshGroupList(Group selectedGroup) {
-		getGroupList().setListData(Document.getGroupObjects());
-		toggleGroupActions(getGroupList().isSelectionEmpty() == false);
+		getGroupsSplitPane().getGroupList().setListData(Document.getGroupObjects());
+		toggleGroupActions(getGroupsSplitPane().getGroupList().isSelectionEmpty() == false);
 		
 		if (selectedGroup != null) {
-			getGroupList().setSelectedValue(selectedGroup, true);
+			getGroupsSplitPane().getGroupList().setSelectedValue(selectedGroup, true);
 		}
 		
 		refreshGroupDetails();
@@ -1243,7 +1219,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Clone group action handler.
 	 */
 	private void cloneGroup() {
-		Object[] selectedItems = getGroupList().getSelectedValues();
+		Object[] selectedItems = getGroupsSplitPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -1320,7 +1296,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Add/Remove Members action handler. Displays AddRemoveMembers dialog.
 	 */
 	private void addRemoveMembers() {
-		Object[] selectedItems = getGroupList().getSelectedValues();
+		Object[] selectedItems = getGroupsSplitPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
@@ -1359,11 +1335,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Delete group action handler.
 	 */
 	private void deleteGroup() {
-		if (getGroupList().isSelectionEmpty()) {
+		if (getGroupsSplitPane().getGroupList().isSelectionEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
 		} 
 		else {
-			Object[] values = getGroupList().getSelectedValues();
+			Object[] values = getGroupsSplitPane().getGroupList().getSelectedValues();
 			int choice;
 			
 			if (values.length == 1) {
@@ -1403,7 +1379,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Edit group action handler.
 	 */
 	private void editGroup() {
-		Object[] selectedItems = getGroupList().getSelectedValues();
+		Object[] selectedItems = getGroupsSplitPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -1748,39 +1724,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 
 	/**
-	 * This method initializes groupList.
-	 * 
-	 * @return javax.swing.JList
-	 */
-	private JList getGroupList() {
-		if (groupList == null) {
-			groupList = new JList();
-			groupList.addKeyListener(this);
-			groupList.addListSelectionListener(this);
-			groupList.addMouseListener(this);
-			groupList.setCellRenderer(new MyListCellRenderer());
-			groupList.setFont(Constants.FONT_PLAIN);
-		}
-		
-		return groupList;
-	}
-
-	/**
-	 * This method initializes groupDetailsPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getGroupDetailsPanel() {
-		if (groupDetailsPanel == null) {
-			groupDetailsPanel = new JPanel();
-			groupDetailsPanel.setLayout(new BorderLayout());
-			groupDetailsPanel.add(getGroupDetailsSplitPanel(), BorderLayout.CENTER);
-		}
-		
-		return groupDetailsPanel;
-	}
-
-	/**
 	 * This method initializes userAccessRulesColumnNames.
 	 * 
 	 * @return Object[]
@@ -1865,135 +1808,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 
 	/**
-	 * This method initializes groupListScrollPane.
-	 * 
-	 * @return javax.swing.JScrollPane
-	 */
-	private JScrollPane getGroupListScrollPane() {
-		if (groupListScrollPane == null) {
-			groupListScrollPane = new JScrollPane();
-			groupListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			groupListScrollPane.setViewportView(getGroupList());			
-		}
-		
-		return groupListScrollPane;
-	}
-
-	/**
-	 * This method initializes groupActionsPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getGroupActionsPanel() {
-		if (groupActionsPanel == null) {
-			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(FlowLayout.LEFT);
-			
-			groupActionsPanel = new JPanel(layout);			
-			groupActionsPanel.add(getAddGroupButton());
-			groupActionsPanel.add(getCloneGroupButton());
-			groupActionsPanel.add(getEditGroupButton());
-			groupActionsPanel.add(getDeleteGroupButton());
-		}
-		
-		return groupActionsPanel;
-	}
-
-	/**
-	 * This method initializes addGroupButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getAddGroupButton() {
-		if (addGroupButton == null) {
-			addGroupButton = new JButton();
-			addGroupButton.addActionListener(this);
-			addGroupButton.setActionCommand(Constants.ADD_GROUP_ACTION);
-			addGroupButton.setIcon(ResourceUtil.addGroupIcon);
-			addGroupButton.setText(ResourceUtil.getString("button.add"));
-			addGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));			
-		}
-		
-		return addGroupButton;
-	}
-	
-	/**
-	 * This method initializes cloneGroupButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getCloneGroupButton() {
-		if (cloneGroupButton == null) {
-			cloneGroupButton = new JButton();
-			cloneGroupButton.addActionListener(this);
-			cloneGroupButton.setActionCommand(Constants.CLONE_GROUP_ACTION);
-			cloneGroupButton.setIcon(ResourceUtil.cloneGroupIcon);
-			cloneGroupButton.setText(ResourceUtil.getString("button.clone"));
-			cloneGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.clonegroup.tooltip"));
-			cloneGroupButton.setEnabled(false);
-		}
-		
-		return cloneGroupButton;
-	}
-
-	/**
-	 * This method initializes editGroupButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getEditGroupButton() {
-		if (editGroupButton == null) {
-			editGroupButton = new JButton();
-			editGroupButton.addActionListener(this);
-			editGroupButton.setActionCommand(Constants.EDIT_GROUP_ACTION);
-			editGroupButton.setIcon(ResourceUtil.editGroupIcon);
-			editGroupButton.setText(ResourceUtil.getString("button.edit"));
-			editGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.editgroup.tooltip"));
-			editGroupButton.setEnabled(false);
-		}
-		
-		return editGroupButton;
-	}
-
-	/**
-	 * This method initializes deleteGroupButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getDeleteGroupButton() {
-		if (deleteGroupButton == null) {
-			deleteGroupButton = new JButton();
-			deleteGroupButton.addActionListener(this);
-			deleteGroupButton.setActionCommand(Constants.DELETE_GROUP_ACTION);
-			deleteGroupButton.setIcon(ResourceUtil.deleteGroupIcon);
-			deleteGroupButton.setText(ResourceUtil.getString("button.delete"));
-			deleteGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.deletegroup.tooltip"));
-			deleteGroupButton.setEnabled(false);
-		}
-		
-		return deleteGroupButton;
-	}
-
-	/**
-	 * This method initializes addRemoveMembersButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getAddRemoveMembersButton() {
-		if (addRemoveMembersButton == null) {
-			addRemoveMembersButton = new JButton();
-			addRemoveMembersButton.addActionListener(this);
-			addRemoveMembersButton.setActionCommand(Constants.ADD_REMOVE_MEMBERS_ACTION);
-			addRemoveMembersButton.setIcon(ResourceUtil.addRemoveMembersIcon);
-			addRemoveMembersButton.setText(ResourceUtil.getString("mainframe.button.addremovemembers"));
-			addRemoveMembersButton.setToolTipText(ResourceUtil.getString("mainframe.button.addremovemembers.tooltip"));
-			addRemoveMembersButton.setEnabled(false);
-		}
-		
-		return addRemoveMembersButton;
-	}
-
-	/**
 	 * This method initializes usersPopupMenu.
 	 * 
 	 * @return javax.swing.JPopupMenu
@@ -2021,7 +1835,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			
 			// Add listener to the list.
 			MouseListener popupListener = new PopupListener(groupsPopupMenu);
-			getGroupList().addMouseListener(popupListener);
+			getGroupsSplitPane().getGroupList().addMouseListener(popupListener);
 		}
 		
 		return groupsPopupMenu;
@@ -2141,16 +1955,16 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * Refresh group details for selected group.
 	 */
 	private void refreshGroupDetails() {		
-		Group group = (Group)getGroupList().getSelectedValue();
+		Group group = (Group)getGroupsSplitPane().getGroupList().getSelectedValue();
 		
 		try {
-			getGroupMemberList().setModel(new DefaultListModel());
+			getGroupsSplitPane().getGroupMemberList().setModel(new DefaultListModel());
 			
-			if (!getGroupList().isSelectionEmpty()) {
+			if (!getGroupsSplitPane().getGroupList().isSelectionEmpty()) {
 				Object[] listData = Document.getGroupMemberObjects(group);
 				
 				if (listData != null) {
-					getGroupMemberList().setListData(listData);						
+					getGroupsSplitPane().getGroupMemberList().setListData(listData);						
 				}
 			}
 		}
@@ -2158,7 +1972,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadinggroupmembers"));
 		}
 		
-		toggleGroupActions(getGroupList().isSelectionEmpty() == false);
+		toggleGroupActions(getGroupsSplitPane().getGroupList().isSelectionEmpty() == false);
 		
 		DefaultTableModel model = new NonEditableTableModel();
 		
@@ -2169,8 +1983,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforgroup"));
 		}
 		
-		getGroupAccessRulesTable().setModel(model);
-		AutofitTableColumns.autoResizeTable(getGroupAccessRulesTable(), true);
+		getGroupsSplitPane().getGroupAccessRulesTable().setModel(model);
+		AutofitTableColumns.autoResizeTable(getGroupsSplitPane().getGroupAccessRulesTable(), true);
 	}
 
 	/**
@@ -2181,7 +1995,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		if (e.getSource() == getUsersSplitPane().getUserList()) {
 			refreshUserDetails();
 		} 
-		else if (e.getSource() == getGroupList()) {
+		else if (e.getSource() == getGroupsSplitPane().getGroupList()) {
 			refreshGroupDetails();
 		}
 		else if (e.getSource() == getAccessRulesTable().getSelectionModel() 
@@ -2189,56 +2003,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			getEditAccessRuleButton().setEnabled(true);
 			getDeleteAccessRuleButton().setEnabled(true);
 		} 
-	}
-
-	/**
-	 * This method initializes groupDetailsSubPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */	
-	private JSplitPane getGroupDetailsSplitPanel() {
-		if (groupDetailsSplitPanel == null) {
-			groupDetailsSplitPanel = new JSplitPane();
-			groupDetailsSplitPanel.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));
-			groupDetailsSplitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-			groupDetailsSplitPanel.setTopComponent(getGroupMembersPanel());
-			groupDetailsSplitPanel.setBottomComponent(getGroupAccessRulesPanel());
-			groupDetailsSplitPanel.setOneTouchExpandable(true);
-			groupDetailsSplitPanel.setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
-		}
-		
-		return groupDetailsSplitPanel;
-	}
-
-	/**
-	 * This method initializes groupAccessRulesTable.
-	 * 
-	 * @return javax.swing.JTable
-	 */
-	private JTable getGroupAccessRulesTable() {
-		if (groupAccessRulesTable == null) {
-			groupAccessRulesTable = new JTable();
-			groupAccessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			groupAccessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);	
-			groupAccessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-			groupAccessRulesTable.setAutoCreateRowSorter(true);
-		}
-		
-		return groupAccessRulesTable;
-	}
-
-	/**
-	 * This method initializes groupAccessRulesScrollPane.
-	 * 
-	 * @return javax.swing.JScrollPane
-	 */
-	private JScrollPane getGroupAccessRulesScrollPane() {
-		if (groupAccessRulesScrollPane == null) {
-			groupAccessRulesScrollPane = new JScrollPane();
-			groupAccessRulesScrollPane.setViewportView(getGroupAccessRulesTable());
-		}
-		
-		return groupAccessRulesScrollPane;
 	}
 
 	/**
@@ -2445,70 +2209,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		return accessRulesFormatPanel;
 	}
-	
-	/**
-	 * This method initializes groupAccessRulesPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getGroupAccessRulesPanel() {
-		if (groupAccessRulesPanel == null) {
-			groupAccessRulesPanel = new JPanel(new BorderLayout());
-			groupAccessRulesPanel.setBorder(BorderFactory.createEmptyBorder(7, 0, 0, 0));
-			groupAccessRulesPanel.add(new JLabel(ResourceUtil.getString("mainframe.accessrules")), BorderLayout.NORTH);
-			groupAccessRulesPanel.add(getGroupAccessRulesScrollPane(), BorderLayout.CENTER);
-		}
-		
-		return groupAccessRulesPanel;
-	}
-	
-	/**
-	 * This method initializes groupMembersPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getGroupMembersPanel() {
-		if (groupMembersPanel == null) {
-			groupMembersPanel = new JPanel(new BorderLayout());
-			groupMembersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 7, 0));			
-			groupMembersPanel.add(new JLabel(ResourceUtil.getString("mainframe.members")), BorderLayout.NORTH);
-			groupMembersPanel.add(getGroupMemberListScrollPane(), BorderLayout.CENTER);
-			groupMembersPanel.add(getGroupMemberListActionsPanel(), BorderLayout.SOUTH);
-		}
-		
-		return groupMembersPanel;
-	}
-	
-	/**
-	 * This method initializes groupMemberListScrollPane.	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */    
-	private JScrollPane getGroupMemberListScrollPane() {
-		if (groupMemberListScrollPane == null) {
-			groupMemberListScrollPane = new JScrollPane();
-			groupMemberListScrollPane.setViewportView(getGroupMemberList());
-		}
-		
-		return groupMemberListScrollPane;
-	}
-	
-	/**
-	 * This method initializes groupMemberList.	
-	 * 	
-	 * @return javax.swing.JList	
-	 */    
-	private JList getGroupMemberList() {
-		if (groupMemberList == null) {
-			groupMemberList = new JList();
-			groupMemberList.addKeyListener(this);
-			groupMemberList.addMouseListener(this);
-			groupMemberList.setCellRenderer(new MyListCellRenderer());
-			groupMemberList.setFont(Constants.FONT_PLAIN);
-		}
-		
-		return groupMemberList;
-	}
 
 	/**
 	 * Displays specified group in the Groups pane.
@@ -2521,7 +2221,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 		
 		getMainTabbedPane().setSelectedComponent(getGroupsSplitPane());
-		getGroupList().setSelectedValue(group, true);
+		getGroupsSplitPane().getGroupList().setSelectedValue(group, true);
 		refreshGroupDetails();
 	}
 
@@ -2550,18 +2250,18 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			if (event.getSource() == getUsersSplitPane().getUserList()) {
 				editUser();
 			}
-			else if (event.getSource() == getGroupList()) {
+			else if (event.getSource() == getGroupsSplitPane().getGroupList()) {
 				editGroup();
 			}
 			else if (event.getSource() == getUsersSplitPane().getUserGroupList()) {
 				displayGroup(getUsersSplitPane().getUserGroupList().getSelectedValue());
 			}
-			else if (event.getSource() == getGroupMemberList()) {
-				if (getGroupMemberList().getSelectedValue() instanceof Group) {
-					displayGroup(getGroupMemberList().getSelectedValue());
+			else if (event.getSource() == getGroupsSplitPane().getGroupMemberList()) {
+				if (getGroupsSplitPane().getGroupMemberList().getSelectedValue() instanceof Group) {
+					displayGroup(getGroupsSplitPane().getGroupMemberList().getSelectedValue());
 				}
 				else {
-					displayUser(getGroupMemberList().getSelectedValue());
+					displayUser(getGroupsSplitPane().getGroupMemberList().getSelectedValue());
 				}
 			}
 			else if (event.getSource() == getAccessRulesTable()) {
@@ -2801,12 +2501,12 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	}
 	
 	private void removeMembers() {
-		if (getGroupMemberList().isSelectionEmpty()) {
+		if (getGroupsSplitPane().getGroupMemberList().isSelectionEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nomemberselected"));
 		} 
 		else {
-			Object[] values = getGroupMemberList().getSelectedValues(); 
-			Group group = (Group)getGroupList().getSelectedValue();
+			Object[] values = getGroupsSplitPane().getGroupMemberList().getSelectedValues(); 
+			Group group = (Group)getGroupsSplitPane().getGroupList().getSelectedValue();
 			int choice;
 			
 			if (values.length == 1) {
@@ -2835,7 +2535,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 				}
 				
 				refreshUserList((User)getUsersSplitPane().getUserList().getSelectedValue());
-				refreshGroupList((Group)getGroupList().getSelectedValue());
+				refreshGroupList((Group)getGroupsSplitPane().getGroupList().getSelectedValue());
 				refreshAccessRuleTree(null);
 			}
 		}
@@ -2878,7 +2578,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 				}
 				
 				refreshUserList((User)getUsersSplitPane().getUserList().getSelectedValue());
-				refreshGroupList((Group)getGroupList().getSelectedValue());
+				refreshGroupList((Group)getGroupsSplitPane().getGroupList().getSelectedValue());
 				refreshAccessRuleTree(null);
 			}
 		}
@@ -2901,10 +2601,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 			if (component == getUsersSplitPane().getUserList()) {
 				deleteUser();
 			}
-			else if (component == getGroupList()) {
+			else if (component == getGroupsSplitPane().getGroupList()) {
 				deleteGroup();
 			}
-			else if (component == getGroupMemberList()) {
+			else if (component == getGroupsSplitPane().getGroupMemberList()) {
 				removeMembers();
 			}
 			else if (component == getUsersSplitPane().getUserGroupList()) {
@@ -2925,41 +2625,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 */
 	public void keyReleased(KeyEvent event) {
 		// Unused
-	}
-	
-	/**
-	 * This method initializes groupMemberListActionsPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getGroupMemberListActionsPanel() {
-		if (groupMemberListActionsPanel == null) {
-			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(FlowLayout.LEFT);
-			
-			groupMemberListActionsPanel = new JPanel(layout);
-			groupMemberListActionsPanel.add(getAddRemoveMembersButton());
-		}
-		
-		return groupMemberListActionsPanel;
-	}
-	
-	/**
-	 * This method initializes groupListPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
-	private JPanel getGroupListPanel() {
-		if (groupListPanel == null) {
-			groupListPanel = new JPanel();
-			groupListPanel.setLayout(new BorderLayout());
-			groupListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
-			groupListPanel.add(getGroupListScrollPane(), BorderLayout.CENTER);
-			groupListPanel.add(getGroupActionsPanel(), BorderLayout.SOUTH);
-			groupListPanel.add(new JLabel(ResourceUtil.getString("mainframe.groups")), BorderLayout.NORTH);
-		}
-		
-		return groupListPanel;
 	}
 	
 	/**
