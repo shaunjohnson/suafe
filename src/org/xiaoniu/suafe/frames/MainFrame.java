@@ -48,7 +48,6 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -459,7 +458,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 		
 		UserPreferences.setRecentFiles(fileStack);
-		refreshRecentFiles();		
+		menuBar.refreshRecentFiles(fileStack);		
 	}
 
 	private void addTransferHandler(Container container) {
@@ -1477,7 +1476,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private MainFrameMenuBar getMainFrameMenuBar() {
 		if (menuBar == null) {
 			menuBar = new MainFrameMenuBar(this);
-			refreshRecentFiles();
+			menuBar.refreshRecentFiles(fileStack);
 		}
 		
 		return menuBar;
@@ -1996,34 +1995,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		
 		getAccessRulesPane().getAccessRulesTable().setModel(model);
 		AutofitTableColumns.autoResizeTable(getAccessRulesPane().getAccessRulesTable(), true);
-	}
-
-	/**
-	 * Refreshes the recent files menu with the current list of recent files.
-	 * The text displayed is the file name. The tooltip is the absolute path
-	 * of the file.
-	 */
-	private void refreshRecentFiles() {
-		menuBar.getRecentFilesMenu().removeAll();
-		
-		if (fileStack.isEmpty()) {
-			return;
-		}
-		
-		// Add files to menu in reverse order so that latest is at the top
-		// of the list of files.
-		for(int slot = fileStack.size() - 1; slot >= 0; slot--) {
-			String path = fileStack.elementAt(slot);
-			int index = path.lastIndexOf(Constants.FILE_SEPARATOR);
-			
-			JMenuItem menuItem = new JMenuItem(path.substring(index + 1));
-			
-			menuItem.addActionListener(this);
-			menuItem.setActionCommand(Constants.OPEN_FILE_ACTION + "_" + slot);
-			menuItem.setToolTipText(path);
-			
-			menuBar.getRecentFilesMenu().add(menuItem);
-		}
 	}
 
 	/**

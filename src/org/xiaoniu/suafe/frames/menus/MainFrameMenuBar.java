@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.Stack;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -705,5 +706,33 @@ public class MainFrameMenuBar extends JMenuBar {
 		}
 		
 		return viewUsersMenuItem;
+	}
+	
+	/**
+	 * Refreshes the recent files menu with the current list of recent files.
+	 * The text displayed is the file name. The tooltip is the absolute path
+	 * of the file.
+	 */
+	public void refreshRecentFiles(Stack<String> fileStack) {
+		getRecentFilesMenu().removeAll();
+		
+		if (fileStack.isEmpty()) {
+			return;
+		}
+		
+		// Add files to menu in reverse order so that latest is at the top
+		// of the list of files.
+		for(int slot = fileStack.size() - 1; slot >= 0; slot--) {
+			String path = fileStack.elementAt(slot);
+			int index = path.lastIndexOf(Constants.FILE_SEPARATOR);
+			
+			JMenuItem menuItem = new JMenuItem(path.substring(index + 1));
+			
+			menuItem.addActionListener(actionListener);
+			menuItem.setActionCommand(Constants.OPEN_FILE_ACTION + "_" + slot);
+			menuItem.setToolTipText(path);
+			
+			getRecentFilesMenu().add(menuItem);
+		}
 	}
 }
