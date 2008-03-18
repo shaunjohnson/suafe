@@ -16,13 +16,13 @@ public class MainFrameUsersPopupMenu extends JPopupMenu {
 	
 	private JMenuItem addUserPopupMenuItem = null;  
 	
+	private JMenuItem changeMembershipPopupMenuItem = null;
+	
 	private JMenuItem cloneUserPopupMenuItem = null;
 	
 	private JMenuItem deleteUserPopupMenuItem = null;
 	
 	private JMenuItem editUserPopupMenuItem = null;
-	
-	private JMenuItem changeMembershipPopupMenuItem = null;
 	
 	public MainFrameUsersPopupMenu(ActionListener actionListener) {
 		super();
@@ -55,22 +55,39 @@ public class MainFrameUsersPopupMenu extends JPopupMenu {
 	}
 
 	/**
-	 * This method initializes editUserPopupMenuItem.
+	 * This method initializes changeMembershipPopupMenuItem.
 	 * 
 	 * @return javax.swing.JMenuItem
 	 */
-	public JMenuItem getEditUserPopupMenuItem() {
-		if (editUserPopupMenuItem == null) {
-			editUserPopupMenuItem = new JMenuItem();
-			editUserPopupMenuItem.addActionListener(actionListener);
-			editUserPopupMenuItem.setActionCommand(Constants.EDIT_USER_ACTION);
-			editUserPopupMenuItem.setIcon(ResourceUtil.editUserIcon);
-			editUserPopupMenuItem.setText(ResourceUtil.getString("button.edit"));
-			editUserPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.edituser.tooltip"));
-			editUserPopupMenuItem.setEnabled(false);
+	public JMenuItem getChangeMembershipPopupMenuItem() {
+		if (changeMembershipPopupMenuItem == null) {
+			changeMembershipPopupMenuItem = new JMenuItem();
+			changeMembershipPopupMenuItem.addActionListener(actionListener);
+			changeMembershipPopupMenuItem.setActionCommand(Constants.CHANGE_MEMBERSHIP_ACTION);
+			changeMembershipPopupMenuItem.setIcon(ResourceUtil.changeMembershipIcon);
+			changeMembershipPopupMenuItem.setText(ResourceUtil.getString("mainframe.button.changemembership"));
+			changeMembershipPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.changemembership.tooltip"));
+			changeMembershipPopupMenuItem.setEnabled(false);
 		}
 		
-		return editUserPopupMenuItem;
+		return changeMembershipPopupMenuItem;
+	}
+
+	/**
+	 * This method initializes cloneUserPopupMenuItem	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */    
+	public JMenuItem getCloneUserPopupMenuItem() {
+		if (cloneUserPopupMenuItem == null) {
+			cloneUserPopupMenuItem = new JMenuItem();
+			cloneUserPopupMenuItem.addActionListener(actionListener);
+			cloneUserPopupMenuItem.setActionCommand(Constants.CLONE_USER_ACTION);
+			cloneUserPopupMenuItem.setIcon(ResourceUtil.cloneUserIcon);
+			cloneUserPopupMenuItem.setText(ResourceUtil.getString("menu.clone"));
+			cloneUserPopupMenuItem.setEnabled(false);
+		}
+		return cloneUserPopupMenuItem;
 	}
 
 	/**
@@ -91,40 +108,23 @@ public class MainFrameUsersPopupMenu extends JPopupMenu {
 		
 		return deleteUserPopupMenuItem;
 	}
-
+	
 	/**
-	 * This method initializes changeMembershipPopupMenuItem.
+	 * This method initializes editUserPopupMenuItem.
 	 * 
 	 * @return javax.swing.JMenuItem
 	 */
-	public JMenuItem getChangeMembershipPopupMenuItem() {
-		if (changeMembershipPopupMenuItem == null) {
-			changeMembershipPopupMenuItem = new JMenuItem();
-			changeMembershipPopupMenuItem.addActionListener(actionListener);
-			changeMembershipPopupMenuItem.setActionCommand(Constants.CHANGE_MEMBERSHIP_ACTION);
-			changeMembershipPopupMenuItem.setIcon(ResourceUtil.changeMembershipIcon);
-			changeMembershipPopupMenuItem.setText(ResourceUtil.getString("mainframe.button.changemembership"));
-			changeMembershipPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.changemembership.tooltip"));
-			changeMembershipPopupMenuItem.setEnabled(false);
+	public JMenuItem getEditUserPopupMenuItem() {
+		if (editUserPopupMenuItem == null) {
+			editUserPopupMenuItem = new JMenuItem();
+			editUserPopupMenuItem.addActionListener(actionListener);
+			editUserPopupMenuItem.setActionCommand(Constants.EDIT_USER_ACTION);
+			editUserPopupMenuItem.setIcon(ResourceUtil.editUserIcon);
+			editUserPopupMenuItem.setText(ResourceUtil.getString("button.edit"));
+			editUserPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.edituser.tooltip"));
+			editUserPopupMenuItem.setEnabled(false);
 		}
 		
-		return changeMembershipPopupMenuItem;
-	}
-	
-	/**
-	 * This method initializes cloneUserPopupMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */    
-	public JMenuItem getCloneUserPopupMenuItem() {
-		if (cloneUserPopupMenuItem == null) {
-			cloneUserPopupMenuItem = new JMenuItem();
-			cloneUserPopupMenuItem.addActionListener(actionListener);
-			cloneUserPopupMenuItem.setActionCommand(Constants.CLONE_USER_ACTION);
-			cloneUserPopupMenuItem.setIcon(ResourceUtil.cloneUserIcon);
-			cloneUserPopupMenuItem.setText(ResourceUtil.getString("menu.clone"));
-			cloneUserPopupMenuItem.setEnabled(false);
-		}
-		return cloneUserPopupMenuItem;
+		return editUserPopupMenuItem;
 	}
 }
