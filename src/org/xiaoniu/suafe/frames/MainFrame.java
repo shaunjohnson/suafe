@@ -165,11 +165,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JList userGroupList = null; 
 	private JList userList = null;
 
-	private JMenuItem addGroupPopupMenuItem = null;
-	private JMenuItem addRemoveMembersPopupMenuItem = null;	
-	private JMenuItem cloneGroupPopupMenuItem = null;
-	private JMenuItem deleteGroupPopupMenuItem = null;
-	private JMenuItem editGroupPopupMenuItem = null;
 	private JMenuItem printMenuItem = null;
 	
 	private JPanel accessRuleActionsPanel = null;
@@ -191,8 +186,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JPanel userGroupListPanel = null;
 	private JPanel userGroupsActionPanel = null;
 	private JPanel userListPanel = null;	
-	
-	private JPopupMenu groupsPopupMenu = null;
 	
 	private JScrollPane accessRulesScrollPane = null;
 	private JScrollPane accessRulesTreeScrollPane = null;
@@ -219,6 +212,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	private JPanel toolbarPanel = null;
 	
 	private JTree accessRulesTree = null;
+	
+	private MainFrameGroupsPopupMenu groupsPopupMenu = null;
 	
 	private MainFrameMenuBar menuBar = null;
 	
@@ -940,10 +935,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		getDeleteGroupButton().setEnabled(enabled);
 		getAddRemoveMembersButton().setEnabled(enabled);
 		
-		getEditGroupPopupMenuItem().setEnabled(enabled);
-		getDeleteGroupPopupMenuItem().setEnabled(enabled);
-		getAddRemoveMembersPopupMenuItem().setEnabled(enabled);
-		getCloneGroupPopupMenuItem().setEnabled(enabled);
+		groupsPopupMenu.getEditGroupPopupMenuItem().setEnabled(enabled);
+		groupsPopupMenu.getDeleteGroupPopupMenuItem().setEnabled(enabled);
+		groupsPopupMenu.getAddRemoveMembersPopupMenuItem().setEnabled(enabled);
+		groupsPopupMenu.getCloneGroupPopupMenuItem().setEnabled(enabled);
 	}
 
 	/**
@@ -2367,12 +2362,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 */
 	private JPopupMenu getGroupsPopupMenu() {
 		if (groupsPopupMenu == null) {
-			groupsPopupMenu = new JPopupMenu();
-			groupsPopupMenu.add(getAddGroupPopupMenuItem());
-			groupsPopupMenu.add(getEditGroupPopupMenuItem());
-			groupsPopupMenu.add(getDeleteGroupPopupMenuItem());
-			groupsPopupMenu.add(getAddRemoveMembersPopupMenuItem());
-			groupsPopupMenu.add(getCloneGroupPopupMenuItem());
+			groupsPopupMenu = new MainFrameGroupsPopupMenu(this);
 			
 			// Add listener to the list.
 			MouseListener popupListener = new PopupListener(groupsPopupMenu);
@@ -2380,81 +2370,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 		
 		return groupsPopupMenu;
-	}
-
-	/**
-	 * This method initializes addGroupPopupMenuItem
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	private JMenuItem getAddGroupPopupMenuItem() {
-		if (addGroupPopupMenuItem == null) {
-			addGroupPopupMenuItem = new JMenuItem();
-			addGroupPopupMenuItem.addActionListener(this);
-			addGroupPopupMenuItem.setActionCommand(Constants.ADD_GROUP_ACTION);
-			addGroupPopupMenuItem.setIcon(ResourceUtil.addGroupIcon);
-			addGroupPopupMenuItem.setText(ResourceUtil.getString("button.add"));
-			addGroupPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
-		}
-		
-		return addGroupPopupMenuItem;
-	}
-
-	/**
-	 * This method initializes editGroupPopupMenuItem.
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	private JMenuItem getEditGroupPopupMenuItem() {
-		if (editGroupPopupMenuItem == null) {
-			editGroupPopupMenuItem = new JMenuItem();
-			editGroupPopupMenuItem.addActionListener(this);
-			editGroupPopupMenuItem.setActionCommand(Constants.EDIT_GROUP_ACTION);
-			editGroupPopupMenuItem.setIcon(ResourceUtil.editGroupIcon);
-			editGroupPopupMenuItem.setText(ResourceUtil.getString("button.edit"));
-			editGroupPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.editgroup.tooltip"));
-			editGroupPopupMenuItem.setEnabled(false);
-		}
-		
-		return editGroupPopupMenuItem;
-	}
-
-	/**
-	 * This method initializes deleteGroupPopupMenuItem.
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	private JMenuItem getDeleteGroupPopupMenuItem() {
-		if (deleteGroupPopupMenuItem == null) {
-			deleteGroupPopupMenuItem = new JMenuItem();
-			deleteGroupPopupMenuItem.addActionListener(this);
-			deleteGroupPopupMenuItem.setActionCommand(Constants.DELETE_GROUP_ACTION);
-			deleteGroupPopupMenuItem.setIcon(ResourceUtil.deleteGroupIcon);
-			deleteGroupPopupMenuItem.setText(ResourceUtil.getString("button.delete"));
-			deleteGroupPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.deletegroup.tooltip"));			
-			deleteGroupPopupMenuItem.setEnabled(false);
-		}
-		
-		return deleteGroupPopupMenuItem;
-	}
-
-	/**
-	 * This method initializes addRemoveMembersPopupMenuItem.
-	 * 
-	 * @return javax.swing.JMenuItem
-	 */
-	private JMenuItem getAddRemoveMembersPopupMenuItem() {
-		if (addRemoveMembersPopupMenuItem == null) {
-			addRemoveMembersPopupMenuItem = new JMenuItem();
-			addRemoveMembersPopupMenuItem.addActionListener(this);
-			addRemoveMembersPopupMenuItem.setActionCommand(Constants.ADD_REMOVE_MEMBERS_ACTION);
-			addRemoveMembersPopupMenuItem.setIcon(ResourceUtil.addRemoveMembersIcon);
-			addRemoveMembersPopupMenuItem.setText(ResourceUtil.getString("mainframe.button.addremovemembers"));
-			addRemoveMembersPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.addremovemembers.tooltip"));
-			addRemoveMembersPopupMenuItem.setEnabled(false);
-		}
-		
-		return addRemoveMembersPopupMenuItem;
 	}
 
 	/**
@@ -3560,24 +3475,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 		
 		return groupListPanel;
-	}
-	
-	/**
-	 * This method initializes cloneGroupPopupMenuItem	
-	 * 	
-	 * @return javax.swing.JMenuItem	
-	 */    
-	private JMenuItem getCloneGroupPopupMenuItem() {
-		if (cloneGroupPopupMenuItem == null) {
-			cloneGroupPopupMenuItem = new JMenuItem();
-			cloneGroupPopupMenuItem.addActionListener(this);
-			cloneGroupPopupMenuItem.setActionCommand(Constants.CLONE_GROUP_ACTION);
-			cloneGroupPopupMenuItem.setIcon(ResourceUtil.cloneGroupIcon);
-			cloneGroupPopupMenuItem.setText(ResourceUtil.getString("menu.clone"));
-			cloneGroupPopupMenuItem.setEnabled(false);
-		}
-		
-		return cloneGroupPopupMenuItem;
 	}
 	
 	/**
