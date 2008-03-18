@@ -17,6 +17,8 @@
  */
 package org.xiaoniu.suafe;
 
+import java.awt.Font;
+
 /**
  * Constant values used throughout the application.
  *  
@@ -266,4 +268,9 @@ public class Constants {
 	public static final String FONT_SERIF = "Serif";
 	
 	public static final String FONT_SANS_SERIF = "SansSerif";
+	
+	//
+	// Font instances
+	//
+	public static final Font FONT_PLAIN = new Font(null, Font.PLAIN, 12);
 }
