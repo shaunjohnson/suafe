@@ -14,6 +14,12 @@ public class MainFrameToolBar extends JToolBar {
 
 	private ActionListener actionListener = null;
 	
+	private JButton addAccessRuleToolbarButton = null;
+	
+	private JButton addGroupToolbarButton = null;
+	
+	private JButton addUserToolbarButton = null;
+	
 	private JButton newFileToolbarButton = null;
 	
 	private JButton openFileToolbarButton = null;
@@ -23,12 +29,6 @@ public class MainFrameToolBar extends JToolBar {
 	private JButton saveFileAsToolbarButton = null;
 	
 	private JButton saveFileToolbarButton = null;
-	
-	private JButton addUserToolbarButton = null;
-	
-	private JButton addAccessRuleToolbarButton = null;
-	
-	private JButton addGroupToolbarButton = null;
 	
 	public MainFrameToolBar(ActionListener actionListener) {
 		super();
@@ -45,6 +45,60 @@ public class MainFrameToolBar extends JToolBar {
 		add(getAddGroupToolbarButton());
 		add(getAddAccessRuleToolbarButton());
 		add(getPreviewToolbarButton());
+	}
+	
+	/**
+	 * This method initializes addAccessRuleToolbarButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	public JButton getAddAccessRuleToolbarButton() {
+		if (addAccessRuleToolbarButton == null) {
+			addAccessRuleToolbarButton = new JButton();
+			addAccessRuleToolbarButton.addActionListener(actionListener);
+			addAccessRuleToolbarButton.setActionCommand(Constants.ADD_ACCESS_RULE_ACTION);
+			addAccessRuleToolbarButton.setIcon(ResourceUtil.addAccessRuleIcon);
+			addAccessRuleToolbarButton.setText(ResourceUtil.getString("mainframe.button.addaccessrule"));
+			addAccessRuleToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addaccessrule.tooltip"));			
+		}
+		
+		return addAccessRuleToolbarButton;
+	}
+	
+	/**
+	 * This method initializes addGroupToolbarButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	public JButton getAddGroupToolbarButton() {
+		if (addGroupToolbarButton == null) {
+			addGroupToolbarButton = new JButton();
+			addGroupToolbarButton.addActionListener(actionListener);
+			addGroupToolbarButton.setActionCommand(Constants.ADD_GROUP_ACTION);
+			addGroupToolbarButton.setIcon(ResourceUtil.addGroupIcon);
+			addGroupToolbarButton.setText(ResourceUtil.getString("mainframe.button.addgroup"));
+			addGroupToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
+		}
+		
+		return addGroupToolbarButton;
+	}
+	
+	/**
+	 * This method initializes addUserToolbarButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	public JButton getAddUserToolbarButton() {
+		if (addUserToolbarButton == null) {
+			addUserToolbarButton = new JButton();
+			addUserToolbarButton.addActionListener(actionListener);
+			addUserToolbarButton.setActionCommand(Constants.ADD_USER_ACTION);
+			addUserToolbarButton.setIcon(ResourceUtil.addUserIcon);
+			addUserToolbarButton.setText(ResourceUtil.getString("mainframe.button.adduser"));
+			addUserToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.adduser.tooltip"));			
+		}
+		
+		return addUserToolbarButton;
 	}
 	
 	/**
@@ -80,74 +134,6 @@ public class MainFrameToolBar extends JToolBar {
 		
 		return openFileToolbarButton;
 	}
-	
-	/**
-	 * This method initializes saveFileToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	public JButton getSaveFileToolbarButton() {
-		if (saveFileToolbarButton == null) {
-			saveFileToolbarButton = new JButton();
-			saveFileToolbarButton.addActionListener(actionListener);
-			saveFileToolbarButton.setActionCommand(Constants.SAVE_FILE_ACTION);
-			saveFileToolbarButton.setIcon(ResourceUtil.saveFileIcon);
-			saveFileToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.save.tooltip"));
-		}
-		return saveFileToolbarButton;
-	}
-	
-	/**
-	 * This method initializes saveFileAsToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	public JButton getSaveFileAsToolbarButton() {
-		if (saveFileAsToolbarButton == null) {
-			saveFileAsToolbarButton = new JButton();
-			saveFileAsToolbarButton.addActionListener(actionListener);
-			saveFileAsToolbarButton.setActionCommand(Constants.SAVE_FILE_AS_ACTION);
-			saveFileAsToolbarButton.setIcon(ResourceUtil.saveFileAsIcon);
-			saveFileAsToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.saveas.tooltip"));
-		}
-		return saveFileAsToolbarButton;
-	}
-	
-	/**
-	 * This method initializes addUserToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	public JButton getAddUserToolbarButton() {
-		if (addUserToolbarButton == null) {
-			addUserToolbarButton = new JButton();
-			addUserToolbarButton.addActionListener(actionListener);
-			addUserToolbarButton.setActionCommand(Constants.ADD_USER_ACTION);
-			addUserToolbarButton.setIcon(ResourceUtil.addUserIcon);
-			addUserToolbarButton.setText(ResourceUtil.getString("mainframe.button.adduser"));
-			addUserToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.adduser.tooltip"));			
-		}
-		
-		return addUserToolbarButton;
-	}
-
-	/**
-	 * This method initializes addGroupToolbarButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	public JButton getAddGroupToolbarButton() {
-		if (addGroupToolbarButton == null) {
-			addGroupToolbarButton = new JButton();
-			addGroupToolbarButton.addActionListener(actionListener);
-			addGroupToolbarButton.setActionCommand(Constants.ADD_GROUP_ACTION);
-			addGroupToolbarButton.setIcon(ResourceUtil.addGroupIcon);
-			addGroupToolbarButton.setText(ResourceUtil.getString("mainframe.button.addgroup"));
-			addGroupToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
-		}
-		
-		return addGroupToolbarButton;
-	}
 
 	/**
 	 * This method initializes previewToolbarButton.
@@ -168,20 +154,34 @@ public class MainFrameToolBar extends JToolBar {
 	}
 
 	/**
-	 * This method initializes addAccessRuleToolbarButton.
+	 * This method initializes saveFileAsToolbarButton.
 	 * 
 	 * @return javax.swing.JButton
 	 */
-	public JButton getAddAccessRuleToolbarButton() {
-		if (addAccessRuleToolbarButton == null) {
-			addAccessRuleToolbarButton = new JButton();
-			addAccessRuleToolbarButton.addActionListener(actionListener);
-			addAccessRuleToolbarButton.setActionCommand(Constants.ADD_ACCESS_RULE_ACTION);
-			addAccessRuleToolbarButton.setIcon(ResourceUtil.addAccessRuleIcon);
-			addAccessRuleToolbarButton.setText(ResourceUtil.getString("mainframe.button.addaccessrule"));
-			addAccessRuleToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addaccessrule.tooltip"));			
+	public JButton getSaveFileAsToolbarButton() {
+		if (saveFileAsToolbarButton == null) {
+			saveFileAsToolbarButton = new JButton();
+			saveFileAsToolbarButton.addActionListener(actionListener);
+			saveFileAsToolbarButton.setActionCommand(Constants.SAVE_FILE_AS_ACTION);
+			saveFileAsToolbarButton.setIcon(ResourceUtil.saveFileAsIcon);
+			saveFileAsToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.saveas.tooltip"));
 		}
-		
-		return addAccessRuleToolbarButton;
+		return saveFileAsToolbarButton;
+	}
+
+	/**
+	 * This method initializes saveFileToolbarButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
+	public JButton getSaveFileToolbarButton() {
+		if (saveFileToolbarButton == null) {
+			saveFileToolbarButton = new JButton();
+			saveFileToolbarButton.addActionListener(actionListener);
+			saveFileToolbarButton.setActionCommand(Constants.SAVE_FILE_ACTION);
+			saveFileToolbarButton.setIcon(ResourceUtil.saveFileIcon);
+			saveFileToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.save.tooltip"));
+		}
+		return saveFileToolbarButton;
 	}
 }
