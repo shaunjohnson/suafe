@@ -22,7 +22,7 @@ import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class MainFrameUsersPane extends JSplitPane {
+public class UsersPane extends JSplitPane {
 
 	private static final long serialVersionUID = 7496096861009879724L;
 
@@ -70,7 +70,7 @@ public class MainFrameUsersPane extends JSplitPane {
 	
 	private JScrollPane userListScrollPane = null;
 	
-	public MainFrameUsersPane(ActionListener actionListener, KeyListener keyListener, 
+	public UsersPane(ActionListener actionListener, KeyListener keyListener, 
 			ListSelectionListener listSelectionListener, MouseListener mouseListener) {
 		super();
 		

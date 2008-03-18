@@ -97,12 +97,12 @@ import org.xiaoniu.suafe.dialogs.EditRepositoryDialog;
 import org.xiaoniu.suafe.dialogs.EditUserDialog;
 import org.xiaoniu.suafe.dialogs.LicenseDialog;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
-import org.xiaoniu.suafe.frames.menus.MainFrameGroupsPopupMenu;
+import org.xiaoniu.suafe.frames.menus.GroupsPopupMenu;
 import org.xiaoniu.suafe.frames.menus.MainFrameMenuBar;
-import org.xiaoniu.suafe.frames.menus.MainFrameUsersPopupMenu;
-import org.xiaoniu.suafe.frames.panes.MainFrameAccessRulesPane;
-import org.xiaoniu.suafe.frames.panes.MainFrameGroupsPane;
-import org.xiaoniu.suafe.frames.panes.MainFrameUsersPane;
+import org.xiaoniu.suafe.frames.menus.UsersPopupMenu;
+import org.xiaoniu.suafe.frames.panes.AccessRulesPane;
+import org.xiaoniu.suafe.frames.panes.GroupsPane;
+import org.xiaoniu.suafe.frames.panes.UsersPane;
 import org.xiaoniu.suafe.frames.toolbars.MainFrameToolBar;
 import org.xiaoniu.suafe.models.NonEditableTableModel;
 import org.xiaoniu.suafe.reports.GenericReport;
@@ -133,19 +133,19 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	
 	private JPanel toolbarPanel = null;
 	
-	private MainFrameAccessRulesPane accessRulesSplitPane = null;
+	private AccessRulesPane accessRulesSplitPane = null;
 	
 	private MainFrameToolBar actionToolBar = null;
 	
-	private MainFrameGroupsPopupMenu groupsPopupMenu = null;
+	private GroupsPopupMenu groupsPopupMenu = null;
 	
-	private MainFrameGroupsPane groupsSplitPane = null; 
+	private GroupsPane groupsSplitPane = null; 
 	
 	private MainFrameMenuBar menuBar = null;
 	
-	private MainFrameUsersPopupMenu usersPopupMenu = null; 
+	private UsersPopupMenu usersPopupMenu = null; 
 	
-	private MainFrameUsersPane usersSplitPane = null;
+	private UsersPane usersSplitPane = null;
 	
 	private Object[] groupAccessRulesColumnNames;
 	
@@ -329,9 +329,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JSplitPane
 	 */
-	private MainFrameUsersPane getUsersSplitPane() {
+	private UsersPane getUsersSplitPane() {
 		if (usersSplitPane == null) {
-			usersSplitPane = new MainFrameUsersPane(this, this, this, this);
+			usersSplitPane = new UsersPane(this, this, this, this);
 		}
 		
 		return usersSplitPane;
@@ -342,9 +342,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JSplitPane
 	 */
-	private MainFrameGroupsPane getGroupsSplitPane() {
+	private GroupsPane getGroupsSplitPane() {
 		if (groupsSplitPane == null) {
-			groupsSplitPane = new MainFrameGroupsPane(this, this, this, this);
+			groupsSplitPane = new GroupsPane(this, this, this, this);
 		}
 		
 		return groupsSplitPane;
@@ -1796,9 +1796,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JPopupMenu
 	 */
-	private MainFrameUsersPopupMenu getUsersPopupMenu() {
+	private UsersPopupMenu getUsersPopupMenu() {
 		if (usersPopupMenu == null) {
-			usersPopupMenu = new MainFrameUsersPopupMenu(this);
+			usersPopupMenu = new UsersPopupMenu(this);
 			
 			// Add listener to the user list
 			MouseListener popupListener = new PopupListener(usersPopupMenu);
@@ -1813,9 +1813,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JPopupMenu
 	 */
-	private MainFrameGroupsPopupMenu getGroupsPopupMenu() {
+	private GroupsPopupMenu getGroupsPopupMenu() {
 		if (groupsPopupMenu == null) {
-			groupsPopupMenu = new MainFrameGroupsPopupMenu(this);
+			groupsPopupMenu = new GroupsPopupMenu(this);
 			
 			// Add listener to the list.
 			MouseListener popupListener = new PopupListener(groupsPopupMenu);
@@ -1921,9 +1921,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 	 * 
 	 * @return javax.swing.JSplitPane
 	 */
-	private MainFrameAccessRulesPane getAccessRulesSplitPane() {
+	private AccessRulesPane getAccessRulesSplitPane() {
 		if (accessRulesSplitPane == null) {
-			accessRulesSplitPane = new MainFrameAccessRulesPane(this, this, this, this);
+			accessRulesSplitPane = new AccessRulesPane(this, this, this, this);
 		}
 		
 		return accessRulesSplitPane;

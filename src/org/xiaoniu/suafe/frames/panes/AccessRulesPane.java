@@ -25,7 +25,7 @@ import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class MainFrameAccessRulesPane extends JSplitPane {
+public class AccessRulesPane extends JSplitPane {
 
 	private static final long serialVersionUID = 4055338694233688725L;
 
@@ -67,7 +67,7 @@ public class MainFrameAccessRulesPane extends JSplitPane {
 	
 	private TreeSelectionListener treeSelectionListener = null;
 	
-	public MainFrameAccessRulesPane(ActionListener actionListener, ListSelectionListener listSelectionListener, 
+	public AccessRulesPane(ActionListener actionListener, ListSelectionListener listSelectionListener, 
 			MouseListener mouseListener, TreeSelectionListener treeSelectionListener) {
 		super();
 		
