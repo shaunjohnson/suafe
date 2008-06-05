@@ -25,7 +25,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory; 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
@@ -39,7 +40,7 @@ import org.xiaoniu.suafe.validators.Validator;
  */
 public class Document {
 	
-	private static final Logger logger = Logger.getLogger(Document.class);
+	private static final Log logger = LogFactory.getLog(Document.class);
 
 	/**
 	 * List of all AccessRules.
