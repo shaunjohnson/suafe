@@ -17,16 +17,18 @@
  */
 package org.xiaoniu.suafe.tests;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.fail;
 
+import org.junit.Test;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 import org.xiaoniu.suafe.validators.Validator;
 
 /**
  * @author Shaun Johnson
  */
-public class ValidatorTest extends TestCase {
+public class ValidatorTest {
 
+	@Test
 	public void testValidateGroupName() {
 		try {
 			Validator.validateGroupName(null);
@@ -54,6 +56,7 @@ public class ValidatorTest extends TestCase {
 //		catch (ValidatorException ve) {}
 	}
 
+	@Test
 	public void testValidateLevelOfAccess() {
 		try {
 			Validator.validateLevelOfAccess(null);
@@ -101,18 +104,22 @@ public class ValidatorTest extends TestCase {
 		catch (ValidatorException ve) {}
 	}
 
+	@Test
 	public void testValidateRelativePath() {
 	}
 
+	@Test
 	public void testValidateRepositoryName() {
 	}
 
+	@Test
 	public void testValidateUserName() {
 	}
 
 	/*
 	 * Class under test for void validateNotEmptyString(String)
 	 */
+	@Test
 	public void testValidateNotEmptyStringString() {
 		try {
 			Validator.validateNotEmptyString(null);
@@ -143,6 +150,7 @@ public class ValidatorTest extends TestCase {
 	/*
 	 * Class under test for void validateNotEmptyString(String, String)
 	 */
+	@Test
 	public void testValidateNotEmptyStringStringString() {
 		try {
 			Validator.validateNotEmptyString("field", null);
@@ -169,5 +177,4 @@ public class ValidatorTest extends TestCase {
 			fail("Validate string of with spaces should not fail with ValidatorException");	
 		}
 	}
-
 }

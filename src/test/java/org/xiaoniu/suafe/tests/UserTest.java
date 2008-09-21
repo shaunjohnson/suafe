@@ -17,8 +17,13 @@
  */
 package org.xiaoniu.suafe.tests;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.User;
@@ -26,19 +31,19 @@ import org.xiaoniu.suafe.beans.User;
 /**
  * @author Shaun Johnson
  */
-public class UserTest extends TestCase {
+public class UserTest {
 	
 	private String userName;
 	
+	@Before
 	protected void setUp() throws Exception {
-		super.setUp();
-		
 		userName = "TestUserName";
 	}
 
 	/*
 	 * Class under test for void User()
 	 */
+	@Test
 	public void testUser() {
 		User user = new User();
 		
@@ -52,6 +57,7 @@ public class UserTest extends TestCase {
 	/*
 	 * Class under test for void User(String)
 	 */
+	@Test
 	public void testUserString() {
 		User user = new User(userName);
 		
@@ -67,6 +73,7 @@ public class UserTest extends TestCase {
 	/*
 	 * Class under test for String toString()
 	 */
+	@Test
 	public void testToString() {
 		User user = new User();
 		
@@ -79,6 +86,7 @@ public class UserTest extends TestCase {
 		assertEquals("toString() should match userName", userName, user.toString());
 	}
 
+	@Test
 	public void testGetName() {
 		User user = new User();
 		
@@ -90,6 +98,7 @@ public class UserTest extends TestCase {
 		assertEquals("getName() should match", userName, user.getName());
 	}
 
+	@Test
 	public void testSetName() {
 		User user = new User();
 		
@@ -101,6 +110,7 @@ public class UserTest extends TestCase {
 		assertEquals("getName() should match", userName, user.getName());
 	}
 
+	@Test
 	public void testGetGroups() {
 		User user = new User();
 		
@@ -108,6 +118,7 @@ public class UserTest extends TestCase {
 		assertTrue("Groups should be empty", user.getGroups().size() == 0);
 	}
 
+	@Test
 	public void testAddGroup() {
 		User user = new User();
 		
@@ -121,6 +132,7 @@ public class UserTest extends TestCase {
 		assertTrue("Groups should have one element", user.getGroups().size() == 1);
 	}
 
+	@Test
 	public void testGetAccessRules() {
 		User user = new User();
 
@@ -128,6 +140,7 @@ public class UserTest extends TestCase {
 		assertTrue("AccessRules should be empty", user.getAccessRules().size() == 0);
 	}
 
+	@Test
 	public void testAddAccessRule() {
 		User user = new User();
 
@@ -141,6 +154,7 @@ public class UserTest extends TestCase {
 		assertTrue("AccessRules should have one element", user.getAccessRules().size() == 1);
 	}
 
+	@Test
 	public void testCompareTo() {
 		User userA = new User();
 		User userB = new User();
@@ -168,5 +182,4 @@ public class UserTest extends TestCase {
 		assertTrue("User A should be lower than user B", userA.compareTo(userB) < 0);
 		assertTrue("User B should be higher than user A", userB.compareTo(userA) > 0);
 	}
-
 }

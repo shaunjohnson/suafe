@@ -17,26 +17,31 @@
  */
 package org.xiaoniu.suafe.tests;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.xiaoniu.suafe.beans.Repository;
 
 /**
  * @author Shaun Johnson
  */
-public class RepositoryTest extends TestCase {
+public class RepositoryTest {
 
 	private String repositoryName;
 	
-	protected void setUp() throws Exception {
-		super.setUp();
-		
+	@Before
+	protected void setUp() throws Exception {		
 		repositoryName = "TestGroupName";
 	}
 
 	/*
 	 * Class under test for void Repository()
 	 */
+	@Test
 	public void testRepository() {
 		Repository repository = new Repository();
 		
@@ -48,6 +53,7 @@ public class RepositoryTest extends TestCase {
 	/*
 	 * Class under test for void Repository(String)
 	 */
+	@Test
 	public void testRepositoryString() {
 		Repository repository = new Repository(repositoryName);
 		
@@ -61,6 +67,7 @@ public class RepositoryTest extends TestCase {
 	/*
 	 * Class under test for String toString()
 	 */
+	@Test
 	public void testToString() {
 		Repository repository = new Repository();
 		
@@ -73,6 +80,7 @@ public class RepositoryTest extends TestCase {
 		assertEquals("toString() should match repositoryName", repositoryName, repository.toString());
 	}
 
+	@Test
 	public void testGetName() {
 		Repository repository = new Repository();
 		
@@ -84,19 +92,23 @@ public class RepositoryTest extends TestCase {
 		assertEquals("getName() should match", repositoryName, repository.getName());
 	}
 
+	@Test
 	public void testSetName() {
 	}
 
+	@Test
 	public void testGetPaths() {
 	}
 
+	@Test
 	public void testAddPath() {
 	}
 
+	@Test
 	public void testRemovePath() {
 	}
 
+	@Test
 	public void testCompareTo() {
 	}
-
 }

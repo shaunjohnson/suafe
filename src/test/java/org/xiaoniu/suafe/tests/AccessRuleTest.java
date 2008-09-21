@@ -17,16 +17,17 @@
  */
 package org.xiaoniu.suafe.tests;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * @author Shaun Johnson
  */
-public class AccessRuleTest extends TestCase {
+public class AccessRuleTest {
 
 	/*
 	 * Class under test for void AccessRule()
 	 */
+	@Test
 	public void testAccessRule() {
 		/*
 		AccessRule rule = new AccessRule();
@@ -42,6 +43,7 @@ public class AccessRuleTest extends TestCase {
 	/*
 	 * Class under test for void AccessRule(Path, String)
 	 */
+	@Test
 	public void testAccessRulePathString() {
 		/*
 		Path path = new Path();
@@ -59,6 +61,7 @@ public class AccessRuleTest extends TestCase {
 	/*
 	 * Class under test for void AccessRule(Path, Group, String)
 	 */
+	@Test
 	public void testAccessRulePathGroupString() {
 		/*
 		Path path = new Path();
@@ -77,6 +80,7 @@ public class AccessRuleTest extends TestCase {
 	/*
 	 * Class under test for void AccessRule(Path, User, String)
 	 */
+	@Test
 	public void testAccessRulePathUserString() {
 		/*
 		Path path = new Path();
@@ -95,37 +99,47 @@ public class AccessRuleTest extends TestCase {
 	/*
 	 * Class under test for String toString()
 	 */
+	@Test
 	public void testToString() {
 	}
 
+	@Test
 	public void testGetGroup() {
 	}
 
+	@Test
 	public void testSetGroup() {
 	}
 
+	@Test
 	public void testGetUser() {
 	}
 
+	@Test
 	public void testSetUser() {
 	}
 
+	@Test
 	public void testGetPath() {
 	}
 
+	@Test
 	public void testSetPath() {
 	}
 
+	@Test
 	public void testGetLevel() {
 	}
 
+	@Test
 	public void testGetLevelFullName() {
 	}
 
+	@Test
 	public void testSetLevel() {
 	}
 
+	@Test
 	public void testCompareTo() {
 	}
-
 }
