@@ -129,6 +129,7 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	 */
 	public void addGroup(Group group) {
 		groups.add(group);
+		group.addUserMember(this);
 	}
 
 	/**

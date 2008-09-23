@@ -461,6 +461,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		menuBar.refreshRecentFiles(fileStack);		
 	}
 
+	/**
+	 * Adds a TransferHanlder to the container. 
+	 * 
+	 * @param container Container to which a transfer handler is added
+	 */
 	private void addTransferHandler(Container container) {
 		if (container instanceof JComponent) {
 			((JComponent)container).setTransferHandler(fileTransferHandler);
@@ -493,6 +498,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		updateTitle();
 	}
 
+	/**
+	 * Change the font to specified font style.
+	 * 
+	 * @param newFontStyle New font style
+	 */
 	private void changeFont(String newFontStyle) {
 		if (newFontStyle != null) {
 			UserPreferences.setUserFontStyle(newFontStyle);
@@ -582,6 +592,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 	}
 	
+	/**
+	 * Clears all files from the recent files list.
+	 */
 	private void clearRecentFiles() {
 		UserPreferences.clearRecentFiles();
 		
@@ -1283,18 +1296,12 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		 */
 		boolean doPrint = printerJob.printDialog();
 		if (doPrint) {
-
 			try {
-
 				printerJob.print();
-
 			} catch (PrinterException exception) {
-
 				System.err.println(ResourceUtil.getString("mainframe.error.errorprinting"));
-
 			}
 		}
-
 	}
 
 	/**
@@ -2035,6 +2042,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		AutofitTableColumns.autoResizeTable(getAccessRulesPane().getAccessRulesTable(), true);
 	}
 
+	/**
+	 * Refreshes main tabbed panel text with current object counts.
+	 */
 	private void refreshTabNames() {		
 		String title = "<html><strong>Users</strong>&nbsp;&nbsp;&nbsp;(" + 
 			Document.getUsers().size() + 
@@ -2144,6 +2154,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		}
 	}
 	
+	/**
+	 * Remove user from selected groups in user group list.
+	 */
 	private void removeFromGroups() {
 		if (getUsersPane().getUserGroupList().isSelectionEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
@@ -2187,6 +2200,9 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		updateTitle();	
 	}
 
+	/**
+	 * Remove selected users/groups in the group member list.
+	 */
 	private void removeMembers() {
 		if (getGroupsPane().getGroupMemberList().isSelectionEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nomemberselected"));
@@ -2230,11 +2246,17 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 		updateTitle();
 	}
 	
+	/**
+	 * Clears all saved user settings.
+	 */
 	private void resetSettings() {
 		UserPreferences.resetSettings();
 		loadUserPreferences();
 	}
 	
+	/**
+	 * Save current user settings.
+	 */
 	private void saveUserPreferences() {
 		UserPreferences.setWindowState(getExtendedState());
 		

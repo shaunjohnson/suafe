@@ -29,6 +29,7 @@ import javax.swing.TransferHandler;
 
 /**
  * 
+ * 
  * @author Shaun Johnson
  */
 public class FileTransferHandler extends TransferHandler {
