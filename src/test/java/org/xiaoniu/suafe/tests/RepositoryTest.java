@@ -34,8 +34,8 @@ public class RepositoryTest {
 	private String repositoryName;
 	
 	@Before
-	protected void setUp() throws Exception {		
-		repositoryName = "TestGroupName";
+	public void before() throws Exception {		
+		repositoryName = "TestRepoName";
 	}
 
 	/*

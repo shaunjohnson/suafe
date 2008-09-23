@@ -32,11 +32,11 @@ import org.xiaoniu.suafe.beans.User;
  * @author Shaun Johnson
  */
 public class UserTest {
-	
+
 	private String userName;
-	
+
 	@Before
-	protected void setUp() throws Exception {
+	public void before() throws Exception {
 		userName = "TestUserName";
 	}
 
@@ -46,10 +46,11 @@ public class UserTest {
 	@Test
 	public void testUser() {
 		User user = new User();
-		
+
 		assertNull("Name should be null", user.getName());
 		assertNotNull("AccessRules should not be null", user.getAccessRules());
-		assertTrue("AccessRules should be empty", user.getAccessRules().size() == 0);
+		assertTrue("AccessRules should be empty",
+				user.getAccessRules().size() == 0);
 		assertNotNull("Groups should not be null", user.getGroups());
 		assertTrue("Groups should be empty", user.getGroups().size() == 0);
 	}
@@ -60,12 +61,13 @@ public class UserTest {
 	@Test
 	public void testUserString() {
 		User user = new User(userName);
-		
+
 		assertNotNull("Name should not be null", user.getName());
 		assertEquals("Name should match", userName, user.getName());
-		
+
 		assertNotNull("AccessRules should not be null", user.getAccessRules());
-		assertTrue("AccessRules should be empty", user.getAccessRules().size() == 0);
+		assertTrue("AccessRules should be empty",
+				user.getAccessRules().size() == 0);
 		assertNotNull("Groups should not be null", user.getGroups());
 		assertTrue("Groups should be empty", user.getGroups().size() == 0);
 	}
@@ -76,24 +78,25 @@ public class UserTest {
 	@Test
 	public void testToString() {
 		User user = new User();
-		
+
 		assertNotNull("toString() should be not be null", user.toString());
 		assertEquals("toString() should be empty string", "", user.toString());
-		
+
 		user = new User(userName);
-		
+
 		assertNotNull("toString() should be not be null", user.toString());
-		assertEquals("toString() should match userName", userName, user.toString());
+		assertEquals("toString() should match userName", userName, user
+				.toString());
 	}
 
 	@Test
 	public void testGetName() {
 		User user = new User();
-		
+
 		assertNull("getName() should be null", user.getName());
-		
+
 		user = new User(userName);
-		
+
 		assertNotNull("getName() should not be null", user.getName());
 		assertEquals("getName() should match", userName, user.getName());
 	}
@@ -101,11 +104,11 @@ public class UserTest {
 	@Test
 	public void testSetName() {
 		User user = new User();
-		
+
 		assertNull("getName() should be null", user.getName());
-		
+
 		user.setName(userName);
-		
+
 		assertNotNull("getName() should not be null", user.getName());
 		assertEquals("getName() should match", userName, user.getName());
 	}
@@ -113,7 +116,7 @@ public class UserTest {
 	@Test
 	public void testGetGroups() {
 		User user = new User();
-		
+
 		assertNotNull("Groups should not be null", user.getGroups());
 		assertTrue("Groups should be empty", user.getGroups().size() == 0);
 	}
@@ -121,15 +124,25 @@ public class UserTest {
 	@Test
 	public void testAddGroup() {
 		User user = new User();
-		
+
 		assertNotNull("Groups should not be null", user.getGroups());
 		assertTrue("Groups should be empty", user.getGroups().size() == 0);
-		
+
 		Group group = new Group();
 		user.addGroup(group);
-		
+
 		assertNotNull("Groups should not be null", user.getGroups());
-		assertTrue("Groups should have one element", user.getGroups().size() == 1);
+		assertTrue("Groups should have one element",
+				user.getGroups().size() == 1);
+		assertTrue("Groups should contain only the one object", user
+				.getGroups().get(0) == group);
+
+		assertNotNull("Group user memebers should not be null", user
+				.getGroups().get(0).getUserMembers());
+		assertTrue("Group user memebers should contain only one user", user
+				.getGroups().get(0).getUserMembers().size() == 1);
+		assertTrue("Group user memeber should match added user", user
+				.getGroups().get(0).getUserMembers().get(0) == user);
 	}
 
 	@Test
@@ -137,7 +150,8 @@ public class UserTest {
 		User user = new User();
 
 		assertNotNull("AccessRules should not be null", user.getAccessRules());
-		assertTrue("AccessRules should be empty", user.getAccessRules().size() == 0);
+		assertTrue("AccessRules should be empty",
+				user.getAccessRules().size() == 0);
 	}
 
 	@Test
@@ -145,41 +159,49 @@ public class UserTest {
 		User user = new User();
 
 		assertNotNull("AccessRules should not be null", user.getAccessRules());
-		assertTrue("AccessRules should be empty", user.getAccessRules().size() == 0);
-		
+		assertTrue("AccessRules should be empty",
+				user.getAccessRules().size() == 0);
+
 		AccessRule rule = new AccessRule();
 		user.addAccessRule(rule);
-		
+
 		assertNotNull("AccessRules should not be null", user.getAccessRules());
-		assertTrue("AccessRules should have one element", user.getAccessRules().size() == 1);
+		assertTrue("AccessRules should have one element", user.getAccessRules()
+				.size() == 1);
 	}
 
 	@Test
 	public void testCompareTo() {
 		User userA = new User();
 		User userB = new User();
-		
+
 		assertTrue("User A should match user B", userA.compareTo(userB) == 0);
 		assertTrue("User B should match user A", userB.compareTo(userA) == 0);
-		
+
 		userA = new User("user");
 		userB = new User("user");
-		
+
 		assertTrue("User A should match user B", userA.compareTo(userB) == 0);
 		assertTrue("User B should match user A", userB.compareTo(userA) == 0);
-		
+
 		userA = new User("userA");
 		userB = new User(null);
-		
-		assertTrue("User A should not match user B", userA.compareTo(userB) != 0);
-		assertTrue("User B should not match user A", userB.compareTo(userA) != 0);
-		
+
+		assertTrue("User A should not match user B",
+				userA.compareTo(userB) != 0);
+		assertTrue("User B should not match user A",
+				userB.compareTo(userA) != 0);
+
 		userA = new User("userA");
 		userB = new User("userB");
-		
-		assertTrue("User A should not match user B", userA.compareTo(userB) != 0);
-		assertTrue("User B should not match user A", userB.compareTo(userA) != 0);
-		assertTrue("User A should be lower than user B", userA.compareTo(userB) < 0);
-		assertTrue("User B should be higher than user A", userB.compareTo(userA) > 0);
+
+		assertTrue("User A should not match user B",
+				userA.compareTo(userB) != 0);
+		assertTrue("User B should not match user A",
+				userB.compareTo(userA) != 0);
+		assertTrue("User A should be lower than user B",
+				userA.compareTo(userB) < 0);
+		assertTrue("User B should be higher than user A", userB
+				.compareTo(userA) > 0);
 	}
 }
