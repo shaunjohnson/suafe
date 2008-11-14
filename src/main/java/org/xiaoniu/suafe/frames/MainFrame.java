@@ -52,6 +52,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -963,9 +964,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener,
 					return;
 				}
 				
+				JTable accessRulesTable = getAccessRulesPane().getAccessRulesTable();				
 				Object userObject = node.getUserObject();
-				DefaultTableModel tableModel = (DefaultTableModel)getAccessRulesPane().getAccessRulesTable().getModel();
-				int selectedRow = getAccessRulesPane().getAccessRulesTable().getSelectedRow();
+				DefaultTableModel tableModel = (DefaultTableModel)accessRulesTable.getModel();
+				int selectedRow = accessRulesTable.convertRowIndexToModel(accessRulesTable.getSelectedRow());
 				AccessRule accessRule = null;
 						
 				if (userObject instanceof Repository) {
