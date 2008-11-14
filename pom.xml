@@ -4,7 +4,7 @@
 	<groupId>suafe</groupId>
 	<artifactId>suafe</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.1</version>
+	<version>1.1.2-SNAPSHOT</version>
 	<name>suafe</name>
 	<description>
 	Suafe is a Subversion user authorization file editor.
