@@ -231,4 +231,14 @@ public class AccessRule implements Comparable<AccessRule> {
 	public int compareTo(AccessRule otherAccessRule) {
 		return this.toString().compareTo(otherAccessRule.toString());
 	}
+	
+	/**
+	 * Compares this object to another.
+	 * 
+	 * @param otherAccessRule The other AccessRule to use for comparison
+	 * @return true of the other object is the same, otherwise false
+	 */
+	public boolean equals(AccessRule otherAccessRule) {
+		return compareTo(otherAccessRule) == 0;
+	}
 }

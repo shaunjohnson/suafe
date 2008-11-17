@@ -110,7 +110,7 @@ public class Validator {
 		}
 		
 		// Check repository name for invalid characters
-		Pattern pattern = Pattern.compile("=");
+		Pattern pattern = Pattern.compile(":");
 		Matcher matcher = pattern.matcher(value);
 		
 		if (matcher.find()) {

@@ -242,4 +242,14 @@ public class Group extends GroupMemberObject implements Comparable<Group> {
 	public int compareTo(Group otherGroup) {
 		return this.toString().compareTo(otherGroup.toString());
 	}
+	
+	/**
+	 * Compares this object to another.
+	 * 
+	 * @param otherGroup The other Group to use for comparison.
+	 * @return true if the same group, other false
+	 */
+	public boolean equals(Group otherGroup) {
+		return compareTo(otherGroup) == 0;
+	}
 }

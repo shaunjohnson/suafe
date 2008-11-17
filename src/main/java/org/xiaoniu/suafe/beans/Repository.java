@@ -122,4 +122,14 @@ public class Repository implements Comparable<Repository> {
 	public int compareTo(Repository otherRepository) {
 		return this.toString().compareTo(otherRepository.toString());
 	}
+	
+	/**
+	 * Compares this to another object.
+	 * 
+	 * @param otherRepository The other Repository to which this is compared.
+	 * @return true if it is the same object, otherwise false
+	 */
+	public boolean equals(Repository otherRepository) {
+		return compareTo(otherRepository) == 0;
+	}
 }

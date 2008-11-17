@@ -129,7 +129,7 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	 */
 	public void addGroup(Group group) {
 		groups.add(group);
-		group.addUserMember(this);
+//		group.addUserMember(this);
 	}
 
 	/**
@@ -184,5 +184,13 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	public int compareTo(User otherUser) {
 		return this.toString().compareTo(otherUser.toString());
 	}
+	
+	/**
+	 * Compares this to another object.
+	 * 
+	 * @param otherUser The other User to which this is compared.
+	 */
+	public boolean equals(User otherUser) {
+		return compareTo(otherUser) == 0;
+	}
 }
-

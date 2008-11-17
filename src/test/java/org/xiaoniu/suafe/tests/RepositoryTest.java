@@ -17,13 +17,10 @@
  */
 package org.xiaoniu.suafe.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
 
 /**
@@ -31,11 +28,107 @@ import org.xiaoniu.suafe.beans.Repository;
  */
 public class RepositoryTest {
 
-	private String repositoryName;
-	
-	@Before
-	public void before() throws Exception {		
-		repositoryName = "TestRepoName";
+	private String repositoryName = "TestRepoName";
+
+	@Test
+	public void testAddRemovePath() {
+		Repository repository = new Repository();
+
+		assertTrue(repository.getPaths() != null);
+		assertTrue(repository.getPaths().size() == 0);
+
+		Path path = new Path();
+
+		repository.addPath(path);
+
+		assertTrue(repository.getPaths() != null);
+		assertTrue(repository.getPaths().size() == 1);
+		assertTrue(repository.getPaths().get(0) == path);
+		assertTrue(repository.getPaths().get(0).equals(path));
+
+		Path path2 = new Path(repository, "path");
+
+		repository.addPath(path2);
+
+		assertTrue(repository.getPaths() != null);
+		assertTrue(repository.getPaths().size() == 2);
+		assertTrue(repository.getPaths().get(1) == path2);
+		assertTrue(repository.getPaths().get(1).equals(path2));
+		assertTrue(repository.getPaths().get(1).getRepository().equals(repository));
+
+		repository.removePath(path);
+		repository.removePath(path2);
+
+		assertTrue(repository.getPaths() != null);
+		assertTrue(repository.getPaths().size() == 0);
+	}
+
+	@Test
+	public void testCompareTo() {
+		Repository repositoryA = new Repository();
+		Repository repositoryB = new Repository();
+
+		assertTrue(repositoryA.compareTo(repositoryB) == 0);
+		assertTrue(repositoryB.compareTo(repositoryA) == 0);
+
+		repositoryA = new Repository("repository");
+		repositoryB = new Repository("repository");
+
+		assertTrue(repositoryA.compareTo(repositoryB) == 0);
+		assertTrue(repositoryB.compareTo(repositoryA) == 0);
+
+		repositoryA = new Repository("repositoryA");
+		repositoryB = new Repository(null);
+
+		assertTrue(repositoryA.compareTo(repositoryB) != 0);
+		assertTrue(repositoryB.compareTo(repositoryA) != 0);
+
+		repositoryA = new Repository("repositoryA");
+		repositoryB = new Repository("repositoryB");
+
+		assertTrue(repositoryB.compareTo(repositoryA) != 0);
+		assertTrue(repositoryA.compareTo(repositoryB) != 0);
+		assertTrue(repositoryA.compareTo(repositoryB) < 0);
+		assertTrue(repositoryB.compareTo(repositoryA) > 0);
+	}
+
+	@Test
+	public void testEquals() {
+		Repository repositoryA = new Repository();
+		Repository repositoryB = new Repository();
+
+		assertTrue(repositoryA.equals(repositoryB));
+		assertTrue(repositoryB.equals(repositoryA));
+
+		repositoryA = new Repository("repository");
+		repositoryB = new Repository("repository");
+
+		assertTrue(repositoryA.equals(repositoryB));
+		assertTrue(repositoryB.equals(repositoryA));
+
+		repositoryA = new Repository("repositoryA");
+		repositoryB = new Repository(null);
+
+		assertTrue(!repositoryA.equals(repositoryB));
+		assertTrue(!repositoryB.equals(repositoryA));
+
+		repositoryA = new Repository("repositoryA");
+		repositoryB = new Repository("repositoryB");
+
+		assertTrue(!repositoryB.equals(repositoryA));
+		assertTrue(!repositoryA.equals(repositoryB));
+	}
+
+	@Test
+	public void testGetName() {
+		Repository repository = new Repository();
+
+		assertTrue(repository.getName() == null);
+
+		repository = new Repository(repositoryName);
+
+		assertTrue(repository.getName() != null);
+		assertTrue(repository.getName().equals(repositoryName));
 	}
 
 	/*
@@ -44,10 +137,10 @@ public class RepositoryTest {
 	@Test
 	public void testRepository() {
 		Repository repository = new Repository();
-		
-		assertNull("Name should be null", repository.getName());
-		assertNotNull("Paths should not be null", repository.getPaths());
-		assertTrue("Paths should be empty", repository.getPaths().size() == 0);
+
+		assertTrue(repository.getName() == null);
+		assertTrue(repository.getPaths() != null);
+		assertTrue(repository.getPaths().size() == 0);
 	}
 
 	/*
@@ -56,12 +149,24 @@ public class RepositoryTest {
 	@Test
 	public void testRepositoryString() {
 		Repository repository = new Repository(repositoryName);
-		
-		assertNotNull("Name should not be null", repository.getName());
-		assertEquals("Name should match", repositoryName, repository.getName());
-		
-		assertNotNull("Paths should not be null", repository.getPaths());
-		assertTrue("Paths should be empty", repository.getPaths().size() == 0);	
+
+		assertTrue(repository.getName() != null);
+		assertTrue(repository.getName().equals(repositoryName));
+
+		assertTrue(repository.getPaths() != null);
+		assertTrue(repository.getPaths().size() == 0);
+	}
+
+	@Test
+	public void testSetName() {
+		Repository repository = new Repository();
+
+		assertTrue(repository.getName() == null);
+
+		repository.setName(repositoryName);
+
+		assertTrue(repository.getName() != null);
+		assertTrue(repository.getName().equals(repositoryName));
 	}
 
 	/*
@@ -70,45 +175,13 @@ public class RepositoryTest {
 	@Test
 	public void testToString() {
 		Repository repository = new Repository();
-		
-		assertNotNull("toString() should be not be null", repository.toString());
-		assertEquals("toString() should be empty string", "", repository.toString());
-		
+
+		assertTrue(repository.toString() != null);
+		assertTrue(repository.toString().equals(""));
+
 		repository = new Repository(repositoryName);
-		
-		assertNotNull("toString() should be not be null", repository.toString());
-		assertEquals("toString() should match repositoryName", repositoryName, repository.toString());
-	}
 
-	@Test
-	public void testGetName() {
-		Repository repository = new Repository();
-		
-		assertNull("getName() should be null", repository.getName());
-		
-		repository = new Repository(repositoryName);
-		
-		assertNotNull("getName() should not be null", repository.getName());
-		assertEquals("getName() should match", repositoryName, repository.getName());
-	}
-
-	@Test
-	public void testSetName() {
-	}
-
-	@Test
-	public void testGetPaths() {
-	}
-
-	@Test
-	public void testAddPath() {
-	}
-
-	@Test
-	public void testRemovePath() {
-	}
-
-	@Test
-	public void testCompareTo() {
+		assertTrue(repository.toString() != null);
+		assertTrue(repository.toString().equals(repositoryName));
 	}
 }

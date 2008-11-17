@@ -48,12 +48,6 @@ public class ValidatorTest {
 		catch (ValidatorException ve) {
 			fail("Validate group name with spaces should not fail with ValidatorException");	
 		}
-		
-//		try {
-//			Validator.validateGroupName("My,Name,Is,Comma");
-//			fail("Validate group name with comma should fail with ValidatorException");
-//		}
-//		catch (ValidatorException ve) {}
 	}
 
 	@Test
@@ -102,18 +96,6 @@ public class ValidatorTest {
 			fail("Validate unknown level of access should fail with ValidatorException");
 		}
 		catch (ValidatorException ve) {}
-	}
-
-	@Test
-	public void testValidateRelativePath() {
-	}
-
-	@Test
-	public void testValidateRepositoryName() {
-	}
-
-	@Test
-	public void testValidateUserName() {
 	}
 
 	/*
@@ -175,6 +157,90 @@ public class ValidatorTest {
 		}
 		catch (ValidatorException ve) {
 			fail("Validate string of with spaces should not fail with ValidatorException");	
+		}
+	}
+
+	@Test
+	public void testValidatePath() {
+		try {
+			Validator.validatePath(null);
+			fail("Validate null path should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+
+		try {
+			Validator.validatePath("");
+			fail("Validate empty path should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+		
+		try {
+			Validator.validatePath("test");
+			fail("Validate path must start with / should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+		
+		try {
+			Validator.validatePath("/this=test");
+			fail("Validate path with equals characters should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+		
+		try {
+			Validator.validatePath("/test/");
+			fail("Validate path ending with / should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+		
+		try {
+			Validator.validatePath("/test");
+		}
+		catch (ValidatorException ve) {
+			fail("Valid path should not fail with ValidatorException");
+		}
+	}
+	
+	@Test
+	public void testValidateRepositoryName() {
+		try {
+			Validator.validateRepositoryName(null);
+			fail("Validate null repository name should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+
+		try {
+			Validator.validateRepositoryName("");
+			fail("Validate empty repository name should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+		
+		try {
+			Validator.validateRepositoryName("This is a test");
+		}
+		catch (ValidatorException ve) {
+			fail("Validate repository name with spaces should not fail with ValidatorException");	
+		}
+	}
+
+	@Test
+	public void testValidateUserName() {
+		try {
+			Validator.validateUserName(null);
+			fail("Validate null user name should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+
+		try {
+			Validator.validateUserName("");
+			fail("Validate empty user name should fail with ValidatorException");
+		}
+		catch (ValidatorException ve) {}
+		
+		try {
+			Validator.validateUserName("This is a test");
+		}
+		catch (ValidatorException ve) {
+			fail("Validate user name with spaces should not fail with ValidatorException");	
 		}
 	}
 }
