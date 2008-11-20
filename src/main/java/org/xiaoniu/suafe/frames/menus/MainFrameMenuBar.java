@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.util.Stack;
 
 import javax.swing.ButtonGroup;
@@ -307,11 +306,8 @@ public class MainFrameMenuBar extends JMenuBar {
 	public JMenuItem getHelpMenuItem() {
 		if (helpMenuItem == null) {
 			helpMenuItem = new JMenuItem();
-			helpMenuItem.addActionListener(actionListener);
-			helpMenuItem.setActionCommand(Constants.HELP_ACTION);
 			helpMenuItem.setIcon(ResourceUtil.helpIcon);
 			helpMenuItem.setText(ResourceUtil.getString("menu.help.help"));
-			helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 		}
 		
 		return helpMenuItem;

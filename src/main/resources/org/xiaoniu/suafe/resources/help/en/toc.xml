@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 2.0//EN"
+         "../dtd/toc_2_0.dtd">
+<toc version="2.0" target="welcome">
+	<tocitem text="General Information">
+		<tocitem text="Welcome to Suafe" target="welcome" />
+		<tocitem text="Release Notes" target="release-notes" />
+		<tocitem text="Limitations" target="limitations" />
+		<tocitem text="GNU General Public License" target="gpl" />
+		<tocitem text="Authorization Files" target="authz-files" />
+	</tocitem>
+	
+	<tocitem text="Using Suafe">
+		<tocitem text="Main Screen" target="main-screen" />
+		<tocitem text="Toolbar" target="toolbar" />
+		<tocitem text="Users Tab" target="users-tab" />
+		<tocitem text="Groups Tab" target="groups-tab" />
+		<tocitem text="Access Rules Tab" target="access-rules-tab" />
+		<tocitem text="Command Line" target="command-line" />
+	</tocitem>
+</toc>

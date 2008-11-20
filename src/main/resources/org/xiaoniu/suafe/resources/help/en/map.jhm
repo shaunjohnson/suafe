@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+	<mapID target="welcome" url="welcome.html" />
+	<mapID target="release-notes" url="release_notes.html" />
+	<mapID target="limitations" url="limitations.html" />
+	<mapID target="gpl" url="gpl.txt" />
+	<mapID target="authz-files" url="authorization_files.html" />
+	
+	<mapID target="main-screen" url="main_screen.html" />
+	<mapID target="toolbar" url="toolbar.html" />
+	<mapID target="users-tab" url="users_tab.html" />
+	<mapID target="groups-tab" url="groups_tab.html" />
+	<mapID target="access-rules-tab" url="access_rules_tab.html" />
+	<mapID target="command-line" url="command_line.html" />
+</map>

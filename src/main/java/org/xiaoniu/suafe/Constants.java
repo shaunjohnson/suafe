@@ -41,7 +41,7 @@ public class Constants {
 	
 	public static final String FULL_RESOURCE_DIR = "/" + RESOURCE_DIR;
 	
-	public static final String HELP_DIR = FULL_RESOURCE_DIR + "/help";
+	public static final String HELP_DIR = RESOURCE_DIR + "/help";
 	
 	public static final String IMAGE_DIR = FULL_RESOURCE_DIR + "/images";
 	
