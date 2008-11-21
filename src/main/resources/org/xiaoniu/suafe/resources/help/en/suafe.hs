@@ -7,9 +7,15 @@
 	<title>Suafe - Help</title>
 
 	<maps>
-		<homeID>welcome</homeID>
+		<homeID>overview</homeID>
 		<mapref location="map.jhm"/>
 	</maps>
+
+    <presentation default=true>
+       <name>main window</name>
+       <size width="800" height="600" /> 
+       <location x="100" y="100" />
+    </presentation>
 
 	<!-- views -->
 	<view>

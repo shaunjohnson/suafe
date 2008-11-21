@@ -4,12 +4,49 @@
          "http://java.sun.com/products/javahelp/map_1_0.dtd">
 
 <map version="1.0">
-	<mapID target="welcome" url="welcome.html" />
+	<mapID target="overview" url="overview.html" />
 	<mapID target="release-notes" url="release_notes.html" />
 	<mapID target="limitations" url="limitations.html" />
 	<mapID target="license" url="license.html" />
 	<mapID target="authz-files" url="authorization_files.html" />
 	
+	<mapID target="gui-overview" url="gui-overview.html" />
+	<mapID target="gui-menu" url="gui-menu.html" />
+	<mapID target="gui-toolbar" url="gui-toolbar.html" />
+	
+	<mapID target="gui-users-tab" url="gui-users-tab.html" />
+	<mapID target="gui-add-user" url="gui-add-user.html" />
+	<mapID target="gui-edit-user" url="gui-edit-user.html" />
+	<mapID target="gui-clone-user" url="gui-clone-user.html" />
+	<mapID target="gui-delete-user" url="gui-delete-user.html" />
+	<mapID target="gui-change-membership" url="gui-change-membership.html" />
+	
+	<mapID target="gui-groups-tab" url="gui-groups.html" />
+	<mapID target="gui-add-group" url="gui-add-group.html" />
+	<mapID target="gui-edit-group" url="gui-edit-group.html" />
+	<mapID target="gui-clone-group" url="gui-clone-group.html" />
+	<mapID target="gui-delete-group" url="gui-delete-group.html" />
+	<mapID target="gui-add-remove-members" url="gui-add-remove-members.html" />
+	
+	
+	<mapID target="gui-rules-tab" url="gui-rules-tab.html" />
+	<mapID target="gui-add-rule" url="gui-add-rule.html" />
+	<mapID target="gui-add-project-rules" url="gui-add-project-rules.html" />
+	<mapID target="gui-edit-rule" url="gui-edit-rule.html" />
+	<mapID target="gui-delete-rule" url="gui-delete-rule.html" />
+	<mapID target="gui-add-repository" url="gui-add-repository.html" />
+	<mapID target="gui-edit-repository" url="gui-edit-repository.html" />
+	<mapID target="gui-delete-repository" url="gui-delete-repository.html" />
+	<mapID target="gui-edit-path" url="gui-edit-path.html" />
+	<mapID target="gui-delete-path" url="gui-delete-path.html" />
+
+    <mapID target="gui-preferences" url="gui-preferences.html" />
+    
+    <mapID target="gui-reports" url="gui-reports.html" />
+    <mapID target="gui-preview-output" url="gui-preview-output.html" />
+    <mapID target="gui-statistics-report" url="gui-statistics-report.html" />
+    <mapID target="gui-summary-report" url="gui-summary-report.html" />
+		
 	<mapID target="main-screen" url="main_screen.html" />
 	<mapID target="toolbar" url="toolbar.html" />
 	<mapID target="users-tab" url="users_tab.html" />

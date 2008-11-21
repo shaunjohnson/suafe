@@ -21,9 +21,11 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -208,6 +210,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	private UsersPane usersPane = null;
 
 	private UsersPopupMenu usersPopupMenu = null;
+	
+	private HelpBroker mainHB = null;
 
 	/**
 	 * Default constructor
@@ -1763,8 +1767,19 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		wp.getLocation();
 		JFrame jfrmHelp = (JFrame) wp.getHelpWindow();
 		jfrmHelp.setIconImage(image);
+		jfrmHelp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	private void disposeWindowsFrames() {
+		for (Window window : Window.getWindows()) {
+			window.dispose();
+		}
+		
+		for (Frame frame : Frame.getFrames()) {
+			frame.dispose();
+		}
+	}
+	
 	private void loadHelp() {
 		try {
 			String urlString = Constants.HELP_DIR + "/" + ResourceUtil.getString("application.language") + "/suafe.hs";
@@ -1773,10 +1788,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			URL url = cl.getResource(urlString);
 			HelpSet mainHS = new HelpSet(cl, url);
 
-			HelpBroker mainHB = mainHS.createHelpBroker("welcome");
+			mainHB = mainHS.createHelpBroker("overview");
 
 			mainHB.enableHelpKey(getRootPane(), "main-screen", mainHS, "javax.help.MainWindow", null);
-			mainHB.enableHelpOnButton(getMainFrameMenuBar().getHelpMenuItem(), "welcome", mainHS);
+			mainHB.enableHelpOnButton(getMainFrameMenuBar().getHelpMenuItem(), "overview", mainHS);
 			mainHB.enableHelpOnButton(getMainFrameMenuBar().getLicenseMenuItem(), "license", mainHS);
 
 			setIconImageForHelp(mainHB, ResourceUtil.serverImage);
@@ -2526,6 +2541,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	public void windowClosing(WindowEvent event) {
 		checkForUnsavedChanges();
 		saveUserPreferences();
+		disposeWindowsFrames();
 	}
 
 	/**

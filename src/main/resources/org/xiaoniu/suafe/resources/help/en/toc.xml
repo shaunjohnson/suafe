@@ -2,21 +2,60 @@
 <!DOCTYPE toc
   PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 2.0//EN"
          "../dtd/toc_2_0.dtd">
-<toc version="2.0" target="welcome">
-	<tocitem text="General Information">
-		<tocitem text="Welcome to Suafe" target="welcome" />
-		<tocitem text="Release Notes" target="release-notes" />
-		<tocitem text="Limitations" target="limitations" />
-		<tocitem text="License" target="license" />
-		<tocitem text="Authorization Files" target="authz-files" />
-	</tocitem>
+<toc version="2.0" target="overview">	
+	<tocitem text="Overview" target="overview" />
+	<tocitem text="Release Notes" target="release-notes" />
+	<tocitem text="Limitations" target="limitations" />
+    <tocitem text="License" target="license" />
+	<tocitem text="Authorization Files" target="authz-files" />
 	
-	<tocitem text="Using Suafe">
-		<tocitem text="Main Screen" target="main-screen" />
-		<tocitem text="Toolbar" target="toolbar" />
-		<tocitem text="Users Tab" target="users-tab" />
-		<tocitem text="Groups Tab" target="groups-tab" />
-		<tocitem text="Access Rules Tab" target="access-rules-tab" />
-		<tocitem text="Command Line" target="command-line" />
-	</tocitem>
+	<tocitem text="GUI" target="gui">
+        <tocitem text="Overview" target="gui-overview" />
+        <tocitem text="Menu" target="gui-menu" />
+        <tocitem text="Toolbar" target="gui-toolbar" />
+        <tocitem text="Users Tab" target="gui-users-tab">
+            <tocitem text="Add User" target="gui-add-user" />
+            <tocitem text="Edit User" target="gui-edit-user" />
+            <tocitem text="Clone User" target="gui-clone-user" />
+            <tocitem text="Delete User" target="gui-delete-user" />
+            <tocitem text="Change Membership" target="gui-change-membership" />
+        </tocitem>
+        <tocitem text="Groups Tab" target="gui-groups-tab">
+            <tocitem text="Add User" target="gui-add-group" />
+            <tocitem text="Edit User" target="gui-edit-group" />
+            <tocitem text="Clone User" target="gui-clone-group" />
+            <tocitem text="Delete User" target="gui-delete-group" />
+            <tocitem text="Add/Remove Members" target="gui-add-remove-members" />
+        </tocitem>
+        <tocitem text="Access Rules Tab" target="gui-rules-tab">
+            <tocitem text="Add Access Rule" target="gui-add-rule" />
+            <tocitem text="Add Project Access Rules" target="gui-project-rules" />
+            <tocitem text="Edit Access Rule" target="gui-edit-rule" />
+            <tocitem text="Delete Access Rule" target="gui-delete-rule" />
+            
+            <tocitem text="Add Repository" target="gui-add-repository" />
+            <tocitem text="Edit Repository" target="gui-edit-repository" />
+            <tocitem text="Delete Repository" target="gui-delete-repository" />
+            
+            <tocitem text="Edit Path" target="gui-edit-path" />
+            <tocitem text="Delete Path" target="gui-delete-path" />
+        </tocitem>
+        
+        <tocitem text="Preferences" target="gui-preferences" />
+        
+        <tocitem text="Reports" target="gui-reports">
+            <tocitem text="Preview Output" target="gui-preview-output" />
+            <tocitem text="Statistics Report" target="gui-statistics-report" />
+            <tocitem text="Summary Report" target="gui-summary-report" />
+        </tocitem>
+    </tocitem>
+    
+    <tocitem text="Using Suafe">
+        <tocitem text="Main Screen" target="main-screen" />
+        <tocitem text="Toolbar" target="toolbar" />
+        <tocitem text="Users Tab" target="users-tab" />
+        <tocitem text="Groups Tab" target="groups-tab" />
+        <tocitem text="Access Rules Tab" target="access-rules-tab" />
+        <tocitem text="Command Line" target="command-line" />
+    </tocitem>
 </toc>
