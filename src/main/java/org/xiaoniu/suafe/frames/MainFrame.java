@@ -43,9 +43,11 @@ import java.util.List;
 import java.util.Stack;
 
 import javax.help.CSH;
+import javax.help.DefaultHelpBroker;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.HelpSetException;
+import javax.help.WindowPresentation;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
@@ -1777,6 +1779,12 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			HelpSet mainHS = new HelpSet(cl, url);
 			HelpBroker mainHB = mainHS.createHelpBroker();
 			mainHB.enableHelpKey(getRootPane(), "main-screen", mainHS, "javax.help.SecondaryWindow", null);
+
+			// Hack the help frame to set its icon
+			WindowPresentation wp = ((DefaultHelpBroker) mainHB).getWindowPresentation();
+			wp.getLocation();
+			JFrame jfrmHelp = (JFrame) wp.getHelpWindow();
+			jfrmHelp.setIconImage(ResourceUtil.serverImage);
 
 			getMainFrameMenuBar().getHelpMenuItem().addActionListener(new CSH.DisplayHelpFromSource(mainHB));
 		}
