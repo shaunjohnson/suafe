@@ -22,6 +22,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,7 +43,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-import javax.help.CSH;
 import javax.help.DefaultHelpBroker;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
@@ -102,7 +102,6 @@ import org.xiaoniu.suafe.dialogs.EditGroupDialog;
 import org.xiaoniu.suafe.dialogs.EditPathDialog;
 import org.xiaoniu.suafe.dialogs.EditRepositoryDialog;
 import org.xiaoniu.suafe.dialogs.EditUserDialog;
-import org.xiaoniu.suafe.dialogs.LicenseDialog;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.frames.menus.GroupsPopupMenu;
 import org.xiaoniu.suafe.frames.menus.MainFrameMenuBar;
@@ -248,9 +247,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		}
 		else if (action.equals(Constants.EXIT_ACTION)) {
 			exit();
-		}
-		else if (action.equals(Constants.LICENSE_ACTION)) {
-			helpLicense();
 		}
 		else if (action.equals(Constants.ABOUT_ACTION)) {
 			helpAbout();
@@ -1685,15 +1681,6 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	}
 
 	/**
-	 * License action handler.
-	 */
-	private void helpLicense() {
-		JDialog dialog = new LicenseDialog();
-		DialogUtil.center(this, dialog);
-		dialog.setVisible(true);
-	}
-
-	/**
 	 * This method initializes this frame.
 	 */
 	private void initialize() {
@@ -1770,6 +1757,14 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		// Unused
 	}
 
+	private void setIconImageForHelp(HelpBroker hb, Image image) {
+		// Hack the help frame to set its icon
+		WindowPresentation wp = ((DefaultHelpBroker) hb).getWindowPresentation();
+		wp.getLocation();
+		JFrame jfrmHelp = (JFrame) wp.getHelpWindow();
+		jfrmHelp.setIconImage(image);
+	}
+
 	private void loadHelp() {
 		try {
 			String urlString = Constants.HELP_DIR + "/" + ResourceUtil.getString("application.language") + "/suafe.hs";
@@ -1777,16 +1772,14 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			ClassLoader cl = MainFrame.class.getClassLoader();
 			URL url = cl.getResource(urlString);
 			HelpSet mainHS = new HelpSet(cl, url);
-			HelpBroker mainHB = mainHS.createHelpBroker();
-			mainHB.enableHelpKey(getRootPane(), "main-screen", mainHS, "javax.help.SecondaryWindow", null);
 
-			// Hack the help frame to set its icon
-			WindowPresentation wp = ((DefaultHelpBroker) mainHB).getWindowPresentation();
-			wp.getLocation();
-			JFrame jfrmHelp = (JFrame) wp.getHelpWindow();
-			jfrmHelp.setIconImage(ResourceUtil.serverImage);
+			HelpBroker mainHB = mainHS.createHelpBroker("welcome");
 
-			getMainFrameMenuBar().getHelpMenuItem().addActionListener(new CSH.DisplayHelpFromSource(mainHB));
+			mainHB.enableHelpKey(getRootPane(), "main-screen", mainHS, "javax.help.MainWindow", null);
+			mainHB.enableHelpOnButton(getMainFrameMenuBar().getHelpMenuItem(), "welcome", mainHS);
+			mainHB.enableHelpOnButton(getMainFrameMenuBar().getLicenseMenuItem(), "license", mainHS);
+
+			setIconImageForHelp(mainHB, ResourceUtil.serverImage);
 		}
 		catch (HelpSetException e) {
 			displayError(ResourceUtil.getString("application.error.helpnotloaded"));

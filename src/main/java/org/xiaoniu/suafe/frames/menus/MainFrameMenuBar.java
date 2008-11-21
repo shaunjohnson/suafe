@@ -321,8 +321,6 @@ public class MainFrameMenuBar extends JMenuBar {
 	public JMenuItem getLicenseMenuItem() {
 		if (licenseMenuItem == null) {
 			licenseMenuItem = new JMenuItem();
-			licenseMenuItem.addActionListener(actionListener);
-			licenseMenuItem.setActionCommand(Constants.LICENSE_ACTION);
 			licenseMenuItem.setIcon(ResourceUtil.licenseIcon);
 			licenseMenuItem.setText(ResourceUtil.getString("menu.help.license"));
 		}

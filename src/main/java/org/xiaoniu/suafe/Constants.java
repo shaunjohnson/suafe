@@ -119,8 +119,6 @@ public class Constants {
 
 	public static final String EDIT_USER_ACTION = "EDIT_USER_ACTION";
 
-	public static final String LICENSE_ACTION = "LICENSE_ACTION";
-
 	public static final String PRINT_ACTION = "PRINT_ACTION";
 
 	public static final String ADD_ACCESS_RULE_ACTION = "ADD_ACCESS_RULE_ACTION";
@@ -140,8 +138,6 @@ public class Constants {
 	public static final String ABOUT_ACTION = "ABOUT_ACTION";
 
 	public static final String EXIT_ACTION = "EXIT_ACTION";
-
-	public static final String HELP_ACTION = "HELP_ACTION";
 
 	public static final String SAVE_FILE_AS_ACTION = "SAVE_FILE_AS_ACTION";
 
