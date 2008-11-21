@@ -7,7 +7,7 @@
 		<tocitem text="Welcome to Suafe" target="welcome" />
 		<tocitem text="Release Notes" target="release-notes" />
 		<tocitem text="Limitations" target="limitations" />
-		<tocitem text="GNU General Public License" target="gpl" />
+		<tocitem text="License" target="license" />
 		<tocitem text="Authorization Files" target="authz-files" />
 	</tocitem>
 	
