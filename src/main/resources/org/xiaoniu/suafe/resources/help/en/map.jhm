@@ -10,6 +10,7 @@
 	<mapID target="license" url="license.html" />
 	<mapID target="authz-files" url="authorization_files.html" />
 	
+	<mapID target="gui" url="gui-overview.html" />
 	<mapID target="gui-overview" url="gui-overview.html" />
 	<mapID target="gui-menu" url="gui-menu.html" />
 	<mapID target="gui-toolbar" url="gui-toolbar.html" />
@@ -45,7 +46,9 @@
     <mapID target="gui-preview-output" url="gui-preview-output.html" />
     <mapID target="gui-statistics-report" url="gui-statistics-report.html" />
     <mapID target="gui-summary-report" url="gui-summary-report.html" />
-		
+	
+
+	<mapID target="cmdline" url="cmdline-overview.html" />	
 	<mapID target="cmdline-overview" url="cmdline-overview.html" />
 	<mapID target="cmdline-input-output" url="cmdline-input-output.html" />
 	

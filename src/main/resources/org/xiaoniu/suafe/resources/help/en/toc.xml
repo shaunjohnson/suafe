@@ -29,7 +29,7 @@
         </tocitem>
         <tocitem text="Access Rules Tab" target="gui-rules-tab">
             <tocitem text="Add Access Rule" target="gui-add-rule" />
-            <tocitem text="Add Project Access Rules" target="gui-project-rules" />
+            <tocitem text="Add Project Access Rules" target="gui-add-project-rules" />
             <tocitem text="Edit Access Rule" target="gui-edit-rule" />
             <tocitem text="Delete Access Rule" target="gui-delete-rule" />
             
@@ -50,6 +50,7 @@
         </tocitem>
     </tocitem>
 	
+	
 	<tocitem text="Command Line" target="cmdline">
         <tocitem text="Overview" target="cmdline-overview" />
         <tocitem text="Input/Output" target="cmdline-input-output" />
@@ -69,7 +70,7 @@
         </tocitem>
         <tocitem text="Access Rules" target="cmdline-rules">
             <tocitem text="Add Access Rule" target="cmdline-add-rule" />
-            <tocitem text="Add Project Access Rules" target="cmdline-project-rules" />
+            <tocitem text="Add Project Access Rules" target="cmdline-add-project-rules" />
             <tocitem text="Edit Access Rule" target="cmdline-edit-rule" />
             <tocitem text="Delete Access Rule" target="cmdline-delete-rule" />
             
