@@ -49,7 +49,47 @@
             <tocitem text="Summary Report" target="gui-summary-report" />
         </tocitem>
     </tocitem>
-    
+	
+	<tocitem text="Command Line" target="cmdline">
+        <tocitem text="Overview" target="cmdline-overview" />
+        <tocitem text="Input/Output" target="cmdline-input-output" />
+        <tocitem text="Users" target="cmdline-users">
+            <tocitem text="Add User" target="cmdline-add-user" />
+            <tocitem text="Edit User" target="cmdline-edit-user" />
+            <tocitem text="Clone User" target="cmdline-clone-user" />
+            <tocitem text="Delete User" target="cmdline-delete-user" />
+            <tocitem text="Change Membership" target="cmdline-change-membership" />
+        </tocitem>
+        <tocitem text="Groups" target="cmdline-groups">
+            <tocitem text="Add User" target="cmdline-add-group" />
+            <tocitem text="Edit User" target="cmdline-edit-group" />
+            <tocitem text="Clone User" target="cmdline-clone-group" />
+            <tocitem text="Delete User" target="cmdline-delete-group" />
+            <tocitem text="Add/Remove Members" target="cmdline-add-remove-members" />
+        </tocitem>
+        <tocitem text="Access Rules" target="cmdline-rules">
+            <tocitem text="Add Access Rule" target="cmdline-add-rule" />
+            <tocitem text="Add Project Access Rules" target="cmdline-project-rules" />
+            <tocitem text="Edit Access Rule" target="cmdline-edit-rule" />
+            <tocitem text="Delete Access Rule" target="cmdline-delete-rule" />
+            
+            <tocitem text="Add Repository" target="cmdline-add-repository" />
+            <tocitem text="Edit Repository" target="cmdline-edit-repository" />
+            <tocitem text="Delete Repository" target="cmdline-delete-repository" />
+            
+            <tocitem text="Edit Path" target="cmdline-edit-path" />
+            <tocitem text="Delete Path" target="cmdline-delete-path" />
+        </tocitem>
+        
+        <tocitem text="Preferences" target="cmdline-preferences" />
+        
+        <tocitem text="Reports" target="cmdline-reports">
+            <tocitem text="Preview Output" target="cmdline-preview-output" />
+            <tocitem text="Statistics Report" target="cmdline-statistics-report" />
+            <tocitem text="Summary Report" target="cmdline-summary-report" />
+        </tocitem>
+    </tocitem>    
+	
     <tocitem text="Using Suafe">
         <tocitem text="Main Screen" target="main-screen" />
         <tocitem text="Toolbar" target="toolbar" />

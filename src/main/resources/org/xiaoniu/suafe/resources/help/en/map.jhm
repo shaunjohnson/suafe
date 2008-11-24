@@ -28,7 +28,6 @@
 	<mapID target="gui-delete-group" url="gui-delete-group.html" />
 	<mapID target="gui-add-remove-members" url="gui-add-remove-members.html" />
 	
-	
 	<mapID target="gui-rules-tab" url="gui-rules-tab.html" />
 	<mapID target="gui-add-rule" url="gui-add-rule.html" />
 	<mapID target="gui-add-project-rules" url="gui-add-project-rules.html" />
@@ -46,6 +45,41 @@
     <mapID target="gui-preview-output" url="gui-preview-output.html" />
     <mapID target="gui-statistics-report" url="gui-statistics-report.html" />
     <mapID target="gui-summary-report" url="gui-summary-report.html" />
+		
+	<mapID target="cmdline-overview" url="cmdline-overview.html" />
+	<mapID target="cmdline-input-output" url="cmdline-input-output.html" />
+	
+	<mapID target="cmdline-users-tab" url="cmdline-users-tab.html" />
+	<mapID target="cmdline-add-user" url="cmdline-add-user.html" />
+	<mapID target="cmdline-edit-user" url="cmdline-edit-user.html" />
+	<mapID target="cmdline-clone-user" url="cmdline-clone-user.html" />
+	<mapID target="cmdline-delete-user" url="cmdline-delete-user.html" />
+	<mapID target="cmdline-change-membership" url="cmdline-change-membership.html" />
+	
+	<mapID target="cmdline-groups-tab" url="cmdline-groups.html" />
+	<mapID target="cmdline-add-group" url="cmdline-add-group.html" />
+	<mapID target="cmdline-edit-group" url="cmdline-edit-group.html" />
+	<mapID target="cmdline-clone-group" url="cmdline-clone-group.html" />
+	<mapID target="cmdline-delete-group" url="cmdline-delete-group.html" />
+	<mapID target="cmdline-add-remove-members" url="cmdline-add-remove-members.html" />
+	
+	<mapID target="cmdline-rules-tab" url="cmdline-rules-tab.html" />
+	<mapID target="cmdline-add-rule" url="cmdline-add-rule.html" />
+	<mapID target="cmdline-add-project-rules" url="cmdline-add-project-rules.html" />
+	<mapID target="cmdline-edit-rule" url="cmdline-edit-rule.html" />
+	<mapID target="cmdline-delete-rule" url="cmdline-delete-rule.html" />
+	<mapID target="cmdline-add-repository" url="cmdline-add-repository.html" />
+	<mapID target="cmdline-edit-repository" url="cmdline-edit-repository.html" />
+	<mapID target="cmdline-delete-repository" url="cmdline-delete-repository.html" />
+	<mapID target="cmdline-edit-path" url="cmdline-edit-path.html" />
+	<mapID target="cmdline-delete-path" url="cmdline-delete-path.html" />
+
+    <mapID target="cmdline-preferences" url="cmdline-preferences.html" />
+    
+    <mapID target="cmdline-reports" url="cmdline-reports.html" />
+    <mapID target="cmdline-preview-output" url="cmdline-preview-output.html" />
+    <mapID target="cmdline-statistics-report" url="cmdline-statistics-report.html" />
+    <mapID target="cmdline-summary-report" url="cmdline-summary-report.html" />
 		
 	<mapID target="main-screen" url="main_screen.html" />
 	<mapID target="toolbar" url="toolbar.html" />
