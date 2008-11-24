@@ -81,10 +81,7 @@
             <tocitem text="Delete Path" target="cmdline-delete-path" />
         </tocitem>
         
-        <tocitem text="Preferences" target="cmdline-preferences" />
-        
         <tocitem text="Reports" target="cmdline-reports">
-            <tocitem text="Preview Output" target="cmdline-preview-output" />
             <tocitem text="Statistics Report" target="cmdline-statistics-report" />
             <tocitem text="Summary Report" target="cmdline-summary-report" />
         </tocitem>
