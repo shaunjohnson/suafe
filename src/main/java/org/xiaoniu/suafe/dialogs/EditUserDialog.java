@@ -18,6 +18,7 @@
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.UserPreferences;
@@ -35,7 +37,6 @@ import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
-import java.awt.Dimension;
 
 /**
  * Dialog that allows a user to edit a user.
@@ -90,7 +91,7 @@ public class EditUserDialog extends ParentDialog implements ActionListener {
 	 */
 	private void initialize() {
 		this.setResizable(false);
-		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("edituser.title"));
 		this.setContentPane(getJContentPane());
 		
@@ -137,10 +138,7 @@ public class EditUserDialog extends ParentDialog implements ActionListener {
 	 */    
 	private JButton getSaveButton() {
 		if (saveButton == null) {
-			saveButton = new JButton();
-			saveButton.addActionListener(this);
-			saveButton.setActionCommand(Constants.SAVE_ACTION);
-			saveButton.setText(ResourceUtil.getString("button.save"));
+			saveButton = createButton("button.save", Constants.SAVE_ACTION, this);
 		}
 		
 		return saveButton;
@@ -153,10 +151,7 @@ public class EditUserDialog extends ParentDialog implements ActionListener {
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = new JButton();
-			cancelButton.addActionListener(this);
-			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
+			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
 		}
 		
 		return cancelButton;

@@ -249,10 +249,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = new JButton();
-			cancelButton.addActionListener(this);
-			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
+			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
 		}
 		
 		return cancelButton;
@@ -265,10 +262,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 	 */    
 	private JButton getSaveButton() {
 		if (saveButton == null) {
-			saveButton = new JButton();
-			saveButton.addActionListener(this);
-			saveButton.setActionCommand(Constants.SAVE_ACTION);
-			saveButton.setText(ResourceUtil.getString("button.save"));
+			saveButton = createButton("button.save", Constants.SAVE_ACTION, this);
 		}
 		
 		return saveButton;

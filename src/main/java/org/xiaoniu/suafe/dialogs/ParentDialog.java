@@ -19,17 +19,19 @@ package org.xiaoniu.suafe.dialogs;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.ActionListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class ParentDialog extends JDialog implements ContainerListener, KeyListener {
+public abstract class ParentDialog extends JDialog implements ContainerListener, KeyListener {
 
 	/**
 	 * Serial ID
@@ -85,6 +87,23 @@ public class ParentDialog extends JDialog implements ContainerListener, KeyListe
 				addListeners(child);
 			}
 		}
+	}
+	
+	/**
+	 * Creates a button using the specified bundle key and action code.
+	 * 
+	 * @param key Key used to lookup button text in resource bundle
+	 * @param action Action code to associate with the button
+	 * @return Newly created button
+	 */
+	protected JButton createButton(String key, String action, ActionListener listener) {
+		JButton button = new JButton();
+		
+		button.addActionListener(listener);
+		button.setActionCommand(action);
+		button.setText(ResourceUtil.getString(key));
+		
+		return button;
 	}
 	
 	/**

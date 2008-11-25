@@ -50,39 +50,40 @@ public class CloneUserDialog extends ParentDialog implements ActionListener {
 	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 8638164948680297299L;
-	
+
 	private User user;
-	
+
 	private Message message;
-	
+
 	private JPanel jContentPane = null;
-	
+
 	private JPanel buttonPanel = null;
-	
+
 	private JButton addButton = null;
-	
+
 	private JButton cancelButton = null;
-	
+
 	private JPanel buttonSubPanel = null;
-	
+
 	private JPanel formPanel = null;
-	
+
 	private JPanel formSubPanel = null;
-	
+
 	private JTextField userNameText = null;
-	
+
 	/**
 	 * Default constructor.
 	 */
 	public CloneUserDialog(User user, Message message) {
 		super();
-		
+
 		this.user = user;
 		this.message = message;
 		this.message.setState(Message.CANCEL);
-		
+
 		initialize();
 	}
+
 	/**
 	 * This method initializes this
 	 */
@@ -91,123 +92,119 @@ public class CloneUserDialog extends ParentDialog implements ActionListener {
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString("cloneuser.title"));
 		this.setContentPane(getJContentPane());
-		
+
 		getRootPane().setDefaultButton(addButton);
-		
+
 		this.pack();
 		this.setModal(true);
 	}
+
 	/**
 	 * This method initializes jContentPane.
 	 * 
 	 * @return javax.swing.JPanel
 	 */
 	private javax.swing.JPanel getJContentPane() {
-		if(jContentPane == null) {
+		if (jContentPane == null) {
 			jContentPane = new JPanel(new BorderLayout());
-			jContentPane.add(new JLabel(ResourceUtil.getFormattedString("clonegroup.instructions", user.getName())), BorderLayout.NORTH);
+			jContentPane.add(new JLabel(ResourceUtil.getFormattedString("clonegroup.instructions", user.getName())),
+					BorderLayout.NORTH);
 			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
 		}
-		
+
 		return jContentPane;
 	}
-	
+
 	/**
-	 * This method initializes buttonPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes buttonPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
 			buttonPanel = new JPanel(new GridLayout(1, 1));
 			buttonPanel.add(getButtonSubPanel());
 		}
-		
+
 		return buttonPanel;
 	}
-	
+
 	/**
-	 * This method initializes addButton.	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	 * This method initializes addButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
 	private JButton getAddButton() {
 		if (addButton == null) {
-			addButton = new JButton();
-			addButton.addActionListener(this);
-			addButton.setActionCommand(Constants.ADD_ACTION);
-			addButton.setText(ResourceUtil.getString("button.add"));
+			addButton = createButton("button.add", Constants.ADD_ACTION, this);
 		}
-		
+
 		return addButton;
 	}
-	
+
 	/**
-	 * This method initializes cancelButton.	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	 * This method initializes cancelButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = new JButton();
-			cancelButton.addActionListener(this);
-			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
+			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
 		}
-		
+
 		return cancelButton;
 	}
-	
+
 	/**
-	 * This method initializes buttonSubPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes buttonSubPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	private JPanel getButtonSubPanel() {
 		if (buttonSubPanel == null) {
 			buttonSubPanel = new JPanel();
 			buttonSubPanel.add(getAddButton());
 			buttonSubPanel.add(getCancelButton());
 		}
-		
+
 		return buttonSubPanel;
 	}
-	
+
 	/**
-	 * This method initializes formPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes formPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	private JPanel getFormPanel() {
 		if (formPanel == null) {
 			formPanel = new JPanel(new FlowLayout());
 			formPanel.add(getFormSubPanel());
 		}
-		
+
 		return formPanel;
 	}
-	
+
 	/**
-	 * This method initializes formSubPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes formSubPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	private JPanel getFormSubPanel() {
 		if (formSubPanel == null) {
 			formSubPanel = new JPanel(new FlowLayout());
 			formSubPanel.add(new JLabel(ResourceUtil.getString("cloneuser.username")));
 			formSubPanel.add(getUserNameText());
 		}
-		
+
 		return formSubPanel;
 	}
-	
+
 	/**
-	 * This method initializes userNameText.	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */    
+	 * This method initializes userNameText.
+	 * 
+	 * @return javax.swing.JTextField
+	 */
 	private JTextField getUserNameText() {
 		if (userNameText == null) {
 			userNameText = new JTextField();
@@ -215,10 +212,10 @@ public class CloneUserDialog extends ParentDialog implements ActionListener {
 			userNameText.setFont(UserPreferences.getUserFont());
 			userNameText.setText(user.getName());
 		}
-		
+
 		return userNameText;
 	}
-	
+
 	/**
 	 * ActionPerformed event handler.
 	 * 
@@ -228,18 +225,18 @@ public class CloneUserDialog extends ParentDialog implements ActionListener {
 		if (event.getActionCommand().equals(Constants.ADD_ACTION)) {
 			try {
 				String userName = getUserNameText().getText();
-				
+
 				Validator.validateNotEmptyString(ResourceUtil.getString("cloneuser.username"), userName);
 				Validator.validateUserName(userName);
-				
-				if (Document.findUser(userName) == null) {				
+
+				if (Document.findUser(userName) == null) {
 					message.setUserObject(Document.cloneUser(user, userName));
 					message.setState(Message.SUCCESS);
 					dispose();
 				}
 				else {
 					displayError(ResourceUtil.getFormattedString("cloneuser.error.useralreadyexists", userName));
-				}			
+				}
 			}
 			catch (ApplicationException ex) {
 				displayError(ex.getMessage());
@@ -251,4 +248,3 @@ public class CloneUserDialog extends ParentDialog implements ActionListener {
 		}
 	}
 }
-

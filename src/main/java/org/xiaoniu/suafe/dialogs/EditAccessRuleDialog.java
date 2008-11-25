@@ -203,12 +203,9 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
-	private JButton getAddButton() {
+	private JButton getSaveButton() {
 		if (addButton == null) {
-			addButton = new JButton();
-			addButton.addActionListener(this);
-			addButton.setText(ResourceUtil.getString("button.save"));
-			addButton.setActionCommand(Constants.SAVE_ACTION);
+			addButton = createButton("button.save", Constants.SAVE_ACTION, this);
 		}
 		
 		return addButton;
@@ -221,10 +218,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = new JButton();
-			cancelButton.addActionListener(this);
-			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
+			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
 		}
 		
 		return cancelButton;
@@ -238,7 +232,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	private JPanel getButtonSubPanel() {
 		if (buttonSubPanel == null) {
 			buttonSubPanel = new JPanel();
-			buttonSubPanel.add(getAddButton());
+			buttonSubPanel.add(getSaveButton());
 			buttonSubPanel.add(getCancelButton());
 		}
 		

@@ -132,10 +132,7 @@ public class AddGroupDialog extends ParentDialog implements ActionListener {
 	 */    
 	private JButton getAddButton() {
 		if (addButton == null) {
-			addButton = new JButton();
-			addButton.addActionListener(this);
-			addButton.setActionCommand(Constants.ADD_ACTION);
-			addButton.setText(ResourceUtil.getString("button.add"));
+			addButton = createButton("button.add", Constants.ADD_ACTION, this);
 		}
 		
 		return addButton;
@@ -148,10 +145,7 @@ public class AddGroupDialog extends ParentDialog implements ActionListener {
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = new JButton();
-			cancelButton.addActionListener(this);
-			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
+			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
 		}
 		
 		return cancelButton;

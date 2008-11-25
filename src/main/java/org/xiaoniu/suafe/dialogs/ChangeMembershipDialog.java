@@ -187,7 +187,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 	private JPanel getButtonPanel() {
 		if (buttonPanel == null) {
 			buttonPanel = new JPanel();
-			buttonPanel.add(getJButton1());
+			buttonPanel.add(getSaveButton());
 			buttonPanel.add(getCancelButton());
 		}
 		
@@ -201,10 +201,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = new JButton();
-			cancelButton.addActionListener(this);
-			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
+			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
 		}
 		
 		return cancelButton;
@@ -215,12 +212,9 @@ public class ChangeMembershipDialog extends ParentDialog implements
 	 * 	
 	 * @return javax.swing.JButton	
 	 */    
-	private JButton getJButton1() {
+	private JButton getSaveButton() {
 		if (saveButton == null) {
-			saveButton = new JButton();
-			saveButton.addActionListener(this);
-			saveButton.setActionCommand(Constants.SAVE_ACTION);
-			saveButton.setText(ResourceUtil.getString("button.save"));
+			saveButton = createButton("button.save", Constants.SAVE_ACTION, this);
 		}
 		
 		return saveButton;

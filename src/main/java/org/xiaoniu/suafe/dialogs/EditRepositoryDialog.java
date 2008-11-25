@@ -138,10 +138,7 @@ public class EditRepositoryDialog extends ParentDialog implements ActionListener
 	 */    
 	private JButton getSaveButton() {
 		if (saveButton == null) {
-			saveButton = new JButton();
-			saveButton.addActionListener(this);
-			saveButton.setActionCommand(Constants.SAVE_ACTION);
-			saveButton.setText(ResourceUtil.getString("button.save"));
+			saveButton = createButton("button.save", Constants.SAVE_ACTION, this);
 		}
 		
 		return saveButton;
@@ -154,10 +151,7 @@ public class EditRepositoryDialog extends ParentDialog implements ActionListener
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = new JButton();
-			cancelButton.addActionListener(this);
-			cancelButton.setActionCommand(Constants.CANCEL_ACTION);
-			cancelButton.setText(ResourceUtil.getString("button.cancel"));
+			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
 		}
 		
 		return cancelButton;

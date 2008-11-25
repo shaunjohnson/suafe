@@ -132,10 +132,7 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 	 */    
 	private JButton getOkButton() {
 		if (okButton == null) {
-			okButton = new JButton();
-			okButton.addActionListener(this);
-			okButton.setActionCommand(Constants.OK_ACTION);
-			okButton.setText(ResourceUtil.getString("button.ok"));
+			okButton = createButton("button.ok", Constants.OK_ACTION, this);
 		}
 		
 		return okButton;
