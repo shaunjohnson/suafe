@@ -292,7 +292,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	private void addRepository() {
 		Message message = new Message();
 		
-		JDialog dialog = new AddRepositoryDialog(message);
+		JDialog dialog = new BasicDialog(BasicDialog.TYPE_ADD_REPOSITORY, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 

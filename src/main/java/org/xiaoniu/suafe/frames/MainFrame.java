@@ -91,19 +91,12 @@ import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.dialogs.AboutDialog;
 import org.xiaoniu.suafe.dialogs.AddAccessRuleDialog;
-import org.xiaoniu.suafe.dialogs.AddGroupDialog;
 import org.xiaoniu.suafe.dialogs.AddProjectAccessRulesDialog;
 import org.xiaoniu.suafe.dialogs.AddRemoveMembersDialog;
-import org.xiaoniu.suafe.dialogs.AddUserDialog;
+import org.xiaoniu.suafe.dialogs.BasicDialog;
 import org.xiaoniu.suafe.dialogs.ChangeMembershipDialog;
-import org.xiaoniu.suafe.dialogs.CloneGroupDialog;
-import org.xiaoniu.suafe.dialogs.CloneUserDialog;
 import org.xiaoniu.suafe.dialogs.DialogUtil;
 import org.xiaoniu.suafe.dialogs.EditAccessRuleDialog;
-import org.xiaoniu.suafe.dialogs.EditGroupDialog;
-import org.xiaoniu.suafe.dialogs.EditPathDialog;
-import org.xiaoniu.suafe.dialogs.EditRepositoryDialog;
-import org.xiaoniu.suafe.dialogs.EditUserDialog;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.frames.menus.GroupsPopupMenu;
 import org.xiaoniu.suafe.frames.menus.MainFrameMenuBar;
@@ -210,7 +203,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	private UsersPane usersPane = null;
 
 	private UsersPopupMenu usersPopupMenu = null;
-	
+
 	private HelpBroker mainHB = null;
 
 	/**
@@ -413,7 +406,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		getMainTabbedPane().setSelectedComponent(getGroupsPane());
 
 		Message message = new Message();
-		JDialog dialog = new AddGroupDialog(message);
+		JDialog dialog = new BasicDialog(BasicDialog.TYPE_ADD_GROUP, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 
@@ -541,7 +534,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		getMainTabbedPane().setSelectedComponent(getUsersPane());
 
 		Message message = new Message();
-		JDialog dialog = new AddUserDialog(message);
+		JDialog dialog = new BasicDialog(BasicDialog.TYPE_ADD_USER, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 
@@ -665,7 +658,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			for (int i = 0; i < selectedItems.length; i++) {
 				Message message = new Message();
 
-				JDialog dialog = new CloneGroupDialog((Group) selectedItems[i], message);
+				JDialog dialog = new BasicDialog(BasicDialog.TYPE_CLONE_GROUP, (Group) selectedItems[i], message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -703,7 +696,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			for (int i = 0; i < selectedItems.length; i++) {
 				Message message = new Message();
-				JDialog dialog = new CloneUserDialog((User) selectedItems[i], message);
+				JDialog dialog = new BasicDialog(BasicDialog.TYPE_CLONE_USER, (User) selectedItems[i], message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -1071,7 +1064,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			for (int i = 0; i < selectedItems.length; i++) {
 				Message message = new Message();
 
-				JDialog dialog = new EditGroupDialog((Group) selectedItems[i], message);
+				JDialog dialog = new BasicDialog(BasicDialog.TYPE_EDIT_GROUP, (Group) selectedItems[i], message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -1112,7 +1105,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		if (userObject instanceof Path) {
 			Message message = new Message();
 
-			JDialog dialog = new EditPathDialog((Path) userObject, message);
+			JDialog dialog = new BasicDialog(BasicDialog.TYPE_EDIT_PATH, (Path) userObject, message);
 			DialogUtil.center(this, dialog);
 			dialog.setVisible(true);
 
@@ -1143,7 +1136,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		if (userObject instanceof Repository) {
 			Message message = new Message();
 
-			JDialog dialog = new EditRepositoryDialog((Repository) userObject, message);
+			JDialog dialog = new BasicDialog(BasicDialog.TYPE_EDIT_REPOSITORY, (Repository) userObject, message);
 			DialogUtil.center(this, dialog);
 			dialog.setVisible(true);
 
@@ -1172,7 +1165,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			for (int i = 0; i < selectedItems.length; i++) {
 				Message message = new Message();
-				JDialog dialog = new EditUserDialog((User) selectedItems[i], message);
+				JDialog dialog = new BasicDialog(BasicDialog.TYPE_EDIT_USER, (User) selectedItems[i], message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -1774,12 +1767,12 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		for (Window window : Window.getWindows()) {
 			window.dispose();
 		}
-		
+
 		for (Frame frame : Frame.getFrames()) {
 			frame.dispose();
 		}
 	}
-	
+
 	private void loadHelp() {
 		try {
 			String urlString = Constants.HELP_DIR + "/" + ResourceUtil.getString("application.language") + "/suafe.hs";
