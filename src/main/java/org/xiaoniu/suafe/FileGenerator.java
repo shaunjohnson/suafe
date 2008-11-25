@@ -54,7 +54,7 @@ public class FileGenerator {
 		try {
 			output = new StringBuffer();
 			
-			output.append(Constants.HEADER_CURRENT + Constants.newline);
+			output.append("# " + ResourceUtil.getString("application.fileheader") + Constants.newline);
 			
 			// Process group definitions
 			output.append("[groups]" + Constants.newline);

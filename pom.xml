@@ -4,10 +4,9 @@
 	<groupId>suafe</groupId>
 	<artifactId>suafe</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.2</version>
-	<name>suafe</name>
-	<description>
-	Suafe is a Subversion user authorization file editor.
+	<version>1.2.0-SNAPSHOT</version>
+	<name>Suafe</name>
+	<description> Suafe is a Subversion user authorization file editor. 
 	</description>
 	<inceptionYear>2006</inceptionYear>
 	<url>http://code.google.com/p/suafe</url>
@@ -62,6 +61,24 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.html</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/*.html</exclude>
+					<exclude>**/*.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -91,6 +108,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.1</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -101,7 +119,6 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 				</configuration>
-				<version>2.1</version>
 				<executions>
 					<execution>
 						<id>make-assembly</id>

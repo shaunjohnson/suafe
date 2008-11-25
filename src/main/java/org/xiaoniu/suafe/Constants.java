@@ -73,13 +73,6 @@ public class Constants {
 	public static final int ACCESS_RULE_TABLE_ROW_HEIGHT = 18;
 	
 	//
-	// File headers
-	//
-	public static final String HEADER_1_1_0 = "# Created using Suafe 1.1.0 (http://code.google.com/p/suafe/)";
-	
-	public static final String HEADER_CURRENT = HEADER_1_1_0;
-	
-	//
 	// Content types
 	//
 	public static final String MIME_HTML = "text/html";
