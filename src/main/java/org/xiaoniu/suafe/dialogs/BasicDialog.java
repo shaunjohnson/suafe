@@ -85,6 +85,8 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 
 	private Group group = null;
 
+	private JPanel instructionsPanel = null;
+
 	private JPanel jContentPane = null;
 
 	private Message message;
@@ -423,6 +425,20 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	}
 
 	/**
+	 * This method initializes instructionsPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getInstructionsPanel() {
+		if (instructionsPanel == null) {
+			instructionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			instructionsPanel.add(new JLabel(ResourceUtil.getString(type + ".instructions")));
+		}
+
+		return instructionsPanel;
+	}
+
+	/**
 	 * This method initializes jContentPane.
 	 * 
 	 * @return javax.swing.JPanel
@@ -430,9 +446,9 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			jContentPane = new JPanel(new BorderLayout());
+			jContentPane.add(getInstructionsPanel(), BorderLayout.NORTH);
 			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
 			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
-			jContentPane.add(new JLabel(ResourceUtil.getString(type + ".instructions")), java.awt.BorderLayout.NORTH);
 		}
 
 		return jContentPane;
