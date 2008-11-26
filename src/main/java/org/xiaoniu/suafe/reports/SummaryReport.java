@@ -26,7 +26,6 @@ import java.util.List;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.Project;
 import org.xiaoniu.suafe.beans.AccessRule;
-import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.PathComparator;
@@ -35,7 +34,7 @@ import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class SummaryReport implements GenericReport {
+public class SummaryReport extends GenericReport {
 
 	/**
 	 * Generates HTML anchor tag.
@@ -157,7 +156,7 @@ public class SummaryReport implements GenericReport {
 				"[" + createLink("users", ResourceUtil.getString("summaryreport.users")) + "] " + 
 				"[" + createLink("projects", ResourceUtil.getString("summaryreport.projects")) + "] </p>");
 		
-		List<Repository> repositories = Document.getRepositories();
+		List<Repository> repositories = document.getRepositories();
 		Collections.sort(repositories);
 		
 		report.append("<h2>" + createAnchor("repositories", ResourceUtil.getString("summaryreport.repositories")) + "</h2>");
@@ -180,7 +179,7 @@ public class SummaryReport implements GenericReport {
 		
 		report.append("<h2>" + ResourceUtil.getString("summaryreport.serverrules") + "</h2>");
 		
-		List<Path> serverPaths = Document.getPaths();
+		List<Path> serverPaths = document.getPaths();
 		Collections.sort(serverPaths, new PathComparator());
 		
 		if (serverPaths.size() > 0) {
@@ -248,7 +247,7 @@ public class SummaryReport implements GenericReport {
 			}
 		}
 		
-		List<Group> groups = Document.getGroups();
+		List<Group> groups = document.getGroups();
 		Collections.sort(groups);
 		
 		report.append("<h2>" + createAnchor("groups", ResourceUtil.getString("summaryreport.groups")) + "</h2>");
@@ -308,7 +307,7 @@ public class SummaryReport implements GenericReport {
 		
 		report.append("</blockquote>");
 		
-		List<User> users = Document.getUsers();
+		List<User> users = document.getUsers();
 		Collections.sort(users);
 		
 		report.append("<h2>" + createAnchor("users", ResourceUtil.getString("summaryreport.users")) + "</h2>");

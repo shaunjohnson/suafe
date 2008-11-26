@@ -30,9 +30,9 @@ public class GroupListModel extends BaseComboBoxModel {
 	/**
 	 * Default constructor.
 	 */
-	public GroupListModel() {
+	public GroupListModel(Document document) {
 		super();
 		
-		itemList = Document.getGroupObjects();
+		itemList = document.getGroupObjects();
 	}
 }

@@ -18,6 +18,8 @@ import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 
 public class DocumentTest {
+	
+	private static final Document document = new Document();
 
 	private static final String groupName = "TestGroupName";
 
@@ -36,17 +38,17 @@ public class DocumentTest {
 	@Test
 	public void testAddAccessRuleForGroupPathGroupString() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Group groupOriginal = Document.addGroup(groupName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			AccessRule accessRuleOriginal = Document.addAccessRuleForGroup(pathOriginal, groupOriginal, level);
+			Group groupOriginal = document.addGroup(groupName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			AccessRule accessRuleOriginal = document.addAccessRuleForGroup(pathOriginal, groupOriginal, level);
 
 			// Validate group
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
-			Group group = Document.getGroups().get(0);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
+			Group group = document.getGroups().get(0);
 			assertTrue(group != null);
 			assertTrue(group.equals(groupOriginal));
 			assertTrue(group.getName().equals(groupName));
@@ -60,25 +62,25 @@ public class DocumentTest {
 			assertTrue(groupAccessRule.equals(accessRuleOriginal));
 
 			// Validate rules
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			AccessRule accessRule = Document.getAccessRules().get(0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			AccessRule accessRule = document.getAccessRules().get(0);
 			assertTrue(accessRule.equals(groupAccessRule));
 			assertTrue(accessRule.equals(accessRuleOriginal));
 
 			// Validate path
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			Path path = Document.getPaths().get(0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			Path path = document.getPaths().get(0);
 			assertTrue(path.equals(pathOriginal));
 			assertTrue(path.getPath().equals(relativePath));
 			assertTrue(accessRule.getPath().equals(path));
 			assertTrue(groupAccessRule.getPath().equals(path));
 
 			// Validate repository
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			Repository repository = Document.getRepositories().get(0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			Repository repository = document.getRepositories().get(0);
 			assertTrue(repository.getName().equals(repositoryName));
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
@@ -91,17 +93,17 @@ public class DocumentTest {
 	@Test
 	public void testAddAccessRuleForGroupPathStringString() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Group groupOriginal = Document.addGroup(groupName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			AccessRule accessRuleOriginal = Document.addAccessRuleForGroup(pathOriginal, groupName, level);
+			Group groupOriginal = document.addGroup(groupName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			AccessRule accessRuleOriginal = document.addAccessRuleForGroup(pathOriginal, groupName, level);
 
 			// Validate group
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
-			Group group = Document.getGroups().get(0);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
+			Group group = document.getGroups().get(0);
 			assertTrue(group != null);
 			assertTrue(group.equals(groupOriginal));
 			assertTrue(group.getName().equals(groupName));
@@ -115,25 +117,25 @@ public class DocumentTest {
 			assertTrue(groupAccessRule.equals(accessRuleOriginal));
 
 			// Validate rules
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			AccessRule accessRule = Document.getAccessRules().get(0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			AccessRule accessRule = document.getAccessRules().get(0);
 			assertTrue(accessRule.equals(groupAccessRule));
 			assertTrue(accessRule.equals(accessRuleOriginal));
 
 			// Validate path
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			Path path = Document.getPaths().get(0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			Path path = document.getPaths().get(0);
 			assertTrue(path.equals(pathOriginal));
 			assertTrue(path.getPath().equals(relativePath));
 			assertTrue(accessRule.getPath().equals(path));
 			assertTrue(groupAccessRule.getPath().equals(path));
 
 			// Validate repository
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			Repository repository = Document.getRepositories().get(0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			Repository repository = document.getRepositories().get(0);
 			assertTrue(repository.getName().equals(repositoryName));
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
@@ -146,18 +148,18 @@ public class DocumentTest {
 	@Test
 	public void testAddAccessRuleForGroupRepositoryStringGroupString() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Group groupOriginal = Document.addGroup(groupName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			AccessRule accessRuleOriginal = Document.addAccessRuleForGroup(repositoryOriginal, relativePath,
+			Group groupOriginal = document.addGroup(groupName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			AccessRule accessRuleOriginal = document.addAccessRuleForGroup(repositoryOriginal, relativePath,
 					groupOriginal, level);
 
 			// Validate group
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
-			Group group = Document.getGroups().get(0);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
+			Group group = document.getGroups().get(0);
 			assertTrue(group != null);
 			assertTrue(group.equals(groupOriginal));
 			assertTrue(group.getName().equals(groupName));
@@ -171,25 +173,25 @@ public class DocumentTest {
 			assertTrue(groupAccessRule.equals(accessRuleOriginal));
 
 			// Validate rules
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			AccessRule accessRule = Document.getAccessRules().get(0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			AccessRule accessRule = document.getAccessRules().get(0);
 			assertTrue(accessRule.equals(groupAccessRule));
 			assertTrue(accessRule.equals(accessRuleOriginal));
 
 			// Validate path
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			Path path = Document.getPaths().get(0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			Path path = document.getPaths().get(0);
 			assertTrue(path.equals(pathOriginal));
 			assertTrue(path.getPath().equals(relativePath));
 			assertTrue(accessRule.getPath().equals(path));
 			assertTrue(groupAccessRule.getPath().equals(path));
 
 			// Validate repository
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			Repository repository = Document.getRepositories().get(0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			Repository repository = document.getRepositories().get(0);
 			assertTrue(repository.getName().equals(repositoryName));
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
@@ -202,17 +204,17 @@ public class DocumentTest {
 	@Test
 	public void testAddAccessRuleForUserPathStringString() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			User userOriginal = Document.addUser(userName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			AccessRule accessRuleOriginal = Document.addAccessRuleForUser(pathOriginal, userName, level);
+			User userOriginal = document.addUser(userName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			AccessRule accessRuleOriginal = document.addAccessRuleForUser(pathOriginal, userName, level);
 
 			// Validate user
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 1);
-			User user = Document.getUsers().get(0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 1);
+			User user = document.getUsers().get(0);
 			assertTrue(user != null);
 			assertTrue(user.equals(userOriginal));
 			assertTrue(user.getName().equals(userName));
@@ -226,25 +228,25 @@ public class DocumentTest {
 			assertTrue(userAccessRule.equals(accessRuleOriginal));
 
 			// Validate rules
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			AccessRule accessRule = Document.getAccessRules().get(0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			AccessRule accessRule = document.getAccessRules().get(0);
 			assertTrue(accessRule.equals(userAccessRule));
 			assertTrue(accessRule.equals(accessRuleOriginal));
 
 			// Validate path
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			Path path = Document.getPaths().get(0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			Path path = document.getPaths().get(0);
 			assertTrue(path.equals(pathOriginal));
 			assertTrue(path.getPath().equals(relativePath));
 			assertTrue(accessRule.getPath().equals(path));
 			assertTrue(userAccessRule.getPath().equals(path));
 
 			// Validate repository
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			Repository repository = Document.getRepositories().get(0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			Repository repository = document.getRepositories().get(0);
 			assertTrue(repository.getName().equals(repositoryName));
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
@@ -257,17 +259,17 @@ public class DocumentTest {
 	@Test
 	public void testAddAccessRuleForUserPathUserString() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			User userOriginal = Document.addUser(userName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			AccessRule accessRuleOriginal = Document.addAccessRuleForUser(pathOriginal, userOriginal, level);
+			User userOriginal = document.addUser(userName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			AccessRule accessRuleOriginal = document.addAccessRuleForUser(pathOriginal, userOriginal, level);
 
 			// Validate user
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 1);
-			User user = Document.getUsers().get(0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 1);
+			User user = document.getUsers().get(0);
 			assertTrue(user != null);
 			assertTrue(user.equals(userOriginal));
 			assertTrue(user.getName().equals(userName));
@@ -281,25 +283,25 @@ public class DocumentTest {
 			assertTrue(userAccessRule.equals(accessRuleOriginal));
 
 			// Validate rules
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			AccessRule accessRule = Document.getAccessRules().get(0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			AccessRule accessRule = document.getAccessRules().get(0);
 			assertTrue(accessRule.equals(userAccessRule));
 			assertTrue(accessRule.equals(accessRuleOriginal));
 
 			// Validate path
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			Path path = Document.getPaths().get(0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			Path path = document.getPaths().get(0);
 			assertTrue(path.equals(pathOriginal));
 			assertTrue(path.getPath().equals(relativePath));
 			assertTrue(accessRule.getPath().equals(path));
 			assertTrue(userAccessRule.getPath().equals(path));
 
 			// Validate repository
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			Repository repository = Document.getRepositories().get(0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			Repository repository = document.getRepositories().get(0);
 			assertTrue(repository.getName().equals(repositoryName));
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
@@ -312,18 +314,18 @@ public class DocumentTest {
 	@Test
 	public void testAddAccessRuleForUserRepositoryStringUserString() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			User userOriginal = Document.addUser(userName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			AccessRule accessRuleOriginal = Document.addAccessRuleForUser(repositoryOriginal, relativePath,
+			User userOriginal = document.addUser(userName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			AccessRule accessRuleOriginal = document.addAccessRuleForUser(repositoryOriginal, relativePath,
 					userOriginal, level);
 
 			// Validate user
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 1);
-			User user = Document.getUsers().get(0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 1);
+			User user = document.getUsers().get(0);
 			assertTrue(user != null);
 			assertTrue(user.equals(userOriginal));
 			assertTrue(user.getName().equals(userName));
@@ -337,25 +339,25 @@ public class DocumentTest {
 			assertTrue(userAccessRule.equals(accessRuleOriginal));
 
 			// Validate rules
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			AccessRule accessRule = Document.getAccessRules().get(0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			AccessRule accessRule = document.getAccessRules().get(0);
 			assertTrue(accessRule.equals(userAccessRule));
 			assertTrue(accessRule.equals(accessRuleOriginal));
 
 			// Validate path
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			Path path = Document.getPaths().get(0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			Path path = document.getPaths().get(0);
 			assertTrue(path.equals(pathOriginal));
 			assertTrue(path.getPath().equals(relativePath));
 			assertTrue(accessRule.getPath().equals(path));
 			assertTrue(userAccessRule.getPath().equals(path));
 
 			// Validate repository
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			Repository repository = Document.getRepositories().get(0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			Repository repository = document.getRepositories().get(0);
 			assertTrue(repository.getName().equals(repositoryName));
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
@@ -368,57 +370,57 @@ public class DocumentTest {
 	@Test
 	public void testAddGroupByName() {
 		try {
-			Document.initialize();
-			Document.addGroupByName(null, null, null);
+			document.initialize();
+			document.addGroupByName(null, null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroupByName("", null, null);
+			document.initialize();
+			document.addGroupByName("", null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroupByName(groupName, null, null);
+			document.initialize();
+			document.addGroupByName(groupName, null, null);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
-			assertTrue(Document.getGroups().get(0).getName().equals(groupName));
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
+			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroupByName(groupName, new ArrayList<String>(), new ArrayList<String>());
+			document.initialize();
+			document.addGroupByName(groupName, new ArrayList<String>(), new ArrayList<String>());
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
-			assertTrue(Document.getGroups().get(0).getName().equals(groupName));
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
+			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 			List<String> groupNames = new ArrayList<String>();
 			List<String> userNames = new ArrayList<String>();
 
 			groupNames.add(groupName2);
 			userNames.add(userName);
 
-			Document.addGroupByName(groupName, groupNames, userNames);
+			document.addGroupByName(groupName, groupNames, userNames);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 2);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 2);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -428,28 +430,28 @@ public class DocumentTest {
 	@Test
 	public void testAddGroupString() {
 		try {
-			Document.initialize();
-			Document.addGroup(null);
+			document.initialize();
+			document.addGroup(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroup("");
+			document.initialize();
+			document.addGroup("");
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroup(groupName);
+			document.initialize();
+			document.addGroup(groupName);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
-			assertTrue(Document.getGroups().get(0).getName().equals(groupName));
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
+			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -459,59 +461,59 @@ public class DocumentTest {
 	@Test
 	public void testAddGroupStringListOfGroupListOfUser() {
 		try {
-			Document.initialize();
-			Document.addGroup(null, null, null);
+			document.initialize();
+			document.addGroup(null, null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroup("", null, null);
+			document.initialize();
+			document.addGroup("", null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroup(groupName, null, null);
+			document.initialize();
+			document.addGroup(groupName, null, null);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
-			assertTrue(Document.getGroups().get(0).getName().equals(groupName));
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
+			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroup(groupName, new ArrayList<Group>(), new ArrayList<User>());
+			document.initialize();
+			document.addGroup(groupName, new ArrayList<Group>(), new ArrayList<User>());
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
-			assertTrue(Document.getGroups().get(0).getName().equals(groupName));
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
+			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 			List<Group> groups = new ArrayList<Group>();
 			List<User> users = new ArrayList<User>();
 
-			groups.add(Document.addGroup(groupName2));
-			users.add(Document.addUser(userName));
+			groups.add(document.addGroup(groupName2));
+			users.add(document.addUser(userName));
 
-			Document.addGroup(groupName, groups, users);
+			document.addGroup(groupName, groups, users);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 2);
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 1);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 2);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 1);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -521,43 +523,43 @@ public class DocumentTest {
 	@Test
 	public void testAddMembersByName() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Group group = Document.addGroup(groupName);
+			Group group = document.addGroup(groupName);
 			List<String> groupMemberNames = new ArrayList<String>();
 			List<String> userMemberNames = new ArrayList<String>();
 
 			groupMemberNames.add(groupName2);
 			userMemberNames.add(userName);
 
-			Document.addMembersByName(group, groupMemberNames, userMemberNames);
+			document.addMembersByName(group, groupMemberNames, userMemberNames);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 2);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 2);
 
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 1);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 1);
 
-			assertTrue(Document.findGroup(groupName) != null);
-			assertTrue(Document.findGroup(groupName2) != null);
-			assertTrue(Document.findUser(userName) != null);
+			assertTrue(document.findGroup(groupName) != null);
+			assertTrue(document.findGroup(groupName2) != null);
+			assertTrue(document.findUser(userName) != null);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Group group = Document.addGroup(groupName);
+			Group group = document.addGroup(groupName);
 
-			Document.addMembersByName(group, null, null);
+			document.addMembersByName(group, null, null);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
 
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 0);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -567,50 +569,50 @@ public class DocumentTest {
 	@Test
 	public void testAddPath() {
 		try {
-			Document.initialize();
-			Document.addPath(null, null);
+			document.initialize();
+			document.addPath(null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addPath(new Repository(), null);
+			document.initialize();
+			document.addPath(new Repository(), null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addPath(null, relativePath);
+			document.initialize();
+			document.addPath(null, relativePath);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Repository repository = Document.addRepository(repositoryName);
-			Document.addPath(repository, relativePath);
+			document.initialize();
+			Repository repository = document.addRepository(repositoryName);
+			document.addPath(repository, relativePath);
 
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			assertTrue(Document.getPaths().get(0).getPath().equals(relativePath));
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			assertTrue(document.getPaths().get(0).getPath().equals(relativePath));
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			assertTrue(Document.getRepositories().get(0).getName().equals(repositoryName));
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			assertTrue(document.getRepositories().get(0).getName().equals(repositoryName));
 
-			assertTrue(Document.getPaths().get(0).getRepository() != null);
-			assertTrue(Document.getPaths().get(0).getRepository().getName() != null);
-			assertTrue(Document.getPaths().get(0).getRepository().getName().equals(repositoryName));
+			assertTrue(document.getPaths().get(0).getRepository() != null);
+			assertTrue(document.getPaths().get(0).getRepository().getName() != null);
+			assertTrue(document.getPaths().get(0).getRepository().getName().equals(repositoryName));
 
-			assertTrue(Document.getRepositories().get(0).getPaths() != null);
-			assertTrue(Document.getRepositories().get(0).getPaths().size() == 1);
-			assertTrue(Document.getRepositories().get(0).getPaths().get(0).getPath() != null);
-			assertTrue(Document.getRepositories().get(0).getPaths().get(0).getPath().equals(relativePath));
+			assertTrue(document.getRepositories().get(0).getPaths() != null);
+			assertTrue(document.getRepositories().get(0).getPaths().size() == 1);
+			assertTrue(document.getRepositories().get(0).getPaths().get(0).getPath() != null);
+			assertTrue(document.getRepositories().get(0).getPaths().get(0).getPath().equals(relativePath));
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -620,29 +622,29 @@ public class DocumentTest {
 	@Test
 	public void testAddRepository() {
 		try {
-			Document.initialize();
-			Document.addRepository(null);
+			document.initialize();
+			document.addRepository(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addRepository("");
+			document.initialize();
+			document.addRepository("");
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Document.addRepository(repositoryName);
+			document.addRepository(repositoryName);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			assertTrue(Document.getRepositories().get(0).getName().equals(repositoryName));
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			assertTrue(document.getRepositories().get(0).getName().equals(repositoryName));
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -652,59 +654,59 @@ public class DocumentTest {
 	@Test
 	public void testAddServerAccessRuleForGroup() {
 		try {
-			Document.initialize();
-			Document.addServerAccessRuleForGroup(null, null);
+			document.initialize();
+			document.addServerAccessRuleForGroup(null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addServerAccessRuleForGroup(groupName, null);
+			document.initialize();
+			document.addServerAccessRuleForGroup(groupName, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroup(groupName);
-			Document.addServerAccessRuleForGroup(groupName, null);
+			document.initialize();
+			document.addGroup(groupName);
+			document.addServerAccessRuleForGroup(groupName, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addServerAccessRuleForGroup(null, level);
+			document.initialize();
+			document.addServerAccessRuleForGroup(null, level);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Document.addGroup(groupName);
-			Document.addServerAccessRuleForGroup(groupName, level);
+			document.addGroup(groupName);
+			document.addServerAccessRuleForGroup(groupName, level);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
 
-			AccessRule accessRule = Document.getAccessRules().get(0);
+			AccessRule accessRule = document.getAccessRules().get(0);
 
 			assertTrue(accessRule.getGroup().getName().equals(groupName));
 			assertTrue(accessRule.getLevel().equals(level));
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
 
-			Group group = Document.getGroups().get(0);
+			Group group = document.getGroups().get(0);
 
 			assertTrue(group.getAccessRules() != null);
 			assertTrue(group.getAccessRules().size() == 1);
@@ -718,59 +720,59 @@ public class DocumentTest {
 	@Test
 	public void testAddServerAccessRuleForUser() {
 		try {
-			Document.initialize();
-			Document.addServerAccessRuleForUser(null, null);
+			document.initialize();
+			document.addServerAccessRuleForUser(null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addServerAccessRuleForUser(userName, null);
+			document.initialize();
+			document.addServerAccessRuleForUser(userName, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addUser(userName);
-			Document.addServerAccessRuleForUser(userName, null);
+			document.initialize();
+			document.addUser(userName);
+			document.addServerAccessRuleForUser(userName, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addServerAccessRuleForUser(null, level);
+			document.initialize();
+			document.addServerAccessRuleForUser(null, level);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Document.addUser(userName);
-			Document.addServerAccessRuleForUser(userName, level);
+			document.addUser(userName);
+			document.addServerAccessRuleForUser(userName, level);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
 
-			AccessRule accessRule = Document.getAccessRules().get(0);
+			AccessRule accessRule = document.getAccessRules().get(0);
 
 			assertTrue(accessRule.getUser().getName().equals(userName));
 			assertTrue(accessRule.getLevel().equals(level));
 
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 1);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 1);
 
-			User user = Document.getUsers().get(0);
+			User user = document.getUsers().get(0);
 
 			assertTrue(user.getAccessRules() != null);
 			assertTrue(user.getAccessRules().size() == 1);
@@ -784,27 +786,27 @@ public class DocumentTest {
 	@Test
 	public void testAddUser() {
 		try {
-			Document.initialize();
-			Document.addUser(null);
+			document.initialize();
+			document.addUser(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addUser("");
+			document.initialize();
+			document.addUser("");
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.addUser(userName);
+			document.initialize();
+			document.addUser(userName);
 
 			// Add same user again
-			Document.addUser(userName);
+			document.addUser(userName);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -814,19 +816,9 @@ public class DocumentTest {
 	@Test
 	public void testChangeGroupMembers() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Document.changeGroupMembers(null, null, null);
-
-			fail();
-		}
-		catch (ApplicationException e) {
-		}
-
-		try {
-			Document.initialize();
-
-			Document.changeGroupMembers(Document.addGroup(groupName), null, null);
+			document.changeGroupMembers(null, null, null);
 
 			fail();
 		}
@@ -834,9 +826,9 @@ public class DocumentTest {
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Document.changeGroupMembers(Document.addGroup(groupName), new Vector<Group>(), null);
+			document.changeGroupMembers(document.addGroup(groupName), null, null);
 
 			fail();
 		}
@@ -844,8 +836,18 @@ public class DocumentTest {
 		}
 
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
+			document.initialize();
+
+			document.changeGroupMembers(document.addGroup(groupName), new Vector<Group>(), null);
+
+			fail();
+		}
+		catch (ApplicationException e) {
+		}
+
+		try {
+			document.initialize();
+			Group group = document.addGroup(groupName);
 
 			assertTrue(group.getGroupMembers() != null);
 			assertTrue(group.getGroupMembers().size() == 0);
@@ -853,7 +855,7 @@ public class DocumentTest {
 			assertTrue(group.getUserMembers() != null);
 			assertTrue(group.getUserMembers().size() == 0);
 
-			Document.changeGroupMembers(group, new Vector<Group>(), new Vector<User>());
+			document.changeGroupMembers(group, new Vector<Group>(), new Vector<User>());
 
 			assertTrue(group.getGroupMembers() != null);
 			assertTrue(group.getGroupMembers().size() == 0);
@@ -866,8 +868,8 @@ public class DocumentTest {
 		}
 
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
+			document.initialize();
+			Group group = document.addGroup(groupName);
 
 			assertTrue(group.getGroupMembers() != null);
 			assertTrue(group.getGroupMembers().size() == 0);
@@ -878,8 +880,8 @@ public class DocumentTest {
 			Vector<Group> groupMembers = new Vector<Group>();
 			Vector<User> userMembers = new Vector<User>();
 
-			Group groupMember = Document.addGroup(groupName2);
-			User userMember = Document.addUser(userName);
+			Group groupMember = document.addGroup(groupName2);
+			User userMember = document.addUser(userName);
 
 			assertTrue(groupMember.getGroups() != null);
 			assertTrue(groupMember.getGroups().size() == 0);
@@ -890,7 +892,7 @@ public class DocumentTest {
 			groupMembers.add(groupMember);
 			userMembers.add(userMember);
 
-			Document.changeGroupMembers(group, groupMembers, userMembers);
+			document.changeGroupMembers(group, groupMembers, userMembers);
 
 			assertTrue(group.getGroupMembers() != null);
 			assertTrue(group.getGroupMembers().size() == 1);
@@ -916,19 +918,9 @@ public class DocumentTest {
 	@Test
 	public void testChangeUserMembership() {
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Document.changeUserMembership(null, null);
-
-			fail();
-		}
-		catch (ApplicationException e) {
-		}
-
-		try {
-			Document.initialize();
-
-			Document.changeUserMembership(Document.addUser(userName), null);
+			document.changeUserMembership(null, null);
 
 			fail();
 		}
@@ -936,22 +928,32 @@ public class DocumentTest {
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Document.changeUserMembership(Document.addUser(userName), new Vector<Group>());
+			document.changeUserMembership(document.addUser(userName), null);
+
+			fail();
+		}
+		catch (ApplicationException e) {
+		}
+
+		try {
+			document.initialize();
+
+			document.changeUserMembership(document.addUser(userName), new Vector<Group>());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
+			document.initialize();
+			User user = document.addUser(userName);
 
 			assertTrue(user.getGroups() != null);
 			assertTrue(user.getGroups().size() == 0);
 
-			Document.changeUserMembership(user, new Vector<Group>());
+			document.changeUserMembership(user, new Vector<Group>());
 
 			assertTrue(user.getGroups() != null);
 			assertTrue(user.getGroups().size() == 0);
@@ -961,22 +963,22 @@ public class DocumentTest {
 		}
 
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
+			document.initialize();
+			User user = document.addUser(userName);
 
 			assertTrue(user.getGroups() != null);
 			assertTrue(user.getGroups().size() == 0);
 
 			Vector<Group> groupMembers = new Vector<Group>();
 
-			Group group = Document.addGroup(groupName);
+			Group group = document.addGroup(groupName);
 
 			assertTrue(group.getGroups() != null);
 			assertTrue(group.getGroups().size() == 0);
 
 			groupMembers.add(group);
 
-			Document.changeUserMembership(user, groupMembers);
+			document.changeUserMembership(user, groupMembers);
 
 			assertTrue(user.getGroups() != null);
 			assertTrue(user.getGroups().size() == 1);
@@ -994,56 +996,56 @@ public class DocumentTest {
 	@Test
 	public void testCloneGroup() {
 		try {
-			Document.initialize();
-			Document.cloneGroup(null, null);
+			document.initialize();
+			document.cloneGroup(null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
-			Document.cloneGroup(group, null);
+			document.initialize();
+			Group group = document.addGroup(groupName);
+			document.cloneGroup(group, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
-			Document.cloneGroup(group, "");
+			document.initialize();
+			Group group = document.addGroup(groupName);
+			document.cloneGroup(group, "");
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
-			Document.cloneGroup(group, groupName);
+			document.initialize();
+			Group group = document.addGroup(groupName);
+			document.cloneGroup(group, groupName);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
-			Document.cloneGroup(group, groupName2);
+			document.initialize();
+			Group group = document.addGroup(groupName);
+			document.cloneGroup(group, groupName2);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
-			Document.cloneGroup(group, groupName2);
+			document.initialize();
+			Group group = document.addGroup(groupName);
+			document.cloneGroup(group, groupName2);
 
 			// Clone same group again
-			Document.cloneGroup(group, groupName2);
+			document.cloneGroup(group, groupName2);
 			fail();
 		}
 		catch (ApplicationException e) {
@@ -1053,56 +1055,56 @@ public class DocumentTest {
 	@Test
 	public void testCloneUser() {
 		try {
-			Document.initialize();
-			Document.cloneUser(null, null);
+			document.initialize();
+			document.cloneUser(null, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
-			Document.cloneUser(user, null);
+			document.initialize();
+			User user = document.addUser(userName);
+			document.cloneUser(user, null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
-			Document.cloneUser(user, "");
+			document.initialize();
+			User user = document.addUser(userName);
+			document.cloneUser(user, "");
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
-			Document.cloneUser(user, userName);
+			document.initialize();
+			User user = document.addUser(userName);
+			document.cloneUser(user, userName);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
-			Document.cloneUser(user, userName2);
+			document.initialize();
+			User user = document.addUser(userName);
+			document.cloneUser(user, userName2);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
-			Document.cloneUser(user, userName2);
+			document.initialize();
+			User user = document.addUser(userName);
+			document.cloneUser(user, userName2);
 
 			// Clone same user again
-			Document.cloneUser(user, userName2);
+			document.cloneUser(user, userName2);
 			fail();
 		}
 		catch (ApplicationException e) {
@@ -1117,57 +1119,57 @@ public class DocumentTest {
 	@Test
 	public void testDeleteGroup() {
 		try {
-			Document.initialize();
-			Document.deleteGroup(null);
+			document.initialize();
+			document.deleteGroup(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.deleteGroup(new Group());
+			document.initialize();
+			document.deleteGroup(new Group());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 0);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 0);
 
-			Group group = Document.addGroup(groupName);
+			Group group = document.addGroup(groupName);
 
-			Document.deleteGroup(group);
+			document.deleteGroup(group);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 0);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 0);
 
 			// Delete same group again
-			Document.deleteGroup(group);
+			document.deleteGroup(group);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Group group = Document.addGroup(groupName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			Document.addAccessRuleForGroup(pathOriginal, groupName, level);
+			Group group = document.addGroup(groupName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			document.addAccessRuleForGroup(pathOriginal, groupName, level);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			assertTrue(Document.getAccessRules().get(0).getGroup().equals(group));
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			assertTrue(document.getAccessRules().get(0).getGroup().equals(group));
 
-			Document.deleteGroup(group);
+			document.deleteGroup(group);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 0);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1177,64 +1179,64 @@ public class DocumentTest {
 	@Test
 	public void testDeleteGroups() {
 		try {
-			Document.initialize();
-			Document.deleteGroups(null);
+			document.initialize();
+			document.deleteGroups(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
 			Object[] groups = { new Group() };
 
-			Document.deleteGroups(groups);
+			document.deleteGroups(groups);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 0);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 0);
 
-			Group group = Document.addGroup(groupName);
+			Group group = document.addGroup(groupName);
 
 			Object[] groups = { group };
 
-			Document.deleteGroups(groups);
+			document.deleteGroups(groups);
 
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 0);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 0);
 
 			// Delete same group again
-			Document.deleteGroups(groups);
+			document.deleteGroups(groups);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			Group group = Document.addGroup(groupName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			Document.addAccessRuleForGroup(pathOriginal, groupName, level);
+			Group group = document.addGroup(groupName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			document.addAccessRuleForGroup(pathOriginal, groupName, level);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			assertTrue(Document.getAccessRules().get(0).getGroup().equals(group));
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			assertTrue(document.getAccessRules().get(0).getGroup().equals(group));
 
 			Object[] groups = { group };
 
-			Document.deleteGroups(groups);
+			document.deleteGroups(groups);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 0);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1244,63 +1246,63 @@ public class DocumentTest {
 	@Test
 	public void testDeletePath() {
 		try {
-			Document.initialize();
-			Document.deletePath(null);
+			document.initialize();
+			document.deletePath(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.deletePath(new Path());
+			document.initialize();
+			document.deletePath(new Path());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Repository repository = Document.addRepository(repositoryName);
+			document.initialize();
+			Repository repository = document.addRepository(repositoryName);
 
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 0);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			assertTrue(Document.getRepositories().get(0).equals(repository));
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			assertTrue(document.getRepositories().get(0).equals(repository));
 
-			assertTrue(Document.getRepositories().get(0).getPaths() != null);
-			assertTrue(Document.getRepositories().get(0).getPaths().size() == 0);
+			assertTrue(document.getRepositories().get(0).getPaths() != null);
+			assertTrue(document.getRepositories().get(0).getPaths().size() == 0);
 
-			Path path = Document.addPath(repository, relativePath);
+			Path path = document.addPath(repository, relativePath);
 
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			assertTrue(Document.getPaths().get(0).equals(path));
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			assertTrue(document.getPaths().get(0).equals(path));
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			assertTrue(Document.getRepositories().get(0).equals(repository));
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			assertTrue(document.getRepositories().get(0).equals(repository));
 
-			assertTrue(Document.getPaths().get(0).getRepository() != null);
-			assertTrue(Document.getPaths().get(0).getRepository().equals(repository));
+			assertTrue(document.getPaths().get(0).getRepository() != null);
+			assertTrue(document.getPaths().get(0).getRepository().equals(repository));
 
-			assertTrue(Document.getRepositories().get(0).getPaths() != null);
-			assertTrue(Document.getRepositories().get(0).getPaths().size() == 1);
-			assertTrue(Document.getRepositories().get(0).getPaths().get(0).equals(path));
+			assertTrue(document.getRepositories().get(0).getPaths() != null);
+			assertTrue(document.getRepositories().get(0).getPaths().size() == 1);
+			assertTrue(document.getRepositories().get(0).getPaths().get(0).equals(path));
 
-			Document.deletePath(path);
+			document.deletePath(path);
 
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 0);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			assertTrue(Document.getRepositories().get(0).equals(repository));
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			assertTrue(document.getRepositories().get(0).equals(repository));
 
-			assertTrue(Document.getRepositories().get(0).getPaths() != null);
-			assertTrue(Document.getRepositories().get(0).getPaths().size() == 0);
+			assertTrue(document.getRepositories().get(0).getPaths() != null);
+			assertTrue(document.getRepositories().get(0).getPaths().size() == 0);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1310,68 +1312,68 @@ public class DocumentTest {
 	@Test
 	public void testDeleteRepositories() {
 		try {
-			Document.initialize();
-			Document.deleteRepositories(null);
+			document.initialize();
+			document.deleteRepositories(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 			
 			Object[] repositories = { new Repository() };
 			
-			Document.deleteRepositories(repositories);
+			document.deleteRepositories(repositories);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 
-			Repository repository = Document.addRepository(repositoryName);
+			Repository repository = document.addRepository(repositoryName);
 
 			Object[] repositories = { repository };
 			
-			Document.deleteRepositories(repositories);
+			document.deleteRepositories(repositories);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 
 			// Delete same user again
-			Document.deleteRepository(repository);
+			document.deleteRepository(repository);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 
-			User user = Document.addUser(userName);
-			Repository repository = Document.addRepository(repositoryName);
-			Path path = Document.addPath(repository, relativePath);
-			AccessRule accessRule = Document.addAccessRuleForUser(repository, relativePath, user, level);
+			User user = document.addUser(userName);
+			Repository repository = document.addRepository(repositoryName);
+			Path path = document.addPath(repository, relativePath);
+			AccessRule accessRule = document.addAccessRuleForUser(repository, relativePath, user, level);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			assertTrue(Document.getRepositories().get(0).equals(repository));
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			assertTrue(document.getRepositories().get(0).equals(repository));
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			assertTrue(Document.getAccessRules().get(0).equals(accessRule));
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			assertTrue(document.getAccessRules().get(0).equals(accessRule));
 			
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			assertTrue(Document.getPaths().get(0).equals(path));
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			assertTrue(document.getPaths().get(0).equals(path));
 			
 			assertTrue(user.getAccessRules() != null);
 			assertTrue(user.getAccessRules().size() == 1);
@@ -1379,16 +1381,16 @@ public class DocumentTest {
 
 			Object[] repositories = { repository };
 			
-			Document.deleteRepositories(repositories);
+			document.deleteRepositories(repositories);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 			
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 0);
 			
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 0);
 			
 			assertTrue(user.getAccessRules() != null);
 			assertTrue(user.getAccessRules().size() == 0);
@@ -1401,78 +1403,78 @@ public class DocumentTest {
 	@Test
 	public void testDeleteRepository() {
 		try {
-			Document.initialize();
-			Document.deleteRepository(null);
+			document.initialize();
+			document.deleteRepository(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.deleteRepository(new Repository());
+			document.initialize();
+			document.deleteRepository(new Repository());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 
-			Repository repository = Document.addRepository(repositoryName);
+			Repository repository = document.addRepository(repositoryName);
 
-			Document.deleteRepository(repository);
+			document.deleteRepository(repository);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 
 			// Delete same user again
-			Document.deleteRepository(repository);
+			document.deleteRepository(repository);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 
-			User user = Document.addUser(userName);
-			Repository repository = Document.addRepository(repositoryName);
-			Path path = Document.addPath(repository, relativePath);
-			AccessRule accessRule = Document.addAccessRuleForUser(repository, relativePath, user, level);
+			User user = document.addUser(userName);
+			Repository repository = document.addRepository(repositoryName);
+			Path path = document.addPath(repository, relativePath);
+			AccessRule accessRule = document.addAccessRuleForUser(repository, relativePath, user, level);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 1);
-			assertTrue(Document.getRepositories().get(0).equals(repository));
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 1);
+			assertTrue(document.getRepositories().get(0).equals(repository));
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			assertTrue(Document.getAccessRules().get(0).equals(accessRule));
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			assertTrue(document.getAccessRules().get(0).equals(accessRule));
 			
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 1);
-			assertTrue(Document.getPaths().get(0).equals(path));
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 1);
+			assertTrue(document.getPaths().get(0).equals(path));
 			
 			assertTrue(user.getAccessRules() != null);
 			assertTrue(user.getAccessRules().size() == 1);
 			assertTrue(user.getAccessRules().get(0).equals(accessRule));
 
-			Document.deleteRepository(repository);
+			document.deleteRepository(repository);
 
-			assertTrue(Document.getRepositories() != null);
-			assertTrue(Document.getRepositories().size() == 0);
+			assertTrue(document.getRepositories() != null);
+			assertTrue(document.getRepositories().size() == 0);
 			
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 0);
 			
-			assertTrue(Document.getPaths() != null);
-			assertTrue(Document.getPaths().size() == 0);
+			assertTrue(document.getPaths() != null);
+			assertTrue(document.getPaths().size() == 0);
 			
 			assertTrue(user.getAccessRules() != null);
 			assertTrue(user.getAccessRules().size() == 0);
@@ -1485,57 +1487,57 @@ public class DocumentTest {
 	@Test
 	public void testDeleteUser() {
 		try {
-			Document.initialize();
-			Document.deleteUser(null);
+			document.initialize();
+			document.deleteUser(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
-			Document.deleteUser(new User());
+			document.initialize();
+			document.deleteUser(new User());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 0);
 
-			User user = Document.addUser(userName);
+			User user = document.addUser(userName);
 
-			Document.deleteUser(user);
+			document.deleteUser(user);
 
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 0);
 
 			// Delete same user again
-			Document.deleteUser(user);
+			document.deleteUser(user);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			User user = Document.addUser(userName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			Document.addAccessRuleForUser(pathOriginal, userName, level);
+			User user = document.addUser(userName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			document.addAccessRuleForUser(pathOriginal, userName, level);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			assertTrue(Document.getAccessRules().get(0).getUser().equals(user));
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			assertTrue(document.getAccessRules().get(0).getUser().equals(user));
 
-			Document.deleteUser(user);
+			document.deleteUser(user);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 0);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1545,64 +1547,64 @@ public class DocumentTest {
 	@Test
 	public void testDeleteUsers() {
 		try {
-			Document.initialize();
-			Document.deleteUsers(null);
+			document.initialize();
+			document.deleteUsers(null);
 			fail();
 		}
 		catch (ApplicationException e) {
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
 			Object[] users = { new User() };
 
-			Document.deleteUsers(users);
+			document.deleteUsers(users);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 0);
 
-			User user = Document.addUser(userName);
+			User user = document.addUser(userName);
 
 			Object[] users = { user };
 
-			Document.deleteUsers(users);
+			document.deleteUsers(users);
 
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 0);
 
 			// Delete same user again
-			Document.deleteUsers(users);
+			document.deleteUsers(users);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
+			document.initialize();
 
-			User user = Document.addUser(userName);
-			Repository repositoryOriginal = Document.addRepository(repositoryName);
-			Path pathOriginal = Document.addPath(repositoryOriginal, relativePath);
-			Document.addAccessRuleForUser(pathOriginal, userName, level);
+			User user = document.addUser(userName);
+			Repository repositoryOriginal = document.addRepository(repositoryName);
+			Path pathOriginal = document.addPath(repositoryOriginal, relativePath);
+			document.addAccessRuleForUser(pathOriginal, userName, level);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 1);
-			assertTrue(Document.getAccessRules().get(0).getUser().equals(user));
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 1);
+			assertTrue(document.getAccessRules().get(0).getUser().equals(user));
 
 			Object[] users = { user };
 
-			Document.deleteUsers(users);
+			document.deleteUsers(users);
 
-			assertTrue(Document.getAccessRules() != null);
-			assertTrue(Document.getAccessRules().size() == 0);
+			assertTrue(document.getAccessRules() != null);
+			assertTrue(document.getAccessRules().size() == 0);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1702,15 +1704,15 @@ public class DocumentTest {
 	@Test
 	public void testGetGroups() {
 		try {
-			Document.initialize();
+			document.initialize();
 			
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 0);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 0);
 			
-			Document.addGroup(groupName);
+			document.addGroup(groupName);
 			
-			assertTrue(Document.getGroups() != null);
-			assertTrue(Document.getGroups().size() == 1);
+			assertTrue(document.getGroups() != null);
+			assertTrue(document.getGroups().size() == 1);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1720,15 +1722,15 @@ public class DocumentTest {
 	@Test
 	public void testGetGroupsArray() {
 		try {
-			Document.initialize();
+			document.initialize();
 			
-			assertTrue(Document.getGroupsArray() != null);
-			assertTrue(Document.getGroupsArray().length == 0);
+			assertTrue(document.getGroupsArray() != null);
+			assertTrue(document.getGroupsArray().length == 0);
 			
-			Document.addGroup(groupName);
+			document.addGroup(groupName);
 			
-			assertTrue(Document.getGroupsArray() != null);
-			assertTrue(Document.getGroupsArray().length == 1);
+			assertTrue(document.getGroupsArray() != null);
+			assertTrue(document.getGroupsArray().length == 1);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1803,15 +1805,15 @@ public class DocumentTest {
 	@Test
 	public void testGetUserObjects() {
 		try {
-			Document.initialize();
+			document.initialize();
 			
-			assertTrue(Document.getUserObjects() != null);
-			assertTrue(Document.getUserObjects().length == 0);
+			assertTrue(document.getUserObjects() != null);
+			assertTrue(document.getUserObjects().length == 0);
 			
-			Document.addUser(userName);
+			document.addUser(userName);
 			
-			assertTrue(Document.getUserObjects() != null);
-			assertTrue(Document.getUserObjects().length == 1);
+			assertTrue(document.getUserObjects() != null);
+			assertTrue(document.getUserObjects().length == 1);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1826,15 +1828,15 @@ public class DocumentTest {
 	@Test
 	public void testGetUsers() {
 		try {
-			Document.initialize();
+			document.initialize();
 			
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 0);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 0);
 			
-			Document.addUser(userName);
+			document.addUser(userName);
 			
-			assertTrue(Document.getUsers() != null);
-			assertTrue(Document.getUsers().size() == 1);
+			assertTrue(document.getUsers() != null);
+			assertTrue(document.getUsers().size() == 1);
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1850,9 +1852,9 @@ public class DocumentTest {
 	public void testHasUnsavedChanges() {
 		// Add user
 		try {
-			Document.initialize();
-			Document.addUser(userName);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addUser(userName);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1863,12 +1865,12 @@ public class DocumentTest {
 
 		// Clone user
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
-			Document.resetUnsavedChangesFlag();
+			document.initialize();
+			User user = document.addUser(userName);
+			document.resetUnsavedChangesFlag();
 
-			Document.cloneUser(user, userName2);
-			assertTrue(Document.hasUnsavedChanges());
+			document.cloneUser(user, userName2);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1876,12 +1878,12 @@ public class DocumentTest {
 
 		// Delete user
 		try {
-			Document.initialize();
-			User user = Document.addUser(userName);
-			Document.resetUnsavedChangesFlag();
+			document.initialize();
+			User user = document.addUser(userName);
+			document.resetUnsavedChangesFlag();
 
-			Document.deleteUser(user);
-			assertTrue(Document.hasUnsavedChanges());
+			document.deleteUser(user);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1892,27 +1894,27 @@ public class DocumentTest {
 
 		// Add group
 		try {
-			Document.initialize();
-			Document.addGroup(groupName);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addGroup(groupName);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroup(groupName, null, null);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addGroup(groupName, null, null);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroupByName(groupName, null, null);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addGroupByName(groupName, null, null);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1923,12 +1925,12 @@ public class DocumentTest {
 
 		// Clone group
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
-			Document.resetUnsavedChangesFlag();
+			document.initialize();
+			Group group = document.addGroup(groupName);
+			document.resetUnsavedChangesFlag();
 
-			Document.cloneGroup(group, groupName2);
-			assertTrue(Document.hasUnsavedChanges());
+			document.cloneGroup(group, groupName2);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1936,12 +1938,12 @@ public class DocumentTest {
 
 		// Delete group
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
-			Document.resetUnsavedChangesFlag();
+			document.initialize();
+			Group group = document.addGroup(groupName);
+			document.resetUnsavedChangesFlag();
 
-			Document.deleteGroup(group);
-			assertTrue(Document.hasUnsavedChanges());
+			document.deleteGroup(group);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1952,9 +1954,9 @@ public class DocumentTest {
 
 		// Add repository
 		try {
-			Document.initialize();
-			Document.addRepository(repositoryName);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addRepository(repositoryName);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1965,12 +1967,12 @@ public class DocumentTest {
 
 		// Delete repository
 		try {
-			Document.initialize();
-			Repository repository = Document.addRepository(repositoryName);
-			Document.resetUnsavedChangesFlag();
+			document.initialize();
+			Repository repository = document.addRepository(repositoryName);
+			document.resetUnsavedChangesFlag();
 
-			Document.deleteRepository(repository);
-			assertTrue(Document.hasUnsavedChanges());
+			document.deleteRepository(repository);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1978,9 +1980,9 @@ public class DocumentTest {
 
 		// Add path
 		try {
-			Document.initialize();
-			Document.addPath(new Repository(), relativePath);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addPath(new Repository(), relativePath);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -1991,12 +1993,12 @@ public class DocumentTest {
 
 		// Delete path
 		try {
-			Document.initialize();
-			Path path = Document.addPath(new Repository(), relativePath);
-			Document.resetUnsavedChangesFlag();
+			document.initialize();
+			Path path = document.addPath(new Repository(), relativePath);
+			document.resetUnsavedChangesFlag();
 
-			Document.deletePath(path);
-			assertTrue(Document.hasUnsavedChanges());
+			document.deletePath(path);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -2004,58 +2006,58 @@ public class DocumentTest {
 
 		// Add access rule
 		try {
-			Document.initialize();
-			Document.addAccessRuleForGroup(new Path(new Repository(repositoryName), relativePath),
+			document.initialize();
+			document.addAccessRuleForGroup(new Path(new Repository(repositoryName), relativePath),
 					new Group(groupName), level);
-			assertTrue(Document.hasUnsavedChanges());
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addGroup(groupName);
-			Document.addAccessRuleForGroup(new Path(new Repository(repositoryName), relativePath), groupName, level);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addGroup(groupName);
+			document.addAccessRuleForGroup(new Path(new Repository(repositoryName), relativePath), groupName, level);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addAccessRuleForGroup(new Repository(repositoryName), relativePath, new Group(groupName), level);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addAccessRuleForGroup(new Repository(repositoryName), relativePath, new Group(groupName), level);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addAccessRuleForUser(new Path(new Repository(repositoryName), relativePath), new User(userName),
+			document.initialize();
+			document.addAccessRuleForUser(new Path(new Repository(repositoryName), relativePath), new User(userName),
 					level);
-			assertTrue(Document.hasUnsavedChanges());
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addUser(userName);
-			Document.addAccessRuleForUser(new Path(new Repository(repositoryName), relativePath), userName, level);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addUser(userName);
+			document.addAccessRuleForUser(new Path(new Repository(repositoryName), relativePath), userName, level);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
 		try {
-			Document.initialize();
-			Document.addAccessRuleForUser(new Repository(repositoryName), relativePath, new User(userName), level);
-			assertTrue(Document.hasUnsavedChanges());
+			document.initialize();
+			document.addAccessRuleForUser(new Repository(repositoryName), relativePath, new User(userName), level);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -2066,15 +2068,15 @@ public class DocumentTest {
 
 		// Delete access rule
 		try {
-			Document.initialize();
-			Group group = Document.addGroup(groupName);
-			Repository repository = Document.addRepository(repositoryName);
-			Path path = Document.addPath(repository, relativePath);
-			Document.addAccessRuleForGroup(path, group, level);
-			Document.resetUnsavedChangesFlag();
+			document.initialize();
+			Group group = document.addGroup(groupName);
+			Repository repository = document.addRepository(repositoryName);
+			Path path = document.addPath(repository, relativePath);
+			document.addAccessRuleForGroup(path, group, level);
+			document.resetUnsavedChangesFlag();
 
-			Document.deleteAccessRule(repositoryName, relativePath, group, null);
-			assertTrue(Document.hasUnsavedChanges());
+			document.deleteAccessRule(repositoryName, relativePath, group, null);
+			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (ApplicationException e) {
 			fail();
@@ -2083,25 +2085,25 @@ public class DocumentTest {
 
 	@Test
 	public void testInitialize() {
-		Document.initialize();
+		document.initialize();
 
-		assertTrue(Document.getUsers().size() == 0);
+		assertTrue(document.getUsers().size() == 0);
 
 		try {
-			Document.addGroup(groupName);
-			Document.addPath(new Repository(repositoryName), relativePath);
-			Document.addRepository(repositoryName);
-			Document.addUser(userName);
+			document.addGroup(groupName);
+			document.addPath(new Repository(repositoryName), relativePath);
+			document.addRepository(repositoryName);
+			document.addUser(userName);
 		}
 		catch (ApplicationException e) {
 			fail();
 		}
 
-		assertTrue(Document.getUsers().size() == 1);
+		assertTrue(document.getUsers().size() == 1);
 
-		Document.initialize();
+		document.initialize();
 
-		assertTrue(Document.getUsers().size() == 0);
+		assertTrue(document.getUsers().size() == 0);
 	}
 
 	@Test

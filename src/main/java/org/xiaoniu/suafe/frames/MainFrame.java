@@ -206,6 +206,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 	private HelpBroker mainHB = null;
 
+	private Document document = new Document();
+
 	/**
 	 * Default constructor
 	 */
@@ -382,7 +384,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				.getLastSelectedPathComponent();
 		Object userObject = (node == null) ? null : node.getUserObject();
 		Message message = new Message();
-		JDialog dialog = new AddAccessRuleDialog(userObject, message);
+		JDialog dialog = new AddAccessRuleDialog(document, userObject, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 
@@ -427,7 +429,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				.getLastSelectedPathComponent();
 		Object userObject = (node == null) ? null : node.getUserObject();
 		Message message = new Message();
-		JDialog dialog = new AddProjectAccessRulesDialog(userObject, message);
+		JDialog dialog = new AddProjectAccessRulesDialog(document, userObject, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 
@@ -459,7 +461,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			for (int i = 0; i < selectedItems.length; i++) {
 				Message message = new Message();
 
-				JDialog dialog = new AddRemoveMembersDialog((Group) selectedItems[i], message);
+				JDialog dialog = new AddRemoveMembersDialog(document, (Group) selectedItems[i], message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -580,7 +582,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			for (int i = 0; i < selectedItems.length; i++) {
 				Message message = new Message();
-				JDialog dialog = new ChangeMembershipDialog((User) selectedItems[i], message);
+				JDialog dialog = new ChangeMembershipDialog(document, (User) selectedItems[i], message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -609,7 +611,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * Prompts user if there is any data that is not going to be saved.
 	 */
 	private boolean checkForUnsaveableData() {
-		String validateMessage = Document.validateDocument();
+		String validateMessage = document.validateDocument();
 
 		if (validateMessage != null) {
 			int response = JOptionPane.showConfirmDialog(this, validateMessage, ResourceUtil
@@ -625,7 +627,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * Prompts user to save current file if there are any unsaved changes.
 	 */
 	private void checkForUnsavedChanges() {
-		if (Document.hasUnsavedChanges()) {
+		if (document.hasUnsavedChanges()) {
 			int response = JOptionPane.showConfirmDialog(this, ResourceUtil.getString("application.unsavedchanges"),
 					ResourceUtil.getString("application.warning"), JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
@@ -660,7 +662,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			for (int i = 0; i < selectedItems.length; i++) {
 				Message message = new Message();
 
-				JDialog dialog = new BasicDialog(BasicDialog.TYPE_CLONE_GROUP, (Group) selectedItems[i], message);
+				JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_GROUP, (Group) selectedItems[i], message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -754,10 +756,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 						Object object = tableModel.getValueAt(selectedRow, 1);
 
 						if (object instanceof Group) {
-							Document.deleteAccessRule(repository.getName(), path.getPath(), (Group) object, null);
+							document.deleteAccessRule(repository.getName(), path.getPath(), (Group) object, null);
 						}
 						else if (object instanceof User) {
-							Document.deleteAccessRule(repository.getName(), path.getPath(), null, (User) object);
+							document.deleteAccessRule(repository.getName(), path.getPath(), null, (User) object);
 						}
 					}
 					else if (userObject instanceof Path) {
@@ -765,11 +767,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 						Object object = tableModel.getValueAt(selectedRow, 0);
 
 						if (object instanceof Group) {
-							Document.deleteAccessRule(path.getRepository().getName(), path.getPath(), (Group) object,
+							document.deleteAccessRule(path.getRepository().getName(), path.getPath(), (Group) object,
 									null);
 						}
 						else if (object instanceof User) {
-							Document.deleteAccessRule(path.getRepository().getName(), path.getPath(), null,
+							document.deleteAccessRule(path.getRepository().getName(), path.getPath(), null,
 									(User) object);
 						}
 					}
@@ -780,10 +782,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 						String repositoryName = (repository == null) ? null : repository.getName();
 
 						if (object instanceof Group) {
-							Document.deleteAccessRule(repositoryName, path.getPath(), (Group) object, null);
+							document.deleteAccessRule(repositoryName, path.getPath(), (Group) object, null);
 						}
 						else if (object instanceof User) {
-							Document.deleteAccessRule(repositoryName, path.getPath(), null, (User) object);
+							document.deleteAccessRule(repositoryName, path.getPath(), null, (User) object);
 						}
 					}
 
@@ -822,7 +824,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					Document.deleteGroups(values);
+					document.deleteGroups(values);
 				}
 				catch (ApplicationException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletinggroup"));
@@ -855,7 +857,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					Document.deletePath((Path) userObject);
+					document.deletePath((Path) userObject);
 				}
 				catch (ApplicationException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletingpath"));
@@ -890,7 +892,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					Document.deleteRepository((Repository) userObject);
+					document.deleteRepository((Repository) userObject);
 				}
 				catch (ApplicationException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletingrepository"));
@@ -927,7 +929,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					Document.deleteUsers(values);
+					document.deleteUsers(values);
 				}
 				catch (ApplicationException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletinguser"));
@@ -1000,10 +1002,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 					Object object = tableModel.getValueAt(selectedRow, 1);
 
 					if (object instanceof Group) {
-						accessRule = Document.findGroupAccessRule(repository, path.getPath(), (Group) object);
+						accessRule = document.findGroupAccessRule(repository, path.getPath(), (Group) object);
 					}
 					else if (object instanceof User) {
-						accessRule = Document.findUserAccessRule(repository, path.getPath(), (User) object);
+						accessRule = document.findUserAccessRule(repository, path.getPath(), (User) object);
 					}
 				}
 				else if (userObject instanceof Path) {
@@ -1011,10 +1013,10 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 					Object object = tableModel.getValueAt(selectedRow, 0);
 
 					if (object instanceof Group) {
-						accessRule = Document.findGroupAccessRule(path.getRepository(), path.getPath(), (Group) object);
+						accessRule = document.findGroupAccessRule(path.getRepository(), path.getPath(), (Group) object);
 					}
 					else if (object instanceof User) {
-						accessRule = Document.findUserAccessRule(path.getRepository(), path.getPath(), (User) object);
+						accessRule = document.findUserAccessRule(path.getRepository(), path.getPath(), (User) object);
 					}
 				}
 				else {
@@ -1023,29 +1025,29 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 					Object object = tableModel.getValueAt(selectedRow, 2);
 
 					if (object instanceof Group) {
-						accessRule = Document.findGroupAccessRule(repository, path.getPath(), (Group) object);
+						accessRule = document.findGroupAccessRule(repository, path.getPath(), (Group) object);
 					}
 					else if (object instanceof User) {
-						accessRule = Document.findUserAccessRule(repository, path.getPath(), (User) object);
+						accessRule = document.findUserAccessRule(repository, path.getPath(), (User) object);
 					}
 				}
 
 				if (accessRule == null) {
-					displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessruleforedit"));					
+					displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessruleforedit"));
 				}
 				else {
 					Message message = new Message();
 					Path path = accessRule.getPath();
-					
-					JDialog dialog = new EditAccessRuleDialog(accessRule, message);
+
+					JDialog dialog = new EditAccessRuleDialog(document, accessRule, message);
 					DialogUtil.center(this, dialog);
 					dialog.setVisible(true);
-	
+
 					if (message.getState() == Message.SUCCESS) {
-						Document.setUnsavedChanges();
+						document.setUnsavedChanges();
 						refreshUserDetails();
 						refreshGroupDetails();
-						
+
 						if (accessRule.getPath().equals(path)) {
 							refreshAccessRuleTree(path);
 						}
@@ -1078,13 +1080,13 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			for (int i = 0; i < selectedItems.length; i++) {
 				Message message = new Message();
 
-				JDialog dialog = new BasicDialog(BasicDialog.TYPE_EDIT_GROUP, (Group) selectedItems[i], message);
+				JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_EDIT_GROUP, (Group) selectedItems[i], message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
 				if (message.getState() == Message.SUCCESS) {
 					selectedGroup = (Group) message.getUserObject();
-					Document.setUnsavedChanges();
+					document.setUnsavedChanges();
 				}
 				else if (message.getUserObject() == null) {
 					selectedGroup = (Group) selectedItems[i];
@@ -1124,7 +1126,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			dialog.setVisible(true);
 
 			if (message.getState() == Message.SUCCESS) {
-				Document.setUnsavedChanges();
+				document.setUnsavedChanges();
 				refreshUserDetails();
 				refreshGroupDetails();
 				refreshAccessRuleTree(message.getUserObject());
@@ -1155,7 +1157,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			dialog.setVisible(true);
 
 			if (message.getState() == Message.SUCCESS) {
-				Document.setUnsavedChanges();
+				document.setUnsavedChanges();
 				refreshUserDetails();
 				refreshGroupDetails();
 				refreshAccessRuleTree(message.getUserObject());
@@ -1185,7 +1187,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 				if (message.getState() == Message.SUCCESS) {
 					selectedUser = (User) message.getUserObject();
-					Document.setUnsavedChanges();
+					document.setUnsavedChanges();
 				}
 				else if (message.getUserObject() == null) {
 					selectedUser = (User) selectedItems[i];
@@ -1218,7 +1220,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	private void fileNew() {
 		checkForUnsavedChanges();
 
-		Document.initialize();
+		document.initialize();
 		updateTitle();
 		refreshUserList(null);
 		refreshUserDetails();
@@ -1240,7 +1242,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 		fcOpen.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-		File directory = (Document.getFile() == null) ? null : Document.getFile().getParentFile();
+		File directory = (document.getFile() == null) ? null : document.getFile().getParentFile();
 
 		fcOpen.setSelectedFile(directory);
 
@@ -1249,15 +1251,15 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
 				File file = fcOpen.getSelectedFile();
-				FileParser.parse(file);
-				getUsersPane().getUserList().setListData(Document.getUserObjects());
-				getGroupsPane().getGroupList().setListData(Document.getGroupObjects());
+				document = new FileParser().parse(file);
+				getUsersPane().getUserList().setListData(document.getUserObjects());
+				getGroupsPane().getGroupList().setListData(document.getGroupObjects());
 
-				Document.setFile(file);
+				document.setFile(file);
 
 				refreshAccessRuleTree(null);
 
-				Document.resetUnsavedChangesFlag();
+				document.resetUnsavedChangesFlag();
 				updateTitle();
 
 				addToRecentFiles(file.getAbsolutePath());
@@ -1276,15 +1278,15 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		checkForUnsavedChanges();
 
 		try {
-			FileParser.parse(file);
-			getUsersPane().getUserList().setListData(Document.getUserObjects());
-			getGroupsPane().getGroupList().setListData(Document.getGroupObjects());
+			document = new FileParser().parse(file);
+			getUsersPane().getUserList().setListData(document.getUserObjects());
+			getGroupsPane().getGroupList().setListData(document.getGroupObjects());
 
-			Document.setFile(file);
+			document.setFile(file);
 
 			refreshAccessRuleTree(null);
 
-			Document.resetUnsavedChangesFlag();
+			document.resetUnsavedChangesFlag();
 			updateTitle();
 
 			addToRecentFiles(file.getAbsolutePath());
@@ -1349,7 +1351,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			return;
 		}
 
-		if (Document.getFile() == null) {
+		if (document.getFile() == null) {
 			final JFileChooser fcSave = new JFileChooser();
 
 			fcSave.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -1361,13 +1363,13 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				try {
 					File file = fcSave.getSelectedFile();
 
-					FileGenerator.generate(file);
+					new FileGenerator(document).generate(file);
 
-					Document.setFile(file);
+					document.setFile(file);
 
-					Document.resetUnsavedChangesFlag();
+					document.resetUnsavedChangesFlag();
 					updateTitle();
-					addToRecentFiles(Document.getFile().getAbsolutePath());
+					addToRecentFiles(document.getFile().getAbsolutePath());
 				}
 				catch (Exception e) {
 					displayError(e.getMessage());
@@ -1376,11 +1378,11 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		}
 		else {
 			try {
-				FileGenerator.generate(Document.getFile());
+				new FileGenerator(document).generate(document.getFile());
 
-				Document.resetUnsavedChangesFlag();
+				document.resetUnsavedChangesFlag();
 				updateTitle();
-				addToRecentFiles(Document.getFile().getAbsolutePath());
+				addToRecentFiles(document.getFile().getAbsolutePath());
 			}
 			catch (Exception e) {
 				displayError(e.getMessage());
@@ -1408,13 +1410,13 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			try {
 				File file = fcSaveAs.getSelectedFile();
 
-				FileGenerator.generate(file);
+				new FileGenerator(document).generate(file);
 
-				Document.setFile(file);
+				document.setFile(file);
 
-				Document.resetUnsavedChangesFlag();
+				document.resetUnsavedChangesFlag();
 				updateTitle();
-				addToRecentFiles(Document.getFile().getAbsolutePath());
+				addToRecentFiles(document.getFile().getAbsolutePath());
 			}
 			catch (Exception e) {
 				displayError(e.getMessage());
@@ -1911,15 +1913,15 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * Preview action handler.
 	 */
 	private void preview() {
-		if (Document.isEmpty()) {
+		if (document.isEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
 		}
 		else {
 			new Thread() {
 				public void run() {
 					try {
-						JFrame frame = new ViewerFrame(ResourceUtil.getString("preview.title"), FileGenerator
-								.generate(), Constants.MIME_TEXT);
+						JFrame frame = new ViewerFrame(ResourceUtil.getString("preview.title"), new FileGenerator(
+								document).generate(), Constants.MIME_TEXT);
 						frame.setVisible(true);
 					}
 					catch (ApplicationException e) {
@@ -1940,7 +1942,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode(ResourceUtil.getString("application.server"));
 		accessRulesTreeModel = new DefaultTreeModel(node);
 
-		List<Repository> repositoryList = Document.getRepositories();
+		List<Repository> repositoryList = document.getRepositories();
 
 		Collections.sort(repositoryList);
 
@@ -1996,7 +1998,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			getGroupsPane().getGroupMemberList().setModel(new DefaultListModel());
 
 			if (!getGroupsPane().getGroupList().isSelectionEmpty()) {
-				Object[] listData = Document.getGroupMemberObjects(group);
+				Object[] listData = document.getGroupMemberObjects(group);
 
 				if (listData != null) {
 					getGroupsPane().getGroupMemberList().setListData(listData);
@@ -2012,7 +2014,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		DefaultTableModel model = new NonEditableTableModel();
 
 		try {
-			model.setDataVector(Document.getGroupAccessRules(group), getGroupAccessRulesColumnNames());
+			model.setDataVector(document.getGroupAccessRules(group), getGroupAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforgroup"));
@@ -2028,7 +2030,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * @param selectedGroup Group currently selected.
 	 */
 	private void refreshGroupList(Group selectedGroup) {
-		getGroupsPane().getGroupList().setListData(Document.getGroupObjects());
+		getGroupsPane().getGroupList().setListData(document.getGroupObjects());
 		toggleGroupActions(getGroupsPane().getGroupList().isSelectionEmpty() == false);
 
 		if (selectedGroup != null) {
@@ -2047,7 +2049,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		DefaultTableModel model = new NonEditableTableModel();
 
 		try {
-			model.setDataVector(Document.getPathAccessRules(path), getPathAccessRulesColumnNames());
+			model.setDataVector(document.getPathAccessRules(path), getPathAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforpath"));
@@ -2066,7 +2068,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		DefaultTableModel model = new NonEditableTableModel();
 
 		try {
-			model.setDataVector(Document.getRepositoryAccessRules(repository), getRepositoryAccessRulesColumnNames());
+			model.setDataVector(document.getRepositoryAccessRules(repository), getRepositoryAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforrepository"));
@@ -2085,7 +2087,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		DefaultTableModel model = new NonEditableTableModel();
 
 		try {
-			model.setDataVector(Document.getServerAccessRules(), getServerAccessRulesColumnNames());
+			model.setDataVector(document.getServerAccessRules(), getServerAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforserver"));
@@ -2099,13 +2101,13 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * Refreshes main tabbed panel text with current object counts.
 	 */
 	private void refreshTabNames() {
-		String title = "<html><strong>Users</strong>&nbsp;&nbsp;&nbsp;(" + Document.getUsers().size() + ")</html>";
+		String title = "<html><strong>Users</strong>&nbsp;&nbsp;&nbsp;(" + document.getUsers().size() + ")</html>";
 		getMainTabbedPane().setTitleAt(0, title);
 
-		title = "<html><strong>Groups</strong>&nbsp;&nbsp;&nbsp;(" + Document.getGroups().size() + ")</html>";
+		title = "<html><strong>Groups</strong>&nbsp;&nbsp;&nbsp;(" + document.getGroups().size() + ")</html>";
 		getMainTabbedPane().setTitleAt(1, title);
 
-		title = "<html><strong>Access Rules</strong>&nbsp;&nbsp;&nbsp;(" + Document.getAccessRules().size()
+		title = "<html><strong>Access Rules</strong>&nbsp;&nbsp;&nbsp;(" + document.getAccessRules().size()
 				+ ")</html>";
 		getMainTabbedPane().setTitleAt(2, title);
 	}
@@ -2120,7 +2122,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			getUsersPane().getUserGroupList().setModel(new DefaultListModel());
 
 			if (!getUsersPane().getUserList().isSelectionEmpty()) {
-				Object[] listData = (Object[]) Document.getUserGroupObjects(user);
+				Object[] listData = (Object[]) document.getUserGroupObjects(user);
 
 				if (listData != null) {
 					getUsersPane().getUserGroupList().setListData(listData);
@@ -2137,7 +2139,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		DefaultTableModel model = new NonEditableTableModel();
 
 		try {
-			model.setDataVector(Document.getUserAccessRuleObjects(user), getUserAccessRulesColumnNames());
+			model.setDataVector(document.getUserAccessRuleObjects(user), getUserAccessRulesColumnNames());
 		}
 		catch (ApplicationException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforuser"));
@@ -2153,7 +2155,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * @param selectedUser User currently selected.
 	 */
 	private void refreshUserList(User selectedUser) {
-		getUsersPane().getUserList().setListData(Document.getUserObjects());
+		getUsersPane().getUserList().setListData(document.getUserObjects());
 
 		boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
 		toggleUserActions(enabled, (selectedUser == null) ? enabled : enabled && !selectedUser.isAllUsers());
@@ -2169,7 +2171,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * File open action handler.
 	 */
 	private void reload() {
-		if (Document.hasUnsavedChanges()) {
+		if (document.hasUnsavedChanges()) {
 			int response = JOptionPane.showConfirmDialog(this, ResourceUtil
 					.getString("application.unsavedchangesbeforereload"),
 					ResourceUtil.getString("application.warning"), JOptionPane.YES_NO_OPTION,
@@ -2181,16 +2183,16 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		}
 
 		try {
-			File file = Document.getFile();
-			FileParser.parse(file);
-			getUsersPane().getUserList().setListData(Document.getUserObjects());
-			getGroupsPane().getGroupList().setListData(Document.getGroupObjects());
+			File file = document.getFile();
+			document = new FileParser().parse(file);
+			getUsersPane().getUserList().setListData(document.getUserObjects());
+			getGroupsPane().getGroupList().setListData(document.getGroupObjects());
 
-			Document.setFile(file);
+			document.setFile(file);
 
 			refreshAccessRuleTree(null);
 
-			Document.resetUnsavedChangesFlag();
+			document.resetUnsavedChangesFlag();
 			updateTitle();
 
 			refreshTabNames();
@@ -2225,7 +2227,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					Document.removeFromGroups(user, values);
+					document.removeFromGroups(user, values);
 				}
 				catch (ApplicationException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
@@ -2263,7 +2265,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					Document.removeGroupMembers(group, values);
+					document.removeGroupMembers(group, values);
 				}
 				catch (ApplicationException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
@@ -2324,7 +2326,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * Statistics Report action handler.
 	 */
 	private void statisticsReport() {
-		if (Document.isEmpty()) {
+		if (document.isEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
 		}
 		else {
@@ -2348,7 +2350,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	 * Summary Report action handler.
 	 */
 	private void summaryReport() {
-		if (Document.isEmpty()) {
+		if (document.isEmpty()) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
 		}
 		else {
@@ -2426,18 +2428,18 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		String fullPath = "";
 
 		// Add an asterisk if the file has changed.
-		if (Document.hasUnsavedChanges()) {
+		if (document.hasUnsavedChanges()) {
 			filename = "*";
 		}
 
 		// Add Untitled for new files or the file name for existing files
-		if (Document.getFile() == null) {
+		if (document.getFile() == null) {
 			filename += untitled;
 			fullPath = untitled;
 		}
 		else {
-			filename += Document.getFile().getName();
-			fullPath = Document.getFile().getAbsolutePath();
+			filename += document.getFile().getName();
+			fullPath = document.getFile().getAbsolutePath();
 		}
 
 		this.setTitle(ResourceUtil.getFormattedString("application.name", filename));

@@ -114,10 +114,13 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	private JPanel userPanel = null;
 
 	private JRadioButton userRadioButton = null;
+	
+	private Document document = null;
 
-	public AccessRuleForm(Repository repository, String path) {
+	public AccessRuleForm(Document document, Repository repository, String path) {
 		super();
 
+		this.document = document;
 		this.type = TYPE_ADD_RULE;
 		this.repository = repository;
 		this.path = path;
@@ -125,9 +128,10 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		initialize();
 	}
 
-	public AccessRuleForm(String name, Repository repository, String path) {
+	public AccessRuleForm(Document document, String name, Repository repository, String path) {
 		super();
 
+		this.document = document;
 		this.type = TYPE_ADD_PROJECT_RULES;
 		this.name = name;
 		this.repository = repository;
@@ -136,9 +140,10 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		initialize();
 	}
 
-	public AccessRuleForm(AccessRule accessRule) {
+	public AccessRuleForm(Document document, AccessRule accessRule) {
 		super();
 
+		this.document = document;
 		this.type = TYPE_EDIT_RULE;
 		this.accessRule = accessRule;
 		this.repository = accessRule.getPath().getRepository();
@@ -198,22 +203,22 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			Validator.validateNotNull(ResourceUtil.getString(type + ".user"), user);
 		}
 		else if (getAllUsersRadioButton().isSelected()) {
-			user = Document.addUser("*");
+			user = document.addUser("*");
 		}
 
 		if (group != null) {
-			if (Document.findGroupAccessRule(repository, pathString, group) != null) {
+			if (document.findGroupAccessRule(repository, pathString, group) != null) {
 				throw new ApplicationException(ResourceUtil.getString(type + ".error.grouprulealreadyexists"));
 			}
 
-			rule = Document.addAccessRuleForGroup(repository, pathString, group, levelOfAccess);
+			rule = document.addAccessRuleForGroup(repository, pathString, group, levelOfAccess);
 		}
 		else if (user != null) {
-			if (Document.findUserAccessRule(repository, pathString, user) != null) {
+			if (document.findUserAccessRule(repository, pathString, user) != null) {
 				throw new ApplicationException(ResourceUtil.getString(type + ".error.userrulealreadyexists"));
 			}
 
-			rule = Document.addAccessRuleForUser(repository, pathString, user, levelOfAccess);
+			rule = document.addAccessRuleForUser(repository, pathString, user, levelOfAccess);
 		}
 		else {
 			throw new ApplicationException(ResourceUtil.getString(type + ".error.erroraddingrule"));
@@ -252,15 +257,15 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			Validator.validateNotNull(ResourceUtil.getString("editaccessrule.user"), user);
 		}
 		else if (getAllUsersRadioButton().isSelected()) {
-			user = Document.addUser("*");
+			user = document.addUser("*");
 		}
 
 		if (group != null) {
-			AccessRule foundRule = Document.findGroupAccessRule(repository, pathString, group);
+			AccessRule foundRule = document.findGroupAccessRule(repository, pathString, group);
 
 			if (foundRule == null || accessRule == foundRule) {
 				accessRule.getPath().removeAccessRule(accessRule);
-				accessRule.setPath(Document.addPath(repository, pathString));
+				accessRule.setPath(document.addPath(repository, pathString));
 				accessRule.getPath().addAccessRule(accessRule);
 				accessRule.setGroup(group);
 				group.addAccessRule(accessRule);
@@ -277,11 +282,11 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			}
 		}
 		else if (user != null) {
-			AccessRule foundRule = Document.findUserAccessRule(repository, pathString, user);
+			AccessRule foundRule = document.findUserAccessRule(repository, pathString, user);
 
 			if (foundRule == null || accessRule == foundRule) {
 				accessRule.getPath().removeAccessRule(accessRule);
-				accessRule.setPath(Document.addPath(repository, pathString));
+				accessRule.setPath(document.addPath(repository, pathString));
 				accessRule.getPath().addAccessRule(accessRule);
 
 				if (accessRule.getGroup() != null) {
@@ -385,12 +390,12 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			groupUserButtonGroup.add(getUserRadioButton());
 			groupUserButtonGroup.add(getAllUsersRadioButton());
 
-			if (Document.getGroupObjects().length == 0) {
+			if (document.getGroupObjects().length == 0) {
 				getGroupRadioButton().setEnabled(false);
 				getUserRadioButton().setSelected(true);
 			}
 
-			if (Document.getUserObjects().length == 0) {
+			if (document.getUserObjects().length == 0) {
 				getUserRadioButton().setEnabled(false);
 
 				if (getGroupRadioButton().isEnabled()) {
@@ -433,7 +438,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	 */
 	private JComboBox getGroupComboBox() {
 		if (groupComboBox == null) {
-			groupComboBox = createComboBox(new GroupListModel());
+			groupComboBox = createComboBox(new GroupListModel(document));
 
 			if (accessRule != null && accessRule.getGroup() != null) {
 				groupComboBox.setSelectedItem(accessRule.getGroup());
@@ -622,7 +627,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	 */
 	private JComboBox getRepositoryComboBox() {
 		if (repositoryComboBox == null) {
-			repositoryComboBox = createComboBox(new RepositoryListModel());
+			repositoryComboBox = createComboBox(new RepositoryListModel(document));
 
 			if (repository != null) {
 				repositoryComboBox.setSelectedItem(repository);
@@ -672,7 +677,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	 */
 	private JComboBox getUserComboBox() {
 		if (userComboBox == null) {
-			userComboBox = createComboBox(new UserListModel());
+			userComboBox = createComboBox(new UserListModel(document));
 
 			if (accessRule != null && accessRule.getUser() != null) {
 				userComboBox.setSelectedItem(accessRule.getUser());
@@ -758,7 +763,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	 * @param repository Repository to select.
 	 */
 	private void refreshRepositoryList(Repository repository) {
-		getRepositoryComboBox().setModel(new RepositoryListModel());
+		getRepositoryComboBox().setModel(new RepositoryListModel(document));
 
 		if (repository != null) {
 			getRepositoryComboBox().setSelectedItem(repository);

@@ -17,8 +17,22 @@
  */
 package org.xiaoniu.suafe.reports;
 
+import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 
-public interface GenericReport {
-	public String generate() throws ApplicationException;
+public abstract class GenericReport {
+	
+	protected Document document = null;
+	
+	public GenericReport() {
+		super();
+	}
+	
+	public GenericReport(Document document) {
+		super();
+		
+		this.document = document;
+	}
+	
+	public abstract String generate() throws ApplicationException;
 }

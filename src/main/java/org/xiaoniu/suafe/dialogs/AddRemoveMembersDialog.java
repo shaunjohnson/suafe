@@ -115,12 +115,15 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 	
 	private JPanel instructionsPanel = null;
 	
+	private Document document = null;
+	
 	/**
 	 * Default constructor.
 	 */
-	public AddRemoveMembersDialog(Group group, Message message) {
+	public AddRemoveMembersDialog(Document document, Group group, Message message) {
 		super();
 		
+		this.document = document;
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 		this.group = group;
@@ -134,7 +137,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 	private void initialize() {
 		try {
 			// Initialize groups
-			Group[] groupMembersObjects = Document.getGroupMemberGroups(group);
+			Group[] groupMembersObjects = document.getGroupMemberGroups(group);
 			
 			if (groupMembersObjects != null) {
 				List<Group> groupMembersList = Arrays.asList(groupMembersObjects);
@@ -145,7 +148,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 				groupMembers = new Vector<Group>();
 			}
 			
-			Group[] groupObjects = Document.getGroupsArray();
+			Group[] groupObjects = document.getGroupsArray();
 			
 			if (groupObjects != null) {
 				List<Group> groupNonMembersList = Arrays.asList(groupObjects);
@@ -165,7 +168,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 			}			
 			
 			// Initialize users
-			User[] userMembersObjects = Document.getGroupMemberUsers(group);
+			User[] userMembersObjects = document.getGroupMemberUsers(group);
 			
 			if (userMembersObjects != null) {
 				List<User> userMembersList = Arrays.asList(userMembersObjects);
@@ -176,7 +179,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 				userMembers = new Vector<User>();
 			}
 			
-			User[] userObjects = Document.getUserObjectsExcludeAllUsers();
+			User[] userObjects = document.getUserObjectsExcludeAllUsers();
 			
 			if (userObjects != null) {
 				List<User> userNonMembersList = Arrays.asList(userObjects);
@@ -535,7 +538,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements
 		}	
 		else if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
 			try {
-				Document.changeGroupMembers(group, groupMembers, userMembers);
+				document.changeGroupMembers(group, groupMembers, userMembers);
 				message.setUserObject(group);
 				message.setState(Message.SUCCESS);
 				dispose();

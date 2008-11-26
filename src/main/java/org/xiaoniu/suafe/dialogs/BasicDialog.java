@@ -102,13 +102,16 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private String type = null;
 
 	private User user = null;
+	
+	private Document document = null;
 
 	/**
 	 * Group dialog constructor.
 	 */
-	public BasicDialog(String type, Group group, Message message) {
+	public BasicDialog(Document document, String type, Group group, Message message) {
 		super();
 
+		this.document = document;
 		this.type = type;
 		this.group = group;
 		this.message = message;
@@ -218,8 +221,8 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void addGroup(String groupName) throws ApplicationException {
 		validateGroupName(groupName);
 
-		if (Document.findGroup(groupName) == null) {
-			message.setUserObject(Document.addGroup(groupName));
+		if (document.findGroup(groupName) == null) {
+			message.setUserObject(document.addGroup(groupName));
 			message.setState(Message.SUCCESS);
 			dispose();
 		}
@@ -231,8 +234,8 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void addRepository(String repositoryName) throws ApplicationException {
 		validateRepositoryName(repositoryName);
 
-		if (Document.findRepository(repositoryName) == null) {
-			Repository repository = Document.addRepository(repositoryName);
+		if (document.findRepository(repositoryName) == null) {
+			Repository repository = document.addRepository(repositoryName);
 
 			message.setUserObject(repository);
 			message.setState(Message.SUCCESS);
@@ -247,8 +250,8 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void addUser(String userName) throws ApplicationException {
 		validateUserName(userName);
 
-		if (Document.findUser(userName) == null) {
-			message.setUserObject(Document.addUser(userName));
+		if (document.findUser(userName) == null) {
+			message.setUserObject(document.addUser(userName));
 			message.setState(Message.SUCCESS);
 			dispose();
 		}
@@ -260,10 +263,10 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void cloneGroup(String groupName) throws ApplicationException {
 		validateGroupName(groupName);
 
-		Group existingGroup = Document.findGroup(groupName);
+		Group existingGroup = document.findGroup(groupName);
 
 		if (existingGroup == null || existingGroup == group) {
-			message.setUserObject(Document.cloneGroup(group, groupName));
+			message.setUserObject(document.cloneGroup(group, groupName));
 			message.setState(Message.SUCCESS);
 			dispose();
 		}
@@ -275,8 +278,8 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void cloneUser(String userName) throws ApplicationException {
 		validateUserName(userName);
 
-		if (Document.findUser(userName) == null) {
-			message.setUserObject(Document.cloneUser(user, userName));
+		if (document.findUser(userName) == null) {
+			message.setUserObject(document.cloneUser(user, userName));
 			message.setState(Message.SUCCESS);
 			dispose();
 		}
@@ -288,7 +291,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void editGroup(String groupName) throws ApplicationException {
 		validateGroupName(groupName);
 
-		Group existingGroup = Document.findGroup(groupName);
+		Group existingGroup = document.findGroup(groupName);
 
 		if (existingGroup == null || existingGroup == group) {
 			group.setName(groupName);
@@ -304,7 +307,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void editPath(String pathString) throws ApplicationException {
 		validatePath(pathString);
 
-		Path existingPath = Document.findPath(path.getRepository(), pathString);
+		Path existingPath = document.findPath(path.getRepository(), pathString);
 
 		if (existingPath == null || existingPath == path) {
 			path.setPath(pathString);
@@ -323,7 +326,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void editRepository(String repositoryName) throws ApplicationException {
 		validateRepositoryName(repositoryName);
 
-		Repository existingRepository = Document.findRepository(repositoryName);
+		Repository existingRepository = document.findRepository(repositoryName);
 
 		if (existingRepository == null || existingRepository == repository) {
 			repository.setName(repositoryName);
@@ -340,7 +343,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private void editUser(String userName) throws ApplicationException {
 		validateUserName(userName);
 
-		User existingUser = Document.findUser(userName);
+		User existingUser = document.findUser(userName);
 
 		if (existingUser == null || existingUser == user) {
 			user.setName(userName);

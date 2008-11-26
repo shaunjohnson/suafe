@@ -29,6 +29,7 @@ import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.beans.AccessRule;
+import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
@@ -63,11 +64,13 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 	private String path = null;
 	
 	private Repository repository = null;
+	
+	private Document document = null;
 
 	/**
 	 * Default constructor.
 	 */
-	public AddAccessRuleDialog(Object userObject, Message message) {
+	public AddAccessRuleDialog(Document document, Object userObject, Message message) {
 		super();
 
 		if (userObject != null && userObject instanceof Repository) {
@@ -85,6 +88,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 			this.path = Constants.DEFAULT_PATH;
 		}
 
+		this.document = document;
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
@@ -130,7 +134,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 
 	private AccessRuleForm getAccessRuleForm() {
 		if (accessRuleForm == null) {
-			accessRuleForm = new AccessRuleForm(repository, path);
+			accessRuleForm = new AccessRuleForm(document, repository, path);
 		}
 		
 		return accessRuleForm;

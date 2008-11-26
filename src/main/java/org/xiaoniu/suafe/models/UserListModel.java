@@ -30,9 +30,9 @@ public class UserListModel extends BaseComboBoxModel {
 	/**
 	 * Default constructor.
 	 */
-	public UserListModel() {
+	public UserListModel(Document document) {
 		super();
 		
-		itemList = Document.getUserObjects();
+		itemList = document.getUserObjects();
 	}
 }

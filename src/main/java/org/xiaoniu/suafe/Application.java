@@ -52,13 +52,15 @@ import com.martiansoftware.jsap.Switch;
  */
 public class Application {
 
+	private static Document document = new Document();
+	
 	/**
 	 * Application starting point.
 	 * 
 	 * @param args Application arguments
 	 */
 	public static void main(String[] args) {
-		Document.initialize();
+		document.initialize();
 		
 		if (args.length == 0) {
 			try {
@@ -78,7 +80,6 @@ public class Application {
 	}
 	
 	/**
-	 * Processes command line arguments and initiates command execution.
 	 * 
 	 * @param args User specified arguments.
 	 */
@@ -718,10 +719,10 @@ public class Application {
 			
 			// Parse input from file or stdin
 			if (config.getString(Constants.ARGS_INPUT_FILE) == null) {
-				FileParser.parse(System.in);
+				document = new FileParser().parse(System.in);
 			}
 			else {
-				FileParser.parse(new File(config.getString(Constants.ARGS_INPUT_FILE)));
+				document = new FileParser().parse(new File(config.getString(Constants.ARGS_INPUT_FILE)));
 			}
 			
 			// Initialize the output stream
@@ -741,26 +742,26 @@ public class Application {
 			else if (config.getBoolean(Constants.ARGS_CLONE_USER)) {
 				cloneUser(config.getString(Constants.ARGS_NAME), 
 						config.getString(Constants.ARGS_NEW_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_EDIT_USER)) {
 				editUser(config.getString(Constants.ARGS_NAME), 
 						config.getString(Constants.ARGS_NEW_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_DELETE_USER)) {
 				deleteUser(config.getString(Constants.ARGS_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_ADD_GROUPS)) {
 				addGroups(config.getString(Constants.ARGS_NAME), 
 						config.getStringArray(Constants.ARGS_GROUPS));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_REMOVE_GROUPS)) {
 				removeGroups(config.getString(Constants.ARGS_NAME), 
 						config.getStringArray(Constants.ARGS_GROUPS));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_COUNT_USERS)) {
 				countUsers(out);
@@ -776,33 +777,33 @@ public class Application {
 			}
 			else if (config.getBoolean(Constants.ARGS_ADD_GROUP)) {
 				addGroup(config.getString(Constants.ARGS_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_CLONE_GROUP)) {
 				cloneGroup(config.getString(Constants.ARGS_NAME), 
 						config.getString(Constants.ARGS_NEW_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_EDIT_GROUP)) {
 				editGroup(config.getString(Constants.ARGS_NAME), 
 						config.getString(Constants.ARGS_NEW_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_DELETE_GROUP)) {
 				deleteGroup(config.getString(Constants.ARGS_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_ADD_MEMBERS)) {
 				addMembers(config.getString(Constants.ARGS_NAME), 
 						config.getStringArray(Constants.ARGS_USERS), 
 						config.getStringArray(Constants.ARGS_GROUPS));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_REMOVE_MEMBERS)) {
 				removeMembers(config.getString(Constants.ARGS_NAME), 
 						config.getStringArray(Constants.ARGS_USERS), 
 						config.getStringArray(Constants.ARGS_GROUPS));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_COUNT_GROUPS)) {
 				countGroups(out);
@@ -825,11 +826,11 @@ public class Application {
 			else if (config.getBoolean(Constants.ARGS_EDIT_REPOS)) {
 				editRepository(config.getString(Constants.ARGS_NAME), 
 						config.getString(Constants.ARGS_NEW_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_DELETE_REPOS)) {
 				deleteRepository(config.getString(Constants.ARGS_NAME));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_COUNT_REPOS)) {
 				countRepositories(out);
@@ -846,7 +847,7 @@ public class Application {
 						config.getString(Constants.ARGS_USER), 
 						config.getString(Constants.ARGS_GROUP), 
 						config.getString(Constants.ARGS_ACCESS));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_EDIT_RULE)) {
 				editRule(config.getString(Constants.ARGS_REPOS), 
@@ -858,14 +859,14 @@ public class Application {
 						config.getString(Constants.ARGS_NEW_USER), 
 						config.getString(Constants.ARGS_NEW_GROUP), 
 						config.getString(Constants.ARGS_NEW_ACCESS));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_DELETE_RULE)) {
 				deleteRule(config.getString(Constants.ARGS_REPOS), 
 						config.getString(Constants.ARGS_PATH), 
 						config.getString(Constants.ARGS_USER), 
 						config.getString(Constants.ARGS_GROUP));
-				out.print(FileGenerator.generate());
+				out.print(new FileGenerator(document).generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_COUNT_RULES)) {
 				countRules(out);
@@ -919,18 +920,18 @@ public class Application {
 		
 		if (userName != null) {
 			if (repositoryName == null) {
-				Document.addAccessRuleForUser(null, path, Document.addUser(userName), access);
+				document.addAccessRuleForUser(null, path, document.addUser(userName), access);
 			}
 			else {
-				Document.addAccessRuleForUser(Document.addRepository(repositoryName), path, Document.addUser(userName), access);
+				document.addAccessRuleForUser(document.addRepository(repositoryName), path, document.addUser(userName), access);
 			}
 		}
 		else if (groupName != null) {
 			if (repositoryName == null) {
-				Document.addAccessRuleForGroup(null, path, Document.addGroup(groupName), access);
+				document.addAccessRuleForGroup(null, path, document.addGroup(groupName), access);
 			}
 			else {
-				Document.addAccessRuleForGroup(Document.addRepository(repositoryName), path, Document.addGroup(groupName), access);
+				document.addAccessRuleForGroup(document.addRepository(repositoryName), path, document.addGroup(groupName), access);
 			}
 		}
 		else {
@@ -963,7 +964,7 @@ public class Application {
 		}
 		
 		if (userName != null) {
-			User user = Document.findUser(userName);
+			User user = document.findUser(userName);
 			
 			if (user == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
@@ -972,17 +973,17 @@ public class Application {
 			Repository repository = null;
 			
 			if (repositoryName != null) {
-				repository = Document.findRepository(repositoryName);
+				repository = document.findRepository(repositoryName);
 				
 				if (repository == null) {
 					throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindrepository", repositoryName));
 				}
 			}
 			
-			Document.deleteAccessRule(repositoryName, path, null, user);
+			document.deleteAccessRule(repositoryName, path, null, user);
 		}
 		else if (groupName != null) {
-			Group group = Document.findGroup(groupName);
+			Group group = document.findGroup(groupName);
 			
 			if (group == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -991,14 +992,14 @@ public class Application {
 			Repository repository = null;
 			
 			if (repositoryName != null) {
-				repository = Document.findRepository(repositoryName);
+				repository = document.findRepository(repositoryName);
 				
 				if (repository == null) {
 					throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindrepository", repositoryName));
 				}
 			}
 			
-			Document.deleteAccessRule(repositoryName, path, group, null);
+			document.deleteAccessRule(repositoryName, path, group, null);
 		}
 		else {
 			throw new ApplicationException(ResourceUtil.getString("application.error.userorgrouprequired"));
@@ -1041,7 +1042,7 @@ public class Application {
 		AccessRule rule = null;
 		
 		if (userName != null) {
-			User user = Document.findUser(userName);
+			User user = document.findUser(userName);
 			
 			if (user == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
@@ -1050,21 +1051,21 @@ public class Application {
 			Repository repository = null;
 			
 			if (repositoryName != null) {
-				repository = Document.findRepository(repositoryName);
+				repository = document.findRepository(repositoryName);
 				
 				if (repository == null) {
 					throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindrepository", repositoryName));
 				}
 			}
 			
-			rule = Document.findUserAccessRule(repository, path, user);
+			rule = document.findUserAccessRule(repository, path, user);
 			
 			if (rule == null) {
 				throw new ApplicationException(ResourceUtil.getString("application.error.unabletofindrule"));
 			}
 		}
 		else if (groupName != null) {
-			Group group = Document.findGroup(groupName);
+			Group group = document.findGroup(groupName);
 			
 			if (group == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -1073,14 +1074,14 @@ public class Application {
 			Repository repository = null;
 			
 			if (repositoryName != null) {
-				repository = Document.findRepository(repositoryName);
+				repository = document.findRepository(repositoryName);
 				
 				if (repository == null) {
 					throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindrepository", repositoryName));
 				}
 			}
 			
-			rule = Document.findGroupAccessRule(repository, path, group);
+			rule = document.findGroupAccessRule(repository, path, group);
 			
 			if (rule == null) {
 				throw new ApplicationException(ResourceUtil.getString("application.error.unabletofindrule"));
@@ -1091,7 +1092,7 @@ public class Application {
 		}
 		
 		if (newRepositoryName != null) {
-			Repository newRepository = Document.findRepository(newRepositoryName);
+			Repository newRepository = document.findRepository(newRepositoryName);
 			
 			if (newRepository == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindrepository", repositoryName));
@@ -1101,13 +1102,13 @@ public class Application {
 		}
 		
 		if (newPathString != null) {
-			Path newPath = Document.addPath(rule.getPath().getRepository(), newPathString);
+			Path newPath = document.addPath(rule.getPath().getRepository(), newPathString);
 			
 			rule.setPath(newPath);
 		}
 		
 		if (newUserName != null) {
-			User newUser = Document.addUser(newUserName);
+			User newUser = document.addUser(newUserName);
 			
 			if (newUser == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
@@ -1118,7 +1119,7 @@ public class Application {
 		}
 		
 		if (newGroupName != null) {
-			Group newGroup = Document.findGroup(newGroupName);
+			Group newGroup = document.findGroup(newGroupName);
 			
 			if (newGroup == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -1155,25 +1156,25 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.userorgrouplistrequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
 		}
 		
 		for (String memberUserName : userNames) {
-			User memberUser = Document.findUser(memberUserName);
+			User memberUser = document.findUser(memberUserName);
 			
 			if (memberUser == null) {
 				// Add user since it doesn't exist.
-				memberUser = Document.addUser(memberUserName);
+				memberUser = document.addUser(memberUserName);
 			}
 			
 			group.addUserMember(memberUser);
 		}
 		
 		for (String memberGroupName : groupNames) {
-			Group memberGroup = Document.findGroup(memberGroupName);
+			Group memberGroup = document.findGroup(memberGroupName);
 			
 			if (memberGroup == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", memberGroupName));
@@ -1203,14 +1204,14 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.userorgrouplistrequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
 		}
 		
 		for (String memberUserName : userNames) {
-			User memberUser = Document.findUser(memberUserName);
+			User memberUser = document.findUser(memberUserName);
 			
 			if (memberUser == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", memberUserName));
@@ -1220,7 +1221,7 @@ public class Application {
 		}
 		
 		for (String memberGroupName : groupNames) {
-			Group memberGroup = Document.findGroup(memberGroupName);
+			Group memberGroup = document.findGroup(memberGroupName);
 			
 			if (memberGroup == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", memberGroupName));
@@ -1236,7 +1237,7 @@ public class Application {
 	 * @param out Output stream
 	 */
 	private static void countGroups(PrintStream out) {
-		out.println(Document.getGroupObjects().length);
+		out.println(document.getGroupObjects().length);
 	}
 
 	/**
@@ -1250,13 +1251,13 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouprequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
 		}
 		
-		Document.deleteGroup(group);
+		document.deleteGroup(group);
 	}
 
 	/**
@@ -1275,7 +1276,7 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.newgrouprequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -1300,13 +1301,13 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.clonerequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
 		}
 		
-		Document.cloneGroup(group, cloneName);		
+		document.cloneGroup(group, cloneName);		
 	}
 
 	/**
@@ -1320,7 +1321,7 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouprequired"));
 		}
 		
-		Document.addGroup(groupName);
+		document.addGroup(groupName);
 	}
 	
 	/**
@@ -1335,13 +1336,13 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouprequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
 		}
 		
-		Object[][] accessRules = Document.getGroupAccessRules(group);
+		Object[][] accessRules = document.getGroupAccessRules(group);
 		
 		for(Object[] accessRule : accessRules) {
 			Repository repository = (Repository)accessRule[0];
@@ -1364,13 +1365,13 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.repositoryrequired"));
 		}
 		
-		Repository repository = Document.findRepository(repositoryName);
+		Repository repository = document.findRepository(repositoryName);
 		
 		if (repository == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindrepository", repositoryName));
 		}
 		
-		Object[][] accessRules = Document.getRepositoryAccessRules(repository);
+		Object[][] accessRules = document.getRepositoryAccessRules(repository);
 		
 		for(Object[] accessRule : accessRules) {
 			Path path = (Path)accessRule[0];
@@ -1403,11 +1404,11 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.userrequired"));
 		}
 		
-		if (Document.findUser(userName) == null) {
+		if (document.findUser(userName) == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
 		}
 		
-		Object[][] accessRules = Document.getUserAccessRules(userName);
+		Object[][] accessRules = document.getUserAccessRules(userName);
 		
 		for(Object[] accessRule : accessRules) {
 			Repository repository = (Repository)accessRule[0];
@@ -1425,7 +1426,7 @@ public class Application {
 	 * @throws ApplicationException Error occurred
 	 */
 	private static void getRules(PrintStream out) throws ApplicationException {
-		List<AccessRule> rules = Document.getAccessRules();
+		List<AccessRule> rules = document.getAccessRules();
 		
 		for(AccessRule rule : rules) {
 			Path path = rule.getPath();
@@ -1463,11 +1464,11 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.userrequired"));
 		}
 		
-		if (Document.findUser(userName) == null) {
+		if (document.findUser(userName) == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
 		}
 		
-		Object[] groupNames = Document.getUserGroupNames(userName);
+		Object[] groupNames = document.getUserGroupNames(userName);
 		
 		for(Object groupName : groupNames) {
 			out.println((String)groupName);
@@ -1486,7 +1487,7 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouprequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -1511,7 +1512,7 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouprequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -1536,7 +1537,7 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouprequired"));
 		}
 		
-		Group group = Document.findGroup(groupName);
+		Group group = document.findGroup(groupName);
 		
 		if (group == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -1569,7 +1570,7 @@ public class Application {
 	 * @param out Output stream
 	 */
 	private static void getGroups(PrintStream out) {
-		Object[] groupNames = Document.getGroupNames();
+		Object[] groupNames = document.getGroupNames();
 		
 		for(Object groupName : groupNames) {
 			out.println((String)groupName);
@@ -1582,7 +1583,7 @@ public class Application {
 	 * @param out Output stream
 	 */
 	private static void getRepositories(PrintStream out) {
-		Object[] repositoryNames = Document.getRepositoryNames();
+		Object[] repositoryNames = document.getRepositoryNames();
 		
 		for(Object repositoryName : repositoryNames) {
 			out.println((String)repositoryName);
@@ -1595,7 +1596,7 @@ public class Application {
 	 * @param out Output stream
 	 */
 	private static void getUsers(PrintStream out) {
-		Object[] userNames = Document.getUserNames();
+		Object[] userNames = document.getUserNames();
 		
 		for(Object userName : userNames) {
 			out.println((String)userName);
@@ -1608,7 +1609,7 @@ public class Application {
 	 * @param out Output stream
 	 */
 	private static void countRepositories(PrintStream out) {
-		out.println(Document.getRepositories().size());
+		out.println(document.getRepositories().size());
 	}
 	
 	/**
@@ -1617,7 +1618,7 @@ public class Application {
 	 * @param out Output stream
 	 */
 	private static void countUsers(PrintStream out) {
-		out.println(Document.getUserObjects().length);
+		out.println(document.getUserObjects().length);
 	}
 	
 	/**
@@ -1626,7 +1627,7 @@ public class Application {
 	 * @param out Output stream
 	 */
 	private static void countRules(PrintStream out) {
-		out.println(Document.getAccessRules().size());
+		out.println(document.getAccessRules().size());
 	}
 
 	/**
@@ -1645,14 +1646,14 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouplistrequired"));
 		}
 		
-		User user = Document.findUser(userName);
+		User user = document.findUser(userName);
 		
 		if (user == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
 		}
 		
 		for (String groupName : groupNames) {
-			Group group = Document.findGroup(groupName);
+			Group group = document.findGroup(groupName);
 			
 			if (group == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -1679,14 +1680,14 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouplistrequired"));
 		}
 		
-		User user = Document.findUser(userName);
+		User user = document.findUser(userName);
 		
 		if (user == null) {
-			user = Document.addUser(userName);
+			user = document.addUser(userName);
 		}
 		
 		for (String groupName : groupNames) {
-			Group group = Document.findGroup(groupName);
+			Group group = document.findGroup(groupName);
 			
 			if (group == null) {
 				throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindgroup", groupName));
@@ -1708,13 +1709,13 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.repositoryrequired"));
 		}
 		
-		Repository repository = Document.findRepository(repositoryName);
+		Repository repository = document.findRepository(repositoryName);
 		
 		if (repository == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindrepository", repositoryName));
 		}
 		
-		Document.deleteRepository(repository);
+		document.deleteRepository(repository);
 	}
 	
 	/**
@@ -1728,13 +1729,13 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.userrequired"));
 		}
 		
-		User user = Document.findUser(userName);
+		User user = document.findUser(userName);
 		
 		if (user == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
 		}
 		
-		Document.deleteUser(user);
+		document.deleteUser(user);
 	}
 	
 	/**
@@ -1753,7 +1754,7 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.newrepositoryrequired"));
 		}
 		
-		Repository repository = Document.findRepository(repositoryName);
+		Repository repository = document.findRepository(repositoryName);
 		
 		if (repository == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofindrepository", repositoryName));
@@ -1778,7 +1779,7 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.newuserrequired"));
 		}
 		
-		User user = Document.findUser(userName);
+		User user = document.findUser(userName);
 		
 		if (user == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
@@ -1803,12 +1804,12 @@ public class Application {
 			throw new ApplicationException(ResourceUtil.getString("application.error.clonerequired"));
 		}
 		
-		User user = Document.findUser(userName);
+		User user = document.findUser(userName);
 		
 		if (user == null) {
 			throw new ApplicationException(ResourceUtil.getFormattedString("application.error.unabletofinduser", userName));
 		}
 		
-		Document.cloneUser(user, cloneName);		
+		document.cloneUser(user, cloneName);		
 	}
 }

@@ -107,12 +107,15 @@ public class ChangeMembershipDialog extends ParentDialog implements
 	
 	private JPanel instructionsPanel = null;
 	
+	private Document document = null;
+	
 	/**
 	 * This is the default constructor
 	 */
-	public ChangeMembershipDialog(User user, Message message) {
+	public ChangeMembershipDialog(Document document, User user, Message message) {
 		super();
 		
+		this.document = document;
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 		this.user = user;
@@ -125,7 +128,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 	 */
 	private void initialize() {
 		try {
-			Group[] groups = Document.getUserGroupsArray(user);
+			Group[] groups = document.getUserGroupsArray(user);
 			
 			if (groups != null) {
 				List<Group> memberOfList = Arrays.asList(groups);
@@ -136,7 +139,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 				memberOf = new Vector<Group>();
 			}
 			
-			Group[] allGroups = Document.getGroupsArray();
+			Group[] allGroups = document.getGroupsArray();
 			
 			if (allGroups != null) {
 				List<Group> notMemberOfList = Arrays.asList(allGroups);
@@ -457,7 +460,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 		}		
 		else if (e.getActionCommand().equals(Constants.SAVE_ACTION)) {
 			try {
-				Document.changeUserMembership(user, memberOf);
+				document.changeUserMembership(user, memberOf);
 				message.setUserObject(user);
 				message.setState(Message.SUCCESS);
 				dispose();

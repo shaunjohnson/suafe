@@ -29,6 +29,7 @@ import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.beans.AccessRule;
+import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
@@ -67,11 +68,13 @@ public class AddProjectAccessRulesDialog extends ParentDialog implements ActionL
 	private String path = null;
 	
 	private Repository repository = null;
+	
+	private Document document = null;
 
 	/**
 	 * Default constructor.
 	 */
-	public AddProjectAccessRulesDialog(Object userObject, Message message) {
+	public AddProjectAccessRulesDialog(Document document, Object userObject, Message message) {
 		super();
 
 		if (userObject != null && userObject instanceof Repository) {
@@ -89,6 +92,7 @@ public class AddProjectAccessRulesDialog extends ParentDialog implements ActionL
 			this.path = Constants.DEFAULT_PATH;
 		}
 
+		this.document = document;
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
@@ -136,7 +140,7 @@ public class AddProjectAccessRulesDialog extends ParentDialog implements ActionL
 
 	private AccessRuleForm getBranchesForm() {
 		if (branchesForm == null) {
-			branchesForm = new AccessRuleForm("branches", repository, path);
+			branchesForm = new AccessRuleForm(document, "branches", repository, path);
 		}
 		
 		return branchesForm;
@@ -218,7 +222,7 @@ public class AddProjectAccessRulesDialog extends ParentDialog implements ActionL
 	
 	private AccessRuleForm getTagsForm() {
 		if (tagsForm == null) {
-			tagsForm = new AccessRuleForm("tags", repository, path);
+			tagsForm = new AccessRuleForm(document, "tags", repository, path);
 		}
 		
 		return tagsForm;
@@ -226,7 +230,7 @@ public class AddProjectAccessRulesDialog extends ParentDialog implements ActionL
 
 	private AccessRuleForm getTrunkForm() {
 		if (trunkForm == null) {
-			trunkForm = new AccessRuleForm("trunk", repository, path);
+			trunkForm = new AccessRuleForm(document, "trunk", repository, path);
 		}
 		
 		return trunkForm;

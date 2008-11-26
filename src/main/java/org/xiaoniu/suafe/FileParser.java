@@ -72,12 +72,12 @@ public class FileParser {
 	/**
 	 * Current parser state.
 	 */
-	private static int currentState = STATE_START;
+	private int currentState = STATE_START;
 	
 	/**
 	 * Path currently being processed.
 	 */
-	private static Path currentPath = null;
+	private Path currentPath = null;
 	
 	/**
 	 * Validates whether the supplied file exists and is readable.
@@ -85,7 +85,7 @@ public class FileParser {
 	 * @param file File to be validated.
 	 * @throws ValidatorException
 	 */
-	public static void validateReadable(File file) throws ValidatorException {
+	public void validateReadable(File file) throws ValidatorException {
 		if (!file.exists()) {
 			throw new ValidatorException(ResourceUtil.getString("parser.filenotfound"));
 		}
@@ -95,13 +95,14 @@ public class FileParser {
 		}
 	}
 	
-	public static void parse(InputStream inputStream) throws ParserException, ValidatorException {
+	public Document parse(InputStream inputStream) throws ParserException, ValidatorException {
+		Document document = null;
 		BufferedReader input = null;
 		
 		try { 
 			input = new BufferedReader(new InputStreamReader(inputStream));
 			
-			parse(input);
+			document = parse(input);
 		}
 		finally {
 			if (input != null) {
@@ -113,6 +114,8 @@ public class FileParser {
 				}
 			}
 		}	
+		
+		return document;
 	}
 	
 	/**
@@ -122,7 +125,8 @@ public class FileParser {
 	 * @throws ParserException
 	 * @throws ValidatorException
 	 */
-	public static void parse(File file) throws ParserException, ValidatorException {
+	public Document parse(File file) throws ParserException, ValidatorException {
+		Document document = null;
 		BufferedReader input = null;
 		int lineNumber = 0;
 		
@@ -131,20 +135,16 @@ public class FileParser {
 		validateReadable(file);
 		
 		try {
-			Document.initialize();
 			input = new BufferedReader(new FileReader(file));
-			parse(input);
+			document = parse(input);
 		}
 		catch(FileNotFoundException fne) {
-			Document.initialize();
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.filenotfound"));
 		}
 		catch(ParserException pe) {
-			Document.initialize();
 			throw pe;
 		}
 		catch(Exception e) {
-			Document.initialize();
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
 		}
 		finally {
@@ -156,10 +156,13 @@ public class FileParser {
 					// Do nothing
 				}
 			}
-		}		
+		}
+		
+		return document;
 	}
 	
-	public static void parse(BufferedReader input) throws ParserException, ValidatorException {
+	public Document parse(BufferedReader input) throws ParserException, ValidatorException {
+		Document document = new Document();
 		int lineNumber = 0;
 		
 		currentState = STATE_START;
@@ -168,14 +171,14 @@ public class FileParser {
 			String line = input.readLine();
 			lineNumber++;
 			
-			Document.initialize();
+			document.initialize();
 			
 			while (line != null) {
 				line = line.trim();
 				
 				// Process non-blank lines
 				if (!line.equals("")) {
-					parseLine(lineNumber, line);
+					parseLine(document, lineNumber, line);
 				}
 				
 				line = input.readLine();
@@ -194,17 +197,20 @@ public class FileParser {
 		catch(Exception e) {
 			throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.error"));
 		}
+		
+		return document;
 	}
 	
 	/**
 	 * Parses a single line in the authz file.
 	 * 
+	 * @param document Document to be updated with values parsed.
 	 * @param lineNumber Number of the line being processed.
 	 * @param line Content of the line.
 	 * @throws ParserException
 	 * @throws ApplicationException
 	 */
-	private static void parseLine(int lineNumber, String line) throws ParserException, ApplicationException {
+	private void parseLine(Document document, int lineNumber, String line) throws ParserException, ApplicationException {
 		switch(line.charAt(0)) {
 			case '#':
 				// Ignore comments
@@ -226,12 +232,12 @@ public class FileParser {
 					
 					String path = line.substring(1, line.length() - 1).trim();
 					
-					if (Document.findServerPath(path) != null) {
+					if (document.findServerPath(path) != null) {
 						throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicatepath", path));
 					}
 					
 					try {
-						currentPath = Document.addPath(null, path);
+						currentPath = document.addPath(null, path);
 					}
 					catch (ApplicationException ae) {
 						throw ParserException.generateException(lineNumber, ae.getMessage());
@@ -248,13 +254,13 @@ public class FileParser {
 					Repository repositoryObject = null;
 					
 					try {
-						repositoryObject = Document.addRepository(repository);
+						repositoryObject = document.addRepository(repository);
 					}
 					catch (ApplicationException ae) {
 						throw ParserException.generateException(lineNumber, ae.getMessage());
 					}
 					
-					if (Document.findPath(repositoryObject, path) != null) {
+					if (document.findPath(repositoryObject, path) != null) {
 						Object[] args = new Object[2];
 						args[0] = path;
 						args[1] = repository;
@@ -262,7 +268,7 @@ public class FileParser {
 					}
 					
 					try {
-						currentPath = Document.addPath(repositoryObject, path);
+						currentPath = document.addPath(repositoryObject, path);
 					}
 					catch (ApplicationException ae) {
 						throw ParserException.generateException(lineNumber, ae.getMessage());
@@ -282,12 +288,12 @@ public class FileParser {
 					String group = line.substring(1, index).trim();
 					String level = line.substring(index + 1).trim();
 					
-					if (Document.findGroup(group) == null) {
+					if (document.findGroup(group) == null) {
 						throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.undefinedgroup", group));
 					}
 					
 					try {
-						Document.addAccessRuleForGroup(currentPath, group, level);
+						document.addAccessRuleForGroup(currentPath, group, level);
 					}
 					catch (ApplicationException ae) {
 						throw ParserException.generateException(lineNumber, ae.getMessage());
@@ -331,11 +337,11 @@ public class FileParser {
 						}
 					}
 					
-					Group existingGroup = Document.findGroup(name);
+					Group existingGroup = document.findGroup(name);
 					
 					if (existingGroup == null) {
 						try {
-							Document.addGroupByName(name, groupMembers, userMembers);
+							document.addGroupByName(name, groupMembers, userMembers);
 						}
 						catch (ApplicationException ae) {
 							throw ParserException.generateException(lineNumber, ae.getMessage());
@@ -346,11 +352,11 @@ public class FileParser {
 						
 						if (existingGroup.getGroupMembers().isEmpty() && existingGroup.getUserMembers().isEmpty()) {
 							// Existing group does not have any members
-							Document.addMembersByName(existingGroup, groupMembers, userMembers);
+							document.addMembersByName(existingGroup, groupMembers, userMembers);
 							
 						}
 						else {
-							// Existing group already has memebers. This is likely a duplicate group definition
+							// Existing group already has members. This is likely a duplicate group definition
 							throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicategroup", name));
 						}
 					}
@@ -363,7 +369,7 @@ public class FileParser {
 					String level = line.substring(index + 1).trim();
 					
 					try {
-						Document.addAccessRuleForUser(currentPath, user, level);
+						document.addAccessRuleForUser(currentPath, user, level);
 					}
 					catch (ApplicationException ae) {
 						throw ParserException.generateException(lineNumber, ae.getMessage());

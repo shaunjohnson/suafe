@@ -29,6 +29,7 @@ import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.beans.AccessRule;
+import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
@@ -55,18 +56,21 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	private JPanel jContentPane = null;
 
 	private Message message = null;
-	
+
 	private AccessRuleForm accessRuleForm = null;
-	
+
 	private AccessRule accessRule = null;
+
+	private Document document = null;
 
 	/**
 	 * Default constructor.
 	 */
-	public EditAccessRuleDialog(AccessRule accessRule, Message message) {
+	public EditAccessRuleDialog(Document document, AccessRule accessRule, Message message) {
 		super();
 
-		this.accessRule = accessRule;		
+		this.document = document;
+		this.accessRule = accessRule;
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
@@ -82,7 +86,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
 			try {
 				AccessRule rule = getAccessRuleForm().editAccessRule();
-				
+
 				message.setUserObject(rule);
 				message.setState(Message.SUCCESS);
 				dispose();
@@ -112,12 +116,12 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 
 	private AccessRuleForm getAccessRuleForm() {
 		if (accessRuleForm == null) {
-			accessRuleForm = new AccessRuleForm(accessRule);
+			accessRuleForm = new AccessRuleForm(document, accessRule);
 		}
-		
+
 		return accessRuleForm;
 	}
-	
+
 	/**
 	 * This method initializes buttonPanel.
 	 * 
@@ -131,7 +135,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 
 		return buttonPanel;
 	}
-	
+
 	/**
 	 * This method initializes buttonSubPanel.
 	 * 
@@ -146,7 +150,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 
 		return buttonSubPanel;
 	}
-	
+
 	/**
 	 * This method initializes cancelButton.
 	 * 
@@ -159,7 +163,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 
 		return cancelButton;
 	}
-	
+
 	/**
 	 * This method initializes formPanel.
 	 * 
@@ -173,7 +177,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 
 		return formPanel;
 	}
-	
+
 	/**
 	 * This method initializes jContentPane
 	 * 

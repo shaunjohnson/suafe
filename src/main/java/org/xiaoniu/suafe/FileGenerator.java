@@ -42,13 +42,21 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  */
 public class FileGenerator {
 	
+	private Document document = null;
+	
+	public FileGenerator(Document document) {
+		super();
+		
+		this.document = document;
+	}
+	
 	/**
 	 * Generates authz content from the current document in memory.
 	 * 
 	 * @return Authz file content
 	 * @throws ApplicationException
 	 */
-	public static String generate() throws ApplicationException {
+	public String generate() throws ApplicationException {
 		StringBuffer output = null;
 		
 		try {
@@ -59,9 +67,9 @@ public class FileGenerator {
 			// Process group definitions
 			output.append("[groups]" + Constants.newline);
 			
-			Collections.sort(Document.getGroups());
+			Collections.sort(document.getGroups());
 			
-			for (Group group : Document.getGroups()) {	
+			for (Group group : document.getGroups()) {	
 				output.append(group.getName() + " = ");
 				
 				if (!group.getGroupMembers().isEmpty()) {
@@ -107,9 +115,9 @@ public class FileGenerator {
 			output.append(Constants.newline);
 			
 			// Process access rules
-			Collections.sort(Document.getPaths(), new PathComparator());
+			Collections.sort(document.getPaths(), new PathComparator());
 			
-			for (Path path : Document.getPaths()) {
+			for (Path path : document.getPaths()) {
 				if (path.getAccessRules().size() == 0) {
 					continue;
 				}
@@ -155,7 +163,7 @@ public class FileGenerator {
 	 * @param file File where authz content is to be written.
 	 * @throws ApplicationException
 	 */
-	public static void generate(File file) throws ApplicationException {
+	public void generate(File file) throws ApplicationException {
 		PrintWriter output = null;
 		
 		try {

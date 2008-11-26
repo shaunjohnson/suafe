@@ -30,9 +30,9 @@ public class RepositoryListModel extends BaseComboBoxModel {
 	/** 
 	 * Default constructor.
 	 */
-	public RepositoryListModel() {
+	public RepositoryListModel(Document document) {
 		super();
 		
-		itemList = Document.getRepositoryObjects();
+		itemList = document.getRepositoryObjects();
 	}
 }

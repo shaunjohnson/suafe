@@ -65,7 +65,8 @@ public class Printer implements Printable {
 		int retval = Printable.PAGE_EXISTS;
 		
 		try {
-			AttributedString mStyledText = new AttributedString(FileGenerator.generate());
+//			AttributedString mStyledText = new AttributedString(FileGenerator.generate());
+			AttributedString mStyledText = new AttributedString("not implemented");
 			
 			/* We'll assume that Jav2D is available.
 			 */
