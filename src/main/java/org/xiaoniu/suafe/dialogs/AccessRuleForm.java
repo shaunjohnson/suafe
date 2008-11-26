@@ -425,7 +425,9 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (headerPanel == null) {
 			headerPanel = new JPanel();
 
-			headerPanel.add(new JLabel(name, JLabel.CENTER));
+			if (name != null) {
+				headerPanel.add(new JLabel(name, JLabel.CENTER));
+			}
 		}
 
 		return headerPanel;
