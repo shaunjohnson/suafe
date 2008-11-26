@@ -476,6 +476,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				}
 			}
 
+			refreshUserDetails();
 			refreshGroupList(selectedGroup);
 			refreshAccessRuleTree(null);
 		}
