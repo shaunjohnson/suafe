@@ -208,7 +208,7 @@ public class AddProjectAccessRulesDialog extends ParentDialog implements ActionL
 	private javax.swing.JPanel getJContentPane() {
 		if (jContentPane == null) {
 			jContentPane = new JPanel(new BorderLayout());
-			jContentPane.add(new JLabel(ResourceUtil.getString("addaccessrule.instructions")), BorderLayout.NORTH);
+			jContentPane.add(new JLabel(ResourceUtil.getString("addprojectaccessrules.instructions")), BorderLayout.NORTH);
 			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
 			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 		}
@@ -238,7 +238,7 @@ public class AddProjectAccessRulesDialog extends ParentDialog implements ActionL
 	private void initialize() {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		this.setTitle(ResourceUtil.getString("addaccessrule.title"));
+		this.setTitle(ResourceUtil.getString("addprojectaccessrules.title"));
 		this.setContentPane(getJContentPane());
 
 		getRootPane().setDefaultButton(addButton);

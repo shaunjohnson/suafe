@@ -36,14 +36,24 @@ import org.xiaoniu.suafe.validators.Validator;
 
 public class AccessRuleForm extends JPanel implements ActionListener {
 
-	private static final long serialVersionUID = 2833102288856456199L;
-
 	private static final String ALL_USERS_ACTION = "ALL_USERS_ACTION";
 
 	private static final String GROUP_ACTION = "USER_ACTION";
 
-	private static final String USER_ACTION = "USER_ACTION";
+	private static final long serialVersionUID = 2833102288856456199L;
 
+	private static final String USER_ACTION = "USER_ACTION";
+	
+	private static final String TYPE_ADD_RULE = "addaccessrule";
+	
+	private static final String TYPE_ADD_PROJECT_RULES = "addprojectaccessrules";
+	
+	private static final String TYPE_EDIT_RULE = "editaccessrule";
+
+	private AccessRule accessRule = null;
+	
+	private String type = null;
+	
 	private ButtonGroup accessLevelButtonGroup = null;
 
 	private JButton addRepositoryButton = null;
@@ -65,6 +75,8 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	private JRadioButton groupRadioButton = null;
 
 	private ButtonGroup groupUserButtonGroup = null;
+
+	private JPanel headerPanel;
 
 	private JLabel levelOfAccessLabel = null;
 
@@ -102,12 +114,34 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 
 	private JRadioButton userRadioButton = null;
 
+	public AccessRuleForm(Repository repository, String path) {
+		super();
+
+		this.type = TYPE_ADD_RULE;
+		this.repository = repository;
+		this.path = path;
+
+		initialize();
+	}
+	
 	public AccessRuleForm(String name, Repository repository, String path) {
 		super();
 
+		this.type = TYPE_ADD_PROJECT_RULES;
 		this.name = name;
 		this.repository = repository;
 		this.path = path;
+
+		initialize();
+	}
+	
+	public AccessRuleForm(AccessRule accessRule) {
+		super();
+
+		this.type = TYPE_EDIT_RULE;
+		this.accessRule = accessRule;
+		this.repository = accessRule.getPath().getRepository();
+		this.path = accessRule.getPath().getPath();
 
 		initialize();
 	}
@@ -130,6 +164,133 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		else if (event.getActionCommand().equals(Constants.ADD_REPOSITORY_ACTION)) {
 			addRepository();
 		}
+	}
+
+	public AccessRule addAccessRule() throws ApplicationException {
+		Repository repository = (Repository) getRepositoryComboBox().getSelectedItem();
+		String pathString = (String) getPathTextField().getText();
+		String levelOfAccess = null;
+		Group group = null;
+		User user = null;
+		AccessRule rule = null;
+
+		Validator.validateNotEmptyString(ResourceUtil.getString(type + ".path"), pathString);
+
+		if (getReadWriteRadioButton().isSelected()) {
+			levelOfAccess = Constants.ACCESS_LEVEL_READWRITE;
+		}
+		else if (getReadOnlyRadioButton().isSelected()) {
+			levelOfAccess = Constants.ACCESS_LEVEL_READONLY;
+		}
+		else {
+			levelOfAccess = Constants.ACCESS_LEVEL_DENY_ACCESS;
+		}
+
+		if (getGroupRadioButton().isSelected()) {
+			group = (Group) getGroupComboBox().getSelectedItem();
+
+			Validator.validateNotNull(ResourceUtil.getString(type + ".group"), group);
+		}
+		else if (getUserRadioButton().isSelected()) {
+			user = (User) getUserComboBox().getSelectedItem();
+
+			Validator.validateNotNull(ResourceUtil.getString(type + ".user"), user);
+		}
+		else if (getAllUsersRadioButton().isSelected()) {
+			user = Document.addUser("*");
+		}
+
+		if (group != null) {
+			if (Document.findGroupAccessRule(repository, pathString, group) == null) {
+				rule = Document.addAccessRuleForGroup(repository, pathString, group, levelOfAccess);
+			}
+			else {
+				throw new ApplicationException(ResourceUtil.getString(type + ".error.grouprulealreadyexists"));
+			}
+		}
+		else if (user != null) {
+			if (Document.findUserAccessRule(repository, pathString, user) == null) {
+				rule = Document.addAccessRuleForUser(repository, pathString, user, levelOfAccess);
+			}
+			else {
+				throw new ApplicationException(ResourceUtil.getString(type + ".error.userrulealreadyexists"));
+			}
+		}
+		else {
+			throw new ApplicationException(ResourceUtil.getString(type + ".error.erroraddingrule"));
+		}
+		
+		return rule;
+	}
+	
+	public AccessRule editAccessRule() throws ApplicationException {
+		Repository repository = (Repository)getRepositoryComboBox().getSelectedItem();								
+		String pathString = (String)getPathTextField().getText();
+		String levelOfAccess = null;
+		Group group = null;
+		User user = null;
+		
+		Validator.validateNotEmptyString(ResourceUtil.getString("editaccessrule.path"), pathString);
+		
+		if (getReadWriteRadioButton().isSelected()) {
+			levelOfAccess = Constants.ACCESS_LEVEL_READWRITE;
+		}
+		else if (getReadOnlyRadioButton().isSelected()) {
+			levelOfAccess = Constants.ACCESS_LEVEL_READONLY;
+		}
+		else {
+			levelOfAccess = Constants.ACCESS_LEVEL_DENY_ACCESS;
+		}
+		
+		if (getGroupRadioButton().isSelected()) {
+			group = (Group)getGroupComboBox().getSelectedItem();
+			
+			Validator.validateNotNull(ResourceUtil.getString("editaccessrule.group"), group);
+		}
+		else if (getUserRadioButton().isSelected()) {
+			user = (User)getUserComboBox().getSelectedItem();
+			
+			Validator.validateNotNull(ResourceUtil.getString("editaccessrule.user"), user);
+		}
+		else if (getAllUsersRadioButton().isSelected()) {
+			user = Document.addUser("*");
+		}
+		
+		if (group != null) {
+			AccessRule foundRule = Document.findGroupAccessRule(repository, pathString, group);
+			
+			if (foundRule == null || accessRule == foundRule) {
+				accessRule.getPath().removeAccessRule(accessRule);
+				accessRule.setPath(Document.addPath(repository, pathString));
+				accessRule.getPath().addAccessRule(accessRule);
+				accessRule.setGroup(group);
+				accessRule.setUser(null);
+				accessRule.setLevel(levelOfAccess);
+			}
+			else {
+				throw new ApplicationException(ResourceUtil.getString("editaccessrule.error.grouprulealreadyexists"));
+			}
+		}
+		else if (user != null) {
+			AccessRule foundRule = Document.findUserAccessRule(repository, pathString, user);
+			
+			if (foundRule == null || accessRule == foundRule) {
+				accessRule.getPath().removeAccessRule(accessRule);
+				accessRule.setPath(Document.addPath(repository, pathString));
+				accessRule.getPath().addAccessRule(accessRule);
+				accessRule.setGroup(null);
+				accessRule.setUser(user);
+				accessRule.setLevel(levelOfAccess);
+			}
+			else {
+				throw new ApplicationException(ResourceUtil.getString("editaccessrule.error.userrulealreadyexists"));
+			}					
+		}	
+		else {
+			throw new ApplicationException(ResourceUtil.getString("editaccessrule.error.errorsavingrule"));
+		}
+		
+		return accessRule;
 	}
 
 	/**
@@ -158,8 +319,8 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			addRepositoryButton.addActionListener(this);
 			addRepositoryButton.setActionCommand(Constants.ADD_REPOSITORY_ACTION);
 			addRepositoryButton.setPreferredSize(new Dimension(56, 25));
-			addRepositoryButton.setText(ResourceUtil.getString("addaccessrule.addrepository"));
-			addRepositoryButton.setToolTipText(ResourceUtil.getString("addaccessrule.addrepository.tooltip"));
+			addRepositoryButton.setText(ResourceUtil.getString(type + ".addrepository"));
+			addRepositoryButton.setToolTipText(ResourceUtil.getString(type + ".addrepository.tooltip"));
 			addRepositoryButton.setFont(new Font("Dialog", Font.BOLD, 12));
 		}
 
@@ -177,7 +338,15 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			allUsersRadioButton.addActionListener(this);
 			allUsersRadioButton.setActionCommand(ALL_USERS_ACTION);
 			allUsersRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
-			allUsersRadioButton.setText(ResourceUtil.getString("addaccessrule.applyto.allusers"));
+			allUsersRadioButton.setText(ResourceUtil.getString(type + ".applyto.allusers"));
+			
+			if (accessRule != null) {
+				User user = accessRule.getUser();
+				
+				if (user != null && user.getName().equals("*")) {
+					allUsersRadioButton.setSelected(true);
+				}
+			}
 		}
 
 		return allUsersRadioButton;
@@ -191,7 +360,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	private JPanel getApplyToPanel() {
 		if (applyToPanel == null) {
 			applyToLabel = new JLabel();
-			applyToLabel.setText(ResourceUtil.getString("addaccessrule.applyto"));
+			applyToLabel.setText(ResourceUtil.getString(type + ".applyto"));
 			applyToLabel.setPreferredSize(new Dimension(100, 15));
 
 			applyToPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -237,6 +406,10 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			denyAccessRadioButton = new JRadioButton();
 			denyAccessRadioButton.setText(ResourceUtil.getString("accesslevel.denyaccess"));
 			denyAccessRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			
+			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_DENY_ACCESS)) {
+				denyAccessRadioButton.setSelected(true);
+			}
 		}
 
 		return denyAccessRadioButton;
@@ -253,6 +426,10 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			groupComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
 			groupComboBox.setBackground(Color.white);
 			groupComboBox.setFont(UserPreferences.getUserFont());
+			
+			if (accessRule != null && accessRule.getGroup() != null) {
+				groupComboBox.setSelectedItem(accessRule.getGroup());
+			}
 		}
 
 		return groupComboBox;
@@ -268,7 +445,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			groupLabel = new JLabel();
 			groupLabel.setPreferredSize(new Dimension(100, 15));
 			groupLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-			groupLabel.setText(ResourceUtil.getString("addaccessrule.group"));
+			groupLabel.setText(ResourceUtil.getString(type + ".group"));
 
 			groupPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			groupPanel.add(groupLabel);
@@ -288,12 +465,30 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			groupRadioButton = new JRadioButton();
 			groupRadioButton.addActionListener(this);
 			groupRadioButton.setActionCommand(GROUP_ACTION);
-			groupRadioButton.setText(ResourceUtil.getString("addaccessrule.applyto.group"));
+			groupRadioButton.setText(ResourceUtil.getString(type + ".applyto.group"));
 			groupRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
-			groupRadioButton.setSelected(true);
+			
+			if (accessRule != null && accessRule.getGroup() != null) {
+				groupRadioButton.setSelected(true);
+			}
+			else { 
+				groupRadioButton.setSelected(true);
+			}
 		}
 
 		return groupRadioButton;
+	}
+
+	private JPanel getHeaderPanel() {
+		if (headerPanel == null) {
+			headerPanel = new JPanel();
+
+			if (name != null) {
+				headerPanel.add(new JLabel(name, JLabel.CENTER));
+			}
+		}
+
+		return headerPanel;
 	}
 
 	/**
@@ -304,7 +499,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	private JPanel getLevelOfAccessPanel() {
 		if (levelOfAccessPanel == null) {
 			levelOfAccessLabel = new JLabel();
-			levelOfAccessLabel.setText(ResourceUtil.getString("addaccessrule.level"));
+			levelOfAccessLabel.setText(ResourceUtil.getString(type + ".level"));
 			levelOfAccessLabel.setPreferredSize(new Dimension(100, 15));
 
 			levelOfAccessPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -344,7 +539,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	private JPanel getPathPanel() {
 		if (pathPanel == null) {
 			pathLabel = new JLabel();
-			pathLabel.setText(ResourceUtil.getString("addaccessrule.path"));
+			pathLabel.setText(ResourceUtil.getString(type + ".path"));
 			pathLabel.setPreferredSize(new Dimension(100, 15));
 
 			pathPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -380,6 +575,10 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			readOnlyRadioButton = new JRadioButton();
 			readOnlyRadioButton.setText(ResourceUtil.getString("accesslevel.readonly"));
 			readOnlyRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			
+			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY)) {
+				readOnlyRadioButton.setSelected(true);
+			}
 		}
 
 		return readOnlyRadioButton;
@@ -395,7 +594,13 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			readWriteRadioButton = new JRadioButton();
 			readWriteRadioButton.setText(ResourceUtil.getString("accesslevel.readwrite"));
 			readWriteRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
-			readWriteRadioButton.setSelected(true);
+			
+			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READWRITE)) {
+				readWriteRadioButton.setSelected(true);
+			}
+			else {
+				readWriteRadioButton.setSelected(true);
+			}
 		}
 		return readWriteRadioButton;
 	}
@@ -421,77 +626,6 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		return repositoryComboBox;
 	}
 
-	private JPanel getHeaderPanel() {
-		if (headerPanel == null) {
-			headerPanel = new JPanel();
-
-			if (name != null) {
-				headerPanel.add(new JLabel(name, JLabel.CENTER));
-			}
-		}
-
-		return headerPanel;
-	}
-
-	public AccessRule addAccessRule() throws ApplicationException {
-		Repository repository = (Repository) getRepositoryComboBox().getSelectedItem();
-		String pathString = (String) getPathTextField().getText();
-		String levelOfAccess = null;
-		Group group = null;
-		User user = null;
-		AccessRule rule = null;
-
-		Validator.validateNotEmptyString(ResourceUtil.getString("addaccessrule.path"), pathString);
-
-		if (getReadWriteRadioButton().isSelected()) {
-			levelOfAccess = Constants.ACCESS_LEVEL_READWRITE;
-		}
-		else if (getReadOnlyRadioButton().isSelected()) {
-			levelOfAccess = Constants.ACCESS_LEVEL_READONLY;
-		}
-		else {
-			levelOfAccess = Constants.ACCESS_LEVEL_DENY_ACCESS;
-		}
-
-		if (getGroupRadioButton().isSelected()) {
-			group = (Group) getGroupComboBox().getSelectedItem();
-
-			Validator.validateNotNull(ResourceUtil.getString("addaccessrule.group"), group);
-		}
-		else if (getUserRadioButton().isSelected()) {
-			user = (User) getUserComboBox().getSelectedItem();
-
-			Validator.validateNotNull(ResourceUtil.getString("addaccessrule.user"), user);
-		}
-		else if (getAllUsersRadioButton().isSelected()) {
-			user = Document.addUser("*");
-		}
-
-		if (group != null) {
-			if (Document.findGroupAccessRule(repository, pathString, group) == null) {
-				rule = Document.addAccessRuleForGroup(repository, pathString, group, levelOfAccess);
-			}
-			else {
-				throw new ApplicationException(ResourceUtil.getString("addaccessrule.error.grouprulealreadyexists"));
-			}
-		}
-		else if (user != null) {
-			if (Document.findUserAccessRule(repository, pathString, user) == null) {
-				rule = Document.addAccessRuleForUser(repository, pathString, user, levelOfAccess);
-			}
-			else {
-				throw new ApplicationException(ResourceUtil.getString("addaccessrule.error.userrulealreadyexists"));
-			}
-		}
-		else {
-			throw new ApplicationException(ResourceUtil.getString("addaccessrule.error.erroraddingrule"));
-		}
-		
-		return rule;
-	}
-
-	private JPanel headerPanel;
-
 	/**
 	 * This method initializes repositoryLabel.
 	 * 
@@ -501,7 +635,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (repositoryPanel == null) {
 			repositoryLabel = new JLabel();
 			repositoryLabel.setPreferredSize(new Dimension(100, 15));
-			repositoryLabel.setText(ResourceUtil.getString("addaccessrule.repository"));
+			repositoryLabel.setText(ResourceUtil.getString(type + ".repository"));
 
 			repositoryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			repositoryPanel.add(repositoryLabel);
@@ -523,6 +657,10 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			userComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
 			userComboBox.setBackground(Color.white);
 			userComboBox.setFont(UserPreferences.getUserFont());
+			
+			if (accessRule != null && accessRule.getUser() != null) {
+				userComboBox.setSelectedItem(accessRule.getUser());
+			}
 		}
 
 		return userComboBox;
@@ -536,7 +674,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	private JPanel getUserPanel() {
 		if (userPanel == null) {
 			userLabel = new JLabel();
-			userLabel.setText(ResourceUtil.getString("addaccessrule.user"));
+			userLabel.setText(ResourceUtil.getString(type + ".user"));
 			userLabel.setPreferredSize(new Dimension(100, 15));
 			userLabel.setHorizontalAlignment(SwingConstants.TRAILING);
 
@@ -559,7 +697,11 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			userRadioButton.addActionListener(this);
 			userRadioButton.setActionCommand(USER_ACTION);
 			userRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
-			userRadioButton.setText(ResourceUtil.getString("addaccessrule.applyto.user"));
+			userRadioButton.setText(ResourceUtil.getString(type + ".applyto.user"));
+			
+			if (accessRule != null && accessRule.getUser() != null && !accessRule.getUser().getName().equals("*")) {
+				userRadioButton.setSelected(true);
+			}
 		}
 
 		return userRadioButton;

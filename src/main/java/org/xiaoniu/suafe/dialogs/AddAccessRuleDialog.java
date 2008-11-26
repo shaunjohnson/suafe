@@ -130,7 +130,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 
 	private AccessRuleForm getAccessRuleForm() {
 		if (accessRuleForm == null) {
-			accessRuleForm = new AccessRuleForm(null, repository, path);
+			accessRuleForm = new AccessRuleForm(repository, path);
 		}
 		
 		return accessRuleForm;
