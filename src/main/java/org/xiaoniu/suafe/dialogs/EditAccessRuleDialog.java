@@ -42,7 +42,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 
 	private static final long serialVersionUID = -1001510687982587543L;
 
-	private JButton addButton = null;
+	private JButton saveButton = null;
 
 	private JPanel buttonPanel = null;
 
@@ -79,7 +79,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	 * @param event ActionEvent object.
 	 */
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals(Constants.ADD_ACTION)) {
+		if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
 			try {
 				AccessRule rule = getAccessRuleForm().editAccessRule();
 				
@@ -98,16 +98,16 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	}
 
 	/**
-	 * This method initializes addButton.
+	 * This method initializes saveButton.
 	 * 
 	 * @return javax.swing.JButton
 	 */
-	private JButton getAddButton() {
-		if (addButton == null) {
-			addButton = createButton("button.add", Constants.ADD_ACTION, this);
+	private JButton getSaveButton() {
+		if (saveButton == null) {
+			saveButton = createButton("button.save", Constants.SAVE_ACTION, this);
 		}
 
-		return addButton;
+		return saveButton;
 	}
 
 	private AccessRuleForm getAccessRuleForm() {
@@ -140,7 +140,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	private JPanel getButtonSubPanel() {
 		if (buttonSubPanel == null) {
 			buttonSubPanel = new JPanel();
-			buttonSubPanel.add(getAddButton());
+			buttonSubPanel.add(getSaveButton());
 			buttonSubPanel.add(getCancelButton());
 		}
 
@@ -199,7 +199,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 		this.setTitle(ResourceUtil.getString("editaccessrule.title"));
 		this.setContentPane(getJContentPane());
 
-		getRootPane().setDefaultButton(addButton);
+		getRootPane().setDefaultButton(saveButton);
 
 		this.pack();
 		this.setModal(true);

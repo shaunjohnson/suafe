@@ -252,14 +252,16 @@ public class Constants {
 	//
 	// Font styles
 	//
-	public static final String FONT_MONOSPACED = "Monospaced";
+	public static final String FONT_FAMILY_MONOSPACED = "Monospaced";
 	
-	public static final String FONT_SERIF = "Serif";
+	public static final String FONT_FAMILY_SERIF = "Serif";
 	
-	public static final String FONT_SANS_SERIF = "SansSerif";
+	public static final String FONT_FAMILY_SANS_SERIF = "SansSerif";
 	
 	//
 	// Font instances
 	//
-	public static final Font FONT_PLAIN = new Font(null, Font.PLAIN, 12);
+	public static final Font FONT_MONOSPACE = new Font("Courier New", Font.PLAIN, 12);
+	
+	public static final Font FONT_PLAIN = new Font("Dialog", Font.PLAIN, 12);
 }

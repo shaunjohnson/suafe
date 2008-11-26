@@ -312,13 +312,13 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			deleteAccessRule();
 		}
 		else if (action.equals(Constants.MONOSPACED_ACTION)) {
-			changeFont(Constants.FONT_MONOSPACED);
+			changeFont(Constants.FONT_FAMILY_MONOSPACED);
 		}
 		else if (action.equals(Constants.SANS_SERIF_ACTION)) {
-			changeFont(Constants.FONT_SANS_SERIF);
+			changeFont(Constants.FONT_FAMILY_SANS_SERIF);
 		}
 		else if (action.equals(Constants.SERIF_ACTION)) {
-			changeFont(Constants.FONT_SERIF);
+			changeFont(Constants.FONT_FAMILY_SERIF);
 		}
 		else if (action.equals(Constants.OPEN_FILE_ACTION + "_0")) {
 			fileOpen(0);

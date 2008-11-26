@@ -337,11 +337,11 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (monospacedRadioButtonMenuItem == null) {
 			monospacedRadioButtonMenuItem = new JRadioButtonMenuItem();
 			monospacedRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.monospaced"));
-			monospacedRadioButtonMenuItem.setFont(new Font(Constants.FONT_MONOSPACED, Font.BOLD, 12));
+			monospacedRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_MONOSPACED, Font.BOLD, 12));
 			monospacedRadioButtonMenuItem.addActionListener(actionListener);
 			monospacedRadioButtonMenuItem.setActionCommand(Constants.MONOSPACED_ACTION);
 			
-			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_MONOSPACED)) {
+			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_MONOSPACED)) {
 				monospacedRadioButtonMenuItem.setSelected(true);
 			}
 		}
@@ -508,11 +508,11 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (sansSerifRadioButtonMenuItem == null) {
 			sansSerifRadioButtonMenuItem = new JRadioButtonMenuItem();
 			sansSerifRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.sanserif"));
-			sansSerifRadioButtonMenuItem.setFont(new Font(Constants.FONT_SANS_SERIF, Font.BOLD, 12));
+			sansSerifRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_SANS_SERIF, Font.BOLD, 12));
 			sansSerifRadioButtonMenuItem.addActionListener(actionListener);
 			sansSerifRadioButtonMenuItem.setActionCommand(Constants.SANS_SERIF_ACTION);
 			
-			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_SANS_SERIF)) {
+			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_SANS_SERIF)) {
 				sansSerifRadioButtonMenuItem.setSelected(true);
 			}
 		}
@@ -564,11 +564,11 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (serifRadioButtonMenuItem == null) {
 			serifRadioButtonMenuItem = new JRadioButtonMenuItem();
 			serifRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.serif"));
-			serifRadioButtonMenuItem.setFont(new Font(Constants.FONT_SERIF, Font.BOLD, 12));
+			serifRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_SERIF, Font.BOLD, 12));
 			serifRadioButtonMenuItem.addActionListener(actionListener);
 			serifRadioButtonMenuItem.setActionCommand(Constants.SERIF_ACTION);
 			
-			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_SERIF)) {
+			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_SERIF)) {
 				serifRadioButtonMenuItem.setSelected(true);
 			}
 		}

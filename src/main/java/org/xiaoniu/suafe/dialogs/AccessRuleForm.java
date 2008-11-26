@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -201,20 +202,18 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		}
 
 		if (group != null) {
-			if (Document.findGroupAccessRule(repository, pathString, group) == null) {
-				rule = Document.addAccessRuleForGroup(repository, pathString, group, levelOfAccess);
-			}
-			else {
+			if (Document.findGroupAccessRule(repository, pathString, group) != null) {
 				throw new ApplicationException(ResourceUtil.getString(type + ".error.grouprulealreadyexists"));
 			}
+
+			rule = Document.addAccessRuleForGroup(repository, pathString, group, levelOfAccess);
 		}
 		else if (user != null) {
-			if (Document.findUserAccessRule(repository, pathString, user) == null) {
-				rule = Document.addAccessRuleForUser(repository, pathString, user, levelOfAccess);
-			}
-			else {
+			if (Document.findUserAccessRule(repository, pathString, user) != null) {
 				throw new ApplicationException(ResourceUtil.getString(type + ".error.userrulealreadyexists"));
 			}
+
+			rule = Document.addAccessRuleForUser(repository, pathString, user, levelOfAccess);
 		}
 		else {
 			throw new ApplicationException(ResourceUtil.getString(type + ".error.erroraddingrule"));
@@ -269,6 +268,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 				if (accessRule.getUser() != null) {
 					accessRule.getUser().removeAccessRule(accessRule);
 				}
+
 				accessRule.setUser(null);
 				accessRule.setLevel(levelOfAccess);
 			}
@@ -348,7 +348,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			allUsersRadioButton = new JRadioButton();
 			allUsersRadioButton.addActionListener(this);
 			allUsersRadioButton.setActionCommand(ALL_USERS_ACTION);
-			allUsersRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			allUsersRadioButton.setFont(Constants.FONT_PLAIN);
 			allUsersRadioButton.setText(ResourceUtil.getString(type + ".applyto.allusers"));
 
 			if (accessRule != null) {
@@ -416,7 +416,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (denyAccessRadioButton == null) {
 			denyAccessRadioButton = new JRadioButton();
 			denyAccessRadioButton.setText(ResourceUtil.getString("accesslevel.denyaccess"));
-			denyAccessRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			denyAccessRadioButton.setFont(Constants.FONT_PLAIN);
 
 			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_DENY_ACCESS)) {
 				denyAccessRadioButton.setSelected(true);
@@ -433,10 +433,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	 */
 	private JComboBox getGroupComboBox() {
 		if (groupComboBox == null) {
-			groupComboBox = new JComboBox(new GroupListModel());
-			groupComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
-			groupComboBox.setBackground(Color.white);
-			groupComboBox.setFont(UserPreferences.getUserFont());
+			groupComboBox = createComboBox(new GroupListModel());
 
 			if (accessRule != null && accessRule.getGroup() != null) {
 				groupComboBox.setSelectedItem(accessRule.getGroup());
@@ -477,7 +474,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			groupRadioButton.addActionListener(this);
 			groupRadioButton.setActionCommand(GROUP_ACTION);
 			groupRadioButton.setText(ResourceUtil.getString(type + ".applyto.group"));
-			groupRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			groupRadioButton.setFont(Constants.FONT_PLAIN);
 
 			if (accessRule != null) {
 				if (accessRule.getGroup() != null) {
@@ -587,7 +584,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (readOnlyRadioButton == null) {
 			readOnlyRadioButton = new JRadioButton();
 			readOnlyRadioButton.setText(ResourceUtil.getString("accesslevel.readonly"));
-			readOnlyRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			readOnlyRadioButton.setFont(Constants.FONT_PLAIN);
 
 			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY)) {
 				readOnlyRadioButton.setSelected(true);
@@ -606,7 +603,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (readWriteRadioButton == null) {
 			readWriteRadioButton = new JRadioButton();
 			readWriteRadioButton.setText(ResourceUtil.getString("accesslevel.readwrite"));
-			readWriteRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			readWriteRadioButton.setFont(Constants.FONT_PLAIN);
 
 			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READWRITE)) {
 				readWriteRadioButton.setSelected(true);
@@ -625,15 +622,11 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	 */
 	private JComboBox getRepositoryComboBox() {
 		if (repositoryComboBox == null) {
-			repositoryComboBox = new JComboBox(new RepositoryListModel());
+			repositoryComboBox = createComboBox(new RepositoryListModel());
 
 			if (repository != null) {
 				repositoryComboBox.setSelectedItem(repository);
 			}
-
-			repositoryComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
-			repositoryComboBox.setBackground(Color.white);
-			repositoryComboBox.setFont(UserPreferences.getUserFont());
 		}
 
 		return repositoryComboBox;
@@ -659,6 +652,19 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		return repositoryPanel;
 	}
 
+	/** 
+	 * Create a JComboBox with a white background and current font.
+	 * @param model
+	 * @return
+	 */
+	private JComboBox createComboBox(ComboBoxModel model) {
+		JComboBox comboBox = new JComboBox(model);
+		comboBox.setBackground(Color.white);
+		comboBox.setFont(UserPreferences.getUserFont());
+
+		return comboBox;
+	}
+
 	/**
 	 * This method initializes userComboBox.
 	 * 
@@ -666,10 +672,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 	 */
 	private JComboBox getUserComboBox() {
 		if (userComboBox == null) {
-			userComboBox = new JComboBox(new UserListModel());
-			userComboBox.setFont(new Font("Dialog", Font.PLAIN, 12));
-			userComboBox.setBackground(Color.white);
-			userComboBox.setFont(UserPreferences.getUserFont());
+			userComboBox = createComboBox(new UserListModel());
 
 			if (accessRule != null && accessRule.getUser() != null) {
 				userComboBox.setSelectedItem(accessRule.getUser());
@@ -709,7 +712,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			userRadioButton = new JRadioButton();
 			userRadioButton.addActionListener(this);
 			userRadioButton.setActionCommand(USER_ACTION);
-			userRadioButton.setFont(new Font("Dialog", Font.PLAIN, 12));
+			userRadioButton.setFont(Constants.FONT_PLAIN);
 			userRadioButton.setText(ResourceUtil.getString(type + ".applyto.user"));
 
 			if (accessRule != null && accessRule.getUser() != null && !accessRule.getUser().getName().equals("*")) {

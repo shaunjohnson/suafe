@@ -248,7 +248,7 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 			contentEditorPane.addHyperlinkListener(this);
 			
 			if (contentType == Constants.MIME_TEXT) {
-				contentEditorPane.setFont(new Font("Courier New", Font.PLAIN, 12));
+				contentEditorPane.setFont(Constants.FONT_MONOSPACE);
 			}
 		}
 		return contentEditorPane;
