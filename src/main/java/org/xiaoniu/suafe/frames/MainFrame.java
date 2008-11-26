@@ -1030,17 +1030,29 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 					}
 				}
 
-				Message message = new Message();
-
-				JDialog dialog = new EditAccessRuleDialog(accessRule, message);
-				DialogUtil.center(this, dialog);
-				dialog.setVisible(true);
-
-				if (message.getState() == Message.SUCCESS) {
-					Document.setUnsavedChanges();
-					refreshUserDetails();
-					refreshGroupDetails();
-					refreshAccessRuleTree(null);
+				if (accessRule == null) {
+					displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessruleforedit"));					
+				}
+				else {
+					Message message = new Message();
+					Path path = accessRule.getPath();
+					
+					JDialog dialog = new EditAccessRuleDialog(accessRule, message);
+					DialogUtil.center(this, dialog);
+					dialog.setVisible(true);
+	
+					if (message.getState() == Message.SUCCESS) {
+						Document.setUnsavedChanges();
+						refreshUserDetails();
+						refreshGroupDetails();
+						
+						if (accessRule.getPath().equals(path)) {
+							refreshAccessRuleTree(path);
+						}
+						else {
+							refreshAccessRuleTree(null);
+						}
+					}
 				}
 			}
 			catch (ApplicationException ae) {
