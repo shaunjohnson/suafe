@@ -24,10 +24,6 @@ public abstract class GenericReport {
 	
 	protected Document document = null;
 	
-	public GenericReport() {
-		super();
-	}
-	
 	public GenericReport(Document document) {
 		super();
 		

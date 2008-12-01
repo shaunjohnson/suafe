@@ -45,7 +45,7 @@ public class ResourceUtil {
 	 */
 	protected static ResourceBundle getBundle() {
 		if (bundle == null) {
-			bundle = ResourceBundle.getBundle(Constants.RESOURCE_BUNDLE);
+			bundle = ResourceBundle.getBundle(Constants.PATH_RESOURCE_BUNDLE);
 		}
 		
 		return bundle;
@@ -107,91 +107,91 @@ public class ResourceUtil {
 	//
 	// Images and Icons
 	//
-	public static final Image serverImage = Toolkit.getDefaultToolkit().getImage(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Server16.gif"));
+	public static final Image serverImage = Toolkit.getDefaultToolkit().getImage(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Server16.gif"));
 	
-	public static final ImageIcon aboutIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/About16.gif"));
+	public static final ImageIcon aboutIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/About16.gif"));
 
-	public static final ImageIcon accessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Reversed.gif"));
+	public static final ImageIcon accessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Reversed.gif"));
 	
-	public static final ImageIcon listAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Leaf16.gif"));
+	public static final ImageIcon listAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Leaf16.gif"));
 	
-	public static final ImageIcon fullSizeAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Reversed.gif"));
+	public static final ImageIcon fullSizeAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Reversed.gif"));
 	
-	public static final ImageIcon addAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleAdd.gif"));
+	public static final ImageIcon addAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/AccessRuleAdd.gif"));
 	
-	public static final ImageIcon addProjectAccessRulesIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleAdd.gif"));
+	public static final ImageIcon addProjectAccessRulesIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/AccessRuleAdd.gif"));
 	
-	public static final ImageIcon addGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/GroupAdd.gif"));
+	public static final ImageIcon addGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/GroupAdd.gif"));
 	
-	public static final ImageIcon addRemoveMembersIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Preferences16.gif"));
+	public static final ImageIcon addRemoveMembersIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Preferences16.gif"));
 	
-	public static final ImageIcon addUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/UserAdd.gif"));
+	public static final ImageIcon addUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/UserAdd.gif"));
 	
-	public static final ImageIcon assignIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Forward24.gif"));
+	public static final ImageIcon assignIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Forward24.gif"));
 	
-	public static final ImageIcon changeMembershipIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Preferences16.gif"));
+	public static final ImageIcon changeMembershipIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Preferences16.gif"));
 	
-	public static final ImageIcon cloneGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Clone.gif"));
+	public static final ImageIcon cloneGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Clone.gif"));
 	
-	public static final ImageIcon cloneUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Clone.gif"));
+	public static final ImageIcon cloneUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Clone.gif"));
 	
-	public static final ImageIcon deleteAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleDelete.gif"));
+	public static final ImageIcon deleteAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/AccessRuleDelete.gif"));
 	
-	public static final ImageIcon deleteGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/GroupDelete.gif"));
+	public static final ImageIcon deleteGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/GroupDelete.gif"));
 	
-	public static final ImageIcon deleteUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/UserDelete.gif"));
+	public static final ImageIcon deleteUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/UserDelete.gif"));
 	
-	public static final ImageIcon denyAccessIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/DenyAccess16.gif"));
+	public static final ImageIcon denyAccessIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/DenyAccess16.gif"));
 	
-	public static final ImageIcon editAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/AccessRuleEdit.gif"));
+	public static final ImageIcon editAccessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/AccessRuleEdit.gif"));
 	
-	public static final ImageIcon editGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/GroupEdit.gif"));
+	public static final ImageIcon renameGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/GroupEdit.gif"));
 	
-	public static final ImageIcon editUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/UserEdit.gif"));
+	public static final ImageIcon renameUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/UserEdit.gif"));
 	
-	public static final ImageIcon fullSizeGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/MorePeople.gif"));
+	public static final ImageIcon fullSizeGroupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/MorePeople.gif"));
 	
-	public static final ImageIcon fullSizeUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/PlainPeople.gif"));
+	public static final ImageIcon fullSizeUserIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/PlainPeople.gif"));
 	
-	public static final ImageIcon groupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ListGroup.gif"));
+	public static final ImageIcon groupIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/ListGroup.gif"));
 	
-	public static final ImageIcon helpIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Help16.gif"));
+	public static final ImageIcon helpIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Help16.gif"));
 	
-	public static final ImageIcon licenseIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/History16.gif"));
+	public static final ImageIcon licenseIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/History16.gif"));
 	
-	public static final ImageIcon newFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/New16.gif"));
+	public static final ImageIcon newFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/New16.gif"));
 	
-	public static final ImageIcon openFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Open16.gif"));
+	public static final ImageIcon openFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Open16.gif"));
 	
-	public static final ImageIcon pathIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Path16.gif"));
+	public static final ImageIcon pathIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Path16.gif"));
 	
-	public static final ImageIcon pathEditIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/PathEdit.gif"));
+	public static final ImageIcon pathEditIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/PathEdit.gif"));
 	
-	public static final ImageIcon pathDeleteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/PathDelete.gif"));
+	public static final ImageIcon pathDeleteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/PathDelete.gif"));
 	
-	public static final ImageIcon previewIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Preview.gif"));
+	public static final ImageIcon previewIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Preview.gif"));
 	
-	public static final ImageIcon printIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Print16.gif"));
+	public static final ImageIcon printIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Print16.gif"));
 	
-	public static final ImageIcon readOnlyIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ReadOnly16.gif"));
+	public static final ImageIcon readOnlyIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/ReadOnly16.gif"));
 	
-	public static final ImageIcon readWriteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ReadWrite16.gif"));
+	public static final ImageIcon readWriteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/ReadWrite16.gif"));
 
-	public static final ImageIcon reloadIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Refresh16.gif"));
+	public static final ImageIcon reloadIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Refresh16.gif"));
 	
-	public static final ImageIcon repositoryIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Repository16.gif"));
+	public static final ImageIcon repositoryIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Repository16.gif"));
 	
-	public static final ImageIcon repositoryEditIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/RepositoryEdit.gif"));
+	public static final ImageIcon repositoryEditIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/RepositoryEdit.gif"));
 	
-	public static final ImageIcon repositoryDeleteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/RepositoryDelete.gif"));
+	public static final ImageIcon repositoryDeleteIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/RepositoryDelete.gif"));
 	
-	public static final ImageIcon saveFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Save16.gif"));
+	public static final ImageIcon saveFileIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Save16.gif"));
 	
-	public static final ImageIcon saveFileAsIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/SaveAs16.gif"));
+	public static final ImageIcon saveFileAsIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/SaveAs16.gif"));
 
-	public static final ImageIcon serverIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Server16.gif"));
+	public static final ImageIcon serverIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Server16.gif"));
 	
-	public static final ImageIcon unassignIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/Back24.gif"));
+	public static final ImageIcon unassignIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Back24.gif"));
 	
-	public static final ImageIcon userIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.IMAGE_DIR + "/ListUser.gif"));
+	public static final ImageIcon userIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/ListUser.gif"));
 }

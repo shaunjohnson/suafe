@@ -230,11 +230,11 @@ public class Application {
 			
 			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.cloneuser.help")));
 			
-			swtch = new Switch(Constants.ARGS_EDIT_USER)
+			swtch = new Switch(Constants.ARGS_RENAME_USER)
 				.setShortFlag(JSAP.NO_SHORTFLAG) 
-				.setLongFlag(Constants.ARGS_EDIT_USER);
+				.setLongFlag(Constants.ARGS_RENAME_USER);
 			
-			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.edituser.help")));
+			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.renameuser.help")));
 			
 			swtch = new Switch(Constants.ARGS_DELETE_USER)
 				.setShortFlag(JSAP.NO_SHORTFLAG) 
@@ -290,11 +290,11 @@ public class Application {
 			
 			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.clonegroup.help")));
 
-			swtch = new Switch(Constants.ARGS_EDIT_GROUP)
+			swtch = new Switch(Constants.ARGS_RENAME_GROUP)
 				.setShortFlag(JSAP.NO_SHORTFLAG) 
-				.setLongFlag(Constants.ARGS_EDIT_GROUP);
+				.setLongFlag(Constants.ARGS_RENAME_GROUP);
 			
-			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.editgroup.help")));
+			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.renamegroup.help")));
 			
 			swtch = new Switch(Constants.ARGS_DELETE_GROUP)
 				.setShortFlag(JSAP.NO_SHORTFLAG) 
@@ -350,11 +350,11 @@ public class Application {
 			
 			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.getgrouprules.help")));
 			
-			swtch = new Switch(Constants.ARGS_EDIT_REPOS)
+			swtch = new Switch(Constants.ARGS_RENAME_REPOS)
 				.setShortFlag(JSAP.NO_SHORTFLAG) 
-				.setLongFlag(Constants.ARGS_EDIT_REPOS);
+				.setLongFlag(Constants.ARGS_RENAME_REPOS);
 			
-			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.editrepos.help")));
+			jsap.registerParameter(swtch.setHelp(ResourceUtil.getString("application.args.renamerepos.help")));
 			
 			swtch = new Switch(Constants.ARGS_DELETE_REPOS)
 				.setShortFlag(JSAP.NO_SHORTFLAG) 
@@ -509,10 +509,10 @@ public class Application {
 		out.println(ResourceUtil.getFormattedString("application.args.verbose.cloneuser", args));
 		
 		args[0] = SUAFE_EXECUTABLE;
-		args[1] = Constants.ARGS_EDIT_USER;
+		args[1] = Constants.ARGS_RENAME_USER;
 		args[2] = Constants.ARGS_NAME;
 		args[3] = Constants.ARGS_NEW_NAME;
-		out.println(ResourceUtil.getFormattedString("application.args.verbose.edituser", args));
+		out.println(ResourceUtil.getFormattedString("application.args.verbose.renameuser", args));
 		
 		args[0] = SUAFE_EXECUTABLE;
 		args[1] = Constants.ARGS_DELETE_USER;
@@ -561,10 +561,10 @@ public class Application {
 		out.println(ResourceUtil.getFormattedString("application.args.verbose.clonegroup", args));
 		
 		args[0] = SUAFE_EXECUTABLE;
-		args[1] = Constants.ARGS_EDIT_GROUP;
+		args[1] = Constants.ARGS_RENAME_GROUP;
 		args[2] = Constants.ARGS_NAME;
 		args[3] = Constants.ARGS_NEW_NAME;
-		out.println(ResourceUtil.getFormattedString("application.args.verbose.editgroup", args));
+		out.println(ResourceUtil.getFormattedString("application.args.verbose.renamegroup", args));
 
 		args[0] = SUAFE_EXECUTABLE;
 		args[1] = Constants.ARGS_DELETE_GROUP;
@@ -614,10 +614,10 @@ public class Application {
 		out.println(ResourceUtil.getString("application.args.verbose.addrepos"));
 
 		args[0] = SUAFE_EXECUTABLE;
-		args[1] = Constants.ARGS_EDIT_REPOS;
+		args[1] = Constants.ARGS_RENAME_REPOS;
 		args[2] = Constants.ARGS_NAME;
 		args[3] = Constants.ARGS_NEW_NAME;
-		out.println(ResourceUtil.getFormattedString("application.args.verbose.editrepos", args));	
+		out.println(ResourceUtil.getFormattedString("application.args.verbose.renamerepos", args));	
 
 		args[0] = SUAFE_EXECUTABLE;
 		args[1] = Constants.ARGS_DELETE_REPOS;
@@ -732,11 +732,11 @@ public class Application {
 			
 			// Process the specified command
 			if (config.getBoolean(Constants.ARGS_STATISTICS_REPORT)) {
-				GenericReport report = new StatisticsReport();
+				GenericReport report = new StatisticsReport(document);
 				out.print(report.generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_SUMMARY_REPORT)) {
-				GenericReport report = new SummaryReport();
+				GenericReport report = new SummaryReport(document);
 				out.print(report.generate());
 			}
 			else if (config.getBoolean(Constants.ARGS_CLONE_USER)) {
@@ -744,8 +744,8 @@ public class Application {
 						config.getString(Constants.ARGS_NEW_NAME));
 				out.print(new FileGenerator(document).generate());
 			}
-			else if (config.getBoolean(Constants.ARGS_EDIT_USER)) {
-				editUser(config.getString(Constants.ARGS_NAME), 
+			else if (config.getBoolean(Constants.ARGS_RENAME_USER)) {
+				renameUser(config.getString(Constants.ARGS_NAME), 
 						config.getString(Constants.ARGS_NEW_NAME));
 				out.print(new FileGenerator(document).generate());
 			}
@@ -784,8 +784,8 @@ public class Application {
 						config.getString(Constants.ARGS_NEW_NAME));
 				out.print(new FileGenerator(document).generate());
 			}
-			else if (config.getBoolean(Constants.ARGS_EDIT_GROUP)) {
-				editGroup(config.getString(Constants.ARGS_NAME), 
+			else if (config.getBoolean(Constants.ARGS_RENAME_GROUP)) {
+				renameGroup(config.getString(Constants.ARGS_NAME), 
 						config.getString(Constants.ARGS_NEW_NAME));
 				out.print(new FileGenerator(document).generate());
 			}
@@ -823,8 +823,8 @@ public class Application {
 			else if (config.getBoolean(Constants.ARGS_GET_GROUP_RULES)) {
 				getGroupRules(out, config.getString(Constants.ARGS_NAME));
 			}
-			else if (config.getBoolean(Constants.ARGS_EDIT_REPOS)) {
-				editRepository(config.getString(Constants.ARGS_NAME), 
+			else if (config.getBoolean(Constants.ARGS_RENAME_REPOS)) {
+				renameRepository(config.getString(Constants.ARGS_NAME), 
 						config.getString(Constants.ARGS_NEW_NAME));
 				out.print(new FileGenerator(document).generate());
 			}
@@ -1261,13 +1261,13 @@ public class Application {
 	}
 
 	/**
-	 * Edits existing group name.
+	 * Renames existing group name.
 	 * 
-	 * @param groupName Name of group to edit
+	 * @param groupName Name of group to rename
 	 * @param newGroupName New name for group
 	 * @throws ApplicationException Error occurred
 	 */
-	private static void editGroup(String groupName, String newGroupName) throws ApplicationException {
+	private static void renameGroup(String groupName, String newGroupName) throws ApplicationException {
 		if (groupName == null) { 
 			throw new ApplicationException(ResourceUtil.getString("application.error.grouprequired"));
 		}
@@ -1349,7 +1349,7 @@ public class Application {
 			Path path = (Path)accessRule[1];
 			String accessLevel = (String)accessRule[2];
 			
-			out.println(repository.getName() + " " + path.getPath() + " " + Constants.GROUP_PREFIX + groupName + " " + accessLevel);
+			out.println(repository.getName() + " " + path.getPath() + " " + Constants.TEXT_GROUP_PREFIX + groupName + " " + accessLevel);
 		}
 	}
 	
@@ -1379,7 +1379,7 @@ public class Application {
 			String name = null;
 			
 			if (accessRule[1] instanceof Group) {
-				name = Constants.GROUP_PREFIX + ((Group)accessRule[1]).getName();
+				name = Constants.TEXT_GROUP_PREFIX + ((Group)accessRule[1]).getName();
 			}
 			else if (accessRule[1] instanceof User) {
 				name = ((User)accessRule[1]).getName();
@@ -1439,7 +1439,7 @@ public class Application {
 			}
 			
 			if (rule.getGroup() != null) {
-				name = Constants.GROUP_PREFIX + rule.getGroup().getName();
+				name = Constants.TEXT_GROUP_PREFIX + rule.getGroup().getName();
 			}
 			else if (rule.getUser() != null) {
 				name = rule.getUser().getName();
@@ -1739,13 +1739,13 @@ public class Application {
 	}
 	
 	/**
-	 * Edits an existing repository.
+	 * Renames an existing repository.
 	 * 
 	 * @param repositoryName Name of repository
 	 * @param newRepositoryName Repository new name
 	 * @throws ApplicationException Error occurred
 	 */
-	private static void editRepository(String repositoryName, String newRepositoryName) throws ApplicationException {
+	private static void renameRepository(String repositoryName, String newRepositoryName) throws ApplicationException {
 		if (repositoryName == null) { 
 			throw new ApplicationException(ResourceUtil.getString("application.error.repositoryrequired"));
 		}
@@ -1764,13 +1764,13 @@ public class Application {
 	}
 
 	/**
-	 * Edits an existing user.
+	 * Renames an existing user.
 	 * 
 	 * @param userName Name of user
 	 * @param newUserName User new name
 	 * @throws ApplicationException
 	 */
-	private static void editUser(String userName, String newUserName) throws ApplicationException {
+	private static void renameUser(String userName, String newUserName) throws ApplicationException {
 		if (userName == null) { 
 			throw new ApplicationException(ResourceUtil.getString("application.error.userrequired"));
 		}

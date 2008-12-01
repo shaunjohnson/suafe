@@ -62,10 +62,10 @@ public class FileGenerator {
 		try {
 			output = new StringBuffer();
 			
-			output.append("# " + ResourceUtil.getString("application.fileheader") + Constants.newline);
+			output.append("# " + ResourceUtil.getString("application.fileheader") + Constants.TEXT_NEW_LINE);
 			
 			// Process group definitions
-			output.append("[groups]" + Constants.newline);
+			output.append("[groups]" + Constants.TEXT_NEW_LINE);
 			
 			Collections.sort(document.getGroups());
 			
@@ -109,10 +109,10 @@ public class FileGenerator {
 					}
 				}
 				
-				output.append(Constants.newline);
+				output.append(Constants.TEXT_NEW_LINE);
 			}
 			
-			output.append(Constants.newline);
+			output.append(Constants.TEXT_NEW_LINE);
 			
 			// Process access rules
 			Collections.sort(document.getPaths(), new PathComparator());
@@ -124,31 +124,31 @@ public class FileGenerator {
 				
 				if (path.getRepository() == null) {
 					// Server permissions
-					output.append("[" + path.getPath() + "]" + Constants.newline);
+					output.append("[" + path.getPath() + "]" + Constants.TEXT_NEW_LINE);
 				}
 				else {
 					// Path permissions
-					output.append("[" + path.getRepository().getName() + ":" + path.getPath() + "]" + Constants.newline);
+					output.append("[" + path.getRepository().getName() + ":" + path.getPath() + "]" + Constants.TEXT_NEW_LINE);
 				}
 				
 				Collections.sort(path.getAccessRules());
 				
 				for (AccessRule rule : path.getAccessRules()) {
 					if (rule.getGroup() != null) {
-						output.append("@" + rule.getGroup().getName() + " = " + rule.getLevel() + "" + Constants.newline);
+						output.append("@" + rule.getGroup().getName() + " = " + rule.getLevel() + "" + Constants.TEXT_NEW_LINE);
 					}
 					else if (rule.getUser() != null) {
-						output.append(rule.getUser().getName() + " = " + rule.getLevel() + "" + Constants.newline);
+						output.append(rule.getUser().getName() + " = " + rule.getLevel() + "" + Constants.TEXT_NEW_LINE);
 					}
 					else {
 						throw new ApplicationException(ResourceUtil.getString("generator.error"));
 					}
 				}
 				
-				output.append(Constants.newline);
+				output.append(Constants.TEXT_NEW_LINE);
 			}
 			
-			output.append(Constants.newline);
+			output.append(Constants.TEXT_NEW_LINE);
 		}
 		catch(Exception e) {
 			throw new ApplicationException(ResourceUtil.getString("generator.error"));

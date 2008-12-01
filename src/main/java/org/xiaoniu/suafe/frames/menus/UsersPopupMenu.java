@@ -22,7 +22,7 @@ public class UsersPopupMenu extends JPopupMenu {
 	
 	private JMenuItem deleteUserPopupMenuItem = null;
 	
-	private JMenuItem editUserPopupMenuItem = null;
+	private JMenuItem renameUserPopupMenuItem = null;
 	
 	public UsersPopupMenu(ActionListener actionListener) {
 		super();
@@ -30,7 +30,7 @@ public class UsersPopupMenu extends JPopupMenu {
 		this.actionListener = actionListener;
 		
 		add(getAddUserPopupMenuItem());
-		add(getEditUserPopupMenuItem());
+		add(getRenameUserPopupMenuItem());
 		add(getDeleteUserPopupMenuItem());
 		add(getChangeMembershipPopupMenuItem());
 		add(getCloneUserPopupMenuItem());
@@ -110,21 +110,21 @@ public class UsersPopupMenu extends JPopupMenu {
 	}
 	
 	/**
-	 * This method initializes editUserPopupMenuItem.
+	 * This method initializes renameUserPopupMenuItem.
 	 * 
 	 * @return javax.swing.JMenuItem
 	 */
-	public JMenuItem getEditUserPopupMenuItem() {
-		if (editUserPopupMenuItem == null) {
-			editUserPopupMenuItem = new JMenuItem();
-			editUserPopupMenuItem.addActionListener(actionListener);
-			editUserPopupMenuItem.setActionCommand(Constants.EDIT_USER_ACTION);
-			editUserPopupMenuItem.setIcon(ResourceUtil.editUserIcon);
-			editUserPopupMenuItem.setText(ResourceUtil.getString("button.edit"));
-			editUserPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.edituser.tooltip"));
-			editUserPopupMenuItem.setEnabled(false);
+	public JMenuItem getRenameUserPopupMenuItem() {
+		if (renameUserPopupMenuItem == null) {
+			renameUserPopupMenuItem = new JMenuItem();
+			renameUserPopupMenuItem.addActionListener(actionListener);
+			renameUserPopupMenuItem.setActionCommand(Constants.RENAME_USER_ACTION);
+			renameUserPopupMenuItem.setIcon(ResourceUtil.renameUserIcon);
+			renameUserPopupMenuItem.setText(ResourceUtil.getString("button.rename"));
+			renameUserPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.renameuser.tooltip"));
+			renameUserPopupMenuItem.setEnabled(false);
 		}
 		
-		return editUserPopupMenuItem;
+		return renameUserPopupMenuItem;
 	}
 }

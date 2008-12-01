@@ -22,58 +22,58 @@ import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class GroupsPane extends JSplitPane {
+public class GroupsPane extends BaseSplitPane {
 
 	private static final long serialVersionUID = -743618351601446392L;
 
 	private ActionListener actionListener = null;
-	
+
 	private JButton addGroupButton = null;
-	
+
 	private JButton addRemoveMembersButton = null;
-	
+
 	private JButton cloneGroupButton = null;
-	
+
 	private JButton deleteGroupButton = null;
-	
-	private JButton editGroupButton = null;
-	
+
+	private JButton renameGroupButton = null;
+
 	private JPanel groupAccessRulesPanel = null;
-	
+
 	private JScrollPane groupAccessRulesScrollPane = null;
-	
-	private JTable groupAccessRulesTable = null;	
-	
+
+	private JTable groupAccessRulesTable = null;
+
 	private JPanel groupActionsPanel = null;
-	
-	private JPanel groupDetailsPanel = null;  
-	
+
+	private JPanel groupDetailsPanel = null;
+
 	private JSplitPane groupDetailsSplitPanel = null;
-	
-	private JList groupList = null;  
-	
+
+	private JList groupList = null;
+
 	private JPanel groupListPanel = null;
-	
+
 	private JScrollPane groupListScrollPane = null;
-	
+
 	private JList groupMemberList = null;
-	
+
 	private JPanel groupMemberListActionsPanel = null;
-	
-	private JScrollPane groupMemberListScrollPane = null; 
-	
+
+	private JScrollPane groupMemberListScrollPane = null;
+
 	private JPanel groupMembersPanel = null;
-	
+
 	private KeyListener keyListener = null;
-	
+
 	private ListSelectionListener listSelectionListener = null;
-	
-	private MouseListener mouseListener = null; 
-	
-	public GroupsPane(ActionListener actionListener, KeyListener keyListener, 
+
+	private MouseListener mouseListener = null;
+
+	public GroupsPane(ActionListener actionListener, KeyListener keyListener,
 			ListSelectionListener listSelectionListener, MouseListener mouseListener) {
 		super();
-		
+
 		this.actionListener = actionListener;
 		this.keyListener = keyListener;
 		this.listSelectionListener = listSelectionListener;
@@ -84,7 +84,7 @@ public class GroupsPane extends JSplitPane {
 		setRightComponent(getGroupDetailsPanel());
 		setDividerLocation(UserPreferences.getGroupsPaneDividerLocation());
 	}
-	
+
 	/**
 	 * This method initializes addGroupButton.
 	 * 
@@ -92,17 +92,13 @@ public class GroupsPane extends JSplitPane {
 	 */
 	public JButton getAddGroupButton() {
 		if (addGroupButton == null) {
-			addGroupButton = new JButton();
-			addGroupButton.addActionListener(actionListener);
-			addGroupButton.setActionCommand(Constants.ADD_GROUP_ACTION);
-			addGroupButton.setIcon(ResourceUtil.addGroupIcon);
-			addGroupButton.setText(ResourceUtil.getString("button.add"));
-			addGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));			
+			addGroupButton = createButton("button.add", "mainframe.button.addgroup.tooltip", ResourceUtil.addGroupIcon,
+					Constants.ADD_GROUP_ACTION, actionListener);
 		}
-		
+
 		return addGroupButton;
 	}
-	
+
 	/**
 	 * This method initializes addRemoveMembersButton.
 	 * 
@@ -110,15 +106,12 @@ public class GroupsPane extends JSplitPane {
 	 */
 	public JButton getAddRemoveMembersButton() {
 		if (addRemoveMembersButton == null) {
-			addRemoveMembersButton = new JButton();
-			addRemoveMembersButton.addActionListener(actionListener);
-			addRemoveMembersButton.setActionCommand(Constants.ADD_REMOVE_MEMBERS_ACTION);
-			addRemoveMembersButton.setIcon(ResourceUtil.addRemoveMembersIcon);
-			addRemoveMembersButton.setText(ResourceUtil.getString("mainframe.button.addremovemembers"));
-			addRemoveMembersButton.setToolTipText(ResourceUtil.getString("mainframe.button.addremovemembers.tooltip"));
+			addRemoveMembersButton = createButton("mainframe.button.addremovemembers",
+					"mainframe.button.addremovemembers.tooltip", ResourceUtil.addRemoveMembersIcon,
+					Constants.ADD_REMOVE_MEMBERS_ACTION, actionListener);
 			addRemoveMembersButton.setEnabled(false);
 		}
-		
+
 		return addRemoveMembersButton;
 	}
 
@@ -129,18 +122,14 @@ public class GroupsPane extends JSplitPane {
 	 */
 	public JButton getCloneGroupButton() {
 		if (cloneGroupButton == null) {
-			cloneGroupButton = new JButton();
-			cloneGroupButton.addActionListener(actionListener);
-			cloneGroupButton.setActionCommand(Constants.CLONE_GROUP_ACTION);
-			cloneGroupButton.setIcon(ResourceUtil.cloneGroupIcon);
-			cloneGroupButton.setText(ResourceUtil.getString("button.clone"));
-			cloneGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.clonegroup.tooltip"));
+			cloneGroupButton = createButton("button.clone", "mainframe.button.clonegroup.tooltip",
+					ResourceUtil.cloneGroupIcon, Constants.CLONE_GROUP_ACTION, actionListener);
 			cloneGroupButton.setEnabled(false);
 		}
-		
+
 		return cloneGroupButton;
 	}
-	
+
 	/**
 	 * This method initializes deleteGroupButton.
 	 * 
@@ -148,53 +137,45 @@ public class GroupsPane extends JSplitPane {
 	 */
 	public JButton getDeleteGroupButton() {
 		if (deleteGroupButton == null) {
-			deleteGroupButton = new JButton();
-			deleteGroupButton.addActionListener(actionListener);
-			deleteGroupButton.setActionCommand(Constants.DELETE_GROUP_ACTION);
-			deleteGroupButton.setIcon(ResourceUtil.deleteGroupIcon);
-			deleteGroupButton.setText(ResourceUtil.getString("button.delete"));
-			deleteGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.deletegroup.tooltip"));
+			deleteGroupButton = createButton("button.delete", "mainframe.button.deletegroup.tooltip",
+					ResourceUtil.deleteGroupIcon, Constants.DELETE_GROUP_ACTION, actionListener);
 			deleteGroupButton.setEnabled(false);
 		}
-		
+
 		return deleteGroupButton;
 	}
 
 	/**
-	 * This method initializes editGroupButton.
+	 * This method initializes renameGroupButton.
 	 * 
 	 * @return javax.swing.JButton
 	 */
-	public JButton getEditGroupButton() {
-		if (editGroupButton == null) {
-			editGroupButton = new JButton();
-			editGroupButton.addActionListener(actionListener);
-			editGroupButton.setActionCommand(Constants.EDIT_GROUP_ACTION);
-			editGroupButton.setIcon(ResourceUtil.editGroupIcon);
-			editGroupButton.setText(ResourceUtil.getString("button.edit"));
-			editGroupButton.setToolTipText(ResourceUtil.getString("mainframe.button.editgroup.tooltip"));
-			editGroupButton.setEnabled(false);
+	public JButton getRenameGroupButton() {
+		if (renameGroupButton == null) {
+			renameGroupButton = createButton("button.rename", "mainframe.button.renamegroup.tooltip",
+					ResourceUtil.renameGroupIcon, Constants.RENAME_GROUP_ACTION, actionListener);
+			renameGroupButton.setEnabled(false);
 		}
-		
-		return editGroupButton;
+
+		return renameGroupButton;
 	}
-	
+
 	/**
-	 * This method initializes groupAccessRulesPanel	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes groupAccessRulesPanel
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	public JPanel getGroupAccessRulesPanel() {
 		if (groupAccessRulesPanel == null) {
 			groupAccessRulesPanel = new JPanel(new BorderLayout());
 			groupAccessRulesPanel.setBorder(BorderFactory.createEmptyBorder(7, 0, 0, 0));
-			groupAccessRulesPanel.add(new JLabel(ResourceUtil.getString("mainframe.accessrules")), BorderLayout.NORTH);
+			groupAccessRulesPanel.add(createLabel("mainframe.accessrules"), BorderLayout.NORTH);
 			groupAccessRulesPanel.add(getGroupAccessRulesScrollPane(), BorderLayout.CENTER);
 		}
-		
+
 		return groupAccessRulesPanel;
 	}
-	
+
 	/**
 	 * This method initializes groupAccessRulesScrollPane.
 	 * 
@@ -202,13 +183,12 @@ public class GroupsPane extends JSplitPane {
 	 */
 	public JScrollPane getGroupAccessRulesScrollPane() {
 		if (groupAccessRulesScrollPane == null) {
-			groupAccessRulesScrollPane = new JScrollPane();
-			groupAccessRulesScrollPane.setViewportView(getGroupAccessRulesTable());
+			groupAccessRulesScrollPane = new JScrollPane(getGroupAccessRulesTable());
 		}
-		
+
 		return groupAccessRulesScrollPane;
 	}
-	
+
 	/**
 	 * This method initializes groupAccessRulesTable.
 	 * 
@@ -218,14 +198,14 @@ public class GroupsPane extends JSplitPane {
 		if (groupAccessRulesTable == null) {
 			groupAccessRulesTable = new JTable();
 			groupAccessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			groupAccessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);	
+			groupAccessRulesTable.setRowHeight(Constants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
 			groupAccessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			groupAccessRulesTable.setAutoCreateRowSorter(true);
 		}
-		
+
 		return groupAccessRulesTable;
 	}
-	
+
 	/**
 	 * This method initializes groupActionsPanel.
 	 * 
@@ -233,19 +213,16 @@ public class GroupsPane extends JSplitPane {
 	 */
 	public JPanel getGroupActionsPanel() {
 		if (groupActionsPanel == null) {
-			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(FlowLayout.LEFT);
-			
-			groupActionsPanel = new JPanel(layout);			
+			groupActionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			groupActionsPanel.add(getAddGroupButton());
 			groupActionsPanel.add(getCloneGroupButton());
-			groupActionsPanel.add(getEditGroupButton());
+			groupActionsPanel.add(getRenameGroupButton());
 			groupActionsPanel.add(getDeleteGroupButton());
 		}
-		
+
 		return groupActionsPanel;
 	}
-	
+
 	/**
 	 * This method initializes groupDetailsPanel.
 	 * 
@@ -253,33 +230,31 @@ public class GroupsPane extends JSplitPane {
 	 */
 	public JPanel getGroupDetailsPanel() {
 		if (groupDetailsPanel == null) {
-			groupDetailsPanel = new JPanel();
-			groupDetailsPanel.setLayout(new BorderLayout());
+			groupDetailsPanel = new JPanel(new BorderLayout());
 			groupDetailsPanel.add(getGroupDetailsSplitPanel(), BorderLayout.CENTER);
 		}
-		
+
 		return groupDetailsPanel;
 	}
-	
+
 	/**
 	 * This method initializes groupDetailsSubPanel.
 	 * 
 	 * @return javax.swing.JPanel
-	 */	
+	 */
 	public JSplitPane getGroupDetailsSplitPanel() {
 		if (groupDetailsSplitPanel == null) {
-			groupDetailsSplitPanel = new JSplitPane();
+			groupDetailsSplitPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			groupDetailsSplitPanel.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));
-			groupDetailsSplitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			groupDetailsSplitPanel.setTopComponent(getGroupMembersPanel());
 			groupDetailsSplitPanel.setBottomComponent(getGroupAccessRulesPanel());
 			groupDetailsSplitPanel.setOneTouchExpandable(true);
 			groupDetailsSplitPanel.setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
 		}
-		
+
 		return groupDetailsSplitPanel;
 	}
-	
+
 	/**
 	 * This method initializes groupList.
 	 * 
@@ -294,25 +269,24 @@ public class GroupsPane extends JSplitPane {
 			groupList.setCellRenderer(new MyListCellRenderer());
 			groupList.setFont(Constants.FONT_PLAIN);
 		}
-		
+
 		return groupList;
 	}
 
 	/**
-	 * This method initializes groupListPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes groupListPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	public JPanel getGroupListPanel() {
 		if (groupListPanel == null) {
-			groupListPanel = new JPanel();
-			groupListPanel.setLayout(new BorderLayout());
+			groupListPanel = new JPanel(new BorderLayout());
 			groupListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
 			groupListPanel.add(getGroupListScrollPane(), BorderLayout.CENTER);
 			groupListPanel.add(getGroupActionsPanel(), BorderLayout.SOUTH);
 			groupListPanel.add(new JLabel(ResourceUtil.getString("mainframe.groups")), BorderLayout.NORTH);
 		}
-		
+
 		return groupListPanel;
 	}
 
@@ -323,19 +297,18 @@ public class GroupsPane extends JSplitPane {
 	 */
 	public JScrollPane getGroupListScrollPane() {
 		if (groupListScrollPane == null) {
-			groupListScrollPane = new JScrollPane();
+			groupListScrollPane = new JScrollPane(getGroupList());
 			groupListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			groupListScrollPane.setViewportView(getGroupList());			
 		}
-		
+
 		return groupListScrollPane;
 	}
 
 	/**
-	 * This method initializes groupMemberList.	
-	 * 	
-	 * @return javax.swing.JList	
-	 */    
+	 * This method initializes groupMemberList.
+	 * 
+	 * @return javax.swing.JList
+	 */
 	public JList getGroupMemberList() {
 		if (groupMemberList == null) {
 			groupMemberList = new JList();
@@ -344,58 +317,54 @@ public class GroupsPane extends JSplitPane {
 			groupMemberList.setCellRenderer(new MyListCellRenderer());
 			groupMemberList.setFont(Constants.FONT_PLAIN);
 		}
-		
+
 		return groupMemberList;
 	}
-	
+
 	/**
-	 * This method initializes groupMemberListActionsPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes groupMemberListActionsPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	public JPanel getGroupMemberListActionsPanel() {
 		if (groupMemberListActionsPanel == null) {
-			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(FlowLayout.LEFT);
-			
-			groupMemberListActionsPanel = new JPanel(layout);
+			groupMemberListActionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			groupMemberListActionsPanel.add(getAddRemoveMembersButton());
 		}
-		
+
 		return groupMemberListActionsPanel;
 	}
-	
+
 	/**
-	 * This method initializes groupMemberListScrollPane.	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */    
+	 * This method initializes groupMemberListScrollPane.
+	 * 
+	 * @return javax.swing.JScrollPane
+	 */
 	public JScrollPane getGroupMemberListScrollPane() {
 		if (groupMemberListScrollPane == null) {
-			groupMemberListScrollPane = new JScrollPane();
-			groupMemberListScrollPane.setViewportView(getGroupMemberList());
+			groupMemberListScrollPane = new JScrollPane(getGroupMemberList());
 		}
-		
+
 		return groupMemberListScrollPane;
 	}
-	
+
 	/**
-	 * This method initializes groupMembersPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes groupMembersPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	public JPanel getGroupMembersPanel() {
 		if (groupMembersPanel == null) {
 			groupMembersPanel = new JPanel(new BorderLayout());
-			groupMembersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 7, 0));			
+			groupMembersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 7, 0));
 			groupMembersPanel.add(new JLabel(ResourceUtil.getString("mainframe.members")), BorderLayout.NORTH);
 			groupMembersPanel.add(getGroupMemberListScrollPane(), BorderLayout.CENTER);
 			groupMembersPanel.add(getGroupMemberListActionsPanel(), BorderLayout.SOUTH);
 		}
-		
+
 		return groupMembersPanel;
 	}
-	
+
 	public void loadUserPreferences() {
 		getGroupDetailsSplitPanel().setDividerLocation(UserPreferences.getGroupDetailsDividerLocation());
 		setDividerLocation(UserPreferences.getGroupsPaneDividerLocation());

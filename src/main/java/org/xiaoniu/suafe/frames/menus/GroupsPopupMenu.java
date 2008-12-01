@@ -22,7 +22,7 @@ public class GroupsPopupMenu extends JPopupMenu {
 	
 	private JMenuItem deleteGroupPopupMenuItem = null;
 	
-	private JMenuItem editGroupPopupMenuItem = null;
+	private JMenuItem renameGroupPopupMenuItem = null;
 	
 	public GroupsPopupMenu(ActionListener actionListener) {
 		super();
@@ -30,7 +30,7 @@ public class GroupsPopupMenu extends JPopupMenu {
 		this.actionListener = actionListener;
 		
 		add(getAddGroupPopupMenuItem());
-		add(getEditGroupPopupMenuItem());
+		add(getRenameGroupPopupMenuItem());
 		add(getDeleteGroupPopupMenuItem());
 		add(getAddRemoveMembersPopupMenuItem());
 		add(getCloneGroupPopupMenuItem());
@@ -111,21 +111,21 @@ public class GroupsPopupMenu extends JPopupMenu {
 	}
 	
 	/**
-	 * This method initializes editGroupPopupMenuItem.
+	 * This method initializes renameGroupPopupMenuItem.
 	 * 
 	 * @return javax.swing.JMenuItem
 	 */
-	public JMenuItem getEditGroupPopupMenuItem() {
-		if (editGroupPopupMenuItem == null) {
-			editGroupPopupMenuItem = new JMenuItem();
-			editGroupPopupMenuItem.addActionListener(actionListener);
-			editGroupPopupMenuItem.setActionCommand(Constants.EDIT_GROUP_ACTION);
-			editGroupPopupMenuItem.setIcon(ResourceUtil.editGroupIcon);
-			editGroupPopupMenuItem.setText(ResourceUtil.getString("button.edit"));
-			editGroupPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.editgroup.tooltip"));
-			editGroupPopupMenuItem.setEnabled(false);
+	public JMenuItem getRenameGroupPopupMenuItem() {
+		if (renameGroupPopupMenuItem == null) {
+			renameGroupPopupMenuItem = new JMenuItem();
+			renameGroupPopupMenuItem.addActionListener(actionListener);
+			renameGroupPopupMenuItem.setActionCommand(Constants.RENAME_GROUP_ACTION);
+			renameGroupPopupMenuItem.setIcon(ResourceUtil.renameGroupIcon);
+			renameGroupPopupMenuItem.setText(ResourceUtil.getString("button.rename"));
+			renameGroupPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.renamegroup.tooltip"));
+			renameGroupPopupMenuItem.setEnabled(false);
 		}
 		
-		return editGroupPopupMenuItem;
+		return renameGroupPopupMenuItem;
 	}
 }

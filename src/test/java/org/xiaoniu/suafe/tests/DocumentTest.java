@@ -1110,6 +1110,16 @@ public class DocumentTest {
 		catch (ApplicationException e) {
 		}
 	}
+	
+	@Test
+	public void testRenameGroup() {
+		fail("Not implemented");
+	}
+	
+	@Test
+	public void testRenameUser() {
+		fail("Not implemented");
+	}
 
 	@Test
 	public void testDeleteAccessRule() {
@@ -1119,8 +1129,10 @@ public class DocumentTest {
 	@Test
 	public void testDeleteGroup() {
 		try {
+			Group group = null;
+			
 			document.initialize();
-			document.deleteGroup(null);
+			document.deleteGroup(group);
 			fail();
 		}
 		catch (ApplicationException e) {
@@ -1403,8 +1415,10 @@ public class DocumentTest {
 	@Test
 	public void testDeleteRepository() {
 		try {
+			Repository repository = null;
+			
 			document.initialize();
-			document.deleteRepository(null);
+			document.deleteRepository(repository);
 			fail();
 		}
 		catch (ApplicationException e) {
@@ -1487,8 +1501,9 @@ public class DocumentTest {
 	@Test
 	public void testDeleteUser() {
 		try {
+			User user = null;
 			document.initialize();
-			document.deleteUser(null);
+			document.deleteUser(user);
 			fail();
 		}
 		catch (ApplicationException e) {

@@ -15,14 +15,14 @@
         <tocitem text="Toolbar" target="gui-toolbar" />
         <tocitem text="Users Tab" target="gui-users-tab">
             <tocitem text="Add User" target="gui-add-user" />
-            <tocitem text="Edit User" target="gui-edit-user" />
+            <tocitem text="Rename User" target="gui-rename-user" />
             <tocitem text="Clone User" target="gui-clone-user" />
             <tocitem text="Delete User" target="gui-delete-user" />
             <tocitem text="Change Membership" target="gui-change-membership" />
         </tocitem>
         <tocitem text="Groups Tab" target="gui-groups-tab">
             <tocitem text="Add User" target="gui-add-group" />
-            <tocitem text="Edit User" target="gui-edit-group" />
+            <tocitem text="Rename User" target="gui-renmae-group" />
             <tocitem text="Clone User" target="gui-clone-group" />
             <tocitem text="Delete User" target="gui-delete-group" />
             <tocitem text="Add/Remove Members" target="gui-add-remove-members" />
@@ -34,7 +34,7 @@
             <tocitem text="Delete Access Rule" target="gui-delete-rule" />
             
             <tocitem text="Add Repository" target="gui-add-repository" />
-            <tocitem text="Edit Repository" target="gui-edit-repository" />
+            <tocitem text="Rename Repository" target="gui-rename-repository" />
             <tocitem text="Delete Repository" target="gui-delete-repository" />
             
             <tocitem text="Edit Path" target="gui-edit-path" />
@@ -56,14 +56,14 @@
         <tocitem text="Input/Output" target="cmdline-input-output" />
         <tocitem text="Users" target="cmdline-users">
             <tocitem text="Add User" target="cmdline-add-user" />
-            <tocitem text="Edit User" target="cmdline-edit-user" />
+            <tocitem text="Rename User" target="cmdline-rename-user" />
             <tocitem text="Clone User" target="cmdline-clone-user" />
             <tocitem text="Delete User" target="cmdline-delete-user" />
             <tocitem text="Change Membership" target="cmdline-change-membership" />
         </tocitem>
         <tocitem text="Groups" target="cmdline-groups">
             <tocitem text="Add User" target="cmdline-add-group" />
-            <tocitem text="Edit User" target="cmdline-edit-group" />
+            <tocitem text="Rename User" target="cmdline-rename-group" />
             <tocitem text="Clone User" target="cmdline-clone-group" />
             <tocitem text="Delete User" target="cmdline-delete-group" />
             <tocitem text="Add/Remove Members" target="cmdline-add-remove-members" />
@@ -75,7 +75,7 @@
             <tocitem text="Delete Access Rule" target="cmdline-delete-rule" />
             
             <tocitem text="Add Repository" target="cmdline-add-repository" />
-            <tocitem text="Edit Repository" target="cmdline-edit-repository" />
+            <tocitem text="Rename Repository" target="cmdline-rename-repository" />
             <tocitem text="Delete Repository" target="cmdline-delete-repository" />
             
             <tocitem text="Edit Path" target="cmdline-edit-path" />

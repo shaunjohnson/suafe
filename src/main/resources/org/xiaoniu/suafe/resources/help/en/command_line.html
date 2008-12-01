@@ -29,7 +29,7 @@ action.
 <ul>
 	<li><a href="#add_user">Add new user</a></li>
 	<li><a href="#clone_user">Clone existing user</a></li>
-	<li><a href="#edit_user">Edit existing user</a></li>
+	<li><a href="#rename_user">Rename existing user</a></li>
 	<li><a href="#delete_user">Delete existing user</a></li>
 	<li><a href="#add_groups">Add user to groups</a></li>
 	<li><a href="#remove_groups">Remove user from groups</a></li>
@@ -45,7 +45,7 @@ action.
 <ul>
 	<li><a href="#add_group">Add new group</a></li>
 	<li><a href="#clone_group">Clone existing group</a></li>
-	<li><a href="#edit_group">Edit existing group</a></li>
+	<li><a href="#rename_group">Rename existing group</a></li>
 	<li><a href="#delete_group">Delete existing group</a></li>
 	<li><a href="#add_members">Add members to group</a></li>
 	<li><a href="#remove_members">Remove members from group</a></li>
@@ -63,7 +63,7 @@ action.
 <p><strong>Repository Actions</strong></p>
 <ul>
 	<li><a href="#add_repos">Add new repository</a></li>
-	<li><a href="#edit_repos">Edit existing repository</a></li>
+	<li><a href="#rename_repos">Rename existing repository</a></li>
 	<li><a href="#delete_repos">Delete existing repository</a></li>
 	<li><a href="#count_repos">Count number of repositories</a></li>
 	<li><a href="#get_repos">Get list of repositories</a></li>
@@ -130,19 +130,19 @@ Example:
 </pre>
 </p>
 
-<h3><a name="edit_user">Edit existing user</a></h3>
+<h3><a name="rename_user">Rename existing user</a></h3>
 <p>
 Changes the name of an existing user.<br>
 <br>
 Flags:
 <ul>
-	<li>edituser : Edit user command</li>
-	<li>name : Name of user to be edited</li>
+	<li>renameuser : Rename user command</li>
+	<li>name : Name of user to be renamed</li>
 	<li>newname : New name for the user</li>
 </ul>
 Example:
 <pre>
-	java -jar suafe.jar --edituser --name shaun --newname john
+	java -jar suafe.jar --renameuser --name shaun --newname john
 </pre>
 
 
@@ -286,19 +286,19 @@ Example:
 </pre>
 </p>	
 
-<h3><a name="edit_group">Edit existing group</a></h3>
+<h3><a name="rename_group">Rename existing group</a></h3>
 <p>
 Changes the name of an existing group.<br>
 <br>
 Flags:
 <ul>
-	<li>editgroup : Edit group command</li>
-	<li>name : Name of group to be edited</li>
+	<li>renamegroup : Rename group command</li>
+	<li>name : Name of group to be renamed</li>
 	<li>newname : New name for the group</li>
 </ul>
 Example:
 <pre>
-	java -jar suafe.jar --editgroup --name developer --newname qa
+	java -jar suafe.jar --renamegroup --name developer --newname qa
 </pre>
 </p>
 
@@ -454,19 +454,19 @@ access rule. Add a new repository by defining an access rule for the
 repository.
 </p>
 
-<h3><a name="edit_repos">Edit existing repository</a></h3>
+<h3><a name="rename_repos">Rename existing repository</a></h3>
 <p>
 Changes the name of an existing repository.<br>
 <br>
 Flags:
 <ul>
-	<li>editrepos : Edit repository command</li>
-	<li>name : Name of repository to be edited</li>
+	<li>renamerepos : Rename repository command</li>
+	<li>name : Name of repository to be renamed</li>
 	<li>newname : New name for the repository</li>
 </ul>
 Example:
 <pre>
-	java -jar suafe.jar --editrepos --name mcm --newname mcmprod
+	java -jar suafe.jar --renamerepos --name mcm --newname mcmprod
 </pre>
 </p>
 

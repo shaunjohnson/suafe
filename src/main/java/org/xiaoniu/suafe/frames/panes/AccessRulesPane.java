@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
@@ -25,63 +24,63 @@ import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class AccessRulesPane extends JSplitPane {
+public class AccessRulesPane extends BaseSplitPane {
 
 	private static final long serialVersionUID = 4055338694233688725L;
 
 	private JPanel accessRuleActionsPanel = null;
-	
+
 	private JPanel accessRulesFormatPanel = null;
-	
+
 	private JPanel accessRulesPanel = null;
 
 	private JScrollPane accessRulesScrollPane = null;
-	  
+
 	private JTable accessRulesTable = null;
-	
-	private JTree accessRulesTree = null; 
-	
+
+	private JTree accessRulesTree = null;
+
 	private JPanel accessRulesTreeActionsPanel = null;
-	
+
 	private JPanel accessRulesTreePanel = null;
-	
+
 	private JScrollPane accessRulesTreeScrollPane = null;
-	
+
 	private ActionListener actionListener = null;
-	
+
 	private JButton addAccessRuleButton = null;
-	
+
 	private JButton addProjectAccessRulesButton = null;
-	
-	private JButton deleteAccessRuleButton = null;  
-	
+
+	private JButton deleteAccessRuleButton = null;
+
 	private JButton deleteTreeItemButton = null;
-	
+
 	private JButton editAccessRuleButton = null;
-	
+
 	private JButton editTreeItemButton = null;
-	
+
 	private ListSelectionListener listSelectionListener = null;
-	
+
 	private MouseListener mouseListener = null;
-	
+
 	private TreeSelectionListener treeSelectionListener = null;
-	
-	public AccessRulesPane(ActionListener actionListener, ListSelectionListener listSelectionListener, 
+
+	public AccessRulesPane(ActionListener actionListener, ListSelectionListener listSelectionListener,
 			MouseListener mouseListener, TreeSelectionListener treeSelectionListener) {
 		super();
-		
+
 		this.actionListener = actionListener;
-		this.mouseListener =  mouseListener;		
+		this.mouseListener = mouseListener;
 		this.listSelectionListener = listSelectionListener;
 		this.treeSelectionListener = treeSelectionListener;
-		
+
 		setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
 		setLeftComponent(getAccessRulesTreePanel());
 		setRightComponent(getAccessRulesPanel());
 		setDividerLocation(UserPreferences.getRulesPaneDividerLocation());
 	}
-	
+
 	/**
 	 * This method initializes accessRuleActionsPanel.
 	 * 
@@ -89,36 +88,32 @@ public class AccessRulesPane extends JSplitPane {
 	 */
 	public JPanel getAccessRuleActionsPanel() {
 		if (accessRuleActionsPanel == null) {
-			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(FlowLayout.LEFT);
-			
-			accessRuleActionsPanel = new JPanel(layout);
+			accessRuleActionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			accessRuleActionsPanel.add(getAddAccessRuleButton());
 			accessRuleActionsPanel.add(getAddProjectAccessRulesButton());
 			accessRuleActionsPanel.add(getEditAccessRuleButton());
 			accessRuleActionsPanel.add(getDeleteAccessRuleButton());
 		}
-		
+
 		return accessRuleActionsPanel;
 	}
 
 	/**
-	 * This method initializes accessRulesFormatPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes accessRulesFormatPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	public JPanel getAccessRulesFormatPanel() {
 		if (accessRulesFormatPanel == null) {
-			accessRulesFormatPanel = new JPanel();
+			accessRulesFormatPanel = new JPanel(new BorderLayout());
 			accessRulesFormatPanel.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));
-			accessRulesFormatPanel.setLayout(new BorderLayout());			
 			accessRulesFormatPanel.add(new JLabel(ResourceUtil.getString("mainframe.accessrules")), BorderLayout.NORTH);
 			accessRulesFormatPanel.add(getAccessRulesScrollPane(), BorderLayout.CENTER);
 		}
-		
+
 		return accessRulesFormatPanel;
 	}
-	
+
 	/**
 	 * This method initializes accessRulesPanel.
 	 * 
@@ -126,26 +121,24 @@ public class AccessRulesPane extends JSplitPane {
 	 */
 	public JPanel getAccessRulesPanel() {
 		if (accessRulesPanel == null) {
-			accessRulesPanel = new JPanel();
-			accessRulesPanel.setLayout(new BorderLayout());
+			accessRulesPanel = new JPanel(new BorderLayout());
 			accessRulesPanel.add(getAccessRulesFormatPanel(), BorderLayout.CENTER);
-			accessRulesPanel.add(getAccessRuleActionsPanel(), BorderLayout.SOUTH);			
+			accessRulesPanel.add(getAccessRuleActionsPanel(), BorderLayout.SOUTH);
 		}
-		
+
 		return accessRulesPanel;
 	}
 
 	/**
-	 * This method initializes accessRulesScrollPane	
-	 * 	
-	 * @return javax.swing.JScrollPane	
-	 */    
+	 * This method initializes accessRulesScrollPane
+	 * 
+	 * @return javax.swing.JScrollPane
+	 */
 	public JScrollPane getAccessRulesScrollPane() {
 		if (accessRulesScrollPane == null) {
-			accessRulesScrollPane = new JScrollPane();
-			accessRulesScrollPane.setViewportView(getAccessRulesTable());
+			accessRulesScrollPane = new JScrollPane(getAccessRulesTable());
 		}
-		
+
 		return accessRulesScrollPane;
 	}
 
@@ -159,15 +152,15 @@ public class AccessRulesPane extends JSplitPane {
 			accessRulesTable = new JTable();
 			accessRulesTable.addMouseListener(mouseListener);
 			accessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			accessRulesTable.setRowHeight(Constants.ACCESS_RULE_TABLE_ROW_HEIGHT);
+			accessRulesTable.setRowHeight(Constants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
 			accessRulesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			accessRulesTable.getSelectionModel().addListSelectionListener(listSelectionListener);
 			accessRulesTable.setAutoCreateRowSorter(true);
 		}
-		
+
 		return accessRulesTable;
 	}
-	
+
 	/**
 	 * This method initializes accessRulesTree.
 	 * 
@@ -182,45 +175,42 @@ public class AccessRulesPane extends JSplitPane {
 			accessRulesTree.setCellRenderer(new MyTreeCellRenderer());
 			accessRulesTree.setExpandsSelectedPaths(true);
 		}
-		
+
 		return accessRulesTree;
 	}
-	
+
 	/**
-	 * This method initializes accessRulesTreeActionsPanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes accessRulesTreeActionsPanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	public JPanel getAccessRulesTreeActionsPanel() {
 		if (accessRulesTreeActionsPanel == null) {
-			FlowLayout layout = new FlowLayout();
-			layout.setAlignment(FlowLayout.LEFT);
-			
-			accessRulesTreeActionsPanel = new JPanel(layout);
+			accessRulesTreeActionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			accessRulesTreeActionsPanel.add(getEditTreeItemButton());
 			accessRulesTreeActionsPanel.add(getDeleteTreeItemButton());
 		}
-		
+
 		return accessRulesTreeActionsPanel;
 	}
-	
+
 	/**
-	 * This method initializes accessRulesTreePanel.	
-	 * 	
-	 * @return javax.swing.JPanel	
-	 */    
+	 * This method initializes accessRulesTreePanel.
+	 * 
+	 * @return javax.swing.JPanel
+	 */
 	public JPanel getAccessRulesTreePanel() {
 		if (accessRulesTreePanel == null) {
 			accessRulesTreePanel = new JPanel(new BorderLayout());
 			accessRulesTreePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
-			accessRulesTreePanel.add(new JLabel(ResourceUtil.getString("mainframe.serverstructure")), BorderLayout.NORTH);
+			accessRulesTreePanel.add(createLabel("mainframe.serverstructure"), BorderLayout.NORTH);
 			accessRulesTreePanel.add(getAccessRulesTreeScrollPane(), BorderLayout.CENTER);
 			accessRulesTreePanel.add(getAccessRulesTreeActionsPanel(), BorderLayout.SOUTH);
 		}
-		
+
 		return accessRulesTreePanel;
 	}
-	
+
 	/**
 	 * This method initializes accessRulesTreeScrollPane.
 	 * 
@@ -228,13 +218,12 @@ public class AccessRulesPane extends JSplitPane {
 	 */
 	public JScrollPane getAccessRulesTreeScrollPane() {
 		if (accessRulesTreeScrollPane == null) {
-			accessRulesTreeScrollPane = new JScrollPane();
-			accessRulesTreeScrollPane.setViewportView(getAccessRulesTree());
+			accessRulesTreeScrollPane = new JScrollPane(getAccessRulesTree());
 		}
-		
+
 		return accessRulesTreeScrollPane;
 	}
-	
+
 	/**
 	 * This method initializes addAccessRuleButton.
 	 * 
@@ -242,17 +231,13 @@ public class AccessRulesPane extends JSplitPane {
 	 */
 	public JButton getAddAccessRuleButton() {
 		if (addAccessRuleButton == null) {
-			addAccessRuleButton = new JButton();
-			addAccessRuleButton.addActionListener(actionListener);
-			addAccessRuleButton.setActionCommand(Constants.ADD_ACCESS_RULE_ACTION);
-			addAccessRuleButton.setIcon(ResourceUtil.addAccessRuleIcon);
-			addAccessRuleButton.setText(ResourceUtil.getString("button.add"));
-			addAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.addaccessrule.tooltip"));			
+			addAccessRuleButton = createButton("button.add", "mainframe.button.addaccessrule.tooltip",
+					ResourceUtil.addAccessRuleIcon, Constants.ADD_ACCESS_RULE_ACTION, actionListener);
 		}
-		
+
 		return addAccessRuleButton;
 	}
-	
+
 	/**
 	 * This method initializes addAccessRuleButton.
 	 * 
@@ -260,17 +245,14 @@ public class AccessRulesPane extends JSplitPane {
 	 */
 	public JButton getAddProjectAccessRulesButton() {
 		if (addProjectAccessRulesButton == null) {
-			addProjectAccessRulesButton = new JButton();
-			addProjectAccessRulesButton.addActionListener(actionListener);
-			addProjectAccessRulesButton.setActionCommand(Constants.ADD_PROJECT_ACCESS_RULES_ACTION);
-			addProjectAccessRulesButton.setIcon(ResourceUtil.addProjectAccessRulesIcon);
-			addProjectAccessRulesButton.setText(ResourceUtil.getString("button.addProjectAccessRules"));
-			addProjectAccessRulesButton.setToolTipText(ResourceUtil.getString("mainframe.button.addprojectaccessrules.tooltip"));			
+			addProjectAccessRulesButton = createButton("button.addProjectAccessRules",
+					"mainframe.button.addprojectaccessrules.tooltip", ResourceUtil.addProjectAccessRulesIcon,
+					Constants.ADD_PROJECT_ACCESS_RULES_ACTION, actionListener);
 		}
-		
+
 		return addProjectAccessRulesButton;
 	}
-	
+
 	/**
 	 * This method initializes deleteAccessRuleButton.
 	 * 
@@ -278,33 +260,27 @@ public class AccessRulesPane extends JSplitPane {
 	 */
 	public JButton getDeleteAccessRuleButton() {
 		if (deleteAccessRuleButton == null) {
-			deleteAccessRuleButton = new JButton();
-			deleteAccessRuleButton.addActionListener(actionListener);
-			deleteAccessRuleButton.setActionCommand(Constants.DELETE_ACCESS_RULE_ACTION);
-			deleteAccessRuleButton.setIcon(ResourceUtil.deleteAccessRuleIcon);
-			deleteAccessRuleButton.setText(ResourceUtil.getString("button.delete"));
-			deleteAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.deleteaccessrule.tooltip"));
+			deleteAccessRuleButton = createButton("button.delete", "mainframe.button.deleteaccessrule.tooltip",
+					ResourceUtil.deleteAccessRuleIcon, Constants.DELETE_ACCESS_RULE_ACTION, actionListener);
 			deleteAccessRuleButton.setEnabled(false);
 		}
 		return deleteAccessRuleButton;
 	}
 
 	/**
-	 * This method initializes deleteTreeItemButton	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	 * This method initializes deleteTreeItemButton
+	 * 
+	 * @return javax.swing.JButton
+	 */
 	public JButton getDeleteTreeItemButton() {
 		if (deleteTreeItemButton == null) {
-			deleteTreeItemButton = new JButton();
-			deleteTreeItemButton.addActionListener(actionListener);
-			deleteTreeItemButton.setText(ResourceUtil.getString("button.delete"));
+			deleteTreeItemButton = createButton("button.delete", null, actionListener);
 			deleteTreeItemButton.setEnabled(false);
 		}
-		
+
 		return deleteTreeItemButton;
 	}
-	
+
 	/**
 	 * This method initializes editAccessRuleButton.
 	 * 
@@ -312,34 +288,28 @@ public class AccessRulesPane extends JSplitPane {
 	 */
 	public JButton getEditAccessRuleButton() {
 		if (editAccessRuleButton == null) {
-			editAccessRuleButton = new JButton();
-			editAccessRuleButton.addActionListener(actionListener);
-			editAccessRuleButton.setActionCommand(Constants.EDIT_ACCESS_RULE_ACTION);
-			editAccessRuleButton.setIcon(ResourceUtil.editAccessRuleIcon);
-			editAccessRuleButton.setText(ResourceUtil.getString("button.edit"));
-			editAccessRuleButton.setToolTipText(ResourceUtil.getString("mainframe.button.editaccessrule.tooltip"));
+			editAccessRuleButton = createButton("button.edit", "mainframe.button.editaccessrule.tooltip",
+					ResourceUtil.editAccessRuleIcon, Constants.EDIT_ACCESS_RULE_ACTION, actionListener);
 			editAccessRuleButton.setEnabled(false);
 		}
-		
+
 		return editAccessRuleButton;
 	}
 
 	/**
-	 * This method initializes editTreeItemButton.	
-	 * 	
-	 * @return javax.swing.JButton	
-	 */    
+	 * This method initializes editTreeItemButton.
+	 * 
+	 * @return javax.swing.JButton
+	 */
 	public JButton getEditTreeItemButton() {
 		if (editTreeItemButton == null) {
-			editTreeItemButton = new JButton();
-			editTreeItemButton.addActionListener(actionListener);
-			editTreeItemButton.setText(ResourceUtil.getString("button.edit"));
+			editTreeItemButton = createButton("button.rename", null, actionListener);
 			editTreeItemButton.setEnabled(false);
 		}
-		
+
 		return editTreeItemButton;
 	}
-	
+
 	public void loadUserPreferences() {
 		setDividerLocation(UserPreferences.getRulesPaneDividerLocation());
 	}

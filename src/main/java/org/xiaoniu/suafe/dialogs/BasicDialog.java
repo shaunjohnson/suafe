@@ -65,13 +65,13 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 
 	public static String TYPE_CLONE_USER = "cloneuser";
 
-	public static String TYPE_EDIT_GROUP = "editgroup";
+	public static String TYPE_RENAME_GROUP = "renamegroup";
 
 	public static String TYPE_EDIT_PATH = "editpath";
 
-	public static String TYPE_EDIT_REPOSITORY = "editrepository";
+	public static String TYPE_RENAME_REPOSITORY = "renamerepository";
 
-	public static String TYPE_EDIT_USER = "edituser";
+	public static String TYPE_RENAME_USER = "renameuser";
 
 	private JPanel buttonPanel = null;
 
@@ -79,13 +79,15 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 
 	private JButton cancelButton = null;
 
+	private Document document = null;
+
 	private JPanel formPanel = null;
 
 	private JPanel formSubPanel = null;
 
 	private Group group = null;
 
-	private JPanel instructionsPanel = null;
+	private JPanel iconPanel = null;
 
 	private JPanel jContentPane = null;
 
@@ -98,12 +100,10 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private JButton saveButton = null;
 
 	private JTextField text = null;
-
+	
 	private String type = null;
 
 	private User user = null;
-	
-	private Document document = null;
 
 	/**
 	 * Group dialog constructor.
@@ -123,9 +123,10 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * Default constructor.
 	 */
-	public BasicDialog(String type, Message message) {
+	public BasicDialog(Document document, String type, Message message) {
 		super();
 
+		this.document = document;
 		this.type = type;
 		this.message = message;
 		this.message.setState(Message.CANCEL);
@@ -136,9 +137,10 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * Group dialog constructor.
 	 */
-	public BasicDialog(String type, Path path, Message message) {
+	public BasicDialog(Document document, String type, Path path, Message message) {
 		super();
 
+		this.document = document;
 		this.type = type;
 		this.path = path;
 		this.message = message;
@@ -150,9 +152,10 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * Repository dialog constructor.
 	 */
-	public BasicDialog(String type, Repository repository, Message message) {
+	public BasicDialog(Document document, String type, Repository repository, Message message) {
 		super();
 
+		this.document = document;
 		this.type = type;
 		this.repository = repository;
 		this.message = message;
@@ -164,9 +167,10 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * User dialog constructor.
 	 */
-	public BasicDialog(String type, User user, Message message) {
+	public BasicDialog(Document document, String type, User user, Message message) {
 		super();
 
+		this.document = document;
 		this.type = type;
 		this.user = user;
 		this.message = message;
@@ -186,14 +190,14 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 				else if (type.equals(TYPE_CLONE_USER)) {
 					cloneUser(text);
 				}
-				else if (type.equals(TYPE_EDIT_USER)) {
-					editUser(text);
+				else if (type.equals(TYPE_RENAME_USER)) {
+					renameUser(text);
 				}
 				else if (type.equals(TYPE_ADD_GROUP)) {
 					addGroup(text);
 				}
-				else if (type.equals(TYPE_EDIT_GROUP)) {
-					editGroup(text);
+				else if (type.equals(TYPE_RENAME_GROUP)) {
+					renameGroup(text);
 				}
 				else if (type.equals(TYPE_CLONE_GROUP)) {
 					cloneGroup(text);
@@ -201,7 +205,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 				else if (type.equals(TYPE_ADD_REPOSITORY)) {
 					addRepository(text);
 				}
-				else if (type.equals(TYPE_EDIT_REPOSITORY)) {
+				else if (type.equals(TYPE_RENAME_REPOSITORY)) {
 					editRepository(text);
 				}
 				else if (type.equals(TYPE_EDIT_PATH)) {
@@ -288,14 +292,13 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		}
 	}
 
-	private void editGroup(String groupName) throws ApplicationException {
+	private void renameGroup(String groupName) throws ApplicationException {
 		validateGroupName(groupName);
 
 		Group existingGroup = document.findGroup(groupName);
 
 		if (existingGroup == null || existingGroup == group) {
-			group.setName(groupName);
-			message.setUserObject(group);
+			message.setUserObject(document.renameGroup(existingGroup, groupName));
 			message.setState(Message.SUCCESS);
 			dispose();
 		}
@@ -340,14 +343,13 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		}
 	}
 
-	private void editUser(String userName) throws ApplicationException {
+	private void renameUser(String userName) throws ApplicationException {
 		validateUserName(userName);
 
 		User existingUser = document.findUser(userName);
 
 		if (existingUser == null || existingUser == user) {
-			user.setName(userName);
-			message.setUserObject(user);
+			message.setUserObject(document.renameUser(existingUser, userName));
 			message.setState(Message.SUCCESS);
 			dispose();
 		}
@@ -427,20 +429,53 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		return formSubPanel;
 	}
 
-	/**
-	 * This method initializes instructionsPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getInstructionsPanel() {
-		if (instructionsPanel == null) {
-			instructionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			instructionsPanel.add(new JLabel(ResourceUtil.getString(type + ".instructions")));
+	private JPanel getIconPanel() {
+		if (iconPanel == null) {
+			iconPanel = new JPanel();
+			
+			JLabel iconLabel = new JLabel();
+			
+			if (type.equals(TYPE_ADD_GROUP)) {
+				iconLabel.setIcon(ResourceUtil.fullSizeGroupIcon);
+			}
+			else if (type.equals(TYPE_ADD_REPOSITORY)) {
+				// TODO
+//				iconLabel.setIcon(ResourceUtil.fullSizeRepositoryIcon);
+			}
+			else if (type.equals(TYPE_ADD_USER)) {
+				iconLabel.setIcon(ResourceUtil.fullSizeUserIcon);
+			}
+			else if (type.equals(TYPE_CLONE_GROUP)) {
+				iconLabel.setIcon(ResourceUtil.fullSizeGroupIcon);
+			}
+			else if (type.equals(TYPE_CLONE_USER)) {
+				iconLabel.setIcon(ResourceUtil.fullSizeUserIcon);
+			}
+			else if (type.equals(TYPE_RENAME_GROUP)) {
+				iconLabel.setIcon(ResourceUtil.fullSizeGroupIcon);
+			}
+			else if (type.equals(TYPE_EDIT_PATH)) {
+				// TODO
+//				iconLabel.setIcon(ResourceUtil.fullSizePathIcon);
+			}
+			else if (type.equals(TYPE_RENAME_REPOSITORY)) {
+				// TODO
+//				iconLabel.setIcon(ResourceUtil.fullSizeRepositoryIcon);
+			}
+			else if (type.equals(TYPE_RENAME_USER)) {
+				iconLabel.setIcon(ResourceUtil.fullSizeUserIcon);
+			}
+			else {
+				// TODO
+			}
+			
+			
+			iconPanel.add(iconLabel);			
 		}
-
-		return instructionsPanel;
+		
+		return iconPanel;
 	}
-
+	
 	/**
 	 * This method initializes jContentPane.
 	 * 
@@ -449,7 +484,8 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			jContentPane = new JPanel(new BorderLayout());
-			jContentPane.add(getInstructionsPanel(), BorderLayout.NORTH);
+			jContentPane.add(getInstructionsPanel(type + ".instructions"), BorderLayout.NORTH);
+			jContentPane.add(getIconPanel(), BorderLayout.WEST);
 			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
 			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 		}

@@ -23,7 +23,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -212,7 +211,7 @@ public class AddProjectAccessRulesDialog extends ParentDialog implements ActionL
 	private javax.swing.JPanel getJContentPane() {
 		if (jContentPane == null) {
 			jContentPane = new JPanel(new BorderLayout());
-			jContentPane.add(new JLabel(ResourceUtil.getString("addprojectaccessrules.instructions")), BorderLayout.NORTH);
+			jContentPane.add(getInstructionsPanel("addprojectaccessrules.instructions"), BorderLayout.NORTH);
 			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
 			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
 		}

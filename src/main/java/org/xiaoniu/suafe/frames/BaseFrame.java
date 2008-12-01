@@ -30,7 +30,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class BaseFrame extends JFrame {
+public abstract class BaseFrame extends JFrame {
 
 	/**
 	 * Serial ID.
@@ -72,5 +72,15 @@ public class BaseFrame extends JFrame {
 				message, 
 				ResourceUtil.getString("application.warning"), 
 				JOptionPane.WARNING_MESSAGE);
+	}
+	
+	protected int showConfirmDialog(String messageId, String titleId) {
+		return JOptionPane.showConfirmDialog(this, ResourceUtil.getString(messageId), ResourceUtil.getString(titleId),
+				JOptionPane.YES_NO_OPTION);
+	}
+
+	protected int showWarnConfirmDialog(String message) {
+		return JOptionPane.showConfirmDialog(this, message, ResourceUtil.getString("application.warning"),
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 	}
 }

@@ -17,14 +17,14 @@
 	
 	<mapID target="gui-users-tab" url="gui-users-tab.html" />
 	<mapID target="gui-add-user" url="gui-add-user.html" />
-	<mapID target="gui-edit-user" url="gui-edit-user.html" />
+	<mapID target="gui-rename-user" url="gui-rename-user.html" />
 	<mapID target="gui-clone-user" url="gui-clone-user.html" />
 	<mapID target="gui-delete-user" url="gui-delete-user.html" />
 	<mapID target="gui-change-membership" url="gui-change-membership.html" />
 	
 	<mapID target="gui-groups-tab" url="gui-groups.html" />
 	<mapID target="gui-add-group" url="gui-add-group.html" />
-	<mapID target="gui-edit-group" url="gui-edit-group.html" />
+	<mapID target="gui-rename-group" url="gui-rename-group.html" />
 	<mapID target="gui-clone-group" url="gui-clone-group.html" />
 	<mapID target="gui-delete-group" url="gui-delete-group.html" />
 	<mapID target="gui-add-remove-members" url="gui-add-remove-members.html" />
@@ -35,7 +35,7 @@
 	<mapID target="gui-edit-rule" url="gui-edit-rule.html" />
 	<mapID target="gui-delete-rule" url="gui-delete-rule.html" />
 	<mapID target="gui-add-repository" url="gui-add-repository.html" />
-	<mapID target="gui-edit-repository" url="gui-edit-repository.html" />
+	<mapID target="gui-rename-repository" url="gui-rename-repository.html" />
 	<mapID target="gui-delete-repository" url="gui-delete-repository.html" />
 	<mapID target="gui-edit-path" url="gui-edit-path.html" />
 	<mapID target="gui-delete-path" url="gui-delete-path.html" />
@@ -54,14 +54,14 @@
 	
 	<mapID target="cmdline-users" url="cmdline-users.html" />
 	<mapID target="cmdline-add-user" url="cmdline-add-user.html" />
-	<mapID target="cmdline-edit-user" url="cmdline-edit-user.html" />
+	<mapID target="cmdline-rename-user" url="cmdline-rename-user.html" />
 	<mapID target="cmdline-clone-user" url="cmdline-clone-user.html" />
 	<mapID target="cmdline-delete-user" url="cmdline-delete-user.html" />
 	<mapID target="cmdline-change-membership" url="cmdline-change-membership.html" />
 	
 	<mapID target="cmdline-groups" url="cmdline-groups.html" />
 	<mapID target="cmdline-add-group" url="cmdline-add-group.html" />
-	<mapID target="cmdline-edit-group" url="cmdline-edit-group.html" />
+	<mapID target="cmdline-rename-group" url="cmdline-rename-group.html" />
 	<mapID target="cmdline-clone-group" url="cmdline-clone-group.html" />
 	<mapID target="cmdline-delete-group" url="cmdline-delete-group.html" />
 	<mapID target="cmdline-add-remove-members" url="cmdline-add-remove-members.html" />
@@ -72,7 +72,7 @@
 	<mapID target="cmdline-edit-rule" url="cmdline-edit-rule.html" />
 	<mapID target="cmdline-delete-rule" url="cmdline-delete-rule.html" />
 	<mapID target="cmdline-add-repository" url="cmdline-add-repository.html" />
-	<mapID target="cmdline-edit-repository" url="cmdline-edit-repository.html" />
+	<mapID target="cmdline-rename-repository" url="cmdline-rename-repository.html" />
 	<mapID target="cmdline-delete-repository" url="cmdline-delete-repository.html" />
 	<mapID target="cmdline-edit-path" url="cmdline-edit-path.html" />
 	<mapID target="cmdline-delete-path" url="cmdline-delete-path.html" />

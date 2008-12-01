@@ -83,7 +83,7 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	 * @return Returns true if users is "*" (All SVN Users)
 	 */
 	public boolean isAllUsers() {
-		return (name == null) ? false : name.equals(Constants.ALL_USERS);
+		return (name == null) ? false : name.equals(Constants.TEXT_ALL_USERS);
 	}
 	
 	/**

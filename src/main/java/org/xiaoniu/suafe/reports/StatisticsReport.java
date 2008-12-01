@@ -20,11 +20,21 @@ package org.xiaoniu.suafe.reports;
 import java.text.DateFormat;
 import java.util.Date;
 
+import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.reports.helpers.StatisticsReportHelper;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 public class StatisticsReport extends GenericReport {
 
+	private StatisticsReportHelper helper = null;
+	
+	public StatisticsReport(Document document) {
+		super(document);
+		
+		helper = new StatisticsReportHelper(document);
+	}
+	
 	public String generate() throws ApplicationException {
 		StringBuffer report = new StringBuffer();
 		
@@ -36,16 +46,16 @@ public class StatisticsReport extends GenericReport {
 		report.append("<h1>" + ResourceUtil.getString("statisticsreport.title") + "</h1>");
 		
 		report.append("<h2>" + ResourceUtil.getString("statisticsreport.users") + "</h2>");
-		report.append("<p>" + document.getUsers().size() + " users</p>");
+		report.append("<p>" + helper.getUserCount() + " users</p>");
 		
 		report.append("<h2>" + ResourceUtil.getString("statisticsreport.groups") + "</h2>");
-		report.append("<p>" + document.getGroups().size() + " groups</p>");
+		report.append("<p>" + helper.getGroupCount() + " groups</p>");
 		
 		report.append("<h2>" + ResourceUtil.getString("statisticsreport.repositories") + "</h2>");
-		report.append("<p>" + document.getRepositories().size() + " repositories</p>");
+		report.append("<p>" + helper.getRepoStatistics().getCount() + " repositories</p>");
 		
 		report.append("<h2>" + ResourceUtil.getString("statisticsreport.rules") + "</h2>");
-		report.append("<p>" + document.getAccessRules().size() + " access rules</p>");
+		report.append("<p>" + helper.getAccessRuleCount() + " access rules</p>");
 		
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 		
