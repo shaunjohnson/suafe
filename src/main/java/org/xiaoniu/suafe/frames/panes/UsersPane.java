@@ -122,7 +122,7 @@ public class UsersPane extends BaseSplitPane {
 	 */
 	public JButton getCloneUserButton() {
 		if (cloneUserButton == null) {
-			cloneUserButton = createButton("button.close", "mainframe.button.cloneuser.tooltip",
+			cloneUserButton = createButton("button.clone", "mainframe.button.cloneuser.tooltip",
 					ResourceUtil.cloneUserIcon, Constants.CLONE_USER_ACTION, actionListener);
 			cloneUserButton.setEnabled(false);
 		}
