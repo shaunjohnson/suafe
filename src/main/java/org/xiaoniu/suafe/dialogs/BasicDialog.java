@@ -298,7 +298,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		Group existingGroup = document.findGroup(groupName);
 
 		if (existingGroup == null || existingGroup == group) {
-			message.setUserObject(document.renameGroup(existingGroup, groupName));
+			message.setUserObject(document.renameGroup(group, groupName));
 			message.setState(Message.SUCCESS);
 			dispose();
 		}
@@ -349,7 +349,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		User existingUser = document.findUser(userName);
 
 		if (existingUser == null || existingUser == user) {
-			message.setUserObject(document.renameUser(existingUser, userName));
+			message.setUserObject(document.renameUser(user, userName));
 			message.setState(Message.SUCCESS);
 			dispose();
 		}
