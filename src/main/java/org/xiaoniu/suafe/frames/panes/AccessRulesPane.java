@@ -303,7 +303,7 @@ public class AccessRulesPane extends BaseSplitPane {
 	 */
 	public JButton getEditTreeItemButton() {
 		if (editTreeItemButton == null) {
-			editTreeItemButton = createButton("button.rename", null, actionListener);
+			editTreeItemButton = createButton("button.edit", null, actionListener);
 			editTreeItemButton.setEnabled(false);
 		}
 

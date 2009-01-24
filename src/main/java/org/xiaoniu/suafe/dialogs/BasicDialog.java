@@ -117,7 +117,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
-		initialize();
+		initialize(group.getName());
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
-		initialize();
+		initialize(null);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
-		initialize();
+		initialize(path.getPath());
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
-		initialize();
+		initialize(repository.getName());
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
-		initialize();
+		initialize(user.getName());
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -524,13 +524,14 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * This method initializes this
 	 */
-	private void initialize() {
+	private void initialize(String initialText) {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString(type + ".title"));
 		this.setContentPane(getJContentPane());
 
 		getRootPane().setDefaultButton(saveButton);
+		getText().setText(initialText);
 
 		this.pack();
 		this.setModal(true);

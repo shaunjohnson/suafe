@@ -52,6 +52,7 @@ import javax.help.HelpSetException;
 import javax.help.WindowPresentation;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -1671,7 +1672,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 	private void loadHelp() {
 		try {
-			String urlString = Constants.PATH_RESOURCE_HELP_DIR + "/" + ResourceUtil.getString("application.language") + "/suafe.hs";
+			String urlString = Constants.PATH_RESOURCE_HELP_DIR + "/" + ResourceUtil.getString("application.language")
+					+ "/suafe.hs";
 
 			ClassLoader cl = MainFrame.class.getClassLoader();
 			URL url = cl.getResource(urlString);
@@ -2459,55 +2461,56 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		}
 
 		Object userObject = node.getUserObject();
+		JButton editButton = getAccessRulesPane().getEditTreeItemButton();
+		JButton deleteButton = getAccessRulesPane().getDeleteTreeItemButton();
 
 		if (userObject instanceof Repository) {
 			refreshRepositoryAccessRules((Repository) userObject);
 
-			getAccessRulesPane().getEditTreeItemButton().setEnabled(true);
-			getAccessRulesPane().getDeleteTreeItemButton().setEnabled(true);
+			editButton.setEnabled(true);
+			editButton.setText(ResourceUtil.getString("button.rename"));
+			deleteButton.setEnabled(true);
 
-			getAccessRulesPane().getEditTreeItemButton().setIcon(ResourceUtil.repositoryEditIcon);
-			getAccessRulesPane().getDeleteTreeItemButton().setIcon(ResourceUtil.repositoryDeleteIcon);
+			editButton.setIcon(ResourceUtil.repositoryEditIcon);
+			deleteButton.setIcon(ResourceUtil.repositoryDeleteIcon);
 
-			getAccessRulesPane().getEditTreeItemButton().setActionCommand(Constants.RENAME_REPOSITORY_ACTION);
-			getAccessRulesPane().getDeleteTreeItemButton().setActionCommand(Constants.DELETE_REPOSITORY_ACTION);
+			editButton.setActionCommand(Constants.RENAME_REPOSITORY_ACTION);
+			deleteButton.setActionCommand(Constants.DELETE_REPOSITORY_ACTION);
 
-			getAccessRulesPane().getEditTreeItemButton().setToolTipText(
-					ResourceUtil.getString("mainframe.button.renamerepository.tooltip"));
-			getAccessRulesPane().getDeleteTreeItemButton().setToolTipText(
-					ResourceUtil.getString("mainframe.button.deleterepository.tooltip"));
+			editButton.setToolTipText(ResourceUtil.getString("mainframe.button.renamerepository.tooltip"));
+			deleteButton.setToolTipText(ResourceUtil.getString("mainframe.button.deleterepository.tooltip"));
 		}
 		else if (userObject instanceof Path) {
 			refreshPathAccessRules((Path) userObject);
 
-			getAccessRulesPane().getEditTreeItemButton().setEnabled(true);
-			getAccessRulesPane().getDeleteTreeItemButton().setEnabled(true);
+			editButton.setEnabled(true);
+			editButton.setText(ResourceUtil.getString("button.edit"));
+			deleteButton.setEnabled(true);
 
-			getAccessRulesPane().getEditTreeItemButton().setIcon(ResourceUtil.pathEditIcon);
-			getAccessRulesPane().getDeleteTreeItemButton().setIcon(ResourceUtil.pathDeleteIcon);
+			editButton.setIcon(ResourceUtil.pathEditIcon);
+			deleteButton.setIcon(ResourceUtil.pathDeleteIcon);
 
-			getAccessRulesPane().getEditTreeItemButton().setActionCommand(Constants.EDIT_PATH_ACTION);
-			getAccessRulesPane().getDeleteTreeItemButton().setActionCommand(Constants.DELETE_PATH_ACTION);
+			editButton.setActionCommand(Constants.EDIT_PATH_ACTION);
+			deleteButton.setActionCommand(Constants.DELETE_PATH_ACTION);
 
-			getAccessRulesPane().getEditTreeItemButton().setToolTipText(
-					ResourceUtil.getString("mainframe.button.editpath.tooltip"));
-			getAccessRulesPane().getDeleteTreeItemButton().setToolTipText(
-					ResourceUtil.getString("mainframe.button.deletepath.tooltip"));
+			editButton.setToolTipText(ResourceUtil.getString("mainframe.button.editpath.tooltip"));
+			deleteButton.setToolTipText(ResourceUtil.getString("mainframe.button.deletepath.tooltip"));
 		}
 		else {
 			refreshServerAccessRules();
 
-			getAccessRulesPane().getEditTreeItemButton().setEnabled(false);
-			getAccessRulesPane().getDeleteTreeItemButton().setEnabled(false);
+			editButton.setEnabled(false);
+			editButton.setText(ResourceUtil.getString("button.edit"));
+			deleteButton.setEnabled(false);
 
-			getAccessRulesPane().getEditTreeItemButton().setIcon(null);
-			getAccessRulesPane().getDeleteTreeItemButton().setIcon(null);
+			editButton.setIcon(null);
+			deleteButton.setIcon(null);
 
-			getAccessRulesPane().getEditTreeItemButton().setActionCommand(null);
-			getAccessRulesPane().getDeleteTreeItemButton().setActionCommand(null);
+			editButton.setActionCommand(null);
+			deleteButton.setActionCommand(null);
 
-			getAccessRulesPane().getEditTreeItemButton().setToolTipText(null);
-			getAccessRulesPane().getDeleteTreeItemButton().setToolTipText(null);
+			editButton.setToolTipText(null);
+			deleteButton.setToolTipText(null);
 		}
 	}
 
