@@ -44,6 +44,8 @@ public class FileGenerator {
 	
 	private Document document = null;
 	
+	private final int DEFAULT_MAX_LINE_LENGTH = 80;
+	
 	public FileGenerator(Document document) {
 		super();
 		
@@ -57,6 +59,17 @@ public class FileGenerator {
 	 * @throws ApplicationException
 	 */
 	public String generate() throws ApplicationException {
+		return generate(DEFAULT_MAX_LINE_LENGTH);
+	}
+	
+	/**
+	 * Generates authz content from the current document in memory.
+	 * 
+	 * @return Authz file content
+	 * @param maxLineLength Maximum line length
+	 * @throws ApplicationException
+	 */
+	public String generate(int maxLineLength) throws ApplicationException {
 		StringBuffer output = null;
 		
 		try {
@@ -72,21 +85,38 @@ public class FileGenerator {
 			for (Group group : document.getGroups()) {	
 				output.append(group.getName() + " = ");
 				
+				String prefix = createPrefix(group.getName().length() + 3);
+				boolean isFirstGroupMember = true;
+				
 				if (!group.getGroupMembers().isEmpty()) {
 					Collections.sort(group.getGroupMembers());
 					
 					Iterator<Group> members = group.getGroupMembers().iterator();
 					
+					StringBuffer groupLine = new StringBuffer();
+					
 					while(members.hasNext()) {
 						Group memberGroup = (Group)members.next();
 						
-						output.append("@" + memberGroup.getName());
+						if (!isFirstGroupMember && groupLine.length() + memberGroup.getName().length() > maxLineLength) {
+							output.append(groupLine);
+							output.append(Constants.TEXT_NEW_LINE);
+							output.append(prefix);
+							
+							groupLine = new StringBuffer();
+						}
+						
+						groupLine.append("@" + memberGroup.getName());
 						
 						// Add comma if more members exist
 						if (members.hasNext()) {
-							output.append(", ");
+							groupLine.append(", ");
 						}
+						
+						isFirstGroupMember = false;
 					}
+					
+					output.append(groupLine);
 				}
 				
 				if (!group.getUserMembers().isEmpty()) {
@@ -97,22 +127,38 @@ public class FileGenerator {
 					Collections.sort(group.getUserMembers());
 					Iterator<User> members = group.getUserMembers().iterator();
 					
+					StringBuffer userLine = new StringBuffer();
+					
 					while(members.hasNext()) {
 						User memberUser = (User)members.next();
 						
-						output.append(memberUser.getName());
+						if (!isFirstGroupMember && userLine.length() + memberUser.getName().length() > maxLineLength) {
+							output.append(userLine);
+							output.append(Constants.TEXT_NEW_LINE);
+							output.append(prefix);
+							
+							userLine = new StringBuffer();
+						}
+						
+						userLine.append(memberUser.getName());
 						
 						// Add comma if more members exist
 						if (members.hasNext()) {
-							output.append(", ");
+							userLine.append(", ");
 						}
+						
+						isFirstGroupMember = false;
 					}
+					
+					output.append(userLine);
 				}
 				
 				output.append(Constants.TEXT_NEW_LINE);
 			}
 			
-			output.append(Constants.TEXT_NEW_LINE);
+			if (document.getPaths().size() > 0) {
+				output.append(Constants.TEXT_NEW_LINE);
+			}
 			
 			// Process access rules
 			Collections.sort(document.getPaths(), new PathComparator());
@@ -147,8 +193,6 @@ public class FileGenerator {
 				
 				output.append(Constants.TEXT_NEW_LINE);
 			}
-			
-			output.append(Constants.TEXT_NEW_LINE);
 		}
 		catch(Exception e) {
 			throw new ApplicationException(ResourceUtil.getString("generator.error"));
@@ -164,13 +208,24 @@ public class FileGenerator {
 	 * @throws ApplicationException
 	 */
 	public void generate(File file) throws ApplicationException {
+		generate(file, DEFAULT_MAX_LINE_LENGTH);
+	}
+	
+	/**
+	 * Generates and saves the current authz content in memory.
+	 * 
+	 * @param file File where authz content is to be written.
+	 * @param maxLineLength Maximum line length
+	 * @throws ApplicationException
+	 */
+	public void generate(File file, int maxLineLength) throws ApplicationException {
 		PrintWriter output = null;
 		
 		try {
 			output = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 			
 			// Process group definitions
-			output.print(generate());
+			output.print(generate(maxLineLength));
 		}
 		catch(FileNotFoundException fne) {
 			throw new ApplicationException(ResourceUtil.getString("generator.filenotfound"));
@@ -186,5 +241,15 @@ public class FileGenerator {
 				output.close();
 			}
 		}
+	}
+	
+	private String createPrefix(int length) {
+		StringBuilder builder = new StringBuilder();
+		
+		for (int i = 0; i < length; i++) {
+			builder.append(" ");
+		}
+		
+		return builder.toString();
 	}
 }

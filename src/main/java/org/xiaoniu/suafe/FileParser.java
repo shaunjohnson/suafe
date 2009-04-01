@@ -80,6 +80,11 @@ public class FileParser {
 	private Path currentPath = null;
 	
 	/**
+	 * Group currently being processed.
+	 */
+	private Group currentGroup = null;
+	
+	/**
 	 * Validates whether the supplied file exists and is readable.
 	 * 
 	 * @param file File to be validated.
@@ -173,13 +178,8 @@ public class FileParser {
 			
 			document.initialize();
 			
-			while (line != null) {
-				line = line.trim();
-				
-				// Process non-blank lines
-				if (!line.equals("")) {
-					parseLine(document, lineNumber, line);
-				}
+			while (line != null) {				
+				parseLine(document, lineNumber, line);
 				
 				line = input.readLine();
 				lineNumber++;
@@ -211,6 +211,19 @@ public class FileParser {
 	 * @throws ApplicationException
 	 */
 	private void parseLine(Document document, int lineNumber, String line) throws ParserException, ApplicationException {
+		// Process non-blank lines
+		if (line.equals("")) {
+			if (currentState == STATE_PROCESS_GROUPS && currentGroup != null) {
+				// Invalid syntax
+				throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidgroupdefinition"));
+			}
+			
+			return;
+		}
+		
+		// Replace all "tab" characters with a space
+		line = line.replaceAll("\\t", " ");
+		
 		switch(line.charAt(0)) {
 			case '#':
 				// Ignore comments
@@ -305,17 +318,10 @@ public class FileParser {
 				
 				break;
 				
-			default:
-				if (currentState == STATE_PROCESS_GROUPS) {
-					int index = line.indexOf('=');
-					
-					if (index == -1) {
-						throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidgroupdefinition"));
-					}
-					
-					String name = line.substring(0, index).trim();
-					String members = line.substring(index + 1).trim();
-					StringTokenizer tokens = new StringTokenizer(members, " ,");
+			case ' ':
+				{
+					// Group, continued
+					StringTokenizer tokens = new StringTokenizer(line.trim(), " ,");
 					int memberCount = tokens.countTokens();
 					List<String> groupMembers = new ArrayList<String>();
 					List<String> userMembers = new ArrayList<String>();
@@ -337,28 +343,87 @@ public class FileParser {
 						}
 					}
 					
-					Group existingGroup = document.findGroup(name);
+					document.addMembersByName(currentGroup, groupMembers, userMembers);
 					
-					if (existingGroup == null) {
-						try {
-							document.addGroupByName(name, groupMembers, userMembers);
+					// Keep group for next line if there are more lines to process
+					String slimLine = line.trim();
+					
+					if (slimLine.charAt(slimLine.length() - 1) != ',') {
+						currentGroup = null;
+					}
+				}
+				
+				break;
+			
+			default:
+				if (currentState == STATE_PROCESS_GROUPS) {
+					int index = line.indexOf('=');
+					
+					if (index >= 0) {
+						if (currentGroup != null) {
+							// Invalid syntax
+							throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidgroupdefinition"));
+						}					
+						
+						// New Group
+						String name = line.substring(0, index).trim();
+						String members = line.substring(index + 1).trim();
+						StringTokenizer tokens = new StringTokenizer(members, " ,");
+						int memberCount = tokens.countTokens();
+						List<String> groupMembers = new ArrayList<String>();
+						List<String> userMembers = new ArrayList<String>();
+						
+						for(int i = 0; i < memberCount; i++) {
+							String member = tokens.nextToken();
+							
+							if (member.charAt(0) == '@') {
+								String memberGroupName = member.substring(1, member.length());
+								
+								if (!groupMembers.contains(memberGroupName)) {
+									groupMembers.add(memberGroupName);
+								}
+							}
+							else {
+								if (!userMembers.contains(member)) {
+									userMembers.add(member);
+								}
+							}
 						}
-						catch (ApplicationException ae) {
-							throw ParserException.generateException(lineNumber, ae.getMessage());
+						
+						Group existingGroup = document.findGroup(name);
+						
+						if (existingGroup == null) {
+							try {
+								existingGroup = document.addGroupByName(name, groupMembers, userMembers);
+							}
+							catch (ApplicationException ae) {
+								throw ParserException.generateException(lineNumber, ae.getMessage());
+							}
+						}
+						else {
+							// Group already exists.
+							
+							if (existingGroup.getGroupMembers().isEmpty() && existingGroup.getUserMembers().isEmpty()) {
+								// Existing group does not have any members
+								document.addMembersByName(existingGroup, groupMembers, userMembers);
+								
+							}
+							else {
+								// Existing group already has members. This is likely a duplicate group definition
+								throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicategroup", name));
+							}
+						}
+						
+						// Keep group for next line if there are more lines to process
+						String slimLine = line.trim();
+						
+						if (slimLine.charAt(slimLine.length() - 1) == ',') {
+							currentGroup = existingGroup;
 						}
 					}
 					else {
-						// Group already exists.
-						
-						if (existingGroup.getGroupMembers().isEmpty() && existingGroup.getUserMembers().isEmpty()) {
-							// Existing group does not have any members
-							document.addMembersByName(existingGroup, groupMembers, userMembers);
-							
-						}
-						else {
-							// Existing group already has members. This is likely a duplicate group definition
-							throw ParserException.generateException(lineNumber, ResourceUtil.getFormattedString("parser.syntaxerror.duplicategroup", name));
-						}
+						// Invalid syntax
+						throw ParserException.generateException(lineNumber, ResourceUtil.getString("parser.syntaxerror.invalidgroupdefinition"));
 					}
 				}
 				else if (currentState == STATE_PROCESS_RULES || currentState == STATE_PROCESS_SERVER_RULES) {
