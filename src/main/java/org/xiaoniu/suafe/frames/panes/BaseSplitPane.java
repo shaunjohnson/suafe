@@ -10,6 +10,9 @@ import javax.swing.JSplitPane;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 public abstract class BaseSplitPane extends JSplitPane {
+
+	private static final long serialVersionUID = 6274498016581207351L;
+
 	/**
 	 * Creates a button using the specified bundle key and action code.
 	 * 

@@ -5,7 +5,45 @@
 <body>
 <h1>Command Line - Users</h1>
 
+<p>
+Counts the number of users.<br>
+<br>
+Flags:
+<ul>
+	<li>countusers : Count users command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --countusers
+</pre>
+</p>
 
+<p>
+Returns a list of all users mentioned in the authz file.<br>
+<br>
+Flags:
+<ul>
+	<li>getusers : Get users command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getusers
+</pre>
+</p>
+
+<p>
+Returns a list of groups of which a specified user is a member.<br>
+<br>
+Flags:
+<ul>
+	<li>getusergroups : Get user groups command</li>
+	<li>name : Name of user</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getusergroups --name shaun
+</pre>
+</p>
 
 </body>
 </html>

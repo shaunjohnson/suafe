@@ -40,7 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.Utilities;
 import org.xiaoniu.suafe.beans.Document;
@@ -122,13 +122,13 @@ public class ChangeMembershipDialog extends ParentDialog implements
 	 * ActionPerformed event handler.
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals(Constants.ASSIGN_ACTION)) {
+		if (e.getActionCommand().equals(ActionConstants.ASSIGN_ACTION)) {
 			assign();
 		}
-		else if (e.getActionCommand().equals(Constants.UNASSIGN_ACTION)) {
+		else if (e.getActionCommand().equals(ActionConstants.UNASSIGN_ACTION)) {
 			unassign();
 		}		
-		else if (e.getActionCommand().equals(Constants.SAVE_ACTION)) {
+		else if (e.getActionCommand().equals(ActionConstants.SAVE_ACTION)) {
 			try {
 				document.changeUserMembership(user, memberOf);
 				message.setUserObject(user);
@@ -139,7 +139,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 				displayError(ex.getMessage());
 			}
 		}
-		else if (e.getActionCommand().equals(Constants.CANCEL_ACTION)) {
+		else if (e.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
 			message.setState(Message.CANCEL);
 			dispose();
 		}		
@@ -203,7 +203,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 			assignButton = new JButton();
 			assignButton.setIcon(ResourceUtil.assignIcon);
 			assignButton.addActionListener(this);
-			assignButton.setActionCommand(Constants.ASSIGN_ACTION);
+			assignButton.setActionCommand(ActionConstants.ASSIGN_ACTION);
 		}
 		
 		return assignButton;
@@ -231,7 +231,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 	 */    
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
+			cancelButton = createButton("button.cancel", ActionConstants.CANCEL_ACTION, this);
 		}
 		
 		return cancelButton;
@@ -371,7 +371,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 	 */    
 	private JButton getSaveButton() {
 		if (saveButton == null) {
-			saveButton = createButton("button.save", Constants.SAVE_ACTION, this);
+			saveButton = createButton("button.save", ActionConstants.SAVE_ACTION, this);
 		}
 		
 		return saveButton;
@@ -387,7 +387,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 			unassignButton = new JButton();
 			unassignButton.setIcon(ResourceUtil.unassignIcon);
 			unassignButton.addActionListener(this);
-			unassignButton.setActionCommand(Constants.UNASSIGN_ACTION);
+			unassignButton.setActionCommand(ActionConstants.UNASSIGN_ACTION);
 		}
 		
 		return unassignButton;

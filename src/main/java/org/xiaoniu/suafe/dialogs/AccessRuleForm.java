@@ -20,7 +20,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
@@ -167,7 +169,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		else if (event.getActionCommand().equals(ALL_USERS_ACTION)) {
 			refereshApplyToPanels();
 		}
-		else if (event.getActionCommand().equals(Constants.ADD_REPOSITORY_ACTION)) {
+		else if (event.getActionCommand().equals(ActionConstants.ADD_REPOSITORY_ACTION)) {
 			addRepository();
 		}
 	}
@@ -183,13 +185,13 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		Validator.validateNotEmptyString(ResourceUtil.getString(type + ".path"), pathString);
 
 		if (getReadWriteRadioButton().isSelected()) {
-			levelOfAccess = Constants.ACCESS_LEVEL_READWRITE;
+			levelOfAccess = SubversionConstants.SVN_ACCESS_LEVEL_READWRITE;
 		}
 		else if (getReadOnlyRadioButton().isSelected()) {
-			levelOfAccess = Constants.ACCESS_LEVEL_READONLY;
+			levelOfAccess = SubversionConstants.SVN_ACCESS_LEVEL_READONLY;
 		}
 		else {
-			levelOfAccess = Constants.ACCESS_LEVEL_DENY_ACCESS;
+			levelOfAccess = SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS;
 		}
 
 		if (getGroupRadioButton().isSelected()) {
@@ -237,13 +239,13 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		Validator.validateNotEmptyString(ResourceUtil.getString("editaccessrule.path"), pathString);
 
 		if (getReadWriteRadioButton().isSelected()) {
-			levelOfAccess = Constants.ACCESS_LEVEL_READWRITE;
+			levelOfAccess = SubversionConstants.SVN_ACCESS_LEVEL_READWRITE;
 		}
 		else if (getReadOnlyRadioButton().isSelected()) {
-			levelOfAccess = Constants.ACCESS_LEVEL_READONLY;
+			levelOfAccess = SubversionConstants.SVN_ACCESS_LEVEL_READONLY;
 		}
 		else {
-			levelOfAccess = Constants.ACCESS_LEVEL_DENY_ACCESS;
+			levelOfAccess = SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS;
 		}
 
 		if (getGroupRadioButton().isSelected()) {
@@ -333,7 +335,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (addRepositoryButton == null) {
 			addRepositoryButton = new JButton();
 			addRepositoryButton.addActionListener(this);
-			addRepositoryButton.setActionCommand(Constants.ADD_REPOSITORY_ACTION);
+			addRepositoryButton.setActionCommand(ActionConstants.ADD_REPOSITORY_ACTION);
 			addRepositoryButton.setPreferredSize(new Dimension(56, 25));
 			addRepositoryButton.setText(ResourceUtil.getString(type + ".addrepository"));
 			addRepositoryButton.setToolTipText(ResourceUtil.getString(type + ".addrepository.tooltip"));
@@ -423,7 +425,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			denyAccessRadioButton.setText(ResourceUtil.getString("accesslevel.denyaccess"));
 			denyAccessRadioButton.setFont(Constants.FONT_PLAIN);
 
-			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_DENY_ACCESS)) {
+			if (accessRule != null && accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) {
 				denyAccessRadioButton.setSelected(true);
 			}
 		}
@@ -591,7 +593,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			readOnlyRadioButton.setText(ResourceUtil.getString("accesslevel.readonly"));
 			readOnlyRadioButton.setFont(Constants.FONT_PLAIN);
 
-			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY)) {
+			if (accessRule != null && accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) {
 				readOnlyRadioButton.setSelected(true);
 			}
 		}
@@ -610,7 +612,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			readWriteRadioButton.setText(ResourceUtil.getString("accesslevel.readwrite"));
 			readWriteRadioButton.setFont(Constants.FONT_PLAIN);
 
-			if (accessRule != null && accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READWRITE)) {
+			if (accessRule != null && accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) {
 				readWriteRadioButton.setSelected(true);
 			}
 			else {

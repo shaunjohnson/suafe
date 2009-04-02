@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Path;
@@ -58,13 +58,13 @@ public class AccessRuleTest {
 	public void testAccessRulePathGroupString() {
 		Path path = new Path();
 		Group group = new Group();
-		AccessRule rule = new AccessRule(path, group, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule rule = new AccessRule(path, group, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(rule.getPath().equals(path));
 		assertTrue(rule.getGroup().equals(group));
 		assertTrue(rule.getUser() == null);
 		assertTrue(rule.getLevel() != null);
-		assertTrue(rule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY));
+		assertTrue(rule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY));
 		assertTrue(rule.getLevelFullName() != null);
 	}
 
@@ -74,13 +74,13 @@ public class AccessRuleTest {
 	@Test
 	public void testAccessRulePathString() {
 		Path path = new Path();
-		AccessRule rule = new AccessRule(path, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule rule = new AccessRule(path, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(rule.getPath().equals(path));
 		assertTrue(rule.getGroup() == null);
 		assertTrue(rule.getUser() == null);
 		assertTrue(rule.getLevel() != null);
-		assertTrue(rule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY));
+		assertTrue(rule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY));
 		assertTrue(rule.getLevelFullName() != null);
 	}
 
@@ -91,13 +91,13 @@ public class AccessRuleTest {
 	public void testAccessRulePathUserString() {
 		Path path = new Path();
 		User user = new User();
-		AccessRule rule = new AccessRule(path, user, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule rule = new AccessRule(path, user, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(rule.getPath().equals(path));
 		assertTrue(rule.getGroup() == null);
 		assertTrue(rule.getUser().equals(user));
 		assertTrue(rule.getLevel() != null);
-		assertTrue(rule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY));
+		assertTrue(rule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY));
 		assertTrue(rule.getLevelFullName() != null);
 	}
 
@@ -110,24 +110,24 @@ public class AccessRuleTest {
 
 		Path path2 = new Path();
 
-		AccessRule ac2a = new AccessRule(path2, Constants.ACCESS_LEVEL_READONLY);
-		AccessRule ac2b = new AccessRule(path2, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule ac2a = new AccessRule(path2, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
+		AccessRule ac2b = new AccessRule(path2, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(ac2a.compareTo(ac2b) == 0);
 
 		Path path3 = new Path();
 		Group group = new Group(groupName);
 
-		AccessRule ac3a = new AccessRule(path3, group, Constants.ACCESS_LEVEL_READONLY);
-		AccessRule ac3b = new AccessRule(path3, group, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule ac3a = new AccessRule(path3, group, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
+		AccessRule ac3b = new AccessRule(path3, group, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(ac3a.compareTo(ac3b) == 0);
 
 		Path path4 = new Path();
 		User user = new User(userName);
 
-		AccessRule ac4a = new AccessRule(path4, user, Constants.ACCESS_LEVEL_READONLY);
-		AccessRule ac4b = new AccessRule(path4, user, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule ac4a = new AccessRule(path4, user, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
+		AccessRule ac4b = new AccessRule(path4, user, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(ac4a.compareTo(ac4b) == 0);
 	}
@@ -141,24 +141,24 @@ public class AccessRuleTest {
 
 		Path path2 = new Path();
 
-		AccessRule ac2a = new AccessRule(path2, Constants.ACCESS_LEVEL_READONLY);
-		AccessRule ac2b = new AccessRule(path2, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule ac2a = new AccessRule(path2, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
+		AccessRule ac2b = new AccessRule(path2, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(ac2a.equals(ac2b));
 
 		Path path3 = new Path();
 		Group group = new Group(groupName);
 
-		AccessRule ac3a = new AccessRule(path3, group, Constants.ACCESS_LEVEL_READONLY);
-		AccessRule ac3b = new AccessRule(path3, group, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule ac3a = new AccessRule(path3, group, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
+		AccessRule ac3b = new AccessRule(path3, group, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(ac3a.equals(ac3b));
 
 		Path path4 = new Path();
 		User user = new User(userName);
 
-		AccessRule ac4a = new AccessRule(path4, user, Constants.ACCESS_LEVEL_READONLY);
-		AccessRule ac4b = new AccessRule(path4, user, Constants.ACCESS_LEVEL_READONLY);
+		AccessRule ac4a = new AccessRule(path4, user, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
+		AccessRule ac4b = new AccessRule(path4, user, SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(ac4a.equals(ac4b));
 	}
@@ -171,7 +171,7 @@ public class AccessRuleTest {
 		assertTrue(accessRule.getLevelFullName().length() > 0);
 
 		try {
-			accessRule.setLevel(Constants.ACCESS_LEVEL_DENY_ACCESS);
+			accessRule.setLevel(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS);
 		}
 		catch (ApplicationException e) {
 			fail("Unexpected exception");
@@ -181,7 +181,7 @@ public class AccessRuleTest {
 		assertTrue(accessRule.getLevelFullName().length() > 0);
 
 		try {
-			accessRule.setLevel(Constants.ACCESS_LEVEL_READONLY);
+			accessRule.setLevel(SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 		}
 		catch (ApplicationException e) {
 			fail("Unexpected exception");
@@ -191,7 +191,7 @@ public class AccessRuleTest {
 		assertTrue(accessRule.getLevelFullName().length() > 0);
 
 		try {
-			accessRule.setLevel(Constants.ACCESS_LEVEL_READWRITE);
+			accessRule.setLevel(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE);
 		}
 		catch (ApplicationException e) {
 			fail("Unexpected exception");
@@ -227,19 +227,19 @@ public class AccessRuleTest {
 		assertTrue(accessRule.getLevel() == null);
 
 		try {
-			accessRule.setLevel(Constants.ACCESS_LEVEL_READONLY);
+			accessRule.setLevel(SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 		}
 		catch (ApplicationException e) {
 			fail("Unexpected exception");
 		}
 
 		assertTrue(accessRule.getLevel() != null);
-		assertTrue(accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY));
+		assertTrue(accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY));
 
-		accessRule = new AccessRule(new Path(), Constants.ACCESS_LEVEL_READONLY);
+		accessRule = new AccessRule(new Path(), SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 
 		assertTrue(accessRule.getLevel() != null);
-		assertTrue(accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY));
+		assertTrue(accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY));
 
 		try {
 			accessRule.setLevel(null);

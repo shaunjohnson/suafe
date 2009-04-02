@@ -28,7 +28,9 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
+import org.xiaoniu.suafe.SubversionConstants;
+import org.xiaoniu.suafe.UndoConstants;
 import org.xiaoniu.suafe.exceptions.ApplicationException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
@@ -314,8 +316,8 @@ public class Document {
 		setUnsavedChanges();
 
 		// Record action
-		UndoableAction action = new UndoableAction(Constants.ADD_GROUP_ACTION);
-		action.addValue(Constants.VALUE_NEW_GROUP_NAME, groupName);
+		UndoableAction action = new UndoableAction(ActionConstants.ADD_GROUP_ACTION);
+		action.addValue(UndoConstants.VALUE_NEW_GROUP_NAME, groupName);
 		addUndoAction(action);
 
 		return group;
@@ -352,8 +354,8 @@ public class Document {
 			groups.add(group);
 
 			// Record action
-			UndoableAction action = new UndoableAction(Constants.ADD_GROUP_ACTION);
-			action.addValue(Constants.VALUE_NEW_GROUP_NAME, groupName);
+			UndoableAction action = new UndoableAction(ActionConstants.ADD_GROUP_ACTION);
+			action.addValue(UndoConstants.VALUE_NEW_GROUP_NAME, groupName);
 			addUndoAction(action);
 		}
 
@@ -377,8 +379,8 @@ public class Document {
 		setUnsavedChanges();
 
 		// Record action
-		UndoableAction action = new UndoableAction(Constants.ADD_GROUP_ACTION);
-		action.addValue(Constants.VALUE_NEW_GROUP_NAME, groupName);
+		UndoableAction action = new UndoableAction(ActionConstants.ADD_GROUP_ACTION);
+		action.addValue(UndoConstants.VALUE_NEW_GROUP_NAME, groupName);
 		addUndoAction(action);
 
 		return group;
@@ -459,8 +461,8 @@ public class Document {
 		setUnsavedChanges();
 
 		// Record action
-		UndoableAction action = new UndoableAction(Constants.ADD_REPOSITORY_ACTION);
-		action.addValue(Constants.VALUE_NEW_REPOSITORY_NAME, repositoryName);
+		UndoableAction action = new UndoableAction(ActionConstants.ADD_REPOSITORY_ACTION);
+		action.addValue(UndoConstants.VALUE_NEW_REPOSITORY_NAME, repositoryName);
 		addUndoAction(action);
 
 		return repository;
@@ -557,8 +559,8 @@ public class Document {
 			setUnsavedChanges();
 
 			// Record action
-			UndoableAction action = new UndoableAction(Constants.ADD_USER_ACTION);
-			action.addValue(Constants.VALUE_NEW_USER_NAME, userName);
+			UndoableAction action = new UndoableAction(ActionConstants.ADD_USER_ACTION);
+			action.addValue(UndoConstants.VALUE_NEW_USER_NAME, userName);
 			addUndoAction(action);
 		}
 
@@ -696,8 +698,8 @@ public class Document {
 		setUnsavedChanges();
 
 		// Record action
-		UndoableAction action = new UndoableAction(Constants.CLONE_GROUP_ACTION);
-		action.addValue(Constants.VALUE_NEW_GROUP_NAME, groupName);
+		UndoableAction action = new UndoableAction(ActionConstants.CLONE_GROUP_ACTION);
+		action.addValue(UndoConstants.VALUE_NEW_GROUP_NAME, groupName);
 		addUndoAction(action);
 
 		return clone;
@@ -730,8 +732,8 @@ public class Document {
 		setUnsavedChanges();
 
 		// Record action
-		UndoableAction action = new UndoableAction(Constants.CLONE_USER_ACTION);
-		action.addValue(Constants.VALUE_NEW_USER_NAME, userName);
+		UndoableAction action = new UndoableAction(ActionConstants.CLONE_USER_ACTION);
+		action.addValue(UndoConstants.VALUE_NEW_USER_NAME, userName);
 		addUndoAction(action);
 
 		return clone;
@@ -1894,7 +1896,7 @@ public class Document {
 		}
 		else {
 			List<User> filteredUsers = users;
-			User allUsers = findUser(Constants.TEXT_ALL_USERS);
+			User allUsers = findUser(SubversionConstants.SVN_ALL_USERS_NAME);
 
 			if (allUsers != null) {
 				filteredUsers.remove(allUsers);
@@ -2092,7 +2094,7 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	private void undoAddGroup(UndoableAction action) throws ApplicationException {
-		String groupName = (String) action.getValue(Constants.VALUE_NEW_GROUP_NAME);
+		String groupName = (String) action.getValue(UndoConstants.VALUE_NEW_GROUP_NAME);
 
 		deleteGroup(groupName);
 	}
@@ -2104,7 +2106,7 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	private void undoAddRepository(UndoableAction action) throws ApplicationException {
-		String repositoryName = (String) action.getValue(Constants.VALUE_NEW_REPOSITORY_NAME);
+		String repositoryName = (String) action.getValue(UndoConstants.VALUE_NEW_REPOSITORY_NAME);
 
 		deleteRepository(repositoryName);
 	}
@@ -2116,7 +2118,7 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	private void undoAddUser(UndoableAction action) throws ApplicationException {
-		String userName = (String) action.getValue(Constants.VALUE_NEW_USER_NAME);
+		String userName = (String) action.getValue(UndoConstants.VALUE_NEW_USER_NAME);
 
 		deleteUser(userName);
 	}
@@ -2131,13 +2133,13 @@ public class Document {
 			UndoableAction action = undoActions.pop();
 			String actionCode = action.getAction();
 
-			if (actionCode.equals(Constants.ADD_GROUP_ACTION) || actionCode.equals(Constants.CLONE_GROUP_ACTION)) {
+			if (actionCode.equals(ActionConstants.ADD_GROUP_ACTION) || actionCode.equals(ActionConstants.CLONE_GROUP_ACTION)) {
 				undoAddGroup(action);
 			}
-			else if (actionCode.equals(Constants.ADD_REPOSITORY_ACTION)) {
+			else if (actionCode.equals(ActionConstants.ADD_REPOSITORY_ACTION)) {
 				undoAddRepository(action);
 			}
-			else if (actionCode.equals(Constants.ADD_USER_ACTION) || actionCode.equals(Constants.CLONE_USER_ACTION)) {
+			else if (actionCode.equals(ActionConstants.ADD_USER_ACTION) || actionCode.equals(ActionConstants.CLONE_USER_ACTION)) {
 				undoAddUser(action);
 			}
 			else {

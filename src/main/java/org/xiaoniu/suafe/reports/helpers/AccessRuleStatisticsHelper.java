@@ -2,7 +2,7 @@ package org.xiaoniu.suafe.reports.helpers;
 
 import java.util.List;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.User;
 
@@ -59,7 +59,7 @@ public class AccessRuleStatisticsHelper {
 			avgDenyAccess = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
 
 				avgDenyAccess += size;
 			}
@@ -127,7 +127,7 @@ public class AccessRuleStatisticsHelper {
 			avgReadOnly = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1 : 0;
 
 				avgReadOnly += size;
 			}
@@ -143,7 +143,7 @@ public class AccessRuleStatisticsHelper {
 			avgReadWrite = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READWRITE)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1 : 0;
 
 				avgReadWrite += size;
 			}
@@ -167,7 +167,7 @@ public class AccessRuleStatisticsHelper {
 			maxDenyAccess = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
 
 				maxDenyAccess = (size > maxDenyAccess) ? size : maxDenyAccess;
 			}
@@ -233,7 +233,7 @@ public class AccessRuleStatisticsHelper {
 			maxReadOnly = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1 : 0;
 
 				maxReadOnly = (size > maxReadOnly) ? size : maxReadOnly;
 			}
@@ -249,7 +249,7 @@ public class AccessRuleStatisticsHelper {
 			maxReadWrite = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READWRITE)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1 : 0;
 
 				maxReadWrite = (size > maxReadWrite) ? size : maxReadWrite;
 			}
@@ -268,7 +268,7 @@ public class AccessRuleStatisticsHelper {
 			minDenyAccess = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
 
 				minDenyAccess = (size < minDenyAccess) ? size : minDenyAccess;
 			}
@@ -334,7 +334,7 @@ public class AccessRuleStatisticsHelper {
 			minReadOnly = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READONLY)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1 : 0;
 
 				minReadOnly = (size < minReadOnly) ? size : minReadOnly;
 			}
@@ -350,7 +350,7 @@ public class AccessRuleStatisticsHelper {
 			minReadWrite = 0;
 
 			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(Constants.ACCESS_LEVEL_READWRITE)) ? 1 : 0;
+				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1 : 0;
 
 				minReadWrite = (size < minReadWrite) ? size : minReadWrite;
 			}

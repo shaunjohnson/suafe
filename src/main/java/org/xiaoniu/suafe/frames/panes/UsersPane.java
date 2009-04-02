@@ -16,6 +16,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
+import org.xiaoniu.suafe.ActionConstants;
+import org.xiaoniu.suafe.ApplicationDefaultsContants;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
@@ -93,7 +95,7 @@ public class UsersPane extends BaseSplitPane {
 	public JButton getAddUserButton() {
 		if (addUserButton == null) {
 			addUserButton = createButton("button.add", "mainframe.button.adduser.tooltip", ResourceUtil.addUserIcon,
-					Constants.ADD_USER_ACTION, actionListener);
+					ActionConstants.ADD_USER_ACTION, actionListener);
 		}
 
 		return addUserButton;
@@ -108,7 +110,7 @@ public class UsersPane extends BaseSplitPane {
 		if (changeMembershipButton == null) {
 			changeMembershipButton = createButton("mainframe.button.changemembership",
 					"mainframe.button.changemembership.tooltip", ResourceUtil.changeMembershipIcon,
-					Constants.CHANGE_MEMBERSHIP_ACTION, actionListener);
+					ActionConstants.CHANGE_MEMBERSHIP_ACTION, actionListener);
 			changeMembershipButton.setEnabled(false);
 		}
 
@@ -123,7 +125,7 @@ public class UsersPane extends BaseSplitPane {
 	public JButton getCloneUserButton() {
 		if (cloneUserButton == null) {
 			cloneUserButton = createButton("button.clone", "mainframe.button.cloneuser.tooltip",
-					ResourceUtil.cloneUserIcon, Constants.CLONE_USER_ACTION, actionListener);
+					ResourceUtil.cloneUserIcon, ActionConstants.CLONE_USER_ACTION, actionListener);
 			cloneUserButton.setEnabled(false);
 		}
 
@@ -138,7 +140,7 @@ public class UsersPane extends BaseSplitPane {
 	public JButton getDeleteUserButton() {
 		if (deleteUserButton == null) {
 			deleteUserButton = createButton("button.delete", "mainframe.button.deleteuser.tooltip",
-					ResourceUtil.deleteUserIcon, Constants.DELETE_USER_ACTION, actionListener);
+					ResourceUtil.deleteUserIcon, ActionConstants.DELETE_USER_ACTION, actionListener);
 			deleteUserButton.setEnabled(false);
 		}
 
@@ -153,7 +155,7 @@ public class UsersPane extends BaseSplitPane {
 	public JButton getRenameUserButton() {
 		if (renameUserButton == null) {
 			renameUserButton = createButton("button.rename", "mainframe.button.renameuser.tooltip",
-					ResourceUtil.renameUserIcon, Constants.RENAME_USER_ACTION, actionListener);
+					ResourceUtil.renameUserIcon, ActionConstants.RENAME_USER_ACTION, actionListener);
 			renameUserButton.setEnabled(false);
 		}
 
@@ -198,7 +200,7 @@ public class UsersPane extends BaseSplitPane {
 		if (userAccessRulesTable == null) {
 			userAccessRulesTable = new JTable();
 			userAccessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			userAccessRulesTable.setRowHeight(Constants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
+			userAccessRulesTable.setRowHeight(ApplicationDefaultsContants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
 			userAccessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			userAccessRulesTable.setAutoCreateRowSorter(true);
 		}

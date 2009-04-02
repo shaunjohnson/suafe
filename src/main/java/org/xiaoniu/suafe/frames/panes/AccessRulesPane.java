@@ -18,7 +18,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
+import org.xiaoniu.suafe.ApplicationDefaultsContants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
@@ -152,7 +153,7 @@ public class AccessRulesPane extends BaseSplitPane {
 			accessRulesTable = new JTable();
 			accessRulesTable.addMouseListener(mouseListener);
 			accessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			accessRulesTable.setRowHeight(Constants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
+			accessRulesTable.setRowHeight(ApplicationDefaultsContants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
 			accessRulesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			accessRulesTable.getSelectionModel().addListSelectionListener(listSelectionListener);
 			accessRulesTable.setAutoCreateRowSorter(true);
@@ -232,7 +233,7 @@ public class AccessRulesPane extends BaseSplitPane {
 	public JButton getAddAccessRuleButton() {
 		if (addAccessRuleButton == null) {
 			addAccessRuleButton = createButton("button.add", "mainframe.button.addaccessrule.tooltip",
-					ResourceUtil.addAccessRuleIcon, Constants.ADD_ACCESS_RULE_ACTION, actionListener);
+					ResourceUtil.addAccessRuleIcon, ActionConstants.ADD_ACCESS_RULE_ACTION, actionListener);
 		}
 
 		return addAccessRuleButton;
@@ -247,7 +248,7 @@ public class AccessRulesPane extends BaseSplitPane {
 		if (addProjectAccessRulesButton == null) {
 			addProjectAccessRulesButton = createButton("button.addProjectAccessRules",
 					"mainframe.button.addprojectaccessrules.tooltip", ResourceUtil.addProjectAccessRulesIcon,
-					Constants.ADD_PROJECT_ACCESS_RULES_ACTION, actionListener);
+					ActionConstants.ADD_PROJECT_ACCESS_RULES_ACTION, actionListener);
 		}
 
 		return addProjectAccessRulesButton;
@@ -261,7 +262,7 @@ public class AccessRulesPane extends BaseSplitPane {
 	public JButton getDeleteAccessRuleButton() {
 		if (deleteAccessRuleButton == null) {
 			deleteAccessRuleButton = createButton("button.delete", "mainframe.button.deleteaccessrule.tooltip",
-					ResourceUtil.deleteAccessRuleIcon, Constants.DELETE_ACCESS_RULE_ACTION, actionListener);
+					ResourceUtil.deleteAccessRuleIcon, ActionConstants.DELETE_ACCESS_RULE_ACTION, actionListener);
 			deleteAccessRuleButton.setEnabled(false);
 		}
 		return deleteAccessRuleButton;
@@ -289,7 +290,7 @@ public class AccessRulesPane extends BaseSplitPane {
 	public JButton getEditAccessRuleButton() {
 		if (editAccessRuleButton == null) {
 			editAccessRuleButton = createButton("button.edit", "mainframe.button.editaccessrule.tooltip",
-					ResourceUtil.editAccessRuleIcon, Constants.EDIT_ACCESS_RULE_ACTION, actionListener);
+					ResourceUtil.editAccessRuleIcon, ActionConstants.EDIT_ACCESS_RULE_ACTION, actionListener);
 			editAccessRuleButton.setEnabled(false);
 		}
 

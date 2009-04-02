@@ -15,6 +15,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.resources.ResourceUtil;
@@ -60,7 +61,9 @@ public class MainFrameMenuBar extends JMenuBar {
 	
 	private JMenuItem openFileMenuItem = null;
 	
-	private JMenuItem openLastFileMenuItem = null; 
+	private JMenuItem openLastFileMenuItem = null;
+	
+	private JMenuItem multiLineGroupDefinitionsMenuItem = null;
 	
 	private JMenuItem previewMenuItem = null;
 	
@@ -118,7 +121,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (aboutMenuItem == null) {
 			aboutMenuItem = new JMenuItem();
 			aboutMenuItem.addActionListener(actionListener);
-			aboutMenuItem.setActionCommand(Constants.ABOUT_ACTION);
+			aboutMenuItem.setActionCommand(ActionConstants.ABOUT_ACTION);
 			aboutMenuItem.setIcon(ResourceUtil.aboutIcon);
 			aboutMenuItem.setText(ResourceUtil.getString("menu.help.about"));
 		}
@@ -153,7 +156,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (addAccessRuleMenuItem == null) {
 			addAccessRuleMenuItem = new JMenuItem();
 			addAccessRuleMenuItem.addActionListener(actionListener);
-			addAccessRuleMenuItem.setActionCommand(Constants.ADD_ACCESS_RULE_ACTION);
+			addAccessRuleMenuItem.setActionCommand(ActionConstants.ADD_ACCESS_RULE_ACTION);
 			addAccessRuleMenuItem.setIcon(ResourceUtil.addAccessRuleIcon);
 			addAccessRuleMenuItem.setText(ResourceUtil.getString("menu.action.addaccessrule"));
 			addAccessRuleMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', 
@@ -172,7 +175,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (addGroupMenuItem == null) {
 			addGroupMenuItem = new JMenuItem();
 			addGroupMenuItem.addActionListener(actionListener);
-			addGroupMenuItem.setActionCommand(Constants.ADD_GROUP_ACTION);
+			addGroupMenuItem.setActionCommand(ActionConstants.ADD_GROUP_ACTION);
 			addGroupMenuItem.setIcon(ResourceUtil.addGroupIcon);
 			addGroupMenuItem.setText(ResourceUtil.getString("menu.action.addgroup"));
 			addGroupMenuItem.setAccelerator(KeyStroke.getKeyStroke('G', 
@@ -191,7 +194,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (addProjectAccessRulesMenuItem == null) {
 			addProjectAccessRulesMenuItem = new JMenuItem();
 			addProjectAccessRulesMenuItem.addActionListener(actionListener);
-			addProjectAccessRulesMenuItem.setActionCommand(Constants.ADD_PROJECT_ACCESS_RULES_ACTION);
+			addProjectAccessRulesMenuItem.setActionCommand(ActionConstants.ADD_PROJECT_ACCESS_RULES_ACTION);
 			addProjectAccessRulesMenuItem.setIcon(ResourceUtil.addProjectAccessRulesIcon);
 			addProjectAccessRulesMenuItem.setText(ResourceUtil.getString("menu.action.addprojectaccessrules"));
 			addProjectAccessRulesMenuItem.setAccelerator(KeyStroke.getKeyStroke('T', 
@@ -210,7 +213,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (addUserMenuItem == null) {
 			addUserMenuItem = new JMenuItem();
 			addUserMenuItem.addActionListener(actionListener);
-			addUserMenuItem.setActionCommand(Constants.ADD_USER_ACTION);
+			addUserMenuItem.setActionCommand(ActionConstants.ADD_USER_ACTION);
 			addUserMenuItem.setIcon(ResourceUtil.addUserIcon);
 			addUserMenuItem.setText(ResourceUtil.getString("menu.action.adduser"));
 			addUserMenuItem.setAccelerator(KeyStroke.getKeyStroke('U', 
@@ -229,7 +232,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (clearRecentFilesMenuItem == null) {
 			clearRecentFilesMenuItem = new JMenuItem(ResourceUtil.getString("menu.file.clearrecentfiles"));
 			clearRecentFilesMenuItem.addActionListener(actionListener);
-			clearRecentFilesMenuItem.setActionCommand(Constants.CLEAR_RECENT_FILES_ACTION);
+			clearRecentFilesMenuItem.setActionCommand(ActionConstants.CLEAR_RECENT_FILES_ACTION);
 		}
 		return clearRecentFilesMenuItem;
 	}
@@ -243,7 +246,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (exitMenuItem == null) {
 			exitMenuItem = new JMenuItem();
 			exitMenuItem.addActionListener(actionListener);
-			exitMenuItem.setActionCommand(Constants.EXIT_ACTION);
+			exitMenuItem.setActionCommand(ActionConstants.EXIT_ACTION);
 			exitMenuItem.setText(ResourceUtil.getString("menu.file.exit"));
 			exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.exit.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
 		}
@@ -339,7 +342,7 @@ public class MainFrameMenuBar extends JMenuBar {
 			monospacedRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.monospaced"));
 			monospacedRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_MONOSPACED, Font.BOLD, 12));
 			monospacedRadioButtonMenuItem.addActionListener(actionListener);
-			monospacedRadioButtonMenuItem.setActionCommand(Constants.MONOSPACED_ACTION);
+			monospacedRadioButtonMenuItem.setActionCommand(ActionConstants.MONOSPACED_ACTION);
 			
 			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_MONOSPACED)) {
 				monospacedRadioButtonMenuItem.setSelected(true);
@@ -357,7 +360,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (newFileMenuItem == null) {
 			newFileMenuItem = new JMenuItem();
 			newFileMenuItem.addActionListener(actionListener);
-			newFileMenuItem.setActionCommand(Constants.NEW_FILE_ACTION);
+			newFileMenuItem.setActionCommand(ActionConstants.NEW_FILE_ACTION);
 			newFileMenuItem.setIcon(ResourceUtil.newFileIcon);
 			newFileMenuItem.setText(ResourceUtil.getString("menu.file.new"));
 			newFileMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.new.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
@@ -375,7 +378,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (openFileMenuItem == null) {
 			openFileMenuItem = new JMenuItem();
 			openFileMenuItem.addActionListener(actionListener);
-			openFileMenuItem.setActionCommand(Constants.OPEN_FILE_ACTION);
+			openFileMenuItem.setActionCommand(ActionConstants.OPEN_FILE_ACTION);
 			openFileMenuItem.setIcon(ResourceUtil.openFileIcon);
 			openFileMenuItem.setText(ResourceUtil.getString("menu.file.open"));						
 			openFileMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.open.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
@@ -394,11 +397,28 @@ public class MainFrameMenuBar extends JMenuBar {
 			openLastFileMenuItem = new JCheckBoxMenuItem();
 			openLastFileMenuItem.setText(ResourceUtil.getString("menu.settings.openlastfile"));
 			openLastFileMenuItem.addActionListener(actionListener);
-			openLastFileMenuItem.setActionCommand(Constants.OPEN_LAST_EDITED_FILE_ACTION);
+			openLastFileMenuItem.setActionCommand(ActionConstants.OPEN_LAST_EDITED_FILE_ACTION);
 			openLastFileMenuItem.setSelected(UserPreferences.getOpenLastFile());
 		}
 		
 		return openLastFileMenuItem;
+	}
+	
+	/** 
+	 * This method initializes multiLineGroupDefinitionMenuItem.
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	public JMenuItem getMultiLineGroupDefinitionsMenuItem() {
+		if (multiLineGroupDefinitionsMenuItem == null) {
+			multiLineGroupDefinitionsMenuItem = new JCheckBoxMenuItem();
+			multiLineGroupDefinitionsMenuItem.setText(ResourceUtil.getString("menu.settings.multilinegroups"));
+			multiLineGroupDefinitionsMenuItem.addActionListener(actionListener);
+			multiLineGroupDefinitionsMenuItem.setActionCommand(ActionConstants.MULTIPLE_LINE_GROUP_DEFINITION_ACTION);
+			multiLineGroupDefinitionsMenuItem.setSelected(UserPreferences.getMultipleLineGroupDefinitions());
+		}
+		
+		return multiLineGroupDefinitionsMenuItem;
 	}
 
 	/**
@@ -411,7 +431,7 @@ public class MainFrameMenuBar extends JMenuBar {
 			previewMenuItem = new JMenuItem();
 			previewMenuItem.setText(ResourceUtil.getString("menu.reports.preview"));
 			previewMenuItem.addActionListener(actionListener);
-			previewMenuItem.setActionCommand(Constants.PREVIEW_ACTION);
+			previewMenuItem.setActionCommand(ActionConstants.PREVIEW_ACTION);
 		}
 		return previewMenuItem;
 	}
@@ -426,7 +446,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (printMenuItem == null) {
 			printMenuItem = new JMenuItem();
 			printMenuItem.addActionListener(actionListener);
-			printMenuItem.setActionCommand(Constants.PRINT_ACTION);
+			printMenuItem.setActionCommand(ActionConstants.PRINT_ACTION);
 			printMenuItem.setIcon(ResourceUtil.printIcon);
 			printMenuItem.setText(ResourceUtil.getString("menu.file.print"));
 			printMenuItem.setToolTipText(ResourceUtil.getString("menu.file.print.tooltip"));			
@@ -458,7 +478,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (reloadMenuItem == null) {
 			reloadMenuItem = new JMenuItem();
 			reloadMenuItem.addActionListener(actionListener);
-			reloadMenuItem.setActionCommand(Constants.RELOAD_ACTION);
+			reloadMenuItem.setActionCommand(ActionConstants.RELOAD_ACTION);
 			reloadMenuItem.setIcon(ResourceUtil.reloadIcon);
 			reloadMenuItem.setText(ResourceUtil.getString("menu.file.reload"));						
 			reloadMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.reload.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
@@ -492,7 +512,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (resetSettingsMenuItem == null) {
 			resetSettingsMenuItem = new JMenuItem();
 			resetSettingsMenuItem.addActionListener(actionListener);
-			resetSettingsMenuItem.setActionCommand(Constants.RESET_SETTINGS_ACTION);
+			resetSettingsMenuItem.setActionCommand(ActionConstants.RESET_SETTINGS_ACTION);
 			resetSettingsMenuItem.setText(ResourceUtil.getString("menu.settings.resetsettings"));			
 		}
 		
@@ -510,7 +530,7 @@ public class MainFrameMenuBar extends JMenuBar {
 			sansSerifRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.sanserif"));
 			sansSerifRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_SANS_SERIF, Font.BOLD, 12));
 			sansSerifRadioButtonMenuItem.addActionListener(actionListener);
-			sansSerifRadioButtonMenuItem.setActionCommand(Constants.SANS_SERIF_ACTION);
+			sansSerifRadioButtonMenuItem.setActionCommand(ActionConstants.SANS_SERIF_ACTION);
 			
 			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_SANS_SERIF)) {
 				sansSerifRadioButtonMenuItem.setSelected(true);
@@ -528,7 +548,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (saveAsMenuItem == null) {
 			saveAsMenuItem = new JMenuItem();
 			saveAsMenuItem.addActionListener(actionListener);
-			saveAsMenuItem.setActionCommand(Constants.SAVE_FILE_AS_ACTION);
+			saveAsMenuItem.setActionCommand(ActionConstants.SAVE_FILE_AS_ACTION);
 			saveAsMenuItem.setIcon(ResourceUtil.saveFileAsIcon);
 			saveAsMenuItem.setText(ResourceUtil.getString("menu.file.saveas"));		
 			saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.saveas.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() + InputEvent.SHIFT_MASK, false));
@@ -546,7 +566,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (saveFileMenuItem == null) {
 			saveFileMenuItem = new JMenuItem();
 			saveFileMenuItem.addActionListener(actionListener);
-			saveFileMenuItem.setActionCommand(Constants.SAVE_FILE_ACTION);
+			saveFileMenuItem.setActionCommand(ActionConstants.SAVE_FILE_ACTION);
 			saveFileMenuItem.setIcon(ResourceUtil.saveFileIcon);
 			saveFileMenuItem.setText(ResourceUtil.getString("menu.file.save"));			
 			saveFileMenuItem.setAccelerator(KeyStroke.getKeyStroke(ResourceUtil.getString("menu.file.save.shortcut").charAt(0), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
@@ -566,7 +586,7 @@ public class MainFrameMenuBar extends JMenuBar {
 			serifRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.serif"));
 			serifRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_SERIF, Font.BOLD, 12));
 			serifRadioButtonMenuItem.addActionListener(actionListener);
-			serifRadioButtonMenuItem.setActionCommand(Constants.SERIF_ACTION);
+			serifRadioButtonMenuItem.setActionCommand(ActionConstants.SERIF_ACTION);
 			
 			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_SERIF)) {
 				serifRadioButtonMenuItem.setSelected(true);
@@ -585,6 +605,7 @@ public class MainFrameMenuBar extends JMenuBar {
 			settingsMenu = new JMenu();
 			settingsMenu.setText(ResourceUtil.getString("menu.settings"));
 			settingsMenu.add(getOpenLastFileMenuItem());
+			settingsMenu.add(getMultiLineGroupDefinitionsMenuItem());
 			settingsMenu.add(new JSeparator());
 			settingsMenu.add(getMonospacedRadioButtonMenuItem());
 			settingsMenu.add(getSansSerifRadioButtonMenuItem());
@@ -611,7 +632,7 @@ public class MainFrameMenuBar extends JMenuBar {
 			statisticsMenuItem = new JMenuItem();
 			statisticsMenuItem.setText(ResourceUtil.getString("menu.reports.statisticsreport"));
 			statisticsMenuItem.addActionListener(actionListener);
-			statisticsMenuItem.setActionCommand(Constants.STATISTICS_REPORT_ACTION);
+			statisticsMenuItem.setActionCommand(ActionConstants.STATISTICS_REPORT_ACTION);
 		}
 		return statisticsMenuItem;
 	}
@@ -626,7 +647,7 @@ public class MainFrameMenuBar extends JMenuBar {
 			summaryReportMenuItem = new JMenuItem();
 			summaryReportMenuItem.setText(ResourceUtil.getString("menu.reports.summaryreport"));
 			summaryReportMenuItem.addActionListener(actionListener);
-			summaryReportMenuItem.setActionCommand(Constants.SUMMARY_REPORT_ACTION);
+			summaryReportMenuItem.setActionCommand(ActionConstants.SUMMARY_REPORT_ACTION);
 		}
 		return summaryReportMenuItem;
 	}
@@ -640,7 +661,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (viewGroupsMenuItem == null) {
 			viewGroupsMenuItem = new JMenuItem();
 			viewGroupsMenuItem.addActionListener(actionListener);
-			viewGroupsMenuItem.setActionCommand(Constants.VIEW_GROUPS_ACTION);
+			viewGroupsMenuItem.setActionCommand(ActionConstants.VIEW_GROUPS_ACTION);
 			viewGroupsMenuItem.setIcon(ResourceUtil.groupIcon);
 			viewGroupsMenuItem.setText(ResourceUtil.getString("menu.view.viewgroups"));
 			viewGroupsMenuItem.setAccelerator(KeyStroke.getKeyStroke('2', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
@@ -675,7 +696,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (viewRulesMenuItem == null) {
 			viewRulesMenuItem = new JMenuItem();
 			viewRulesMenuItem.addActionListener(actionListener);
-			viewRulesMenuItem.setActionCommand(Constants.VIEW_RULES_ACTION);
+			viewRulesMenuItem.setActionCommand(ActionConstants.VIEW_RULES_ACTION);
 			viewRulesMenuItem.setIcon(ResourceUtil.listAccessRuleIcon);
 			viewRulesMenuItem.setText(ResourceUtil.getString("menu.view.viewrules"));
 			viewRulesMenuItem.setAccelerator(KeyStroke.getKeyStroke('3', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
@@ -693,7 +714,7 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (viewUsersMenuItem == null) {
 			viewUsersMenuItem = new JMenuItem();
 			viewUsersMenuItem.addActionListener(actionListener);
-			viewUsersMenuItem.setActionCommand(Constants.VIEW_USERS_ACTION);
+			viewUsersMenuItem.setActionCommand(ActionConstants.VIEW_USERS_ACTION);
 			viewUsersMenuItem.setIcon(ResourceUtil.userIcon);
 			viewUsersMenuItem.setText(ResourceUtil.getString("menu.view.viewusers"));
 			viewUsersMenuItem.setAccelerator(KeyStroke.getKeyStroke('1', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask(), false));
@@ -723,7 +744,7 @@ public class MainFrameMenuBar extends JMenuBar {
 			JMenuItem menuItem = new JMenuItem(path.substring(index + 1));
 			
 			menuItem.addActionListener(actionListener);
-			menuItem.setActionCommand(Constants.OPEN_FILE_ACTION + "_" + slot);
+			menuItem.setActionCommand(ActionConstants.OPEN_FILE_ACTION + "_" + slot);
 			menuItem.setToolTipText(path);
 			
 			getRecentFilesMenu().add(menuItem);

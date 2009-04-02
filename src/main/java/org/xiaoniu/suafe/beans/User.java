@@ -20,7 +20,7 @@ package org.xiaoniu.suafe.beans;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.SubversionConstants;
 
 /**
  * Represents a single Subversion user object.
@@ -83,7 +83,7 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	 * @return Returns true if users is "*" (All SVN Users)
 	 */
 	public boolean isAllUsers() {
-		return (name == null) ? false : name.equals(Constants.TEXT_ALL_USERS);
+		return (name == null) ? false : name.equals(SubversionConstants.SVN_ALL_USERS_NAME);
 	}
 	
 	/**

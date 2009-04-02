@@ -20,7 +20,7 @@ package org.xiaoniu.suafe.validators;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 
 /**
@@ -65,9 +65,9 @@ public class Validator {
 	public static void validateLevelOfAccess(String level) throws ValidatorException {
 		if (	level == null ||
 				(
-					!level.equals(Constants.ACCESS_LEVEL_DENY_ACCESS) &&
-					!level.equals(Constants.ACCESS_LEVEL_READONLY) &&
-					!level.equals(Constants.ACCESS_LEVEL_READWRITE)
+					!level.equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS) &&
+					!level.equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY) &&
+					!level.equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)
 				)
 			) {
 			throw new ValidatorException("Invalid level of access");

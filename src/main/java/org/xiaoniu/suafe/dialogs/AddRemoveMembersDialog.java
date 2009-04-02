@@ -40,7 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
@@ -131,13 +131,13 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	 * @param event ActionEvent object.
 	 */
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals(Constants.ASSIGN_ACTION)) {
+		if (event.getActionCommand().equals(ActionConstants.ASSIGN_ACTION)) {
 			assignMembers();
 		}
-		else if (event.getActionCommand().equals(Constants.UNASSIGN_ACTION)) {
+		else if (event.getActionCommand().equals(ActionConstants.UNASSIGN_ACTION)) {
 			unassignMembers();
 		}
-		else if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
+		else if (event.getActionCommand().equals(ActionConstants.SAVE_ACTION)) {
 			try {
 				document.changeGroupMembers(group, groupMembers, userMembers);
 				message.setUserObject(group);
@@ -148,7 +148,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 				displayError(ex.getMessage());
 			}
 		}
-		else if (event.getActionCommand().equals(Constants.CANCEL_ACTION)) {
+		else if (event.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
 			message.setState(Message.CANCEL);
 			dispose();
 		}
@@ -214,7 +214,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 		if (assignGroupButton == null) {
 			assignGroupButton = new JButton();
 			assignGroupButton.addActionListener(this);
-			assignGroupButton.setActionCommand(Constants.ASSIGN_ACTION);
+			assignGroupButton.setActionCommand(ActionConstants.ASSIGN_ACTION);
 			assignGroupButton.setIcon(ResourceUtil.assignIcon);
 		}
 
@@ -243,7 +243,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	 */
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
+			cancelButton = createButton("button.cancel", ActionConstants.CANCEL_ACTION, this);
 		}
 
 		return cancelButton;
@@ -383,7 +383,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 	 */
 	private JButton getSaveButton() {
 		if (saveButton == null) {
-			saveButton = createButton("button.save", Constants.SAVE_ACTION, this);
+			saveButton = createButton("button.save", ActionConstants.SAVE_ACTION, this);
 		}
 
 		return saveButton;
@@ -398,7 +398,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 		if (unassignGroupButton == null) {
 			unassignGroupButton = new JButton();
 			unassignGroupButton.addActionListener(this);
-			unassignGroupButton.setActionCommand(Constants.UNASSIGN_ACTION);
+			unassignGroupButton.setActionCommand(ActionConstants.UNASSIGN_ACTION);
 			unassignGroupButton.setIcon(ResourceUtil.unassignIcon);
 		}
 

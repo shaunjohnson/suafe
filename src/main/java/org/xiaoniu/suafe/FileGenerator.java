@@ -58,8 +58,8 @@ public class FileGenerator {
 	 * @return Authz file content
 	 * @throws ApplicationException
 	 */
-	public String generate() throws ApplicationException {
-		return generate(DEFAULT_MAX_LINE_LENGTH);
+	public String generate(boolean allowMultipleLine) throws ApplicationException {
+		return generate(allowMultipleLine ? DEFAULT_MAX_LINE_LENGTH : -1);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class FileGenerator {
 					while(members.hasNext()) {
 						Group memberGroup = (Group)members.next();
 						
-						if (!isFirstGroupMember && groupLine.length() + memberGroup.getName().length() > maxLineLength) {
+						if (maxLineLength > 0 && !isFirstGroupMember && groupLine.length() + memberGroup.getName().length() > maxLineLength) {
 							output.append(groupLine);
 							output.append(Constants.TEXT_NEW_LINE);
 							output.append(prefix);
@@ -132,7 +132,7 @@ public class FileGenerator {
 					while(members.hasNext()) {
 						User memberUser = (User)members.next();
 						
-						if (!isFirstGroupMember && userLine.length() + memberUser.getName().length() > maxLineLength) {
+						if (maxLineLength > 0 && !isFirstGroupMember && userLine.length() + memberUser.getName().length() > maxLineLength) {
 							output.append(userLine);
 							output.append(Constants.TEXT_NEW_LINE);
 							output.append(prefix);
@@ -207,8 +207,8 @@ public class FileGenerator {
 	 * @param file File where authz content is to be written.
 	 * @throws ApplicationException
 	 */
-	public void generate(File file) throws ApplicationException {
-		generate(file, DEFAULT_MAX_LINE_LENGTH);
+	public void generate(File file, boolean allowMultipleLine) throws ApplicationException {
+		generate(file, allowMultipleLine ? DEFAULT_MAX_LINE_LENGTH : -1);
 	}
 	
 	/**

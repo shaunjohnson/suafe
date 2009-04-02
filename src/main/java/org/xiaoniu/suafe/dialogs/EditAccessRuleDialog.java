@@ -26,7 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
@@ -82,7 +82,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	 * @param event ActionEvent object.
 	 */
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
+		if (event.getActionCommand().equals(ActionConstants.SAVE_ACTION)) {
 			try {
 				AccessRule rule = getAccessRuleForm().editAccessRule();
 
@@ -94,7 +94,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 				displayError(ex.getMessage());
 			}
 		}
-		else if (event.getActionCommand().equals(Constants.CANCEL_ACTION)) {
+		else if (event.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
 			message.setState(Message.CANCEL);
 			dispose();
 		}
@@ -107,7 +107,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	 */
 	private JButton getSaveButton() {
 		if (saveButton == null) {
-			saveButton = createButton("button.save", Constants.SAVE_ACTION, this);
+			saveButton = createButton("button.save", ActionConstants.SAVE_ACTION, this);
 		}
 
 		return saveButton;
@@ -157,7 +157,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 	 */
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
+			cancelButton = createButton("button.cancel", ActionConstants.CANCEL_ACTION, this);
 		}
 
 		return cancelButton;

@@ -26,7 +26,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
+import org.xiaoniu.suafe.ApplicationDefaultsContants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
@@ -74,7 +75,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 
 		if (userObject != null && userObject instanceof Repository) {
 			this.repository = (Repository) userObject;
-			this.path = Constants.DEFAULT_PATH;
+			this.path = ApplicationDefaultsContants.DEFAULT_SVN_PATH;
 		}
 		else if (userObject != null && userObject instanceof Path) {
 			Path path = (Path) userObject;
@@ -84,7 +85,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 		}
 		else {
 			this.repository = null;
-			this.path = Constants.DEFAULT_PATH;
+			this.path = ApplicationDefaultsContants.DEFAULT_SVN_PATH;
 		}
 
 		this.document = document;
@@ -100,7 +101,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 	 * @param event ActionEvent object.
 	 */
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals(Constants.ADD_ACTION)) {
+		if (event.getActionCommand().equals(ActionConstants.ADD_ACTION)) {
 			try {
 				AccessRule rule = getAccessRuleForm().addAccessRule();
 				
@@ -112,7 +113,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 				displayError(ex.getMessage());
 			}
 		}
-		else if (event.getActionCommand().equals(Constants.CANCEL_ACTION)) {
+		else if (event.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
 			message.setState(Message.CANCEL);
 			dispose();
 		}
@@ -125,7 +126,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 	 */
 	private JButton getAddButton() {
 		if (addButton == null) {
-			addButton = createButton("button.add", Constants.ADD_ACTION, this);
+			addButton = createButton("button.add", ActionConstants.ADD_ACTION, this);
 		}
 
 		return addButton;
@@ -175,7 +176,7 @@ public class AddAccessRuleDialog extends ParentDialog implements ActionListener 
 	 */
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = createButton("button.cancel", Constants.CANCEL_ACTION, this);
+			cancelButton = createButton("button.cancel", ActionConstants.CANCEL_ACTION, this);
 		}
 
 		return cancelButton;

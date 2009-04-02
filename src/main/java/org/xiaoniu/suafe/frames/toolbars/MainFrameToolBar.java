@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 public class MainFrameToolBar extends JToolBar {
@@ -56,7 +56,7 @@ public class MainFrameToolBar extends JToolBar {
 		if (addAccessRuleToolbarButton == null) {
 			addAccessRuleToolbarButton = new JButton();
 			addAccessRuleToolbarButton.addActionListener(actionListener);
-			addAccessRuleToolbarButton.setActionCommand(Constants.ADD_ACCESS_RULE_ACTION);
+			addAccessRuleToolbarButton.setActionCommand(ActionConstants.ADD_ACCESS_RULE_ACTION);
 			addAccessRuleToolbarButton.setIcon(ResourceUtil.addAccessRuleIcon);
 			addAccessRuleToolbarButton.setText(ResourceUtil.getString("mainframe.button.addaccessrule"));
 			addAccessRuleToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addaccessrule.tooltip"));			
@@ -74,7 +74,7 @@ public class MainFrameToolBar extends JToolBar {
 		if (addGroupToolbarButton == null) {
 			addGroupToolbarButton = new JButton();
 			addGroupToolbarButton.addActionListener(actionListener);
-			addGroupToolbarButton.setActionCommand(Constants.ADD_GROUP_ACTION);
+			addGroupToolbarButton.setActionCommand(ActionConstants.ADD_GROUP_ACTION);
 			addGroupToolbarButton.setIcon(ResourceUtil.addGroupIcon);
 			addGroupToolbarButton.setText(ResourceUtil.getString("mainframe.button.addgroup"));
 			addGroupToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
@@ -92,7 +92,7 @@ public class MainFrameToolBar extends JToolBar {
 		if (addUserToolbarButton == null) {
 			addUserToolbarButton = new JButton();
 			addUserToolbarButton.addActionListener(actionListener);
-			addUserToolbarButton.setActionCommand(Constants.ADD_USER_ACTION);
+			addUserToolbarButton.setActionCommand(ActionConstants.ADD_USER_ACTION);
 			addUserToolbarButton.setIcon(ResourceUtil.addUserIcon);
 			addUserToolbarButton.setText(ResourceUtil.getString("mainframe.button.adduser"));
 			addUserToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.adduser.tooltip"));			
@@ -110,7 +110,7 @@ public class MainFrameToolBar extends JToolBar {
 		if (newFileToolbarButton == null) {
 			newFileToolbarButton = new JButton();
 			newFileToolbarButton.addActionListener(actionListener);
-			newFileToolbarButton.setActionCommand(Constants.NEW_FILE_ACTION);
+			newFileToolbarButton.setActionCommand(ActionConstants.NEW_FILE_ACTION);
 			newFileToolbarButton.setIcon(ResourceUtil.newFileIcon);
 			newFileToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.new.tooltip"));			
 		}
@@ -127,7 +127,7 @@ public class MainFrameToolBar extends JToolBar {
 		if (openFileToolbarButton == null) {
 			openFileToolbarButton = new JButton();
 			openFileToolbarButton.addActionListener(actionListener);
-			openFileToolbarButton.setActionCommand(Constants.OPEN_FILE_ACTION);
+			openFileToolbarButton.setActionCommand(ActionConstants.OPEN_FILE_ACTION);
 			openFileToolbarButton.setIcon(ResourceUtil.openFileIcon);
 			openFileToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.open.tooltip"));
 		}
@@ -144,7 +144,7 @@ public class MainFrameToolBar extends JToolBar {
 		if (previewToolbarButton == null) {
 			previewToolbarButton = new JButton();
 			previewToolbarButton.addActionListener(actionListener);
-			previewToolbarButton.setActionCommand(Constants.PREVIEW_ACTION);
+			previewToolbarButton.setActionCommand(ActionConstants.PREVIEW_ACTION);
 			previewToolbarButton.setIcon(ResourceUtil.previewIcon);
 			previewToolbarButton.setText(ResourceUtil.getString("mainframe.button.preview"));
 			previewToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.preview.tooltip"));
@@ -162,7 +162,7 @@ public class MainFrameToolBar extends JToolBar {
 		if (saveFileAsToolbarButton == null) {
 			saveFileAsToolbarButton = new JButton();
 			saveFileAsToolbarButton.addActionListener(actionListener);
-			saveFileAsToolbarButton.setActionCommand(Constants.SAVE_FILE_AS_ACTION);
+			saveFileAsToolbarButton.setActionCommand(ActionConstants.SAVE_FILE_AS_ACTION);
 			saveFileAsToolbarButton.setIcon(ResourceUtil.saveFileAsIcon);
 			saveFileAsToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.saveas.tooltip"));
 		}
@@ -178,7 +178,7 @@ public class MainFrameToolBar extends JToolBar {
 		if (saveFileToolbarButton == null) {
 			saveFileToolbarButton = new JButton();
 			saveFileToolbarButton.addActionListener(actionListener);
-			saveFileToolbarButton.setActionCommand(Constants.SAVE_FILE_ACTION);
+			saveFileToolbarButton.setActionCommand(ActionConstants.SAVE_FILE_ACTION);
 			saveFileToolbarButton.setIcon(ResourceUtil.saveFileIcon);
 			saveFileToolbarButton.setToolTipText(ResourceUtil.getString("mainframe.button.save.tooltip"));
 		}

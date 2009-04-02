@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.Project;
+import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
@@ -71,7 +71,7 @@ public class SummaryReport extends GenericReport {
 	 * @return HTML anchor tag text
 	 */
 	private static String createGroupAnchor(String groupName) {
-		return createAnchor("group_" + groupName, Constants.TEXT_GROUP_PREFIX + groupName);
+		return createAnchor("group_" + groupName, SubversionConstants.SVN_GROUP_REFERENCE_PREFIX + groupName);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class SummaryReport extends GenericReport {
 	 * @return HTML link tag text
 	 */
 	private static String createGroupLink(String groupName) {
-		return createLink("group_" + groupName, Constants.TEXT_GROUP_PREFIX + groupName);
+		return createLink("group_" + groupName, SubversionConstants.SVN_GROUP_REFERENCE_PREFIX + groupName);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class SummaryReport extends GenericReport {
 	 * @return HTML anchor tag text
 	 */
 	private static String createUserAnchor(String userName) {
-		if (userName.equals(Constants.TEXT_ALL_USERS)) {
+		if (userName.equals(SubversionConstants.SVN_ALL_USERS_NAME)) {
 			return createAnchor("all_users", userName);
 		}
 		else {
@@ -131,7 +131,7 @@ public class SummaryReport extends GenericReport {
 	 * @return HTML link tag text
 	 */
 	private static String createUserLink(String userName) {
-		if (userName.equals(Constants.TEXT_ALL_USERS)) {
+		if (userName.equals(SubversionConstants.SVN_ALL_USERS_NAME)) {
 			return createLink("all_users", userName);
 		}
 		else {

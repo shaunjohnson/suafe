@@ -5,7 +5,37 @@
 <body>
 <h1>Command Line - Add/Remove Members</h1>
 
+<h2>Add user to groups</h2>
+<p>
+Adds a user to one or more existing groups.<br>
+<br>
+Flags:
+<ul>
+	<li>addgroups : Add groups command</li>
+	<li>name : Name of user to be added to group(s)</li>
+	<li>groups : One or more groups</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --addgroups --name shaun --groups developer,manager
+</pre>
+</p>
 
+<h2>Remove user from groups</h2>
+<p>
+Removes a user from one or more existing groups.<br>
+<br>
+Flags:
+<ul>
+	<li>removegroups : Remove groups command</li>
+	<li>name : Name of user to be removed from group(s)</li>
+	<li>groups : One or more groups</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --removegroups --name shaun --groups developer,manager
+</pre>
+</p>
 
 </body>
 </html>

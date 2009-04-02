@@ -74,6 +74,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.AutofitTableColumns;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.FileGenerator;
@@ -224,148 +225,151 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 
-		if (action.equals(Constants.NEW_FILE_ACTION)) {
+		if (action.equals(ActionConstants.NEW_FILE_ACTION)) {
 			fileNew();
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION)) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION)) {
 			fileOpen();
 		}
-		else if (action.equals(Constants.RELOAD_ACTION)) {
+		else if (action.equals(ActionConstants.RELOAD_ACTION)) {
 			reload();
 		}
-		else if (action.equals(Constants.SAVE_FILE_ACTION)) {
+		else if (action.equals(ActionConstants.SAVE_FILE_ACTION)) {
 			fileSave();
 		}
-		else if (action.equals(Constants.SAVE_FILE_AS_ACTION)) {
+		else if (action.equals(ActionConstants.SAVE_FILE_AS_ACTION)) {
 			fileSaveAs();
 		}
-		else if (action.equals(Constants.OPEN_LAST_EDITED_FILE_ACTION)) {
+		else if (action.equals(ActionConstants.OPEN_LAST_EDITED_FILE_ACTION)) {
 			openLastEditedFileSettingChange();
 		}
-		else if (action.equals(Constants.PRINT_ACTION)) {
+		else if (action.equals(ActionConstants.MULTIPLE_LINE_GROUP_DEFINITION_ACTION)) {
+			multilineGroupDefinitionsSettingChange();
+		}
+		else if (action.equals(ActionConstants.PRINT_ACTION)) {
 			filePrint();
 		}
-		else if (action.equals(Constants.EXIT_ACTION)) {
+		else if (action.equals(ActionConstants.EXIT_ACTION)) {
 			exit();
 		}
-		else if (action.equals(Constants.ABOUT_ACTION)) {
+		else if (action.equals(ActionConstants.ABOUT_ACTION)) {
 			helpAbout();
 		}
-		else if (action.equals(Constants.PREVIEW_ACTION)) {
+		else if (action.equals(ActionConstants.PREVIEW_ACTION)) {
 			preview();
 		}
-		else if (action.equals(Constants.STATISTICS_REPORT_ACTION)) {
+		else if (action.equals(ActionConstants.STATISTICS_REPORT_ACTION)) {
 			statisticsReport();
 		}
-		else if (action.equals(Constants.SUMMARY_REPORT_ACTION)) {
+		else if (action.equals(ActionConstants.SUMMARY_REPORT_ACTION)) {
 			summaryReport();
 		}
-		else if (action.equals(Constants.ADD_USER_ACTION)) {
+		else if (action.equals(ActionConstants.ADD_USER_ACTION)) {
 			addUser();
 		}
-		else if (action.equals(Constants.RENAME_USER_ACTION)) {
+		else if (action.equals(ActionConstants.RENAME_USER_ACTION)) {
 			renameUser();
 		}
-		else if (action.equals(Constants.CLONE_USER_ACTION)) {
+		else if (action.equals(ActionConstants.CLONE_USER_ACTION)) {
 			cloneUser();
 		}
-		else if (action.equals(Constants.DELETE_USER_ACTION)) {
+		else if (action.equals(ActionConstants.DELETE_USER_ACTION)) {
 			deleteUser();
 		}
-		else if (action.equals(Constants.CHANGE_MEMBERSHIP_ACTION)) {
+		else if (action.equals(ActionConstants.CHANGE_MEMBERSHIP_ACTION)) {
 			changeMembership();
 		}
-		else if (action.equals(Constants.ADD_GROUP_ACTION)) {
+		else if (action.equals(ActionConstants.ADD_GROUP_ACTION)) {
 			addGroup();
 		}
-		else if (action.equals(Constants.RENAME_GROUP_ACTION)) {
+		else if (action.equals(ActionConstants.RENAME_GROUP_ACTION)) {
 			renameGroup();
 		}
-		else if (action.equals(Constants.CLONE_GROUP_ACTION)) {
+		else if (action.equals(ActionConstants.CLONE_GROUP_ACTION)) {
 			cloneGroup();
 		}
-		else if (action.equals(Constants.DELETE_GROUP_ACTION)) {
+		else if (action.equals(ActionConstants.DELETE_GROUP_ACTION)) {
 			deleteGroup();
 		}
-		else if (action.equals(Constants.ADD_REMOVE_MEMBERS_ACTION)) {
+		else if (action.equals(ActionConstants.ADD_REMOVE_MEMBERS_ACTION)) {
 			addRemoveMembers();
 		}
-		else if (action.equals(Constants.EDIT_PATH_ACTION)) {
+		else if (action.equals(ActionConstants.EDIT_PATH_ACTION)) {
 			editPath();
 		}
-		else if (action.equals(Constants.DELETE_PATH_ACTION)) {
+		else if (action.equals(ActionConstants.DELETE_PATH_ACTION)) {
 			deletePath();
 		}
-		else if (action.equals(Constants.RENAME_REPOSITORY_ACTION)) {
+		else if (action.equals(ActionConstants.RENAME_REPOSITORY_ACTION)) {
 			renameRepository();
 		}
-		else if (action.equals(Constants.DELETE_REPOSITORY_ACTION)) {
+		else if (action.equals(ActionConstants.DELETE_REPOSITORY_ACTION)) {
 			deleteRepository();
 		}
-		else if (action.equals(Constants.ADD_ACCESS_RULE_ACTION)) {
+		else if (action.equals(ActionConstants.ADD_ACCESS_RULE_ACTION)) {
 			addAccessRule();
 		}
-		else if (action.equals(Constants.ADD_PROJECT_ACCESS_RULES_ACTION)) {
+		else if (action.equals(ActionConstants.ADD_PROJECT_ACCESS_RULES_ACTION)) {
 			addProjectAccessRules();
 		}
-		else if (action.equals(Constants.EDIT_ACCESS_RULE_ACTION)) {
+		else if (action.equals(ActionConstants.EDIT_ACCESS_RULE_ACTION)) {
 			editAccessRule();
 		}
-		else if (action.equals(Constants.DELETE_ACCESS_RULE_ACTION)) {
+		else if (action.equals(ActionConstants.DELETE_ACCESS_RULE_ACTION)) {
 			deleteAccessRule();
 		}
-		else if (action.equals(Constants.MONOSPACED_ACTION)) {
+		else if (action.equals(ActionConstants.MONOSPACED_ACTION)) {
 			changeFont(Constants.FONT_FAMILY_MONOSPACED);
 		}
-		else if (action.equals(Constants.SANS_SERIF_ACTION)) {
+		else if (action.equals(ActionConstants.SANS_SERIF_ACTION)) {
 			changeFont(Constants.FONT_FAMILY_SANS_SERIF);
 		}
-		else if (action.equals(Constants.SERIF_ACTION)) {
+		else if (action.equals(ActionConstants.SERIF_ACTION)) {
 			changeFont(Constants.FONT_FAMILY_SERIF);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_0")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_0")) {
 			fileOpen(0);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_1")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_1")) {
 			fileOpen(1);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_2")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_2")) {
 			fileOpen(2);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_3")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_3")) {
 			fileOpen(3);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_4")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_4")) {
 			fileOpen(4);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_5")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_5")) {
 			fileOpen(5);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_6")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_6")) {
 			fileOpen(6);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_7")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_7")) {
 			fileOpen(7);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_8")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_8")) {
 			fileOpen(8);
 		}
-		else if (action.equals(Constants.OPEN_FILE_ACTION + "_9")) {
+		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_9")) {
 			fileOpen(9);
 		}
-		else if (action.equals(Constants.CLEAR_RECENT_FILES_ACTION)) {
+		else if (action.equals(ActionConstants.CLEAR_RECENT_FILES_ACTION)) {
 			clearRecentFiles();
 		}
-		else if (action.equals(Constants.RESET_SETTINGS_ACTION)) {
+		else if (action.equals(ActionConstants.RESET_SETTINGS_ACTION)) {
 			resetSettings();
 		}
-		else if (e.getActionCommand().equals(Constants.VIEW_USERS_ACTION)) {
+		else if (e.getActionCommand().equals(ActionConstants.VIEW_USERS_ACTION)) {
 			getMainTabbedPane().setSelectedComponent(getUsersPane());
 		}
-		else if (e.getActionCommand().equals(Constants.VIEW_GROUPS_ACTION)) {
+		else if (e.getActionCommand().equals(ActionConstants.VIEW_GROUPS_ACTION)) {
 			getMainTabbedPane().setSelectedComponent(getGroupsPane());
 		}
-		else if (e.getActionCommand().equals(Constants.VIEW_RULES_ACTION)) {
+		else if (e.getActionCommand().equals(ActionConstants.VIEW_RULES_ACTION)) {
 			getMainTabbedPane().setSelectedComponent(getAccessRulesPane());
 		}
 		else {
@@ -1254,7 +1258,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				try {
 					File file = fcSave.getSelectedFile();
 
-					new FileGenerator(document).generate(file);
+					new FileGenerator(document).generate(file, UserPreferences.getMultipleLineGroupDefinitions());
 
 					document.setFile(file);
 
@@ -1269,7 +1273,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		}
 		else {
 			try {
-				new FileGenerator(document).generate(document.getFile());
+				new FileGenerator(document).generate(document.getFile(), UserPreferences.getMultipleLineGroupDefinitions());
 
 				document.resetUnsavedChangesFlag();
 				updateTitle();
@@ -1301,7 +1305,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			try {
 				File file = fcSaveAs.getSelectedFile();
 
-				new FileGenerator(document).generate(file);
+				new FileGenerator(document).generate(file, UserPreferences.getMultipleLineGroupDefinitions());
 
 				document.setFile(file);
 
@@ -1790,6 +1794,12 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 
 		UserPreferences.setOpenLastFile(selected);
 	}
+	
+	private void multilineGroupDefinitionsSettingChange() {
+		boolean selected = menuBar.getMultiLineGroupDefinitionsMenuItem().isSelected();
+
+		UserPreferences.setMultipleLineGroupDefinitions(selected);
+	}
 
 	/**
 	 * Preview action handler.
@@ -1803,7 +1813,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				public void run() {
 					try {
 						JFrame frame = new ViewerFrame(ResourceUtil.getString("preview.title"), new FileGenerator(
-								document).generate(), Constants.MIME_TEXT);
+								document).generate(UserPreferences.getMultipleLineGroupDefinitions()), Constants.MIME_TEXT);
 						frame.setVisible(true);
 					}
 					catch (ApplicationException e) {
@@ -2474,8 +2484,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			editButton.setIcon(ResourceUtil.repositoryEditIcon);
 			deleteButton.setIcon(ResourceUtil.repositoryDeleteIcon);
 
-			editButton.setActionCommand(Constants.RENAME_REPOSITORY_ACTION);
-			deleteButton.setActionCommand(Constants.DELETE_REPOSITORY_ACTION);
+			editButton.setActionCommand(ActionConstants.RENAME_REPOSITORY_ACTION);
+			deleteButton.setActionCommand(ActionConstants.DELETE_REPOSITORY_ACTION);
 
 			editButton.setToolTipText(ResourceUtil.getString("mainframe.button.renamerepository.tooltip"));
 			deleteButton.setToolTipText(ResourceUtil.getString("mainframe.button.deleterepository.tooltip"));
@@ -2490,8 +2500,8 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			editButton.setIcon(ResourceUtil.pathEditIcon);
 			deleteButton.setIcon(ResourceUtil.pathDeleteIcon);
 
-			editButton.setActionCommand(Constants.EDIT_PATH_ACTION);
-			deleteButton.setActionCommand(Constants.DELETE_PATH_ACTION);
+			editButton.setActionCommand(ActionConstants.EDIT_PATH_ACTION);
+			deleteButton.setActionCommand(ActionConstants.DELETE_PATH_ACTION);
 
 			editButton.setToolTipText(ResourceUtil.getString("mainframe.button.editpath.tooltip"));
 			deleteButton.setToolTipText(ResourceUtil.getString("mainframe.button.deletepath.tooltip"));

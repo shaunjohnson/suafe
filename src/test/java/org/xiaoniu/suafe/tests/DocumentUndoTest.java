@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Repository;
@@ -16,7 +16,7 @@ import org.xiaoniu.suafe.exceptions.ApplicationException;
 
 public class DocumentUndoTest {
 
-	private static final String accessLevel = Constants.ACCESS_LEVEL_READONLY;
+	private static final String accessLevel = SubversionConstants.SVN_ACCESS_LEVEL_READONLY;
 
 	private static final String groupName = "TestGroupName";
 

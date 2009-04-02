@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.junit.Test;
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
@@ -25,7 +25,7 @@ public class DocumentTest {
 
 	private static final String groupName2 = groupName + "2";
 
-	private static final String level = Constants.ACCESS_LEVEL_READONLY;
+	private static final String level = SubversionConstants.SVN_ACCESS_LEVEL_READONLY;
 
 	private static final String relativePath = "/relativepath";
 

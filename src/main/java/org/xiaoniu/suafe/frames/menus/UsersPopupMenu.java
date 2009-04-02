@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 public class UsersPopupMenu extends JPopupMenu {
@@ -45,7 +45,7 @@ public class UsersPopupMenu extends JPopupMenu {
 		if (addUserPopupMenuItem == null) {
 			addUserPopupMenuItem = new JMenuItem();
 			addUserPopupMenuItem.addActionListener(actionListener);
-			addUserPopupMenuItem.setActionCommand(Constants.ADD_USER_ACTION);
+			addUserPopupMenuItem.setActionCommand(ActionConstants.ADD_USER_ACTION);
 			addUserPopupMenuItem.setIcon(ResourceUtil.addUserIcon);
 			addUserPopupMenuItem.setText(ResourceUtil.getString("button.add"));
 			addUserPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.adduser.tooltip"));
@@ -63,7 +63,7 @@ public class UsersPopupMenu extends JPopupMenu {
 		if (changeMembershipPopupMenuItem == null) {
 			changeMembershipPopupMenuItem = new JMenuItem();
 			changeMembershipPopupMenuItem.addActionListener(actionListener);
-			changeMembershipPopupMenuItem.setActionCommand(Constants.CHANGE_MEMBERSHIP_ACTION);
+			changeMembershipPopupMenuItem.setActionCommand(ActionConstants.CHANGE_MEMBERSHIP_ACTION);
 			changeMembershipPopupMenuItem.setIcon(ResourceUtil.changeMembershipIcon);
 			changeMembershipPopupMenuItem.setText(ResourceUtil.getString("mainframe.button.changemembership"));
 			changeMembershipPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.changemembership.tooltip"));
@@ -82,7 +82,7 @@ public class UsersPopupMenu extends JPopupMenu {
 		if (cloneUserPopupMenuItem == null) {
 			cloneUserPopupMenuItem = new JMenuItem();
 			cloneUserPopupMenuItem.addActionListener(actionListener);
-			cloneUserPopupMenuItem.setActionCommand(Constants.CLONE_USER_ACTION);
+			cloneUserPopupMenuItem.setActionCommand(ActionConstants.CLONE_USER_ACTION);
 			cloneUserPopupMenuItem.setIcon(ResourceUtil.cloneUserIcon);
 			cloneUserPopupMenuItem.setText(ResourceUtil.getString("menu.clone"));
 			cloneUserPopupMenuItem.setEnabled(false);
@@ -99,7 +99,7 @@ public class UsersPopupMenu extends JPopupMenu {
 		if (deleteUserPopupMenuItem == null) {
 			deleteUserPopupMenuItem = new JMenuItem();
 			deleteUserPopupMenuItem.addActionListener(actionListener);
-			deleteUserPopupMenuItem.setActionCommand(Constants.DELETE_USER_ACTION);
+			deleteUserPopupMenuItem.setActionCommand(ActionConstants.DELETE_USER_ACTION);
 			deleteUserPopupMenuItem.setIcon(ResourceUtil.deleteUserIcon);
 			deleteUserPopupMenuItem.setText(ResourceUtil.getString("button.delete"));
 			deleteUserPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.deleteuser.tooltip"));
@@ -118,7 +118,7 @@ public class UsersPopupMenu extends JPopupMenu {
 		if (renameUserPopupMenuItem == null) {
 			renameUserPopupMenuItem = new JMenuItem();
 			renameUserPopupMenuItem.addActionListener(actionListener);
-			renameUserPopupMenuItem.setActionCommand(Constants.RENAME_USER_ACTION);
+			renameUserPopupMenuItem.setActionCommand(ActionConstants.RENAME_USER_ACTION);
 			renameUserPopupMenuItem.setIcon(ResourceUtil.renameUserIcon);
 			renameUserPopupMenuItem.setText(ResourceUtil.getString("button.rename"));
 			renameUserPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.renameuser.tooltip"));

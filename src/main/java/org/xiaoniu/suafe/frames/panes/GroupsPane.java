@@ -16,6 +16,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
+import org.xiaoniu.suafe.ActionConstants;
+import org.xiaoniu.suafe.ApplicationDefaultsContants;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
@@ -93,7 +95,7 @@ public class GroupsPane extends BaseSplitPane {
 	public JButton getAddGroupButton() {
 		if (addGroupButton == null) {
 			addGroupButton = createButton("button.add", "mainframe.button.addgroup.tooltip", ResourceUtil.addGroupIcon,
-					Constants.ADD_GROUP_ACTION, actionListener);
+					ActionConstants.ADD_GROUP_ACTION, actionListener);
 		}
 
 		return addGroupButton;
@@ -108,7 +110,7 @@ public class GroupsPane extends BaseSplitPane {
 		if (addRemoveMembersButton == null) {
 			addRemoveMembersButton = createButton("mainframe.button.addremovemembers",
 					"mainframe.button.addremovemembers.tooltip", ResourceUtil.addRemoveMembersIcon,
-					Constants.ADD_REMOVE_MEMBERS_ACTION, actionListener);
+					ActionConstants.ADD_REMOVE_MEMBERS_ACTION, actionListener);
 			addRemoveMembersButton.setEnabled(false);
 		}
 
@@ -123,7 +125,7 @@ public class GroupsPane extends BaseSplitPane {
 	public JButton getCloneGroupButton() {
 		if (cloneGroupButton == null) {
 			cloneGroupButton = createButton("button.clone", "mainframe.button.clonegroup.tooltip",
-					ResourceUtil.cloneGroupIcon, Constants.CLONE_GROUP_ACTION, actionListener);
+					ResourceUtil.cloneGroupIcon, ActionConstants.CLONE_GROUP_ACTION, actionListener);
 			cloneGroupButton.setEnabled(false);
 		}
 
@@ -138,7 +140,7 @@ public class GroupsPane extends BaseSplitPane {
 	public JButton getDeleteGroupButton() {
 		if (deleteGroupButton == null) {
 			deleteGroupButton = createButton("button.delete", "mainframe.button.deletegroup.tooltip",
-					ResourceUtil.deleteGroupIcon, Constants.DELETE_GROUP_ACTION, actionListener);
+					ResourceUtil.deleteGroupIcon, ActionConstants.DELETE_GROUP_ACTION, actionListener);
 			deleteGroupButton.setEnabled(false);
 		}
 
@@ -153,7 +155,7 @@ public class GroupsPane extends BaseSplitPane {
 	public JButton getRenameGroupButton() {
 		if (renameGroupButton == null) {
 			renameGroupButton = createButton("button.rename", "mainframe.button.renamegroup.tooltip",
-					ResourceUtil.renameGroupIcon, Constants.RENAME_GROUP_ACTION, actionListener);
+					ResourceUtil.renameGroupIcon, ActionConstants.RENAME_GROUP_ACTION, actionListener);
 			renameGroupButton.setEnabled(false);
 		}
 
@@ -198,7 +200,7 @@ public class GroupsPane extends BaseSplitPane {
 		if (groupAccessRulesTable == null) {
 			groupAccessRulesTable = new JTable();
 			groupAccessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			groupAccessRulesTable.setRowHeight(Constants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
+			groupAccessRulesTable.setRowHeight(ApplicationDefaultsContants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
 			groupAccessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			groupAccessRulesTable.setAutoCreateRowSorter(true);
 		}

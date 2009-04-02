@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -132,7 +132,7 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 	 */    
 	private JButton getOkButton() {
 		if (okButton == null) {
-			okButton = createButton("button.ok", Constants.OK_ACTION, this);
+			okButton = createButton("button.ok", ActionConstants.OK_ACTION, this);
 		}
 		
 		return okButton;
@@ -167,7 +167,7 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 	 * @param event ActionEvent object.
 	 */
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals(Constants.OK_ACTION)) {
+		if (event.getActionCommand().equals(ActionConstants.OK_ACTION)) {
 			dispose();
 		}
 	}

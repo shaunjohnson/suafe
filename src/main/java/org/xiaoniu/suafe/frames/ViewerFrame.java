@@ -35,6 +35,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.Utilities;
 import org.xiaoniu.suafe.resources.ResourceUtil;
@@ -164,7 +165,7 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 			closeButton = new JButton();
 			closeButton.setText(ResourceUtil.getString("button.close"));
 			closeButton.addActionListener(this);
-			closeButton.setActionCommand(Constants.CLOSE_ACTION);
+			closeButton.setActionCommand(ActionConstants.CLOSE_ACTION);
 		}
 		return closeButton;
 	}
@@ -179,16 +180,16 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 			saveButton = new JButton();
 			saveButton.setText(ResourceUtil.getString("button.save"));
 			saveButton.addActionListener(this);
-			saveButton.setActionCommand(Constants.SAVE_ACTION);
+			saveButton.setActionCommand(ActionConstants.SAVE_ACTION);
 		}
 		return saveButton;
 	}
 
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals(Constants.CLOSE_ACTION)) {
+		if (event.getActionCommand().equals(ActionConstants.CLOSE_ACTION)) {
 			dispose();
 		}		
-		else if (event.getActionCommand().equals(Constants.SAVE_ACTION)) {
+		else if (event.getActionCommand().equals(ActionConstants.SAVE_ACTION)) {
 			fileSave();
 		}
 	}

@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 public class GroupsPopupMenu extends JPopupMenu {
@@ -45,7 +45,7 @@ public class GroupsPopupMenu extends JPopupMenu {
 		if (addGroupPopupMenuItem == null) {
 			addGroupPopupMenuItem = new JMenuItem();
 			addGroupPopupMenuItem.addActionListener(actionListener);
-			addGroupPopupMenuItem.setActionCommand(Constants.ADD_GROUP_ACTION);
+			addGroupPopupMenuItem.setActionCommand(ActionConstants.ADD_GROUP_ACTION);
 			addGroupPopupMenuItem.setIcon(ResourceUtil.addGroupIcon);
 			addGroupPopupMenuItem.setText(ResourceUtil.getString("button.add"));
 			addGroupPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.addgroup.tooltip"));
@@ -63,7 +63,7 @@ public class GroupsPopupMenu extends JPopupMenu {
 		if (addRemoveMembersPopupMenuItem == null) {
 			addRemoveMembersPopupMenuItem = new JMenuItem();
 			addRemoveMembersPopupMenuItem.addActionListener(actionListener);
-			addRemoveMembersPopupMenuItem.setActionCommand(Constants.ADD_REMOVE_MEMBERS_ACTION);
+			addRemoveMembersPopupMenuItem.setActionCommand(ActionConstants.ADD_REMOVE_MEMBERS_ACTION);
 			addRemoveMembersPopupMenuItem.setIcon(ResourceUtil.addRemoveMembersIcon);
 			addRemoveMembersPopupMenuItem.setText(ResourceUtil.getString("mainframe.button.addremovemembers"));
 			addRemoveMembersPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.addremovemembers.tooltip"));
@@ -82,7 +82,7 @@ public class GroupsPopupMenu extends JPopupMenu {
 		if (cloneGroupPopupMenuItem == null) {
 			cloneGroupPopupMenuItem = new JMenuItem();
 			cloneGroupPopupMenuItem.addActionListener(actionListener);
-			cloneGroupPopupMenuItem.setActionCommand(Constants.CLONE_GROUP_ACTION);
+			cloneGroupPopupMenuItem.setActionCommand(ActionConstants.CLONE_GROUP_ACTION);
 			cloneGroupPopupMenuItem.setIcon(ResourceUtil.cloneGroupIcon);
 			cloneGroupPopupMenuItem.setText(ResourceUtil.getString("menu.clone"));
 			cloneGroupPopupMenuItem.setEnabled(false);
@@ -100,7 +100,7 @@ public class GroupsPopupMenu extends JPopupMenu {
 		if (deleteGroupPopupMenuItem == null) {
 			deleteGroupPopupMenuItem = new JMenuItem();
 			deleteGroupPopupMenuItem.addActionListener(actionListener);
-			deleteGroupPopupMenuItem.setActionCommand(Constants.DELETE_GROUP_ACTION);
+			deleteGroupPopupMenuItem.setActionCommand(ActionConstants.DELETE_GROUP_ACTION);
 			deleteGroupPopupMenuItem.setIcon(ResourceUtil.deleteGroupIcon);
 			deleteGroupPopupMenuItem.setText(ResourceUtil.getString("button.delete"));
 			deleteGroupPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.deletegroup.tooltip"));			
@@ -119,7 +119,7 @@ public class GroupsPopupMenu extends JPopupMenu {
 		if (renameGroupPopupMenuItem == null) {
 			renameGroupPopupMenuItem = new JMenuItem();
 			renameGroupPopupMenuItem.addActionListener(actionListener);
-			renameGroupPopupMenuItem.setActionCommand(Constants.RENAME_GROUP_ACTION);
+			renameGroupPopupMenuItem.setActionCommand(ActionConstants.RENAME_GROUP_ACTION);
 			renameGroupPopupMenuItem.setIcon(ResourceUtil.renameGroupIcon);
 			renameGroupPopupMenuItem.setText(ResourceUtil.getString("button.rename"));
 			renameGroupPopupMenuItem.setToolTipText(ResourceUtil.getString("mainframe.button.renamegroup.tooltip"));
