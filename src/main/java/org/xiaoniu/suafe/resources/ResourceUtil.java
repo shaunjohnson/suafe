@@ -31,7 +31,7 @@ import org.xiaoniu.suafe.Constants;
  * 
  * @author Shaun Johnson
  */
-public class ResourceUtil {
+public final class ResourceUtil {
 	
 	public static final ImageIcon aboutIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/About16.gif"));
 	

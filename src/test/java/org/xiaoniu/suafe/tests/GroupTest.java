@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe.tests;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -158,18 +159,30 @@ public class GroupTest {
 
 		assertTrue(groupA.equals(groupB));
 		assertTrue(groupB.equals(groupA));
+		
+		groupA = new Group("group");
+		groupB = new Group("   group   ");
+
+		assertTrue(groupA.equals(groupB));
+		assertTrue(groupB.equals(groupA));
+		
+		groupA = new Group("group");
+		groupB = new Group("GROUP");
+
+		assertFalse(groupA.equals(groupB));
+		assertFalse(groupB.equals(groupA));
 
 		groupA = new Group("groupA");
 		groupB = new Group(null);
 
-		assertTrue(!groupA.equals(groupB));
-		assertTrue(!groupB.equals(groupA));
+		assertFalse(groupA.equals(groupB));
+		assertFalse(groupB.equals(groupA));
 
 		groupA = new Group("groupA");
 		groupB = new Group("groupB");
 
-		assertTrue(!groupB.equals(groupA));
-		assertTrue(!groupA.equals(groupB));
+		assertFalse(groupB.equals(groupA));
+		assertFalse(groupA.equals(groupB));
 	}
 
 	@Test
@@ -230,10 +243,12 @@ public class GroupTest {
 
 		assertTrue(group.toString() != null);
 		assertTrue(group.toString().equals(""));
+		assertTrue(group.toString() == "");
 
 		Group groupWithName = new Group(groupName);
 
 		assertTrue(groupWithName.toString() != null);
 		assertTrue(groupWithName.toString().equals(groupName));
+		assertTrue(groupWithName.toString() == groupName);
 	}
 }

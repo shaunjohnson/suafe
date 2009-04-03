@@ -28,7 +28,7 @@ import org.xiaoniu.suafe.exceptions.ValidatorException;
  * 
  * @author Shaun Johnson
  */
-public class Validator {
+public final class Validator {
 
 	/**
 	 * Validates group names.

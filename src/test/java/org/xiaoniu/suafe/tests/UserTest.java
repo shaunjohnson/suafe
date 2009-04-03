@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe.tests;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -116,18 +117,41 @@ public class UserTest {
 
 		assertTrue(userA.equals(userB));
 		assertTrue(userB.equals(userA));
+		
+		userA = new User("user");
+		userB = new User("  user  ");
+
+		assertTrue(userA.equals(userB));
+		assertTrue(userB.equals(userA));
+
+		userA = new User("user");
+		userB = new User("USER");
+
+		assertFalse(userA.equals(userB));
+		assertFalse(userB.equals(userA));
 
 		userA = new User("userA");
 		userB = new User(null);
 
-		assertTrue(!userA.equals(userB));
-		assertTrue(!userB.equals(userA));
+		assertFalse(userA.equals(userB));
+		assertFalse(userB.equals(userA));
 
 		userA = new User("userA");
 		userB = new User("userB");
 
-		assertTrue(!userA.equals(userB));
-		assertTrue(!userB.equals(userA));
+		assertFalse(userA.equals(userB));
+		assertFalse(userB.equals(userA));
+	}
+	
+	@Test
+	public void testIsAllUsers() {
+		User userA = new User("*");
+		User userB = new User(" * ");
+		User userC = new User("A");
+
+		assertTrue(userA.isAllUsers());
+		assertTrue(userB.isAllUsers());
+		assertFalse(userC.isAllUsers());
 	}
 
 	@Test

@@ -18,7 +18,6 @@
 package org.xiaoniu.suafe.dialogs;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -29,6 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.ActionConstants;
+import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -149,7 +149,7 @@ public class AboutDialog extends ParentDialog implements ActionListener {
 			
 			titleLabel = new JLabel(ResourceUtil.getString("application.nameversion"));
 			titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			titleLabel.setFont(new Font("Dialog", Font.BOLD, 18));
+			titleLabel.setFont(GuiConstants.FONT_BOLD_XLARGE);
 			
 			descriptionLabel = new JLabel(ResourceUtil.getString("about.content"));
 			descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);

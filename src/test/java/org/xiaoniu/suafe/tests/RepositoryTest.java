@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe.tests;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -105,18 +106,30 @@ public class RepositoryTest {
 
 		assertTrue(repositoryA.equals(repositoryB));
 		assertTrue(repositoryB.equals(repositoryA));
+		
+		repositoryA = new Repository("repository");
+		repositoryB = new Repository("   repository   ");
+
+		assertTrue(repositoryA.equals(repositoryB));
+		assertTrue(repositoryB.equals(repositoryA));
+		
+		repositoryA = new Repository("repository");
+		repositoryB = new Repository("REPOSITORY");
+
+		assertFalse(repositoryA.equals(repositoryB));
+		assertFalse(repositoryB.equals(repositoryA));
 
 		repositoryA = new Repository("repositoryA");
 		repositoryB = new Repository(null);
 
-		assertTrue(!repositoryA.equals(repositoryB));
-		assertTrue(!repositoryB.equals(repositoryA));
+		assertFalse(repositoryA.equals(repositoryB));
+		assertFalse(repositoryB.equals(repositoryA));
 
 		repositoryA = new Repository("repositoryA");
 		repositoryB = new Repository("repositoryB");
 
-		assertTrue(!repositoryB.equals(repositoryA));
-		assertTrue(!repositoryA.equals(repositoryB));
+		assertFalse(repositoryB.equals(repositoryA));
+		assertFalse(repositoryA.equals(repositoryB));
 	}
 
 	@Test
@@ -167,6 +180,7 @@ public class RepositoryTest {
 
 		assertTrue(repository.getName() != null);
 		assertTrue(repository.getName().equals(repositoryName));
+		assertTrue(repository.getName() == repositoryName);
 	}
 
 	/*

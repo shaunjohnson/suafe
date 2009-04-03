@@ -45,7 +45,7 @@ public class Repository implements Comparable<Repository> {
 	public Repository() {
 		super();
 		
-		this.name = null;
+		setName(null);
 		this.paths = new ArrayList<Path>();
 	}
 	
@@ -57,7 +57,7 @@ public class Repository implements Comparable<Repository> {
 	public Repository(String name) {
 		super();
 		
-		this.name = name;
+		setName(name);
 		this.paths = new ArrayList<Path>();
 	}
 	
@@ -82,7 +82,7 @@ public class Repository implements Comparable<Repository> {
 	 * @param name The Repository's new name.
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name = (name == null) ? null : name.trim().intern();
 	}
 		
 	/**
@@ -130,6 +130,6 @@ public class Repository implements Comparable<Repository> {
 	 * @return true if it is the same object, otherwise false
 	 */
 	public boolean equals(Repository otherRepository) {
-		return compareTo(otherRepository) == 0;
+		return name == otherRepository.getName();
 	}
 }

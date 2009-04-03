@@ -61,7 +61,7 @@ public class Group extends GroupMemberObject implements Comparable<Group> {
 	public Group() {
 		super();
 		
-		this.name = null;
+		setName(null);
 		this.groups = new ArrayList<Group>();
 		this.userMembers = new ArrayList<User>();
 		this.groupMembers = new ArrayList<Group>();
@@ -76,7 +76,7 @@ public class Group extends GroupMemberObject implements Comparable<Group> {
 	public Group(String name) {
 		super();
 		
-		this.name = name;
+		setName(name);
 		this.groups = new ArrayList<Group>();
 		this.userMembers = new ArrayList<User>();
 		this.groupMembers = new ArrayList<Group>();
@@ -93,7 +93,7 @@ public class Group extends GroupMemberObject implements Comparable<Group> {
 	public Group(String name, List<Group> groupMembers, List<User> userMembers) {
 		super();
 		
-		this.name = name;
+		setName(name);
 		this.groups = new ArrayList<Group>();
 		this.userMembers = userMembers;
 		this.groupMembers = groupMembers;
@@ -121,7 +121,7 @@ public class Group extends GroupMemberObject implements Comparable<Group> {
 	 * @param name The new name for the Group.
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name = (name == null) ? null : name.trim().intern();
 	}
 	
 	/**
@@ -250,6 +250,6 @@ public class Group extends GroupMemberObject implements Comparable<Group> {
 	 * @return true if the same group, other false
 	 */
 	public boolean equals(Group otherGroup) {
-		return compareTo(otherGroup) == 0;
+		return name == otherGroup.getName();
 	}
 }

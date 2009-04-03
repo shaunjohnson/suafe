@@ -83,7 +83,7 @@ public class UserPreferences {
 	/**
 	 * Default font style.
 	 */
-	public static final String DEFAULT_FONT_STYLE = Constants.FONT_FAMILY_MONOSPACED;
+	public static final String DEFAULT_FONT_STYLE = GuiConstants.FONT_FAMILY_MONOSPACED;
 	
 	private static Font userFont = null;
 	
@@ -182,9 +182,9 @@ public class UserPreferences {
 	public static String getUserFontStyle() {
 		String fontStyle = prefs.get(FONT_STYLE, DEFAULT_FONT_STYLE);
 		
-		if (fontStyle.equals(Constants.FONT_FAMILY_MONOSPACED) ||
-				fontStyle.equals(Constants.FONT_FAMILY_SERIF) ||
-				fontStyle.equals(Constants.FONT_FAMILY_SANS_SERIF)) {
+		if (fontStyle.equals(GuiConstants.FONT_FAMILY_MONOSPACED) ||
+				fontStyle.equals(GuiConstants.FONT_FAMILY_SERIF) ||
+				fontStyle.equals(GuiConstants.FONT_FAMILY_SANS_SERIF)) {
 				return fontStyle;
 			}
 			else {
@@ -327,9 +327,9 @@ public class UserPreferences {
 	 * @param fontStyle User selected font style
 	 */
 	public static void setUserFontStyle(String fontStyle) {
-		if (fontStyle.equals(Constants.FONT_FAMILY_MONOSPACED) ||
-			fontStyle.equals(Constants.FONT_FAMILY_SERIF) ||
-			fontStyle.equals(Constants.FONT_FAMILY_SANS_SERIF)) {
+		if (fontStyle.equals(GuiConstants.FONT_FAMILY_MONOSPACED) ||
+			fontStyle.equals(GuiConstants.FONT_FAMILY_SERIF) ||
+			fontStyle.equals(GuiConstants.FONT_FAMILY_SANS_SERIF)) {
 			prefs.put(FONT_STYLE, fontStyle);
 		}
 		else {

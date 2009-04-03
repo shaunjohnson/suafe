@@ -7,7 +7,7 @@ import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
 import com.martiansoftware.jsap.Switch;
 
-public class ArgumentParser extends JSAP {
+public final class ArgumentParser extends JSAP {
 	public void addSwitchOption(String name, Character shortFlag, String longFlag, String help) throws JSAPException {
 		Switch opt = new Switch(name);
 		

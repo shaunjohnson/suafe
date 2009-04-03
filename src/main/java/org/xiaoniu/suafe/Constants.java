@@ -17,28 +17,15 @@
  */
 package org.xiaoniu.suafe;
 
-import java.awt.Font;
 
 /**
  * Constant values used throughout the application.
  * 
  * @author Shaun Johnson
  */
-public class Constants {
+public final class Constants {
 	
 	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-	
-	public static final Font FONT_BOLD_LARGE = new Font("Dialog", Font.BOLD, 14);
-	
-	public static final String FONT_FAMILY_MONOSPACED = "Monospaced";
-	
-	public static final String FONT_FAMILY_SANS_SERIF = "SansSerif";
-	
-	public static final String FONT_FAMILY_SERIF = "Serif";
-	
-	public static final Font FONT_MONOSPACE = new Font("Courier New", Font.PLAIN, 12);
-	
-	public static final Font FONT_PLAIN = new Font("Dialog", Font.PLAIN, 12);
 	
 	public static final String MIME_HTML = "text/html";
 

@@ -29,7 +29,7 @@ import org.xiaoniu.suafe.SubversionConstants;
  * 
  * @author Shaun Johnson
  */
-public class User extends GroupMemberObject implements Comparable<User> {
+public final class User extends GroupMemberObject implements Comparable<User> {
 	
 	/**
 	 * The User's name. This field must contain a unique value.
@@ -65,9 +65,9 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	public User(String name) {
 		super();
 		
-		this.name = name;
-		this.groups = new ArrayList<Group>();
-		this.accessRules = new ArrayList<AccessRule>();
+		setName(name);
+		setGroups(new ArrayList<Group>());
+		setAccessRules(new ArrayList<AccessRule>());
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	 * @return Returns true if users is "*" (All SVN Users)
 	 */
 	public boolean isAllUsers() {
-		return (name == null) ? false : name.equals(SubversionConstants.SVN_ALL_USERS_NAME);
+		return name == SubversionConstants.SVN_ALL_USERS_NAME;
 	}
 	
 	/**
@@ -101,7 +101,7 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	 * @param name The User's new name.
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name = (name == null) ? null : name.trim().intern();
 	}
 
 	/**
@@ -191,6 +191,6 @@ public class User extends GroupMemberObject implements Comparable<User> {
 	 * @param otherUser The other User to which this is compared.
 	 */
 	public boolean equals(User otherUser) {
-		return compareTo(otherUser) == 0;
+		return name == otherUser.getName();
 	}
 }

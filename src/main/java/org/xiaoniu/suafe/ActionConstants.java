@@ -1,6 +1,6 @@
 package org.xiaoniu.suafe;
 
-public class ActionConstants {
+public final class ActionConstants {
 	public static final String ABOUT_ACTION = "ABOUT_ACTION";
 
 	public static final String ADD_ACCESS_RULE_ACTION = "ADD_ACCESS_RULE_ACTION";

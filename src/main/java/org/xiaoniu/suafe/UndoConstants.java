@@ -1,6 +1,6 @@
 package org.xiaoniu.suafe;
 
-public class UndoConstants {
+public final class UndoConstants {
 	public static final String VALUE_NEW_GROUP_NAME = "VALUE_NEW_GROUP_NAME";
 	
 	public static final String VALUE_NEW_REPOSITORY_NAME = "VALUE_NEW_REPOSITORY_NAME";

@@ -81,6 +81,7 @@ import org.xiaoniu.suafe.FileGenerator;
 import org.xiaoniu.suafe.FileOpener;
 import org.xiaoniu.suafe.FileParser;
 import org.xiaoniu.suafe.FileTransferHandler;
+import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.Printer;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.AccessRule;
@@ -319,13 +320,13 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			deleteAccessRule();
 		}
 		else if (action.equals(ActionConstants.MONOSPACED_ACTION)) {
-			changeFont(Constants.FONT_FAMILY_MONOSPACED);
+			changeFont(GuiConstants.FONT_FAMILY_MONOSPACED);
 		}
 		else if (action.equals(ActionConstants.SANS_SERIF_ACTION)) {
-			changeFont(Constants.FONT_FAMILY_SANS_SERIF);
+			changeFont(GuiConstants.FONT_FAMILY_SANS_SERIF);
 		}
 		else if (action.equals(ActionConstants.SERIF_ACTION)) {
-			changeFont(Constants.FONT_FAMILY_SERIF);
+			changeFont(GuiConstants.FONT_FAMILY_SERIF);
 		}
 		else if (action.equals(ActionConstants.OPEN_FILE_ACTION + "_0")) {
 			fileOpen(0);
@@ -1451,7 +1452,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 			tabbedPane.addTab(ResourceUtil.getString("mainframe.tabs.accessrules"),
 					ResourceUtil.fullSizeAccessRuleIcon, getAccessRulesPane());
 
-			tabbedPane.setFont(Constants.FONT_PLAIN);
+			tabbedPane.setFont(GuiConstants.FONT_PLAIN);
 		}
 
 		return tabbedPane;
@@ -1508,7 +1509,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 	private JLabel getStatusLabel() {
 		if (statusLabel == null) {
 			statusLabel = new JLabel();
-			statusLabel.setFont(Constants.FONT_PLAIN);
+			statusLabel.setFont(GuiConstants.FONT_PLAIN);
 		}
 
 		return statusLabel;

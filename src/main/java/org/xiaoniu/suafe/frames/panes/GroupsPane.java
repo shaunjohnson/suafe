@@ -18,7 +18,7 @@ import javax.swing.event.ListSelectionListener;
 
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.ApplicationDefaultsContants;
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
@@ -269,7 +269,7 @@ public class GroupsPane extends BaseSplitPane {
 			groupList.addListSelectionListener(listSelectionListener);
 			groupList.addMouseListener(mouseListener);
 			groupList.setCellRenderer(new MyListCellRenderer());
-			groupList.setFont(Constants.FONT_PLAIN);
+			groupList.setFont(GuiConstants.FONT_PLAIN);
 		}
 
 		return groupList;
@@ -317,7 +317,7 @@ public class GroupsPane extends BaseSplitPane {
 			groupMemberList.addKeyListener(keyListener);
 			groupMemberList.addMouseListener(mouseListener);
 			groupMemberList.setCellRenderer(new MyListCellRenderer());
-			groupMemberList.setFont(Constants.FONT_PLAIN);
+			groupMemberList.setFont(GuiConstants.FONT_PLAIN);
 		}
 
 		return groupMemberList;

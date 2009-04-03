@@ -1,6 +1,6 @@
 package org.xiaoniu.suafe;
 
-public class ApplicationDefaultsContants {
+public final class ApplicationDefaultsContants {
 	public static final int DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT = 18;
 	
 	public static final String DEFAULT_DIVIDER_LOCATION = "400";

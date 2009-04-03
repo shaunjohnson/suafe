@@ -17,6 +17,7 @@ import javax.swing.KeyStroke;
 
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
@@ -340,11 +341,11 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (monospacedRadioButtonMenuItem == null) {
 			monospacedRadioButtonMenuItem = new JRadioButtonMenuItem();
 			monospacedRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.monospaced"));
-			monospacedRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_MONOSPACED, Font.BOLD, 12));
+			monospacedRadioButtonMenuItem.setFont(new Font(GuiConstants.FONT_FAMILY_MONOSPACED, Font.BOLD, 12));
 			monospacedRadioButtonMenuItem.addActionListener(actionListener);
 			monospacedRadioButtonMenuItem.setActionCommand(ActionConstants.MONOSPACED_ACTION);
 			
-			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_MONOSPACED)) {
+			if (UserPreferences.getUserFontStyle().equals(GuiConstants.FONT_FAMILY_MONOSPACED)) {
 				monospacedRadioButtonMenuItem.setSelected(true);
 			}
 		}
@@ -528,11 +529,11 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (sansSerifRadioButtonMenuItem == null) {
 			sansSerifRadioButtonMenuItem = new JRadioButtonMenuItem();
 			sansSerifRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.sanserif"));
-			sansSerifRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_SANS_SERIF, Font.BOLD, 12));
+			sansSerifRadioButtonMenuItem.setFont(new Font(GuiConstants.FONT_FAMILY_SANS_SERIF, Font.BOLD, 12));
 			sansSerifRadioButtonMenuItem.addActionListener(actionListener);
 			sansSerifRadioButtonMenuItem.setActionCommand(ActionConstants.SANS_SERIF_ACTION);
 			
-			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_SANS_SERIF)) {
+			if (UserPreferences.getUserFontStyle().equals(GuiConstants.FONT_FAMILY_SANS_SERIF)) {
 				sansSerifRadioButtonMenuItem.setSelected(true);
 			}
 		}
@@ -584,11 +585,11 @@ public class MainFrameMenuBar extends JMenuBar {
 		if (serifRadioButtonMenuItem == null) {
 			serifRadioButtonMenuItem = new JRadioButtonMenuItem();
 			serifRadioButtonMenuItem.setText(ResourceUtil.getString("menu.settings.serif"));
-			serifRadioButtonMenuItem.setFont(new Font(Constants.FONT_FAMILY_SERIF, Font.BOLD, 12));
+			serifRadioButtonMenuItem.setFont(new Font(GuiConstants.FONT_FAMILY_SERIF, Font.BOLD, 12));
 			serifRadioButtonMenuItem.addActionListener(actionListener);
 			serifRadioButtonMenuItem.setActionCommand(ActionConstants.SERIF_ACTION);
 			
-			if (UserPreferences.getUserFontStyle().equals(Constants.FONT_FAMILY_SERIF)) {
+			if (UserPreferences.getUserFontStyle().equals(GuiConstants.FONT_FAMILY_SERIF)) {
 				serifRadioButtonMenuItem.setSelected(true);
 			}
 		}

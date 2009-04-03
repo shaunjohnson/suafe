@@ -3,7 +3,6 @@ package org.xiaoniu.suafe.dialogs;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.xiaoniu.suafe.ActionConstants;
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.beans.AccessRule;
@@ -336,10 +335,9 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			addRepositoryButton = new JButton();
 			addRepositoryButton.addActionListener(this);
 			addRepositoryButton.setActionCommand(ActionConstants.ADD_REPOSITORY_ACTION);
-			addRepositoryButton.setPreferredSize(new Dimension(56, 25));
 			addRepositoryButton.setText(ResourceUtil.getString(type + ".addrepository"));
 			addRepositoryButton.setToolTipText(ResourceUtil.getString(type + ".addrepository.tooltip"));
-			addRepositoryButton.setFont(new Font("Dialog", Font.BOLD, 12));
+			addRepositoryButton.setFont(GuiConstants.FONT_BOLD_NORMAL);
 		}
 
 		return addRepositoryButton;
@@ -355,7 +353,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			allUsersRadioButton = new JRadioButton();
 			allUsersRadioButton.addActionListener(this);
 			allUsersRadioButton.setActionCommand(ALL_USERS_ACTION);
-			allUsersRadioButton.setFont(Constants.FONT_PLAIN);
+			allUsersRadioButton.setFont(GuiConstants.FONT_PLAIN);
 			allUsersRadioButton.setText(ResourceUtil.getString(type + ".applyto.allusers"));
 
 			if (accessRule != null) {
@@ -423,7 +421,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (denyAccessRadioButton == null) {
 			denyAccessRadioButton = new JRadioButton();
 			denyAccessRadioButton.setText(ResourceUtil.getString("accesslevel.denyaccess"));
-			denyAccessRadioButton.setFont(Constants.FONT_PLAIN);
+			denyAccessRadioButton.setFont(GuiConstants.FONT_PLAIN);
 
 			if (accessRule != null && accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) {
 				denyAccessRadioButton.setSelected(true);
@@ -481,7 +479,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			groupRadioButton.addActionListener(this);
 			groupRadioButton.setActionCommand(GROUP_ACTION);
 			groupRadioButton.setText(ResourceUtil.getString(type + ".applyto.group"));
-			groupRadioButton.setFont(Constants.FONT_PLAIN);
+			groupRadioButton.setFont(GuiConstants.FONT_PLAIN);
 
 			if (accessRule != null) {
 				if (accessRule.getGroup() != null) {
@@ -591,7 +589,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (readOnlyRadioButton == null) {
 			readOnlyRadioButton = new JRadioButton();
 			readOnlyRadioButton.setText(ResourceUtil.getString("accesslevel.readonly"));
-			readOnlyRadioButton.setFont(Constants.FONT_PLAIN);
+			readOnlyRadioButton.setFont(GuiConstants.FONT_PLAIN);
 
 			if (accessRule != null && accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) {
 				readOnlyRadioButton.setSelected(true);
@@ -610,7 +608,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		if (readWriteRadioButton == null) {
 			readWriteRadioButton = new JRadioButton();
 			readWriteRadioButton.setText(ResourceUtil.getString("accesslevel.readwrite"));
-			readWriteRadioButton.setFont(Constants.FONT_PLAIN);
+			readWriteRadioButton.setFont(GuiConstants.FONT_PLAIN);
 
 			if (accessRule != null && accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) {
 				readWriteRadioButton.setSelected(true);
@@ -719,7 +717,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 			userRadioButton = new JRadioButton();
 			userRadioButton.addActionListener(this);
 			userRadioButton.setActionCommand(USER_ACTION);
-			userRadioButton.setFont(Constants.FONT_PLAIN);
+			userRadioButton.setFont(GuiConstants.FONT_PLAIN);
 			userRadioButton.setText(ResourceUtil.getString(type + ".applyto.user"));
 
 			if (accessRule != null && accessRule.getUser() != null && !accessRule.getUser().getName().equals("*")) {

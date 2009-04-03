@@ -32,7 +32,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 public abstract class ParentDialog extends JDialog implements ContainerListener, KeyListener {
@@ -181,7 +181,7 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
 			instructionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 			JLabel instructionsLabel = new JLabel(text);
-			instructionsLabel.setFont(Constants.FONT_BOLD_LARGE);
+			instructionsLabel.setFont(GuiConstants.FONT_BOLD_LARGE);
 
 			instructionsPanel.add(instructionsLabel);
 		}

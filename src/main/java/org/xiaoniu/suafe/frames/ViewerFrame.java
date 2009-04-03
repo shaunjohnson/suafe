@@ -37,6 +37,7 @@ import javax.swing.event.HyperlinkListener;
 
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.Utilities;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
@@ -248,7 +249,7 @@ public class ViewerFrame extends ParentFrame implements ActionListener, Hyperlin
 			contentEditorPane.addHyperlinkListener(this);
 			
 			if (contentType == Constants.MIME_TEXT) {
-				contentEditorPane.setFont(Constants.FONT_MONOSPACE);
+				contentEditorPane.setFont(GuiConstants.FONT_MONOSPACE);
 			}
 		}
 		return contentEditorPane;
