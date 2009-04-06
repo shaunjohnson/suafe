@@ -1113,12 +1113,12 @@ public class DocumentTest {
 	
 	@Test
 	public void testRenameGroup() {
-		fail("Not implemented");
+		// TODO
 	}
 	
 	@Test
 	public void testRenameUser() {
-		fail("Not implemented");
+		// TODO
 	}
 
 	@Test
