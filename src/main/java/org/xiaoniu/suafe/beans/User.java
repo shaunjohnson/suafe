@@ -29,7 +29,12 @@ import org.xiaoniu.suafe.SubversionConstants;
  * 
  * @author Shaun Johnson
  */
-public final class User extends GroupMemberObject implements Comparable<User> {
+public class User extends GroupMemberObject implements Comparable<User> {
+
+	/**
+	 * The User's alias. This field must be unique.
+	 */
+	protected String alias;
 	
 	/**
 	 * The User's name. This field must contain a unique value.
@@ -52,6 +57,7 @@ public final class User extends GroupMemberObject implements Comparable<User> {
 	public User() {
 		super();
 		
+		this.alias = null;
 		this.name = null;
 		this.groups = new ArrayList<Group>();
 		this.accessRules = new ArrayList<AccessRule>();
@@ -69,12 +75,51 @@ public final class User extends GroupMemberObject implements Comparable<User> {
 		setGroups(new ArrayList<Group>());
 		setAccessRules(new ArrayList<AccessRule>());
 	}
+
+	/**
+	 * Constructor that accepts User name and alias.
+	 * 
+	 * @param name Name of the user.
+	 */
+	public User(String name, String alias) {
+		super();
+		
+		setAlias(alias);
+		setName(name);
+		setGroups(new ArrayList<Group>());
+		setAccessRules(new ArrayList<AccessRule>());
+	}
 	
+	/**
+	 * @return the alias
+	 */
+	public final String getAlias() {
+		return alias;
+	}
+
+	/**
+	 * @param alias the alias to set
+	 */
+	public final void setAlias(String alias) {
+		this.alias = alias;
+	}
+
 	/**
 	 * Returns the User object as a String.
 	 */
 	public String toString() {
-		return (name == null) ? "" : name;
+		if (alias == null && name == null) {
+			return "";
+		}
+		else if (alias == null && name != null) {
+			return name;
+		}
+		else if (alias != null && name == null) {
+			return alias;
+		}
+		else {
+			return alias + "[" + name + "]";
+		}
 	}
 	
 	/**

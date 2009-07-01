@@ -119,6 +119,32 @@ public final class Validator {
 	}
 	
 	/**
+	 * Validates aliases.
+	 * 
+	 * @param alias The User alias to validate.
+	 * @throws ValidatorException
+	 */
+	public static void validateAlias(String alias) throws ValidatorException {
+		if (alias == null) {
+			throw new ValidatorException("Invalid alias");
+		}
+		
+		String value = alias.trim();
+			
+		if (value.length() == 0) {
+			throw new ValidatorException("Invalid alias");
+		}
+		
+		// Check user name for invalid characters
+		Pattern pattern = Pattern.compile("=");
+		Matcher matcher = pattern.matcher(value);
+		
+		if (matcher.find()) {
+			throw new ValidatorException("Invalid alias: Alias may not contain '='");
+		}
+	}
+	
+	/**
 	 * Validates user names.
 	 * 
 	 * @param userName The User name to validate.

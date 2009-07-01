@@ -547,12 +547,28 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public User addUser(String userName) throws ApplicationException {
+		return addUser(userName, null);
+	}
+	
+	/**
+	 * Adds a new User to the document.
+	 * 
+	 * @param userName Name of the new user.
+	 * @param alias Alias of the new user.
+	 * @return Newly created User.
+	 * @throws ApplicationException
+	 */
+	public User addUser(String userName, String alias) throws ApplicationException {
 		Validator.validateUserName(userName);
+
+		if (alias != null) {
+			Validator.validateAlias(alias);	
+		}
 
 		User user = findUser(userName);
 
 		if (user == null) {
-			user = new User(userName);
+			user = new User(userName, alias);
 
 			users.add(user);
 
@@ -561,7 +577,17 @@ public class Document {
 			// Record action
 			UndoableAction action = new UndoableAction(ActionConstants.ADD_USER_ACTION);
 			action.addValue(UndoConstants.VALUE_NEW_USER_NAME, userName);
+			action.addValue(UndoConstants.VALUE_NEW_ALIAS, alias);
 			addUndoAction(action);
+		}
+		else {
+			String userAlias = user.getAlias();
+			
+			if ((userAlias == null && alias != null) ||
+				(userAlias != null && alias == null ||
+				(userAlias.equals(alias)))) {
+				throw new ApplicationException("User already exists, but with a different alias");
+			}
 		}
 
 		return user;
@@ -714,8 +740,25 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public User cloneUser(User user, String userName) throws ApplicationException {
+		return cloneUser(user, userName, null);
+	}
+	
+	/**
+	 * Clones an existing User. Creates a complete duplicate of the specified User and gives it the specified name.
+	 * 
+	 * @param user User to be cloned.
+	 * @param userName Name of the new clone.
+	 * @param alias Alias of the new clone.
+	 * @return Clone of the User.
+	 * @throws ApplicationException
+	 */
+	public User cloneUser(User user, String userName, String alias) throws ApplicationException {
 		if (findUser(userName) != null) {
 			throw new ApplicationException("cloneuser.error.useralreadyexists");
+		}
+		
+		if (alias != null && findUserByAlias(alias) != null) {
+			throw new ApplicationException("cloneuser.error.aliasalreadyexists");
 		}
 
 		User clone = addUser(userName);
@@ -1006,6 +1049,16 @@ public class Document {
 	public void deleteUser(String userName) throws ApplicationException {
 		deleteUser(findUser(userName));
 	}
+	
+	/**
+	 * Deletes an existing User by alias.
+	 * 
+	 * @param alias Alias of user to be deleted.
+	 * @throws ApplicationException
+	 */
+	public void deleteUserByAlias(String alias) throws ApplicationException {
+		deleteUser(findUserByAlias(alias));
+	}
 
 	/**
 	 * Deletes an existing User.
@@ -1274,6 +1327,39 @@ public class Document {
 				user = (User) users.get(i);
 
 				if (user.getName().equals(userName)) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				user = null;
+			}
+		}
+
+		return user;
+	}
+	
+	/**
+	 * Finds a User by alias.
+	 * 
+	 * @param alias Alias of User to locate.
+	 * @return Found User.
+	 * @throws ApplicationException
+	 */
+	public User findUserByAlias(String alias) throws ApplicationException {
+		Validator.validateAlias(alias);
+
+		User user = null;
+		boolean found = false;
+
+		if (users != null) {
+			int size = users.size();
+
+			for (int i = 0; i < size; i++) {
+				user = (User) users.get(i);
+
+				if (user.getAlias().equals(alias)) {
 					found = true;
 					break;
 				}
@@ -1754,8 +1840,30 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public Object[][] getUserAccessRules(String userName) throws ApplicationException {
-		User user = findUser(userName);
-
+		return getUserAccessRules(findUser(userName));
+	}
+	
+	/**
+	 * Gets an array of AccessRules data in which the User is referenced. The two dimensional array returned contains
+	 * the Repository name, relative path and level of access for each AccessRule in which the User is referenced.
+	 * 
+	 * @param alias Alias of the User.
+	 * @return Object array of AccessRule information.
+	 * @throws ApplicationException
+	 */
+	public Object[][] getUserAccessRulesByAlias(String alias) throws ApplicationException {
+		return getUserAccessRules(findUserByAlias(alias));
+	}
+	
+	/**
+	 * Gets an array of AccessRules data in which the User is referenced. The two dimensional array returned contains
+	 * the Repository name, relative path and level of access for each AccessRule in which the User is referenced.
+	 * 
+	 * @param user The User.
+	 * @return Object array of AccessRule information.
+	 * @throws ApplicationException
+	 */
+	private Object[][] getUserAccessRules(User user) throws ApplicationException {
 		if (user == null || user.getAccessRules() == null) {
 			return null;
 		}
@@ -1784,8 +1892,28 @@ public class Document {
 	 * @throws ApplicationException
 	 */
 	public Object[] getUserGroupNames(String userName) throws ApplicationException {
-		User user = findUser(userName);
+		return getUserGroupNames(findUser(userName));
+	}
 
+	/**
+	 * Gets an array of names for all Groups in which the User is a member.
+	 * 
+	 * @param alias Alias of the User.
+	 * @return Object array of Group names.
+	 * @throws ApplicationException
+	 */
+	public Object[] getUserGroupNamesByAlias(String alias) throws ApplicationException {
+		return getUserGroupNames(findUserByAlias(alias));
+	}
+	
+	/**
+	 * Gets an array of names for all Groups in which the User is a member.
+	 * 
+	 * @param user The User.
+	 * @return Object array of Group names.
+	 * @throws ApplicationException
+	 */
+	public Object[] getUserGroupNames(User user) throws ApplicationException {
 		if (user == null || user.getGroups() == null) {
 			return null;
 		}
@@ -1803,7 +1931,7 @@ public class Document {
 			return groupNames;
 		}
 	}
-
+	
 	/**
 	 * Gets array of Group objects in which the User is a member.
 	 * 
