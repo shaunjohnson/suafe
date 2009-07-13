@@ -8,7 +8,7 @@ import javax.swing.JPopupMenu;
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class UsersPopupMenu extends JPopupMenu {
+public final class UsersPopupMenu extends JPopupMenu {
 
 	private static final long serialVersionUID = 6018077204492947280L;
 

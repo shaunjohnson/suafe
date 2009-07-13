@@ -100,7 +100,7 @@ import org.xiaoniu.suafe.dialogs.BasicDialog;
 import org.xiaoniu.suafe.dialogs.ChangeMembershipDialog;
 import org.xiaoniu.suafe.dialogs.DialogUtil;
 import org.xiaoniu.suafe.dialogs.EditAccessRuleDialog;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.frames.menus.GroupsPopupMenu;
 import org.xiaoniu.suafe.frames.menus.MainFrameMenuBar;
 import org.xiaoniu.suafe.frames.menus.UsersPopupMenu;
@@ -119,7 +119,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class MainFrame extends BaseFrame implements ActionListener, FileOpener, KeyListener, ListSelectionListener,
+public final class MainFrame extends BaseFrame implements ActionListener, FileOpener, KeyListener, ListSelectionListener,
 		MouseListener, TreeSelectionListener, WindowListener {
 
 	/**
@@ -796,7 +796,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 					refreshGroupDetails();
 					refreshAccessRuleTree(null);
 				}
-				catch (ApplicationException ae) {
+				catch (AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletingaccessrule"));
 				}
 			}
@@ -827,7 +827,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				try {
 					document.deleteGroups(values);
 				}
-				catch (ApplicationException ae) {
+				catch (AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletinggroup"));
 				}
 
@@ -859,7 +859,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				try {
 					document.deletePath((Path) userObject);
 				}
-				catch (ApplicationException ae) {
+				catch (AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletingpath"));
 				}
 
@@ -892,7 +892,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				try {
 					document.deleteRepository((Repository) userObject);
 				}
-				catch (ApplicationException ae) {
+				catch (AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletingrepository"));
 				}
 
@@ -927,7 +927,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				try {
 					document.deleteUsers(values);
 				}
-				catch (ApplicationException ae) {
+				catch (AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletinguser"));
 				}
 
@@ -1063,7 +1063,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 					}
 				}
 			}
-			catch (ApplicationException ae) {
+			catch (AppException ae) {
 				displayError(ResourceUtil.getString("mainframe.error.erroreditingaccessrule"));
 			}
 		}
@@ -1817,7 +1817,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 								document).generate(UserPreferences.getMultipleLineGroupDefinitions()), Constants.MIME_TEXT);
 						frame.setVisible(true);
 					}
-					catch (ApplicationException e) {
+					catch (AppException e) {
 						displayError(e.getMessage());
 					}
 				}
@@ -1898,7 +1898,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				}
 			}
 		}
-		catch (ApplicationException ae) {
+		catch (AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadinggroupmembers"));
 		}
 
@@ -1909,7 +1909,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		try {
 			model.setDataVector(document.getGroupAccessRules(group), getGroupAccessRulesColumnNames());
 		}
-		catch (ApplicationException ae) {
+		catch (AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforgroup"));
 		}
 
@@ -1944,7 +1944,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		try {
 			model.setDataVector(document.getPathAccessRules(path), getPathAccessRulesColumnNames());
 		}
-		catch (ApplicationException ae) {
+		catch (AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforpath"));
 		}
 
@@ -1963,7 +1963,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		try {
 			model.setDataVector(document.getRepositoryAccessRules(repository), getRepositoryAccessRulesColumnNames());
 		}
-		catch (ApplicationException ae) {
+		catch (AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforrepository"));
 		}
 
@@ -1982,7 +1982,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		try {
 			model.setDataVector(document.getServerAccessRules(), getServerAccessRulesColumnNames());
 		}
-		catch (ApplicationException ae) {
+		catch (AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforserver"));
 		}
 
@@ -2024,7 +2024,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				}
 			}
 		}
-		catch (ApplicationException ae) {
+		catch (AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingusers"));
 		}
 
@@ -2036,7 +2036,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 		try {
 			model.setDataVector(document.getUserAccessRuleObjects(user), getUserAccessRulesColumnNames());
 		}
-		catch (ApplicationException ae) {
+		catch (AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforuser"));
 		}
 
@@ -2117,7 +2117,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				try {
 					document.removeFromGroups(user, values);
 				}
-				catch (ApplicationException ae) {
+				catch (AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
 				}
 
@@ -2153,7 +2153,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 				try {
 					document.removeGroupMembers(group, values);
 				}
-				catch (ApplicationException ae) {
+				catch (AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
 				}
 
@@ -2332,7 +2332,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 								.generate(), Constants.MIME_HTML);
 						frame.setVisible(true);
 					}
-					catch (ApplicationException e) {
+					catch (AppException e) {
 						displayError(e.getMessage());
 					}
 				}
@@ -2356,7 +2356,7 @@ public class MainFrame extends BaseFrame implements ActionListener, FileOpener, 
 								report.generate(), Constants.MIME_HTML);
 						frame.setVisible(true);
 					}
-					catch (ApplicationException ae) {
+					catch (AppException ae) {
 						displayError(ae.getMessage());
 					}
 					catch (Exception e) {

@@ -46,7 +46,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class ViewerFrame extends ParentFrame implements ActionListener, HyperlinkListener {
+public final class ViewerFrame extends ParentFrame implements ActionListener, HyperlinkListener {
 
 	/**
 	 * Serial ID.

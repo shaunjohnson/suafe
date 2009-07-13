@@ -15,7 +15,7 @@ import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 
 public class DocumentTest {
 	
@@ -85,7 +85,7 @@ public class DocumentTest {
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -140,7 +140,7 @@ public class DocumentTest {
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -196,7 +196,7 @@ public class DocumentTest {
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -251,7 +251,7 @@ public class DocumentTest {
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -306,7 +306,7 @@ public class DocumentTest {
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -362,7 +362,7 @@ public class DocumentTest {
 			assertTrue(repository.getPaths() != null);
 			assertTrue(repository.getPaths().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -374,7 +374,7 @@ public class DocumentTest {
 			document.addGroupByName(null, null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -382,7 +382,7 @@ public class DocumentTest {
 			document.addGroupByName("", null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -393,7 +393,7 @@ public class DocumentTest {
 			assertTrue(document.getGroups().size() == 1);
 			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -405,7 +405,7 @@ public class DocumentTest {
 			assertTrue(document.getGroups().size() == 1);
 			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -422,7 +422,7 @@ public class DocumentTest {
 			assertTrue(document.getGroups() != null);
 			assertTrue(document.getGroups().size() == 2);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -434,7 +434,7 @@ public class DocumentTest {
 			document.addGroup(null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -442,7 +442,7 @@ public class DocumentTest {
 			document.addGroup("");
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -453,7 +453,7 @@ public class DocumentTest {
 			assertTrue(document.getGroups().size() == 1);
 			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -465,7 +465,7 @@ public class DocumentTest {
 			document.addGroup(null, null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -473,7 +473,7 @@ public class DocumentTest {
 			document.addGroup("", null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -484,7 +484,7 @@ public class DocumentTest {
 			assertTrue(document.getGroups().size() == 1);
 			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -496,7 +496,7 @@ public class DocumentTest {
 			assertTrue(document.getGroups().size() == 1);
 			assertTrue(document.getGroups().get(0).getName().equals(groupName));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -515,7 +515,7 @@ public class DocumentTest {
 			assertTrue(document.getUsers() != null);
 			assertTrue(document.getUsers().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -544,7 +544,7 @@ public class DocumentTest {
 			assertTrue(document.findGroup(groupName2) != null);
 			assertTrue(document.findUser(userName) != null);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -561,7 +561,7 @@ public class DocumentTest {
 			assertTrue(document.getUsers() != null);
 			assertTrue(document.getUsers().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -573,7 +573,7 @@ public class DocumentTest {
 			document.addPath(null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -581,14 +581,14 @@ public class DocumentTest {
 			document.addPath(new Repository(), null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
 			document.initialize();
 			document.addPath(null, relativePath);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -614,7 +614,7 @@ public class DocumentTest {
 			assertTrue(document.getRepositories().get(0).getPaths().get(0).getPath() != null);
 			assertTrue(document.getRepositories().get(0).getPaths().get(0).getPath().equals(relativePath));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -626,7 +626,7 @@ public class DocumentTest {
 			document.addRepository(null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -634,7 +634,7 @@ public class DocumentTest {
 			document.addRepository("");
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -646,7 +646,7 @@ public class DocumentTest {
 			assertTrue(document.getRepositories().size() == 1);
 			assertTrue(document.getRepositories().get(0).getName().equals(repositoryName));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -658,7 +658,7 @@ public class DocumentTest {
 			document.addServerAccessRuleForGroup(null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -666,7 +666,7 @@ public class DocumentTest {
 			document.addServerAccessRuleForGroup(groupName, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -675,7 +675,7 @@ public class DocumentTest {
 			document.addServerAccessRuleForGroup(groupName, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -683,7 +683,7 @@ public class DocumentTest {
 			document.addServerAccessRuleForGroup(null, level);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -712,7 +712,7 @@ public class DocumentTest {
 			assertTrue(group.getAccessRules().size() == 1);
 			assertTrue(group.getAccessRules().get(0).getLevel().equals(level));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -724,7 +724,7 @@ public class DocumentTest {
 			document.addServerAccessRuleForUser(null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -732,7 +732,7 @@ public class DocumentTest {
 			document.addServerAccessRuleForUser(userName, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -741,7 +741,7 @@ public class DocumentTest {
 			document.addServerAccessRuleForUser(userName, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -749,7 +749,7 @@ public class DocumentTest {
 			document.addServerAccessRuleForUser(null, level);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -778,7 +778,7 @@ public class DocumentTest {
 			assertTrue(user.getAccessRules().size() == 1);
 			assertTrue(user.getAccessRules().get(0).getLevel().equals(level));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -790,7 +790,7 @@ public class DocumentTest {
 			document.addUser(null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -798,7 +798,7 @@ public class DocumentTest {
 			document.addUser("");
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -808,7 +808,7 @@ public class DocumentTest {
 			// Add same user again
 			document.addUser(userName);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -822,7 +822,7 @@ public class DocumentTest {
 
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -832,7 +832,7 @@ public class DocumentTest {
 
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -842,7 +842,7 @@ public class DocumentTest {
 
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -863,7 +863,7 @@ public class DocumentTest {
 			assertTrue(group.getUserMembers() != null);
 			assertTrue(group.getUserMembers().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -910,7 +910,7 @@ public class DocumentTest {
 			assertTrue(userMember.getGroups().size() == 1);
 			assertTrue(userMember.getGroups().get(0).equals(group));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -924,7 +924,7 @@ public class DocumentTest {
 
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -934,7 +934,7 @@ public class DocumentTest {
 
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -942,7 +942,7 @@ public class DocumentTest {
 
 			document.changeUserMembership(document.addUser(userName), new Vector<Group>());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -958,7 +958,7 @@ public class DocumentTest {
 			assertTrue(user.getGroups() != null);
 			assertTrue(user.getGroups().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -988,7 +988,7 @@ public class DocumentTest {
 			assertTrue(group.getUserMembers().size() == 1);
 			assertTrue(group.getUserMembers().get(0).equals(user));
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1000,7 +1000,7 @@ public class DocumentTest {
 			document.cloneGroup(null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1009,7 +1009,7 @@ public class DocumentTest {
 			document.cloneGroup(group, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1018,7 +1018,7 @@ public class DocumentTest {
 			document.cloneGroup(group, "");
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1027,7 +1027,7 @@ public class DocumentTest {
 			document.cloneGroup(group, groupName);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1035,7 +1035,7 @@ public class DocumentTest {
 			Group group = document.addGroup(groupName);
 			document.cloneGroup(group, groupName2);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1048,7 +1048,7 @@ public class DocumentTest {
 			document.cloneGroup(group, groupName2);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 	}
 
@@ -1059,7 +1059,7 @@ public class DocumentTest {
 			document.cloneUser(null, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1068,7 +1068,7 @@ public class DocumentTest {
 			document.cloneUser(user, null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1077,7 +1077,7 @@ public class DocumentTest {
 			document.cloneUser(user, "");
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1086,7 +1086,7 @@ public class DocumentTest {
 			document.cloneUser(user, userName);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1094,7 +1094,7 @@ public class DocumentTest {
 			User user = document.addUser(userName);
 			document.cloneUser(user, userName2);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1107,7 +1107,7 @@ public class DocumentTest {
 			document.cloneUser(user, userName2);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 	}
 	
@@ -1135,14 +1135,14 @@ public class DocumentTest {
 			document.deleteGroup(group);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
 			document.initialize();
 			document.deleteGroup(new Group());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1162,7 +1162,7 @@ public class DocumentTest {
 			// Delete same group again
 			document.deleteGroup(group);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1183,7 +1183,7 @@ public class DocumentTest {
 			assertTrue(document.getAccessRules() != null);
 			assertTrue(document.getAccessRules().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1195,7 +1195,7 @@ public class DocumentTest {
 			document.deleteGroups(null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1205,7 +1205,7 @@ public class DocumentTest {
 
 			document.deleteGroups(groups);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1227,7 +1227,7 @@ public class DocumentTest {
 			// Delete same group again
 			document.deleteGroups(groups);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1250,7 +1250,7 @@ public class DocumentTest {
 			assertTrue(document.getAccessRules() != null);
 			assertTrue(document.getAccessRules().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1262,14 +1262,14 @@ public class DocumentTest {
 			document.deletePath(null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
 			document.initialize();
 			document.deletePath(new Path());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1316,7 +1316,7 @@ public class DocumentTest {
 			assertTrue(document.getRepositories().get(0).getPaths() != null);
 			assertTrue(document.getRepositories().get(0).getPaths().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1328,7 +1328,7 @@ public class DocumentTest {
 			document.deleteRepositories(null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1338,7 +1338,7 @@ public class DocumentTest {
 			
 			document.deleteRepositories(repositories);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1360,7 +1360,7 @@ public class DocumentTest {
 			// Delete same user again
 			document.deleteRepository(repository);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1407,7 +1407,7 @@ public class DocumentTest {
 			assertTrue(user.getAccessRules() != null);
 			assertTrue(user.getAccessRules().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1421,14 +1421,14 @@ public class DocumentTest {
 			document.deleteRepository(repository);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
 			document.initialize();
 			document.deleteRepository(new Repository());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1448,7 +1448,7 @@ public class DocumentTest {
 			// Delete same user again
 			document.deleteRepository(repository);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1493,7 +1493,7 @@ public class DocumentTest {
 			assertTrue(user.getAccessRules() != null);
 			assertTrue(user.getAccessRules().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1506,14 +1506,14 @@ public class DocumentTest {
 			document.deleteUser(user);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
 			document.initialize();
 			document.deleteUser(new User());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1533,7 +1533,7 @@ public class DocumentTest {
 			// Delete same user again
 			document.deleteUser(user);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1554,7 +1554,7 @@ public class DocumentTest {
 			assertTrue(document.getAccessRules() != null);
 			assertTrue(document.getAccessRules().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1566,7 +1566,7 @@ public class DocumentTest {
 			document.deleteUsers(null);
 			fail();
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 		}
 
 		try {
@@ -1576,7 +1576,7 @@ public class DocumentTest {
 
 			document.deleteUsers(users);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1598,7 +1598,7 @@ public class DocumentTest {
 			// Delete same user again
 			document.deleteUsers(users);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1621,7 +1621,7 @@ public class DocumentTest {
 			assertTrue(document.getAccessRules() != null);
 			assertTrue(document.getAccessRules().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1729,7 +1729,7 @@ public class DocumentTest {
 			assertTrue(document.getGroups() != null);
 			assertTrue(document.getGroups().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1747,7 +1747,7 @@ public class DocumentTest {
 			assertTrue(document.getGroupsArray() != null);
 			assertTrue(document.getGroupsArray().length == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1830,7 +1830,7 @@ public class DocumentTest {
 			assertTrue(document.getUserObjects() != null);
 			assertTrue(document.getUserObjects().length == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1853,7 +1853,7 @@ public class DocumentTest {
 			assertTrue(document.getUsers() != null);
 			assertTrue(document.getUsers().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -1871,7 +1871,7 @@ public class DocumentTest {
 			document.addUser(userName);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1887,7 +1887,7 @@ public class DocumentTest {
 			document.cloneUser(user, userName2);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1900,7 +1900,7 @@ public class DocumentTest {
 			document.deleteUser(user);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1913,7 +1913,7 @@ public class DocumentTest {
 			document.addGroup(groupName);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1922,7 +1922,7 @@ public class DocumentTest {
 			document.addGroup(groupName, null, null);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1931,7 +1931,7 @@ public class DocumentTest {
 			document.addGroupByName(groupName, null, null);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1947,7 +1947,7 @@ public class DocumentTest {
 			document.cloneGroup(group, groupName2);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1960,7 +1960,7 @@ public class DocumentTest {
 			document.deleteGroup(group);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1973,7 +1973,7 @@ public class DocumentTest {
 			document.addRepository(repositoryName);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1989,7 +1989,7 @@ public class DocumentTest {
 			document.deleteRepository(repository);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -1999,7 +1999,7 @@ public class DocumentTest {
 			document.addPath(new Repository(), relativePath);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -2015,7 +2015,7 @@ public class DocumentTest {
 			document.deletePath(path);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -2026,7 +2026,7 @@ public class DocumentTest {
 					new Group(groupName), level);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -2036,7 +2036,7 @@ public class DocumentTest {
 			document.addAccessRuleForGroup(new Path(new Repository(repositoryName), relativePath), groupName, level);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -2045,7 +2045,7 @@ public class DocumentTest {
 			document.addAccessRuleForGroup(new Repository(repositoryName), relativePath, new Group(groupName), level);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -2055,7 +2055,7 @@ public class DocumentTest {
 					level);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -2065,7 +2065,7 @@ public class DocumentTest {
 			document.addAccessRuleForUser(new Path(new Repository(repositoryName), relativePath), userName, level);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -2074,7 +2074,7 @@ public class DocumentTest {
 			document.addAccessRuleForUser(new Repository(repositoryName), relativePath, new User(userName), level);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 
@@ -2093,7 +2093,7 @@ public class DocumentTest {
 			document.deleteAccessRule(repositoryName, relativePath, group, null);
 			assertTrue(document.hasUnsavedChanges());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -2110,7 +2110,7 @@ public class DocumentTest {
 			document.addRepository(repositoryName);
 			document.addUser(userName);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 

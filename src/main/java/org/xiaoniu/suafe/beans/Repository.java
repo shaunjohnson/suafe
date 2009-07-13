@@ -27,7 +27,7 @@ import java.util.List;
  * 
  * @author Shaun Johnson
  */
-public class Repository implements Comparable<Repository> {
+public final class Repository implements Comparable<Repository> {
 	
 	/**
 	 * Name of the Repository. This field must contain a unique value.
@@ -130,6 +130,6 @@ public class Repository implements Comparable<Repository> {
 	 * @return true if it is the same object, otherwise false
 	 */
 	public boolean equals(Repository otherRepository) {
-		return name == otherRepository.getName();
+		return name.equals(otherRepository.getName());
 	}
 }

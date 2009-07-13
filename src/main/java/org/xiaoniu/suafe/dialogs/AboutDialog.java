@@ -36,7 +36,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class AboutDialog extends ParentDialog implements ActionListener {
+public final class AboutDialog extends ParentDialog implements ActionListener {
 
 	/**
 	 * Unique ID.

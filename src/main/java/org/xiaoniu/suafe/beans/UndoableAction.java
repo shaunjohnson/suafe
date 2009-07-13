@@ -3,7 +3,7 @@ package org.xiaoniu.suafe.beans;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UndoableAction extends AbstractAction {
+public final class UndoableAction extends AbstractAction {
 	
 	private Map<String,Object> values = null;
 	

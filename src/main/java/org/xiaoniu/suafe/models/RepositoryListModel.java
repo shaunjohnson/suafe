@@ -25,7 +25,7 @@ import org.xiaoniu.suafe.beans.Document;
  * 
  * @author Shaun Johnson
  */
-public class RepositoryListModel extends BaseComboBoxModel {
+public final class RepositoryListModel extends BaseComboBoxModel {
 
 	/** 
 	 * Default constructor.

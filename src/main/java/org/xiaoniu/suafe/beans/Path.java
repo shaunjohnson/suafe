@@ -27,7 +27,7 @@ import java.util.List;
  * 
  * @author Shaun Johnson
  */
-public class Path implements Comparable<Path> {
+public final class Path implements Comparable<Path> {
 	
 	/**
 	 * Repository in which the Path exists.

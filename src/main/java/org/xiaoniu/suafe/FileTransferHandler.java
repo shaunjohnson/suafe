@@ -32,7 +32,7 @@ import javax.swing.TransferHandler;
  * 
  * @author Shaun Johnson
  */
-public class FileTransferHandler extends TransferHandler {
+public final class FileTransferHandler extends TransferHandler {
 	private static final long serialVersionUID = -6421801541654568376L;
 	
 	private FileOpener fileOpener = null;

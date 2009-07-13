@@ -33,7 +33,7 @@ import java.text.AttributedString;
  * 
  * @author Shaun Johnson
  */
-public class Printer implements Printable {
+public final class Printer implements Printable {
 	private static PageFormat format  = new PageFormat();
 	
 	/**

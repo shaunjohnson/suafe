@@ -21,11 +21,11 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import org.xiaoniu.suafe.beans.Document;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.reports.helpers.StatisticsReportHelper;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class StatisticsReport extends GenericReport {
+public final class StatisticsReport extends GenericReport {
 
 	private StatisticsReportHelper helper = null;
 	
@@ -35,7 +35,7 @@ public class StatisticsReport extends GenericReport {
 		helper = new StatisticsReportHelper(document);
 	}
 	
-	public String generate() throws ApplicationException {
+	public String generate() throws AppException {
 		StringBuffer report = new StringBuffer();
 		
 		report.append(ResourceUtil.getString("reports.header"));

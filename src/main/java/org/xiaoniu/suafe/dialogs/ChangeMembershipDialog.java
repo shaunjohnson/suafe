@@ -47,7 +47,7 @@ import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.User;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
@@ -56,7 +56,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class ChangeMembershipDialog extends ParentDialog implements 
+public final class ChangeMembershipDialog extends ParentDialog implements 
 	ActionListener, KeyListener, MouseListener {
 
 	/**
@@ -421,7 +421,7 @@ public class ChangeMembershipDialog extends ParentDialog implements
 				notMemberOf = new Vector<Group>();
 			}
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			displayError(ResourceUtil.getFormattedString("changemembership.error.errorloadinggroups", e.getMessage()));
 		}
 		

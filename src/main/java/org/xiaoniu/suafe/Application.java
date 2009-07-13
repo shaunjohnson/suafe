@@ -22,20 +22,19 @@ import javax.swing.UIManager;
 import org.xiaoniu.suafe.frames.MainFrame;
 
 /**
- * Application starting point. If no arguments are specified then the 
- * application GUI is initiated. Otherwise, the command line application
- * equivalent is initiated.
+ * Application starting point. If no arguments are specified then the application GUI is initiated. Otherwise, the
+ * command line application equivalent is initiated.
  * 
  * @author Shaun Johnson
  */
-public class Application {
-	
+public final class Application {
+
 	/**
 	 * Application starting point.
 	 * 
 	 * @param args Application arguments
 	 */
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		if (args.length == 0) {
 			try {
 				UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -43,8 +42,8 @@ public class Application {
 			catch (Exception e) {
 				// Do nothing
 			}
-			
-			new MainFrame().setVisible(true);			
+
+			new MainFrame().setVisible(true);
 		}
 		else {
 			new CommandLineApplication().run(args);

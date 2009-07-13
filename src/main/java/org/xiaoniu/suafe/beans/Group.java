@@ -28,7 +28,7 @@ import java.util.List;
  * 
  * @author Shaun Johnson
  */
-public class Group extends GroupMemberObject implements Comparable<Group> {
+public final class Group extends GroupMemberObject implements Comparable<Group> {
 	
 	/**
 	 * Name of the group.

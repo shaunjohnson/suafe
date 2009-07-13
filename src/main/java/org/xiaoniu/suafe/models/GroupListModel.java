@@ -25,7 +25,7 @@ import org.xiaoniu.suafe.beans.Document;
  * 
  * @author Shaun Johnson
  */
-public class GroupListModel extends BaseComboBoxModel {
+public final class GroupListModel extends BaseComboBoxModel {
 	
 	/**
 	 * Default constructor.

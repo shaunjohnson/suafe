@@ -29,14 +29,14 @@ import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.models.GroupListModel;
 import org.xiaoniu.suafe.models.RepositoryListModel;
 import org.xiaoniu.suafe.models.UserListModel;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
-public class AccessRuleForm extends JPanel implements ActionListener {
+public final class AccessRuleForm extends JPanel implements ActionListener {
 
 	private static final String ALL_USERS_ACTION = "ALL_USERS_ACTION";
 
@@ -173,7 +173,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 		}
 	}
 
-	public AccessRule addAccessRule() throws ApplicationException {
+	public AccessRule addAccessRule() throws AppException {
 		Repository repository = (Repository) getRepositoryComboBox().getSelectedItem();
 		String pathString = (String) getPathTextField().getText();
 		String levelOfAccess = null;
@@ -209,26 +209,26 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 
 		if (group != null) {
 			if (document.findGroupAccessRule(repository, pathString, group) != null) {
-				throw new ApplicationException(ResourceUtil.getString(type + ".error.grouprulealreadyexists"));
+				throw new AppException(type + ".error.grouprulealreadyexists");
 			}
 
 			rule = document.addAccessRuleForGroup(repository, pathString, group, levelOfAccess);
 		}
 		else if (user != null) {
 			if (document.findUserAccessRule(repository, pathString, user) != null) {
-				throw new ApplicationException(ResourceUtil.getString(type + ".error.userrulealreadyexists"));
+				throw new AppException(type + ".error.userrulealreadyexists");
 			}
 
 			rule = document.addAccessRuleForUser(repository, pathString, user, levelOfAccess);
 		}
 		else {
-			throw new ApplicationException(ResourceUtil.getString(type + ".error.erroraddingrule"));
+			throw new AppException(type + ".error.erroraddingrule");
 		}
 
 		return rule;
 	}
 
-	public AccessRule editAccessRule() throws ApplicationException {
+	public AccessRule editAccessRule() throws AppException {
 		Repository repository = (Repository) getRepositoryComboBox().getSelectedItem();
 		String pathString = (String) getPathTextField().getText();
 		String levelOfAccess = null;
@@ -279,7 +279,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 				accessRule.setLevel(levelOfAccess);
 			}
 			else {
-				throw new ApplicationException(ResourceUtil.getString("editaccessrule.error.grouprulealreadyexists"));
+				throw new AppException("editaccessrule.error.grouprulealreadyexists");
 			}
 		}
 		else if (user != null) {
@@ -300,11 +300,11 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 				accessRule.setLevel(levelOfAccess);
 			}
 			else {
-				throw new ApplicationException(ResourceUtil.getString("editaccessrule.error.userrulealreadyexists"));
+				throw new AppException("editaccessrule.error.userrulealreadyexists");
 			}
 		}
 		else {
-			throw new ApplicationException(ResourceUtil.getString("editaccessrule.error.errorsavingrule"));
+			throw new AppException("editaccessrule.error.errorsavingrule");
 		}
 
 		return accessRule;
@@ -614,7 +614,7 @@ public class AccessRuleForm extends JPanel implements ActionListener {
 				readWriteRadioButton.setSelected(true);
 			}
 			else {
-				readWriteRadioButton.setSelected(true);
+				readWriteRadioButton.setSelected(false);
 			}
 		}
 		return readWriteRadioButton;

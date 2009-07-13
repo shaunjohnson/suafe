@@ -28,7 +28,7 @@ import java.awt.Toolkit;
  * 
  * @author Shaun Johnson
  */
-public class DialogUtil {
+public final class DialogUtil {
 	
 	/**
 	 * Center the specified component on the screen.

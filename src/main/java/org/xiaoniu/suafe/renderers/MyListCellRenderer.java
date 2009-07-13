@@ -34,7 +34,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class MyListCellRenderer extends JLabel implements ListCellRenderer {
+public final class MyListCellRenderer extends JLabel implements ListCellRenderer {
 
 	/**
 	 * Serial ID.

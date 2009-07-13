@@ -26,7 +26,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class MainFrameMenuBar extends JMenuBar {
+public final class MainFrameMenuBar extends JMenuBar {
 
 	private static final long serialVersionUID = -70557657703079354L;
 

@@ -34,7 +34,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class MyTableCellRenderer extends JLabel implements TableCellRenderer {
+public final class MyTableCellRenderer extends JLabel implements TableCellRenderer {
 
 	/**
 	 * Serial ID.

@@ -5,7 +5,7 @@ import java.io.File;
 import org.xiaoniu.suafe.FileParser;
 import org.xiaoniu.suafe.beans.Document;
 
-public class StatisticsReportHelper {
+public final class StatisticsReportHelper {
 
 	public static void main(String[] args) throws Exception {
 		Document doc = new FileParser().parse(new File("C:/My Documents/authz.svn"));

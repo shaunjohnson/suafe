@@ -32,10 +32,10 @@ import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.PathComparator;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class SummaryReport extends GenericReport {
+public final class SummaryReport extends GenericReport {
 
 	public SummaryReport(Document document) {
 		super(document);
@@ -144,9 +144,9 @@ public class SummaryReport extends GenericReport {
 	 * Generates HTML summary report.
 	 * 
 	 * @param out
-	 * @throws ApplicationException
+	 * @throws AppException
 	 */
-	public String generate() throws ApplicationException {
+	public String generate() throws AppException {
 		StringBuffer report = new StringBuffer();
 				
 		report.append(ResourceUtil.getString("reports.header"));
@@ -208,7 +208,7 @@ public class SummaryReport extends GenericReport {
 						report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 					}
 					else {
-						throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
+						throw new AppException("summaryreport.invalidrule");
 					}
 				}
 				
@@ -241,7 +241,7 @@ public class SummaryReport extends GenericReport {
 							report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 						}
 						else {
-							throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
+							throw new AppException("summaryreport.invalidrule");
 						}
 					}
 					
@@ -464,7 +464,7 @@ public class SummaryReport extends GenericReport {
 									report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 								}
 								else {
-									throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
+									throw new AppException("summaryreport.invalidrule");
 								}
 							}
 							
@@ -491,7 +491,7 @@ public class SummaryReport extends GenericReport {
 									report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 								}
 								else {
-									throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
+									throw new AppException("summaryreport.invalidrule");
 								}
 							}
 							
@@ -518,7 +518,7 @@ public class SummaryReport extends GenericReport {
 									report.append("<li>" + createUserLink(rule.getUser().getName()) + " = " + rule.getLevelFullName() + "</li>");
 								}
 								else {
-									throw new ApplicationException(ResourceUtil.getString("summaryreport.invalidrule") );
+									throw new AppException("summaryreport.invalidrule");
 								}
 							}
 							

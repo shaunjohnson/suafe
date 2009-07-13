@@ -18,7 +18,7 @@
 package org.xiaoniu.suafe.beans;
 
 import org.xiaoniu.suafe.SubversionConstants;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
@@ -30,7 +30,7 @@ import org.xiaoniu.suafe.validators.Validator;
  * 
  * @author Shaun Johsnon
  */
-public class AccessRule implements Comparable<AccessRule> {
+public final class AccessRule implements Comparable<AccessRule> {
 		
 	/**
 	 * Path referenced by the AccessRule.
@@ -132,7 +132,7 @@ public class AccessRule implements Comparable<AccessRule> {
 	public Group getGroup() {
 		return group;
 	}
-	
+
 	/**
 	 * Sets the Group referenced by the AccessRule.
 	 * 
@@ -215,9 +215,9 @@ public class AccessRule implements Comparable<AccessRule> {
 	 * Sets the level of access.
 	 * 
 	 * @param level The level of access to set.
-	 * @throws ApplicationException
+	 * @throws AppException
 	 */
-	public void setLevel(String level) throws ApplicationException {
+	public void setLevel(String level) throws AppException {
 		Validator.validateLevelOfAccess(level);
 		
 		this.level = level;
@@ -230,15 +230,5 @@ public class AccessRule implements Comparable<AccessRule> {
 	 */
 	public int compareTo(AccessRule otherAccessRule) {
 		return this.toString().compareTo(otherAccessRule.toString());
-	}
-	
-	/**
-	 * Compares this object to another.
-	 * 
-	 * @param otherAccessRule The other AccessRule to use for comparison
-	 * @return true of the other object is the same, otherwise false
-	 */
-	public boolean equals(AccessRule otherAccessRule) {
-		return compareTo(otherAccessRule) == 0;
 	}
 }

@@ -26,7 +26,7 @@ import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.User;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 
 /**
  * @author Shaun Johnson
@@ -173,7 +173,7 @@ public class AccessRuleTest {
 		try {
 			accessRule.setLevel(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail("Unexpected exception");
 		}
 
@@ -183,7 +183,7 @@ public class AccessRuleTest {
 		try {
 			accessRule.setLevel(SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail("Unexpected exception");
 		}
 
@@ -193,7 +193,7 @@ public class AccessRuleTest {
 		try {
 			accessRule.setLevel(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail("Unexpected exception");
 		}
 
@@ -229,7 +229,7 @@ public class AccessRuleTest {
 		try {
 			accessRule.setLevel(SubversionConstants.SVN_ACCESS_LEVEL_READONLY);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail("Unexpected exception");
 		}
 
@@ -245,7 +245,7 @@ public class AccessRuleTest {
 			accessRule.setLevel(null);
 			fail("Unexpected failure to throw exception");
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			// Expected exception
 		}
 
@@ -253,7 +253,7 @@ public class AccessRuleTest {
 			accessRule.setLevel("shouldn't work");
 			fail("Unexpected failure to throw exception");
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			// Expected exception
 		}
 	}

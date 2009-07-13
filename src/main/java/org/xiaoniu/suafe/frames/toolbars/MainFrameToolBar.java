@@ -8,7 +8,7 @@ import javax.swing.JToolBar;
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class MainFrameToolBar extends JToolBar {
+public final class MainFrameToolBar extends JToolBar {
 	
 	private static final long serialVersionUID = 4040931707131792923L;
 

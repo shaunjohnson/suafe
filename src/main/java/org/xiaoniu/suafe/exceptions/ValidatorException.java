@@ -22,7 +22,7 @@ package org.xiaoniu.suafe.exceptions;
  * 
  * @author Shaun Johnson
  */
-public class ValidatorException extends ApplicationException {	
+public final class ValidatorException extends AppException {	
 	
 	/**
 	 * Serial ID.

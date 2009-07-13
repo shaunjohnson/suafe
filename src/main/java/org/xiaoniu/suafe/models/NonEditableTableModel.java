@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author Shaun Johnson
  */
-public class NonEditableTableModel extends DefaultTableModel {
+public final class NonEditableTableModel extends DefaultTableModel {
 
 	/**
 	 * Serial ID.

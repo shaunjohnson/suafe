@@ -47,7 +47,7 @@ import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.GroupMemberObject;
 import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.User;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
@@ -56,7 +56,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class AddRemoveMembersDialog extends ParentDialog implements ActionListener, KeyListener, MouseListener {
+public final class AddRemoveMembersDialog extends ParentDialog implements ActionListener, KeyListener, MouseListener {
 
 	/**
 	 * Serial ID.
@@ -473,7 +473,7 @@ public class AddRemoveMembersDialog extends ParentDialog implements ActionListen
 			nonMembers.addAll(groupNonMembers);
 			nonMembers.addAll(userNonMembers);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			displayError(ResourceUtil.getFormattedString("addremovemembers.error.errorloadinggroups", e.getMessage()));
 		}
 

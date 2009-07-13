@@ -39,9 +39,10 @@ import org.xiaoniu.suafe.beans.Message;
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
+import org.xiaoniu.suafe.utils.StringUtils;
 import org.xiaoniu.suafe.validators.Validator;
 
 /**
@@ -49,7 +50,7 @@ import org.xiaoniu.suafe.validators.Validator;
  * 
  * @author Shaun Johnson
  */
-public class BasicDialog extends ParentDialog implements ActionListener {
+public final class BasicDialog extends ParentDialog implements ActionListener {
 
 	/**
 	 * Serial ID.
@@ -96,7 +97,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 
 	private JPanel jContentPane = null;
 
-	private Message message;
+	private final Message message;
 
 	private JTextField nameText = null;
 
@@ -113,8 +114,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * Group dialog constructor.
 	 */
-	public BasicDialog(Document document, String type, Group group,
-			Message message) {
+	public BasicDialog(Document document, String type, Group group, Message message) {
 		super();
 
 		this.document = document;
@@ -143,8 +143,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * Group dialog constructor.
 	 */
-	public BasicDialog(Document document, String type, Path path,
-			Message message) {
+	public BasicDialog(Document document, String type, Path path, Message message) {
 		super();
 
 		this.document = document;
@@ -159,8 +158,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * Repository dialog constructor.
 	 */
-	public BasicDialog(Document document, String type, Repository repository,
-			Message message) {
+	public BasicDialog(Document document, String type, Repository repository, Message message) {
 		super();
 
 		this.document = document;
@@ -175,8 +173,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	/**
 	 * User dialog constructor.
 	 */
-	public BasicDialog(Document document, String type, User user,
-			Message message) {
+	public BasicDialog(Document document, String type, User user, Message message) {
 		super();
 
 		this.document = document;
@@ -185,7 +182,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		this.message = message;
 		this.message.setState(Message.CANCEL);
 
-		initialize(user.getName());
+		initialize(user.getName(), user.getAlias());
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -196,47 +193,56 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 
 				if (type.equals(TYPE_ADD_USER)) {
 					addUser(name, alias);
-				} else if (type.equals(TYPE_CLONE_USER)) {
+				}
+				else if (type.equals(TYPE_CLONE_USER)) {
 					cloneUser(name, alias);
-				} else if (type.equals(TYPE_RENAME_USER)) {
+				}
+				else if (type.equals(TYPE_RENAME_USER)) {
 					renameUser(name, alias);
-				} else if (type.equals(TYPE_ADD_GROUP)) {
+				}
+				else if (type.equals(TYPE_ADD_GROUP)) {
 					addGroup(name);
-				} else if (type.equals(TYPE_RENAME_GROUP)) {
+				}
+				else if (type.equals(TYPE_RENAME_GROUP)) {
 					renameGroup(name);
-				} else if (type.equals(TYPE_CLONE_GROUP)) {
+				}
+				else if (type.equals(TYPE_CLONE_GROUP)) {
 					cloneGroup(name);
-				} else if (type.equals(TYPE_ADD_REPOSITORY)) {
+				}
+				else if (type.equals(TYPE_ADD_REPOSITORY)) {
 					addRepository(name);
-				} else if (type.equals(TYPE_RENAME_REPOSITORY)) {
+				}
+				else if (type.equals(TYPE_RENAME_REPOSITORY)) {
 					editRepository(name);
-				} else if (type.equals(TYPE_EDIT_PATH)) {
+				}
+				else if (type.equals(TYPE_EDIT_PATH)) {
 					editPath(name);
 				}
-			} catch (ApplicationException ex) {
+			}
+			catch (AppException ex) {
 				displayError(ex.getMessage());
 			}
-		} else if (e.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
+		}
+		else if (e.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
 			message.setState(Message.CANCEL);
 			dispose();
 		}
 	}
 
-	private void addGroup(String groupName) throws ApplicationException {
+	private void addGroup(String groupName) throws AppException {
 		validateGroupName(groupName);
 
 		if (document.findGroup(groupName) == null) {
 			message.setUserObject(document.addGroup(groupName));
 			message.setState(Message.SUCCESS);
 			dispose();
-		} else {
-			displayError(ResourceUtil.getFormattedString(type
-					+ ".error.groupalreadyexists", groupName));
+		}
+		else {
+			displayError(ResourceUtil.getFormattedString(type + ".error.groupalreadyexists", groupName));
 		}
 	}
 
-	private void addRepository(String repositoryName)
-			throws ApplicationException {
+	private void addRepository(String repositoryName) throws AppException {
 		validateRepositoryName(repositoryName);
 
 		if (document.findRepository(repositoryName) == null) {
@@ -246,26 +252,24 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 			message.setState(Message.SUCCESS);
 
 			dispose();
-		} else {
-			displayError(ResourceUtil.getFormattedString(type
-					+ ".error.repositoryalreadyexists", repositoryName));
+		}
+		else {
+			displayError(ResourceUtil.getFormattedString(type + ".error.repositoryalreadyexists", repositoryName));
 		}
 	}
 
-	private void addUser(String userName, String alias) throws ApplicationException {
+	private void addUser(String userName, String alias) throws AppException {
 		validateUserName(userName);
 		validateAlias(alias);
-		
+
 		final User user = document.findUser(userName);
 		final User userByAlias = document.findUserByAlias(alias);
-		
-		if (user != null) { 
-			displayError(ResourceUtil.getFormattedString(type
-					+ ".error.useralreadyexists", userName));
+
+		if (user != null) {
+			displayError(ResourceUtil.getFormattedString(type + ".error.useralreadyexists", userName));
 		}
-		else if (userByAlias != null) { 
-			displayError(ResourceUtil.getFormattedString(type
-					+ ".error.useralreadyexists", userName));
+		else if (userByAlias != null) {
+			displayError(ResourceUtil.getFormattedString(type + ".error.useralreadyexists", userName));
 		}
 		else {
 			message.setUserObject(document.addUser(userName, alias));
@@ -274,7 +278,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		}
 	}
 
-	private void cloneGroup(String groupName) throws ApplicationException {
+	private void cloneGroup(String groupName) throws AppException {
 		validateGroupName(groupName);
 
 		Group existingGroup = document.findGroup(groupName);
@@ -283,26 +287,24 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 			message.setUserObject(document.cloneGroup(group, groupName));
 			message.setState(Message.SUCCESS);
 			dispose();
-		} else {
-			displayError(ResourceUtil.getFormattedString(type
-					+ ".error.groupalreadyexists", groupName));
+		}
+		else {
+			displayError(ResourceUtil.getFormattedString(type + ".error.groupalreadyexists", groupName));
 		}
 	}
 
-	private void cloneUser(String userName, String alias) throws ApplicationException {
+	private void cloneUser(String userName, String alias) throws AppException {
 		validateUserName(userName);
 		validateAlias(alias);
-		
+
 		final User user = document.findUser(userName);
 		final User userByAlias = document.findUserByAlias(alias);
-		
-		if (user != null) { 
-			displayError(ResourceUtil.getFormattedString(
-					"cloneuser.error.useralreadyexists", userName));
+
+		if (user != null) {
+			displayError(ResourceUtil.getFormattedString("cloneuser.error.useralreadyexists", userName));
 		}
-		else if (userByAlias != null) { 
-			displayError(ResourceUtil.getFormattedString(
-					"cloneuser.error.useralreadyexists", userName));
+		else if (userByAlias != null) {
+			displayError(ResourceUtil.getFormattedString("cloneuser.error.useralreadyexists", userName));
 		}
 		else {
 			message.setUserObject(document.cloneUser(user, userName, alias));
@@ -311,7 +313,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		}
 	}
 
-	private void editPath(String pathString) throws ApplicationException {
+	private void editPath(String pathString) throws AppException {
 		validatePath(pathString);
 
 		Path existingPath = document.findPath(path.getRepository(), pathString);
@@ -321,17 +323,16 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 			message.setUserObject(path);
 			message.setState(Message.SUCCESS);
 			dispose();
-		} else {
+		}
+		else {
 			Object[] args = new Object[2];
 			args[0] = pathString;
 			args[1] = path.getRepository();
-			displayError(ResourceUtil.getFormattedString(type
-					+ ".error.pathrepositoryalreadyexists", args));
+			displayError(ResourceUtil.getFormattedString(type + ".error.pathrepositoryalreadyexists", args));
 		}
 	}
 
-	private void editRepository(String repositoryName)
-			throws ApplicationException {
+	private void editRepository(String repositoryName) throws AppException {
 		validateRepositoryName(repositoryName);
 
 		Repository existingRepository = document.findRepository(repositoryName);
@@ -341,10 +342,10 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 			message.setUserObject(repository);
 			message.setState(Message.SUCCESS);
 			dispose();
-		} else {
-			displayError(ResourceUtil.getFormattedString(
-					"editrepository.error.repositoryalreadyexists",
-					repositoryName));
+		}
+		else {
+			displayError(ResourceUtil
+					.getFormattedString("editrepository.error.repositoryalreadyexists", repositoryName));
 		}
 	}
 
@@ -399,8 +400,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	 */
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
-			cancelButton = createButton("button.cancel",
-					ActionConstants.CANCEL_ACTION, this);
+			cancelButton = createButton("button.cancel", ActionConstants.CANCEL_ACTION, this);
 		}
 
 		return cancelButton;
@@ -459,8 +459,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 			formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
 			formPanel.add(getFormNamePanel());
 
-			if (type.equals(TYPE_ADD_USER) || type.equals(TYPE_CLONE_USER)
-					|| type.equals(TYPE_RENAME_USER)) {
+			if (type.equals(TYPE_ADD_USER) || type.equals(TYPE_CLONE_USER) || type.equals(TYPE_RENAME_USER)) {
 				formPanel.add(getFormAliasPanel());
 			}
 		}
@@ -476,26 +475,35 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 
 			if (type.equals(TYPE_ADD_GROUP)) {
 				iconLabel.setIcon(ResourceUtil.fullSizeGroupIcon);
-			} else if (type.equals(TYPE_ADD_REPOSITORY)) {
+			}
+			else if (type.equals(TYPE_ADD_REPOSITORY)) {
 				// TODO
 				// iconLabel.setIcon(ResourceUtil.fullSizeRepositoryIcon);
-			} else if (type.equals(TYPE_ADD_USER)) {
+			}
+			else if (type.equals(TYPE_ADD_USER)) {
 				iconLabel.setIcon(ResourceUtil.fullSizeUserIcon);
-			} else if (type.equals(TYPE_CLONE_GROUP)) {
+			}
+			else if (type.equals(TYPE_CLONE_GROUP)) {
 				iconLabel.setIcon(ResourceUtil.fullSizeGroupIcon);
-			} else if (type.equals(TYPE_CLONE_USER)) {
+			}
+			else if (type.equals(TYPE_CLONE_USER)) {
 				iconLabel.setIcon(ResourceUtil.fullSizeUserIcon);
-			} else if (type.equals(TYPE_RENAME_GROUP)) {
+			}
+			else if (type.equals(TYPE_RENAME_GROUP)) {
 				iconLabel.setIcon(ResourceUtil.fullSizeGroupIcon);
-			} else if (type.equals(TYPE_EDIT_PATH)) {
+			}
+			else if (type.equals(TYPE_EDIT_PATH)) {
 				// TODO
 				// iconLabel.setIcon(ResourceUtil.fullSizePathIcon);
-			} else if (type.equals(TYPE_RENAME_REPOSITORY)) {
+			}
+			else if (type.equals(TYPE_RENAME_REPOSITORY)) {
 				// TODO
 				// iconLabel.setIcon(ResourceUtil.fullSizeRepositoryIcon);
-			} else if (type.equals(TYPE_RENAME_USER)) {
+			}
+			else if (type.equals(TYPE_RENAME_USER)) {
 				iconLabel.setIcon(ResourceUtil.fullSizeUserIcon);
-			} else {
+			}
+			else {
 				// TODO
 			}
 
@@ -513,8 +521,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			jContentPane = new JPanel(new BorderLayout());
-			jContentPane.add(getInstructionsPanel(type + ".instructions"),
-					BorderLayout.NORTH);
+			jContentPane.add(getInstructionsPanel(type + ".instructions"), BorderLayout.NORTH);
 			jContentPane.add(getIconPanel(), BorderLayout.WEST);
 			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
 			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
@@ -545,8 +552,7 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	 */
 	private JButton getSaveButton() {
 		if (saveButton == null) {
-			saveButton = createButton(type + ".savebutton",
-					ActionConstants.SAVE_ACTION, this);
+			saveButton = createButton(type + ".savebutton", ActionConstants.SAVE_ACTION, this);
 		}
 
 		return saveButton;
@@ -556,6 +562,13 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 	 * This method initializes this
 	 */
 	private void initialize(String initialText) {
+		initialize(initialText, null);
+	}
+
+	/**
+	 * This method initializes this
+	 */
+	private void initialize(String initialText, String alias) {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setTitle(ResourceUtil.getString(type + ".title"));
@@ -564,11 +577,15 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 		getRootPane().setDefaultButton(saveButton);
 		getNameText().setText(initialText);
 
+		if (StringUtils.isNotBlank(alias)) {
+			getAliasText().setText(alias);
+		}
+
 		this.pack();
 		this.setModal(true);
 	}
 
-	private void renameGroup(String groupName) throws ApplicationException {
+	private void renameGroup(String groupName) throws AppException {
 		validateGroupName(groupName);
 
 		Group existingGroup = document.findGroup(groupName);
@@ -577,60 +594,56 @@ public class BasicDialog extends ParentDialog implements ActionListener {
 			message.setUserObject(document.renameGroup(group, groupName));
 			message.setState(Message.SUCCESS);
 			dispose();
-		} else {
-			displayError(ResourceUtil.getFormattedString(type
-					+ ".error.groupalreadyexists", groupName));
+		}
+		else {
+			displayError(ResourceUtil.getFormattedString(type + ".error.groupalreadyexists", groupName));
 		}
 	}
 
-	private void renameUser(String userName, String alias) throws ApplicationException {
+	private void renameUser(String userName, String alias) throws AppException {
 		validateUserName(userName);
-		validateAlias(alias);
+
+		if (StringUtils.isNotBlank(alias)) {
+			validateAlias(alias);
+		}
 
 		final User existingUser = document.findUser(userName);
 		final User userByAlias = document.findUserByAlias(alias);
-		
-		if (existingUser != null && existingUser != user) { 
-			displayError(ResourceUtil.getFormattedString(
-					"cloneuser.error.useralreadyexists", userName));
+
+		if (existingUser != null && existingUser != user) {
+			displayError(ResourceUtil.getFormattedString("cloneuser.error.useralreadyexists", userName));
 		}
-		else if (userByAlias != null && userByAlias != user) { 
-			displayError(ResourceUtil.getFormattedString(
-					"cloneuser.error.useralreadyexists", userName));
+		else if (userByAlias != null && userByAlias != user) {
+			displayError(ResourceUtil.getFormattedString("cloneuser.error.useralreadyexists", userName));
 		}
 		else {
-			message.setUserObject(document.renameUser(user, userName));
+			message.setUserObject(document.renameUser(user, userName, alias));
 			message.setState(Message.SUCCESS);
 			dispose();
-		} 
+		}
 	}
 
-	private void validateGroupName(String groupName) throws ValidatorException {
-		Validator.validateNotEmptyString(ResourceUtil
-				.getString(type + ".label"), groupName);
-		Validator.validateGroupName(groupName);
-	}
-
-	private void validatePath(String pathString) throws ValidatorException {
-		Validator.validateNotEmptyString(ResourceUtil
-				.getString(type + ".label"), pathString);
-		Validator.validatePath(pathString);
-	}
-
-	private void validateRepositoryName(String repositoryName)
-			throws ValidatorException {
-		Validator.validateNotEmptyString(ResourceUtil
-				.getString(type + ".label"), repositoryName);
-		Validator.validateRepositoryName(repositoryName);
-	}
-	
 	private void validateAlias(String alias) throws ValidatorException {
 		Validator.validateAlias(alias);
 	}
 
+	private void validateGroupName(String groupName) throws ValidatorException {
+		Validator.validateNotEmptyString(ResourceUtil.getString(type + ".label"), groupName);
+		Validator.validateGroupName(groupName);
+	}
+
+	private void validatePath(String pathString) throws ValidatorException {
+		Validator.validateNotEmptyString(ResourceUtil.getString(type + ".label"), pathString);
+		Validator.validatePath(pathString);
+	}
+
+	private void validateRepositoryName(String repositoryName) throws ValidatorException {
+		Validator.validateNotEmptyString(ResourceUtil.getString(type + ".label"), repositoryName);
+		Validator.validateRepositoryName(repositoryName);
+	}
+
 	private void validateUserName(String userName) throws ValidatorException {
-		Validator.validateNotEmptyString(ResourceUtil
-				.getString(type + ".label"), userName);
+		Validator.validateNotEmptyString(ResourceUtil.getString(type + ".label"), userName);
 		Validator.validateUserName(userName);
 	}
 }

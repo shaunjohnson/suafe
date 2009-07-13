@@ -25,7 +25,7 @@ import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class AccessRulesPane extends BaseSplitPane {
+public final class AccessRulesPane extends BaseSplitPane {
 
 	private static final long serialVersionUID = 4055338694233688725L;
 

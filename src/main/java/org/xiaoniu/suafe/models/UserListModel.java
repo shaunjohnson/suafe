@@ -25,7 +25,7 @@ import org.xiaoniu.suafe.beans.Document;
  * 
  * @author Shaun Johnson
  */
-public class UserListModel extends BaseComboBoxModel {
+public final class UserListModel extends BaseComboBoxModel {
 	
 	/**
 	 * Default constructor.

@@ -24,7 +24,7 @@ import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class GroupsPane extends BaseSplitPane {
+public final class GroupsPane extends BaseSplitPane {
 
 	private static final long serialVersionUID = -743618351601446392L;
 

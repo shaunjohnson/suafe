@@ -30,7 +30,7 @@ import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**
@@ -38,7 +38,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class EditAccessRuleDialog extends ParentDialog implements ActionListener {
+public final class EditAccessRuleDialog extends ParentDialog implements ActionListener {
 
 	private static final long serialVersionUID = -1001510687982587543L;
 
@@ -90,7 +90,7 @@ public class EditAccessRuleDialog extends ParentDialog implements ActionListener
 				message.setState(Message.SUCCESS);
 				dispose();
 			}
-			catch (ApplicationException ex) {
+			catch (AppException ex) {
 				displayError(ex.getMessage());
 			}
 		}

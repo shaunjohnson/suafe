@@ -30,6 +30,10 @@ import org.xiaoniu.suafe.exceptions.ValidatorException;
  */
 public final class Validator {
 
+	private Validator() {
+		super();
+	}
+
 	/**
 	 * Validates group names.
 	 * 

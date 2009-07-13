@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.xiaoniu.suafe.beans.Repository;
 
-public class RepositoryStatisticsHelper {
+public final class RepositoryStatisticsHelper {
 
 	private double avgPaths = -1;
 

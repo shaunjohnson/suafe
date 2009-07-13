@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.xiaoniu.suafe.beans.Group;
 
-public class GroupStatisticsHelper {
+public final class GroupStatisticsHelper {
 
 	private double avgAccessRules = -1;
 

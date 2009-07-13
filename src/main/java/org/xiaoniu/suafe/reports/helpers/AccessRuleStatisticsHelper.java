@@ -6,7 +6,7 @@ import org.xiaoniu.suafe.SubversionConstants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.User;
 
-public class AccessRuleStatisticsHelper {
+public final class AccessRuleStatisticsHelper {
 
 	private List<AccessRule> accessRules = null;
 
@@ -77,7 +77,7 @@ public class AccessRuleStatisticsHelper {
 			for (AccessRule accessRule : accessRules) {
 				User user = accessRule.getUser();
 
-				int size = (user == null) ? 0 : (user.equals("*") ? 1 : 0);
+				int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
 
 				avgForAllUsers += size;
 			}
@@ -185,7 +185,7 @@ public class AccessRuleStatisticsHelper {
 			for (AccessRule accessRule : accessRules) {
 				User user = accessRule.getUser();
 
-				int size = (user == null) ? 0 : (user.equals("*") ? 1 : 0);
+				int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
 
 				maxForAllUsers = (size > maxForAllUsers) ? size : maxForAllUsers;
 			}
@@ -286,7 +286,7 @@ public class AccessRuleStatisticsHelper {
 			for (AccessRule accessRule : accessRules) {
 				User user = accessRule.getUser();
 
-				int size = (user == null) ? 0 : (user.equals("*") ? 1 : 0);
+				int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
 
 				minForAllUsers = (size < minForAllUsers) ? size : minForAllUsers;
 			}

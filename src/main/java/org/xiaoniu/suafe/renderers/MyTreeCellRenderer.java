@@ -34,7 +34,7 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
+public final class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
 	/**
 	 * Serial ID.
@@ -44,7 +44,7 @@ public class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 	/**
 	 * Copy of default tree cell renderer. Used for reference.
 	 */
-	private static DefaultTreeCellRenderer render = null;
+	private DefaultTreeCellRenderer render = null;
 	
 	/**
 	 * Default constructor.

@@ -24,7 +24,7 @@ import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
-public class UsersPane extends BaseSplitPane {
+public final class UsersPane extends BaseSplitPane {
 
 	private static final long serialVersionUID = 7496096861009879724L;
 

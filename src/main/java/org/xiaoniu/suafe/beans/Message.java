@@ -24,7 +24,7 @@ package org.xiaoniu.suafe.beans;
  * 
  * @author Shaun Johnson
  */
-public class Message {
+public final class Message {
 
 	/**
 	 * Status indicating that the user cancelled the operation.

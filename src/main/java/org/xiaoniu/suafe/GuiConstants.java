@@ -3,6 +3,10 @@ package org.xiaoniu.suafe;
 import java.awt.Font;
 
 public final class GuiConstants {
+	private GuiConstants() {
+		super();
+	}
+	
 	public static final Font FONT_BOLD_LARGE = new Font("Dialog", Font.BOLD, 14);
 	
 	public static final Font FONT_BOLD_NORMAL = new Font("Dialog", Font.BOLD, 12);

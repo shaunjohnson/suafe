@@ -29,7 +29,7 @@ import javax.swing.event.ListDataListener;
  * 
  * @author Shaun Johnson
  */
-public class BaseComboBoxModel implements ComboBoxModel {
+public abstract class BaseComboBoxModel implements ComboBoxModel {
 	
 	/**
 	 * List values.

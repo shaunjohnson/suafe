@@ -31,7 +31,7 @@ import javax.swing.JFrame;
  * 
  * @author Shaun Johnson
  */
-public class UserPreferences {
+public final class UserPreferences {
 	
 	/**
 	 * Prefix for recent file preferences. This prefix is appened with a 

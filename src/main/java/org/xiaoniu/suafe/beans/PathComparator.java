@@ -24,7 +24,7 @@ import java.util.Comparator;
  * 
  * @author Shaun Johnson
  */
-public class PathComparator implements Comparator<Path> {
+public final class PathComparator implements Comparator<Path> {
 	
 	/**
 	 * Compares two Path objects. If repostory names and paths match then the

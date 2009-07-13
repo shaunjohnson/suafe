@@ -18,7 +18,7 @@
 package org.xiaoniu.suafe.reports;
 
 import org.xiaoniu.suafe.beans.Document;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 
 public abstract class GenericReport {
 	
@@ -30,5 +30,5 @@ public abstract class GenericReport {
 		this.document = document;
 	}
 	
-	public abstract String generate() throws ApplicationException;
+	public abstract String generate() throws AppException;
 }

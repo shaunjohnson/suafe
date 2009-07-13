@@ -23,15 +23,14 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 
-import org.xiaoniu.suafe.exceptions.ApplicationException;
-import org.xiaoniu.suafe.resources.ResourceUtil;
+import org.xiaoniu.suafe.exceptions.AppException;
 
 /**
  * Generic utility methods.
  * 
  * @author Shaun Johnson
  */
-public class Utilities {
+public final class Utilities {
 	/**
 	 * Converts an array of Objects into an array of <T>.
 	 * 
@@ -58,19 +57,19 @@ public class Utilities {
 	 * 
 	 * @param filePath Path of output file
 	 * @return Output stream for file
-	 * @throws ApplicationException Error occurred
+	 * @throws AppException Error occurred
 	 */
-	public static PrintStream openOutputFile(String filePath) throws ApplicationException {
+	public static PrintStream openOutputFile(String filePath) throws AppException {
 		PrintStream output = null;
 		
 		try {
 			output = new PrintStream(new File(filePath));
 		}
 		catch(FileNotFoundException fne) {
-			throw new ApplicationException(ResourceUtil.getString("generator.filenotfound"));
+			throw new AppException("generator.filenotfound");
 		}
 		catch(Exception e) {
-			throw new ApplicationException(ResourceUtil.getString("generator.error"));
+			throw new AppException("generator.error");
 		}
 		
 		return output;
@@ -81,16 +80,16 @@ public class Utilities {
 	 * 
 	 * @param file File object representing the output file
 	 * @return Output stream for file
-	 * @throws ApplicationException Error occurred
+	 * @throws AppException Error occurred
 	 */
-	public static PrintStream openOutputFile(File file) throws ApplicationException {
+	public static PrintStream openOutputFile(File file) throws AppException {
 		PrintStream output = null;
 		
 		try {
 			output = openOutputFile(file.getCanonicalPath());
 		}
 		catch(IOException e) {
-			throw new ApplicationException(ResourceUtil.getString("generator.error"));
+			throw new AppException("generator.error");
 		}
 		
 		return output;

@@ -12,7 +12,7 @@ import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
-import org.xiaoniu.suafe.exceptions.ApplicationException;
+import org.xiaoniu.suafe.exceptions.AppException;
 
 public class DocumentUndoTest {
 
@@ -41,7 +41,7 @@ public class DocumentUndoTest {
 			document.clearUndoStack();
 			assertTrue(!document.hasUndoActions());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -55,7 +55,7 @@ public class DocumentUndoTest {
 			document.addUser(userName);
 			assertTrue(document.hasUndoActions());
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -91,7 +91,7 @@ public class DocumentUndoTest {
 			document.undoLastAction();
 			assertTrue(document.findGroup(groupName) == null);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -135,7 +135,7 @@ public class DocumentUndoTest {
 			assertTrue(group.getGroups().size() == 0);
 			assertTrue(user.getGroups().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -179,7 +179,7 @@ public class DocumentUndoTest {
 			assertTrue(group.getGroups().size() == 0);
 			assertTrue(user.getGroups().size() == 0);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -196,7 +196,7 @@ public class DocumentUndoTest {
 			document.undoLastAction();
 			assertTrue(document.findRepository(repositoryName) == null);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -213,7 +213,7 @@ public class DocumentUndoTest {
 			document.undoLastAction();
 			assertTrue(document.findUser(userName) == null);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -247,7 +247,7 @@ public class DocumentUndoTest {
 			assertTrue(document.findGroup(groupName2) == null);
 			assertTrue(document.getAccessRules().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}
@@ -281,7 +281,7 @@ public class DocumentUndoTest {
 			assertTrue(document.findUser(userName2) == null);
 			assertTrue(document.getAccessRules().size() == 1);
 		}
-		catch (ApplicationException e) {
+		catch (AppException e) {
 			fail();
 		}
 	}

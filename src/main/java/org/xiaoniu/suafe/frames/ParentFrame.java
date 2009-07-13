@@ -30,7 +30,7 @@ import java.awt.event.KeyListener;
  * 
  * @author Shaun Johnson
  */
-public class ParentFrame extends BaseFrame implements ContainerListener, KeyListener {
+public abstract class ParentFrame extends BaseFrame implements ContainerListener, KeyListener {
 
 	/**
 	 * Serial ID

@@ -33,6 +33,10 @@ import org.xiaoniu.suafe.Constants;
  */
 public final class ResourceUtil {
 	
+	private ResourceUtil() {
+		super();
+	}
+
 	public static final ImageIcon aboutIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/About16.gif"));
 	
 	public static final ImageIcon accessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Reversed.gif"));
@@ -146,15 +150,15 @@ public final class ResourceUtil {
 	 * Retrieves a formatted string from the resource bundle.
 	 * 
 	 * @param name Name of string.
-	 * @param arg1 Int argument
-	 * @param arg2 String argument
+	 * @param argument1 Int argument
+	 * @param argument2 String argument
 	 * @return Formatted string.
 	 */
-	public static String getFormattedString(String name, int arg1, String arg2) {
+	public static String getFormattedString(String name, Object argument1, Object argument2) {
 		Object[] args = new Object[2];
 		
-		args[0] = arg1;
-		args[1] = arg2;
+		args[0] = argument1;
+		args[1] = argument2;
 		
 		return MessageFormat.format(getBundle().getString(name), args);
 	}
@@ -177,7 +181,7 @@ public final class ResourceUtil {
 	 * @param arg String argument
 	 * @return Formatted string.
 	 */
-	public static String getFormattedString(String name, String arg) {
+	public static String getFormattedString(String name, Object arg) {
 		Object[] args = new Object[1];
 		
 		args[0] = arg;

@@ -24,7 +24,7 @@ import javax.swing.table.TableCellRenderer;
  * 
  * @author Shaun Johnson
  */
-public class AutofitTableColumns {
+public final class AutofitTableColumns {
 
 	private static final int DEFAULT_COLUMN_PADDING = 5;
 
