@@ -613,9 +613,6 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
 			if (accessRule != null && accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) {
 				readWriteRadioButton.setSelected(true);
 			}
-			else {
-				readWriteRadioButton.setSelected(false);
-			}
 		}
 		return readWriteRadioButton;
 	}
