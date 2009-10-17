@@ -115,7 +115,7 @@ public class DocumentUndoTest {
 			document.clearUndoStack();
 			assertTrue(!document.hasUndoActions());
 
-			document.addGroupByName(groupName, groupMemberNames, userMemberNames);
+			document.addGroupByName(groupName, groupMemberNames, userMemberNames, null);
 
 			assertTrue(document.hasUndoActions());
 

@@ -1,5 +1,5 @@
 /**
- * @copyright
+parser.syntaxerror.multiplegroupsection * @copyright
  * ====================================================================
  * Copyright (c) 2006 Xiaoniu.org.  All rights reserved.
  *
@@ -198,6 +198,7 @@ public final class FileParser {
 		final String members = line.substring(index + 1).trim();
 		final StringTokenizer tokens = new StringTokenizer(members, " ,");
 		final int memberCount = tokens.countTokens();
+		final List<String> aliasMembers = new ArrayList<String>();
 		final List<String> groupMembers = new ArrayList<String>();
 		final List<String> userMembers = new ArrayList<String>();
 
@@ -211,6 +212,13 @@ public final class FileParser {
 					groupMembers.add(memberGroupName);
 				}
 			}
+			else if (member.charAt(0) == '&') {
+				final String memberAliasName = member.substring(1, member.length());
+
+				if (!aliasMembers.contains(memberAliasName)) {
+					aliasMembers.add(memberAliasName);
+				}
+			}
 			else {
 				if (!userMembers.contains(member)) {
 					userMembers.add(member);
@@ -222,7 +230,7 @@ public final class FileParser {
 
 		if (existingGroup == null) {
 			try {
-				existingGroup = document.addGroupByName(name, groupMembers, userMembers);
+				existingGroup = document.addGroupByName(name, groupMembers, userMembers, aliasMembers);
 			}
 			catch (final AppException ae) {
 				throw ParserException.generateException(lineNumber, ae);
@@ -233,7 +241,7 @@ public final class FileParser {
 
 			if (existingGroup.getGroupMembers().isEmpty() && existingGroup.getUserMembers().isEmpty()) {
 				// Existing group does not have any members
-				document.addMembersByName(existingGroup, groupMembers, userMembers);
+				document.addMembersByName(existingGroup, groupMembers, userMembers, aliasMembers);
 
 			}
 			else {
@@ -274,6 +282,7 @@ public final class FileParser {
 			throws AppException {
 		final StringTokenizer tokens = new StringTokenizer(line.trim(), " ,");
 		final int memberCount = tokens.countTokens();
+		final List<String> aliasMembers = new ArrayList<String>();
 		final List<String> groupMembers = new ArrayList<String>();
 		final List<String> userMembers = new ArrayList<String>();
 
@@ -287,6 +296,13 @@ public final class FileParser {
 					groupMembers.add(memberGroupName);
 				}
 			}
+			else if (member.charAt(0) == '&') {
+				final String memberAliasName = member.substring(1, member.length());
+
+				if (!aliasMembers.contains(memberAliasName)) {
+					aliasMembers.add(memberAliasName);
+				}
+			}
 			else {
 				if (!userMembers.contains(member)) {
 					userMembers.add(member);
@@ -294,7 +310,7 @@ public final class FileParser {
 			}
 		}
 
-		document.addMembersByName(currentGroup, groupMembers, userMembers);
+		document.addMembersByName(currentGroup, groupMembers, userMembers, aliasMembers);
 
 		// Keep group for next line if there are more lines to process
 		final String slimLine = line.trim();
@@ -343,7 +359,7 @@ public final class FileParser {
 					currentState = State.STATE_PROCESS_ALIASES;
 				}
 				else if (line.equals("[groups]")) {
-					if (currentState != State.STATE_START || currentState != State.STATE_PROCESS_ALIASES) {
+					if (currentState != State.STATE_START && currentState != State.STATE_PROCESS_ALIASES) {
 						throw ParserException.generateException(lineNumber, "parser.syntaxerror.multiplegroupsection");
 					}
 

@@ -324,7 +324,7 @@ public final class Document {
 		return group;
 	}
 
-	public Group addGroupByName(String groupName, List<String> groupMemberNames, List<String> userMemberNames)
+	public Group addGroupByName(String groupName, List<String> groupMemberNames, List<String> userMemberNames, List<String> aliasMemberNames)
 			throws AppException {
 		Validator.validateGroupName(groupName);
 
@@ -332,7 +332,7 @@ public final class Document {
 
 		if (group == null) {
 			group = new Group(groupName);
-			addMembersByName(group, groupMemberNames, userMemberNames);
+			addMembersByName(group, groupMemberNames, userMemberNames, aliasMemberNames);
 			groups.add(group);
 		}
 
@@ -346,7 +346,7 @@ public final class Document {
 		return group;
 	}
 
-	public void addMembersByName(Group group, List<String> groupMemberNames, List<String> userMemberNames)
+	public void addMembersByName(Group group, List<String> groupMemberNames, List<String> userMemberNames, List<String> aliasMemberNames)
 			throws AppException {
 		List<Group> groupMemberList = group.getGroupMembers();
 		List<User> userMemberList = group.getUserMembers();
@@ -364,6 +364,20 @@ public final class Document {
 		if (userMemberNames != null) {
 			for (String userMemberName : userMemberNames) {
 				User member = addUser(userMemberName);
+				member.addGroup(group);
+				userMemberList.add(member);
+			}
+		}
+
+		// Add Alias members
+		if (aliasMemberNames != null) {
+			for (String aliasMemberName : aliasMemberNames) {
+				User member = this.findUserByAlias(aliasMemberName);
+				
+				if (member == null) {
+					throw new AppException("Alias is not defined");
+				}
+				
 				member.addGroup(group);
 				userMemberList.add(member);
 			}

@@ -371,7 +371,7 @@ public class DocumentTest {
 	public void testAddGroupByName() {
 		try {
 			document.initialize();
-			document.addGroupByName(null, null, null);
+			document.addGroupByName(null, null, null, null);
 			fail();
 		}
 		catch (AppException e) {
@@ -379,7 +379,7 @@ public class DocumentTest {
 
 		try {
 			document.initialize();
-			document.addGroupByName("", null, null);
+			document.addGroupByName("", null, null, null);
 			fail();
 		}
 		catch (AppException e) {
@@ -387,7 +387,7 @@ public class DocumentTest {
 
 		try {
 			document.initialize();
-			document.addGroupByName(groupName, null, null);
+			document.addGroupByName(groupName, null, null, null);
 
 			assertTrue(document.getGroups() != null);
 			assertTrue(document.getGroups().size() == 1);
@@ -399,7 +399,7 @@ public class DocumentTest {
 
 		try {
 			document.initialize();
-			document.addGroupByName(groupName, new ArrayList<String>(), new ArrayList<String>());
+			document.addGroupByName(groupName, new ArrayList<String>(), new ArrayList<String>(), new ArrayList<String>());
 
 			assertTrue(document.getGroups() != null);
 			assertTrue(document.getGroups().size() == 1);
@@ -417,7 +417,7 @@ public class DocumentTest {
 			groupNames.add(groupName2);
 			userNames.add(userName);
 
-			document.addGroupByName(groupName, groupNames, userNames);
+			document.addGroupByName(groupName, groupNames, userNames, null);
 
 			assertTrue(document.getGroups() != null);
 			assertTrue(document.getGroups().size() == 2);
@@ -532,7 +532,7 @@ public class DocumentTest {
 			groupMemberNames.add(groupName2);
 			userMemberNames.add(userName);
 
-			document.addMembersByName(group, groupMemberNames, userMemberNames);
+			document.addMembersByName(group, groupMemberNames, userMemberNames, null);
 
 			assertTrue(document.getGroups() != null);
 			assertTrue(document.getGroups().size() == 2);
@@ -553,7 +553,7 @@ public class DocumentTest {
 
 			Group group = document.addGroup(groupName);
 
-			document.addMembersByName(group, null, null);
+			document.addMembersByName(group, null, null, null);
 
 			assertTrue(document.getGroups() != null);
 			assertTrue(document.getGroups().size() == 1);
@@ -1928,7 +1928,7 @@ public class DocumentTest {
 
 		try {
 			document.initialize();
-			document.addGroupByName(groupName, null, null);
+			document.addGroupByName(groupName, null, null, null);
 			assertTrue(document.hasUnsavedChanges());
 		}
 		catch (AppException e) {
