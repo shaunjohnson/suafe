@@ -169,7 +169,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.4</version>
 				<configuration>
+          			<targetJdk>1.6</targetJdk>					
 					<rulesets>
 						<ruleset>/rulesets/basic.xml</ruleset>
 						<ruleset>/rulesets/imports.xml</ruleset>
@@ -196,4 +198,8 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<properties>
+		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
+	    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>       
+	</properties>
 </project>
