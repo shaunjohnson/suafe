@@ -148,7 +148,8 @@ public final class FileGenerator {
 			}
 
 			if (aliases.length() > 0) {
-				output.append("[aliases]" + Constants.TEXT_NEW_LINE);
+				output.append("[aliases]");
+				output.append(Constants.TEXT_NEW_LINE);
 				output.append(aliases);
 
 				if (document.getGroups().size() > 0) {
@@ -157,7 +158,8 @@ public final class FileGenerator {
 			}
 
 			// Process group definitions
-			output.append("[groups]" + Constants.TEXT_NEW_LINE);
+			output.append("[groups]");
+			output.append(Constants.TEXT_NEW_LINE);
 
 			Collections.sort(document.getGroups());
 
@@ -173,25 +175,32 @@ public final class FileGenerator {
 
 					Iterator<Group> members = group.getGroupMembers().iterator();
 
+					StringBuffer groupLine = new StringBuffer();
+					
 					while (members.hasNext()) {
 						Group memberGroup = members.next();
 
 						if (maxLineLength > 0 && !isFirstGroupMember
-								&& output.length() + memberGroup.getName().length() > maxLineLength) {
+								&& (groupLine.length() + memberGroup.getName().length() > maxLineLength)) {
+							output.append(groupLine);
 							output.append(Constants.TEXT_NEW_LINE);
 							output.append(prefix);
+							
+							groupLine = new StringBuffer();
 						}
 
-						output.append("@");
-						output.append(memberGroup.getName());
+						groupLine.append("@");
+						groupLine.append(memberGroup.getName());
 
 						// Add comma if more members exist
 						if (members.hasNext()) {
-							output.append(", ");
+							groupLine.append(", ");
 						}
 
 						isFirstGroupMember = false;
 					}
+					
+					output.append(groupLine);
 				}
 
 				if (!group.getUserMembers().isEmpty()) {
@@ -201,31 +210,34 @@ public final class FileGenerator {
 
 					Collections.sort(group.getUserMembers());
 					Iterator<User> members = group.getUserMembers().iterator();
+					
+					StringBuffer userLine = new StringBuffer();
 
 					while (members.hasNext()) {
 						User memberUser = members.next();
+						String nameAlias = (StringUtils.isBlank(memberUser.getAlias()) ? 
+								memberUser.getName() : "&" + memberUser.getAlias());
 
 						if (maxLineLength > 0 && !isFirstGroupMember
-								&& output.length() + memberUser.getName().length() > maxLineLength) {
+								&& (userLine.length() + nameAlias.length() > maxLineLength)) {
+							output.append(userLine);
 							output.append(Constants.TEXT_NEW_LINE);
 							output.append(prefix);
+							
+							userLine = new StringBuffer();
 						}
 
-						if (StringUtils.isBlank(memberUser.getAlias())) {
-							output.append(memberUser.getName());
-						}
-						else {
-							output.append("&");
-							output.append(memberUser.getAlias());
-						}
-
+						userLine.append(nameAlias);
+												
 						// Add comma if more members exist
 						if (members.hasNext()) {
-							output.append(", ");
+							userLine.append(", ");
 						}
 
 						isFirstGroupMember = false;
 					}
+					
+					output.append(userLine);
 				}
 
 				output.append(Constants.TEXT_NEW_LINE);
