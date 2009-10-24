@@ -260,22 +260,33 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
 
 	private void addUser(String userName, String alias) throws AppException {
 		validateUserName(userName);
-		validateAlias(alias);
-
+		
 		final User user = document.findUser(userName);
-		final User userByAlias = document.findUserByAlias(alias);
-
+		
 		if (user != null) {
 			displayError(ResourceUtil.getFormattedString(type + ".error.useralreadyexists", userName));
 		}
-		else if (userByAlias != null) {
-			displayError(ResourceUtil.getFormattedString(type + ".error.useralreadyexists", userName));
-		}
 		else {
-			message.setUserObject(document.addUser(userName, alias));
-			message.setState(Message.SUCCESS);
-			dispose();
-		}
+			if (StringUtils.isBlank(alias)) {
+				message.setUserObject(document.addUser(userName));
+				message.setState(Message.SUCCESS);
+				dispose();
+			}
+			else {
+				validateAlias(alias);
+				
+				final User userByAlias = document.findUserByAlias(alias);
+				
+				if (userByAlias != null) {
+					displayError(ResourceUtil.getFormattedString(type + ".error.useralreadyexists", userName));
+				}
+				else {
+					message.setUserObject(document.addUser(userName, alias));
+					message.setState(Message.SUCCESS);
+					dispose();
+				}	
+			}
+		}	
 	}
 
 	private void cloneGroup(String groupName) throws AppException {
