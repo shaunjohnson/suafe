@@ -22,6 +22,7 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.border.LineBorder;
 
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Group;
@@ -40,14 +41,14 @@ public final class MyListCellRenderer extends JLabel implements ListCellRenderer
 	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 2612512361404880700L;
-	
+
 	/**
 	 * Default constructor.
 	 */
 	public MyListCellRenderer() {
 		super();
 	}
-	
+
 	/**
 	 * Custom cell painter.
 	 * 
@@ -57,16 +58,10 @@ public final class MyListCellRenderer extends JLabel implements ListCellRenderer
 	 * @param isSelected Indicates whether cell is selected or not
 	 * @param cellHasFocus True if the cell has focus
 	 */
-	public Component getListCellRendererComponent(
-			JList list,
-			Object value,            // value to display
-			int index,               // cell index
-			boolean isSelected,      // is the cell selected
-			boolean cellHasFocus)    // the list and the cell have the focus
-	{
-		String s = value.toString();
-		setText(s);
-		
+	public Component getListCellRendererComponent(final JList list, final Object value, // value to display
+			final int index, final boolean isSelected, final boolean cellHasFocus) {
+		setText(value.toString());
+
 		if (value instanceof User) {
 			setIcon(ResourceUtil.userIcon);
 		}
@@ -82,20 +77,32 @@ public final class MyListCellRenderer extends JLabel implements ListCellRenderer
 		else {
 			setIcon(null);
 		}
-		
-		if (isSelected) {
+
+		if (isSelected && cellHasFocus) {
 			setBackground(list.getSelectionBackground());
 			setForeground(list.getSelectionForeground());
+			setBorder(new LineBorder(list.getSelectionBackground()));
+		}
+		else if (isSelected && !cellHasFocus) {
+			setBackground(list.getBackground());
+			setForeground(list.getSelectionForeground());
+			setBorder(new LineBorder(list.getSelectionBackground()));
+		}
+		else if (!isSelected && cellHasFocus) {
+			setBackground(list.getBackground());
+			setForeground(list.getForeground());
+			setBorder(new LineBorder(list.getSelectionBackground()));
 		}
 		else {
 			setBackground(list.getBackground());
 			setForeground(list.getForeground());
+			setBorder(new LineBorder(list.getBackground()));
 		}
-		
+
 		setEnabled(list.isEnabled());
 		setFont(list.getFont());
 		setOpaque(true);
-		
+
 		return this;
 	}
 }

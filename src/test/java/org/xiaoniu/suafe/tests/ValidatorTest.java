@@ -99,37 +99,6 @@ public class ValidatorTest {
 	}
 
 	/*
-	 * Class under test for void validateNotEmptyString(String)
-	 */
-	@Test
-	public void testValidateNotEmptyStringString() {
-		try {
-			Validator.validateNotEmptyString(null);
-			fail("Validate null string should fail with ValidatorException");
-		}
-		catch (ValidatorException ve) {}
-
-		try {
-			Validator.validateNotEmptyString("    ");
-			fail("Validate string of spaces should fail with ValidatorException");
-		}
-		catch (ValidatorException ve) {}
-		
-		try {
-			Validator.validateNotEmptyString("\t\t\t\t");
-			fail("Validate string of tabs should fail with ValidatorException");
-		}
-		catch (ValidatorException ve) {}
-
-		try {
-			Validator.validateNotEmptyString("    This is surrounded by spaces    ");
-		}
-		catch (ValidatorException ve) {
-			fail("Validate string of with spaces should not fail with ValidatorException");	
-		}
-	}
-
-	/*
 	 * Class under test for void validateNotEmptyString(String, String)
 	 */
 	@Test

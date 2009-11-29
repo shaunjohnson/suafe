@@ -21,6 +21,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JTree;
+import javax.swing.border.LineBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
@@ -40,21 +41,21 @@ public final class MyTreeCellRenderer extends JLabel implements TreeCellRenderer
 	 * Serial ID.
 	 */
 	private static final long serialVersionUID = -3819189157641390968L;
-	
+
 	/**
 	 * Copy of default tree cell renderer. Used for reference.
 	 */
 	private DefaultTreeCellRenderer render = null;
-	
+
 	/**
 	 * Default constructor.
 	 */
 	public MyTreeCellRenderer() {
 		super();
-		
+
 		render = new DefaultTreeCellRenderer();
 	}
-	
+
 	/**
 	 * Renders tree cells.
 	 * 
@@ -66,40 +67,52 @@ public final class MyTreeCellRenderer extends JLabel implements TreeCellRenderer
 	 * @param row Row number
 	 * @param hasFocus Indicates whether the cell has focus
 	 */
-	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-		String s = value.toString();
-		Object userObject = ((DefaultMutableTreeNode)value).getUserObject();
-		setText(s);
-		
+	public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected,
+			final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
+		final Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
+		setText(value.toString());
+
 		if (userObject instanceof Path) {
-			setIcon(ResourceUtil.pathIcon);			
-			setToolTipText( ((Path)userObject).getPath() );
+			setIcon(ResourceUtil.pathIcon);
+			setToolTipText(((Path) userObject).getPath());
 		}
 		else if (userObject instanceof Repository) {
 			setIcon(ResourceUtil.repositoryIcon);
-			setToolTipText( ((Repository)userObject).getName() );
+			setToolTipText(((Repository) userObject).getName());
 		}
 		else if (userObject instanceof String) {
 			setIcon(ResourceUtil.serverIcon);
-			setToolTipText( (String)userObject );
+			setToolTipText((String) userObject);
 		}
 		else {
 			setIcon(ResourceUtil.serverIcon);
 		}
-		
-		if (isSelected) {
+
+		if (isSelected && hasFocus) {
 			setBackground(render.getBackgroundSelectionColor());
-			setForeground(render.getTextSelectionColor());			
+			setForeground(render.getTextSelectionColor());
+			setBorder(new LineBorder(render.getBackgroundSelectionColor()));
+		}
+		else if (isSelected && !hasFocus) {
+			setBackground(tree.getBackground());
+			setForeground(render.getTextSelectionColor());
+			setBorder(new LineBorder(render.getBackgroundSelectionColor()));
+		}
+		else if (!isSelected && hasFocus) {
+			setBackground(tree.getBackground());
+			setForeground(tree.getForeground());
+			setBorder(new LineBorder(render.getBackgroundSelectionColor()));
 		}
 		else {
 			setBackground(tree.getBackground());
 			setForeground(tree.getForeground());
+			setBorder(new LineBorder(tree.getBackground()));
 		}
-		
+
 		setEnabled(tree.isEnabled());
 		setFont(tree.getFont());
 		setOpaque(true);
-		
+
 		return this;
 	}
 

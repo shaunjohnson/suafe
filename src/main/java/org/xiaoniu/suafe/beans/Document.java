@@ -111,13 +111,13 @@ public final class Document {
 	 */
 	public AccessRule addAccessRuleForGroup(Path path, Group group, String level) throws AppException {
 		if (path == null) {
-			throw new ValidatorException("Path is missing.");
+			throw new ValidatorException("application.error.pathmissing");
 		}
 
 		Validator.validateLevelOfAccess(level);
 
 		if (group == null) {
-			throw new ValidatorException("Group is missing.");
+			throw new ValidatorException("application.error.groupmissing");
 		}
 
 		AccessRule accessRule = new AccessRule(path, group, level);
@@ -146,7 +146,7 @@ public final class Document {
 	 */
 	public AccessRule addAccessRuleForGroup(Path path, String groupName, String level) throws AppException {
 		if (path == null) {
-			throw new ValidatorException("Path is missing.");
+			throw new ValidatorException("application.error.pathmissing");
 		}
 
 		Validator.validateGroupName(groupName);
@@ -189,7 +189,7 @@ public final class Document {
 	 */
 	public AccessRule addAccessRuleForUser(Path path, String userName, String level) throws AppException {
 		if (path == null) {
-			throw new ValidatorException("Path is missing.");
+			throw new ValidatorException("application.error.pathmissing");
 		}
 
 		Validator.validateUserName(userName);
@@ -213,7 +213,7 @@ public final class Document {
 	 */
 	public AccessRule addAccessRuleForUser(Path path, User user, String level) throws AppException {
 		if (path == null) {
-			throw new ValidatorException("Path is missing.");
+			throw new ValidatorException("application.error.pathmissing");
 		}
 
 		Validator.validateLevelOfAccess(level);
@@ -457,7 +457,7 @@ public final class Document {
 		Group group = findGroup(groupName);
 
 		if (group == null) {
-			throw new ValidatorException("Group is missing.");
+			throw new ValidatorException("application.error.groupmissing");
 		}
 
 		Path path = addPath(null, "/");
@@ -578,15 +578,15 @@ public final class Document {
 	public void changeGroupMembers(Group group, Vector<Group> groupMembers, Vector<User> userMembers)
 			throws AppException {
 		if (group == null) {
-			throw new ValidatorException("Invalid group: Group is null");
+			throw new ValidatorException("application.error.groupmissing");
 		}
 
 		if (groupMembers == null) {
-			throw new ValidatorException("Invalid group members: Group members is null");
+			throw new ValidatorException("application.error.membergroupsmissing");
 		}
 
 		if (userMembers == null) {
-			throw new ValidatorException("Invalid user members: User members is null");
+			throw new ValidatorException("application.error.memberusersmissing");
 		}
 
 		checkForCircularReference(group, groupMembers);
@@ -616,11 +616,11 @@ public final class Document {
 	 */
 	public void changeUserMembership(User user, Vector<Group> newGroupObjects) throws AppException {
 		if (user == null) {
-			throw new ValidatorException("Invalid user: User is null");
+			throw new ValidatorException("application.error.usermissing");
 		}
 
 		if (newGroupObjects == null) {
-			throw new ValidatorException("Invalid groups: Groups is null");
+			throw new ValidatorException("application.error.groupsmissing");
 		}
 
 		// Remove from old groups
@@ -641,11 +641,11 @@ public final class Document {
 
 	public void checkForCircularReference(Group group, Collection<Group> groupMembers) throws AppException {
 		if (group == null) {
-			throw new ValidatorException("Invalid group: Group is null");
+			throw new ValidatorException("application.error.groupmissing");
 		}
 
 		if (groupMembers == null) {
-			throw new ValidatorException("Invalid group members: Group members is null");
+			throw new ValidatorException("application.error.groupsmissing");
 		}
 
 		Group results = hasCircularReference(group, groupMembers);
@@ -861,7 +861,7 @@ public final class Document {
 	 */
 	public void deleteGroups(Object[] groups) throws AppException {
 		if (groups == null) {
-			throw new ValidatorException("Invalid groups: Groups is null");
+			throw new ValidatorException("application.error.groupsmissing");
 		}
 
 		for (Object group : groups) {
@@ -879,7 +879,7 @@ public final class Document {
 	 */
 	public void deletePath(Path path) throws AppException {
 		if (path == null) {
-			throw new ValidatorException("Invalid path: Path is null");
+			throw new ValidatorException("application.error.pathmissing");
 		}
 
 		deletePathAccessRules(path);
@@ -928,7 +928,7 @@ public final class Document {
 	 */
 	public void deleteRepositories(Object[] repositories) throws AppException {
 		if (repositories == null) {
-			throw new ValidatorException("Invalid repositories: Repositories is null");
+			throw new ValidatorException("application.error.repositoriesmissing");
 		}
 
 		for (Object repositorie : repositories) {
@@ -997,7 +997,7 @@ public final class Document {
 	 */
 	private void deleteRepositoryPaths(Repository repository) throws AppException {
 		if (repository == null) {
-			throw new ValidatorException("Invalid repository: Repository is null");
+			throw new ValidatorException("application.error.repositorymissing");
 		}
 
 		List<Path> deleteList = new ArrayList<Path>();
@@ -1077,7 +1077,7 @@ public final class Document {
 	 */
 	public void deleteUsers(Object[] users) throws AppException {
 		if (users == null) {
-			throw new ValidatorException("Invalid users: Users is null");
+			throw new ValidatorException("application.error.usersmissing");
 		}
 
 		for (Object user : users) {
@@ -2106,7 +2106,7 @@ public final class Document {
 	 */
 	private void removeGroupMembers(Group group) throws ValidatorException {
 		if (group == null) {
-			throw new ValidatorException("Invalid group: Group is null");
+			throw new ValidatorException("application.error.groupmissing");
 		}
 
 		// Remove groups
@@ -2154,7 +2154,7 @@ public final class Document {
 	 */
 	private void removeUserFromAssignedGroups(User user) throws ValidatorException {
 		if (user == null) {
-			throw new ValidatorException("Invalid user: User is null");
+			throw new ValidatorException("application.error.usermissing");
 		}
 
 		for (Group group : user.getGroups()) {
@@ -2178,7 +2178,7 @@ public final class Document {
 		Validator.validateUserName(newGroupName);
 
 		if (group == null) {
-			throw new ValidatorException("Group is missing.");
+			throw new ValidatorException("application.error.groupmissing");
 		}
 
 		group.setName(newGroupName);
@@ -2198,7 +2198,7 @@ public final class Document {
 		Validator.validateUserName(newUserName);
 
 		if (user == null) {
-			throw new ValidatorException("User is missing.");
+			throw new ValidatorException("application.error.usermissing");
 		}
 
 		user.setAlias(alias);

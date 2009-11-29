@@ -30,7 +30,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -60,7 +59,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
@@ -103,6 +101,7 @@ import org.xiaoniu.suafe.dialogs.EditAccessRuleDialog;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.frames.menus.GroupsPopupMenu;
 import org.xiaoniu.suafe.frames.menus.MainFrameMenuBar;
+import org.xiaoniu.suafe.frames.menus.PopupMenuListener;
 import org.xiaoniu.suafe.frames.menus.UsersPopupMenu;
 import org.xiaoniu.suafe.frames.panes.AccessRulesPane;
 import org.xiaoniu.suafe.frames.panes.GroupsPane;
@@ -119,51 +118,8 @@ import org.xiaoniu.suafe.resources.ResourceUtil;
  * 
  * @author Shaun Johnson
  */
-public final class MainFrame extends BaseFrame implements ActionListener, FileOpener, KeyListener, ListSelectionListener,
-		MouseListener, TreeSelectionListener, WindowListener {
-
-	/**
-	 * Popup menu listener class.
-	 * 
-	 * @author Shaun Johnson
-	 */
-	class PopupListener extends MouseAdapter {
-		private JPopupMenu popupMenu;
-
-		/**
-		 * Default Constructor.
-		 * 
-		 * @param popupMenu Menu displayed upon click
-		 */
-		public PopupListener(JPopupMenu popupMenu) {
-			this.popupMenu = popupMenu;
-		}
-
-		/**
-		 * Display popup menu if requirements met.
-		 * 
-		 * @param event MountEvent that triggered this
-		 */
-		private void maybeShowPopup(MouseEvent event) {
-			if (event.isPopupTrigger()) {
-				popupMenu.show(event.getComponent(), event.getX(), event.getY());
-			}
-		}
-
-		/**
-		 * Mouse button pressed event handler.
-		 */
-		public void mousePressed(MouseEvent e) {
-			maybeShowPopup(e);
-		}
-
-		/**
-		 * Mouse button released event handler.
-		 */
-		public void mouseReleased(MouseEvent e) {
-			maybeShowPopup(e);
-		}
-	}
+public final class MainFrame extends BaseFrame implements ActionListener, FileOpener, KeyListener,
+		ListSelectionListener, MouseListener, TreeSelectionListener, WindowListener {
 
 	private static final long serialVersionUID = -4378074679449146788L;
 
@@ -223,8 +179,8 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	/**
 	 * ActionPerformed event handler. Redirects to the appropriate action handler.
 	 */
-	public void actionPerformed(ActionEvent e) {
-		String action = e.getActionCommand();
+	public void actionPerformed(final ActionEvent e) {
+		final String action = e.getActionCommand();
 
 		if (action.equals(ActionConstants.NEW_FILE_ACTION)) {
 			fileNew();
@@ -386,18 +342,18 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	private void addAccessRule() {
 		getMainTabbedPane().setSelectedComponent(getAccessRulesPane());
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
 				.getLastSelectedPathComponent();
-		Object userObject = (node == null) ? null : node.getUserObject();
-		Message message = new Message();
-		JDialog dialog = new AddAccessRuleDialog(document, userObject, message);
+		final Object userObject = (node == null) ? null : node.getUserObject();
+		final Message message = new Message();
+		final JDialog dialog = new AddAccessRuleDialog(document, userObject, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 
 		refreshUserList(null);
 
 		if (message.getState() == Message.SUCCESS) {
-			AccessRule rule = (AccessRule) message.getUserObject();
+			final AccessRule rule = (AccessRule) message.getUserObject();
 			refreshAccessRuleTree(rule.getPath());
 		}
 		else {
@@ -413,8 +369,8 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	private void addGroup() {
 		getMainTabbedPane().setSelectedComponent(getGroupsPane());
 
-		Message message = new Message();
-		JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_ADD_GROUP, message);
+		final Message message = new Message();
+		final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_ADD_GROUP, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 
@@ -431,18 +387,18 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	private void addProjectAccessRules() {
 		getMainTabbedPane().setSelectedComponent(getAccessRulesPane());
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
 				.getLastSelectedPathComponent();
-		Object userObject = (node == null) ? null : node.getUserObject();
-		Message message = new Message();
-		JDialog dialog = new AddProjectAccessRulesDialog(document, userObject, message);
+		final Object userObject = (node == null) ? null : node.getUserObject();
+		final Message message = new Message();
+		final JDialog dialog = new AddProjectAccessRulesDialog(document, userObject, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 
 		refreshUserList(null);
 
 		if (message.getState() == Message.SUCCESS) {
-			AccessRule rule = (AccessRule) message.getUserObject();
+			final AccessRule rule = (AccessRule) message.getUserObject();
 			refreshAccessRuleTree(rule.getPath());
 		}
 		else {
@@ -456,7 +412,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Add/Remove Members action handler. Displays AddRemoveMembers dialog.
 	 */
 	private void addRemoveMembers() {
-		Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
+		final Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
@@ -464,10 +420,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		else {
 			Group selectedGroup = null;
 
-			for (int i = 0; i < selectedItems.length; i++) {
-				Message message = new Message();
+			for (final Object selectedItem : selectedItems) {
+				final Message message = new Message();
 
-				JDialog dialog = new AddRemoveMembersDialog(document, (Group) selectedItems[i], message);
+				final JDialog dialog = new AddRemoveMembersDialog(document, (Group) selectedItem, message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -475,7 +431,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					selectedGroup = (Group) message.getUserObject();
 				}
 				else if (message.getUserObject() == null) {
-					selectedGroup = (Group) selectedItems[i];
+					selectedGroup = (Group) selectedItem;
 				}
 
 				// Don't edit any other groups if Cancel was clicked
@@ -497,7 +453,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param absolutePath Absolute path of newly opened file.
 	 */
-	private void addToRecentFiles(String absolutePath) {
+	private void addToRecentFiles(final String absolutePath) {
 		fileStack = UserPreferences.getRecentFiles();
 
 		// If file already appears in list remove it first so that it can
@@ -522,13 +478,13 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param container Container to which a transfer handler is added
 	 */
-	private void addTransferHandler(Container container) {
+	private void addTransferHandler(final Container container) {
 		if (container instanceof JComponent) {
 			((JComponent) container).setTransferHandler(fileTransferHandler);
 		}
 
 		if (container.getComponentCount() > 0) {
-			for (Component child : container.getComponents()) {
+			for (final Component child : container.getComponents()) {
 				if (child instanceof Container) {
 					addTransferHandler((Container) child);
 				}
@@ -542,8 +498,8 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	private void addUser() {
 		getMainTabbedPane().setSelectedComponent(getUsersPane());
 
-		Message message = new Message();
-		JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_ADD_USER, message);
+		final Message message = new Message();
+		final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_ADD_USER, message);
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 
@@ -559,7 +515,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param newFontStyle New font style
 	 */
-	private void changeFont(String newFontStyle) {
+	private void changeFont(final String newFontStyle) {
 		if (newFontStyle != null) {
 			UserPreferences.setUserFontStyle(newFontStyle);
 		}
@@ -578,7 +534,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Change Membership action handler. Displays ChangeMembership dialog.
 	 */
 	private void changeMembership() {
-		Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
+		final Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			displayWarning(ResourceUtil.getString("mainframe.warning.nouserselected"));
@@ -586,9 +542,9 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		else {
 			User selectedUser = null;
 
-			for (int i = 0; i < selectedItems.length; i++) {
-				Message message = new Message();
-				JDialog dialog = new ChangeMembershipDialog(document, (User) selectedItems[i], message);
+			for (final Object selectedItem : selectedItems) {
+				final Message message = new Message();
+				final JDialog dialog = new ChangeMembershipDialog(document, (User) selectedItem, message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
 
@@ -596,7 +552,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					selectedUser = (User) message.getUserObject();
 				}
 				else if (message.getUserObject() == null) {
-					selectedUser = (User) selectedItems[i];
+					selectedUser = (User) selectedItem;
 				}
 
 				// Don't edit any other users if Cancel was clicked
@@ -617,10 +573,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Prompts user if there is any data that is not going to be saved.
 	 */
 	private boolean checkForUnsaveableData() {
-		String validateMessage = document.validateDocument();
+		final String validateMessage = document.validateDocument();
 
 		if (validateMessage != null) {
-			int response = showWarnConfirmDialog(validateMessage);
+			final int response = showWarnConfirmDialog(validateMessage);
 
 			return response == JOptionPane.YES_OPTION;
 		}
@@ -633,7 +589,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 */
 	private void checkForUnsavedChanges() {
 		if (document.hasUnsavedChanges()) {
-			int response = showWarnConfirmDialog(ResourceUtil.getString("application.unsavedchanges"));
+			final int response = showWarnConfirmDialog(ResourceUtil.getString("application.unsavedchanges"));
 
 			if (response == JOptionPane.YES_OPTION) {
 				fileSave();
@@ -654,7 +610,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Clone group action handler.
 	 */
 	private void cloneGroup() {
-		Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
+		final Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -662,10 +618,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		else {
 			Group selectedGroup = null;
 
-			for (int i = 0; i < selectedItems.length; i++) {
-				Message message = new Message();
+			for (final Object selectedItem : selectedItems) {
+				final Message message = new Message();
 
-				JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_GROUP, (Group) selectedItems[i],
+				final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_GROUP, (Group) selectedItem,
 						message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
@@ -674,7 +630,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					selectedGroup = (Group) message.getUserObject();
 				}
 				else if (message.getUserObject() == null) {
-					selectedGroup = (Group) selectedItems[i];
+					selectedGroup = (Group) selectedItem;
 				}
 
 				// Don't edit any other groups if Cancel was clicked
@@ -694,7 +650,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Clone user action handler.
 	 */
 	private void cloneUser() {
-		Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
+		final Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -702,9 +658,9 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		else {
 			User selectedUser = null;
 
-			for (int i = 0; i < selectedItems.length; i++) {
-				Message message = new Message();
-				JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_USER, (User) selectedItems[i],
+			for (final Object selectedItem : selectedItems) {
+				final Message message = new Message();
+				final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_USER, (User) selectedItem,
 						message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
@@ -713,7 +669,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					selectedUser = (User) message.getUserObject();
 				}
 				else if (message.getUserObject() == null) {
-					selectedUser = (User) selectedItems[i];
+					selectedUser = (User) selectedItem;
 				}
 
 				// Don't edit any other users if Cancel was clicked
@@ -737,26 +693,27 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			displayWarning(ResourceUtil.getString("mainframe.warnming.noaccessrule"));
 		}
 		else {
-			int choice = showConfirmDialog("mainframe.deleteaccessrule.prompt", "mainframe.deleteaccessrule.title");
+			final int choice = showConfirmDialog("mainframe.deleteaccessrule.prompt",
+					"mainframe.deleteaccessrule.title");
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
-							.getLastSelectedPathComponent();
+					final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane()
+							.getAccessRulesTree().getLastSelectedPathComponent();
 
 					if (node == null) {
 						return;
 					}
 
-					Object userObject = node.getUserObject();
-					DefaultTableModel tableModel = (DefaultTableModel) getAccessRulesPane().getAccessRulesTable()
+					final Object userObject = node.getUserObject();
+					final DefaultTableModel tableModel = (DefaultTableModel) getAccessRulesPane().getAccessRulesTable()
 							.getModel();
-					int selectedRow = getAccessRulesPane().getAccessRulesTable().getSelectedRow();
+					final int selectedRow = getAccessRulesPane().getAccessRulesTable().getSelectedRow();
 
 					if (userObject instanceof Repository) {
-						Repository repository = (Repository) userObject;
-						Path path = (Path) tableModel.getValueAt(selectedRow, 0);
-						Object object = tableModel.getValueAt(selectedRow, 1);
+						final Repository repository = (Repository) userObject;
+						final Path path = (Path) tableModel.getValueAt(selectedRow, 0);
+						final Object object = tableModel.getValueAt(selectedRow, 1);
 
 						if (object instanceof Group) {
 							document.deleteAccessRule(repository.getName(), path.getPath(), (Group) object, null);
@@ -766,8 +723,8 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 						}
 					}
 					else if (userObject instanceof Path) {
-						Path path = (Path) userObject;
-						Object object = tableModel.getValueAt(selectedRow, 0);
+						final Path path = (Path) userObject;
+						final Object object = tableModel.getValueAt(selectedRow, 0);
 
 						if (object instanceof Group) {
 							document.deleteAccessRule(path.getRepository().getName(), path.getPath(), (Group) object,
@@ -779,10 +736,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 						}
 					}
 					else {
-						Repository repository = (Repository) tableModel.getValueAt(selectedRow, 0);
-						Path path = (Path) tableModel.getValueAt(selectedRow, 1);
-						Object object = tableModel.getValueAt(selectedRow, 2);
-						String repositoryName = (repository == null) ? null : repository.getName();
+						final Repository repository = (Repository) tableModel.getValueAt(selectedRow, 0);
+						final Path path = (Path) tableModel.getValueAt(selectedRow, 1);
+						final Object object = tableModel.getValueAt(selectedRow, 2);
+						final String repositoryName = (repository == null) ? null : repository.getName();
 
 						if (object instanceof Group) {
 							document.deleteAccessRule(repositoryName, path.getPath(), (Group) object, null);
@@ -796,7 +753,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					refreshGroupDetails();
 					refreshAccessRuleTree(null);
 				}
-				catch (AppException ae) {
+				catch (final AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletingaccessrule"));
 				}
 			}
@@ -813,7 +770,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
 		}
 		else {
-			Object[] values = getGroupsPane().getGroupList().getSelectedValues();
+			final Object[] values = getGroupsPane().getGroupList().getSelectedValues();
 			int choice;
 
 			if (values.length == 1) {
@@ -827,7 +784,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 				try {
 					document.deleteGroups(values);
 				}
-				catch (AppException ae) {
+				catch (final AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletinggroup"));
 				}
 
@@ -843,23 +800,23 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Delete path action handler.
 	 */
 	private void deletePath() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
 				.getLastSelectedPathComponent();
 
 		if (node == null) {
 			return;
 		}
 
-		Object userObject = node.getUserObject();
+		final Object userObject = node.getUserObject();
 
 		if (userObject instanceof Path) {
-			int choice = showConfirmDialog("mainframe.deletepath.prompt", "mainframe.deletepath.title");
+			final int choice = showConfirmDialog("mainframe.deletepath.prompt", "mainframe.deletepath.title");
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
 					document.deletePath((Path) userObject);
 				}
-				catch (AppException ae) {
+				catch (final AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletingpath"));
 				}
 
@@ -876,23 +833,24 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Delete repository action handler.
 	 */
 	private void deleteRepository() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
 				.getLastSelectedPathComponent();
 
 		if (node == null) {
 			return;
 		}
 
-		Object userObject = node.getUserObject();
+		final Object userObject = node.getUserObject();
 
 		if (userObject instanceof Repository) {
-			int choice = showConfirmDialog("mainframe.deleterepository.prompt", "mainframe.deleterepository.title");
+			final int choice = showConfirmDialog("mainframe.deleterepository.prompt",
+					"mainframe.deleterepository.title");
 
 			if (choice == JOptionPane.YES_OPTION) {
 				try {
 					document.deleteRepository((Repository) userObject);
 				}
-				catch (AppException ae) {
+				catch (final AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletingrepository"));
 				}
 
@@ -913,7 +871,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			displayWarning(ResourceUtil.getString("mainframe.warning.nouserselected"));
 		}
 		else {
-			Object[] values = getUsersPane().getUserList().getSelectedValues();
+			final Object[] values = getUsersPane().getUserList().getSelectedValues();
 			int choice;
 
 			if (values.length == 1) {
@@ -927,7 +885,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 				try {
 					document.deleteUsers(values);
 				}
-				catch (AppException ae) {
+				catch (final AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errordeletinguser"));
 				}
 
@@ -945,7 +903,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param group Group to be displayed
 	 */
-	private void displayGroup(Object group) {
+	private void displayGroup(final Object group) {
 		if (group == null) {
 			return;
 		}
@@ -960,7 +918,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param user User to be displayed
 	 */
-	private void displayUser(Object user) {
+	private void displayUser(final Object user) {
 		if (user == null) {
 			return;
 		}
@@ -971,11 +929,11 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	}
 
 	private void disposeWindowsFrames() {
-		for (Window window : Window.getWindows()) {
+		for (final Window window : Window.getWindows()) {
 			window.dispose();
 		}
 
-		for (Frame frame : Frame.getFrames()) {
+		for (final Frame frame : Frame.getFrames()) {
 			frame.dispose();
 		}
 	}
@@ -989,23 +947,23 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		}
 		else {
 			try {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
+				final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
 						.getLastSelectedPathComponent();
 
 				if (node == null) {
 					return;
 				}
 
-				JTable accessRulesTable = getAccessRulesPane().getAccessRulesTable();
-				Object userObject = node.getUserObject();
-				DefaultTableModel tableModel = (DefaultTableModel) accessRulesTable.getModel();
-				int selectedRow = accessRulesTable.convertRowIndexToModel(accessRulesTable.getSelectedRow());
+				final JTable accessRulesTable = getAccessRulesPane().getAccessRulesTable();
+				final Object userObject = node.getUserObject();
+				final DefaultTableModel tableModel = (DefaultTableModel) accessRulesTable.getModel();
+				final int selectedRow = accessRulesTable.convertRowIndexToModel(accessRulesTable.getSelectedRow());
 				AccessRule accessRule = null;
 
 				if (userObject instanceof Repository) {
-					Repository repository = (Repository) userObject;
-					Path path = (Path) tableModel.getValueAt(selectedRow, 0);
-					Object object = tableModel.getValueAt(selectedRow, 1);
+					final Repository repository = (Repository) userObject;
+					final Path path = (Path) tableModel.getValueAt(selectedRow, 0);
+					final Object object = tableModel.getValueAt(selectedRow, 1);
 
 					if (object instanceof Group) {
 						accessRule = document.findGroupAccessRule(repository, path.getPath(), (Group) object);
@@ -1015,8 +973,8 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					}
 				}
 				else if (userObject instanceof Path) {
-					Path path = (Path) userObject;
-					Object object = tableModel.getValueAt(selectedRow, 0);
+					final Path path = (Path) userObject;
+					final Object object = tableModel.getValueAt(selectedRow, 0);
 
 					if (object instanceof Group) {
 						accessRule = document.findGroupAccessRule(path.getRepository(), path.getPath(), (Group) object);
@@ -1026,9 +984,9 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					}
 				}
 				else {
-					Repository repository = (Repository) tableModel.getValueAt(selectedRow, 0);
-					Path path = (Path) tableModel.getValueAt(selectedRow, 1);
-					Object object = tableModel.getValueAt(selectedRow, 2);
+					final Repository repository = (Repository) tableModel.getValueAt(selectedRow, 0);
+					final Path path = (Path) tableModel.getValueAt(selectedRow, 1);
+					final Object object = tableModel.getValueAt(selectedRow, 2);
 
 					if (object instanceof Group) {
 						accessRule = document.findGroupAccessRule(repository, path.getPath(), (Group) object);
@@ -1042,10 +1000,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessruleforedit"));
 				}
 				else {
-					Message message = new Message();
-					Path path = accessRule.getPath();
+					final Message message = new Message();
+					final Path path = accessRule.getPath();
 
-					JDialog dialog = new EditAccessRuleDialog(document, accessRule, message);
+					final JDialog dialog = new EditAccessRuleDialog(document, accessRule, message);
 					DialogUtil.center(this, dialog);
 					dialog.setVisible(true);
 
@@ -1063,7 +1021,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					}
 				}
 			}
-			catch (AppException ae) {
+			catch (final AppException ae) {
 				displayError(ResourceUtil.getString("mainframe.error.erroreditingaccessrule"));
 			}
 		}
@@ -1075,19 +1033,19 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Edit path action handler.
 	 */
 	private void editPath() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
 				.getLastSelectedPathComponent();
 
 		if (node == null) {
 			return;
 		}
 
-		Object userObject = node.getUserObject();
+		final Object userObject = node.getUserObject();
 
 		if (userObject instanceof Path) {
-			Message message = new Message();
+			final Message message = new Message();
 
-			JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_EDIT_PATH, (Path) userObject, message);
+			final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_EDIT_PATH, (Path) userObject, message);
 			DialogUtil.center(this, dialog);
 			dialog.setVisible(true);
 
@@ -1138,15 +1096,15 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 
 		fcOpen.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-		File directory = (document.getFile() == null) ? null : document.getFile().getParentFile();
+		final File directory = (document.getFile() == null) ? null : document.getFile().getParentFile();
 
 		fcOpen.setSelectedFile(directory);
 
-		int returnVal = fcOpen.showOpenDialog(this);
+		final int returnVal = fcOpen.showOpenDialog(this);
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
-				File file = fcOpen.getSelectedFile();
+				final File file = fcOpen.getSelectedFile();
 				document = new FileParser().parse(file);
 				getUsersPane().getUserList().setListData(document.getUserObjects());
 				getGroupsPane().getGroupList().setListData(document.getGroupObjects());
@@ -1161,7 +1119,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 				addToRecentFiles(file.getAbsolutePath());
 				refreshTabNames();
 			}
-			catch (Exception e) {
+			catch (final Exception e) {
 				displayError(e.getMessage());
 			}
 		}
@@ -1170,7 +1128,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	/**
 	 * File open action handler.
 	 */
-	public void fileOpen(File file) {
+	public void fileOpen(final File file) {
 		checkForUnsavedChanges();
 
 		try {
@@ -1188,7 +1146,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			addToRecentFiles(file.getAbsolutePath());
 			refreshTabNames();
 		}
-		catch (Exception e) {
+		catch (final Exception e) {
 			displayError(e.getMessage());
 		}
 	}
@@ -1196,7 +1154,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	/**
 	 * File open action handler.
 	 */
-	private void fileOpen(int index) {
+	private void fileOpen(final int index) {
 		fileOpen(new File(fileStack.elementAt(index)));
 	}
 
@@ -1207,13 +1165,13 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		/*
 		 * Get the representation of the current printer and the current print job.
 		 */
-		PrinterJob printerJob = PrinterJob.getPrinterJob();
+		final PrinterJob printerJob = PrinterJob.getPrinterJob();
 
 		/*
 		 * Build a book containing pairs of page painters (Printables) and PageFormats. This example has a single page
 		 * containing text.
 		 */
-		Book book = new Book();
+		final Book book = new Book();
 		book.append(new Printer(), new PageFormat());
 
 		/*
@@ -1228,12 +1186,12 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		 * perform 'quiet' printing. If the user cancels the print dialog then false is returned. If true is returned we
 		 * go ahead and print.
 		 */
-		boolean doPrint = printerJob.printDialog();
+		final boolean doPrint = printerJob.printDialog();
 		if (doPrint) {
 			try {
 				printerJob.print();
 			}
-			catch (PrinterException exception) {
+			catch (final PrinterException exception) {
 				System.err.println(ResourceUtil.getString("mainframe.error.errorprinting"));
 			}
 		}
@@ -1253,11 +1211,11 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			fcSave.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			fcSave.setDialogType(JFileChooser.SAVE_DIALOG);
 
-			int returnVal = fcSave.showSaveDialog(this);
+			final int returnVal = fcSave.showSaveDialog(this);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				try {
-					File file = fcSave.getSelectedFile();
+					final File file = fcSave.getSelectedFile();
 
 					new FileGenerator(document).generate(file, UserPreferences.getMultipleLineGroupDefinitions());
 
@@ -1267,20 +1225,21 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					updateTitle();
 					addToRecentFiles(document.getFile().getAbsolutePath());
 				}
-				catch (Exception e) {
+				catch (final Exception e) {
 					displayError(e.getMessage());
 				}
 			}
 		}
 		else {
 			try {
-				new FileGenerator(document).generate(document.getFile(), UserPreferences.getMultipleLineGroupDefinitions());
+				new FileGenerator(document).generate(document.getFile(), UserPreferences
+						.getMultipleLineGroupDefinitions());
 
 				document.resetUnsavedChangesFlag();
 				updateTitle();
 				addToRecentFiles(document.getFile().getAbsolutePath());
 			}
-			catch (Exception e) {
+			catch (final Exception e) {
 				displayError(e.getMessage());
 			}
 		}
@@ -1300,11 +1259,11 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		fcSaveAs.setDialogType(JFileChooser.SAVE_DIALOG);
 		fcSaveAs.setDialogTitle(ResourceUtil.getString("saveas.title"));
 
-		int returnVal = fcSaveAs.showSaveDialog(this);
+		final int returnVal = fcSaveAs.showSaveDialog(this);
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			try {
-				File file = fcSaveAs.getSelectedFile();
+				final File file = fcSaveAs.getSelectedFile();
 
 				new FileGenerator(document).generate(file, UserPreferences.getMultipleLineGroupDefinitions());
 
@@ -1314,7 +1273,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 				updateTitle();
 				addToRecentFiles(document.getFile().getAbsolutePath());
 			}
-			catch (Exception e) {
+			catch (final Exception e) {
 				displayError(e.getMessage());
 			}
 		}
@@ -1385,21 +1344,21 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			groupsPopupMenu = new GroupsPopupMenu(this);
 
 			// Add listener to the list.
-			MouseListener popupListener = new PopupListener(groupsPopupMenu);
+			final MouseListener popupListener = new PopupMenuListener(groupsPopupMenu);
 			getGroupsPane().getGroupList().addMouseListener(popupListener);
 		}
 
 		return groupsPopupMenu;
 	}
 
-	public HelpSet getHelpSet(String helpsetfile) {
+	public HelpSet getHelpSet(final String helpsetfile) {
 		HelpSet hs = null;
-		ClassLoader cl = this.getClass().getClassLoader();
+		final ClassLoader cl = this.getClass().getClassLoader();
 		try {
-			URL hsURL = HelpSet.findHelpSet(cl, helpsetfile);
+			final URL hsURL = HelpSet.findHelpSet(cl, helpsetfile);
 			hs = new HelpSet(null, hsURL);
 		}
-		catch (Exception ee) {
+		catch (final Exception ee) {
 			System.out.println("HelpSet: " + ee.getMessage());
 			System.out.println("HelpSet: " + helpsetfile + " not found");
 		}
@@ -1582,7 +1541,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			usersPopupMenu = new UsersPopupMenu(this);
 
 			// Add listener to the user list
-			MouseListener popupListener = new PopupListener(usersPopupMenu);
+			final MouseListener popupListener = new PopupMenuListener(usersPopupMenu);
 			getUsersPane().getUserList().addMouseListener(popupListener);
 		}
 
@@ -1593,7 +1552,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * About action handler.
 	 */
 	private void helpAbout() {
-		JDialog dialog = new AboutDialog();
+		final JDialog dialog = new AboutDialog();
 		DialogUtil.center(this, dialog);
 		dialog.setVisible(true);
 	}
@@ -1633,9 +1592,9 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event KeyEvent object.
 	 */
-	public void keyPressed(KeyEvent event) {
+	public void keyPressed(final KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_DELETE) {
-			Component component = event.getComponent();
+			final Component component = event.getComponent();
 
 			if (component == getUsersPane().getUserList()) {
 				deleteUser();
@@ -1662,7 +1621,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event KeyEvent object.
 	 */
-	public void keyReleased(KeyEvent event) {
+	public void keyReleased(final KeyEvent event) {
 		// Unused
 	}
 
@@ -1671,18 +1630,18 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event KeyEvent object.
 	 */
-	public void keyTyped(KeyEvent event) {
+	public void keyTyped(final KeyEvent event) {
 		// Unused
 	}
 
 	private void loadHelp() {
 		try {
-			String urlString = Constants.PATH_RESOURCE_HELP_DIR + "/" + ResourceUtil.getString("application.language")
-					+ "/suafe.hs";
+			final String urlString = Constants.PATH_RESOURCE_HELP_DIR + "/"
+					+ ResourceUtil.getString("application.language") + "/suafe.hs";
 
-			ClassLoader cl = MainFrame.class.getClassLoader();
-			URL url = cl.getResource(urlString);
-			HelpSet mainHS = new HelpSet(cl, url);
+			final ClassLoader cl = MainFrame.class.getClassLoader();
+			final URL url = cl.getResource(urlString);
+			final HelpSet mainHS = new HelpSet(cl, url);
 
 			mainHB = mainHS.createHelpBroker("overview");
 
@@ -1692,7 +1651,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 
 			setIconImageForHelp(mainHB, ResourceUtil.serverImage);
 		}
-		catch (HelpSetException e) {
+		catch (final HelpSetException e) {
 			displayError(ResourceUtil.getString("application.error.helpnotloaded"));
 		}
 	}
@@ -1704,7 +1663,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 
 		this.setSize(UserPreferences.getWindowSize());
 
-		Point location = UserPreferences.getWindowLocation();
+		final Point location = UserPreferences.getWindowLocation();
 
 		if (location == null) {
 			this.center();
@@ -1729,7 +1688,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event MouseEvent object
 	 */
-	public void mouseClicked(MouseEvent event) {
+	public void mouseClicked(final MouseEvent event) {
 		if (event.getClickCount() == 2) {
 			if (event.getSource() == getUsersPane().getUserList()) {
 				renameUser();
@@ -1759,7 +1718,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event MouseEvent object
 	 */
-	public void mouseEntered(MouseEvent event) {
+	public void mouseEntered(final MouseEvent event) {
 		// Not used
 	}
 
@@ -1768,7 +1727,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event MouseEvent object
 	 */
-	public void mouseExited(MouseEvent event) {
+	public void mouseExited(final MouseEvent event) {
 		// Not used
 	}
 
@@ -1777,7 +1736,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event MouseEvent object
 	 */
-	public void mousePressed(MouseEvent event) {
+	public void mousePressed(final MouseEvent event) {
 		// Not used
 	}
 
@@ -1786,20 +1745,20 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event MouseEvent object
 	 */
-	public void mouseReleased(MouseEvent event) {
+	public void mouseReleased(final MouseEvent event) {
 		// Not used
 	}
 
-	private void openLastEditedFileSettingChange() {
-		boolean selected = menuBar.getOpenLastFileMenuItem().isSelected();
-
-		UserPreferences.setOpenLastFile(selected);
-	}
-	
 	private void multilineGroupDefinitionsSettingChange() {
-		boolean selected = menuBar.getMultiLineGroupDefinitionsMenuItem().isSelected();
+		final boolean selected = menuBar.getMultiLineGroupDefinitionsMenuItem().isSelected();
 
 		UserPreferences.setMultipleLineGroupDefinitions(selected);
+	}
+
+	private void openLastEditedFileSettingChange() {
+		final boolean selected = menuBar.getOpenLastFileMenuItem().isSelected();
+
+		UserPreferences.setOpenLastFile(selected);
 	}
 
 	/**
@@ -1811,13 +1770,16 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		}
 		else {
 			new Thread() {
+				@Override
 				public void run() {
 					try {
-						JFrame frame = new ViewerFrame(ResourceUtil.getString("preview.title"), new FileGenerator(
-								document).generate(UserPreferences.getMultipleLineGroupDefinitions()), Constants.MIME_TEXT);
+						final JFrame frame = new ViewerFrame(
+								ResourceUtil.getString("preview.title"),
+								new FileGenerator(document).generate(UserPreferences.getMultipleLineGroupDefinitions()),
+								Constants.MIME_TEXT);
 						frame.setVisible(true);
 					}
-					catch (AppException e) {
+					catch (final AppException e) {
 						displayError(e.getMessage());
 					}
 				}
@@ -1830,17 +1792,17 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param selectedObject Object to select.
 	 */
-	private void refreshAccessRuleTree(Object selectedObject) {
+	private void refreshAccessRuleTree(final Object selectedObject) {
 		TreePath treePath = null;
-		DefaultMutableTreeNode node = new DefaultMutableTreeNode(ResourceUtil.getString("application.server"));
+		final DefaultMutableTreeNode node = new DefaultMutableTreeNode(ResourceUtil.getString("application.server"));
 		accessRulesTreeModel = new DefaultTreeModel(node);
 
-		List<Repository> repositoryList = document.getRepositories();
+		final List<Repository> repositoryList = document.getRepositories();
 
 		Collections.sort(repositoryList);
 
-		for (Repository repository : repositoryList) {
-			DefaultMutableTreeNode repositoryNode = new DefaultMutableTreeNode(repository);
+		for (final Repository repository : repositoryList) {
+			final DefaultMutableTreeNode repositoryNode = new DefaultMutableTreeNode(repository);
 
 			node.add(repositoryNode);
 
@@ -1848,12 +1810,12 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 				treePath = new TreePath(repositoryNode.getPath());
 			}
 
-			List<Path> pathList = repository.getPaths();
+			final List<Path> pathList = repository.getPaths();
 
 			Collections.sort(pathList, new PathComparator());
 
-			for (Path path : pathList) {
-				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(path);
+			for (final Path path : pathList) {
+				final DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(path);
 				repositoryNode.add(newNode);
 
 				if (selectedObject == path) {
@@ -1885,31 +1847,31 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Refresh group details for selected group.
 	 */
 	private void refreshGroupDetails() {
-		Group group = (Group) getGroupsPane().getGroupList().getSelectedValue();
+		final Group group = (Group) getGroupsPane().getGroupList().getSelectedValue();
 
 		try {
 			getGroupsPane().getGroupMemberList().setModel(new DefaultListModel());
 
 			if (!getGroupsPane().getGroupList().isSelectionEmpty()) {
-				Object[] listData = document.getGroupMemberObjects(group);
+				final Object[] listData = document.getGroupMemberObjects(group);
 
 				if (listData != null) {
 					getGroupsPane().getGroupMemberList().setListData(listData);
 				}
 			}
 		}
-		catch (AppException ae) {
+		catch (final AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadinggroupmembers"));
 		}
 
 		toggleGroupActions(getGroupsPane().getGroupList().isSelectionEmpty() == false);
 
-		DefaultTableModel model = new NonEditableTableModel();
+		final DefaultTableModel model = new NonEditableTableModel();
 
 		try {
 			model.setDataVector(document.getGroupAccessRules(group), getGroupAccessRulesColumnNames());
 		}
-		catch (AppException ae) {
+		catch (final AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforgroup"));
 		}
 
@@ -1922,7 +1884,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param selectedGroup Group currently selected.
 	 */
-	private void refreshGroupList(Group selectedGroup) {
+	private void refreshGroupList(final Group selectedGroup) {
 		getGroupsPane().getGroupList().setListData(document.getGroupObjects());
 		toggleGroupActions(getGroupsPane().getGroupList().isSelectionEmpty() == false);
 
@@ -1938,13 +1900,13 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param path Selected path.
 	 */
-	private void refreshPathAccessRules(Path path) {
-		DefaultTableModel model = new NonEditableTableModel();
+	private void refreshPathAccessRules(final Path path) {
+		final DefaultTableModel model = new NonEditableTableModel();
 
 		try {
 			model.setDataVector(document.getPathAccessRules(path), getPathAccessRulesColumnNames());
 		}
-		catch (AppException ae) {
+		catch (final AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforpath"));
 		}
 
@@ -1957,13 +1919,13 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param repository Selected repository.
 	 */
-	private void refreshRepositoryAccessRules(Repository repository) {
-		DefaultTableModel model = new NonEditableTableModel();
+	private void refreshRepositoryAccessRules(final Repository repository) {
+		final DefaultTableModel model = new NonEditableTableModel();
 
 		try {
 			model.setDataVector(document.getRepositoryAccessRules(repository), getRepositoryAccessRulesColumnNames());
 		}
-		catch (AppException ae) {
+		catch (final AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforrepository"));
 		}
 
@@ -1977,12 +1939,12 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Refresh access rules table for the entire server.
 	 */
 	private void refreshServerAccessRules() {
-		DefaultTableModel model = new NonEditableTableModel();
+		final DefaultTableModel model = new NonEditableTableModel();
 
 		try {
 			model.setDataVector(document.getServerAccessRules(), getServerAccessRulesColumnNames());
 		}
-		catch (AppException ae) {
+		catch (final AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforserver"));
 		}
 
@@ -2011,32 +1973,32 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Refresh user details for selected user.
 	 */
 	private void refreshUserDetails() {
-		User user = (User) getUsersPane().getUserList().getSelectedValue();
+		final User user = (User) getUsersPane().getUserList().getSelectedValue();
 
 		try {
 			getUsersPane().getUserGroupList().setModel(new DefaultListModel());
 
 			if (!getUsersPane().getUserList().isSelectionEmpty()) {
-				Object[] listData = (Object[]) document.getUserGroupObjects(user);
+				final Object[] listData = document.getUserGroupObjects(user);
 
 				if (listData != null) {
 					getUsersPane().getUserGroupList().setListData(listData);
 				}
 			}
 		}
-		catch (AppException ae) {
+		catch (final AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingusers"));
 		}
 
-		boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
+		final boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
 		toggleUserActions(enabled, (user == null) ? enabled : enabled && !user.isAllUsers());
 
-		DefaultTableModel model = new NonEditableTableModel();
+		final DefaultTableModel model = new NonEditableTableModel();
 
 		try {
 			model.setDataVector(document.getUserAccessRuleObjects(user), getUserAccessRulesColumnNames());
 		}
-		catch (AppException ae) {
+		catch (final AppException ae) {
 			displayError(ResourceUtil.getString("mainframe.error.errorloadingaccessrulesforuser"));
 		}
 
@@ -2049,10 +2011,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param selectedUser User currently selected.
 	 */
-	private void refreshUserList(User selectedUser) {
+	private void refreshUserList(final User selectedUser) {
 		getUsersPane().getUserList().setListData(document.getUserObjects());
 
-		boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
+		final boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
 		toggleUserActions(enabled, (selectedUser == null) ? enabled : enabled && !selectedUser.isAllUsers());
 
 		if (selectedUser != null) {
@@ -2067,7 +2029,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 */
 	private void reload() {
 		if (document.hasUnsavedChanges()) {
-			int response = showWarnConfirmDialog(ResourceUtil.getString("application.unsavedchangesbeforereload"));
+			final int response = showWarnConfirmDialog(ResourceUtil.getString("application.unsavedchangesbeforereload"));
 
 			if (response == JOptionPane.NO_OPTION) {
 				return;
@@ -2075,7 +2037,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		}
 
 		try {
-			File file = document.getFile();
+			final File file = document.getFile();
 			document = new FileParser().parse(file);
 			getUsersPane().getUserList().setListData(document.getUserObjects());
 			getGroupsPane().getGroupList().setListData(document.getGroupObjects());
@@ -2089,7 +2051,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 
 			refreshTabNames();
 		}
-		catch (Exception e) {
+		catch (final Exception e) {
 			displayError(e.getMessage());
 		}
 	}
@@ -2102,8 +2064,8 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
 		}
 		else {
-			Object[] values = getUsersPane().getUserGroupList().getSelectedValues();
-			User user = (User) getUsersPane().getUserList().getSelectedValue();
+			final Object[] values = getUsersPane().getUserGroupList().getSelectedValues();
+			final User user = (User) getUsersPane().getUserList().getSelectedValue();
 			int choice;
 
 			if (values.length == 1) {
@@ -2117,7 +2079,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 				try {
 					document.removeFromGroups(user, values);
 				}
-				catch (AppException ae) {
+				catch (final AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
 				}
 
@@ -2138,8 +2100,8 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 			displayWarning(ResourceUtil.getString("mainframe.warning.nomemberselected"));
 		}
 		else {
-			Object[] values = getGroupsPane().getGroupMemberList().getSelectedValues();
-			Group group = (Group) getGroupsPane().getGroupList().getSelectedValue();
+			final Object[] values = getGroupsPane().getGroupMemberList().getSelectedValues();
+			final Group group = (Group) getGroupsPane().getGroupList().getSelectedValue();
 			int choice;
 
 			if (values.length == 1) {
@@ -2153,7 +2115,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 				try {
 					document.removeGroupMembers(group, values);
 				}
-				catch (AppException ae) {
+				catch (final AppException ae) {
 					displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
 				}
 
@@ -2170,7 +2132,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Rename group action handler.
 	 */
 	private void renameGroup() {
-		Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
+		final Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -2178,10 +2140,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		else {
 			Group selectedGroup = null;
 
-			for (int i = 0; i < selectedItems.length; i++) {
-				Message message = new Message();
+			for (final Object selectedItem : selectedItems) {
+				final Message message = new Message();
 
-				JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_GROUP, (Group) selectedItems[i],
+				final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_GROUP, (Group) selectedItem,
 						message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
@@ -2191,7 +2153,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					document.setUnsavedChanges();
 				}
 				else if (message.getUserObject() == null) {
-					selectedGroup = (Group) selectedItems[i];
+					selectedGroup = (Group) selectedItem;
 				}
 
 				// Don't edit any other groups if Cancel was clicked
@@ -2211,20 +2173,20 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Edit repository action handler.
 	 */
 	private void renameRepository() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
 				.getLastSelectedPathComponent();
 
 		if (node == null) {
 			return;
 		}
 
-		Object userObject = node.getUserObject();
+		final Object userObject = node.getUserObject();
 
 		if (userObject instanceof Repository) {
-			Message message = new Message();
+			final Message message = new Message();
 
-			JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_REPOSITORY, (Repository) userObject,
-					message);
+			final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_REPOSITORY,
+					(Repository) userObject, message);
 			DialogUtil.center(this, dialog);
 			dialog.setVisible(true);
 
@@ -2243,7 +2205,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * Edit user action handler.
 	 */
 	private void renameUser() {
-		Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
+		final Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
 
 		if (selectedItems.length == 0) {
 			return;
@@ -2251,9 +2213,9 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		else {
 			User selectedUser = null;
 
-			for (int i = 0; i < selectedItems.length; i++) {
-				Message message = new Message();
-				JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_USER, (User) selectedItems[i],
+			for (final Object selectedItem : selectedItems) {
+				final Message message = new Message();
+				final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_USER, (User) selectedItem,
 						message);
 				DialogUtil.center(this, dialog);
 				dialog.setVisible(true);
@@ -2263,7 +2225,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 					document.setUnsavedChanges();
 				}
 				else if (message.getUserObject() == null) {
-					selectedUser = (User) selectedItems[i];
+					selectedUser = (User) selectedItem;
 				}
 
 				// Don't edit any other users if Cancel was clicked
@@ -2307,11 +2269,11 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		UserPreferences.setRulesPaneDividerLocation(getAccessRulesPane().getDividerLocation());
 	}
 
-	private void setIconImageForHelp(HelpBroker hb, Image image) {
+	private void setIconImageForHelp(final HelpBroker hb, final Image image) {
 		// Hack the help frame to set its icon
-		WindowPresentation wp = ((DefaultHelpBroker) hb).getWindowPresentation();
+		final WindowPresentation wp = ((DefaultHelpBroker) hb).getWindowPresentation();
 		wp.getLocation();
-		JFrame jfrmHelp = (JFrame) wp.getHelpWindow();
+		final JFrame jfrmHelp = (JFrame) wp.getHelpWindow();
 		jfrmHelp.setIconImage(image);
 		jfrmHelp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
@@ -2325,14 +2287,15 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		}
 		else {
 			new Thread() {
+				@Override
 				public void run() {
 					try {
-						GenericReport report = new StatisticsReport(document);
-						JFrame frame = new ViewerFrame(ResourceUtil.getString("statisticsreport.title"), report
+						final GenericReport report = new StatisticsReport(document);
+						final JFrame frame = new ViewerFrame(ResourceUtil.getString("statisticsreport.title"), report
 								.generate(), Constants.MIME_HTML);
 						frame.setVisible(true);
 					}
-					catch (AppException e) {
+					catch (final AppException e) {
 						displayError(e.getMessage());
 					}
 				}
@@ -2349,17 +2312,18 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 		}
 		else {
 			new Thread() {
+				@Override
 				public void run() {
 					try {
-						GenericReport report = new SummaryReport(document);
-						JFrame frame = new ViewerFrame(ResourceUtil.getString("summaryreport.title"),
-								report.generate(), Constants.MIME_HTML);
+						final GenericReport report = new SummaryReport(document);
+						final JFrame frame = new ViewerFrame(ResourceUtil.getString("summaryreport.title"), report
+								.generate(), Constants.MIME_HTML);
 						frame.setVisible(true);
 					}
-					catch (AppException ae) {
+					catch (final AppException ae) {
 						displayError(ae.getMessage());
 					}
-					catch (Exception e) {
+					catch (final Exception e) {
 						displayError(e.getMessage());
 					}
 				}
@@ -2372,7 +2336,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param enabled If true access rules actions enabled, otherwise disabled.
 	 */
-	private void toggleAccessRulesActions(boolean enabled) {
+	private void toggleAccessRulesActions(final boolean enabled) {
 		getAccessRulesPane().getEditAccessRuleButton().setEnabled(enabled);
 		getAccessRulesPane().getDeleteAccessRuleButton().setEnabled(enabled);
 	}
@@ -2382,7 +2346,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param enabled If true group actions are enabled, otherwise disabled.
 	 */
-	private void toggleGroupActions(boolean enabled) {
+	private void toggleGroupActions(final boolean enabled) {
 		getGroupsPane().getCloneGroupButton().setEnabled(enabled);
 		getGroupsPane().getRenameGroupButton().setEnabled(enabled);
 		getGroupsPane().getDeleteGroupButton().setEnabled(enabled);
@@ -2400,7 +2364,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * @param enabled If true user actions are enabled, otherwise disabled.
 	 * @param changeMembershipEnabled If true change membership button enabled, otherwise disabled.
 	 */
-	private void toggleUserActions(boolean enabled, boolean changeMembershipEnabled) {
+	private void toggleUserActions(final boolean enabled, final boolean changeMembershipEnabled) {
 		getUsersPane().getCloneUserButton().setEnabled(enabled);
 		getUsersPane().getRenameUserButton().setEnabled(enabled);
 		getUsersPane().getDeleteUserButton().setEnabled(enabled);
@@ -2444,7 +2408,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	/**
 	 * ValueChange event listenter. Refresh user/group details and access rules when new items selected.
 	 */
-	public void valueChanged(ListSelectionEvent e) {
+	public void valueChanged(final ListSelectionEvent e) {
 		if (e.getSource() == getUsersPane().getUserList()) {
 			refreshUserDetails();
 		}
@@ -2463,17 +2427,17 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	 * 
 	 * @param event TreeSelectionEven object
 	 */
-	public void valueChanged(TreeSelectionEvent event) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
+	public void valueChanged(final TreeSelectionEvent event) {
+		final DefaultMutableTreeNode node = (DefaultMutableTreeNode) getAccessRulesPane().getAccessRulesTree()
 				.getLastSelectedPathComponent();
 
 		if (node == null) {
 			return;
 		}
 
-		Object userObject = node.getUserObject();
-		JButton editButton = getAccessRulesPane().getEditTreeItemButton();
-		JButton deleteButton = getAccessRulesPane().getDeleteTreeItemButton();
+		final Object userObject = node.getUserObject();
+		final JButton editButton = getAccessRulesPane().getEditTreeItemButton();
+		final JButton deleteButton = getAccessRulesPane().getDeleteTreeItemButton();
 
 		if (userObject instanceof Repository) {
 			refreshRepositoryAccessRules((Repository) userObject);
@@ -2528,21 +2492,21 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	/**
 	 * WindowActivated event handler. Does nothing.
 	 */
-	public void windowActivated(WindowEvent event) {
+	public void windowActivated(final WindowEvent event) {
 		// Do nothing
 	}
 
 	/**
 	 * WindowClosed event handler. Does nothing.
 	 */
-	public void windowClosed(WindowEvent event) {
+	public void windowClosed(final WindowEvent event) {
 		// Do nothing.
 	}
 
 	/**
 	 * WindowClosing event handler. Prompts user to save the current file if there are any unsaved changes.
 	 */
-	public void windowClosing(WindowEvent event) {
+	public void windowClosing(final WindowEvent event) {
 		checkForUnsavedChanges();
 		saveUserPreferences();
 		disposeWindowsFrames();
@@ -2551,28 +2515,28 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 	/**
 	 * WindowDeactivated event handler. Does nothing.
 	 */
-	public void windowDeactivated(WindowEvent event) {
+	public void windowDeactivated(final WindowEvent event) {
 		// Do nothing
 	}
 
 	/**
 	 * WindowDeiconified event handler. Does nothing.
 	 */
-	public void windowDeiconified(WindowEvent event) {
+	public void windowDeiconified(final WindowEvent event) {
 		// Do nothing
 	}
 
 	/**
 	 * WindowIconified event handler. Does nothing.
 	 */
-	public void windowIconified(WindowEvent event) {
+	public void windowIconified(final WindowEvent event) {
 		// Do nothing
 	}
 
 	/**
 	 * WindowOpened event handler. Does nothing.
 	 */
-	public void windowOpened(WindowEvent event) {
+	public void windowOpened(final WindowEvent event) {
 		// Do nothing
 	}
 }

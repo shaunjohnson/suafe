@@ -30,6 +30,9 @@ import org.xiaoniu.suafe.exceptions.ValidatorException;
  */
 public final class Validator {
 
+	/**
+	 * Prevent instantiation.
+	 */
 	private Validator() {
 		super();
 	}
@@ -42,13 +45,13 @@ public final class Validator {
 	 */
 	public static void validateGroupName(String groupName) throws ValidatorException {
 		if (groupName == null) {
-			throw new ValidatorException("Invalid group name: Name is null");
+			throw new ValidatorException("application.error.groupinvalid");
 		}
 		
 		String value = groupName.trim();
 			
 		if (value.length() == 0) {
-			throw new ValidatorException("Invalid group name: Name too short");
+			throw new ValidatorException("application.error.groupinvalid");
 		}
 		
 		// Check group name for invalid characters
@@ -56,7 +59,7 @@ public final class Validator {
 		Matcher matcher = pattern.matcher(value);
 		
 		if (matcher.find()) {
-			throw new ValidatorException("Invalid group name: Name may not contain '='");
+			throw new ValidatorException("application.error.groupinvalidcharacters");
 		}
 	}
 	
@@ -74,7 +77,7 @@ public final class Validator {
 					!level.equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)
 				)
 			) {
-			throw new ValidatorException("Invalid level of access");
+			throw new ValidatorException("application.error.levelinvalid");
 		}
 	}
 	
@@ -104,13 +107,13 @@ public final class Validator {
 	 */
 	public static void validateRepositoryName(String repositoryName) throws ValidatorException {
 		if (repositoryName == null) {
-			throw new ValidatorException("Invalid repository name");
+			throw new ValidatorException("application.error.repositoryinvalid");
 		}
 		
 		String value = repositoryName.trim();
 			
 		if (value.length() == 0) {
-			throw new ValidatorException("Invalid repository name");
+			throw new ValidatorException("application.error.repositoryinvalid");
 		}
 		
 		// Check repository name for invalid characters
@@ -118,7 +121,7 @@ public final class Validator {
 		Matcher matcher = pattern.matcher(value);
 		
 		if (matcher.find()) {
-			throw new ValidatorException("Invalid repository name: Name may not contain '='");
+			throw new ValidatorException("application.error.repositoryinvalidcharacters");
 		}
 	}
 	
@@ -130,13 +133,13 @@ public final class Validator {
 	 */
 	public static void validateAlias(String alias) throws ValidatorException {
 		if (alias == null) {
-			throw new ValidatorException("Invalid alias");
+			throw new ValidatorException("application.error.aliasinvalid");
 		}
 		
 		String value = alias.trim();
 			
 		if (value.length() == 0) {
-			throw new ValidatorException("Invalid alias");
+			throw new ValidatorException("application.error.aliasinvalid");
 		}
 		
 		// Check user name for invalid characters
@@ -144,7 +147,7 @@ public final class Validator {
 		Matcher matcher = pattern.matcher(value);
 		
 		if (matcher.find()) {
-			throw new ValidatorException("Invalid alias: Alias may not contain '='");
+			throw new ValidatorException("application.error.aliasinvalidcharacters");
 		}
 	}
 	
@@ -156,13 +159,13 @@ public final class Validator {
 	 */
 	public static void validateUserName(String userName) throws ValidatorException {
 		if (userName == null) {
-			throw new ValidatorException("Invalid user name");
+			throw new ValidatorException("application.error.userinvalid");
 		}
 		
 		String value = userName.trim();
 			
 		if (value.length() == 0) {
-			throw new ValidatorException("Invalid user name");
+			throw new ValidatorException("application.error.userinvalid");
 		}
 		
 		// Check user name for invalid characters
@@ -170,19 +173,7 @@ public final class Validator {
 		Matcher matcher = pattern.matcher(value);
 		
 		if (matcher.find()) {
-			throw new ValidatorException("Invalid user name: Name may not contain '='");
-		}
-	}
-
-	/**
-	 * Validates that the value is not null and not an empty String.
-	 * 
-	 * @param value The value to validate.
-	 * @throws ValidatorException
-	 */
-	public static void validateNotEmptyString(String value) throws ValidatorException {
-		if (value == null || value.trim().length() == 0) {
-			throw new ValidatorException("Value is required");
+			throw new ValidatorException("application.error.userinvalidcharacters");
 		}
 	}
 	
@@ -194,18 +185,20 @@ public final class Validator {
 	 */
 	public static void validateNotEmptyString(String field, String value) throws ValidatorException {
 		if (value == null || value.trim().length() == 0) {
-			throw new ValidatorException("Field \"" + field + "\" is required");
+			throw new ValidatorException("application.error.fieldrequired", field);
 		}
 	}
 
 	/**
-	 * @param field
-	 * @param value
+	 * Validates that the provided value for the field is not null.
+	 * 
+	 * @param fieldName Name of field being validated
+	 * @param value Field value
 	 * @throws ValidatorException
 	 */
-	public static void validateNotNull(String field, Object value) throws ValidatorException {
+	public static void validateNotNull(String fieldName, Object value) throws ValidatorException {
 		if (value == null) {
-			throw new ValidatorException("Field \"" + field + "\" is required");
+			throw new ValidatorException("validation.error.fieldrequired", fieldName);
 		}
 	}
 
@@ -215,13 +208,13 @@ public final class Validator {
 	 */
 	public static void validatePath(String path) throws ValidatorException {
 		if (path == null) {
-			throw new ValidatorException("Invalid path");
+			throw new ValidatorException("application.error.pathinvalid");
 		}
 		
 		String value = path.trim();
 			
 		if (value.length() == 0) {
-			throw new ValidatorException("Invalid path");
+			throw new ValidatorException("application.error.pathinvalid");
 		}
 		
 		// Check path for invalid characters
@@ -229,15 +222,15 @@ public final class Validator {
 		Matcher matcher = pattern.matcher(value);
 		
 		if (matcher.find()) {
-			throw new ValidatorException("Invalid path: Path may not contain '='");
+			throw new ValidatorException("application.error.pathinvalidcharacters");
 		}		
 		
 		if (value.charAt(0) != '/') {
-			throw new ValidatorException("Invalid path: Path must start with '/'");
+			throw new ValidatorException("application.error.pathinvalid.startslash");
 		}
 		
 		if (value.length() > 1 && value.charAt(value.length() - 1) == '/') {
-			throw new ValidatorException("Invalid path: Path may not end with '/'");
+			throw new ValidatorException("application.error.pathinvalid.endslash");
 		}
 	}
 }

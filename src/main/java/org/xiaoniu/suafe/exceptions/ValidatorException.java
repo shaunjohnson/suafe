@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe.exceptions;
 
+
 /**
  * Exception that is thrown when a validation fails.
  * 
@@ -30,11 +31,41 @@ public final class ValidatorException extends AppException {
 	private static final long serialVersionUID = -2790951968306188250L;
 
 	/**
-	 * Constructor that accepts a message.
+	 * Constructor that accepts a message key.
 	 * 
-	 * @param message Error message.
+	 * @param key Error message.
 	 */
-	public ValidatorException(String message) {
-		super(message);
+	public ValidatorException(String key) {
+		super(key);
+	}
+	
+	/**
+	 * Constructor that accepts a message key and argument.
+	 * 
+	 * @param key Error message key.
+	 * @param argument Argument value
+	 */
+	public ValidatorException(String key, Object argument) {
+		super(key, argument);
+	}
+	
+	/**
+	 * Constructor that accepts a message key and argument.
+	 * 
+	 * @param key Error message key.
+	 * @param argument Argument value
+	 */
+	public ValidatorException(String key, Object argument1, Object argument2) {
+		super(key, argument1, argument2);
+	}
+	
+	/**
+	 * Constructor that accepts a message key and arguments.
+	 * 
+	 * @param key Error message key.
+	 * @param arguments Argument values
+	 */
+	public ValidatorException(String key, Object[] arguments) {
+		super(key, arguments);
 	}
 }

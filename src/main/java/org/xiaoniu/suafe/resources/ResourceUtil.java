@@ -33,6 +33,9 @@ import org.xiaoniu.suafe.Constants;
  */
 public final class ResourceUtil {
 	
+	/**
+	 * Prevent instantiation.
+	 */
 	private ResourceUtil() {
 		super();
 	}

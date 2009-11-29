@@ -48,8 +48,12 @@ public final class AccessRuleStatisticsHelper {
 
 	private int minReadWrite = -1;
 
-	public AccessRuleStatisticsHelper(List<AccessRule> accessRules) {
+	public AccessRuleStatisticsHelper(final List<AccessRule> accessRules) {
 		super();
+
+		if (accessRules == null) {
+			throw new NullPointerException("accessRules may not be null");
+		}
 
 		this.accessRules = accessRules;
 	}
@@ -58,13 +62,16 @@ public final class AccessRuleStatisticsHelper {
 		if (avgDenyAccess == -1) {
 			avgDenyAccess = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1
+							: 0;
 
-				avgDenyAccess += size;
+					avgDenyAccess += size;
+				}
+
+				avgDenyAccess /= getCount();
 			}
-
-			avgDenyAccess /= getCount();
 		}
 
 		return avgDenyAccess;
@@ -74,15 +81,17 @@ public final class AccessRuleStatisticsHelper {
 		if (avgForAllUsers == -1) {
 			avgForAllUsers = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				User user = accessRule.getUser();
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final User user = accessRule.getUser();
 
-				int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
+					final int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
 
-				avgForAllUsers += size;
+					avgForAllUsers += size;
+				}
+
+				avgForAllUsers /= getCount();
 			}
-
-			avgForAllUsers /= getCount();
 		}
 
 		return avgForAllUsers;
@@ -92,13 +101,15 @@ public final class AccessRuleStatisticsHelper {
 		if (avgForGroup == -1) {
 			avgForGroup = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getGroup() == null) ? 0 : 1;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getGroup() == null) ? 0 : 1;
 
-				avgForGroup += size;
+					avgForGroup += size;
+				}
+
+				avgForGroup /= getCount();
 			}
-
-			avgForGroup /= getCount();
 		}
 
 		return avgForGroup;
@@ -108,52 +119,59 @@ public final class AccessRuleStatisticsHelper {
 		if (avgForUser == -1) {
 			avgForUser = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getUser() == null) ? 0 : 1;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final User user = accessRule.getUser();
+					final int size = (user == null) ? 0 : (user.getName().equals("*") ? 0 : 1);
 
-				avgForUser += size;
+					avgForUser += size;
+				}
+
+				avgForUser /= getCount();
 			}
-
-			avgForUser /= getCount();
 		}
 
 		return avgForUser;
 	}
-	
-	
 
 	public double getAvgReadOnly() {
 		if (avgReadOnly == -1) {
 			avgReadOnly = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1 : 0;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1
+							: 0;
 
-				avgReadOnly += size;
+					avgReadOnly += size;
+				}
+
+				avgReadOnly /= getCount();
 			}
-
-			avgReadOnly /= getCount();
 		}
 
 		return avgReadOnly;
 	}
-	
+
 	public double getAvgReadWrite() {
 		if (avgReadWrite == -1) {
 			avgReadWrite = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1 : 0;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1
+							: 0;
 
-				avgReadWrite += size;
+					avgReadWrite += size;
+				}
+
+				avgReadWrite /= getCount();
 			}
-
-			avgReadWrite /= getCount();
 		}
 
 		return avgReadWrite;
 	}
-	
+
 	public int getCount() {
 		if (count == -1) {
 			count = accessRules.size();
@@ -161,68 +179,77 @@ public final class AccessRuleStatisticsHelper {
 
 		return count;
 	}
-	
+
 	public int getMaxDenyAccess() {
 		if (maxDenyAccess == -1) {
 			maxDenyAccess = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1
+							: 0;
 
-				maxDenyAccess = (size > maxDenyAccess) ? size : maxDenyAccess;
+					maxDenyAccess = (size > maxDenyAccess) ? size : maxDenyAccess;
+				}
+
+				maxDenyAccess /= getCount();
 			}
-
-			maxDenyAccess /= getCount();
 		}
 
 		return maxDenyAccess;
 	}
-	
+
 	public int getMaxForAllUsers() {
 		if (maxForAllUsers == -1) {
 			maxForAllUsers = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				User user = accessRule.getUser();
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final User user = accessRule.getUser();
 
-				int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
+					final int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
 
-				maxForAllUsers = (size > maxForAllUsers) ? size : maxForAllUsers;
+					maxForAllUsers = (size > maxForAllUsers) ? size : maxForAllUsers;
+				}
+
+				maxForAllUsers /= getCount();
 			}
-
-			maxForAllUsers /= getCount();
 		}
 
 		return maxForAllUsers;
 	}
-	
+
 	public int getMaxForGroup() {
 		if (maxForGroup == -1) {
 			maxForGroup = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getGroup() == null) ? 0 : 1;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getGroup() == null) ? 0 : 1;
 
-				maxForGroup = (size > maxForGroup) ? size : maxForGroup;
+					maxForGroup = (size > maxForGroup) ? size : maxForGroup;
+				}
+
+				maxForGroup /= getCount();
 			}
-
-			maxForGroup /= getCount();
 		}
 
 		return maxForGroup;
 	}
-	
+
 	public int getMaxForUser() {
 		if (maxForUser == -1) {
 			maxForUser = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getUser() == null) ? 0 : 1;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getUser() == null) ? 0 : 1;
 
-				maxForUser = (size > maxForUser) ? size : maxForUser;
+					maxForUser = (size > maxForUser) ? size : maxForUser;
+				}
+
+				maxForUser /= getCount();
 			}
-
-			maxForUser /= getCount();
 		}
 
 		return maxForUser;
@@ -232,13 +259,16 @@ public final class AccessRuleStatisticsHelper {
 		if (maxReadOnly == -1) {
 			maxReadOnly = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1 : 0;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1
+							: 0;
 
-				maxReadOnly = (size > maxReadOnly) ? size : maxReadOnly;
+					maxReadOnly = (size > maxReadOnly) ? size : maxReadOnly;
+				}
+
+				maxReadOnly /= getCount();
 			}
-
-			maxReadOnly /= getCount();
 		}
 
 		return maxReadOnly;
@@ -248,32 +278,36 @@ public final class AccessRuleStatisticsHelper {
 		if (maxReadWrite == -1) {
 			maxReadWrite = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1 : 0;
+			if (getCount() > 0) {
 
-				maxReadWrite = (size > maxReadWrite) ? size : maxReadWrite;
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1
+							: 0;
+
+					maxReadWrite = (size > maxReadWrite) ? size : maxReadWrite;
+				}
+
+				maxReadWrite /= getCount();
 			}
-
-			maxReadWrite /= getCount();
 		}
 
 		return maxReadWrite;
 	}
 
-
-	
-	
 	public int getMinDenyAccess() {
 		if (minDenyAccess == -1) {
 			minDenyAccess = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1 : 0;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS)) ? 1
+							: 0;
 
-				minDenyAccess = (size < minDenyAccess) ? size : minDenyAccess;
+					minDenyAccess = (size < minDenyAccess) ? size : minDenyAccess;
+				}
+
+				minDenyAccess /= getCount();
 			}
-
-			minDenyAccess /= getCount();
 		}
 
 		return minDenyAccess;
@@ -283,15 +317,18 @@ public final class AccessRuleStatisticsHelper {
 		if (minForAllUsers == -1) {
 			minForAllUsers = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				User user = accessRule.getUser();
+			if (getCount() > 0) {
 
-				int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
+				for (final AccessRule accessRule : accessRules) {
+					final User user = accessRule.getUser();
 
-				minForAllUsers = (size < minForAllUsers) ? size : minForAllUsers;
+					final int size = (user == null) ? 0 : (user.getName().equals("*") ? 1 : 0);
+
+					minForAllUsers = (size < minForAllUsers) ? size : minForAllUsers;
+				}
+
+				minForAllUsers /= getCount();
 			}
-
-			minForAllUsers /= getCount();
 		}
 
 		return minForAllUsers;
@@ -301,13 +338,15 @@ public final class AccessRuleStatisticsHelper {
 		if (minForGroup == -1) {
 			minForGroup = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getGroup() == null) ? 0 : 1;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getGroup() == null) ? 0 : 1;
 
-				minForGroup = (size < minForGroup) ? size : minForGroup;
+					minForGroup = (size < minForGroup) ? size : minForGroup;
+				}
+
+				minForGroup /= getCount();
 			}
-
-			minForGroup /= getCount();
 		}
 
 		return minForGroup;
@@ -317,13 +356,15 @@ public final class AccessRuleStatisticsHelper {
 		if (minForUser == -1) {
 			minForUser = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getUser() == null) ? 0 : 1;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getUser() == null) ? 0 : 1;
 
-				minForUser = (size < minForUser) ? size : minForUser;
+					minForUser = (size < minForUser) ? size : minForUser;
+				}
+
+				minForUser /= getCount();
 			}
-
-			minForUser /= getCount();
 		}
 
 		return minForUser;
@@ -333,13 +374,16 @@ public final class AccessRuleStatisticsHelper {
 		if (minReadOnly == -1) {
 			minReadOnly = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1 : 0;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READONLY)) ? 1
+							: 0;
 
-				minReadOnly = (size < minReadOnly) ? size : minReadOnly;
+					minReadOnly = (size < minReadOnly) ? size : minReadOnly;
+				}
+
+				minReadOnly /= getCount();
 			}
-
-			minReadOnly /= getCount();
 		}
 
 		return minReadOnly;
@@ -349,13 +393,16 @@ public final class AccessRuleStatisticsHelper {
 		if (minReadWrite == -1) {
 			minReadWrite = 0;
 
-			for (AccessRule accessRule : accessRules) {
-				int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1 : 0;
+			if (getCount() > 0) {
+				for (final AccessRule accessRule : accessRules) {
+					final int size = (accessRule.getLevel().equals(SubversionConstants.SVN_ACCESS_LEVEL_READWRITE)) ? 1
+							: 0;
 
-				minReadWrite = (size < minReadWrite) ? size : minReadWrite;
+					minReadWrite = (size < minReadWrite) ? size : minReadWrite;
+				}
+
+				minReadWrite /= getCount();
 			}
-
-			minReadWrite /= getCount();
 		}
 
 		return minReadWrite;

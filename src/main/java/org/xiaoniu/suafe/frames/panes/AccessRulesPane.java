@@ -21,6 +21,8 @@ import javax.swing.tree.TreeSelectionModel;
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.ApplicationDefaultsContants;
 import org.xiaoniu.suafe.UserPreferences;
+import org.xiaoniu.suafe.frames.menus.AccessRulesPopupMenu;
+import org.xiaoniu.suafe.frames.menus.PopupMenuListener;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
@@ -45,6 +47,8 @@ public final class AccessRulesPane extends BaseSplitPane {
 
 	private JPanel accessRulesTreePanel = null;
 
+	private AccessRulesPopupMenu accessRulestreePopupMenu = null;
+
 	private JScrollPane accessRulesTreeScrollPane = null;
 
 	private ActionListener actionListener = null;
@@ -67,8 +71,8 @@ public final class AccessRulesPane extends BaseSplitPane {
 
 	private TreeSelectionListener treeSelectionListener = null;
 
-	public AccessRulesPane(ActionListener actionListener, ListSelectionListener listSelectionListener,
-			MouseListener mouseListener, TreeSelectionListener treeSelectionListener) {
+	public AccessRulesPane(final ActionListener actionListener, final ListSelectionListener listSelectionListener,
+			final MouseListener mouseListener, final TreeSelectionListener treeSelectionListener) {
 		super();
 
 		this.actionListener = actionListener;
@@ -80,6 +84,8 @@ public final class AccessRulesPane extends BaseSplitPane {
 		setLeftComponent(getAccessRulesTreePanel());
 		setRightComponent(getAccessRulesPanel());
 		setDividerLocation(UserPreferences.getRulesPaneDividerLocation());
+
+		// getAccessRulesTreePopupMenu();
 	}
 
 	/**
@@ -210,6 +216,23 @@ public final class AccessRulesPane extends BaseSplitPane {
 		}
 
 		return accessRulesTreePanel;
+	}
+
+	/**
+	 * This method initializes groupsPopupMenu.
+	 * 
+	 * @return GroupsPopupMenu
+	 */
+	private AccessRulesPopupMenu getAccessRulesTreePopupMenu() {
+		if (accessRulestreePopupMenu == null) {
+			accessRulestreePopupMenu = new AccessRulesPopupMenu(actionListener);
+
+			// Add listener to the list.
+			final MouseListener popupListener = new PopupMenuListener(accessRulestreePopupMenu);
+			getAccessRulesTree().addMouseListener(popupListener);
+		}
+
+		return accessRulestreePopupMenu;
 	}
 
 	/**

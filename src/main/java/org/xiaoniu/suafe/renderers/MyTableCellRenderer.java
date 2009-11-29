@@ -21,6 +21,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 
 import org.xiaoniu.suafe.beans.Group;
@@ -40,14 +41,14 @@ public final class MyTableCellRenderer extends JLabel implements TableCellRender
 	 * Serial ID.
 	 */
 	private static final long serialVersionUID = 2879090147475742072L;
-		
+
 	/**
 	 * Default constructor.
 	 */
 	public MyTableCellRenderer() {
 		super();
 	}
-	
+
 	/**
 	 * Custom cell painter.
 	 * 
@@ -58,21 +59,10 @@ public final class MyTableCellRenderer extends JLabel implements TableCellRender
 	 * @param row Row number
 	 * @param column Column number
 	 */
-	public Component getTableCellRendererComponent(
-			JTable table, 
-			Object value, 
-			boolean isSelected, 
-			boolean hasFocus, 
-			int row, 
-			int column) 
-	{
-		if (value != null) {
-			setText(value.toString());
-		}
-		else {
-			setText(null);
-		}
-		
+	public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected,
+			final boolean hasFocus, final int row, final int column) {
+		setText(value == null ? null : value.toString());
+
 		if (value instanceof User) {
 			setIcon(ResourceUtil.userIcon);
 		}
@@ -86,8 +76,8 @@ public final class MyTableCellRenderer extends JLabel implements TableCellRender
 			setIcon(null);
 		}
 		else if (value instanceof String) {
-			String valueString = (String)value;
-			
+			final String valueString = (String) value;
+
 			if (valueString.equals(ResourceUtil.getString("accesslevel.readonly"))) {
 				setIcon(ResourceUtil.readOnlyIcon);
 			}
@@ -104,20 +94,32 @@ public final class MyTableCellRenderer extends JLabel implements TableCellRender
 		else {
 			setIcon(null);
 		}
-		
-		if (isSelected) {
+
+		if (isSelected && hasFocus) {
 			setBackground(table.getSelectionBackground());
 			setForeground(table.getSelectionForeground());
+			setBorder(new LineBorder(table.getSelectionBackground()));
+		}
+		else if (isSelected && !hasFocus) {
+			setBackground(table.getBackground());
+			setForeground(table.getSelectionForeground());
+			setBorder(new LineBorder(table.getSelectionBackground()));
+		}
+		else if (!isSelected && hasFocus) {
+			setBackground(table.getBackground());
+			setForeground(table.getForeground());
+			setBorder(new LineBorder(table.getSelectionForeground()));
 		}
 		else {
 			setBackground(table.getBackground());
 			setForeground(table.getForeground());
+			setBorder(new LineBorder(table.getBackground()));
 		}
-		
+
 		setEnabled(table.isEnabled());
 		setFont(table.getFont());
 		setOpaque(true);
-		
+
 		return this;
 	}
 
