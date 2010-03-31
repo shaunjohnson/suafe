@@ -22,7 +22,7 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
 			"errorRepositoryAlreadyExists");
 
 	public static final AuthzErrorResourceKey USER_ALIAS_ALREADY_EXISTS = new AuthzErrorResourceKey(
-			"userAliasAlreadyExists");
+			"errorUserAliasAlreadyExists");
 
 	public static final AuthzErrorResourceKey USER_ALREADY_EXISTS = new AuthzErrorResourceKey("errorUserAlreadyExists");
 

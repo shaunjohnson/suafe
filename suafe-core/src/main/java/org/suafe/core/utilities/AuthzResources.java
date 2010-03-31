@@ -1,5 +1,8 @@
 package org.suafe.core.utilities;
 
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
 /**
  * Authz resource bundle interface
  * 
@@ -13,6 +16,14 @@ public class AuthzResources {
 	 * @return String value for the provided key
 	 */
 	public static String getString(final AuthzResourceKeyIF messageKey) {
-		return messageKey.toString();
+		try {
+			final ResourceBundle resourceBundle = ResourceBundle.getBundle("org.suafe.core.nl.suafe-core-resources");
+			return resourceBundle.getString(messageKey.toString());
+		}
+		catch (final MissingResourceException e) {
+			// TODO
+		}
+
+		return null;
 	}
 }
