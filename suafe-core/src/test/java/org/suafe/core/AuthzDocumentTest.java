@@ -13,8 +13,10 @@ import org.junit.Test;
 import org.suafe.core.exceptions.AuthzException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzInvalidGroupNameException;
+import org.suafe.core.exceptions.AuthzInvalidRepositoryNameException;
 import org.suafe.core.exceptions.AuthzInvalidUserAliasException;
 import org.suafe.core.exceptions.AuthzInvalidUserNameException;
+import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
 
@@ -40,6 +42,15 @@ public class AuthzDocumentTest {
 
 			// Test create group
 			authzDocument.createGroup("group");
+
+			assertTrue("Document should have unsaved changes", authzDocument.hasUnsavedChanges());
+
+			authzDocument.clearHasUnsavedChanges();
+
+			assertFalse("Document should not have any unsaved changes", authzDocument.hasUnsavedChanges());
+
+			// Test create repository
+			authzDocument.createRepository("repository");
 
 			assertTrue("Document should have unsaved changes", authzDocument.hasUnsavedChanges());
 
@@ -126,6 +137,84 @@ public class AuthzDocumentTest {
 			fail("Unexpected AuthzInvalidGroupNameException");
 		}
 		catch (final AuthzGroupAlreadyExistsException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+	}
+
+	@Test
+	public void testCreateRepository() {
+		// Test invalid values
+		try {
+			final AuthzDocument authDocument = new AuthzDocument();
+
+			authDocument.createRepository(null);
+
+			fail("Unexpected successfully created repository");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+		catch (final AuthzRepositoryAlreadyExistsException e) {
+			fail("Unexpected AuthzRepositoryAlreadyExistsException");
+		}
+
+		try {
+			final AuthzDocument authDocument = new AuthzDocument();
+
+			authDocument.createRepository("");
+
+			fail("Unexpected successfully created repository");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+		catch (final AuthzRepositoryAlreadyExistsException e) {
+			fail("Unexpected AuthzRepositoryAlreadyExistsException");
+		}
+
+		try {
+			final AuthzDocument authDocument = new AuthzDocument();
+
+			authDocument.createRepository("  ");
+
+			fail("Unexpected successfully created repository");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+		catch (final AuthzRepositoryAlreadyExistsException e) {
+			fail("Unexpected AuthzRepositoryAlreadyExistsException");
+		}
+
+		// Test valid values
+		try {
+			final AuthzDocument authDocument = new AuthzDocument();
+
+			final AuthzRepository repository = authDocument.createRepository("name");
+
+			assertNotNull("Repository should not be null", repository);
+			assertEquals("Repository name should be valid", "name", repository.getName());
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			fail("Unexpected AuthzInvalidRepositoryNameException");
+		}
+		catch (final AuthzRepositoryAlreadyExistsException e) {
+			fail("Unexpected AuthzRepositoryAlreadyExistsException");
+		}
+
+		// Test for exiting repository exception
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			authzDocument.createRepository("name");
+			authzDocument.createRepository("name");
+
+			fail("Unexpected success creating duplicate repository");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			fail("Unexpected AuthzInvalidRepositoryNameException");
+		}
+		catch (final AuthzRepositoryAlreadyExistsException e) {
 			assertNotNull("Expected a non-null exception", e);
 		}
 	}
@@ -339,6 +428,70 @@ public class AuthzDocumentTest {
 			authzDocument.createGroup("name");
 
 			assertTrue("Group should exist", authzDocument.doesGroupNameExist("  name  "));
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+	}
+
+	@Test
+	public void testDoesRepositoryNameExist() {
+		// Test invalid values
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			authzDocument.doesRepositoryNameExist(null);
+
+			fail("Unexpected success calling doesRepositoryNameExist() with null repository name");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			authzDocument.doesRepositoryNameExist("");
+
+			fail("Unexpected success calling doesRepositoryNameExist() with null repository name");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			authzDocument.doesRepositoryNameExist("  ");
+
+			fail("Unexpected success calling doesRepositoryNameExist() with null repository name");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+
+		// Test valid values
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			assertFalse("Repository with name should not exist", authzDocument.doesRepositoryNameExist("name"));
+
+			authzDocument.createRepository("name");
+
+			assertTrue("Repository with name should exist", authzDocument.doesRepositoryNameExist("name"));
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			assertFalse("Repository with name should not exist", authzDocument.doesRepositoryNameExist("  name  "));
+
+			authzDocument.createRepository("name");
+
+			assertTrue("Repository with name should exist", authzDocument.doesRepositoryNameExist("  name  "));
 		}
 		catch (final AuthzException e) {
 			fail("Unexpected AuthzException");
@@ -598,6 +751,130 @@ public class AuthzDocumentTest {
 	}
 
 	@Test
+	public void testGetRepositories() {
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			assertNotNull("Repositories should not be null", authzDocument.getRepositories());
+			assertNotNull("Repositories should empty", authzDocument.getRepositories().size() == 0);
+
+			authzDocument.createRepository("repository");
+
+			assertNotNull("Repositories should not be null", authzDocument.getRepositories());
+			assertNotNull("Repositories should contain one repository", authzDocument.getRepositories().size() == 1);
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+
+		// Test immutibility of repositories collection
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			Collection<AuthzRepository> repositories = authzDocument.getRepositories();
+
+			assertNotNull("Repositories should not be null", repositories);
+			assertNotNull("Repositories should empty", repositories.size() == 0);
+
+			authzDocument.createRepository("repository");
+
+			assertNotNull("Repositories should remain empty", repositories.size() == 0);
+
+			repositories = authzDocument.getRepositories();
+
+			assertNotNull("Repositories should not be null", authzDocument.getRepositories());
+			assertNotNull("Repositories should contain one repository", authzDocument.getRepositories().size() == 1);
+
+			try {
+				repositories.add(new AuthzRepository("repository"));
+
+				fail("Successfully modified repositories list; should not have worked since collection is immutable");
+			}
+			catch (final UnsupportedOperationException e) {
+				assertNotNull("Expected a non-null exception", e);
+			}
+
+			try {
+				for (final AuthzRepository repository : repositories) {
+					repositories.remove(repository);
+				}
+
+				fail("Successfully modified repositories list; should not have worked since collection is immutable");
+			}
+			catch (final UnsupportedOperationException e) {
+				assertNotNull("Expected a non-null exception", e);
+			}
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+	}
+
+	@Test
+	public void testGetRepositoryWithName() {
+		// Test invalid values
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			authzDocument.getRepositoryWithName(null);
+
+			fail("Unexpected success calling getRepositoryWithName() with null repository name");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			authzDocument.getRepositoryWithName("");
+
+			fail("Unexpected success calling getRepositoryWithName() with null repository name");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			authzDocument.getRepositoryWithName("  ");
+
+			fail("Unexpected success calling getRepositoryWithName() with null repository name");
+		}
+		catch (final AuthzInvalidRepositoryNameException e) {
+			assertNotNull("Expected a non-null exception", e);
+		}
+
+		// Test valid values
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			assertNull("Repository with name should not exist", authzDocument.getRepositoryWithName("name"));
+
+			authzDocument.createRepository("name");
+
+			assertNotNull("Repository with name should exist", authzDocument.getRepositoryWithName("name"));
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			assertNull("Repository with name should not exist", authzDocument.getRepositoryWithName("  name  "));
+
+			authzDocument.createRepository("name");
+
+			assertNotNull("Repository with name should exist", authzDocument.getRepositoryWithName("  name  "));
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+	}
+
+	@Test
 	public void testGetUsers() {
 		try {
 			final AuthzDocument authzDocument = new AuthzDocument();
@@ -814,6 +1091,20 @@ public class AuthzDocumentTest {
 		catch (final AuthzException e) {
 			fail("Unexpected AuthzException");
 		}
+
+		// Test has unsaved changes flag when creating a repository
+		try {
+			final AuthzDocument authzDocument = new AuthzDocument();
+
+			assertFalse("Document should not have any unsaved changes", authzDocument.hasUnsavedChanges());
+
+			authzDocument.createRepository("repository");
+
+			assertTrue("Document should have unsaved changes", authzDocument.hasUnsavedChanges());
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
 	}
 
 	@Test
@@ -823,15 +1114,20 @@ public class AuthzDocumentTest {
 
 			assertNotNull("Groups should not be null", authzDocument.getGroups());
 			assertNotNull("Groups should empty", authzDocument.getGroups().size() == 0);
+			assertNotNull("Repositories should not be null", authzDocument.getRepositories());
+			assertNotNull("Repositories should empty", authzDocument.getRepositories().size() == 0);
 			assertNotNull("Users should not be null", authzDocument.getUsers());
 			assertNotNull("Users should empty", authzDocument.getUsers().size() == 0);
 			assertFalse("Document should not have any unsaved changes", authzDocument.hasUnsavedChanges());
 
 			authzDocument.createGroup("group");
+			authzDocument.createRepository("repository");
 			authzDocument.createUser("user", null);
 
 			assertNotNull("Groups should not be null", authzDocument.getGroups());
 			assertNotNull("Groups should contain one group", authzDocument.getGroups().size() == 1);
+			assertNotNull("Repositories should not be null", authzDocument.getRepositories());
+			assertNotNull("Repositories should empty", authzDocument.getRepositories().size() == 1);
 			assertNotNull("Users should not be null", authzDocument.getUsers());
 			assertNotNull("Users should contain one user", authzDocument.getUsers().size() == 1);
 			assertTrue("Document should have unsaved changes", authzDocument.hasUnsavedChanges());
@@ -840,6 +1136,8 @@ public class AuthzDocumentTest {
 
 			assertNotNull("Groups should not be null", authzDocument.getGroups());
 			assertNotNull("Groups should empty", authzDocument.getGroups().size() == 0);
+			assertNotNull("Repositories should not be null", authzDocument.getRepositories());
+			assertNotNull("Repositories should empty", authzDocument.getRepositories().size() == 0);
 			assertNotNull("Users should not be null", authzDocument.getUsers());
 			assertNotNull("Users should empty", authzDocument.getUsers().size() == 0);
 			assertFalse("Document should not have any unsaved changes", authzDocument.hasUnsavedChanges());
@@ -861,6 +1159,20 @@ public class AuthzDocumentTest {
 		// Test valid values
 		assertTrue("Non-blank group name is valid", authzDocument.isValidGroupName("name"));
 		assertTrue("Non-blank group name is valid", authzDocument.isValidGroupName("  name  "));
+	}
+
+	@Test
+	public void testIsValidRepositoryName() {
+		final AuthzDocument authzDocument = new AuthzDocument();
+
+		// Test invalid values
+		assertFalse("Null repository name is invalid", authzDocument.isValidRepositoryName(null));
+		assertFalse("Empty repository name is invalid", authzDocument.isValidRepositoryName(""));
+		assertFalse("Blank repository name is invalid", authzDocument.isValidRepositoryName("  "));
+
+		// Test valid values
+		assertTrue("Non-blank repository name is valid", authzDocument.isValidRepositoryName("name"));
+		assertTrue("Non-blank repository name is valid", authzDocument.isValidRepositoryName("  name  "));
 	}
 
 	@Test

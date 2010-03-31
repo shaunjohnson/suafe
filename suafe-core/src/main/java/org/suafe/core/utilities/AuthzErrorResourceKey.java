@@ -11,9 +11,15 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
 
 	public static final AuthzErrorResourceKey INVALID_GROUP_NAME = new AuthzErrorResourceKey("errorInvalidGroupName");
 
+	public static final AuthzResourceKeyIF INVALID_REPOSITORY_NAME = new AuthzErrorResourceKey(
+			"errorInvalidRepositoryName");
+
 	public static AuthzErrorResourceKey INVALID_USER_ALIAS = new AuthzErrorResourceKey("errorInvalidUserAlias");
 
 	public static final AuthzErrorResourceKey INVALID_USER_NAME = new AuthzErrorResourceKey("errorInvalidUserName");
+
+	public static final AuthzResourceKeyIF REPOSITORY_ALREADY_EXISTS = new AuthzErrorResourceKey(
+			"errorRepositoryAlreadyExists");
 
 	public static final AuthzErrorResourceKey USER_ALIAS_ALREADY_EXISTS = new AuthzErrorResourceKey(
 			"userAliasAlreadyExists");

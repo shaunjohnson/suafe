@@ -10,13 +10,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzInvalidGroupNameException;
+import org.suafe.core.exceptions.AuthzInvalidRepositoryNameException;
 import org.suafe.core.exceptions.AuthzInvalidUserAliasException;
 import org.suafe.core.exceptions.AuthzInvalidUserNameException;
+import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
 
 /**
  * Authz document file.
+ * 
+ * @since 2.0
  */
 public class AuthzDocument implements Serializable {
 	private static final long serialVersionUID = -1396450094914018451L;
@@ -54,8 +58,7 @@ public class AuthzDocument implements Serializable {
 	 * @param name Name of user
 	 * @return Newly created AuthzGroup object
 	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
-	 * @throws AuthzGroupAlreadyExistsException If group with the provided group
-	 *             name already exists
+	 * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
 	 */
 	public AuthzGroup createGroup(final String name) throws AuthzGroupAlreadyExistsException,
 			AuthzInvalidGroupNameException {
@@ -88,6 +91,45 @@ public class AuthzDocument implements Serializable {
 	}
 
 	/**
+	 * Creates a new repository.
+	 * 
+	 * @param name Name of repository
+	 * @return Newly created AuthzRepository object
+	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+	 * @throws AuthzRepositoryAlreadyExistsException If repository with the provided name already exists
+	 */
+	public AuthzRepository createRepository(final String name) throws AuthzInvalidRepositoryNameException,
+			AuthzRepositoryAlreadyExistsException {
+		logger.debug("createRepository() entered, name=\"{}\"", name);
+
+		final String nameTrimmed = StringUtils.trimToNull(name);
+
+		// Validate repository name
+		if (!isValidRepositoryName(nameTrimmed)) {
+			logger.error("createRepository() invalid repository name");
+
+			throw new AuthzInvalidRepositoryNameException();
+		}
+
+		// Check for existing repositories with same name
+		if (doesRepositoryNameExist(nameTrimmed)) {
+			logger.info("createRepository() repository already exists");
+
+			throw new AuthzRepositoryAlreadyExistsException();
+		}
+
+		final AuthzRepository repository = new AuthzRepository(nameTrimmed);
+
+		repositories.add(repository);
+
+		setHasUnsavedChanges();
+
+		logger.debug("createRepository() repository created successfully, returning {}", repository);
+
+		return repository;
+	}
+
+	/**
 	 * Creates a new user.
 	 * 
 	 * @param name Name of user (required)
@@ -95,10 +137,8 @@ public class AuthzDocument implements Serializable {
 	 * @return Newly created AuthzUser object
 	 * @throws AuthzInvalidUserNameException If provided user name is invalid
 	 * @throws AuthzInvalidUserAliasException If provided user alias is invalid
-	 * @throws AuthzUserAlreadyExistsException If user with the provided name
-	 *             already exists
-	 * @throws AuthzUserAliasAlreadyExistsException If user with the provided
-	 *             alias already exists
+	 * @throws AuthzUserAlreadyExistsException If user with the provided name already exists
+	 * @throws AuthzUserAliasAlreadyExistsException If user with the provided alias already exists
 	 * @throws AuthzInvalidUserAliasException
 	 */
 	public AuthzUser createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
@@ -163,6 +203,23 @@ public class AuthzDocument implements Serializable {
 	}
 
 	/**
+	 * Determines if a repository with the provided name exists.
+	 * 
+	 * @param name Name of repository to find
+	 * @return True if repository with the provided name exists, otherwise false
+	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+	 */
+	public boolean doesRepositoryNameExist(final String name) throws AuthzInvalidRepositoryNameException {
+		logger.debug("doesRepositoryNameExist() entered. name=\"{}\"", name);
+
+		final boolean doesRepositoryNameExist = getRepositoryWithName(name) != null;
+
+		logger.debug("doesRepositoryNameExist() exiting, returning {}", doesRepositoryNameExist);
+
+		return doesRepositoryNameExist;
+	}
+
+	/**
 	 * Determines if a user with the provided alias exists.
 	 * 
 	 * @param alias Alias of user to find
@@ -220,7 +277,7 @@ public class AuthzDocument implements Serializable {
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
 		if (!isValidGroupName(nameTrimmed)) {
-			logger.error("getGroupWithName() invalid gropu name");
+			logger.error("getGroupWithName() invalid group name");
 
 			throw new AuthzInvalidGroupNameException();
 		}
@@ -237,6 +294,50 @@ public class AuthzDocument implements Serializable {
 		logger.debug("getGroupWithName() exiting, returning {}", foundGroup);
 
 		return foundGroup;
+	}
+
+	/**
+	 * Returns an immutable collection of AuthRepository objects
+	 * 
+	 * @return Immutable collection of AuthRepository objects
+	 */
+	public Collection<AuthzRepository> getRepositories() {
+		logger.debug("getRepositories() entered, returning repositories with {} repository objects", repositories
+				.size());
+
+		return Collections.unmodifiableCollection(repositories);
+	}
+
+	/**
+	 * Returns the repository with the provided name.
+	 * 
+	 * @param name Name of repository to find
+	 * @return AuthzRepository if found, otherwise null
+	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+	 */
+	public AuthzRepository getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException {
+		logger.debug("getRepositoryWithName() entered. name=\"{}\"", name);
+
+		final String nameTrimmed = StringUtils.trimToNull(name);
+
+		if (!isValidRepositoryName(nameTrimmed)) {
+			logger.error("getRepositoryWithName() invalid repository name");
+
+			throw new AuthzInvalidRepositoryNameException();
+		}
+
+		AuthzRepository foundRepository = null;
+
+		for (final AuthzRepository repository : repositories) {
+			if (repository.getName().equals(nameTrimmed)) {
+				foundRepository = repository;
+				break;
+			}
+		}
+
+		logger.debug("getRepositoryWithName() exiting, returning {}", foundRepository);
+
+		return foundRepository;
 	}
 
 	/**
@@ -332,6 +433,7 @@ public class AuthzDocument implements Serializable {
 		logger.debug("initialize() entered.");
 
 		groups = new Vector<AuthzGroup>();
+		repositories = new Vector<AuthzRepository>();
 		users = new Vector<AuthzUser>();
 
 		clearHasUnsavedChanges();
@@ -353,6 +455,22 @@ public class AuthzDocument implements Serializable {
 		logger.debug("isValidGroupName() exited, returning {}", isValidGroupName);
 
 		return isValidGroupName;
+	}
+
+	/**
+	 * Checks repository name for validity.
+	 * 
+	 * @param name Repository name to check
+	 * @return True if repository name is valid, otherwise false
+	 */
+	protected boolean isValidRepositoryName(final String name) {
+		logger.debug("isValidRepositoryName() entered. name=\"{}\"", name);
+
+		final boolean isValidRepositoryName = StringUtils.isNotBlank(name);
+
+		logger.debug("isValidRepositoryName() exited, returning {}", isValidRepositoryName);
+
+		return isValidRepositoryName;
 	}
 
 	/**
