@@ -26,6 +26,8 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
 
 	public static final AuthzResourceKeyIF NOT_GROUP_MEMBER = new AuthzErrorResourceKey("errorNotGroupMember");
 
+	public static final AuthzResourceKeyIF NOT_MEMBER_OF_GROUP = new AuthzErrorResourceKey("errorNotMemberOfGroup");
+
 	public static final AuthzResourceKeyIF REPOSITORY_ALREADY_EXISTS = new AuthzErrorResourceKey(
 			"errorRepositoryAlreadyExists");
 
