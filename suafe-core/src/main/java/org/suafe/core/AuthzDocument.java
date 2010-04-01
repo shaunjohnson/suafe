@@ -15,6 +15,8 @@ import org.suafe.core.exceptions.AuthzInvalidGroupNameException;
 import org.suafe.core.exceptions.AuthzInvalidRepositoryNameException;
 import org.suafe.core.exceptions.AuthzInvalidUserAliasException;
 import org.suafe.core.exceptions.AuthzInvalidUserNameException;
+import org.suafe.core.exceptions.AuthzNotGroupMemberException;
+import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
@@ -46,10 +48,22 @@ public class AuthzDocument implements Serializable {
 		initialize();
 	}
 
+	/**
+	 * Add a new member to a group.
+	 * 
+	 * @param group Group to add a member to
+	 * @param member Member to add to group
+	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
+	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+	 */
 	public void addGroupMember(final AuthzGroup group, final AuthzGroupMember member)
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+		logger.debug("addGroupMember() entered. group={}, member={}", group, member);
+
 		group.addMember(member);
 		member.addGroup(group);
+
+		logger.debug("addGroupMember() exited.");
 	}
 
 	/**
@@ -517,6 +531,24 @@ public class AuthzDocument implements Serializable {
 	}
 
 	/**
+	 * Remove member from a group.
+	 * 
+	 * @param group Group to remove member from
+	 * @param member Member to remove from group
+	 * @throws AuthzNotMemberOfGroupException If member isn't member of group
+	 * @throws AuthzNotGroupMemberException If group doesn't have member
+	 */
+	public void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
+			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
+		logger.debug("removeGroupMember() entered. group={}, member={}", group, member);
+
+		group.removeMember(member);
+		member.removeGroup(group);
+
+		logger.debug("removeGroupMember() exited.");
+	}
+
+	/**
 	 * Sets "has unsaved changes" flag to true.
 	 */
 	protected void setHasUnsavedChanges() {
@@ -526,5 +558,4 @@ public class AuthzDocument implements Serializable {
 
 		logger.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
 	}
-
 }
