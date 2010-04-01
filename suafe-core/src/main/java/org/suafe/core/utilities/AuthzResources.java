@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
  * 
  * @since 2.0
  */
-public class AuthzResources {
+public final class AuthzResources {
 	/**
 	 * Load string from resource bundle using provided key.
 	 * 
@@ -25,5 +25,12 @@ public class AuthzResources {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Private constructor
+	 */
+	private AuthzResources() {
+		super();
 	}
 }
