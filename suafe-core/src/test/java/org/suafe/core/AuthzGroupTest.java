@@ -12,7 +12,7 @@ import org.suafe.core.exceptions.AuthzNotGroupMemberException;
 /**
  * Unit test for AuthzGroup.
  */
-public class AuthzGroupText {
+public class AuthzGroupTest {
 	@Test
 	public void testAddMember() {
 		// Test happy path
