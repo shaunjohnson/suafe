@@ -2,6 +2,8 @@ package org.suafe.core;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Authz user object.
@@ -12,6 +14,8 @@ public class AuthzUser extends AuthzGroupMember implements Comparable<AuthzUser>
 	private static final long serialVersionUID = 7672296029756141807L;
 
 	private final String alias;
+
+	private final Logger logger = LoggerFactory.getLogger(AuthzUser.class);
 
 	private final String name;
 
@@ -28,6 +32,11 @@ public class AuthzUser extends AuthzGroupMember implements Comparable<AuthzUser>
 		this.alias = alias;
 	}
 
+	/**
+	 * Compares this object with the provided AuthzUser object
+	 * 
+	 * @param authzUser AuthzUser to compare
+	 */
 	@Override
 	public int compareTo(final AuthzUser authzUser) {
 		final String myName = StringUtils.trimToEmpty(name) + StringUtils.trimToEmpty(alias);
@@ -37,6 +46,11 @@ public class AuthzUser extends AuthzGroupMember implements Comparable<AuthzUser>
 		return myName.compareTo(otherName);
 	}
 
+	/**
+	 * Compares this object with the provided AuthzUser object for equality.
+	 * 
+	 * @param object Object to compare
+	 */
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
@@ -68,14 +82,27 @@ public class AuthzUser extends AuthzGroupMember implements Comparable<AuthzUser>
 		return true;
 	}
 
+	/**
+	 * Gets the user alias
+	 * 
+	 * @return User alias
+	 */
 	public String getAlias() {
 		return alias;
 	}
 
+	/**
+	 * Gets the user name
+	 * 
+	 * @return User name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Calculates hashCode value of this user.
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -85,6 +112,9 @@ public class AuthzUser extends AuthzGroupMember implements Comparable<AuthzUser>
 		return result;
 	}
 
+	/**
+	 * Creates a string representation of this user.
+	 */
 	@Override
 	public String toString() {
 		final ToStringBuilder toStringBuilder = new ToStringBuilder(this);

@@ -8,7 +8,9 @@ import java.util.Vector;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
+import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzInvalidGroupNameException;
 import org.suafe.core.exceptions.AuthzInvalidRepositoryNameException;
 import org.suafe.core.exceptions.AuthzInvalidUserAliasException;
@@ -35,10 +37,19 @@ public class AuthzDocument implements Serializable {
 
 	private Vector<AuthzUser> users;
 
+	/**
+	 * Default constructor.
+	 */
 	public AuthzDocument() {
 		super();
 
 		initialize();
+	}
+
+	public void addGroupMember(final AuthzGroup group, final AuthzGroupMember member)
+			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+		group.addMember(member);
+		member.addGroup(group);
 	}
 
 	/**
@@ -515,4 +526,5 @@ public class AuthzDocument implements Serializable {
 
 		logger.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
 	}
+
 }
