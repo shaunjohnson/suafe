@@ -13,15 +13,15 @@ public class AuthzGroupMemberTest {
 	public void testAddGroup() {
 		// Test happy path
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzUser authzUser = authzDocument.createUser("user", null);
-			final AuthzGroup authzGroup = authzDocument.createGroup("group");
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzUser user = document.createUser("user", null);
+			final AuthzGroup group = document.createGroup("group");
 
-			assertTrue("Groups should be empty", authzUser.getGroups().size() == 0);
+			assertTrue("Groups should be empty", user.getGroups().size() == 0);
 
-			authzUser.addGroup(authzGroup);
+			user.addGroup(group);
 
-			assertTrue("Groups should be not be empty", authzUser.getGroups().size() == 1);
+			assertTrue("Groups should be not be empty", user.getGroups().size() == 1);
 		}
 		catch (final Exception e) {
 			fail("Unexpected exception");
@@ -29,10 +29,10 @@ public class AuthzGroupMemberTest {
 
 		// Test invalid values
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzUser authzUser = authzDocument.createUser("user", null);
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzUser user = document.createUser("user", null);
 
-			authzUser.addGroup(null);
+			user.addGroup(null);
 
 			fail("Unexpected successfully added null group");
 		}
@@ -45,12 +45,12 @@ public class AuthzGroupMemberTest {
 
 		// Test exception
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzUser authzUser = authzDocument.createUser("user", null);
-			final AuthzGroup authzGroup = authzDocument.createGroup("group");
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzUser user = document.createUser("user", null);
+			final AuthzGroup group = document.createGroup("group");
 
-			authzUser.addGroup(authzGroup);
-			authzUser.addGroup(authzGroup);
+			user.addGroup(group);
+			user.addGroup(group);
 
 			fail("Unexpected successfully added same group twice");
 		}
@@ -66,19 +66,19 @@ public class AuthzGroupMemberTest {
 	public void testRemoveGroup() {
 		// Test happy path
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzGroup authzGroup = authzDocument.createGroup("name");
-			final AuthzUser authzUser = authzDocument.createUser("user", null);
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = document.createGroup("name");
+			final AuthzUser user = document.createUser("user", null);
 
-			assertTrue("groups should be empty", authzUser.getGroups().size() == 0);
+			assertTrue("groups should be empty", user.getGroups().size() == 0);
 
-			assertTrue("addGroup() should reutrn true", authzUser.addGroup(authzGroup));
+			assertTrue("addGroup() should reutrn true", user.addGroup(group));
 
-			assertTrue("groups should be empty", authzUser.getGroups().size() == 1);
+			assertTrue("groups should be empty", user.getGroups().size() == 1);
 
-			assertTrue("removeMember() should reutrn true", authzUser.removeGroup(authzGroup));
+			assertTrue("removeMember() should reutrn true", user.removeGroup(group));
 
-			assertTrue("groups should be empty", authzUser.getGroups().size() == 0);
+			assertTrue("groups should be empty", user.getGroups().size() == 0);
 		}
 		catch (final Exception e) {
 			fail("Unexpected exception");
@@ -86,10 +86,10 @@ public class AuthzGroupMemberTest {
 
 		// Test invalid values
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzUser authzUser = authzDocument.createUser("name", null);
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzUser user = document.createUser("name", null);
 
-			authzUser.removeGroup(null);
+			user.removeGroup(null);
 
 			fail("Unexpected successfully removed null group");
 		}
@@ -102,10 +102,10 @@ public class AuthzGroupMemberTest {
 
 		// Test for not a member exception
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzUser authzUser = authzDocument.createUser("name", null);
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzUser user = document.createUser("name", null);
 
-			authzUser.removeGroup(authzDocument.createGroup("group"));
+			user.removeGroup(document.createGroup("group"));
 
 			fail("Unexpected successfully removed group that this user is not a member of");
 		}

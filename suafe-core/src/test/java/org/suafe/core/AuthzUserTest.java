@@ -11,10 +11,10 @@ import org.junit.Test;
 public class AuthzUserTest {
 	@Test
 	public void testAuthzUserStringString() {
-		final AuthzUser authzUser = new AuthzUser("name", "alias");
+		final AuthzUser user = new AuthzUser("name", "alias");
 
-		assertEquals("name should be valid", "name", authzUser.getName());
-		assertEquals("alias should be valid", "alias", authzUser.getAlias());
+		assertEquals("name should be valid", "name", user.getName());
+		assertEquals("alias should be valid", "alias", user.getAlias());
 	}
 
 	@Test
@@ -32,9 +32,9 @@ public class AuthzUserTest {
 
 	@Test
 	public void testToString() {
-		final AuthzUser authzUser = new AuthzUser("myName", "myAlias");
+		final AuthzUser user = new AuthzUser("myName", "myAlias");
 
-		assertTrue("toString() should output name", authzUser.getName().contains("myName"));
-		assertTrue("toString() should output alias", authzUser.getAlias().contains("myAlias"));
+		assertTrue("toString() should output name", user.getName().contains("myName"));
+		assertTrue("toString() should output alias", user.getAlias().contains("myAlias"));
 	}
 }

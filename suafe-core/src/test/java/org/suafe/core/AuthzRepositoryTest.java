@@ -11,28 +11,31 @@ import org.junit.Test;
 public class AuthzRepositoryTest {
 	@Test
 	public void testAuthzRepositoryString() {
-		final AuthzRepository authzRepository = new AuthzRepository("name");
+		final AuthzRepository repository = new AuthzRepository("name");
 
-		assertEquals("name should be valid", "name", authzRepository.getName());
+		assertEquals("name should be valid", "name", repository.getName());
 	}
 
 	@Test
 	public void testCompareTo() {
-		assertTrue("Null users should match", new AuthzRepository(null).compareTo(new AuthzRepository(null)) == 0);
-		assertTrue("Empty users should match", new AuthzRepository("").compareTo(new AuthzRepository("")) == 0);
-		assertTrue("Users with same name should match", new AuthzRepository("name").compareTo(new AuthzRepository(
-				"name")) == 0);
-		assertTrue("Users with same name should match", new AuthzRepository("name").compareTo(new AuthzRepository(
-				"name")) == 0);
+		assertTrue("Null repositories should match",
+				new AuthzRepository(null).compareTo(new AuthzRepository(null)) == 0);
+		assertTrue("Empty repositories should match", new AuthzRepository("").compareTo(new AuthzRepository("")) == 0);
+		assertTrue("Repositories with same name should match", new AuthzRepository("name")
+				.compareTo(new AuthzRepository("name")) == 0);
+		assertTrue("Repositories with same name should match", new AuthzRepository("name")
+				.compareTo(new AuthzRepository("name")) == 0);
 
-		assertTrue("Users should not match", new AuthzRepository("name").compareTo(new AuthzRepository("same")) < 0);
-		assertTrue("Users should not match", new AuthzRepository("same").compareTo(new AuthzRepository("name")) > 0);
+		assertTrue("Repositories should not match",
+				new AuthzRepository("name").compareTo(new AuthzRepository("same")) < 0);
+		assertTrue("Repositories should not match",
+				new AuthzRepository("same").compareTo(new AuthzRepository("name")) > 0);
 	}
 
 	@Test
 	public void testToString() {
-		final AuthzRepository authzRepository = new AuthzRepository("myName");
+		final AuthzRepository repository = new AuthzRepository("myName");
 
-		assertTrue("toString() should output name", authzRepository.getName().contains("myName"));
+		assertTrue("toString() should output name", repository.getName().contains("myName"));
 	}
 }

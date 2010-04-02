@@ -17,11 +17,11 @@ public class AuthzGroupTest {
 	public void testAddMember() {
 		// Test happy path
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzGroup authzGroup = authzDocument.createGroup("name");
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = document.createGroup("name");
 
-			assertTrue("addMember() should reutrn true", authzGroup.addMember(authzDocument.createGroup("group")));
-			assertTrue("addMember() should return true", authzGroup.addMember(authzDocument.createUser("user", null)));
+			assertTrue("addMember() should reutrn true", group.addMember(document.createGroup("group")));
+			assertTrue("addMember() should return true", group.addMember(document.createUser("user", null)));
 		}
 		catch (final Exception e) {
 			fail("Unexpected exception");
@@ -29,12 +29,12 @@ public class AuthzGroupTest {
 
 		// Test check for duplicate group
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzGroup authzGroup = authzDocument.createGroup("name");
-			final AuthzGroupMember member = authzDocument.createGroup("group");
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = document.createGroup("name");
+			final AuthzGroupMember member = document.createGroup("group");
 
-			assertTrue("addMember() should reutrn true", authzGroup.addMember(member));
-			assertTrue("addMember() should reutrn true", authzGroup.addMember(member));
+			assertTrue("addMember() should reutrn true", group.addMember(member));
+			assertTrue("addMember() should reutrn true", group.addMember(member));
 
 			fail("Unexpected success adding member twice");
 		}
@@ -47,12 +47,12 @@ public class AuthzGroupTest {
 
 		// Test check for duplicate user
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzGroup authzGroup = authzDocument.createGroup("name");
-			final AuthzGroupMember member = authzDocument.createUser("user", null);
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = document.createGroup("name");
+			final AuthzGroupMember member = document.createUser("user", null);
 
-			assertTrue("addMember() should reutrn true", authzGroup.addMember(member));
-			assertTrue("addMember() should reutrn true", authzGroup.addMember(member));
+			assertTrue("addMember() should reutrn true", group.addMember(member));
+			assertTrue("addMember() should reutrn true", group.addMember(member));
 
 			fail("Unexpected success adding member twice");
 		}
@@ -65,10 +65,10 @@ public class AuthzGroupTest {
 
 		// Test invalid values
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzGroup authzGroup = authzDocument.createGroup("name");
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = document.createGroup("name");
 
-			authzGroup.addMember(null);
+			group.addMember(null);
 
 			fail("Unexpected successfully added null member");
 		}
@@ -82,9 +82,9 @@ public class AuthzGroupTest {
 
 	@Test
 	public void testAuthzGroupString() {
-		final AuthzGroup authzGroup = new AuthzGroup("name");
+		final AuthzGroup group = new AuthzGroup("name");
 
-		assertEquals("name should be valid", "name", authzGroup.getName());
+		assertEquals("name should be valid", "name", group.getName());
 	}
 
 	@Test
@@ -103,19 +103,19 @@ public class AuthzGroupTest {
 	public void testRemoveMember() {
 		// Test happy path
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzGroup authzGroup = authzDocument.createGroup("name");
-			final AuthzGroupMember member = authzDocument.createUser("user", null);
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = document.createGroup("name");
+			final AuthzGroupMember member = document.createUser("user", null);
 
-			assertTrue("members should be empty", authzGroup.getMembers().size() == 0);
+			assertTrue("members should be empty", group.getMembers().size() == 0);
 
-			assertTrue("addMember() should reutrn true", authzGroup.addMember(member));
+			assertTrue("addMember() should reutrn true", group.addMember(member));
 
-			assertTrue("members should be empty", authzGroup.getMembers().size() == 1);
+			assertTrue("members should be empty", group.getMembers().size() == 1);
 
-			assertTrue("removeMember() should reutrn true", authzGroup.removeMember(member));
+			assertTrue("removeMember() should reutrn true", group.removeMember(member));
 
-			assertTrue("members should be empty", authzGroup.getMembers().size() == 0);
+			assertTrue("members should be empty", group.getMembers().size() == 0);
 		}
 		catch (final Exception e) {
 			fail("Unexpected exception");
@@ -123,10 +123,10 @@ public class AuthzGroupTest {
 
 		// Test invalid values
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzGroup authzGroup = authzDocument.createGroup("name");
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = document.createGroup("name");
 
-			authzGroup.removeMember(null);
+			group.removeMember(null);
 
 			fail("Unexpected successfully removed null member");
 		}
@@ -139,10 +139,10 @@ public class AuthzGroupTest {
 
 		// Test for not a member exception
 		try {
-			final AuthzDocument authzDocument = new AuthzDocument();
-			final AuthzGroup authzGroup = authzDocument.createGroup("name");
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = document.createGroup("name");
 
-			authzGroup.removeMember(authzDocument.createUser("name", null));
+			group.removeMember(document.createUser("name", null));
 
 			fail("Unexpected successfully removed object that was not a group member");
 		}
@@ -156,8 +156,8 @@ public class AuthzGroupTest {
 
 	@Test
 	public void testToString() {
-		final AuthzGroup authzGroup = new AuthzGroup("myName");
+		final AuthzGroup group = new AuthzGroup("myName");
 
-		assertTrue("toString() should output name", authzGroup.getName().contains("myName"));
+		assertTrue("toString() should output name", group.getName().contains("myName"));
 	}
 }
