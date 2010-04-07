@@ -1,6 +1,7 @@
 package org.suafe.core;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -97,6 +98,26 @@ public class AuthzGroupTest {
 
 		assertTrue("Groups should not match", new AuthzGroup("name").compareTo(new AuthzGroup("same")) < 0);
 		assertTrue("Groups should not match", new AuthzGroup("same").compareTo(new AuthzGroup("name")) > 0);
+	}
+
+	@Test
+	public void testEquals() {
+		assertTrue("Values should match", new AuthzGroup("name").equals(new AuthzGroup("name")));
+		assertTrue("Values should match", new AuthzGroup(null).equals(new AuthzGroup(null)));
+		assertFalse("Values should not match", new AuthzGroup("name").equals(new AuthzGroup("name2")));
+
+		// Test invalid values
+		assertFalse("Values should not match", new AuthzGroup("name").equals(null));
+		assertFalse("Values should not match", new AuthzGroup("name").equals(""));
+		assertFalse("Values should not match", new AuthzGroup("name").equals(new AuthzGroup("name").toString()));
+	}
+
+	@Test
+	public void testHashCode() {
+		assertTrue("HashCode values should match", new AuthzGroup("name").hashCode() == new AuthzGroup("name")
+				.hashCode());
+		assertFalse("HashCode values should not match", new AuthzGroup("name").hashCode() == new AuthzGroup("name2")
+				.hashCode());
 	}
 
 	@Test
