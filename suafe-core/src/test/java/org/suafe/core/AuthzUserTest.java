@@ -1,6 +1,7 @@
 package org.suafe.core;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -28,6 +29,37 @@ public class AuthzUserTest {
 
 		assertTrue("Users should not match", new AuthzUser("name", null).compareTo(new AuthzUser("same", null)) < 0);
 		assertTrue("Users should not match", new AuthzUser("same", null).compareTo(new AuthzUser("name", null)) > 0);
+	}
+
+	@Test
+	public void testEquals() {
+		assertTrue("Values should match", new AuthzUser("name", null).equals(new AuthzUser("name", null)));
+		assertFalse("Values should match", new AuthzUser("name", "alias").equals(new AuthzUser("name", null)));
+		assertFalse("Values should match", new AuthzUser("name", null).equals(new AuthzUser("name", "alias")));
+		assertTrue("Values should match", new AuthzUser("name", "alias").equals(new AuthzUser("name", "alias")));
+
+		assertTrue("Values should match", new AuthzUser(null, null).equals(new AuthzUser(null, null)));
+		assertFalse("Values should match", new AuthzUser(null, "alias").equals(new AuthzUser(null, null)));
+		assertFalse("Values should match", new AuthzUser(null, null).equals(new AuthzUser(null, "alias")));
+		assertTrue("Values should match", new AuthzUser(null, "alias").equals(new AuthzUser(null, "alias")));
+		assertTrue("Values should match", new AuthzUser(null, "alias").equals(new AuthzUser("name", "alias")));
+
+		assertTrue("Values should match", new AuthzUser(null, null).equals(new AuthzUser(null, null)));
+		assertFalse("Values should not match", new AuthzUser("name", null).equals(new AuthzUser("name2", null)));
+
+		// Test invalid values
+		assertFalse("Values should not match", new AuthzUser("name", null).equals(null));
+		assertFalse("Values should not match", new AuthzUser("name", null).equals(""));
+		assertFalse("Values should not match", new AuthzUser("name", null).equals(new AuthzUser("name", null)
+				.toString()));
+	}
+
+	@Test
+	public void testHashCode() {
+		assertTrue("HashCode values should match",
+				new AuthzUser("name", null).hashCode() == new AuthzUser("name", null).hashCode());
+		assertFalse("HashCode values should not match", new AuthzUser("name", null).hashCode() == new AuthzUser(
+				"name2", null).hashCode());
 	}
 
 	@Test
