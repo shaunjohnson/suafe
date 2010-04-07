@@ -179,6 +179,6 @@ public class AuthzGroupTest {
 	public void testToString() {
 		final AuthzGroup group = new AuthzGroup("myName");
 
-		assertTrue("toString() should output name", group.getName().contains("myName"));
+		assertTrue("toString() should output name", group.toString().contains("myName"));
 	}
 }

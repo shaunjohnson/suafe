@@ -3,6 +3,7 @@ package org.suafe.core;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,5 +103,17 @@ public class AuthzPath implements Serializable, Comparable<AuthzPath> {
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result + ((repository == null) ? 0 : repository.hashCode());
 		return result;
+	}
+
+	/**
+	 * Creates a string representation of this user.
+	 */
+	@Override
+	public String toString() {
+		final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
+
+		toStringBuilder.append("repository", repository).append("path", path);
+
+		return toStringBuilder.toString();
 	}
 }

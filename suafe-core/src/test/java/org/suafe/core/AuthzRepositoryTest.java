@@ -36,6 +36,6 @@ public class AuthzRepositoryTest {
 	public void testToString() {
 		final AuthzRepository repository = new AuthzRepository("myName");
 
-		assertTrue("toString() should output name", repository.getName().contains("myName"));
+		assertTrue("toString() should output name", repository.toString().contains("myName"));
 	}
 }

@@ -42,7 +42,7 @@ public class AuthzUserTest {
 		assertFalse("Values should match", new AuthzUser(null, "alias").equals(new AuthzUser(null, null)));
 		assertFalse("Values should match", new AuthzUser(null, null).equals(new AuthzUser(null, "alias")));
 		assertTrue("Values should match", new AuthzUser(null, "alias").equals(new AuthzUser(null, "alias")));
-		assertTrue("Values should match", new AuthzUser(null, "alias").equals(new AuthzUser("name", "alias")));
+		assertFalse("Values should match", new AuthzUser(null, "alias").equals(new AuthzUser("name", "alias")));
 
 		assertTrue("Values should match", new AuthzUser(null, null).equals(new AuthzUser(null, null)));
 		assertFalse("Values should not match", new AuthzUser("name", null).equals(new AuthzUser("name2", null)));
@@ -66,7 +66,7 @@ public class AuthzUserTest {
 	public void testToString() {
 		final AuthzUser user = new AuthzUser("myName", "myAlias");
 
-		assertTrue("toString() should output name", user.getName().contains("myName"));
-		assertTrue("toString() should output alias", user.getAlias().contains("myAlias"));
+		assertTrue("toString() should output name", user.toString().contains("myName"));
+		assertTrue("toString() should output alias", user.toString().contains("myAlias"));
 	}
 }
