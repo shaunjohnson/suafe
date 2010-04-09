@@ -1,6 +1,7 @@
 package org.suafe.core;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -38,6 +39,47 @@ public class AuthzPathTest {
 
 		assertTrue("Paths should not match", new AuthzPath(null, "/path").compareTo(new AuthzPath(null, "/qath")) < 0);
 		assertTrue("Paths should not match", new AuthzPath(null, "/qath").compareTo(new AuthzPath(null, "/path")) > 0);
+	}
+
+	@Test
+	public void testEquals() {
+		// Test with null repository
+		assertTrue("Values should match", new AuthzPath(null, "name").equals(new AuthzPath(null, "name")));
+		assertTrue("Values should match", new AuthzPath(null, null).equals(new AuthzPath(null, null)));
+		assertFalse("Values should not match", new AuthzPath(null, "name").equals(new AuthzPath(null, "name2")));
+
+		final AuthzPath path = new AuthzPath(null, "name");
+
+		assertTrue("Value should match self", path.equals(path));
+
+		// Test with repository
+		assertTrue("Values should match", new AuthzPath(new AuthzRepository("repo"), "name").equals(new AuthzPath(
+				new AuthzRepository("repo"), "name")));
+		assertTrue("Values should match", new AuthzPath(new AuthzRepository("repo"), null).equals(new AuthzPath(
+				new AuthzRepository("repo"), null)));
+		assertFalse("Values should not match", new AuthzPath(new AuthzRepository("repo"), "name").equals(new AuthzPath(
+				new AuthzRepository("repo"), "name2")));
+		assertFalse("Values should not match", new AuthzPath(new AuthzRepository("repo"), null).equals(new AuthzPath(
+				new AuthzRepository("repo"), "name2")));
+
+		assertFalse("Values should not match", new AuthzPath(new AuthzRepository("repo1"), "name")
+				.equals(new AuthzPath(new AuthzRepository("repo2"), "name")));
+		assertFalse("Values should not match", new AuthzPath(null, "name").equals(new AuthzPath(new AuthzRepository(
+				"repo2"), "name")));
+
+		// Test invalid values
+		assertFalse("Values should not match", new AuthzPath(null, "name").equals(null));
+		assertFalse("Values should not match", new AuthzPath(null, "name").equals(""));
+		assertFalse("Values should not match", new AuthzPath(null, "name").equals(new AuthzPath(null, "name")
+				.toString()));
+	}
+
+	@Test
+	public void testHashCode() {
+		assertTrue("HashCode values should match",
+				new AuthzPath(null, "name").hashCode() == new AuthzPath(null, "name").hashCode());
+		assertFalse("HashCode values should not match", new AuthzPath(null, "name").hashCode() == new AuthzPath(null,
+				"name2").hashCode());
 	}
 
 	@Test
