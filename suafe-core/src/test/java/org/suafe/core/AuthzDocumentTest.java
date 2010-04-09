@@ -10,12 +10,16 @@ import static org.junit.Assert.fail;
 import java.util.Collection;
 
 import org.junit.Test;
+import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
+import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzInvalidGroupNameException;
 import org.suafe.core.exceptions.AuthzInvalidRepositoryNameException;
 import org.suafe.core.exceptions.AuthzInvalidUserAliasException;
 import org.suafe.core.exceptions.AuthzInvalidUserNameException;
+import org.suafe.core.exceptions.AuthzNotGroupMemberException;
+import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
@@ -24,6 +28,82 @@ import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
  * Unit test for AuthzDocument
  */
 public class AuthzDocumentTest {
+	@Test
+	public void testAddGroupMember() {
+		try {
+			final AuthzDocument document = new AuthzDocument();
+
+			document.addGroupMember(null, new AuthzUser(null, null));
+
+			fail("Successfully added member to null group");
+		}
+		catch (final NullPointerException e) {
+			assertNotNull("Expected NullPointerException", e.getMessage());
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+
+			document.addGroupMember(new AuthzGroup(null), null);
+
+			fail("Successfully added null member to a group");
+		}
+		catch (final NullPointerException e) {
+			assertNotNull("Expected NullPointerException", e.getMessage());
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+
+			document.addGroupMember(new AuthzGroup(null), new AuthzUser(null, null));
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = new AuthzGroup("name");
+			final AuthzUser user = new AuthzUser("user", null);
+
+			group.addMember(user);
+
+			document.addGroupMember(group, user);
+
+			fail("Successfully added user to the same group more than once");
+		}
+		catch (final AuthzGroupMemberAlreadyExistsException e) {
+			assertNotNull("Expected AuthzGroupMemberAlreadyExistsException", e.getMessage());
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = new AuthzGroup("name");
+			final AuthzUser user = new AuthzUser("user", null);
+
+			user.addGroup(group);
+
+			document.addGroupMember(group, user);
+
+			fail("Successfully added user to the same group more than once");
+		}
+		catch (final AuthzAlreadyMemberOfGroupException e) {
+			assertNotNull("Expected AuthzAlreadyMemberOfGroupException", e.getMessage());
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+	}
+
 	@Test
 	public void testClearHasUnsavedChanges() {
 		try {
@@ -1204,6 +1284,95 @@ public class AuthzDocumentTest {
 	}
 
 	@Test
+	public void testRemoveGroupMember() {
+		try {
+			final AuthzDocument document = new AuthzDocument();
+
+			document.removeGroupMember(null, new AuthzUser(null, null));
+
+			fail("Successfully removed user from a null group");
+		}
+		catch (final NullPointerException e) {
+			assertNotNull("NullPointerException expected", e.getMessage());
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+
+			document.removeGroupMember(new AuthzGroup(null), null);
+
+			fail("Successfully removed null from a group");
+		}
+		catch (final NullPointerException e) {
+			assertNotNull("NullPointerException expected", e.getMessage());
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = new AuthzGroup(null);
+			final AuthzUser user = new AuthzUser(null, null);
+
+			user.addGroup(group);
+
+			document.removeGroupMember(group, user);
+		}
+		catch (final AuthzNotGroupMemberException e) {
+			assertNotNull("Expected AuthzNotGroupMemberException", e.getMessage());
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = new AuthzGroup(null);
+			final AuthzUser user = new AuthzUser(null, null);
+
+			group.addMember(user);
+
+			document.removeGroupMember(group, user);
+		}
+		catch (final AuthzNotMemberOfGroupException e) {
+			assertNotNull("Expected AuthzNotMemberOfGroupException", e.getMessage());
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = new AuthzGroup(null);
+			final AuthzUser user = new AuthzUser(null, null);
+
+			group.addMember(user);
+			user.addGroup(group);
+
+			document.removeGroupMember(group, user);
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocument();
+			final AuthzGroup group = new AuthzGroup(null);
+			final AuthzUser user = new AuthzUser(null, null);
+
+			document.addGroupMember(group, user);
+			document.removeGroupMember(group, user);
+		}
+		catch (final Exception e) {
+			fail("Unexpected Exception");
+		}
+	}
+
+	@Test
 	public void testSetHasUnsavedChanges() {
 		final AuthzDocument document = new AuthzDocument();
 
@@ -1212,5 +1381,16 @@ public class AuthzDocumentTest {
 		document.setHasUnsavedChanges();
 
 		assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+	}
+
+	@Test
+	public void testToString() {
+		final AuthzDocument document = new AuthzDocument();
+
+		assertNotNull("Should not be null for empty document", document.toString());
+
+		assertTrue("Should contain group information", document.toString().contains("groups"));
+		assertTrue("Should contain repository information", document.toString().contains("repositories"));
+		assertTrue("Should contain user information", document.toString().contains("users"));
 	}
 }

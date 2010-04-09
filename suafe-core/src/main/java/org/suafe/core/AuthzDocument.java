@@ -61,6 +61,18 @@ public class AuthzDocument implements Serializable {
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
 		logger.debug("addGroupMember() entered. group={}, member={}", group, member);
 
+		if (group == null) {
+			logger.error("addGroupMember() group is null");
+
+			throw new NullPointerException("Group is null");
+		}
+
+		if (member == null) {
+			logger.error("addGroupMember() member is null");
+
+			throw new NullPointerException("Member is null");
+		}
+
 		group.addMember(member);
 		member.addGroup(group);
 
@@ -542,6 +554,18 @@ public class AuthzDocument implements Serializable {
 	public void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
 		logger.debug("removeGroupMember() entered. group={}, member={}", group, member);
+
+		if (group == null) {
+			logger.error("addGroupMember() group is null");
+
+			throw new NullPointerException("Group is null");
+		}
+
+		if (member == null) {
+			logger.error("addGroupMember() member is null");
+
+			throw new NullPointerException("Member is null");
+		}
 
 		group.removeMember(member);
 		member.removeGroup(group);
