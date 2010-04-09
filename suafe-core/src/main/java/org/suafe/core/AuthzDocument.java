@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
@@ -557,5 +558,19 @@ public class AuthzDocument implements Serializable {
 		hasUnsavedChanges = true;
 
 		logger.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
+	}
+
+	/**
+	 * Creates a string representation of this document.
+	 */
+	@Override
+	public String toString() {
+		final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
+
+		toStringBuilder.append("groups", groups.size());
+		toStringBuilder.append("users", users.size());
+		toStringBuilder.append("repositories", repositories.size());
+
+		return toStringBuilder.toString();
 	}
 }
