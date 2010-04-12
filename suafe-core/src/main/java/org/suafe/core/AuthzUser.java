@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
  * @since 2.0
  */
 public class AuthzUser extends AuthzGroupMember implements Comparable<AuthzUser> {
+	private static final Logger logger = LoggerFactory.getLogger(AuthzUser.class);
+
 	private static final long serialVersionUID = 7672296029756141807L;
 
 	private final String alias;
-
-	private final Logger logger = LoggerFactory.getLogger(AuthzUser.class);
 
 	private final String name;
 

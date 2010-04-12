@@ -17,9 +17,9 @@ import org.suafe.core.exceptions.AuthzNotGroupMemberException;
  * @since 2.0
  */
 public class AuthzGroup extends AuthzGroupMember implements Comparable<AuthzGroup> {
-	private static final long serialVersionUID = 7033919638521713150L;
+	private static final Logger logger = LoggerFactory.getLogger(AuthzGroup.class);
 
-	private final Logger logger = LoggerFactory.getLogger(AuthzGroup.class);
+	private static final long serialVersionUID = 7033919638521713150L;
 
 	private final Vector<AuthzGroupMember> members = new Vector<AuthzGroupMember>();
 

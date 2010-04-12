@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
  * @since 2.0
  */
 public class AuthzPath implements Serializable, Comparable<AuthzPath> {
-	private static final long serialVersionUID = 9125579229041836584L;
+	private static final Logger logger = LoggerFactory.getLogger(AuthzPath.class);
 
-	private final Logger logger = LoggerFactory.getLogger(AuthzPath.class);
+	private static final long serialVersionUID = 9125579229041836584L;
 
 	private final String path;
 

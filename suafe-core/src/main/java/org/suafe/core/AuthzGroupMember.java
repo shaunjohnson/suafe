@@ -16,11 +16,11 @@ import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
  * @since 2.0
  */
 public abstract class AuthzGroupMember implements Serializable {
+	private static final Logger logger = LoggerFactory.getLogger(AuthzGroupMember.class);
+
 	private static final long serialVersionUID = -4348242302006857451L;
 
 	private final Vector<AuthzGroup> groups = new Vector<AuthzGroup>();
-
-	private final Logger logger = LoggerFactory.getLogger(AuthzGroupMember.class);
 
 	/**
 	 * Adds group to collection of groups.

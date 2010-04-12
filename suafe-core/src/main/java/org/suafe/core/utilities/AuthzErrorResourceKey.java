@@ -20,7 +20,7 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
 	public static final AuthzResourceKeyIF INVALID_REPOSITORY_NAME = new AuthzErrorResourceKey(
 			"errorInvalidRepositoryName");
 
-	public static AuthzErrorResourceKey INVALID_USER_ALIAS = new AuthzErrorResourceKey("errorInvalidUserAlias");
+	public static final AuthzErrorResourceKey INVALID_USER_ALIAS = new AuthzErrorResourceKey("errorInvalidUserAlias");
 
 	public static final AuthzErrorResourceKey INVALID_USER_NAME = new AuthzErrorResourceKey("errorInvalidUserName");
 

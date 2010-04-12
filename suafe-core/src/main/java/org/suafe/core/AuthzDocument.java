@@ -28,13 +28,13 @@ import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
  * @since 2.0
  */
 public class AuthzDocument implements Serializable {
+	private static final Logger logger = LoggerFactory.getLogger(AuthzDocument.class);
+
 	private static final long serialVersionUID = -1396450094914018451L;
 
 	private Vector<AuthzGroup> groups;
 
 	private boolean hasUnsavedChanges;
-
-	private final Logger logger = LoggerFactory.getLogger(AuthzDocument.class);
 
 	private Vector<AuthzRepository> repositories;
 
