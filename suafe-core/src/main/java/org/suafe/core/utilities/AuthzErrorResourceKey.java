@@ -15,18 +15,23 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
     public static final AuthzResourceKeyIF GROUP_MEMBER_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorGroupMemberAlreadyExists");
 
-    public static final AuthzErrorResourceKey INVALID_GROUP_NAME = new AuthzErrorResourceKey("errorInvalidGroupName");
+    public static final AuthzErrorResourceKey INVALID_GROUP_NAME = new AuthzErrorResourceKey(
+            "errorInvalidGroupName");
 
     public static final AuthzResourceKeyIF INVALID_REPOSITORY_NAME = new AuthzErrorResourceKey(
             "errorInvalidRepositoryName");
 
-    public static final AuthzErrorResourceKey INVALID_USER_ALIAS = new AuthzErrorResourceKey("errorInvalidUserAlias");
+    public static final AuthzErrorResourceKey INVALID_USER_ALIAS = new AuthzErrorResourceKey(
+            "errorInvalidUserAlias");
 
-    public static final AuthzErrorResourceKey INVALID_USER_NAME = new AuthzErrorResourceKey("errorInvalidUserName");
+    public static final AuthzErrorResourceKey INVALID_USER_NAME = new AuthzErrorResourceKey(
+            "errorInvalidUserName");
 
-    public static final AuthzResourceKeyIF NOT_GROUP_MEMBER = new AuthzErrorResourceKey("errorNotGroupMember");
+    public static final AuthzResourceKeyIF NOT_GROUP_MEMBER = new AuthzErrorResourceKey(
+            "errorNotGroupMember");
 
-    public static final AuthzResourceKeyIF NOT_MEMBER_OF_GROUP = new AuthzErrorResourceKey("errorNotMemberOfGroup");
+    public static final AuthzResourceKeyIF NOT_MEMBER_OF_GROUP = new AuthzErrorResourceKey(
+            "errorNotMemberOfGroup");
 
     public static final AuthzResourceKeyIF REPOSITORY_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorRepositoryAlreadyExists");
@@ -34,7 +39,8 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
     public static final AuthzErrorResourceKey USER_ALIAS_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorUserAliasAlreadyExists");
 
-    public static final AuthzErrorResourceKey USER_ALREADY_EXISTS = new AuthzErrorResourceKey("errorUserAlreadyExists");
+    public static final AuthzErrorResourceKey USER_ALREADY_EXISTS = new AuthzErrorResourceKey(
+            "errorUserAlreadyExists");
 
     private final String key;
 

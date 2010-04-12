@@ -21,7 +21,8 @@ public class AuthzGroupMemberTest {
 
             user.addGroup(group);
 
-            assertTrue("Groups should be not be empty", user.getGroups().size() == 1);
+            assertTrue("Groups should be not be empty",
+                    user.getGroups().size() == 1);
         }
         catch (final Exception e) {
             fail("Unexpected exception");
@@ -76,7 +77,8 @@ public class AuthzGroupMemberTest {
 
             assertTrue("groups should be empty", user.getGroups().size() == 1);
 
-            assertTrue("removeMember() should reutrn true", user.removeGroup(group));
+            assertTrue("removeMember() should reutrn true", user
+                    .removeGroup(group));
 
             assertTrue("groups should be empty", user.getGroups().size() == 0);
         }
@@ -110,7 +112,8 @@ public class AuthzGroupMemberTest {
             fail("Unexpected successfully removed group that this user is not a member of");
         }
         catch (final AuthzNotMemberOfGroupException e) {
-            assertNotNull("AuthzNotGroupMemberException expected", e.getMessage());
+            assertNotNull("AuthzNotGroupMemberException expected", e
+                    .getMessage());
         }
         catch (final Exception e) {
             fail("Unexpected exception");

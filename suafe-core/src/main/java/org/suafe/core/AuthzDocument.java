@@ -28,7 +28,8 @@ import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
  * @since 2.0
  */
 public class AuthzDocument implements Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(AuthzDocument.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(AuthzDocument.class);
 
     private static final long serialVersionUID = -1396450094914018451L;
 
@@ -54,12 +55,17 @@ public class AuthzDocument implements Serializable {
      * 
      * @param group Group to add a member to
      * @param member Member to add to group
-     * @throws AuthzGroupMemberAlreadyExistsException If group already has member
-     * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+     * @throws AuthzGroupMemberAlreadyExistsException If group already has
+     *         member
+     * @throws AuthzAlreadyMemberOfGroupException If member is already in the
+     *         group
      */
-    public void addGroupMember(final AuthzGroup group, final AuthzGroupMember member)
-            throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
-        logger.debug("addGroupMember() entered. group={}, member={}", group, member);
+    public void addGroupMember(final AuthzGroup group,
+            final AuthzGroupMember member)
+            throws AuthzGroupMemberAlreadyExistsException,
+            AuthzAlreadyMemberOfGroupException {
+        logger.debug("addGroupMember() entered. group={}, member={}", group,
+                member);
 
         if (group == null) {
             logger.error("addGroupMember() group is null");
@@ -83,11 +89,13 @@ public class AuthzDocument implements Serializable {
      * Sets "has unsaved changes" flag to false.
      */
     protected void clearHasUnsavedChanges() {
-        logger.debug("clearHasUnsavedChanges() entered. hasUnsavedChanged={}", hasUnsavedChanges);
+        logger.debug("clearHasUnsavedChanges() entered. hasUnsavedChanged={}",
+                hasUnsavedChanges);
 
         hasUnsavedChanges = false;
 
-        logger.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
+        logger.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}",
+                hasUnsavedChanges);
     }
 
     /**
@@ -96,9 +104,11 @@ public class AuthzDocument implements Serializable {
      * @param name Name of user
      * @return Newly created AuthzGroup object
      * @throws AuthzInvalidGroupNameException If provided group name is invalid
-     * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
+     * @throws AuthzGroupAlreadyExistsException If group with the provided group
+     *         name already exists
      */
-    public AuthzGroup createGroup(final String name) throws AuthzGroupAlreadyExistsException,
+    public AuthzGroup createGroup(final String name)
+            throws AuthzGroupAlreadyExistsException,
             AuthzInvalidGroupNameException {
         logger.debug("createGroup() entered. name=\"{}\"", name);
 
@@ -123,7 +133,8 @@ public class AuthzDocument implements Serializable {
 
         setHasUnsavedChanges();
 
-        logger.debug("createGroup() group created successfully, returning {}", group);
+        logger.debug("createGroup() group created successfully, returning {}",
+                group);
 
         return group;
     }
@@ -133,10 +144,13 @@ public class AuthzDocument implements Serializable {
      * 
      * @param name Name of repository
      * @return Newly created AuthzRepository object
-     * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
-     * @throws AuthzRepositoryAlreadyExistsException If repository with the provided name already exists
+     * @throws AuthzInvalidRepositoryNameException If provided repository name
+     *         is invalid
+     * @throws AuthzRepositoryAlreadyExistsException If repository with the
+     *         provided name already exists
      */
-    public AuthzRepository createRepository(final String name) throws AuthzInvalidRepositoryNameException,
+    public AuthzRepository createRepository(final String name)
+            throws AuthzInvalidRepositoryNameException,
             AuthzRepositoryAlreadyExistsException {
         logger.debug("createRepository() entered, name=\"{}\"", name);
 
@@ -162,7 +176,10 @@ public class AuthzDocument implements Serializable {
 
         setHasUnsavedChanges();
 
-        logger.debug("createRepository() repository created successfully, returning {}", repository);
+        logger
+                .debug(
+                        "createRepository() repository created successfully, returning {}",
+                        repository);
 
         return repository;
     }
@@ -175,13 +192,19 @@ public class AuthzDocument implements Serializable {
      * @return Newly created AuthzUser object
      * @throws AuthzInvalidUserNameException If provided user name is invalid
      * @throws AuthzInvalidUserAliasException If provided user alias is invalid
-     * @throws AuthzUserAlreadyExistsException If user with the provided name already exists
-     * @throws AuthzUserAliasAlreadyExistsException If user with the provided alias already exists
+     * @throws AuthzUserAlreadyExistsException If user with the provided name
+     *         already exists
+     * @throws AuthzUserAliasAlreadyExistsException If user with the provided
+     *         alias already exists
      * @throws AuthzInvalidUserAliasException
      */
-    public AuthzUser createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
-            AuthzUserAlreadyExistsException, AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException {
-        logger.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name, alias);
+    public AuthzUser createUser(final String name, final String alias)
+            throws AuthzInvalidUserNameException,
+            AuthzUserAlreadyExistsException,
+            AuthzUserAliasAlreadyExistsException,
+            AuthzInvalidUserAliasException {
+        logger.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name,
+                alias);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
         final String aliasTrimmed = StringUtils.trimToNull(alias);
@@ -218,7 +241,8 @@ public class AuthzDocument implements Serializable {
 
         setHasUnsavedChanges();
 
-        logger.debug("createUser() user created successfully, returning {}", user);
+        logger.debug("createUser() user created successfully, returning {}",
+                user);
 
         return user;
     }
@@ -230,12 +254,14 @@ public class AuthzDocument implements Serializable {
      * @return True if the group with the provided name exists, otherwise false
      * @throws AuthzInvalidGroupNameException If provided group name is invalid
      */
-    public boolean doesGroupNameExist(final String name) throws AuthzInvalidGroupNameException {
+    public boolean doesGroupNameExist(final String name)
+            throws AuthzInvalidGroupNameException {
         logger.debug("doesGroupNameExist() entered. name=\"{}\"", name);
 
         final boolean doesGroupNameExist = getGroupWithName(name) != null;
 
-        logger.debug("doesGroupNameExist() exiting, returning {}", doesGroupNameExist);
+        logger.debug("doesGroupNameExist() exiting, returning {}",
+                doesGroupNameExist);
 
         return doesGroupNameExist;
     }
@@ -245,14 +271,17 @@ public class AuthzDocument implements Serializable {
      * 
      * @param name Name of repository to find
      * @return True if repository with the provided name exists, otherwise false
-     * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+     * @throws AuthzInvalidRepositoryNameException If provided repository name
+     *         is invalid
      */
-    public boolean doesRepositoryNameExist(final String name) throws AuthzInvalidRepositoryNameException {
+    public boolean doesRepositoryNameExist(final String name)
+            throws AuthzInvalidRepositoryNameException {
         logger.debug("doesRepositoryNameExist() entered. name=\"{}\"", name);
 
         final boolean doesRepositoryNameExist = getRepositoryWithName(name) != null;
 
-        logger.debug("doesRepositoryNameExist() exiting, returning {}", doesRepositoryNameExist);
+        logger.debug("doesRepositoryNameExist() exiting, returning {}",
+                doesRepositoryNameExist);
 
         return doesRepositoryNameExist;
     }
@@ -264,12 +293,14 @@ public class AuthzDocument implements Serializable {
      * @return True if the user with the provided alias exists, otherwise false
      * @throws AuthzInvalidUserAliasException If provided user alias is invalid
      */
-    public boolean doesUserAliasExist(final String alias) throws AuthzInvalidUserAliasException {
+    public boolean doesUserAliasExist(final String alias)
+            throws AuthzInvalidUserAliasException {
         logger.debug("doesUserAliasExist() entered. alias=\"{}\"", alias);
 
         final boolean doesUserAliasExist = getUserWithAlias(alias) != null;
 
-        logger.debug("doesUserAliasExist() exiting, returning {}", doesUserAliasExist);
+        logger.debug("doesUserAliasExist() exiting, returning {}",
+                doesUserAliasExist);
 
         return doesUserAliasExist;
     }
@@ -281,12 +312,14 @@ public class AuthzDocument implements Serializable {
      * @return True if user with the provided name exists, otherwise false
      * @throws AuthzInvalidUserNameException If provided user name is invalid
      */
-    public boolean doesUserNameExist(final String name) throws AuthzInvalidUserNameException {
+    public boolean doesUserNameExist(final String name)
+            throws AuthzInvalidUserNameException {
         logger.debug("doesUserNameExist() entered. name=\"{}\"", name);
 
         final boolean doesUserNameExist = getUserWithName(name) != null;
 
-        logger.debug("doesUserNameExist() exiting, returning {}", doesUserNameExist);
+        logger.debug("doesUserNameExist() exiting, returning {}",
+                doesUserNameExist);
 
         return doesUserNameExist;
     }
@@ -297,7 +330,9 @@ public class AuthzDocument implements Serializable {
      * @return Immutable collection of AuthGroup objects
      */
     public Collection<AuthzGroup> getGroups() {
-        logger.debug("getGroups() entered, returning groups with {} group objects", groups.size());
+        logger.debug(
+                "getGroups() entered, returning groups with {} group objects",
+                groups.size());
 
         return Collections.unmodifiableCollection(groups);
     }
@@ -309,7 +344,8 @@ public class AuthzDocument implements Serializable {
      * @return AuthzGroup if found, otherwise null
      * @throws AuthzInvalidGroupNameException If provided group name is invalid
      */
-    public AuthzGroup getGroupWithName(final String name) throws AuthzInvalidGroupNameException {
+    public AuthzGroup getGroupWithName(final String name)
+            throws AuthzInvalidGroupNameException {
         logger.debug("getGroupWithName() entered. name=\"{}\"", name);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
@@ -340,8 +376,10 @@ public class AuthzDocument implements Serializable {
      * @return Immutable collection of AuthRepository objects
      */
     public Collection<AuthzRepository> getRepositories() {
-        logger.debug("getRepositories() entered, returning repositories with {} repository objects", repositories
-                .size());
+        logger
+                .debug(
+                        "getRepositories() entered, returning repositories with {} repository objects",
+                        repositories.size());
 
         return Collections.unmodifiableCollection(repositories);
     }
@@ -351,9 +389,11 @@ public class AuthzDocument implements Serializable {
      * 
      * @param name Name of repository to find
      * @return AuthzRepository if found, otherwise null
-     * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+     * @throws AuthzInvalidRepositoryNameException If provided repository name
+     *         is invalid
      */
-    public AuthzRepository getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException {
+    public AuthzRepository getRepositoryWithName(final String name)
+            throws AuthzInvalidRepositoryNameException {
         logger.debug("getRepositoryWithName() entered. name=\"{}\"", name);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
@@ -373,7 +413,8 @@ public class AuthzDocument implements Serializable {
             }
         }
 
-        logger.debug("getRepositoryWithName() exiting, returning {}", foundRepository);
+        logger.debug("getRepositoryWithName() exiting, returning {}",
+                foundRepository);
 
         return foundRepository;
     }
@@ -384,7 +425,9 @@ public class AuthzDocument implements Serializable {
      * @return Immutable collection of AuthzUser objects
      */
     public Collection<AuthzUser> getUsers() {
-        logger.debug("getUsers() entered, returning users with {} user objects", users.size());
+        logger.debug(
+                "getUsers() entered, returning users with {} user objects",
+                users.size());
 
         return Collections.unmodifiableCollection(users);
     }
@@ -396,7 +439,8 @@ public class AuthzDocument implements Serializable {
      * @return AuthzUser if found, otherwise null
      * @throws AuthzInvalidUserAliasException If provided user alias is invalid
      */
-    public AuthzUser getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException {
+    public AuthzUser getUserWithAlias(final String alias)
+            throws AuthzInvalidUserAliasException {
         logger.debug("getUserWithAlias() entered. alias=\"{}\"", alias);
 
         final String aliasTrimmed = StringUtils.trimToNull(alias);
@@ -428,7 +472,8 @@ public class AuthzDocument implements Serializable {
      * @return AuthzUser if found, otherwise null
      * @throws AuthzInvalidUserNameException If provided user name is invalid
      */
-    public AuthzUser getUserWithName(final String name) throws AuthzInvalidUserNameException {
+    public AuthzUser getUserWithName(final String name)
+            throws AuthzInvalidUserNameException {
         logger.debug("getUserWithName() entered. name=\"{}\"", name);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
@@ -459,7 +504,8 @@ public class AuthzDocument implements Serializable {
      * @return Current value of "has unsaved changes" flag
      */
     public boolean hasUnsavedChanges() {
-        logger.debug("hasUnsavedChanges() entered. hasUnsavedChanges={}", hasUnsavedChanges);
+        logger.debug("hasUnsavedChanges() entered. hasUnsavedChanges={}",
+                hasUnsavedChanges);
 
         return hasUnsavedChanges;
     }
@@ -490,7 +536,8 @@ public class AuthzDocument implements Serializable {
 
         final boolean isValidGroupName = StringUtils.isNotBlank(name);
 
-        logger.debug("isValidGroupName() exited, returning {}", isValidGroupName);
+        logger.debug("isValidGroupName() exited, returning {}",
+                isValidGroupName);
 
         return isValidGroupName;
     }
@@ -506,7 +553,8 @@ public class AuthzDocument implements Serializable {
 
         final boolean isValidRepositoryName = StringUtils.isNotBlank(name);
 
-        logger.debug("isValidRepositoryName() exited, returning {}", isValidRepositoryName);
+        logger.debug("isValidRepositoryName() exited, returning {}",
+                isValidRepositoryName);
 
         return isValidRepositoryName;
     }
@@ -522,7 +570,8 @@ public class AuthzDocument implements Serializable {
 
         final boolean isValidUserAlias = StringUtils.isNotBlank(alias);
 
-        logger.debug("isValidUserAlias() exited, returning {}", isValidUserAlias);
+        logger.debug("isValidUserAlias() exited, returning {}",
+                isValidUserAlias);
 
         return isValidUserAlias;
     }
@@ -551,9 +600,11 @@ public class AuthzDocument implements Serializable {
      * @throws AuthzNotMemberOfGroupException If member isn't member of group
      * @throws AuthzNotGroupMemberException If group doesn't have member
      */
-    public void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
+    public void removeGroupMember(final AuthzGroup group,
+            final AuthzGroupMember member)
             throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
-        logger.debug("removeGroupMember() entered. group={}, member={}", group, member);
+        logger.debug("removeGroupMember() entered. group={}, member={}", group,
+                member);
 
         if (group == null) {
             logger.error("addGroupMember() group is null");
@@ -577,11 +628,13 @@ public class AuthzDocument implements Serializable {
      * Sets "has unsaved changes" flag to true.
      */
     protected void setHasUnsavedChanges() {
-        logger.debug("setHasUnsavedChanges() entered. hasUnsavedChanged={}", hasUnsavedChanges);
+        logger.debug("setHasUnsavedChanges() entered. hasUnsavedChanged={}",
+                hasUnsavedChanges);
 
         hasUnsavedChanges = true;
 
-        logger.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
+        logger.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}",
+                hasUnsavedChanges);
     }
 
     /**

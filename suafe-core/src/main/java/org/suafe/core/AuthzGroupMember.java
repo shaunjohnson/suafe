@@ -11,12 +11,14 @@ import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
 
 /**
- * Authz group member object. Instances of this class or its subclasses are eligible to be a member of a group.
+ * Authz group member object. Instances of this class or its subclasses are
+ * eligible to be a member of a group.
  * 
  * @since 2.0
  */
 public abstract class AuthzGroupMember implements Serializable {
-    private static final Logger logger = LoggerFactory.getLogger(AuthzGroupMember.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(AuthzGroupMember.class);
 
     private static final long serialVersionUID = -4348242302006857451L;
 
@@ -27,9 +29,11 @@ public abstract class AuthzGroupMember implements Serializable {
      * 
      * @param group Group to add to collection
      * @return True if group added
-     * @throws AuthzAlreadyMemberOfGroupException If this object is already a member of the group
+     * @throws AuthzAlreadyMemberOfGroupException If this object is already a
+     *         member of the group
      */
-    public boolean addGroup(final AuthzGroup group) throws AuthzAlreadyMemberOfGroupException {
+    public boolean addGroup(final AuthzGroup group)
+            throws AuthzAlreadyMemberOfGroupException {
         logger.debug("addGroup() entered. group={}", group);
 
         if (group == null) {
@@ -63,7 +67,8 @@ public abstract class AuthzGroupMember implements Serializable {
      * @return True if group is removed
      * @throws AuthzNotMemberOfGroupException
      */
-    public boolean removeGroup(final AuthzGroup group) throws AuthzNotMemberOfGroupException {
+    public boolean removeGroup(final AuthzGroup group)
+            throws AuthzNotMemberOfGroupException {
         logger.debug("removeGroup() entered. group={}", group);
 
         if (group == null) {
@@ -73,7 +78,8 @@ public abstract class AuthzGroupMember implements Serializable {
         }
 
         if (!groups.contains(group)) {
-            logger.error("removeGroup() this object is not a member of the group");
+            logger
+                    .error("removeGroup() this object is not a member of the group");
 
             throw new AuthzNotMemberOfGroupException();
         }

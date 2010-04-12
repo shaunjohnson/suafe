@@ -13,7 +13,8 @@ import org.slf4j.LoggerFactory;
  * @since 2.0
  */
 public class AuthzPath implements Serializable, Comparable<AuthzPath> {
-    private static final Logger logger = LoggerFactory.getLogger(AuthzPath.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(AuthzPath.class);
 
     private static final long serialVersionUID = 9125579229041836584L;
 
@@ -101,7 +102,8 @@ public class AuthzPath implements Serializable, Comparable<AuthzPath> {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((path == null) ? 0 : path.hashCode());
-        result = prime * result + ((repository == null) ? 0 : repository.hashCode());
+        result = prime * result
+                + ((repository == null) ? 0 : repository.hashCode());
         return result;
     }
 

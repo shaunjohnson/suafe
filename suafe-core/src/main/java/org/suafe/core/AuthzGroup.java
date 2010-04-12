@@ -16,8 +16,10 @@ import org.suafe.core.exceptions.AuthzNotGroupMemberException;
  * 
  * @since 2.0
  */
-public class AuthzGroup extends AuthzGroupMember implements Comparable<AuthzGroup> {
-    private static final Logger logger = LoggerFactory.getLogger(AuthzGroup.class);
+public class AuthzGroup extends AuthzGroupMember implements
+        Comparable<AuthzGroup> {
+    private static final Logger logger = LoggerFactory
+            .getLogger(AuthzGroup.class);
 
     private static final long serialVersionUID = 7033919638521713150L;
 
@@ -42,9 +44,11 @@ public class AuthzGroup extends AuthzGroupMember implements Comparable<AuthzGrou
      * 
      * @param user AuthzUser member to add
      * @return True if member added
-     * @throws AuthzGroupMemberAlreadyExistsException If group member already exists
+     * @throws AuthzGroupMemberAlreadyExistsException If group member already
+     *         exists
      */
-    public boolean addMember(final AuthzGroupMember member) throws AuthzGroupMemberAlreadyExistsException {
+    public boolean addMember(final AuthzGroupMember member)
+            throws AuthzGroupMemberAlreadyExistsException {
         logger.debug("addMember() entered. member={}", member);
 
         if (member == null) {
@@ -139,9 +143,11 @@ public class AuthzGroup extends AuthzGroupMember implements Comparable<AuthzGrou
      * 
      * @param member Member to remove
      * @return True if member removed
-     * @throws AuthzNotGroupMemberException If provided member object is not a member of this group.
+     * @throws AuthzNotGroupMemberException If provided member object is not a
+     *         member of this group.
      */
-    public boolean removeMember(final AuthzGroupMember member) throws AuthzNotGroupMemberException {
+    public boolean removeMember(final AuthzGroupMember member)
+            throws AuthzNotGroupMemberException {
         logger.debug("removeMember() entered. member={}", member);
 
         if (member == null) {

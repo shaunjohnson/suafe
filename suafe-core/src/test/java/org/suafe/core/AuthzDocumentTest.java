@@ -61,7 +61,8 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            document.addGroupMember(new AuthzGroup(null), new AuthzUser(null, null));
+            document.addGroupMember(new AuthzGroup(null), new AuthzUser(null,
+                    null));
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -79,7 +80,8 @@ public class AuthzDocumentTest {
             fail("Successfully added user to the same group more than once");
         }
         catch (final AuthzGroupMemberAlreadyExistsException e) {
-            assertNotNull("Expected AuthzGroupMemberAlreadyExistsException", e.getMessage());
+            assertNotNull("Expected AuthzGroupMemberAlreadyExistsException", e
+                    .getMessage());
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -97,7 +99,8 @@ public class AuthzDocumentTest {
             fail("Successfully added user to the same group more than once");
         }
         catch (final AuthzAlreadyMemberOfGroupException e) {
-            assertNotNull("Expected AuthzAlreadyMemberOfGroupException", e.getMessage());
+            assertNotNull("Expected AuthzAlreadyMemberOfGroupException", e
+                    .getMessage());
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -109,34 +112,41 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
 
             // Test create user
             document.createUser("user", null);
 
-            assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
 
             document.clearHasUnsavedChanges();
 
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
 
             // Test create group
             document.createGroup("group");
 
-            assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
 
             document.clearHasUnsavedChanges();
 
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
 
             // Test create repository
             document.createRepository("repository");
 
-            assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
 
             document.clearHasUnsavedChanges();
 
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -270,10 +280,12 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            final AuthzRepository repository = document.createRepository("name");
+            final AuthzRepository repository = document
+                    .createRepository("name");
 
             assertNotNull("Repository should not be null", repository);
-            assertEquals("Repository name should be valid", "name", repository.getName());
+            assertEquals("Repository name should be valid", "name", repository
+                    .getName());
         }
         catch (final AuthzInvalidRepositoryNameException e) {
             fail("Unexpected AuthzInvalidRepositoryNameException");
@@ -490,11 +502,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("Group should not exist", document.doesGroupNameExist("name"));
+            assertFalse("Group should not exist", document
+                    .doesGroupNameExist("name"));
 
             document.createGroup("name");
 
-            assertTrue("Group should exist", document.doesGroupNameExist("name"));
+            assertTrue("Group should exist", document
+                    .doesGroupNameExist("name"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -503,11 +517,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("Group should not exist", document.doesGroupNameExist("  name  "));
+            assertFalse("Group should not exist", document
+                    .doesGroupNameExist("  name  "));
 
             document.createGroup("name");
 
-            assertTrue("Group should exist", document.doesGroupNameExist("  name  "));
+            assertTrue("Group should exist", document
+                    .doesGroupNameExist("  name  "));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -554,11 +570,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("Repository with name should not exist", document.doesRepositoryNameExist("name"));
+            assertFalse("Repository with name should not exist", document
+                    .doesRepositoryNameExist("name"));
 
             document.createRepository("name");
 
-            assertTrue("Repository with name should exist", document.doesRepositoryNameExist("name"));
+            assertTrue("Repository with name should exist", document
+                    .doesRepositoryNameExist("name"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -567,11 +585,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("Repository with name should not exist", document.doesRepositoryNameExist("  name  "));
+            assertFalse("Repository with name should not exist", document
+                    .doesRepositoryNameExist("  name  "));
 
             document.createRepository("name");
 
-            assertTrue("Repository with name should exist", document.doesRepositoryNameExist("  name  "));
+            assertTrue("Repository with name should exist", document
+                    .doesRepositoryNameExist("  name  "));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -618,11 +638,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("User with alias should not exist", document.doesUserAliasExist("alias"));
+            assertFalse("User with alias should not exist", document
+                    .doesUserAliasExist("alias"));
 
             document.createUser("name", "alias");
 
-            assertTrue("User with alias should exist", document.doesUserAliasExist("alias"));
+            assertTrue("User with alias should exist", document
+                    .doesUserAliasExist("alias"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -631,11 +653,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("User with name should not exist", document.doesUserAliasExist("  alias  "));
+            assertFalse("User with name should not exist", document
+                    .doesUserAliasExist("  alias  "));
 
             document.createUser("name", "alias");
 
-            assertTrue("User with name should exist", document.doesUserAliasExist("  alias  "));
+            assertTrue("User with name should exist", document
+                    .doesUserAliasExist("  alias  "));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -682,11 +706,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("User with name should not exist", document.doesUserNameExist("name"));
+            assertFalse("User with name should not exist", document
+                    .doesUserNameExist("name"));
 
             document.createUser("name", null);
 
-            assertTrue("User with name should exist", document.doesUserNameExist("name"));
+            assertTrue("User with name should exist", document
+                    .doesUserNameExist("name"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -695,11 +721,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("User with name should not exist", document.doesUserNameExist("  name  "));
+            assertFalse("User with name should not exist", document
+                    .doesUserNameExist("  name  "));
 
             document.createUser("name", null);
 
-            assertTrue("User with name should exist", document.doesUserNameExist("  name  "));
+            assertTrue("User with name should exist", document
+                    .doesUserNameExist("  name  "));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -712,12 +740,14 @@ public class AuthzDocumentTest {
             final AuthzDocument document = new AuthzDocument();
 
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should empty", document.getGroups().size() == 0);
+            assertNotNull("Groups should empty",
+                    document.getGroups().size() == 0);
 
             document.createGroup("name");
 
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should contain one user", document.getGroups().size() == 1);
+            assertNotNull("Groups should contain one user", document
+                    .getGroups().size() == 1);
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -739,7 +769,8 @@ public class AuthzDocumentTest {
             groups = document.getGroups();
 
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should contain one user", document.getGroups().size() == 1);
+            assertNotNull("Groups should contain one user", document
+                    .getGroups().size() == 1);
 
             try {
                 groups.add(new AuthzGroup("name"));
@@ -806,11 +837,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNull("Group with name should not exist", document.getGroupWithName("name"));
+            assertNull("Group with name should not exist", document
+                    .getGroupWithName("name"));
 
             document.createGroup("name");
 
-            assertNotNull("Group with name should exist", document.getGroupWithName("name"));
+            assertNotNull("Group with name should exist", document
+                    .getGroupWithName("name"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -819,11 +852,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNull("Group with name should not exist", document.getGroupWithName("  name  "));
+            assertNull("Group with name should not exist", document
+                    .getGroupWithName("  name  "));
 
             document.createGroup("name");
 
-            assertNotNull("Group with name should exist", document.getGroupWithName("  name  "));
+            assertNotNull("Group with name should exist", document
+                    .getGroupWithName("  name  "));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -835,13 +870,17 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNotNull("Repositories should not be null", document.getRepositories());
-            assertNotNull("Repositories should empty", document.getRepositories().size() == 0);
+            assertNotNull("Repositories should not be null", document
+                    .getRepositories());
+            assertNotNull("Repositories should empty", document
+                    .getRepositories().size() == 0);
 
             document.createRepository("repository");
 
-            assertNotNull("Repositories should not be null", document.getRepositories());
-            assertNotNull("Repositories should contain one repository", document.getRepositories().size() == 1);
+            assertNotNull("Repositories should not be null", document
+                    .getRepositories());
+            assertNotNull("Repositories should contain one repository",
+                    document.getRepositories().size() == 1);
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -851,19 +890,23 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            Collection<AuthzRepository> repositories = document.getRepositories();
+            Collection<AuthzRepository> repositories = document
+                    .getRepositories();
 
             assertNotNull("Repositories should not be null", repositories);
             assertNotNull("Repositories should empty", repositories.size() == 0);
 
             document.createRepository("repository");
 
-            assertNotNull("Repositories should remain empty", repositories.size() == 0);
+            assertNotNull("Repositories should remain empty", repositories
+                    .size() == 0);
 
             repositories = document.getRepositories();
 
-            assertNotNull("Repositories should not be null", document.getRepositories());
-            assertNotNull("Repositories should contain one repository", document.getRepositories().size() == 1);
+            assertNotNull("Repositories should not be null", document
+                    .getRepositories());
+            assertNotNull("Repositories should contain one repository",
+                    document.getRepositories().size() == 1);
 
             try {
                 repositories.add(new AuthzRepository("repository"));
@@ -930,11 +973,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNull("Repository with name should not exist", document.getRepositoryWithName("name"));
+            assertNull("Repository with name should not exist", document
+                    .getRepositoryWithName("name"));
 
             document.createRepository("name");
 
-            assertNotNull("Repository with name should exist", document.getRepositoryWithName("name"));
+            assertNotNull("Repository with name should exist", document
+                    .getRepositoryWithName("name"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -943,11 +988,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNull("Repository with name should not exist", document.getRepositoryWithName("  name  "));
+            assertNull("Repository with name should not exist", document
+                    .getRepositoryWithName("  name  "));
 
             document.createRepository("name");
 
-            assertNotNull("Repository with name should exist", document.getRepositoryWithName("  name  "));
+            assertNotNull("Repository with name should exist", document
+                    .getRepositoryWithName("  name  "));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -965,7 +1012,8 @@ public class AuthzDocumentTest {
             document.createUser("user", null);
 
             assertNotNull("Users should not be null", document.getUsers());
-            assertNotNull("Users should contain one user", document.getUsers().size() == 1);
+            assertNotNull("Users should contain one user", document.getUsers()
+                    .size() == 1);
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -987,7 +1035,8 @@ public class AuthzDocumentTest {
             users = document.getUsers();
 
             assertNotNull("Users should not be null", document.getUsers());
-            assertNotNull("Users should contain one user", document.getUsers().size() == 1);
+            assertNotNull("Users should contain one user", document.getUsers()
+                    .size() == 1);
 
             try {
                 users.add(new AuthzUser("name", "alias"));
@@ -1054,11 +1103,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNull("User with alias should not exist", document.getUserWithAlias("alias"));
+            assertNull("User with alias should not exist", document
+                    .getUserWithAlias("alias"));
 
             document.createUser("name", "alias");
 
-            assertNotNull("User with alias should exist", document.getUserWithAlias("alias"));
+            assertNotNull("User with alias should exist", document
+                    .getUserWithAlias("alias"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1067,11 +1118,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNull("User with alias should not exist", document.getUserWithAlias("  alias  "));
+            assertNull("User with alias should not exist", document
+                    .getUserWithAlias("  alias  "));
 
             document.createUser("name", "alias");
 
-            assertNotNull("User with alias should exist", document.getUserWithAlias("  alias  "));
+            assertNotNull("User with alias should exist", document
+                    .getUserWithAlias("  alias  "));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1118,11 +1171,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNull("User with name should not exist", document.getUserWithName("name"));
+            assertNull("User with name should not exist", document
+                    .getUserWithName("name"));
 
             document.createUser("name", "alias");
 
-            assertNotNull("User with name should exist", document.getUserWithName("name"));
+            assertNotNull("User with name should exist", document
+                    .getUserWithName("name"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1131,11 +1186,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertNull("User with name should not exist", document.getUserWithName("  name  "));
+            assertNull("User with name should not exist", document
+                    .getUserWithName("  name  "));
 
             document.createUser("name", "alias");
 
-            assertNotNull("User with name should exist", document.getUserWithName("  name  "));
+            assertNotNull("User with name should exist", document
+                    .getUserWithName("  name  "));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1148,11 +1205,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
 
             document.createUser("user", null);
 
-            assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1162,11 +1221,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
 
             document.createGroup("group");
 
-            assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1176,11 +1237,13 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
 
             document.createRepository("repository");
 
-            assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1193,34 +1256,47 @@ public class AuthzDocumentTest {
             final AuthzDocument document = new AuthzDocument();
 
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should empty", document.getGroups().size() == 0);
-            assertNotNull("Repositories should not be null", document.getRepositories());
-            assertNotNull("Repositories should empty", document.getRepositories().size() == 0);
+            assertNotNull("Groups should empty",
+                    document.getGroups().size() == 0);
+            assertNotNull("Repositories should not be null", document
+                    .getRepositories());
+            assertNotNull("Repositories should empty", document
+                    .getRepositories().size() == 0);
             assertNotNull("Users should not be null", document.getUsers());
             assertNotNull("Users should empty", document.getUsers().size() == 0);
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
 
             document.createGroup("group");
             document.createRepository("repository");
             document.createUser("user", null);
 
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should contain one group", document.getGroups().size() == 1);
-            assertNotNull("Repositories should not be null", document.getRepositories());
-            assertNotNull("Repositories should empty", document.getRepositories().size() == 1);
+            assertNotNull("Groups should contain one group", document
+                    .getGroups().size() == 1);
+            assertNotNull("Repositories should not be null", document
+                    .getRepositories());
+            assertNotNull("Repositories should empty", document
+                    .getRepositories().size() == 1);
             assertNotNull("Users should not be null", document.getUsers());
-            assertNotNull("Users should contain one user", document.getUsers().size() == 1);
-            assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+            assertNotNull("Users should contain one user", document.getUsers()
+                    .size() == 1);
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
 
             document.initialize();
 
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should empty", document.getGroups().size() == 0);
-            assertNotNull("Repositories should not be null", document.getRepositories());
-            assertNotNull("Repositories should empty", document.getRepositories().size() == 0);
+            assertNotNull("Groups should empty",
+                    document.getGroups().size() == 0);
+            assertNotNull("Repositories should not be null", document
+                    .getRepositories());
+            assertNotNull("Repositories should empty", document
+                    .getRepositories().size() == 0);
             assertNotNull("Users should not be null", document.getUsers());
             assertNotNull("Users should empty", document.getUsers().size() == 0);
-            assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1232,13 +1308,18 @@ public class AuthzDocumentTest {
         final AuthzDocument document = new AuthzDocument();
 
         // Test invalid values
-        assertFalse("Null group name is invalid", document.isValidGroupName(null));
-        assertFalse("Empty group name is invalid", document.isValidGroupName(""));
-        assertFalse("Blank group name is invalid", document.isValidGroupName("  "));
+        assertFalse("Null group name is invalid", document
+                .isValidGroupName(null));
+        assertFalse("Empty group name is invalid", document
+                .isValidGroupName(""));
+        assertFalse("Blank group name is invalid", document
+                .isValidGroupName("  "));
 
         // Test valid values
-        assertTrue("Non-blank group name is valid", document.isValidGroupName("name"));
-        assertTrue("Non-blank group name is valid", document.isValidGroupName("  name  "));
+        assertTrue("Non-blank group name is valid", document
+                .isValidGroupName("name"));
+        assertTrue("Non-blank group name is valid", document
+                .isValidGroupName("  name  "));
     }
 
     @Test
@@ -1246,13 +1327,18 @@ public class AuthzDocumentTest {
         final AuthzDocument document = new AuthzDocument();
 
         // Test invalid values
-        assertFalse("Null repository name is invalid", document.isValidRepositoryName(null));
-        assertFalse("Empty repository name is invalid", document.isValidRepositoryName(""));
-        assertFalse("Blank repository name is invalid", document.isValidRepositoryName("  "));
+        assertFalse("Null repository name is invalid", document
+                .isValidRepositoryName(null));
+        assertFalse("Empty repository name is invalid", document
+                .isValidRepositoryName(""));
+        assertFalse("Blank repository name is invalid", document
+                .isValidRepositoryName("  "));
 
         // Test valid values
-        assertTrue("Non-blank repository name is valid", document.isValidRepositoryName("name"));
-        assertTrue("Non-blank repository name is valid", document.isValidRepositoryName("  name  "));
+        assertTrue("Non-blank repository name is valid", document
+                .isValidRepositoryName("name"));
+        assertTrue("Non-blank repository name is valid", document
+                .isValidRepositoryName("  name  "));
     }
 
     @Test
@@ -1260,13 +1346,18 @@ public class AuthzDocumentTest {
         final AuthzDocument document = new AuthzDocument();
 
         // Test invalid values
-        assertFalse("Null user alias is invalid", document.isValidUserAlias(null));
-        assertFalse("Empty user alias is invalid", document.isValidUserAlias(""));
-        assertFalse("Blank user alias is invalid", document.isValidUserAlias("  "));
+        assertFalse("Null user alias is invalid", document
+                .isValidUserAlias(null));
+        assertFalse("Empty user alias is invalid", document
+                .isValidUserAlias(""));
+        assertFalse("Blank user alias is invalid", document
+                .isValidUserAlias("  "));
 
         // Test valid values
-        assertTrue("Non-blank user alias is valid", document.isValidUserAlias("name"));
-        assertTrue("Non-blank user alias is valid", document.isValidUserAlias("  name  "));
+        assertTrue("Non-blank user alias is valid", document
+                .isValidUserAlias("name"));
+        assertTrue("Non-blank user alias is valid", document
+                .isValidUserAlias("  name  "));
     }
 
     @Test
@@ -1276,11 +1367,14 @@ public class AuthzDocumentTest {
         // Test invalid values
         assertFalse("Null user name is invalid", document.isValidUserName(null));
         assertFalse("Empty user name is invalid", document.isValidUserName(""));
-        assertFalse("Blank user name is invalid", document.isValidUserName("  "));
+        assertFalse("Blank user name is invalid", document
+                .isValidUserName("  "));
 
         // Test valid values
-        assertTrue("Non-blank user name is valid", document.isValidUserName("name"));
-        assertTrue("Non-blank user name is valid", document.isValidUserName("  name  "));
+        assertTrue("Non-blank user name is valid", document
+                .isValidUserName("name"));
+        assertTrue("Non-blank user name is valid", document
+                .isValidUserName("  name  "));
     }
 
     @Test
@@ -1323,7 +1417,8 @@ public class AuthzDocumentTest {
             document.removeGroupMember(group, user);
         }
         catch (final AuthzNotGroupMemberException e) {
-            assertNotNull("Expected AuthzNotGroupMemberException", e.getMessage());
+            assertNotNull("Expected AuthzNotGroupMemberException", e
+                    .getMessage());
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -1339,7 +1434,8 @@ public class AuthzDocumentTest {
             document.removeGroupMember(group, user);
         }
         catch (final AuthzNotMemberOfGroupException e) {
-            assertNotNull("Expected AuthzNotMemberOfGroupException", e.getMessage());
+            assertNotNull("Expected AuthzNotMemberOfGroupException", e
+                    .getMessage());
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -1376,21 +1472,27 @@ public class AuthzDocumentTest {
     public void testSetHasUnsavedChanges() {
         final AuthzDocument document = new AuthzDocument();
 
-        assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
+        assertFalse("Document should not have any unsaved changes", document
+                .hasUnsavedChanges());
 
         document.setHasUnsavedChanges();
 
-        assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
+        assertTrue("Document should have unsaved changes", document
+                .hasUnsavedChanges());
     }
 
     @Test
     public void testToString() {
         final AuthzDocument document = new AuthzDocument();
 
-        assertNotNull("Should not be null for empty document", document.toString());
+        assertNotNull("Should not be null for empty document", document
+                .toString());
 
-        assertTrue("Should contain group information", document.toString().contains("groups"));
-        assertTrue("Should contain repository information", document.toString().contains("repositories"));
-        assertTrue("Should contain user information", document.toString().contains("users"));
+        assertTrue("Should contain group information", document.toString()
+                .contains("groups"));
+        assertTrue("Should contain repository information", document.toString()
+                .contains("repositories"));
+        assertTrue("Should contain user information", document.toString()
+                .contains("users"));
     }
 }

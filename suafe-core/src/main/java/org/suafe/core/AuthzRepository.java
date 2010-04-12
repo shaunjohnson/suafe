@@ -10,7 +10,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  * @since 2.0
  */
-public class AuthzRepository implements Serializable, Comparable<AuthzRepository> {
+public class AuthzRepository implements Serializable,
+        Comparable<AuthzRepository> {
     private static final long serialVersionUID = 1252145167842473309L;
 
     private final String name;
@@ -29,7 +30,8 @@ public class AuthzRepository implements Serializable, Comparable<AuthzRepository
     @Override
     public int compareTo(final AuthzRepository authzRepository) {
         final String myName = StringUtils.trimToEmpty(name);
-        final String otherName = StringUtils.trimToEmpty(authzRepository.getName());
+        final String otherName = StringUtils.trimToEmpty(authzRepository
+                .getName());
 
         return myName.compareTo(otherName);
     }

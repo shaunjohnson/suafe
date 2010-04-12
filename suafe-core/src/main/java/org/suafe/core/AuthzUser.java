@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
  * 
  * @since 2.0
  */
-public class AuthzUser extends AuthzGroupMember implements Comparable<AuthzUser> {
-    private static final Logger logger = LoggerFactory.getLogger(AuthzUser.class);
+public class AuthzUser extends AuthzGroupMember implements
+        Comparable<AuthzUser> {
+    private static final Logger logger = LoggerFactory
+            .getLogger(AuthzUser.class);
 
     private static final long serialVersionUID = 7672296029756141807L;
 
@@ -39,7 +41,8 @@ public class AuthzUser extends AuthzGroupMember implements Comparable<AuthzUser>
      */
     @Override
     public int compareTo(final AuthzUser authzUser) {
-        final String myName = StringUtils.trimToEmpty(name) + StringUtils.trimToEmpty(alias);
+        final String myName = StringUtils.trimToEmpty(name)
+                + StringUtils.trimToEmpty(alias);
         final String otherName = StringUtils.trimToEmpty(authzUser.getName())
                 + StringUtils.trimToEmpty(authzUser.getAlias());
 

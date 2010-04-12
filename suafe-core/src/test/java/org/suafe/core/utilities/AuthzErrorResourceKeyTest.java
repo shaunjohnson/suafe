@@ -17,9 +17,11 @@ public class AuthzErrorResourceKeyTest {
 
             for (final Field f : c.getFields()) {
                 if (f.getType().equals(AuthzErrorResourceKey.class)) {
-                    final AuthzErrorResourceKey key = (AuthzErrorResourceKey) f.get(null);
+                    final AuthzErrorResourceKey key = (AuthzErrorResourceKey) f
+                            .get(null);
 
-                    assertNotNull("Unable to load resource with key \"" + key.toString() + "\"", AuthzResources
+                    assertNotNull("Unable to load resource with key \""
+                            + key.toString() + "\"", AuthzResources
                             .getString(key));
                 }
             }
@@ -34,16 +36,22 @@ public class AuthzErrorResourceKeyTest {
 
     @Test
     public void testEquals() {
-        assertTrue("Values should match", AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP
-                .equals(AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP));
-        assertFalse("Values should not match", AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP
-                .equals(AuthzErrorResourceKey.GROUP_ALREADY_EXISTS));
+        assertTrue("Values should match",
+                AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP
+                        .equals(AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP));
+        assertFalse("Values should not match",
+                AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP
+                        .equals(AuthzErrorResourceKey.GROUP_ALREADY_EXISTS));
 
         // Test invalid values
-        assertFalse("Values should not match", AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP.equals(null));
-        assertFalse("Values should not match", AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP.equals(""));
-        assertFalse("Values should not match", AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP
-                .equals(AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP.toString()));
+        assertFalse("Values should not match",
+                AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP.equals(null));
+        assertFalse("Values should not match",
+                AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP.equals(""));
+        assertFalse("Values should not match",
+                AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP
+                        .equals(AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP
+                                .toString()));
     }
 
     @Test
@@ -52,7 +60,8 @@ public class AuthzErrorResourceKeyTest {
                 "HashCode values should match",
                 AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP.hashCode() == AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP
                         .hashCode());
-        assertFalse("HashCode values should not match",
+        assertFalse(
+                "HashCode values should not match",
                 AuthzErrorResourceKey.ALREADY_MEMBER_OF_GROUP.hashCode() == AuthzErrorResourceKey.GROUP_ALREADY_EXISTS
                         .hashCode());
     }

@@ -17,7 +17,8 @@ public final class AuthzResources {
      */
     public static String getString(final AuthzResourceKeyIF messageKey) {
         try {
-            final ResourceBundle resourceBundle = ResourceBundle.getBundle("org.suafe.core.nl.suafe-core-resources");
+            final ResourceBundle resourceBundle = ResourceBundle
+                    .getBundle("org.suafe.core.nl.suafe-core-resources");
             return resourceBundle.getString(messageKey.toString());
         }
         catch (final MissingResourceException e) {
