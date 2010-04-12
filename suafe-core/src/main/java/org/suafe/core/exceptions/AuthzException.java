@@ -9,14 +9,14 @@ import org.suafe.core.utilities.AuthzResources;
  * @since 2.0
  */
 public abstract class AuthzException extends Exception {
-	private static final long serialVersionUID = 1657007960837193130L;
+    private static final long serialVersionUID = 1657007960837193130L;
 
-	/**
-	 * Constructor that accepts exception message text.
-	 * 
-	 * @param messageKey Resource key for message text
-	 */
-	public AuthzException(final AuthzResourceKeyIF messageKey) {
-		super(AuthzResources.getString(messageKey));
-	}
+    /**
+     * Constructor that accepts exception message text.
+     * 
+     * @param messageKey Resource key for message text
+     */
+    public AuthzException(final AuthzResourceKeyIF messageKey) {
+        super(AuthzResources.getString(messageKey));
+    }
 }

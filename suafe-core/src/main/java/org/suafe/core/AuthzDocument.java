@@ -28,573 +28,573 @@ import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
  * @since 2.0
  */
 public class AuthzDocument implements Serializable {
-	private static final Logger logger = LoggerFactory.getLogger(AuthzDocument.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthzDocument.class);
 
-	private static final long serialVersionUID = -1396450094914018451L;
+    private static final long serialVersionUID = -1396450094914018451L;
 
-	private Vector<AuthzGroup> groups;
+    private Vector<AuthzGroup> groups;
 
-	private boolean hasUnsavedChanges;
+    private boolean hasUnsavedChanges;
 
-	private Vector<AuthzRepository> repositories;
+    private Vector<AuthzRepository> repositories;
 
-	private Vector<AuthzUser> users;
+    private Vector<AuthzUser> users;
 
-	/**
-	 * Default constructor.
-	 */
-	public AuthzDocument() {
-		super();
+    /**
+     * Default constructor.
+     */
+    public AuthzDocument() {
+        super();
 
-		initialize();
-	}
+        initialize();
+    }
 
-	/**
-	 * Add a new member to a group.
-	 * 
-	 * @param group Group to add a member to
-	 * @param member Member to add to group
-	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
-	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
-	 */
-	public void addGroupMember(final AuthzGroup group, final AuthzGroupMember member)
-			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
-		logger.debug("addGroupMember() entered. group={}, member={}", group, member);
+    /**
+     * Add a new member to a group.
+     * 
+     * @param group Group to add a member to
+     * @param member Member to add to group
+     * @throws AuthzGroupMemberAlreadyExistsException If group already has member
+     * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+     */
+    public void addGroupMember(final AuthzGroup group, final AuthzGroupMember member)
+            throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+        logger.debug("addGroupMember() entered. group={}, member={}", group, member);
 
-		if (group == null) {
-			logger.error("addGroupMember() group is null");
+        if (group == null) {
+            logger.error("addGroupMember() group is null");
 
-			throw new NullPointerException("Group is null");
-		}
+            throw new NullPointerException("Group is null");
+        }
 
-		if (member == null) {
-			logger.error("addGroupMember() member is null");
+        if (member == null) {
+            logger.error("addGroupMember() member is null");
 
-			throw new NullPointerException("Member is null");
-		}
+            throw new NullPointerException("Member is null");
+        }
 
-		group.addMember(member);
-		member.addGroup(group);
+        group.addMember(member);
+        member.addGroup(group);
 
-		logger.debug("addGroupMember() exited.");
-	}
+        logger.debug("addGroupMember() exited.");
+    }
 
-	/**
-	 * Sets "has unsaved changes" flag to false.
-	 */
-	protected void clearHasUnsavedChanges() {
-		logger.debug("clearHasUnsavedChanges() entered. hasUnsavedChanged={}", hasUnsavedChanges);
+    /**
+     * Sets "has unsaved changes" flag to false.
+     */
+    protected void clearHasUnsavedChanges() {
+        logger.debug("clearHasUnsavedChanges() entered. hasUnsavedChanged={}", hasUnsavedChanges);
 
-		hasUnsavedChanges = false;
+        hasUnsavedChanges = false;
 
-		logger.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
-	}
+        logger.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
+    }
 
-	/**
-	 * Creates a new group.
-	 * 
-	 * @param name Name of user
-	 * @return Newly created AuthzGroup object
-	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
-	 * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
-	 */
-	public AuthzGroup createGroup(final String name) throws AuthzGroupAlreadyExistsException,
-			AuthzInvalidGroupNameException {
-		logger.debug("createGroup() entered. name=\"{}\"", name);
+    /**
+     * Creates a new group.
+     * 
+     * @param name Name of user
+     * @return Newly created AuthzGroup object
+     * @throws AuthzInvalidGroupNameException If provided group name is invalid
+     * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
+     */
+    public AuthzGroup createGroup(final String name) throws AuthzGroupAlreadyExistsException,
+            AuthzInvalidGroupNameException {
+        logger.debug("createGroup() entered. name=\"{}\"", name);
 
-		final String nameTrimmed = StringUtils.trimToNull(name);
+        final String nameTrimmed = StringUtils.trimToNull(name);
 
-		// Validate group name
-		if (!isValidGroupName(nameTrimmed)) {
-			logger.error("createGroup() invalid group name");
+        // Validate group name
+        if (!isValidGroupName(nameTrimmed)) {
+            logger.error("createGroup() invalid group name");
 
-			throw new AuthzInvalidGroupNameException();
-		}
+            throw new AuthzInvalidGroupNameException();
+        }
 
-		if (doesGroupNameExist(nameTrimmed)) {
-			logger.info("createGroup() group already exists");
+        if (doesGroupNameExist(nameTrimmed)) {
+            logger.info("createGroup() group already exists");
 
-			throw new AuthzGroupAlreadyExistsException();
-		}
+            throw new AuthzGroupAlreadyExistsException();
+        }
 
-		final AuthzGroup group = new AuthzGroup(nameTrimmed);
+        final AuthzGroup group = new AuthzGroup(nameTrimmed);
 
-		groups.add(group);
+        groups.add(group);
 
-		setHasUnsavedChanges();
+        setHasUnsavedChanges();
 
-		logger.debug("createGroup() group created successfully, returning {}", group);
+        logger.debug("createGroup() group created successfully, returning {}", group);
 
-		return group;
-	}
+        return group;
+    }
 
-	/**
-	 * Creates a new repository.
-	 * 
-	 * @param name Name of repository
-	 * @return Newly created AuthzRepository object
-	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
-	 * @throws AuthzRepositoryAlreadyExistsException If repository with the provided name already exists
-	 */
-	public AuthzRepository createRepository(final String name) throws AuthzInvalidRepositoryNameException,
-			AuthzRepositoryAlreadyExistsException {
-		logger.debug("createRepository() entered, name=\"{}\"", name);
+    /**
+     * Creates a new repository.
+     * 
+     * @param name Name of repository
+     * @return Newly created AuthzRepository object
+     * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+     * @throws AuthzRepositoryAlreadyExistsException If repository with the provided name already exists
+     */
+    public AuthzRepository createRepository(final String name) throws AuthzInvalidRepositoryNameException,
+            AuthzRepositoryAlreadyExistsException {
+        logger.debug("createRepository() entered, name=\"{}\"", name);
 
-		final String nameTrimmed = StringUtils.trimToNull(name);
+        final String nameTrimmed = StringUtils.trimToNull(name);
 
-		// Validate repository name
-		if (!isValidRepositoryName(nameTrimmed)) {
-			logger.error("createRepository() invalid repository name");
+        // Validate repository name
+        if (!isValidRepositoryName(nameTrimmed)) {
+            logger.error("createRepository() invalid repository name");
 
-			throw new AuthzInvalidRepositoryNameException();
-		}
+            throw new AuthzInvalidRepositoryNameException();
+        }
 
-		// Check for existing repositories with same name
-		if (doesRepositoryNameExist(nameTrimmed)) {
-			logger.info("createRepository() repository already exists");
+        // Check for existing repositories with same name
+        if (doesRepositoryNameExist(nameTrimmed)) {
+            logger.info("createRepository() repository already exists");
 
-			throw new AuthzRepositoryAlreadyExistsException();
-		}
+            throw new AuthzRepositoryAlreadyExistsException();
+        }
 
-		final AuthzRepository repository = new AuthzRepository(nameTrimmed);
+        final AuthzRepository repository = new AuthzRepository(nameTrimmed);
 
-		repositories.add(repository);
+        repositories.add(repository);
 
-		setHasUnsavedChanges();
+        setHasUnsavedChanges();
 
-		logger.debug("createRepository() repository created successfully, returning {}", repository);
+        logger.debug("createRepository() repository created successfully, returning {}", repository);
 
-		return repository;
-	}
-
-	/**
-	 * Creates a new user.
-	 * 
-	 * @param name Name of user (required)
-	 * @param alias Alias of user (optional)
-	 * @return Newly created AuthzUser object
-	 * @throws AuthzInvalidUserNameException If provided user name is invalid
-	 * @throws AuthzInvalidUserAliasException If provided user alias is invalid
-	 * @throws AuthzUserAlreadyExistsException If user with the provided name already exists
-	 * @throws AuthzUserAliasAlreadyExistsException If user with the provided alias already exists
-	 * @throws AuthzInvalidUserAliasException
-	 */
-	public AuthzUser createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
-			AuthzUserAlreadyExistsException, AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException {
-		logger.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name, alias);
-
-		final String nameTrimmed = StringUtils.trimToNull(name);
-		final String aliasTrimmed = StringUtils.trimToNull(alias);
-
-		// Validate user name and alias
-		if (!isValidUserName(nameTrimmed)) {
-			logger.error("createUser() invalid user name");
+        return repository;
+    }
+
+    /**
+     * Creates a new user.
+     * 
+     * @param name Name of user (required)
+     * @param alias Alias of user (optional)
+     * @return Newly created AuthzUser object
+     * @throws AuthzInvalidUserNameException If provided user name is invalid
+     * @throws AuthzInvalidUserAliasException If provided user alias is invalid
+     * @throws AuthzUserAlreadyExistsException If user with the provided name already exists
+     * @throws AuthzUserAliasAlreadyExistsException If user with the provided alias already exists
+     * @throws AuthzInvalidUserAliasException
+     */
+    public AuthzUser createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
+            AuthzUserAlreadyExistsException, AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException {
+        logger.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name, alias);
+
+        final String nameTrimmed = StringUtils.trimToNull(name);
+        final String aliasTrimmed = StringUtils.trimToNull(alias);
+
+        // Validate user name and alias
+        if (!isValidUserName(nameTrimmed)) {
+            logger.error("createUser() invalid user name");
 
-			throw new AuthzInvalidUserNameException();
-		}
+            throw new AuthzInvalidUserNameException();
+        }
 
-		if (aliasTrimmed != null && !isValidUserAlias(aliasTrimmed)) {
-			logger.error("createUser() invalid user alias");
+        if (aliasTrimmed != null && !isValidUserAlias(aliasTrimmed)) {
+            logger.error("createUser() invalid user alias");
 
-			throw new AuthzInvalidUserAliasException();
-		}
-
-		// Check for existing users with same user name or alias
-		if (doesUserNameExist(nameTrimmed)) {
-			logger.info("createUser() user already exists");
+            throw new AuthzInvalidUserAliasException();
+        }
+
+        // Check for existing users with same user name or alias
+        if (doesUserNameExist(nameTrimmed)) {
+            logger.info("createUser() user already exists");
 
-			throw new AuthzUserAlreadyExistsException();
-		}
-
-		if (aliasTrimmed != null && doesUserAliasExist(aliasTrimmed)) {
-			logger.info("createUser() user alias already exists");
-
-			throw new AuthzUserAliasAlreadyExistsException();
-		}
-
-		final AuthzUser user = new AuthzUser(nameTrimmed, aliasTrimmed);
-
-		users.add(user);
-
-		setHasUnsavedChanges();
-
-		logger.debug("createUser() user created successfully, returning {}", user);
-
-		return user;
-	}
+            throw new AuthzUserAlreadyExistsException();
+        }
+
+        if (aliasTrimmed != null && doesUserAliasExist(aliasTrimmed)) {
+            logger.info("createUser() user alias already exists");
+
+            throw new AuthzUserAliasAlreadyExistsException();
+        }
+
+        final AuthzUser user = new AuthzUser(nameTrimmed, aliasTrimmed);
+
+        users.add(user);
+
+        setHasUnsavedChanges();
+
+        logger.debug("createUser() user created successfully, returning {}", user);
+
+        return user;
+    }
 
-	/**
-	 * Determines if a group with the provided name exists.
-	 * 
-	 * @param name Name of group to find
-	 * @return True if the group with the provided name exists, otherwise false
-	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
-	 */
-	public boolean doesGroupNameExist(final String name) throws AuthzInvalidGroupNameException {
-		logger.debug("doesGroupNameExist() entered. name=\"{}\"", name);
+    /**
+     * Determines if a group with the provided name exists.
+     * 
+     * @param name Name of group to find
+     * @return True if the group with the provided name exists, otherwise false
+     * @throws AuthzInvalidGroupNameException If provided group name is invalid
+     */
+    public boolean doesGroupNameExist(final String name) throws AuthzInvalidGroupNameException {
+        logger.debug("doesGroupNameExist() entered. name=\"{}\"", name);
 
-		final boolean doesGroupNameExist = getGroupWithName(name) != null;
+        final boolean doesGroupNameExist = getGroupWithName(name) != null;
 
-		logger.debug("doesGroupNameExist() exiting, returning {}", doesGroupNameExist);
+        logger.debug("doesGroupNameExist() exiting, returning {}", doesGroupNameExist);
 
-		return doesGroupNameExist;
-	}
-
-	/**
-	 * Determines if a repository with the provided name exists.
-	 * 
-	 * @param name Name of repository to find
-	 * @return True if repository with the provided name exists, otherwise false
-	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
-	 */
-	public boolean doesRepositoryNameExist(final String name) throws AuthzInvalidRepositoryNameException {
-		logger.debug("doesRepositoryNameExist() entered. name=\"{}\"", name);
-
-		final boolean doesRepositoryNameExist = getRepositoryWithName(name) != null;
-
-		logger.debug("doesRepositoryNameExist() exiting, returning {}", doesRepositoryNameExist);
-
-		return doesRepositoryNameExist;
-	}
-
-	/**
-	 * Determines if a user with the provided alias exists.
-	 * 
-	 * @param alias Alias of user to find
-	 * @return True if the user with the provided alias exists, otherwise false
-	 * @throws AuthzInvalidUserAliasException If provided user alias is invalid
-	 */
-	public boolean doesUserAliasExist(final String alias) throws AuthzInvalidUserAliasException {
-		logger.debug("doesUserAliasExist() entered. alias=\"{}\"", alias);
-
-		final boolean doesUserAliasExist = getUserWithAlias(alias) != null;
-
-		logger.debug("doesUserAliasExist() exiting, returning {}", doesUserAliasExist);
-
-		return doesUserAliasExist;
-	}
-
-	/**
-	 * Determines if a user with the provided name exists.
-	 * 
-	 * @param name Name of user to find
-	 * @return True if user with the provided name exists, otherwise false
-	 * @throws AuthzInvalidUserNameException If provided user name is invalid
-	 */
-	public boolean doesUserNameExist(final String name) throws AuthzInvalidUserNameException {
-		logger.debug("doesUserNameExist() entered. name=\"{}\"", name);
-
-		final boolean doesUserNameExist = getUserWithName(name) != null;
-
-		logger.debug("doesUserNameExist() exiting, returning {}", doesUserNameExist);
-
-		return doesUserNameExist;
-	}
-
-	/**
-	 * Returns an immutable collection of AuthGroup objects
-	 * 
-	 * @return Immutable collection of AuthGroup objects
-	 */
-	public Collection<AuthzGroup> getGroups() {
-		logger.debug("getGroups() entered, returning groups with {} group objects", groups.size());
-
-		return Collections.unmodifiableCollection(groups);
-	}
-
-	/**
-	 * Returns the group with the provided name.
-	 * 
-	 * @param name Name of group to find
-	 * @return AuthzGroup if found, otherwise null
-	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
-	 */
-	public AuthzGroup getGroupWithName(final String name) throws AuthzInvalidGroupNameException {
-		logger.debug("getGroupWithName() entered. name=\"{}\"", name);
-
-		final String nameTrimmed = StringUtils.trimToNull(name);
-
-		if (!isValidGroupName(nameTrimmed)) {
-			logger.error("getGroupWithName() invalid group name");
-
-			throw new AuthzInvalidGroupNameException();
-		}
-
-		AuthzGroup foundGroup = null;
-
-		for (final AuthzGroup group : groups) {
-			if (group.getName().equals(nameTrimmed)) {
-				foundGroup = group;
-				break;
-			}
-		}
-
-		logger.debug("getGroupWithName() exiting, returning {}", foundGroup);
-
-		return foundGroup;
-	}
-
-	/**
-	 * Returns an immutable collection of AuthRepository objects
-	 * 
-	 * @return Immutable collection of AuthRepository objects
-	 */
-	public Collection<AuthzRepository> getRepositories() {
-		logger.debug("getRepositories() entered, returning repositories with {} repository objects", repositories
-				.size());
-
-		return Collections.unmodifiableCollection(repositories);
-	}
-
-	/**
-	 * Returns the repository with the provided name.
-	 * 
-	 * @param name Name of repository to find
-	 * @return AuthzRepository if found, otherwise null
-	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
-	 */
-	public AuthzRepository getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException {
-		logger.debug("getRepositoryWithName() entered. name=\"{}\"", name);
-
-		final String nameTrimmed = StringUtils.trimToNull(name);
-
-		if (!isValidRepositoryName(nameTrimmed)) {
-			logger.error("getRepositoryWithName() invalid repository name");
-
-			throw new AuthzInvalidRepositoryNameException();
-		}
-
-		AuthzRepository foundRepository = null;
-
-		for (final AuthzRepository repository : repositories) {
-			if (repository.getName().equals(nameTrimmed)) {
-				foundRepository = repository;
-				break;
-			}
-		}
-
-		logger.debug("getRepositoryWithName() exiting, returning {}", foundRepository);
-
-		return foundRepository;
-	}
-
-	/**
-	 * Returns an immutable collection of AuthzUser objects
-	 * 
-	 * @return Immutable collection of AuthzUser objects
-	 */
-	public Collection<AuthzUser> getUsers() {
-		logger.debug("getUsers() entered, returning users with {} user objects", users.size());
-
-		return Collections.unmodifiableCollection(users);
-	}
-
-	/**
-	 * Returns the user with the provided alias.
-	 * 
-	 * @param alias Alias of user to find
-	 * @return AuthzUser if found, otherwise null
-	 * @throws AuthzInvalidUserAliasException If provided user alias is invalid
-	 */
-	public AuthzUser getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException {
-		logger.debug("getUserWithAlias() entered. alias=\"{}\"", alias);
-
-		final String aliasTrimmed = StringUtils.trimToNull(alias);
-
-		if (!isValidUserAlias(aliasTrimmed)) {
-			logger.error("getUserWithAlias() invalid user alias");
-
-			throw new AuthzInvalidUserAliasException();
-		}
-
-		AuthzUser foundUser = null;
-
-		for (final AuthzUser user : users) {
-			if (user.getAlias().equals(aliasTrimmed)) {
-				foundUser = user;
-				break;
-			}
-		}
-
-		logger.debug("getUserWithAlias() exiting, returning {}", foundUser);
-
-		return foundUser;
-	}
-
-	/**
-	 * Returns the user with the provided name.
-	 * 
-	 * @param name Name of user to find
-	 * @return AuthzUser if found, otherwise null
-	 * @throws AuthzInvalidUserNameException If provided user name is invalid
-	 */
-	public AuthzUser getUserWithName(final String name) throws AuthzInvalidUserNameException {
-		logger.debug("getUserWithName() entered. name=\"{}\"", name);
-
-		final String nameTrimmed = StringUtils.trimToNull(name);
-
-		if (!isValidUserName(nameTrimmed)) {
-			logger.error("getUserWithName() invalid user name");
-
-			throw new AuthzInvalidUserNameException();
-		}
-
-		AuthzUser foundUser = null;
-
-		for (final AuthzUser user : users) {
-			if (user.getName().equals(nameTrimmed)) {
-				foundUser = user;
-				break;
-			}
-		}
-
-		logger.debug("getUserWithName() exiting, returning {}", foundUser);
-
-		return foundUser;
-	}
-
-	/**
-	 * Returns "has unsaved changes" flag.
-	 * 
-	 * @return Current value of "has unsaved changes" flag
-	 */
-	public boolean hasUnsavedChanges() {
-		logger.debug("hasUnsavedChanges() entered. hasUnsavedChanges={}", hasUnsavedChanges);
-
-		return hasUnsavedChanges;
-	}
-
-	/**
-	 * Initializes the document
-	 */
-	public void initialize() {
-		logger.debug("initialize() entered.");
-
-		groups = new Vector<AuthzGroup>();
-		repositories = new Vector<AuthzRepository>();
-		users = new Vector<AuthzUser>();
-
-		clearHasUnsavedChanges();
-
-		logger.debug("initialize() exited.");
-	}
-
-	/**
-	 * Checks group name for validity.
-	 * 
-	 * @param name Group name to check
-	 * @return True if group name is valid, otherwise false
-	 */
-	protected boolean isValidGroupName(final String name) {
-		logger.debug("isValidGroupName() entered. name=\"{}\"", name);
-
-		final boolean isValidGroupName = StringUtils.isNotBlank(name);
-
-		logger.debug("isValidGroupName() exited, returning {}", isValidGroupName);
-
-		return isValidGroupName;
-	}
-
-	/**
-	 * Checks repository name for validity.
-	 * 
-	 * @param name Repository name to check
-	 * @return True if repository name is valid, otherwise false
-	 */
-	protected boolean isValidRepositoryName(final String name) {
-		logger.debug("isValidRepositoryName() entered. name=\"{}\"", name);
-
-		final boolean isValidRepositoryName = StringUtils.isNotBlank(name);
-
-		logger.debug("isValidRepositoryName() exited, returning {}", isValidRepositoryName);
-
-		return isValidRepositoryName;
-	}
-
-	/**
-	 * Checks user alias for validity.
-	 * 
-	 * @param alias User alias to check
-	 * @return True if user alias is valid, otherwise false
-	 */
-	protected boolean isValidUserAlias(final String alias) {
-		logger.debug("isValidUserAlias() entered. alias=\"{}\"", alias);
-
-		final boolean isValidUserAlias = StringUtils.isNotBlank(alias);
-
-		logger.debug("isValidUserAlias() exited, returning {}", isValidUserAlias);
-
-		return isValidUserAlias;
-	}
-
-	/**
-	 * Checks user name for validity.
-	 * 
-	 * @param name User name to check
-	 * @return True if user name is valid, otherwise false
-	 */
-	protected boolean isValidUserName(final String name) {
-		logger.debug("isValidUserName() entered. name=\"{}\"", name);
-
-		final boolean isValidUserName = StringUtils.isNotBlank(name);
-
-		logger.debug("isValidUserName() exited, returning {}", isValidUserName);
-
-		return isValidUserName;
-	}
-
-	/**
-	 * Remove member from a group.
-	 * 
-	 * @param group Group to remove member from
-	 * @param member Member to remove from group
-	 * @throws AuthzNotMemberOfGroupException If member isn't member of group
-	 * @throws AuthzNotGroupMemberException If group doesn't have member
-	 */
-	public void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
-			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
-		logger.debug("removeGroupMember() entered. group={}, member={}", group, member);
-
-		if (group == null) {
-			logger.error("addGroupMember() group is null");
-
-			throw new NullPointerException("Group is null");
-		}
-
-		if (member == null) {
-			logger.error("addGroupMember() member is null");
-
-			throw new NullPointerException("Member is null");
-		}
-
-		group.removeMember(member);
-		member.removeGroup(group);
-
-		logger.debug("removeGroupMember() exited.");
-	}
-
-	/**
-	 * Sets "has unsaved changes" flag to true.
-	 */
-	protected void setHasUnsavedChanges() {
-		logger.debug("setHasUnsavedChanges() entered. hasUnsavedChanged={}", hasUnsavedChanges);
-
-		hasUnsavedChanges = true;
-
-		logger.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
-	}
-
-	/**
-	 * Creates a string representation of this document.
-	 */
-	@Override
-	public String toString() {
-		final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
-
-		toStringBuilder.append("groups", groups.size());
-		toStringBuilder.append("users", users.size());
-		toStringBuilder.append("repositories", repositories.size());
-
-		return toStringBuilder.toString();
-	}
+        return doesGroupNameExist;
+    }
+
+    /**
+     * Determines if a repository with the provided name exists.
+     * 
+     * @param name Name of repository to find
+     * @return True if repository with the provided name exists, otherwise false
+     * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+     */
+    public boolean doesRepositoryNameExist(final String name) throws AuthzInvalidRepositoryNameException {
+        logger.debug("doesRepositoryNameExist() entered. name=\"{}\"", name);
+
+        final boolean doesRepositoryNameExist = getRepositoryWithName(name) != null;
+
+        logger.debug("doesRepositoryNameExist() exiting, returning {}", doesRepositoryNameExist);
+
+        return doesRepositoryNameExist;
+    }
+
+    /**
+     * Determines if a user with the provided alias exists.
+     * 
+     * @param alias Alias of user to find
+     * @return True if the user with the provided alias exists, otherwise false
+     * @throws AuthzInvalidUserAliasException If provided user alias is invalid
+     */
+    public boolean doesUserAliasExist(final String alias) throws AuthzInvalidUserAliasException {
+        logger.debug("doesUserAliasExist() entered. alias=\"{}\"", alias);
+
+        final boolean doesUserAliasExist = getUserWithAlias(alias) != null;
+
+        logger.debug("doesUserAliasExist() exiting, returning {}", doesUserAliasExist);
+
+        return doesUserAliasExist;
+    }
+
+    /**
+     * Determines if a user with the provided name exists.
+     * 
+     * @param name Name of user to find
+     * @return True if user with the provided name exists, otherwise false
+     * @throws AuthzInvalidUserNameException If provided user name is invalid
+     */
+    public boolean doesUserNameExist(final String name) throws AuthzInvalidUserNameException {
+        logger.debug("doesUserNameExist() entered. name=\"{}\"", name);
+
+        final boolean doesUserNameExist = getUserWithName(name) != null;
+
+        logger.debug("doesUserNameExist() exiting, returning {}", doesUserNameExist);
+
+        return doesUserNameExist;
+    }
+
+    /**
+     * Returns an immutable collection of AuthGroup objects
+     * 
+     * @return Immutable collection of AuthGroup objects
+     */
+    public Collection<AuthzGroup> getGroups() {
+        logger.debug("getGroups() entered, returning groups with {} group objects", groups.size());
+
+        return Collections.unmodifiableCollection(groups);
+    }
+
+    /**
+     * Returns the group with the provided name.
+     * 
+     * @param name Name of group to find
+     * @return AuthzGroup if found, otherwise null
+     * @throws AuthzInvalidGroupNameException If provided group name is invalid
+     */
+    public AuthzGroup getGroupWithName(final String name) throws AuthzInvalidGroupNameException {
+        logger.debug("getGroupWithName() entered. name=\"{}\"", name);
+
+        final String nameTrimmed = StringUtils.trimToNull(name);
+
+        if (!isValidGroupName(nameTrimmed)) {
+            logger.error("getGroupWithName() invalid group name");
+
+            throw new AuthzInvalidGroupNameException();
+        }
+
+        AuthzGroup foundGroup = null;
+
+        for (final AuthzGroup group : groups) {
+            if (group.getName().equals(nameTrimmed)) {
+                foundGroup = group;
+                break;
+            }
+        }
+
+        logger.debug("getGroupWithName() exiting, returning {}", foundGroup);
+
+        return foundGroup;
+    }
+
+    /**
+     * Returns an immutable collection of AuthRepository objects
+     * 
+     * @return Immutable collection of AuthRepository objects
+     */
+    public Collection<AuthzRepository> getRepositories() {
+        logger.debug("getRepositories() entered, returning repositories with {} repository objects", repositories
+                .size());
+
+        return Collections.unmodifiableCollection(repositories);
+    }
+
+    /**
+     * Returns the repository with the provided name.
+     * 
+     * @param name Name of repository to find
+     * @return AuthzRepository if found, otherwise null
+     * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+     */
+    public AuthzRepository getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException {
+        logger.debug("getRepositoryWithName() entered. name=\"{}\"", name);
+
+        final String nameTrimmed = StringUtils.trimToNull(name);
+
+        if (!isValidRepositoryName(nameTrimmed)) {
+            logger.error("getRepositoryWithName() invalid repository name");
+
+            throw new AuthzInvalidRepositoryNameException();
+        }
+
+        AuthzRepository foundRepository = null;
+
+        for (final AuthzRepository repository : repositories) {
+            if (repository.getName().equals(nameTrimmed)) {
+                foundRepository = repository;
+                break;
+            }
+        }
+
+        logger.debug("getRepositoryWithName() exiting, returning {}", foundRepository);
+
+        return foundRepository;
+    }
+
+    /**
+     * Returns an immutable collection of AuthzUser objects
+     * 
+     * @return Immutable collection of AuthzUser objects
+     */
+    public Collection<AuthzUser> getUsers() {
+        logger.debug("getUsers() entered, returning users with {} user objects", users.size());
+
+        return Collections.unmodifiableCollection(users);
+    }
+
+    /**
+     * Returns the user with the provided alias.
+     * 
+     * @param alias Alias of user to find
+     * @return AuthzUser if found, otherwise null
+     * @throws AuthzInvalidUserAliasException If provided user alias is invalid
+     */
+    public AuthzUser getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException {
+        logger.debug("getUserWithAlias() entered. alias=\"{}\"", alias);
+
+        final String aliasTrimmed = StringUtils.trimToNull(alias);
+
+        if (!isValidUserAlias(aliasTrimmed)) {
+            logger.error("getUserWithAlias() invalid user alias");
+
+            throw new AuthzInvalidUserAliasException();
+        }
+
+        AuthzUser foundUser = null;
+
+        for (final AuthzUser user : users) {
+            if (user.getAlias().equals(aliasTrimmed)) {
+                foundUser = user;
+                break;
+            }
+        }
+
+        logger.debug("getUserWithAlias() exiting, returning {}", foundUser);
+
+        return foundUser;
+    }
+
+    /**
+     * Returns the user with the provided name.
+     * 
+     * @param name Name of user to find
+     * @return AuthzUser if found, otherwise null
+     * @throws AuthzInvalidUserNameException If provided user name is invalid
+     */
+    public AuthzUser getUserWithName(final String name) throws AuthzInvalidUserNameException {
+        logger.debug("getUserWithName() entered. name=\"{}\"", name);
+
+        final String nameTrimmed = StringUtils.trimToNull(name);
+
+        if (!isValidUserName(nameTrimmed)) {
+            logger.error("getUserWithName() invalid user name");
+
+            throw new AuthzInvalidUserNameException();
+        }
+
+        AuthzUser foundUser = null;
+
+        for (final AuthzUser user : users) {
+            if (user.getName().equals(nameTrimmed)) {
+                foundUser = user;
+                break;
+            }
+        }
+
+        logger.debug("getUserWithName() exiting, returning {}", foundUser);
+
+        return foundUser;
+    }
+
+    /**
+     * Returns "has unsaved changes" flag.
+     * 
+     * @return Current value of "has unsaved changes" flag
+     */
+    public boolean hasUnsavedChanges() {
+        logger.debug("hasUnsavedChanges() entered. hasUnsavedChanges={}", hasUnsavedChanges);
+
+        return hasUnsavedChanges;
+    }
+
+    /**
+     * Initializes the document
+     */
+    public void initialize() {
+        logger.debug("initialize() entered.");
+
+        groups = new Vector<AuthzGroup>();
+        repositories = new Vector<AuthzRepository>();
+        users = new Vector<AuthzUser>();
+
+        clearHasUnsavedChanges();
+
+        logger.debug("initialize() exited.");
+    }
+
+    /**
+     * Checks group name for validity.
+     * 
+     * @param name Group name to check
+     * @return True if group name is valid, otherwise false
+     */
+    protected boolean isValidGroupName(final String name) {
+        logger.debug("isValidGroupName() entered. name=\"{}\"", name);
+
+        final boolean isValidGroupName = StringUtils.isNotBlank(name);
+
+        logger.debug("isValidGroupName() exited, returning {}", isValidGroupName);
+
+        return isValidGroupName;
+    }
+
+    /**
+     * Checks repository name for validity.
+     * 
+     * @param name Repository name to check
+     * @return True if repository name is valid, otherwise false
+     */
+    protected boolean isValidRepositoryName(final String name) {
+        logger.debug("isValidRepositoryName() entered. name=\"{}\"", name);
+
+        final boolean isValidRepositoryName = StringUtils.isNotBlank(name);
+
+        logger.debug("isValidRepositoryName() exited, returning {}", isValidRepositoryName);
+
+        return isValidRepositoryName;
+    }
+
+    /**
+     * Checks user alias for validity.
+     * 
+     * @param alias User alias to check
+     * @return True if user alias is valid, otherwise false
+     */
+    protected boolean isValidUserAlias(final String alias) {
+        logger.debug("isValidUserAlias() entered. alias=\"{}\"", alias);
+
+        final boolean isValidUserAlias = StringUtils.isNotBlank(alias);
+
+        logger.debug("isValidUserAlias() exited, returning {}", isValidUserAlias);
+
+        return isValidUserAlias;
+    }
+
+    /**
+     * Checks user name for validity.
+     * 
+     * @param name User name to check
+     * @return True if user name is valid, otherwise false
+     */
+    protected boolean isValidUserName(final String name) {
+        logger.debug("isValidUserName() entered. name=\"{}\"", name);
+
+        final boolean isValidUserName = StringUtils.isNotBlank(name);
+
+        logger.debug("isValidUserName() exited, returning {}", isValidUserName);
+
+        return isValidUserName;
+    }
+
+    /**
+     * Remove member from a group.
+     * 
+     * @param group Group to remove member from
+     * @param member Member to remove from group
+     * @throws AuthzNotMemberOfGroupException If member isn't member of group
+     * @throws AuthzNotGroupMemberException If group doesn't have member
+     */
+    public void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
+            throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
+        logger.debug("removeGroupMember() entered. group={}, member={}", group, member);
+
+        if (group == null) {
+            logger.error("addGroupMember() group is null");
+
+            throw new NullPointerException("Group is null");
+        }
+
+        if (member == null) {
+            logger.error("addGroupMember() member is null");
+
+            throw new NullPointerException("Member is null");
+        }
+
+        group.removeMember(member);
+        member.removeGroup(group);
+
+        logger.debug("removeGroupMember() exited.");
+    }
+
+    /**
+     * Sets "has unsaved changes" flag to true.
+     */
+    protected void setHasUnsavedChanges() {
+        logger.debug("setHasUnsavedChanges() entered. hasUnsavedChanged={}", hasUnsavedChanges);
+
+        hasUnsavedChanges = true;
+
+        logger.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
+    }
+
+    /**
+     * Creates a string representation of this document.
+     */
+    @Override
+    public String toString() {
+        final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
+
+        toStringBuilder.append("groups", groups.size());
+        toStringBuilder.append("users", users.size());
+        toStringBuilder.append("repositories", repositories.size());
+
+        return toStringBuilder.toString();
+    }
 }

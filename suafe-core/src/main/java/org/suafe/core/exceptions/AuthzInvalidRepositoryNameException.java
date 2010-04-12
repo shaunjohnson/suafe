@@ -8,12 +8,12 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * @since 2.0
  */
 public class AuthzInvalidRepositoryNameException extends AuthzException {
-	private static final long serialVersionUID = -3054546921304701329L;
+    private static final long serialVersionUID = -3054546921304701329L;
 
-	/**
-	 * Create exception with message text loaded using messageKey.
-	 */
-	public AuthzInvalidRepositoryNameException() {
-		super(AuthzErrorResourceKey.INVALID_REPOSITORY_NAME);
-	}
+    /**
+     * Create exception with message text loaded using messageKey.
+     */
+    public AuthzInvalidRepositoryNameException() {
+        super(AuthzErrorResourceKey.INVALID_REPOSITORY_NAME);
+    }
 }
