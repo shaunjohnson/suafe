@@ -18,7 +18,7 @@ public final class AuthzResources {
             .getLogger(AuthzDocument.class);
 
     /** Resource bundle. */
-    private final static ResourceBundle resourceBundle;
+    private static final ResourceBundle RESOURCE_BUNDLE;
 
     /**
      * Gets the Suafe resource bundle.
@@ -26,17 +26,17 @@ public final class AuthzResources {
      * @return ResourceBundle object
      */
     static {
-        ResourceBundle tempResourceBundle = null;
+        ResourceBundle resourceBundle = null;
 
         try {
-            tempResourceBundle = ResourceBundle
+            resourceBundle = ResourceBundle
                     .getBundle("org.suafe.core.nl.suafe-core-resources");
         }
         catch (final MissingResourceException e) {
             LOGGER.error("Unable to load resource bundle: {}", e.getMessage());
         }
 
-        resourceBundle = tempResourceBundle;
+        RESOURCE_BUNDLE = resourceBundle;
     }
 
     /**
@@ -53,7 +53,7 @@ public final class AuthzResources {
         }
 
         try {
-            return resourceBundle.getString(messageKey.toString());
+            return RESOURCE_BUNDLE.getString(messageKey.toString());
         }
         catch (final MissingResourceException e) {
             LOGGER.error("getString(AuthzResourceKeyIF)"
