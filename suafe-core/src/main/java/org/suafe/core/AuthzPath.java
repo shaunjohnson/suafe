@@ -105,7 +105,7 @@ public final class AuthzPath implements Serializable, Comparable<AuthzPath> {
      * 
      * @return Repository
      */
-    public final AuthzRepository getRepository() {
+    public AuthzRepository getRepository() {
         return repository;
     }
 
