@@ -27,18 +27,24 @@ import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
  * 
  * @since 2.0
  */
-public class AuthzDocument implements Serializable {
-    private static final Logger logger = LoggerFactory
+public final class AuthzDocument implements Serializable {
+    /** Logger handle. */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(AuthzDocument.class);
 
+    /** Serialization ID. */
     private static final long serialVersionUID = -1396450094914018451L;
 
+    /** Collection of groups. */
     private Vector<AuthzGroup> groups;
 
+    /** Unsaved changes indicator. */
     private boolean hasUnsavedChanges;
 
+    /** Collection of repositories. */
     private Vector<AuthzRepository> repositories;
 
+    /** Collection of users. */
     private Vector<AuthzUser> users;
 
     /**
@@ -64,17 +70,17 @@ public class AuthzDocument implements Serializable {
             final AuthzGroupMember member)
             throws AuthzGroupMemberAlreadyExistsException,
             AuthzAlreadyMemberOfGroupException {
-        logger.debug("addGroupMember() entered. group={}, member={}", group,
+        LOGGER.debug("addGroupMember() entered. group={}, member={}", group,
                 member);
 
         if (group == null) {
-            logger.error("addGroupMember() group is null");
+            LOGGER.error("addGroupMember() group is null");
 
             throw new NullPointerException("Group is null");
         }
 
         if (member == null) {
-            logger.error("addGroupMember() member is null");
+            LOGGER.error("addGroupMember() member is null");
 
             throw new NullPointerException("Member is null");
         }
@@ -82,19 +88,19 @@ public class AuthzDocument implements Serializable {
         group.addMember(member);
         member.addGroup(group);
 
-        logger.debug("addGroupMember() exited.");
+        LOGGER.debug("addGroupMember() exited.");
     }
 
     /**
      * Sets "has unsaved changes" flag to false.
      */
     protected void clearHasUnsavedChanges() {
-        logger.debug("clearHasUnsavedChanges() entered. hasUnsavedChanged={}",
+        LOGGER.debug("clearHasUnsavedChanges() entered. hasUnsavedChanged={}",
                 hasUnsavedChanges);
 
         hasUnsavedChanges = false;
 
-        logger.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}",
+        LOGGER.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}",
                 hasUnsavedChanges);
     }
 
@@ -110,19 +116,19 @@ public class AuthzDocument implements Serializable {
     public AuthzGroup createGroup(final String name)
             throws AuthzGroupAlreadyExistsException,
             AuthzInvalidGroupNameException {
-        logger.debug("createGroup() entered. name=\"{}\"", name);
+        LOGGER.debug("createGroup() entered. name=\"{}\"", name);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
 
         // Validate group name
         if (!isValidGroupName(nameTrimmed)) {
-            logger.error("createGroup() invalid group name");
+            LOGGER.error("createGroup() invalid group name");
 
             throw new AuthzInvalidGroupNameException();
         }
 
         if (doesGroupNameExist(nameTrimmed)) {
-            logger.info("createGroup() group already exists");
+            LOGGER.info("createGroup() group already exists");
 
             throw new AuthzGroupAlreadyExistsException();
         }
@@ -133,7 +139,7 @@ public class AuthzDocument implements Serializable {
 
         setHasUnsavedChanges();
 
-        logger.debug("createGroup() group created successfully, returning {}",
+        LOGGER.debug("createGroup() group created successfully, returning {}",
                 group);
 
         return group;
@@ -152,20 +158,20 @@ public class AuthzDocument implements Serializable {
     public AuthzRepository createRepository(final String name)
             throws AuthzInvalidRepositoryNameException,
             AuthzRepositoryAlreadyExistsException {
-        logger.debug("createRepository() entered, name=\"{}\"", name);
+        LOGGER.debug("createRepository() entered, name=\"{}\"", name);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
 
         // Validate repository name
         if (!isValidRepositoryName(nameTrimmed)) {
-            logger.error("createRepository() invalid repository name");
+            LOGGER.error("createRepository() invalid repository name");
 
             throw new AuthzInvalidRepositoryNameException();
         }
 
         // Check for existing repositories with same name
         if (doesRepositoryNameExist(nameTrimmed)) {
-            logger.info("createRepository() repository already exists");
+            LOGGER.info("createRepository() repository already exists");
 
             throw new AuthzRepositoryAlreadyExistsException();
         }
@@ -176,10 +182,8 @@ public class AuthzDocument implements Serializable {
 
         setHasUnsavedChanges();
 
-        logger
-                .debug(
-                        "createRepository() repository created successfully, returning {}",
-                        repository);
+        LOGGER.debug("createRepository() repository created successfully, "
+                + "returning {}", repository);
 
         return repository;
     }
@@ -203,7 +207,7 @@ public class AuthzDocument implements Serializable {
             AuthzUserAlreadyExistsException,
             AuthzUserAliasAlreadyExistsException,
             AuthzInvalidUserAliasException {
-        logger.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name,
+        LOGGER.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name,
                 alias);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
@@ -211,26 +215,26 @@ public class AuthzDocument implements Serializable {
 
         // Validate user name and alias
         if (!isValidUserName(nameTrimmed)) {
-            logger.error("createUser() invalid user name");
+            LOGGER.error("createUser() invalid user name");
 
             throw new AuthzInvalidUserNameException();
         }
 
         if (aliasTrimmed != null && !isValidUserAlias(aliasTrimmed)) {
-            logger.error("createUser() invalid user alias");
+            LOGGER.error("createUser() invalid user alias");
 
             throw new AuthzInvalidUserAliasException();
         }
 
         // Check for existing users with same user name or alias
         if (doesUserNameExist(nameTrimmed)) {
-            logger.info("createUser() user already exists");
+            LOGGER.info("createUser() user already exists");
 
             throw new AuthzUserAlreadyExistsException();
         }
 
         if (aliasTrimmed != null && doesUserAliasExist(aliasTrimmed)) {
-            logger.info("createUser() user alias already exists");
+            LOGGER.info("createUser() user alias already exists");
 
             throw new AuthzUserAliasAlreadyExistsException();
         }
@@ -241,7 +245,7 @@ public class AuthzDocument implements Serializable {
 
         setHasUnsavedChanges();
 
-        logger.debug("createUser() user created successfully, returning {}",
+        LOGGER.debug("createUser() user created successfully, returning {}",
                 user);
 
         return user;
@@ -256,11 +260,11 @@ public class AuthzDocument implements Serializable {
      */
     public boolean doesGroupNameExist(final String name)
             throws AuthzInvalidGroupNameException {
-        logger.debug("doesGroupNameExist() entered. name=\"{}\"", name);
+        LOGGER.debug("doesGroupNameExist() entered. name=\"{}\"", name);
 
         final boolean doesGroupNameExist = getGroupWithName(name) != null;
 
-        logger.debug("doesGroupNameExist() exiting, returning {}",
+        LOGGER.debug("doesGroupNameExist() exiting, returning {}",
                 doesGroupNameExist);
 
         return doesGroupNameExist;
@@ -276,14 +280,14 @@ public class AuthzDocument implements Serializable {
      */
     public boolean doesRepositoryNameExist(final String name)
             throws AuthzInvalidRepositoryNameException {
-        logger.debug("doesRepositoryNameExist() entered. name=\"{}\"", name);
+        LOGGER.debug("doesRepositoryNameExist() entered. name=\"{}\"", name);
 
-        final boolean doesRepositoryNameExist = getRepositoryWithName(name) != null;
+        final boolean doesNameExist = getRepositoryWithName(name) != null;
 
-        logger.debug("doesRepositoryNameExist() exiting, returning {}",
-                doesRepositoryNameExist);
+        LOGGER.debug("doesRepositoryNameExist() exiting, returning {}",
+                doesNameExist);
 
-        return doesRepositoryNameExist;
+        return doesNameExist;
     }
 
     /**
@@ -295,11 +299,11 @@ public class AuthzDocument implements Serializable {
      */
     public boolean doesUserAliasExist(final String alias)
             throws AuthzInvalidUserAliasException {
-        logger.debug("doesUserAliasExist() entered. alias=\"{}\"", alias);
+        LOGGER.debug("doesUserAliasExist() entered. alias=\"{}\"", alias);
 
         final boolean doesUserAliasExist = getUserWithAlias(alias) != null;
 
-        logger.debug("doesUserAliasExist() exiting, returning {}",
+        LOGGER.debug("doesUserAliasExist() exiting, returning {}",
                 doesUserAliasExist);
 
         return doesUserAliasExist;
@@ -314,23 +318,23 @@ public class AuthzDocument implements Serializable {
      */
     public boolean doesUserNameExist(final String name)
             throws AuthzInvalidUserNameException {
-        logger.debug("doesUserNameExist() entered. name=\"{}\"", name);
+        LOGGER.debug("doesUserNameExist() entered. name=\"{}\"", name);
 
         final boolean doesUserNameExist = getUserWithName(name) != null;
 
-        logger.debug("doesUserNameExist() exiting, returning {}",
+        LOGGER.debug("doesUserNameExist() exiting, returning {}",
                 doesUserNameExist);
 
         return doesUserNameExist;
     }
 
     /**
-     * Returns an immutable collection of AuthGroup objects
+     * Returns an immutable collection of AuthGroup objects.
      * 
      * @return Immutable collection of AuthGroup objects
      */
     public Collection<AuthzGroup> getGroups() {
-        logger.debug(
+        LOGGER.debug(
                 "getGroups() entered, returning groups with {} group objects",
                 groups.size());
 
@@ -346,12 +350,12 @@ public class AuthzDocument implements Serializable {
      */
     public AuthzGroup getGroupWithName(final String name)
             throws AuthzInvalidGroupNameException {
-        logger.debug("getGroupWithName() entered. name=\"{}\"", name);
+        LOGGER.debug("getGroupWithName() entered. name=\"{}\"", name);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
 
         if (!isValidGroupName(nameTrimmed)) {
-            logger.error("getGroupWithName() invalid group name");
+            LOGGER.error("getGroupWithName() invalid group name");
 
             throw new AuthzInvalidGroupNameException();
         }
@@ -365,21 +369,19 @@ public class AuthzDocument implements Serializable {
             }
         }
 
-        logger.debug("getGroupWithName() exiting, returning {}", foundGroup);
+        LOGGER.debug("getGroupWithName() exiting, returning {}", foundGroup);
 
         return foundGroup;
     }
 
     /**
-     * Returns an immutable collection of AuthRepository objects
+     * Returns an immutable collection of AuthRepository objects.
      * 
      * @return Immutable collection of AuthRepository objects
      */
     public Collection<AuthzRepository> getRepositories() {
-        logger
-                .debug(
-                        "getRepositories() entered, returning repositories with {} repository objects",
-                        repositories.size());
+        LOGGER.debug("getRepositories() entered, returning repositories with "
+                + "{} repository objects", repositories.size());
 
         return Collections.unmodifiableCollection(repositories);
     }
@@ -394,12 +396,12 @@ public class AuthzDocument implements Serializable {
      */
     public AuthzRepository getRepositoryWithName(final String name)
             throws AuthzInvalidRepositoryNameException {
-        logger.debug("getRepositoryWithName() entered. name=\"{}\"", name);
+        LOGGER.debug("getRepositoryWithName() entered. name=\"{}\"", name);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
 
         if (!isValidRepositoryName(nameTrimmed)) {
-            logger.error("getRepositoryWithName() invalid repository name");
+            LOGGER.error("getRepositoryWithName() invalid repository name");
 
             throw new AuthzInvalidRepositoryNameException();
         }
@@ -413,19 +415,19 @@ public class AuthzDocument implements Serializable {
             }
         }
 
-        logger.debug("getRepositoryWithName() exiting, returning {}",
+        LOGGER.debug("getRepositoryWithName() exiting, returning {}",
                 foundRepository);
 
         return foundRepository;
     }
 
     /**
-     * Returns an immutable collection of AuthzUser objects
+     * Returns an immutable collection of AuthzUser objects.
      * 
      * @return Immutable collection of AuthzUser objects
      */
     public Collection<AuthzUser> getUsers() {
-        logger.debug(
+        LOGGER.debug(
                 "getUsers() entered, returning users with {} user objects",
                 users.size());
 
@@ -441,12 +443,12 @@ public class AuthzDocument implements Serializable {
      */
     public AuthzUser getUserWithAlias(final String alias)
             throws AuthzInvalidUserAliasException {
-        logger.debug("getUserWithAlias() entered. alias=\"{}\"", alias);
+        LOGGER.debug("getUserWithAlias() entered. alias=\"{}\"", alias);
 
         final String aliasTrimmed = StringUtils.trimToNull(alias);
 
         if (!isValidUserAlias(aliasTrimmed)) {
-            logger.error("getUserWithAlias() invalid user alias");
+            LOGGER.error("getUserWithAlias() invalid user alias");
 
             throw new AuthzInvalidUserAliasException();
         }
@@ -460,7 +462,7 @@ public class AuthzDocument implements Serializable {
             }
         }
 
-        logger.debug("getUserWithAlias() exiting, returning {}", foundUser);
+        LOGGER.debug("getUserWithAlias() exiting, returning {}", foundUser);
 
         return foundUser;
     }
@@ -474,12 +476,12 @@ public class AuthzDocument implements Serializable {
      */
     public AuthzUser getUserWithName(final String name)
             throws AuthzInvalidUserNameException {
-        logger.debug("getUserWithName() entered. name=\"{}\"", name);
+        LOGGER.debug("getUserWithName() entered. name=\"{}\"", name);
 
         final String nameTrimmed = StringUtils.trimToNull(name);
 
         if (!isValidUserName(nameTrimmed)) {
-            logger.error("getUserWithName() invalid user name");
+            LOGGER.error("getUserWithName() invalid user name");
 
             throw new AuthzInvalidUserNameException();
         }
@@ -493,7 +495,7 @@ public class AuthzDocument implements Serializable {
             }
         }
 
-        logger.debug("getUserWithName() exiting, returning {}", foundUser);
+        LOGGER.debug("getUserWithName() exiting, returning {}", foundUser);
 
         return foundUser;
     }
@@ -504,17 +506,17 @@ public class AuthzDocument implements Serializable {
      * @return Current value of "has unsaved changes" flag
      */
     public boolean hasUnsavedChanges() {
-        logger.debug("hasUnsavedChanges() entered. hasUnsavedChanges={}",
+        LOGGER.debug("hasUnsavedChanges() entered. hasUnsavedChanges={}",
                 hasUnsavedChanges);
 
         return hasUnsavedChanges;
     }
 
     /**
-     * Initializes the document
+     * Initializes the document.
      */
     public void initialize() {
-        logger.debug("initialize() entered.");
+        LOGGER.debug("initialize() entered.");
 
         groups = new Vector<AuthzGroup>();
         repositories = new Vector<AuthzRepository>();
@@ -522,7 +524,7 @@ public class AuthzDocument implements Serializable {
 
         clearHasUnsavedChanges();
 
-        logger.debug("initialize() exited.");
+        LOGGER.debug("initialize() exited.");
     }
 
     /**
@@ -532,11 +534,11 @@ public class AuthzDocument implements Serializable {
      * @return True if group name is valid, otherwise false
      */
     protected boolean isValidGroupName(final String name) {
-        logger.debug("isValidGroupName() entered. name=\"{}\"", name);
+        LOGGER.debug("isValidGroupName() entered. name=\"{}\"", name);
 
         final boolean isValidGroupName = StringUtils.isNotBlank(name);
 
-        logger.debug("isValidGroupName() exited, returning {}",
+        LOGGER.debug("isValidGroupName() exited, returning {}",
                 isValidGroupName);
 
         return isValidGroupName;
@@ -549,11 +551,11 @@ public class AuthzDocument implements Serializable {
      * @return True if repository name is valid, otherwise false
      */
     protected boolean isValidRepositoryName(final String name) {
-        logger.debug("isValidRepositoryName() entered. name=\"{}\"", name);
+        LOGGER.debug("isValidRepositoryName() entered. name=\"{}\"", name);
 
         final boolean isValidRepositoryName = StringUtils.isNotBlank(name);
 
-        logger.debug("isValidRepositoryName() exited, returning {}",
+        LOGGER.debug("isValidRepositoryName() exited, returning {}",
                 isValidRepositoryName);
 
         return isValidRepositoryName;
@@ -566,11 +568,11 @@ public class AuthzDocument implements Serializable {
      * @return True if user alias is valid, otherwise false
      */
     protected boolean isValidUserAlias(final String alias) {
-        logger.debug("isValidUserAlias() entered. alias=\"{}\"", alias);
+        LOGGER.debug("isValidUserAlias() entered. alias=\"{}\"", alias);
 
         final boolean isValidUserAlias = StringUtils.isNotBlank(alias);
 
-        logger.debug("isValidUserAlias() exited, returning {}",
+        LOGGER.debug("isValidUserAlias() exited, returning {}",
                 isValidUserAlias);
 
         return isValidUserAlias;
@@ -583,11 +585,11 @@ public class AuthzDocument implements Serializable {
      * @return True if user name is valid, otherwise false
      */
     protected boolean isValidUserName(final String name) {
-        logger.debug("isValidUserName() entered. name=\"{}\"", name);
+        LOGGER.debug("isValidUserName() entered. name=\"{}\"", name);
 
         final boolean isValidUserName = StringUtils.isNotBlank(name);
 
-        logger.debug("isValidUserName() exited, returning {}", isValidUserName);
+        LOGGER.debug("isValidUserName() exited, returning {}", isValidUserName);
 
         return isValidUserName;
     }
@@ -603,17 +605,17 @@ public class AuthzDocument implements Serializable {
     public void removeGroupMember(final AuthzGroup group,
             final AuthzGroupMember member)
             throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
-        logger.debug("removeGroupMember() entered. group={}, member={}", group,
+        LOGGER.debug("removeGroupMember() entered. group={}, member={}", group,
                 member);
 
         if (group == null) {
-            logger.error("addGroupMember() group is null");
+            LOGGER.error("addGroupMember() group is null");
 
             throw new NullPointerException("Group is null");
         }
 
         if (member == null) {
-            logger.error("addGroupMember() member is null");
+            LOGGER.error("addGroupMember() member is null");
 
             throw new NullPointerException("Member is null");
         }
@@ -621,24 +623,26 @@ public class AuthzDocument implements Serializable {
         group.removeMember(member);
         member.removeGroup(group);
 
-        logger.debug("removeGroupMember() exited.");
+        LOGGER.debug("removeGroupMember() exited.");
     }
 
     /**
      * Sets "has unsaved changes" flag to true.
      */
     protected void setHasUnsavedChanges() {
-        logger.debug("setHasUnsavedChanges() entered. hasUnsavedChanged={}",
+        LOGGER.debug("setHasUnsavedChanges() entered. hasUnsavedChanged={}",
                 hasUnsavedChanges);
 
         hasUnsavedChanges = true;
 
-        logger.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}",
+        LOGGER.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}",
                 hasUnsavedChanges);
     }
 
     /**
      * Creates a string representation of this document.
+     * 
+     * @return String representation of this document
      */
     @Override
     public String toString() {

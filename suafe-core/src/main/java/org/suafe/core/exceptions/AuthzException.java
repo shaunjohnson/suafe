@@ -4,11 +4,12 @@ import org.suafe.core.utilities.AuthzResourceKeyIF;
 import org.suafe.core.utilities.AuthzResources;
 
 /**
- * Generic authz exception.
+ * Generic Authz exception.
  * 
  * @since 2.0
  */
 public abstract class AuthzException extends Exception {
+    /** Serialization ID. */
     private static final long serialVersionUID = 1657007960837193130L;
 
     /**

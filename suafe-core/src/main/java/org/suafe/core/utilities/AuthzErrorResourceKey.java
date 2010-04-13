@@ -47,7 +47,7 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
     /**
      * Private constructor used to create static typesafe enumeration values.
      * 
-     * @param key
+     * @param key Resource file key
      */
     private AuthzErrorResourceKey(final String key) {
         super();
@@ -55,18 +55,25 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
         this.key = key;
     }
 
+    /**
+     * Compares this object with the provided AuthzErrorResourceKey object for
+     * equality.
+     * 
+     * @param object Object to compare
+     * @return True if this object matches the provided object, otherwise false
+     */
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(final Object object) {
+        if (this == object) {
             return true;
         }
-        if (obj == null) {
+        if (object == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != object.getClass()) {
             return false;
         }
-        final AuthzErrorResourceKey other = (AuthzErrorResourceKey) obj;
+        final AuthzErrorResourceKey other = (AuthzErrorResourceKey) object;
         if (key == null) {
             if (other.key != null) {
                 return false;
@@ -78,6 +85,11 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
         return true;
     }
 
+    /**
+     * Calculates hashCode value of this resource key.
+     * 
+     * @return Hashcode of this object
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -86,6 +98,11 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
         return result;
     }
 
+    /**
+     * Creates a string representation of this resource key.
+     * 
+     * @return String representation of this resource key
+     */
     @Override
     public String toString() {
         return key;

@@ -12,18 +12,22 @@ import org.slf4j.LoggerFactory;
  * 
  * @since 2.0
  */
-public class AuthzPath implements Serializable, Comparable<AuthzPath> {
-    private static final Logger logger = LoggerFactory
+public final class AuthzPath implements Serializable, Comparable<AuthzPath> {
+    /** Logger handle. */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(AuthzPath.class);
 
+    /** Serialization ID. */
     private static final long serialVersionUID = 9125579229041836584L;
 
+    /** Path string. */
     private final String path;
 
+    /** Repository object. */
     private final AuthzRepository repository;
 
     /**
-     * Constructor
+     * Constructor.
      * 
      * @param repository Repository
      * @param path Path
@@ -36,9 +40,11 @@ public class AuthzPath implements Serializable, Comparable<AuthzPath> {
     }
 
     /**
-     * Compares this object with the provided AuthzPath object
+     * Compares this object with the provided AuthzPath object.
      * 
-     * @param authzUser AuthzPath to compare
+     * @param authzPath AuthzPath to compare
+     * @return Returns 0 if paths are equal, less than 0 if this path is less
+     *         than the other or greater than 0 if this path is greater
      */
     @Override
     public int compareTo(final AuthzPath authzPath) {
@@ -48,18 +54,24 @@ public class AuthzPath implements Serializable, Comparable<AuthzPath> {
         return myName.compareTo(otherName);
     }
 
+    /**
+     * Compares this object with the provided AuthzPath object for equality.
+     * 
+     * @param object Object to compare
+     * @return True if this object matches the provided object, otherwise false
+     */
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(final Object object) {
+        if (this == object) {
             return true;
         }
-        if (obj == null) {
+        if (object == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != object.getClass()) {
             return false;
         }
-        final AuthzPath other = (AuthzPath) obj;
+        final AuthzPath other = (AuthzPath) object;
         if (path == null) {
             if (other.path != null) {
                 return false;
@@ -80,7 +92,7 @@ public class AuthzPath implements Serializable, Comparable<AuthzPath> {
     }
 
     /**
-     * Gets the path
+     * Gets the path.
      * 
      * @return Path
      */
@@ -89,14 +101,19 @@ public class AuthzPath implements Serializable, Comparable<AuthzPath> {
     }
 
     /**
-     * Gets the repository
+     * Gets the repository.
      * 
      * @return Repository
      */
-    public AuthzRepository getRepository() {
+    public final AuthzRepository getRepository() {
         return repository;
     }
 
+    /**
+     * Calculates hashCode value of this path.
+     * 
+     * @return Hashcode of this object
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -109,6 +126,8 @@ public class AuthzPath implements Serializable, Comparable<AuthzPath> {
 
     /**
      * Creates a string representation of this user.
+     * 
+     * @return String representation of this user
      */
     @Override
     public String toString() {

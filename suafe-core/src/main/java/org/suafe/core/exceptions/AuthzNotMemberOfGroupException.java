@@ -8,12 +8,11 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * @since 2.0
  */
 public class AuthzNotMemberOfGroupException extends AuthzException {
+    /** Serialization ID. */
     private static final long serialVersionUID = -5972142980829711323L;
 
     /**
-     * Create exception with message text loaded using messageKey
-     * 
-     * @param messageKey Message key for the message test
+     * Create exception with message text loaded using messageKey.
      */
     public AuthzNotMemberOfGroupException() {
         super(AuthzErrorResourceKey.NOT_MEMBER_OF_GROUP);

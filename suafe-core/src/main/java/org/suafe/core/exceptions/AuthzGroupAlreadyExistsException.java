@@ -8,12 +8,11 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * @since 2.0
  */
 public class AuthzGroupAlreadyExistsException extends AuthzException {
+    /** Serialization ID. */
     private static final long serialVersionUID = 805914537115462506L;
 
     /**
-     * Create exception with message text loaded using messageKey
-     * 
-     * @param messageKey Message key for the message test
+     * Create exception with message text loaded using messageKey.
      */
     public AuthzGroupAlreadyExistsException() {
         super(AuthzErrorResourceKey.GROUP_ALREADY_EXISTS);

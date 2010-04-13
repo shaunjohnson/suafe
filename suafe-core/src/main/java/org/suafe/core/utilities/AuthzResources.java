@@ -4,7 +4,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Authz resource bundle interface
+ * Authz resource bundle interface.
  * 
  * @since 2.0
  */
@@ -29,7 +29,7 @@ public final class AuthzResources {
     }
 
     /**
-     * Private constructor
+     * Private constructor.
      */
     private AuthzResources() {
         super();

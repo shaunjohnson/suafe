@@ -17,11 +17,14 @@ import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
  * @since 2.0
  */
 public abstract class AuthzGroupMember implements Serializable {
-    private static final Logger logger = LoggerFactory
+    /** Logger handle. */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(AuthzGroupMember.class);
 
+    /** Serialization ID. */
     private static final long serialVersionUID = -4348242302006857451L;
 
+    /** Collection of groups of which is a member. */
     private final Vector<AuthzGroup> groups = new Vector<AuthzGroup>();
 
     /**
@@ -32,18 +35,18 @@ public abstract class AuthzGroupMember implements Serializable {
      * @throws AuthzAlreadyMemberOfGroupException If this object is already a
      *         member of the group
      */
-    public boolean addGroup(final AuthzGroup group)
+    public final boolean addGroup(final AuthzGroup group)
             throws AuthzAlreadyMemberOfGroupException {
-        logger.debug("addGroup() entered. group={}", group);
+        LOGGER.debug("addGroup() entered. group={}", group);
 
         if (group == null) {
-            logger.error("addGroup() group is null");
+            LOGGER.error("addGroup() group is null");
 
             throw new NullPointerException("Group is null");
         }
 
         if (groups.contains(group)) {
-            logger.error("addGroup() already a member of group");
+            LOGGER.error("addGroup() already a member of group");
 
             throw new AuthzAlreadyMemberOfGroupException();
         }
@@ -56,7 +59,7 @@ public abstract class AuthzGroupMember implements Serializable {
      * 
      * @return Immutable collection of AuthzGroup object.
      */
-    public Collection<AuthzGroup> getGroups() {
+    public final Collection<AuthzGroup> getGroups() {
         return Collections.unmodifiableCollection(groups);
     }
 
@@ -65,20 +68,21 @@ public abstract class AuthzGroupMember implements Serializable {
      * 
      * @param group Group to remove from the collection
      * @return True if group is removed
-     * @throws AuthzNotMemberOfGroupException
+     * @throws AuthzNotMemberOfGroupException If this object is not a member of
+     *         the provided group
      */
-    public boolean removeGroup(final AuthzGroup group)
+    public final boolean removeGroup(final AuthzGroup group)
             throws AuthzNotMemberOfGroupException {
-        logger.debug("removeGroup() entered. group={}", group);
+        LOGGER.debug("removeGroup() entered. group={}", group);
 
         if (group == null) {
-            logger.error("removeGroup() group is null");
+            LOGGER.error("removeGroup() group is null");
 
             throw new NullPointerException("Group is null");
         }
 
         if (!groups.contains(group)) {
-            logger
+            LOGGER
                     .error("removeGroup() this object is not a member of the group");
 
             throw new AuthzNotMemberOfGroupException();

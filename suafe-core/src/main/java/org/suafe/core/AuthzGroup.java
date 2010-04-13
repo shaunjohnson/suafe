@@ -16,22 +16,25 @@ import org.suafe.core.exceptions.AuthzNotGroupMemberException;
  * 
  * @since 2.0
  */
-public class AuthzGroup extends AuthzGroupMember implements
+public final class AuthzGroup extends AuthzGroupMember implements
         Comparable<AuthzGroup> {
-    private static final Logger logger = LoggerFactory
+    /** Logger handle. */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(AuthzGroup.class);
 
+    /** Serialization ID. */
     private static final long serialVersionUID = 7033919638521713150L;
 
+    /** Collection of members. */
     private final Vector<AuthzGroupMember> members = new Vector<AuthzGroupMember>();
 
+    /** Name of this group. */
     private final String name;
 
     /**
-     * Constructor
+     * Constructor.
      * 
      * @param name User name
-     * @param alias User alias
      */
     public AuthzGroup(final String name) {
         super();
@@ -42,23 +45,23 @@ public class AuthzGroup extends AuthzGroupMember implements
     /**
      * Adds a group member.
      * 
-     * @param user AuthzUser member to add
+     * @param member AuthzGroupMember member to add
      * @return True if member added
      * @throws AuthzGroupMemberAlreadyExistsException If group member already
      *         exists
      */
     public boolean addMember(final AuthzGroupMember member)
             throws AuthzGroupMemberAlreadyExistsException {
-        logger.debug("addMember() entered. member={}", member);
+        LOGGER.debug("addMember() entered. member={}", member);
 
         if (member == null) {
-            logger.error("addMember() member is null");
+            LOGGER.error("addMember() member is null");
 
             throw new NullPointerException("Member is null");
         }
 
         if (members.contains(member)) {
-            logger.error("addMember() group member already exists");
+            LOGGER.error("addMember() group member already exists");
 
             throw new AuthzGroupMemberAlreadyExistsException();
         }
@@ -69,9 +72,11 @@ public class AuthzGroup extends AuthzGroupMember implements
     }
 
     /**
-     * Compares this object with the provided AuthzGroup object
+     * Compares this object with the provided AuthzGroup object.
      * 
      * @param authzGroup AuthzGroup to compare
+     * @return Returns 0 if groups are equal, less than 0 if this group is less
+     *         than the other or greater than 0 if this group is greater
      */
     @Override
     public int compareTo(final AuthzGroup authzGroup) {
@@ -85,6 +90,7 @@ public class AuthzGroup extends AuthzGroupMember implements
      * Compares this object with the provided AuthzGroup object for equality.
      * 
      * @param object Object to compare
+     * @return True if this object matches the provided object, otherwise false
      */
     @Override
     public boolean equals(final Object object) {
@@ -110,7 +116,7 @@ public class AuthzGroup extends AuthzGroupMember implements
     }
 
     /**
-     * Returns an immutable collection of AuthzGroupMember objects
+     * Returns an immutable collection of AuthzGroupMember objects.
      * 
      * @return Immutable collection of AuthzGroupMember objects
      */
@@ -129,6 +135,8 @@ public class AuthzGroup extends AuthzGroupMember implements
 
     /**
      * Calculates hashCode value of this group.
+     * 
+     * @return Hashcode of this object
      */
     @Override
     public int hashCode() {
@@ -148,16 +156,16 @@ public class AuthzGroup extends AuthzGroupMember implements
      */
     public boolean removeMember(final AuthzGroupMember member)
             throws AuthzNotGroupMemberException {
-        logger.debug("removeMember() entered. member={}", member);
+        LOGGER.debug("removeMember() entered. member={}", member);
 
         if (member == null) {
-            logger.error("removeMember() member is null");
+            LOGGER.error("removeMember() member is null");
 
             throw new NullPointerException("Member is null");
         }
 
         if (!members.contains(member)) {
-            logger.error("removeMember() member is not a member of this group");
+            LOGGER.error("removeMember() member is not a member of this group");
 
             throw new AuthzNotGroupMemberException();
         }
@@ -167,6 +175,8 @@ public class AuthzGroup extends AuthzGroupMember implements
 
     /**
      * Creates a string representation of this group.
+     * 
+     * @return String representation of this group
      */
     @Override
     public String toString() {

@@ -8,12 +8,11 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * @since 2.0
  */
 public class AuthzUserAlreadyExistsException extends AuthzException {
+    /** Serialization ID. */
     private static final long serialVersionUID = 1654342842804875089L;
 
     /**
-     * Create exception with message text loaded using messageKey
-     * 
-     * @param messageKey Message key for the message test
+     * Create exception with message text loaded using messageKey.
      */
     public AuthzUserAlreadyExistsException() {
         super(AuthzErrorResourceKey.USER_ALREADY_EXISTS);

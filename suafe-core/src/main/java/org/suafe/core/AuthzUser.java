@@ -10,19 +10,23 @@ import org.slf4j.LoggerFactory;
  * 
  * @since 2.0
  */
-public class AuthzUser extends AuthzGroupMember implements
+public final class AuthzUser extends AuthzGroupMember implements
         Comparable<AuthzUser> {
-    private static final Logger logger = LoggerFactory
+    /** Logger handle. */
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(AuthzUser.class);
 
+    /** Serialization ID. */
     private static final long serialVersionUID = 7672296029756141807L;
 
+    /** Alias of this user. */
     private final String alias;
 
+    /** Name of this user */
     private final String name;
 
     /**
-     * Constructor
+     * Constructor.
      * 
      * @param name User name
      * @param alias User alias
@@ -35,9 +39,11 @@ public class AuthzUser extends AuthzGroupMember implements
     }
 
     /**
-     * Compares this object with the provided AuthzUser object
+     * Compares this object with the provided AuthzUser object.
      * 
      * @param authzUser AuthzUser to compare
+     * @return Returns 0 if users are equal, less than 0 if this user is less
+     *         than the other or greater than 0 if this repository is greater
      */
     @Override
     public int compareTo(final AuthzUser authzUser) {
@@ -55,17 +61,17 @@ public class AuthzUser extends AuthzGroupMember implements
      * @param object Object to compare
      */
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(final Object object) {
+        if (this == object) {
             return true;
         }
-        if (obj == null) {
+        if (object == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != object.getClass()) {
             return false;
         }
-        final AuthzUser other = (AuthzUser) obj;
+        final AuthzUser other = (AuthzUser) object;
         if (alias == null) {
             if (other.alias != null) {
                 return false;
@@ -86,7 +92,7 @@ public class AuthzUser extends AuthzGroupMember implements
     }
 
     /**
-     * Gets the user alias
+     * Gets the user alias.
      * 
      * @return User alias
      */
@@ -95,7 +101,7 @@ public class AuthzUser extends AuthzGroupMember implements
     }
 
     /**
-     * Gets the user name
+     * Gets the user name.
      * 
      * @return User name
      */
@@ -105,6 +111,8 @@ public class AuthzUser extends AuthzGroupMember implements
 
     /**
      * Calculates hashCode value of this user.
+     * 
+     * @return Hashcode of this object
      */
     @Override
     public int hashCode() {
@@ -117,6 +125,8 @@ public class AuthzUser extends AuthzGroupMember implements
 
     /**
      * Creates a string representation of this user.
+     * 
+     * @return String representation of this user
      */
     @Override
     public String toString() {
