@@ -39,6 +39,10 @@ public final class AuthzRepository implements Serializable,
      */
     @Override
     public int compareTo(final AuthzRepository authzRepository) {
+        if (this == authzRepository) {
+            return 0;
+        }
+
         final String myName = StringUtils.trimToEmpty(name);
         final String otherName = StringUtils.trimToEmpty(authzRepository
                 .getName());

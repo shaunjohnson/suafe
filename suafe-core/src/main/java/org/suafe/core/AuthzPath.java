@@ -42,6 +42,10 @@ public final class AuthzPath implements Serializable, Comparable<AuthzPath> {
      */
     @Override
     public int compareTo(final AuthzPath authzPath) {
+        if (this == authzPath) {
+            return 0;
+        }
+
         final String myName = StringUtils.trimToEmpty(path);
         final String otherName = StringUtils.trimToEmpty(authzPath.getPath());
 

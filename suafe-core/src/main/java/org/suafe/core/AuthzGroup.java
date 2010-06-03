@@ -80,6 +80,10 @@ public final class AuthzGroup extends AuthzGroupMember implements
      */
     @Override
     public int compareTo(final AuthzGroup authzGroup) {
+        if (this == authzGroup) {
+            return 0;
+        }
+
         final String myName = StringUtils.trimToEmpty(name);
         final String otherName = StringUtils.trimToEmpty(authzGroup.getName());
 
