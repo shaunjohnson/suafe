@@ -21,6 +21,7 @@ import org.suafe.core.exceptions.AuthzInvalidUserAliasException;
 import org.suafe.core.exceptions.AuthzInvalidUserNameException;
 import org.suafe.core.exceptions.AuthzNotGroupMemberException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
+import org.suafe.core.exceptions.AuthzPathAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
@@ -240,6 +241,127 @@ public class AuthzDocumentTest {
         }
         catch (final AuthzGroupAlreadyExistsException e) {
             assertNotNull("Expected a non-null exception", e);
+        }
+    }
+
+    @Test
+    public void testCreatePath() {
+        // Test invalid values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.createPath(null, null);
+
+            fail("Unexpected successfully created path");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+        catch (final AuthzPathAlreadyExistsException e) {
+            fail("Unexpected AuthzPathAlreadyExistsException");
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.createPath(null, "");
+
+            fail("Unexpected successfully created path");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+        catch (final AuthzPathAlreadyExistsException e) {
+            fail("Unexpected AuthzPathAlreadyExistsException");
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.createPath(null, "  ");
+
+            fail("Unexpected successfully created path");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+        catch (final AuthzPathAlreadyExistsException e) {
+            fail("Unexpected AuthzPathAlreadyExistsException");
+        }
+
+        // Test valid values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            final AuthzPath path = document.createPath(null, "/path");
+
+            assertNotNull("Path should not be null", path);
+            assertEquals("Path string should be valid", "/path", path.getPath());
+        }
+        catch (final AuthzInvalidPathException e) {
+            fail("Unexpected AuthzInvalidPathException");
+        }
+        catch (final AuthzPathAlreadyExistsException e) {
+            fail("Unexpected AuthzPathAlreadyExistsException");
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            final AuthzPath path1 = document.createPath(document
+                    .createRepository("repository1"), "/path");
+            final AuthzPath path2 = document.createPath(document
+                    .createRepository("repository2"), "/path");
+
+            assertFalse(
+                    "Paths with same path string in different repos should not match",
+                    path1.equals(path2));
+        }
+        catch (final AuthzInvalidPathException e) {
+            fail("Unexpected AuthzInvalidPathException");
+        }
+        catch (final AuthzPathAlreadyExistsException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
+        }
+
+        // Test for exiting repository exception
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.createPath(null, "/path");
+            document.createPath(null, "/path");
+
+            fail("Unexpected success creating duplicate path");
+        }
+        catch (final AuthzInvalidPathException e) {
+            fail("Unexpected AuthzInvalidPathException");
+        }
+        catch (final AuthzPathAlreadyExistsException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            final AuthzRepository repository = document
+                    .createRepository("repository");
+
+            document.createPath(repository, "/path");
+            document.createPath(repository, "/path");
+
+            fail("Unexpected success creating duplicate path");
+        }
+        catch (final AuthzInvalidPathException e) {
+            fail("Unexpected AuthzInvalidPathException");
+        }
+        catch (final AuthzPathAlreadyExistsException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
         }
     }
 
