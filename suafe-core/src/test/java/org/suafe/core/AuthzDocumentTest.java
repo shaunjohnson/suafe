@@ -148,6 +148,17 @@ public class AuthzDocumentTest {
 
             assertFalse("Document should not have any unsaved changes",
                     document.hasUnsavedChanges());
+
+            // Test create path
+            document.createPath(null, "/path");
+
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
+
+            document.clearHasUnsavedChanges();
+
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
