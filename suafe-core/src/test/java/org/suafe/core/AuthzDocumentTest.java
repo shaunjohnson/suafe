@@ -15,6 +15,7 @@ import org.suafe.core.exceptions.AuthzException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzInvalidGroupNameException;
+import org.suafe.core.exceptions.AuthzInvalidPathException;
 import org.suafe.core.exceptions.AuthzInvalidRepositoryNameException;
 import org.suafe.core.exceptions.AuthzInvalidUserAliasException;
 import org.suafe.core.exceptions.AuthzInvalidUserNameException;
@@ -531,6 +532,87 @@ public class AuthzDocumentTest {
     }
 
     @Test
+    public void testDoesPathExist() {
+        // Test invalid values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.doesPathExist(null, null);
+
+            fail("Unexpected success calling doesPathExist() with null repository and null repository name");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.doesPathExist(null, "");
+
+            fail("Unexpected success calling doesPathExist() with null repository and empty repository name");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.doesPathExist(null, "  ");
+
+            fail("Unexpected success calling doesPathExist() with null repository and blank repository name");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+
+        // Test valid values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            assertFalse("Path with path string /test should not exist",
+                    document.doesPathExist(null, "/test"));
+
+            document.createPath(null, "/test");
+
+            assertTrue("Path with path string /test should exist", document
+                    .doesPathExist(null, "/test"));
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            final AuthzRepository repository = document
+                    .createRepository("repository");
+
+            assertFalse(
+                    "Path with non-null repository and path string /test should not exist",
+                    document.doesPathExist(repository, "/test"));
+
+            assertFalse(
+                    "Path with null repository and path string /test should not exist",
+                    document.doesPathExist(null, "/test"));
+
+            document.createPath(repository, "/test");
+
+            assertTrue(
+                    "Path with non-null repository and path string /test should exist",
+                    document.doesPathExist(repository, "/test"));
+
+            assertFalse(
+                    "Path with null repository and path string /test should not exist",
+                    document.doesPathExist(null, "/test"));
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
+        }
+    }
+
+    @Test
     public void testDoesRepositoryNameExist() {
         // Test invalid values
         try {
@@ -549,7 +631,7 @@ public class AuthzDocumentTest {
 
             document.doesRepositoryNameExist("");
 
-            fail("Unexpected success calling doesRepositoryNameExist() with null repository name");
+            fail("Unexpected success calling doesRepositoryNameExist() with empty repository name");
         }
         catch (final AuthzInvalidRepositoryNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -560,7 +642,7 @@ public class AuthzDocumentTest {
 
             document.doesRepositoryNameExist("  ");
 
-            fail("Unexpected success calling doesRepositoryNameExist() with null repository name");
+            fail("Unexpected success calling doesRepositoryNameExist() with blank repository name");
         }
         catch (final AuthzInvalidRepositoryNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -617,7 +699,7 @@ public class AuthzDocumentTest {
 
             document.doesUserAliasExist("");
 
-            fail("Unexpected success calling doesUserAliasExist() with null user alias");
+            fail("Unexpected success calling doesUserAliasExist() with empty user alias");
         }
         catch (final AuthzInvalidUserAliasException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -628,7 +710,7 @@ public class AuthzDocumentTest {
 
             document.doesUserAliasExist("  ");
 
-            fail("Unexpected success calling doesUserAliasExist() with null user alias");
+            fail("Unexpected success calling doesUserAliasExist() with blank user alias");
         }
         catch (final AuthzInvalidUserAliasException e) {
             assertNotNull("Expected a non-null exception", e);

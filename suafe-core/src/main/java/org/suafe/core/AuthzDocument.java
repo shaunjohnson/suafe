@@ -460,11 +460,22 @@ public final class AuthzDocument implements Serializable {
 
         AuthzPath foundPath = null;
 
-        for (final AuthzPath pathObject : paths) {
-            if (pathObject.getPath().equals(pathTrimmed)
-                    && pathObject.getRepository().equals(repository)) {
-                foundPath = pathObject;
-                break;
+        if (repository == null) {
+            for (final AuthzPath pathObject : paths) {
+                if (pathTrimmed.equals(pathObject.getPath())
+                        && pathObject.getRepository() == null) {
+                    foundPath = pathObject;
+                    break;
+                }
+            }
+        }
+        else {
+            for (final AuthzPath pathObject : paths) {
+                if (pathTrimmed.equals(pathObject.getPath())
+                        && repository.equals(pathObject.getRepository())) {
+                    foundPath = pathObject;
+                    break;
+                }
             }
         }
 
