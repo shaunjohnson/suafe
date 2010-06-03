@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Authz path object.
@@ -13,10 +11,6 @@ import org.slf4j.LoggerFactory;
  * @since 2.0
  */
 public final class AuthzPath implements Serializable, Comparable<AuthzPath> {
-    /** Logger handle. */
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(AuthzPath.class);
-
     /** Serialization ID. */
     private static final long serialVersionUID = 9125579229041836584L;
 

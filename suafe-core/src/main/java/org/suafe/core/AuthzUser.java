@@ -2,8 +2,6 @@ package org.suafe.core;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Authz user object.
@@ -12,10 +10,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class AuthzUser extends AuthzGroupMember implements
         Comparable<AuthzUser> {
-    /** Logger handle. */
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(AuthzUser.class);
-
     /** Serialization ID. */
     private static final long serialVersionUID = 7672296029756141807L;
 
