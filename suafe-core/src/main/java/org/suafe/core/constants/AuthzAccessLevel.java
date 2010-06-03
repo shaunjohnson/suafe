@@ -5,7 +5,7 @@ package org.suafe.core.constants;
  * 
  * @since 2.0
  */
-public class AuthzAccessLevel implements AuthzAccessLevelIF {
+public final class AuthzAccessLevel implements AuthzAccessLevelIF {
     public static final AuthzAccessLevelIF DENY_ACCESS = new AuthzAccessLevel(
             "");
 
