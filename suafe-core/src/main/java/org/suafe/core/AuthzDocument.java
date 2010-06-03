@@ -445,7 +445,7 @@ public final class AuthzDocument implements Serializable {
      * @return AuthzPath if found, otherwise null
      * @throws AuthzInvalidPathException If provided path is invalid
      */
-    private Object getPath(final AuthzRepository repository, final String path)
+    public AuthzPath getPath(final AuthzRepository repository, final String path)
             throws AuthzInvalidPathException {
         LOGGER.debug("getPath() entered. repository=\"{}\" path=\"{}\"",
                 repository, path);

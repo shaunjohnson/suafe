@@ -615,7 +615,7 @@ public class AuthzDocumentTest {
 
             document.doesGroupNameExist("");
 
-            fail("Unexpected success calling doesGroupNameExist() with null user alias");
+            fail("Unexpected success calling doesGroupNameExist() with empty user alias");
         }
         catch (final AuthzInvalidGroupNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -626,7 +626,7 @@ public class AuthzDocumentTest {
 
             document.doesGroupNameExist("  ");
 
-            fail("Unexpected success calling doesGroupNameExist() with null user alias");
+            fail("Unexpected success calling doesGroupNameExist() with blank user alias");
         }
         catch (final AuthzInvalidGroupNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -900,7 +900,7 @@ public class AuthzDocumentTest {
 
             document.doesUserNameExist("");
 
-            fail("Unexpected success calling doesUserNameExist() with null user name");
+            fail("Unexpected success calling doesUserNameExist() with empty user name");
         }
         catch (final AuthzInvalidUserNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -911,7 +911,7 @@ public class AuthzDocumentTest {
 
             document.doesUserNameExist("  ");
 
-            fail("Unexpected success calling doesUserNameExist() with null user name");
+            fail("Unexpected success calling doesUserNameExist() with blank user name");
         }
         catch (final AuthzInvalidUserNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -1031,7 +1031,7 @@ public class AuthzDocumentTest {
 
             document.getGroupWithName("");
 
-            fail("Unexpected success calling getGroupWithName() with null group name");
+            fail("Unexpected success calling getGroupWithName() with empty group name");
         }
         catch (final AuthzInvalidGroupNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -1042,7 +1042,7 @@ public class AuthzDocumentTest {
 
             document.getGroupWithName("  ");
 
-            fail("Unexpected success calling getGroupWithName() with null group name");
+            fail("Unexpected success calling getGroupWithName() with blank group name");
         }
         catch (final AuthzInvalidGroupNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -1074,6 +1074,64 @@ public class AuthzDocumentTest {
 
             assertNotNull("Group with name should exist", document
                     .getGroupWithName("  name  "));
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
+        }
+    }
+
+    @Test
+    public void testGetPath() {
+        // Test invalid values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.getPath(null, null);
+
+            fail("Unexpected success calling getPath() with null path");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.getPath(null, "");
+
+            fail("Unexpected success calling getPath() with empty path");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.getPath(null, "  ");
+
+            fail("Unexpected success calling getPath() with blank path");
+        }
+        catch (final AuthzInvalidPathException e) {
+            assertNotNull("Expected a non-null exception", e);
+        }
+
+        // Test valid values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            assertNull("Path with path /path should not exist", document
+                    .getPath(null, "/path"));
+
+            document.createPath(null, "/path");
+
+            assertNotNull("Path with path /path should exist", document
+                    .getPath(null, "/path"));
+
+            assertNull(
+                    "Path with path /path, but a non-null repository should not exist",
+                    document.getPath(document.createRepository("repository"),
+                            "/path"));
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
@@ -1229,7 +1287,7 @@ public class AuthzDocumentTest {
 
             document.getRepositoryWithName("");
 
-            fail("Unexpected success calling getRepositoryWithName() with null repository name");
+            fail("Unexpected success calling getRepositoryWithName() with empty repository name");
         }
         catch (final AuthzInvalidRepositoryNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -1240,7 +1298,7 @@ public class AuthzDocumentTest {
 
             document.getRepositoryWithName("  ");
 
-            fail("Unexpected success calling getRepositoryWithName() with null repository name");
+            fail("Unexpected success calling getRepositoryWithName() with blank repository name");
         }
         catch (final AuthzInvalidRepositoryNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -1359,7 +1417,7 @@ public class AuthzDocumentTest {
 
             document.getUserWithAlias("");
 
-            fail("Unexpected success calling getUserWithAlias() with null user alias");
+            fail("Unexpected success calling getUserWithAlias() with empty user alias");
         }
         catch (final AuthzInvalidUserAliasException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -1370,7 +1428,7 @@ public class AuthzDocumentTest {
 
             document.getUserWithAlias("  ");
 
-            fail("Unexpected success calling getUserWithAlias() with null user alias");
+            fail("Unexpected success calling getUserWithAlias() with blank user alias");
         }
         catch (final AuthzInvalidUserAliasException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -1427,7 +1485,7 @@ public class AuthzDocumentTest {
 
             document.getUserWithName("");
 
-            fail("Unexpected success calling getUserWithName() with null user name");
+            fail("Unexpected success calling getUserWithName() with empty user name");
         }
         catch (final AuthzInvalidUserNameException e) {
             assertNotNull("Expected a non-null exception", e);
@@ -1438,7 +1496,7 @@ public class AuthzDocumentTest {
 
             document.getUserWithName("  ");
 
-            fail("Unexpected success calling getUserWithName() with null user name");
+            fail("Unexpected success calling getUserWithName() with blank user name");
         }
         catch (final AuthzInvalidUserNameException e) {
             assertNotNull("Expected a non-null exception", e);
