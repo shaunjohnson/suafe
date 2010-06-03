@@ -485,9 +485,21 @@ public final class AuthzDocument implements Serializable {
     }
 
     /**
-     * Returns an immutable collection of AuthRepository objects.
+     * Returns an immutable collection of AuthzPath objects.
      * 
-     * @return Immutable collection of AuthRepository objects
+     * @return Immutable collection of AuthzPath objects
+     */
+    public Collection<AuthzPath> getPaths() {
+        LOGGER.debug("getPaths() entered, returning paths with "
+                + "{} path objects", paths.size());
+
+        return Collections.unmodifiableCollection(paths);
+    }
+
+    /**
+     * Returns an immutable collection of AuthzRepository objects.
+     * 
+     * @return Immutable collection of AuthzRepository objects
      */
     public Collection<AuthzRepository> getRepositories() {
         LOGGER.debug("getRepositories() entered, returning repositories with "

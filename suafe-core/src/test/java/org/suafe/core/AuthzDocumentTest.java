@@ -1081,6 +1081,68 @@ public class AuthzDocumentTest {
     }
 
     @Test
+    public void testGetPaths() {
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            assertNotNull("Paths should not be null", document.getPaths());
+            assertNotNull("Paths should empty", document.getPaths().size() == 0);
+
+            document.createPath(null, "/path");
+
+            assertNotNull("Paths should not be null", document.getPaths());
+            assertNotNull("Paths should contain one repository", document
+                    .getPaths().size() == 1);
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
+        }
+
+        // Test immutibility of repositories collection
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            Collection<AuthzPath> paths = document.getPaths();
+
+            assertNotNull("Paths should not be null", paths);
+            assertNotNull("Paths should empty", paths.size() == 0);
+
+            document.createPath(null, "/path");
+
+            assertNotNull("Paths should remain empty", paths.size() == 0);
+
+            paths = document.getPaths();
+
+            assertNotNull("Paths should not be null", document.getPaths());
+            assertNotNull("Paths should contain one repository", document
+                    .getPaths().size() == 1);
+
+            try {
+                paths.add(new AuthzPath(null, "/test"));
+
+                fail("Successfully modified paths list; should not have worked since collection is immutable");
+            }
+            catch (final UnsupportedOperationException e) {
+                assertNotNull("Expected a non-null exception", e);
+            }
+
+            try {
+                for (final AuthzPath path : paths) {
+                    paths.remove(path);
+                }
+
+                fail("Successfully modified paths list; should not have worked since collection is immutable");
+            }
+            catch (final UnsupportedOperationException e) {
+                assertNotNull("Expected a non-null exception", e);
+            }
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
+        }
+    }
+
+    @Test
     public void testGetRepositories() {
         try {
             final AuthzDocument document = new AuthzDocument();
