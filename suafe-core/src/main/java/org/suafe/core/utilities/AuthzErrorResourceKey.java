@@ -18,6 +18,9 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
     public static final AuthzErrorResourceKey INVALID_GROUP_NAME = new AuthzErrorResourceKey(
             "errorInvalidGroupName");
 
+    public static final AuthzResourceKeyIF INVALID_PATH = new AuthzErrorResourceKey(
+            "errorInvalidPath");
+
     public static final AuthzResourceKeyIF INVALID_REPOSITORY_NAME = new AuthzErrorResourceKey(
             "errorInvalidRepositoryName");
 
@@ -32,6 +35,9 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
 
     public static final AuthzResourceKeyIF NOT_MEMBER_OF_GROUP = new AuthzErrorResourceKey(
             "errorNotMemberOfGroup");
+
+    public static final AuthzResourceKeyIF PATH_ALREADY_EXISTS = new AuthzErrorResourceKey(
+            "errorPathAlreadyExists");
 
     public static final AuthzResourceKeyIF REPOSITORY_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorRepositoryAlreadyExists");

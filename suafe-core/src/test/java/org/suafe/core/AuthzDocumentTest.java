@@ -1323,6 +1323,28 @@ public class AuthzDocumentTest {
     }
 
     @Test
+    public void testIsValidPath() {
+        final AuthzDocument document = new AuthzDocument();
+
+        // Test invalid values
+        assertFalse("Null path is invalid", document.isValidPath(null));
+        assertFalse("Empty path is invalid", document.isValidPath(""));
+        assertFalse("Blank path is invalid", document.isValidPath("  "));
+
+        // Test valid values
+        assertTrue("Single slash is valid", document.isValidPath("/"));
+        assertTrue("Path is valid", document.isValidPath("/asdf"));
+        assertTrue("Path is valid", document.isValidPath(" /asdf "));
+        assertTrue("Path is valid", document.isValidPath("/as df"));
+
+        // Test invalid path
+        assertFalse("Path must not end with a slash", document
+                .isValidPath("/asdf/"));
+        assertFalse("Path must not end with a slash", document
+                .isValidPath("  /asdf/  "));
+    }
+
+    @Test
     public void testIsValidRepositoryName() {
         final AuthzDocument document = new AuthzDocument();
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -13,11 +14,13 @@ import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzInvalidGroupNameException;
+import org.suafe.core.exceptions.AuthzInvalidPathException;
 import org.suafe.core.exceptions.AuthzInvalidRepositoryNameException;
 import org.suafe.core.exceptions.AuthzInvalidUserAliasException;
 import org.suafe.core.exceptions.AuthzInvalidUserNameException;
 import org.suafe.core.exceptions.AuthzNotGroupMemberException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
+import org.suafe.core.exceptions.AuthzPathAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
@@ -41,11 +44,18 @@ public final class AuthzDocument implements Serializable {
     /** Unsaved changes indicator. */
     private boolean hasUnsavedChanges;
 
+    /** Collection of paths. */
+    private Vector<AuthzPath> paths;
+
     /** Collection of repositories. */
     private Vector<AuthzRepository> repositories;
 
     /** Collection of users. */
     private Vector<AuthzUser> users;
+
+    /** Regular expression pattern for matching valid path values. */
+    private final Pattern VALID_PATH_PATTERN = Pattern
+            .compile("^(/)|(/.*[^/])$");
 
     /**
      * Default constructor.
@@ -143,6 +153,39 @@ public final class AuthzDocument implements Serializable {
                 group);
 
         return group;
+    }
+
+    public AuthzPath createPath(final AuthzRepository repository,
+            final String pathString) throws AuthzInvalidPathException,
+            AuthzPathAlreadyExistsException {
+        LOGGER.debug("createPath() entered, repository={}, path={}",
+                repository, pathString);
+
+        final String pathStringTrimmed = StringUtils.trimToNull(pathString);
+
+        // Validate path
+        if (!isValidPath(pathStringTrimmed)) {
+            LOGGER.error("createPath() invalid path");
+
+            throw new AuthzInvalidPathException();
+        }
+
+        if (doesPathExist(repository, pathStringTrimmed)) {
+            LOGGER.info("createPath() path already exists");
+
+            throw new AuthzPathAlreadyExistsException();
+        }
+
+        final AuthzPath path = new AuthzPath(repository, pathStringTrimmed);
+
+        paths.add(path);
+
+        setHasUnsavedChanges();
+
+        LOGGER.debug("createPath() path created successfully, "
+                + "returning {}", path);
+
+        return path;
     }
 
     /**
@@ -271,6 +314,26 @@ public final class AuthzDocument implements Serializable {
     }
 
     /**
+     * Determines if a path within the provided repository exists.
+     * 
+     * @param repository Repository where the path exists
+     * @param path Path string within the repository
+     * @return True if path with the provided arguments exists, otherwise false
+     * @throws AuthzInvalidPathException If provided path is invalid
+     */
+    public boolean doesPathExist(final AuthzRepository repository,
+            final String path) throws AuthzInvalidPathException {
+        LOGGER.debug("doesPathExist() entered. repositor{}, name=\"{}\"",
+                repository, path);
+
+        final boolean doesPathExist = getPath(repository, path) != null;
+
+        LOGGER.debug("doesPathExist() exiting, returning {}", doesPathExist);
+
+        return doesPathExist;
+    }
+
+    /**
      * Determines if a repository with the provided name exists.
      * 
      * @param name Name of repository to find
@@ -372,6 +435,42 @@ public final class AuthzDocument implements Serializable {
         LOGGER.debug("getGroupWithName() exiting, returning {}", foundGroup);
 
         return foundGroup;
+    }
+
+    /**
+     * Returns the path with the provided path and repository.
+     * 
+     * @param repository AuthzRepository, or null
+     * @param path Path string of path to find
+     * @return AuthzPath if found, otherwise null
+     * @throws AuthzInvalidPathException If provided path is invalid
+     */
+    private Object getPath(final AuthzRepository repository, final String path)
+            throws AuthzInvalidPathException {
+        LOGGER.debug("getPath() entered. repository=\"{}\" path=\"{}\"",
+                repository, path);
+
+        final String pathTrimmed = StringUtils.trimToNull(path);
+
+        if (!isValidPath(pathTrimmed)) {
+            LOGGER.error("getPath() invalid path");
+
+            throw new AuthzInvalidPathException();
+        }
+
+        AuthzPath foundPath = null;
+
+        for (final AuthzPath pathObject : paths) {
+            if (pathObject.getPath().equals(pathTrimmed)
+                    && pathObject.getRepository().equals(repository)) {
+                foundPath = pathObject;
+                break;
+            }
+        }
+
+        LOGGER.debug("getPath() exiting, returning {}", foundPath);
+
+        return foundPath;
     }
 
     /**
@@ -519,6 +618,7 @@ public final class AuthzDocument implements Serializable {
         LOGGER.debug("initialize() entered.");
 
         groups = new Vector<AuthzGroup>();
+        paths = new Vector<AuthzPath>();
         repositories = new Vector<AuthzRepository>();
         users = new Vector<AuthzUser>();
 
@@ -542,6 +642,25 @@ public final class AuthzDocument implements Serializable {
                 isValidGroupName);
 
         return isValidGroupName;
+    }
+
+    /**
+     * Checks path for validity. Paths must start with a slash (/), but must not
+     * end with a slash (/), except for when path consists of a single slash
+     * (/).
+     * 
+     * @param path Path to validate
+     * @return True if path is valid, otherwise false
+     */
+    protected boolean isValidPath(final String path) {
+        LOGGER.debug("isValidPath() entered. path=\"{}\"", path);
+
+        final boolean isValidPath = VALID_PATH_PATTERN.matcher(
+                StringUtils.trimToEmpty(path)).matches();
+
+        LOGGER.debug("isValidPath() exited. returning {}", isValidPath);
+
+        return isValidPath;
     }
 
     /**
