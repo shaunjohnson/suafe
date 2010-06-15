@@ -5,6 +5,6 @@ package org.suafe.core.constants;
  * 
  * @since 2.0
  */
-public interface AuthzAccessLevelIF {
+public interface AuthzAccessLevelIF extends Comparable<AuthzAccessLevelIF> {
 
 }
