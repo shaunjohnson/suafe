@@ -1,9 +1,10 @@
 package org.suafe.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Vector;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public abstract class AuthzGroupMember implements Serializable {
     private static final long serialVersionUID = -4348242302006857451L;
 
     /** Collection of groups of which is a member. */
-    private final Vector<AuthzGroup> groups = new Vector<AuthzGroup>();
+    private final List<AuthzGroup> groups = new ArrayList<AuthzGroup>();
 
     /**
      * Adds group to collection of groups.

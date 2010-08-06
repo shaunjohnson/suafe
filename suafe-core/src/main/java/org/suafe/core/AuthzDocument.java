@@ -1,9 +1,10 @@
 package org.suafe.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Vector;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,19 +42,19 @@ public final class AuthzDocument implements Serializable {
     private static final long serialVersionUID = -1396450094914018451L;
 
     /** Collection of groups. */
-    private Vector<AuthzGroup> groups;
+    private List<AuthzGroup> groups;
 
     /** Unsaved changes indicator. */
     private boolean hasUnsavedChanges;
 
     /** Collection of paths. */
-    private Vector<AuthzPath> paths;
+    private List<AuthzPath> paths;
 
     /** Collection of repositories. */
-    private Vector<AuthzRepository> repositories;
+    private List<AuthzRepository> repositories;
 
     /** Collection of users. */
-    private Vector<AuthzUser> users;
+    private List<AuthzUser> users;
 
     /** Regular expression pattern for matching valid path values. */
     private final Pattern VALID_PATH_PATTERN = Pattern
@@ -633,10 +634,10 @@ public final class AuthzDocument implements Serializable {
     public void initialize() {
         LOGGER.debug("initialize() entered.");
 
-        groups = new Vector<AuthzGroup>();
-        paths = new Vector<AuthzPath>();
-        repositories = new Vector<AuthzRepository>();
-        users = new Vector<AuthzUser>();
+        groups = new ArrayList<AuthzGroup>();
+        paths = new ArrayList<AuthzPath>();
+        repositories = new ArrayList<AuthzRepository>();
+        users = new ArrayList<AuthzUser>();
 
         clearHasUnsavedChanges();
 

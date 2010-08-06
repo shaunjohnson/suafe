@@ -1,8 +1,9 @@
 package org.suafe.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Vector;
+import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ public final class AuthzGroup extends AuthzGroupMember implements
     private static final long serialVersionUID = 7033919638521713150L;
 
     /** Collection of members. */
-    private final Vector<AuthzGroupMember> members = new Vector<AuthzGroupMember>();
+    private final List<AuthzGroupMember> members = new ArrayList<AuthzGroupMember>();
 
     /** Name of this group. */
     private final String name;
