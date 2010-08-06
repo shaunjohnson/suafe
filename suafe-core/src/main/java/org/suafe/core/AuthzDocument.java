@@ -141,6 +141,8 @@ public final class AuthzDocument implements Serializable {
 
         groups.add(group);
 
+        Collections.sort(groups);
+
         setHasUnsavedChanges();
 
         LOGGER.debug("createGroup() group created successfully, returning {}",
@@ -173,6 +175,8 @@ public final class AuthzDocument implements Serializable {
         final AuthzPath path = new AuthzPath(repository, pathStringTrimmed);
 
         paths.add(path);
+
+        Collections.sort(paths);
 
         setHasUnsavedChanges();
 
@@ -216,6 +220,8 @@ public final class AuthzDocument implements Serializable {
         final AuthzRepository repository = new AuthzRepository(nameTrimmed);
 
         repositories.add(repository);
+
+        Collections.sort(repositories);
 
         setHasUnsavedChanges();
 
@@ -279,6 +285,8 @@ public final class AuthzDocument implements Serializable {
         final AuthzUser user = new AuthzUser(nameTrimmed, aliasTrimmed);
 
         users.add(user);
+
+        Collections.sort(users);
 
         setHasUnsavedChanges();
 

@@ -2,25 +2,17 @@ package org.suafe.core;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Ordering;
-
 /**
  * Authz user object.
  * 
  * @since 2.0
  */
-public final class AuthzUser extends AuthzGroupMember implements
-        Comparable<AuthzUser> {
+public final class AuthzUser extends AuthzGroupMember {
     /** Serialization ID. */
     private static final long serialVersionUID = 7672296029756141807L;
 
     /** Alias of this user. */
     private final String alias;
-
-    /** Name of this user */
-    private final String name;
 
     /**
      * Constructor.
@@ -29,26 +21,9 @@ public final class AuthzUser extends AuthzGroupMember implements
      * @param alias User alias
      */
     public AuthzUser(final String name, final String alias) {
-        super();
+        super(name);
 
-        Preconditions.checkNotNull(name);
-
-        this.name = name;
         this.alias = alias;
-    }
-
-    /**
-     * Compares this object with the provided AuthzUser object.
-     * 
-     * @param that AuthzUser to compare
-     * @return Returns 0 if users are equal, less than 0 if this user is less
-     *         than the other or greater than 0 if this repository is greater
-     */
-    @Override
-    public int compareTo(final AuthzUser that) {
-        return ComparisonChain.start().compare(this.alias, that.alias,
-                Ordering.natural().nullsLast()).compare(this.name, that.name)
-                .result();
     }
 
     /**
@@ -94,15 +69,6 @@ public final class AuthzUser extends AuthzGroupMember implements
      */
     public String getAlias() {
         return alias;
-    }
-
-    /**
-     * Gets the user name.
-     * 
-     * @return User name
-     */
-    public String getName() {
-        return name;
     }
 
     /**

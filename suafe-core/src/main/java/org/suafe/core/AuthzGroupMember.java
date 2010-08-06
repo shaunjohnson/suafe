@@ -11,13 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ComparisonChain;
+
 /**
  * Authz group member object. Instances of this class or its subclasses are
  * eligible to be a member of a group.
  * 
  * @since 2.0
  */
-public abstract class AuthzGroupMember implements Serializable {
+public abstract class AuthzGroupMember implements Comparable<AuthzGroupMember>,
+        Serializable {
     /** Logger handle. */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AuthzGroupMember.class);
@@ -27,6 +31,23 @@ public abstract class AuthzGroupMember implements Serializable {
 
     /** Collection of groups of which is a member. */
     private final List<AuthzGroup> groups = new ArrayList<AuthzGroup>();
+
+    /** Name of this user */
+    protected final String name;
+
+    /**
+     * Constructor.
+     * 
+     * @param name User name
+     * @param alias User alias
+     */
+    protected AuthzGroupMember(final String name) {
+        super();
+
+        Preconditions.checkNotNull(name);
+
+        this.name = name;
+    }
 
     /**
      * Adds group to collection of groups.
@@ -52,7 +73,27 @@ public abstract class AuthzGroupMember implements Serializable {
             throw new AuthzAlreadyMemberOfGroupException();
         }
 
-        return groups.add(group);
+        if (groups.add(group)) {
+            Collections.sort(groups);
+
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Compares this object with the provided AuthzGroupMember object.
+     * 
+     * @param that AuthzGroupMember to compare
+     * @return Returns 0 if members are equal, less than 0 if this member is
+     *         less than the other or greater than 0 if this repository is
+     *         greater
+     */
+    @Override
+    public int compareTo(final AuthzGroupMember that) {
+        return ComparisonChain.start().compare(this.name, that.name).result();
     }
 
     /**
@@ -62,6 +103,15 @@ public abstract class AuthzGroupMember implements Serializable {
      */
     public final Collection<AuthzGroup> getGroups() {
         return Collections.unmodifiableCollection(groups);
+    }
+
+    /**
+     * Gets the user name.
+     * 
+     * @return User name
+     */
+    public String getName() {
+        return name;
     }
 
     /**
