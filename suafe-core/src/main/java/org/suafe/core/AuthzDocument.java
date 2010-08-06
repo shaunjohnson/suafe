@@ -11,6 +11,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.suafe.core.constants.AuthzAccessLevelIF;
+import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
@@ -40,6 +42,9 @@ public final class AuthzDocument implements Serializable {
 
     /** Serialization ID. */
     private static final long serialVersionUID = -1396450094914018451L;
+
+    /** The access rules. */
+    private List<AuthzAccessRule> accessRules;
 
     /** Collection of groups. */
     private List<AuthzGroup> groups;
@@ -109,13 +114,55 @@ public final class AuthzDocument implements Serializable {
     }
 
     /**
+     * Creates the access rule.
+     * 
+     * @param path the path
+     * @param group the group
+     * @param accessLevel the access level
+     * @return the authz access rule
+     * @throws AuthzAccessRuleAlreadyExistsException
+     */
+    public AuthzAccessRule createAccessRule(final AuthzPath path,
+            final AuthzGroup group, final AuthzAccessLevelIF accessLevel)
+            throws AuthzAccessRuleAlreadyExistsException {
+        LOGGER.debug("createAccessRule() entered. path=\"{}\", group=\"{}\"",
+                path, group);
+
+        Preconditions.checkNotNull(path, "Path is null");
+        Preconditions.checkNotNull(group, "Group is null");
+        Preconditions.checkNotNull(accessLevel, "AccessLevel is null");
+
+        if (doesAccessRuleExist(path, group)) {
+            LOGGER.info("createAccessRule() access rule already exists");
+
+            throw new AuthzAccessRuleAlreadyExistsException();
+        }
+
+        final AuthzAccessRule accessRule = new AuthzAccessRule(path, group,
+                accessLevel);
+
+        accessRules.add(accessRule);
+
+        Collections.sort(accessRules);
+
+        setHasUnsavedChanges();
+
+        LOGGER
+                .debug(
+                        "createAccessRule() access rule created successfully, returning {}",
+                        accessRule);
+
+        return accessRule;
+    }
+
+    /**
      * Creates a new group.
      * 
      * @param name Name of user
      * @return Newly created AuthzGroup object
-     * @throws AuthzInvalidGroupNameException If provided group name is invalid
      * @throws AuthzGroupAlreadyExistsException If group with the provided group
      *         name already exists
+     * @throws AuthzInvalidGroupNameException If provided group name is invalid
      */
     public AuthzGroup createGroup(final String name)
             throws AuthzGroupAlreadyExistsException,
@@ -151,6 +198,16 @@ public final class AuthzDocument implements Serializable {
         return group;
     }
 
+    /**
+     * Creates the path.
+     * 
+     * @param repository the repository
+     * @param pathString the path string
+     * @return the authz path
+     * @throws AuthzInvalidPathException the authz invalid path exception
+     * @throws AuthzPathAlreadyExistsException the authz path already exists
+     *         exception
+     */
     public AuthzPath createPath(final AuthzRepository repository,
             final String pathString) throws AuthzInvalidPathException,
             AuthzPathAlreadyExistsException {
@@ -238,12 +295,12 @@ public final class AuthzDocument implements Serializable {
      * @param alias Alias of user (optional)
      * @return Newly created AuthzUser object
      * @throws AuthzInvalidUserNameException If provided user name is invalid
-     * @throws AuthzInvalidUserAliasException If provided user alias is invalid
      * @throws AuthzUserAlreadyExistsException If user with the provided name
      *         already exists
      * @throws AuthzUserAliasAlreadyExistsException If user with the provided
      *         alias already exists
-     * @throws AuthzInvalidUserAliasException
+     * @throws AuthzInvalidUserAliasException the authz invalid user alias
+     *         exception
      */
     public AuthzUser createUser(final String name, final String alias)
             throws AuthzInvalidUserNameException,
@@ -294,6 +351,28 @@ public final class AuthzDocument implements Serializable {
                 user);
 
         return user;
+    }
+
+    /**
+     * Determines if an access rule with the provided path and group exists.
+     * 
+     * @param path Path of access rule to find
+     * @param group Group that is assigned to the access rule
+     * @return True if the access rule with the provided path and group exists,
+     *         otherwise false
+     */
+    public boolean doesAccessRuleExist(final AuthzPath path,
+            final AuthzGroup group) {
+        LOGGER.debug(
+                "doesAccessRuleExist() entered. path=\"{}\", group=\"{}\"",
+                path, group);
+
+        final boolean doesAccessRuleExist = getAccessRuleWithGroup(path, group) != null;
+
+        LOGGER.debug("doesAccessRuleExist() exiting, returning {}",
+                doesAccessRuleExist);
+
+        return doesAccessRuleExist;
     }
 
     /**
@@ -391,6 +470,45 @@ public final class AuthzDocument implements Serializable {
                 doesUserNameExist);
 
         return doesUserNameExist;
+    }
+
+    public List<AuthzAccessRule> getAccessRules() {
+        // TODO
+
+        return Collections.unmodifiableList(accessRules);
+    }
+
+    /**
+     * Returns the access rule with the provided path and group.
+     * 
+     * @param path Path of access rule to find
+     * @param group Group assigned to the access rule to find
+     * @return AuthzAccessRule if found, otherwise null
+     */
+    public AuthzAccessRule getAccessRuleWithGroup(final AuthzPath path,
+            final AuthzGroup group) {
+        LOGGER.debug(
+                "getAccessRuleWithGroup() entered. path=\"{}\", group=\"{}\"",
+                path, group);
+
+        Preconditions.checkNotNull(path, "Path is null");
+        Preconditions.checkNotNull(group, "Group is null");
+
+        AuthzAccessRule foundAccessRule = null;
+
+        for (final AuthzAccessRule accessRule : accessRules) {
+            if (accessRule.getPath().equals(path)
+                    && accessRule.getGroup() != null
+                    && accessRule.getGroup().equals(group)) {
+                foundAccessRule = accessRule;
+                break;
+            }
+        }
+
+        LOGGER.debug("getAccessRuleWithGroup() exiting, returning {}",
+                foundAccessRule);
+
+        return foundAccessRule;
     }
 
     /**
@@ -642,6 +760,7 @@ public final class AuthzDocument implements Serializable {
     public void initialize() {
         LOGGER.debug("initialize() entered.");
 
+        accessRules = new ArrayList<AuthzAccessRule>();
         groups = new ArrayList<AuthzGroup>();
         paths = new ArrayList<AuthzPath>();
         repositories = new ArrayList<AuthzRepository>();

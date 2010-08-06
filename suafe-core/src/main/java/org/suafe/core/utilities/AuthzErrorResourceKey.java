@@ -6,16 +6,19 @@ package org.suafe.core.utilities;
  * @since 2.0
  */
 public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
+    public static final AuthzResourceKeyIF ACCESS_RULE_ALREADY_EXISTS = new AuthzErrorResourceKey(
+            "errorAccessRuleAlreadyExists");
+
     public static final AuthzResourceKeyIF ALREADY_MEMBER_OF_GROUP = new AuthzErrorResourceKey(
             "errorAlreadyMemberOfGroup");
 
-    public static final AuthzErrorResourceKey GROUP_ALREADY_EXISTS = new AuthzErrorResourceKey(
+    public static final AuthzResourceKeyIF GROUP_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorGroupAlreadyExists");
 
     public static final AuthzResourceKeyIF GROUP_MEMBER_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorGroupMemberAlreadyExists");
 
-    public static final AuthzErrorResourceKey INVALID_GROUP_NAME = new AuthzErrorResourceKey(
+    public static final AuthzResourceKeyIF INVALID_GROUP_NAME = new AuthzErrorResourceKey(
             "errorInvalidGroupName");
 
     public static final AuthzResourceKeyIF INVALID_PATH = new AuthzErrorResourceKey(
@@ -24,10 +27,10 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
     public static final AuthzResourceKeyIF INVALID_REPOSITORY_NAME = new AuthzErrorResourceKey(
             "errorInvalidRepositoryName");
 
-    public static final AuthzErrorResourceKey INVALID_USER_ALIAS = new AuthzErrorResourceKey(
+    public static final AuthzResourceKeyIF INVALID_USER_ALIAS = new AuthzErrorResourceKey(
             "errorInvalidUserAlias");
 
-    public static final AuthzErrorResourceKey INVALID_USER_NAME = new AuthzErrorResourceKey(
+    public static final AuthzResourceKeyIF INVALID_USER_NAME = new AuthzErrorResourceKey(
             "errorInvalidUserName");
 
     public static final AuthzResourceKeyIF NOT_GROUP_MEMBER = new AuthzErrorResourceKey(
@@ -42,10 +45,10 @@ public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
     public static final AuthzResourceKeyIF REPOSITORY_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorRepositoryAlreadyExists");
 
-    public static final AuthzErrorResourceKey USER_ALIAS_ALREADY_EXISTS = new AuthzErrorResourceKey(
+    public static final AuthzResourceKeyIF USER_ALIAS_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorUserAliasAlreadyExists");
 
-    public static final AuthzErrorResourceKey USER_ALREADY_EXISTS = new AuthzErrorResourceKey(
+    public static final AuthzResourceKeyIF USER_ALREADY_EXISTS = new AuthzErrorResourceKey(
             "errorUserAlreadyExists");
 
     private final String key;

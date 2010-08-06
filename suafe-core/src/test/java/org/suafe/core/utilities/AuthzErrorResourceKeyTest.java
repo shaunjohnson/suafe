@@ -16,8 +16,8 @@ public class AuthzErrorResourceKeyTest {
             final Class<?> c = AuthzErrorResourceKey.class;
 
             for (final Field f : c.getFields()) {
-                if (f.getType().equals(AuthzErrorResourceKey.class)) {
-                    final AuthzErrorResourceKey key = (AuthzErrorResourceKey) f
+                if (f.getType().equals(AuthzResourceKeyIF.class)) {
+                    final AuthzResourceKeyIF key = (AuthzResourceKeyIF) f
                             .get(null);
 
                     assertNotNull("Unable to load resource with key \""
@@ -31,6 +31,22 @@ public class AuthzErrorResourceKeyTest {
         }
         catch (final IllegalAccessException e) {
             fail("IllegalAccessException caught");
+        }
+    }
+
+    @Test
+    public void testAuthzErrorResourceKeyType() {
+        try {
+            final Class<?> c = AuthzErrorResourceKey.class;
+
+            for (final Field f : c.getFields()) {
+                if (f.getType().equals(AuthzErrorResourceKey.class)) {
+                    fail("Field must be of type AuthzResourceKeyIF");
+                }
+            }
+        }
+        catch (final IllegalArgumentException e) {
+            fail("IllegalArgumentException caught");
         }
     }
 

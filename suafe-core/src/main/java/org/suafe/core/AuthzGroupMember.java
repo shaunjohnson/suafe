@@ -44,7 +44,7 @@ public abstract class AuthzGroupMember implements Comparable<AuthzGroupMember>,
     protected AuthzGroupMember(final String name) {
         super();
 
-        Preconditions.checkNotNull(name);
+        Preconditions.checkNotNull(name, "Name is null");
 
         this.name = name;
     }
