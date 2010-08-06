@@ -19,7 +19,9 @@ package org.suafe.core;
 
 import org.suafe.core.constants.AuthzAccessLevelIF;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
 
 /**
  * Authz access rule object.
@@ -51,9 +53,9 @@ public class AuthzAccessRule implements Comparable<AuthzAccessRule> {
             final AuthzAccessLevelIF accessLevel) {
         super();
 
-        if (path == null || group == null || accessLevel == null) {
-            throw new NullPointerException();
-        }
+        Preconditions.checkNotNull(path, "Path is null");
+        Preconditions.checkNotNull(group, "Group is null");
+        Preconditions.checkNotNull(accessLevel, "Access level is null");
 
         this.path = path;
         this.group = group;
@@ -72,9 +74,9 @@ public class AuthzAccessRule implements Comparable<AuthzAccessRule> {
             final AuthzAccessLevelIF accessLevel) {
         super();
 
-        if (path == null || user == null || accessLevel == null) {
-            throw new NullPointerException();
-        }
+        Preconditions.checkNotNull(path, "Path is null");
+        Preconditions.checkNotNull(user, "User is null");
+        Preconditions.checkNotNull(accessLevel, "Access level is null");
 
         this.path = path;
         this.group = null;
@@ -94,31 +96,13 @@ public class AuthzAccessRule implements Comparable<AuthzAccessRule> {
         final ComparisonChain comparisonChain = ComparisonChain.start();
 
         comparisonChain.compare(this.path, authzAccessRule.path);
-        comparisonChain.compare(this.group, authzAccessRule.group);
-        comparisonChain.compare(this.user, authzAccessRule.user);
+        comparisonChain.compare(this.group, authzAccessRule.group, Ordering
+                .natural().nullsLast());
+        comparisonChain.compare(this.user, authzAccessRule.user, Ordering
+                .natural().nullsLast());
         comparisonChain.compare(this.accessLevel, authzAccessRule.accessLevel);
 
         return comparisonChain.result();
-
-        /*
-         * final AuthzPath otherPath = authzAccessRule.getPath(); final int
-         * comparePath = path.compareTo(otherPath); if (comparePath != 0) {
-         * return comparePath; }
-         * 
-         * final AuthzGroup otherGroup = authzAccessRule.getGroup(); if
-         * (otherGroup != null) { final int compareGroup =
-         * group.compareTo(otherGroup); if (compareGroup != 0) { return
-         * compareGroup; } }
-         * 
-         * final AuthzUser otherUser = authzAccessRule.getUser(); if (otherUser
-         * != null) { final int compareUser = user.compareTo(otherUser); if
-         * (compareUser != 0) { return compareUser; } }
-         * 
-         * final AuthzAccessLevelIF otherAccessLevel = authzAccessRule
-         * .getAccessLevel();
-         * 
-         * return accessLevel.compareTo(otherAccessLevel);
-         */
     }
 
     /**

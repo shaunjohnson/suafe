@@ -1,7 +1,10 @@
 package org.suafe.core;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
 
 /**
  * Authz user object.
@@ -28,6 +31,8 @@ public final class AuthzUser extends AuthzGroupMember implements
     public AuthzUser(final String name, final String alias) {
         super();
 
+        Preconditions.checkNotNull(name);
+
         this.name = name;
         this.alias = alias;
     }
@@ -35,22 +40,15 @@ public final class AuthzUser extends AuthzGroupMember implements
     /**
      * Compares this object with the provided AuthzUser object.
      * 
-     * @param authzUser AuthzUser to compare
+     * @param that AuthzUser to compare
      * @return Returns 0 if users are equal, less than 0 if this user is less
      *         than the other or greater than 0 if this repository is greater
      */
     @Override
-    public int compareTo(final AuthzUser authzUser) {
-        if (this == authzUser) {
-            return 0;
-        }
-
-        final String myName = StringUtils.trimToEmpty(name)
-                + StringUtils.trimToEmpty(alias);
-        final String otherName = StringUtils.trimToEmpty(authzUser.getName())
-                + StringUtils.trimToEmpty(authzUser.getAlias());
-
-        return myName.compareTo(otherName);
+    public int compareTo(final AuthzUser that) {
+        return ComparisonChain.start().compare(this.alias, that.alias,
+                Ordering.natural().nullsLast()).compare(this.name, that.name)
+                .result();
     }
 
     /**

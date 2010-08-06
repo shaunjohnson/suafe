@@ -4,12 +4,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzNotGroupMemberException;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
 
 /**
  * Authz group object.
@@ -39,6 +42,8 @@ public final class AuthzGroup extends AuthzGroupMember implements
     public AuthzGroup(final String name) {
         super();
 
+        Preconditions.checkNotNull(name, "Name is null");
+
         this.name = name;
     }
 
@@ -54,11 +59,7 @@ public final class AuthzGroup extends AuthzGroupMember implements
             throws AuthzGroupMemberAlreadyExistsException {
         LOGGER.debug("addMember() entered. member={}", member);
 
-        if (member == null) {
-            LOGGER.error("addMember() member is null");
-
-            throw new NullPointerException("Member is null");
-        }
+        Preconditions.checkNotNull(member, "Member is null");
 
         if (members.contains(member)) {
             LOGGER.error("addMember() group member already exists");
@@ -74,20 +75,14 @@ public final class AuthzGroup extends AuthzGroupMember implements
     /**
      * Compares this object with the provided AuthzGroup object.
      * 
-     * @param authzGroup AuthzGroup to compare
+     * @param that AuthzGroup to compare
      * @return Returns 0 if groups are equal, less than 0 if this group is less
      *         than the other or greater than 0 if this group is greater
      */
     @Override
-    public int compareTo(final AuthzGroup authzGroup) {
-        if (this == authzGroup) {
-            return 0;
-        }
-
-        final String myName = StringUtils.trimToEmpty(name);
-        final String otherName = StringUtils.trimToEmpty(authzGroup.getName());
-
-        return myName.compareTo(otherName);
+    public int compareTo(final AuthzGroup that) {
+        return ComparisonChain.start().compare(this.name, that.name,
+                Ordering.natural().nullsLast()).result();
     }
 
     /**
@@ -162,11 +157,7 @@ public final class AuthzGroup extends AuthzGroupMember implements
             throws AuthzNotGroupMemberException {
         LOGGER.debug("removeMember() entered. member={}", member);
 
-        if (member == null) {
-            LOGGER.error("removeMember() member is null");
-
-            throw new NullPointerException("Member is null");
-        }
+        Preconditions.checkNotNull(member, "Member is null");
 
         if (!members.contains(member)) {
             LOGGER.error("removeMember() member is not a member of this group");

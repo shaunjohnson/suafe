@@ -2,8 +2,10 @@ package org.suafe.core;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * Authz repository object.
@@ -26,28 +28,22 @@ public final class AuthzRepository implements Serializable,
     public AuthzRepository(final String name) {
         super();
 
+        Preconditions.checkNotNull(name);
+
         this.name = name;
     }
 
     /**
      * Compares this object with the provided AuthzRepository object.
      * 
-     * @param authzRepository AuthzRepository to compare
+     * @param that AuthzRepository to compare
      * @return Returns 0 if repositories are equal, less than 0 if this
      *         repository is less than the other or greater than 0 if this
      *         repository is greater
      */
     @Override
-    public int compareTo(final AuthzRepository authzRepository) {
-        if (this == authzRepository) {
-            return 0;
-        }
-
-        final String myName = StringUtils.trimToEmpty(name);
-        final String otherName = StringUtils.trimToEmpty(authzRepository
-                .getName());
-
-        return myName.compareTo(otherName);
+    public int compareTo(final AuthzRepository that) {
+        return ComparisonChain.start().compare(this.name, that.name).result();
     }
 
     /**

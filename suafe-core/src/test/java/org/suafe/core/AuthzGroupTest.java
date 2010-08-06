@@ -100,8 +100,6 @@ public class AuthzGroupTest {
 
     @Test
     public void testCompareTo() {
-        assertTrue("Null groups should match", new AuthzGroup(null)
-                .compareTo(new AuthzGroup(null)) == 0);
         assertTrue("Empty groups should match", new AuthzGroup("")
                 .compareTo(new AuthzGroup("")) == 0);
         assertTrue("Groups with same name should match", new AuthzGroup("name")
@@ -119,8 +117,8 @@ public class AuthzGroupTest {
     public void testEquals() {
         assertTrue("Values should match", new AuthzGroup("name")
                 .equals(new AuthzGroup("name")));
-        assertTrue("Values should match", new AuthzGroup(null)
-                .equals(new AuthzGroup(null)));
+        assertTrue("Values should match", new AuthzGroup("")
+                .equals(new AuthzGroup("")));
         assertFalse("Values should not match", new AuthzGroup("name")
                 .equals(new AuthzGroup("name2")));
 

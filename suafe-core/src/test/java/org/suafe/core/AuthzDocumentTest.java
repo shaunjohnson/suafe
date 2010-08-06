@@ -35,12 +35,12 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            document.addGroupMember(null, new AuthzUser(null, null));
+            document.addGroupMember(null, new AuthzUser("name", null));
 
             fail("Successfully added member to null group");
         }
         catch (final NullPointerException e) {
-            assertNotNull("Expected NullPointerException", e.getMessage());
+            assertNotNull("Expected NullPointerException", e);
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -49,12 +49,12 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            document.addGroupMember(new AuthzGroup(null), null);
+            document.addGroupMember(new AuthzGroup("name"), null);
 
             fail("Successfully added null member to a group");
         }
         catch (final NullPointerException e) {
-            assertNotNull("Expected NullPointerException", e.getMessage());
+            assertNotNull("Expected NullPointerException", e);
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -63,8 +63,8 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            document.addGroupMember(new AuthzGroup(null), new AuthzUser(null,
-                    null));
+            document.addGroupMember(new AuthzGroup("name"), new AuthzUser(
+                    "name", null));
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -1744,7 +1744,7 @@ public class AuthzDocumentTest {
             fail("Successfully removed user from a null group");
         }
         catch (final NullPointerException e) {
-            assertNotNull("NullPointerException expected", e.getMessage());
+            assertNotNull("Expected NullPointerException", e);
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -1753,12 +1753,12 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
-            document.removeGroupMember(new AuthzGroup(null), null);
+            document.removeGroupMember(new AuthzGroup("name"), null);
 
             fail("Successfully removed null from a group");
         }
         catch (final NullPointerException e) {
-            assertNotNull("NullPointerException expected", e.getMessage());
+            assertNotNull("Expected NullPointerException", e);
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -1766,8 +1766,8 @@ public class AuthzDocumentTest {
 
         try {
             final AuthzDocument document = new AuthzDocument();
-            final AuthzGroup group = new AuthzGroup(null);
-            final AuthzUser user = new AuthzUser(null, null);
+            final AuthzGroup group = new AuthzGroup("name");
+            final AuthzUser user = new AuthzUser("name", null);
 
             user.addGroup(group);
 
@@ -1783,8 +1783,8 @@ public class AuthzDocumentTest {
 
         try {
             final AuthzDocument document = new AuthzDocument();
-            final AuthzGroup group = new AuthzGroup(null);
-            final AuthzUser user = new AuthzUser(null, null);
+            final AuthzGroup group = new AuthzGroup("name");
+            final AuthzUser user = new AuthzUser("name", null);
 
             group.addMember(user);
 
@@ -1800,8 +1800,8 @@ public class AuthzDocumentTest {
 
         try {
             final AuthzDocument document = new AuthzDocument();
-            final AuthzGroup group = new AuthzGroup(null);
-            final AuthzUser user = new AuthzUser(null, null);
+            final AuthzGroup group = new AuthzGroup("name");
+            final AuthzUser user = new AuthzUser("name", null);
 
             group.addMember(user);
             user.addGroup(group);
@@ -1814,8 +1814,8 @@ public class AuthzDocumentTest {
 
         try {
             final AuthzDocument document = new AuthzDocument();
-            final AuthzGroup group = new AuthzGroup(null);
-            final AuthzUser user = new AuthzUser(null, null);
+            final AuthzGroup group = new AuthzGroup("name");
+            final AuthzUser user = new AuthzUser("name", null);
 
             document.addGroupMember(group, user);
             document.removeGroupMember(group, user);

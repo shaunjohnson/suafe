@@ -25,6 +25,8 @@ import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Authz document file.
  * 
@@ -83,17 +85,8 @@ public final class AuthzDocument implements Serializable {
         LOGGER.debug("addGroupMember() entered. group={}, member={}", group,
                 member);
 
-        if (group == null) {
-            LOGGER.error("addGroupMember() group is null");
-
-            throw new NullPointerException("Group is null");
-        }
-
-        if (member == null) {
-            LOGGER.error("addGroupMember() member is null");
-
-            throw new NullPointerException("Member is null");
-        }
+        Preconditions.checkNotNull(group, "Group is null");
+        Preconditions.checkNotNull(member, "Member is null");
 
         group.addMember(member);
         member.addGroup(group);

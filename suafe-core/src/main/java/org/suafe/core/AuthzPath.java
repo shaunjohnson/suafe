@@ -2,8 +2,11 @@ package org.suafe.core;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
 
 /**
  * Authz path object.
@@ -29,6 +32,8 @@ public final class AuthzPath implements Serializable, Comparable<AuthzPath> {
     public AuthzPath(final AuthzRepository repository, final String path) {
         super();
 
+        Preconditions.checkNotNull(path);
+
         this.repository = repository;
         this.path = path;
     }
@@ -36,20 +41,15 @@ public final class AuthzPath implements Serializable, Comparable<AuthzPath> {
     /**
      * Compares this object with the provided AuthzPath object.
      * 
-     * @param authzPath AuthzPath to compare
+     * @param that AuthzPath to compare
      * @return Returns 0 if paths are equal, less than 0 if this path is less
      *         than the other or greater than 0 if this path is greater
      */
     @Override
-    public int compareTo(final AuthzPath authzPath) {
-        if (this == authzPath) {
-            return 0;
-        }
-
-        final String myName = StringUtils.trimToEmpty(path);
-        final String otherName = StringUtils.trimToEmpty(authzPath.getPath());
-
-        return myName.compareTo(otherName);
+    public int compareTo(final AuthzPath that) {
+        return ComparisonChain.start().compare(this.repository,
+                that.repository, Ordering.natural().nullsLast()).compare(
+                this.path, that.path).result();
     }
 
     /**

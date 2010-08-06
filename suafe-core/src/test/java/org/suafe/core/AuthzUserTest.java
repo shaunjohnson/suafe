@@ -20,8 +20,8 @@ public class AuthzUserTest {
 
     @Test
     public void testCompareTo() {
-        assertTrue("Null users should match", new AuthzUser(null, null)
-                .compareTo(new AuthzUser(null, null)) == 0);
+        assertTrue("Null users should match", new AuthzUser("", null)
+                .compareTo(new AuthzUser("", null)) == 0);
         assertTrue("Empty users should match", new AuthzUser("", "")
                 .compareTo(new AuthzUser("", "")) == 0);
         assertTrue("Users with same name should match", new AuthzUser("name",
@@ -40,26 +40,24 @@ public class AuthzUserTest {
     public void testEquals() {
         assertTrue("Values should match", new AuthzUser("name", null)
                 .equals(new AuthzUser("name", null)));
-        assertFalse("Values should match", new AuthzUser("name", "alias")
+        assertFalse("Values should not match", new AuthzUser("name", "alias")
                 .equals(new AuthzUser("name", null)));
-        assertFalse("Values should match", new AuthzUser("name", null)
+        assertFalse("Values should not match", new AuthzUser("name", null)
                 .equals(new AuthzUser("name", "alias")));
         assertTrue("Values should match", new AuthzUser("name", "alias")
                 .equals(new AuthzUser("name", "alias")));
 
-        assertTrue("Values should match", new AuthzUser(null, null)
-                .equals(new AuthzUser(null, null)));
-        assertFalse("Values should match", new AuthzUser(null, "alias")
-                .equals(new AuthzUser(null, null)));
-        assertFalse("Values should match", new AuthzUser(null, null)
-                .equals(new AuthzUser(null, "alias")));
-        assertTrue("Values should match", new AuthzUser(null, "alias")
-                .equals(new AuthzUser(null, "alias")));
-        assertFalse("Values should match", new AuthzUser(null, "alias")
+        assertTrue("Values should match", new AuthzUser("", null)
+                .equals(new AuthzUser("", null)));
+        assertFalse("Values should not match", new AuthzUser("", "alias")
+                .equals(new AuthzUser("", null)));
+        assertFalse("Values should not match", new AuthzUser("", null)
+                .equals(new AuthzUser("", "alias")));
+        assertTrue("Values should match", new AuthzUser("", "alias")
+                .equals(new AuthzUser("", "alias")));
+        assertFalse("Values should not match", new AuthzUser("", "alias")
                 .equals(new AuthzUser("name", "alias")));
 
-        assertTrue("Values should match", new AuthzUser(null, null)
-                .equals(new AuthzUser(null, null)));
         assertFalse("Values should not match", new AuthzUser("name", null)
                 .equals(new AuthzUser("name2", null)));
 

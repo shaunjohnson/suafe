@@ -28,8 +28,6 @@ public class AuthzPathTest {
 
     @Test
     public void testCompareTo() {
-        assertTrue("Null paths should match", new AuthzPath(null, null)
-                .compareTo(new AuthzPath(null, null)) == 0);
         assertTrue("Empty paths should match", new AuthzPath(null, "")
                 .compareTo(new AuthzPath(null, "")) == 0);
         assertTrue("Paths with same path should match", new AuthzPath(null,
@@ -52,8 +50,8 @@ public class AuthzPathTest {
         // Test with null repository
         assertTrue("Values should match", new AuthzPath(null, "name")
                 .equals(new AuthzPath(null, "name")));
-        assertTrue("Values should match", new AuthzPath(null, null)
-                .equals(new AuthzPath(null, null)));
+        assertTrue("Values should match", new AuthzPath(null, "")
+                .equals(new AuthzPath(null, "")));
         assertFalse("Values should not match", new AuthzPath(null, "name")
                 .equals(new AuthzPath(null, "name2")));
 
@@ -66,13 +64,13 @@ public class AuthzPathTest {
                 "repo"), "name").equals(new AuthzPath(new AuthzRepository(
                 "repo"), "name")));
         assertTrue("Values should match", new AuthzPath(new AuthzRepository(
-                "repo"), null).equals(new AuthzPath(
-                new AuthzRepository("repo"), null)));
+                "repo"), "").equals(new AuthzPath(new AuthzRepository("repo"),
+                "")));
         assertFalse("Values should not match", new AuthzPath(
                 new AuthzRepository("repo"), "name").equals(new AuthzPath(
                 new AuthzRepository("repo"), "name2")));
         assertFalse("Values should not match", new AuthzPath(
-                new AuthzRepository("repo"), null).equals(new AuthzPath(
+                new AuthzRepository("repo"), "").equals(new AuthzPath(
                 new AuthzRepository("repo"), "name2")));
 
         assertFalse("Values should not match", new AuthzPath(
