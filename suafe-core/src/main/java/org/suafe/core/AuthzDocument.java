@@ -29,6 +29,7 @@ import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 
 /**
  * Authz document file.
@@ -472,10 +473,19 @@ public final class AuthzDocument implements Serializable {
         return doesUserNameExist;
     }
 
+    /**
+     * Returns an immutable collection of AuthzAccessRule objects.
+     * 
+     * @return Immutable collection of AuthzAccessRule objects
+     */
     public List<AuthzAccessRule> getAccessRules() {
-        // TODO
+        LOGGER
+                .debug(
+                        "getAccessRules() entered, returning accessRules with {} access rule objects",
+                        accessRules.size());
 
-        return Collections.unmodifiableList(accessRules);
+        return new ImmutableList.Builder<AuthzAccessRule>().addAll(accessRules)
+                .build();
     }
 
     /**
@@ -521,7 +531,7 @@ public final class AuthzDocument implements Serializable {
                 "getGroups() entered, returning groups with {} group objects",
                 groups.size());
 
-        return Collections.unmodifiableCollection(groups);
+        return new ImmutableList.Builder<AuthzGroup>().addAll(groups).build();
     }
 
     /**
@@ -613,7 +623,7 @@ public final class AuthzDocument implements Serializable {
         LOGGER.debug("getPaths() entered, returning paths with "
                 + "{} path objects", paths.size());
 
-        return Collections.unmodifiableCollection(paths);
+        return new ImmutableList.Builder<AuthzPath>().addAll(paths).build();
     }
 
     /**
@@ -625,7 +635,8 @@ public final class AuthzDocument implements Serializable {
         LOGGER.debug("getRepositories() entered, returning repositories with "
                 + "{} repository objects", repositories.size());
 
-        return Collections.unmodifiableCollection(repositories);
+        return new ImmutableList.Builder<AuthzRepository>()
+                .addAll(repositories).build();
     }
 
     /**
@@ -673,7 +684,7 @@ public final class AuthzDocument implements Serializable {
                 "getUsers() entered, returning users with {} user objects",
                 users.size());
 
-        return Collections.unmodifiableCollection(users);
+        return new ImmutableList.Builder<AuthzUser>().addAll(users).build();
     }
 
     /**
