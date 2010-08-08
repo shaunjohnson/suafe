@@ -10,6 +10,9 @@ import static org.junit.Assert.fail;
 import java.util.Collection;
 
 import org.junit.Test;
+import org.suafe.core.constants.AuthzAccessLevel;
+import org.suafe.core.constants.AuthzAccessLevelIF;
+import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
@@ -40,7 +43,7 @@ public class AuthzDocumentTest {
             fail("Successfully added member to null group");
         }
         catch (final NullPointerException e) {
-            assertNotNull("Expected NullPointerException", e);
+            assertNotNull("Expected NullPointerException", e.getMessage());
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -54,7 +57,7 @@ public class AuthzDocumentTest {
             fail("Successfully added null member to a group");
         }
         catch (final NullPointerException e) {
-            assertNotNull("Expected NullPointerException", e);
+            assertNotNull("Expected NullPointerException", e.getMessage());
         }
         catch (final Exception e) {
             fail("Unexpected Exception");
@@ -163,6 +166,131 @@ public class AuthzDocumentTest {
         }
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
+        }
+    }
+
+    @Test
+    public void testCreateAccessRule() {
+        // Test invalid values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.createAccessRule(null, document.createGroup("name"),
+                    AuthzAccessLevel.READ_WRITE);
+
+            fail("Unexpected sucessfully created access rule");
+        }
+        catch (final NullPointerException e) {
+            assertNotNull("Expected a non-null exception", e.getMessage());
+        }
+        catch (final Exception e) {
+            fail("Unexpected Exception");
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.createAccessRule(new AuthzPath(null, "/"), null,
+                    AuthzAccessLevel.READ_WRITE);
+
+            fail("Unexpected sucessfully created access rule");
+        }
+        catch (final NullPointerException e) {
+            assertNotNull("Expected a non-null exception", e.getMessage());
+        }
+        catch (final Exception e) {
+            fail("Unexpected Exception");
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            document.createAccessRule(new AuthzPath(null, "/"), new AuthzGroup(
+                    "name"), null);
+
+            fail("Unexpected sucessfully created access rule");
+        }
+        catch (final NullPointerException e) {
+            assertNotNull("Expected a non-null exception", e.getMessage());
+        }
+        catch (final Exception e) {
+            fail("Unexpected Exception");
+        }
+
+        // Test valid values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            final AuthzPath path = new AuthzPath(null, "/");
+            final AuthzGroup group = new AuthzGroup("name");
+            final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
+
+            final AuthzAccessRule accessRule = document.createAccessRule(path,
+                    group, accessLevel);
+
+            assertNotNull("access rule expected to be not null", accessRule);
+            assertEquals("path should match", path, accessRule.getPath());
+            assertEquals("group should match", group, accessRule.getGroup());
+            assertNull("user should be null", accessRule.getUser());
+            assertEquals("access level should match", accessLevel, accessRule
+                    .getAccessLevel());
+        }
+        catch (final Exception e) {
+            fail("Unexpected Exception");
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            final AuthzPath path = new AuthzPath(null, "/");
+            final AuthzPath pathWithRepo = new AuthzPath(new AuthzRepository(
+                    "name"), "/");
+            final AuthzGroup group = new AuthzGroup("name");
+            final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
+
+            document.createAccessRule(path, group, accessLevel);
+            document.createAccessRule(pathWithRepo, group, accessLevel);
+        }
+        catch (final Exception e) {
+            fail("Unexpected Exception");
+        }
+
+        // Test for duplicate values
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            final AuthzPath path = new AuthzPath(null, "/");
+            final AuthzGroup group = new AuthzGroup("name");
+            final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
+
+            document.createAccessRule(path, group, accessLevel);
+            document.createAccessRule(path, group, accessLevel);
+
+            fail("Unexpected successfully created duplicate access rule");
+        }
+        catch (final AuthzAccessRuleAlreadyExistsException e) {
+            assertNotNull("Expected not-null exception", e.getMessage());
+        }
+        catch (final Exception e) {
+            fail("Unexpected Exception");
+        }
+
+        try {
+            final AuthzDocument document = new AuthzDocument();
+
+            final AuthzPath path = new AuthzPath(null, "/");
+            final AuthzGroup group = new AuthzGroup("name");
+
+            document.createAccessRule(path, group, AuthzAccessLevel.READ_ONLY);
+            document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
+
+            fail("Unexpected successfully created duplicate access rule");
+        }
+        catch (final AuthzAccessRuleAlreadyExistsException e) {
+            assertNotNull("Expected not-null exception", e.getMessage());
+        }
+        catch (final Exception e) {
+            fail("Unexpected Exception");
         }
     }
 
