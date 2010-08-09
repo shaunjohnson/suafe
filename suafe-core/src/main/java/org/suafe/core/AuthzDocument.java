@@ -922,9 +922,11 @@ public final class AuthzDocument implements Serializable {
     public String toString() {
         final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
 
+        toStringBuilder.append("accessRules", accessRules.size());
         toStringBuilder.append("groups", groups.size());
-        toStringBuilder.append("users", users.size());
+        toStringBuilder.append("paths", paths.size());
         toStringBuilder.append("repositories", repositories.size());
+        toStringBuilder.append("users", users.size());
 
         return toStringBuilder.toString();
     }
