@@ -132,7 +132,7 @@ public class AuthzDocumentTest {
                     document.hasUnsavedChanges());
 
             // Test create group
-            document.createGroup("group");
+            final AuthzGroup group = document.createGroup("group");
 
             assertTrue("Document should have unsaved changes", document
                     .hasUnsavedChanges());
@@ -143,7 +143,8 @@ public class AuthzDocumentTest {
                     document.hasUnsavedChanges());
 
             // Test create repository
-            document.createRepository("repository");
+            final AuthzRepository repository = document
+                    .createRepository("repository");
 
             assertTrue("Document should have unsaved changes", document
                     .hasUnsavedChanges());
@@ -154,7 +155,18 @@ public class AuthzDocumentTest {
                     document.hasUnsavedChanges());
 
             // Test create path
-            document.createPath(null, "/path");
+            final AuthzPath path = document.createPath(repository, "/path");
+
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
+
+            document.clearHasUnsavedChanges();
+
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
+
+            // Test create access rule
+            document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
 
             assertTrue("Document should have unsaved changes", document
                     .hasUnsavedChanges());
@@ -1940,6 +1952,47 @@ public class AuthzDocumentTest {
         catch (final AuthzException e) {
             fail("Unexpected AuthzException");
         }
+
+        // Test has unsaved changes flag when creating a path
+        try {
+            final AuthzDocument document = new AuthzDocument();
+            final AuthzRepository repository = document
+                    .createRepository("name");
+
+            document.clearHasUnsavedChanges();
+
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
+
+            document.createPath(repository, "/");
+
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
+        }
+
+        // Test has unsaved changes flag when creating a group access rule
+        try {
+            final AuthzDocument document = new AuthzDocument();
+            final AuthzPath path = document.createPath(document
+                    .createRepository("name"), "/");
+            final AuthzGroup group = document.createGroup("name");
+
+            document.clearHasUnsavedChanges();
+
+            assertFalse("Document should not have any unsaved changes",
+                    document.hasUnsavedChanges());
+
+            document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
+
+            assertTrue("Document should have unsaved changes", document
+                    .hasUnsavedChanges());
+        }
+        catch (final AuthzException e) {
+            fail("Unexpected AuthzException");
+        }
     }
 
     @Test
@@ -1947,46 +2000,66 @@ public class AuthzDocumentTest {
         try {
             final AuthzDocument document = new AuthzDocument();
 
+            assertNotNull("Access rules should not be null", document
+                    .getAccessRules());
+            assertTrue("Access rules should be empty", document
+                    .getAccessRules().size() == 0);
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should empty",
-                    document.getGroups().size() == 0);
+            assertTrue("Groups should empty", document.getGroups().size() == 0);
+            assertNotNull("Paths should not be null", document.getPaths());
+            assertTrue("Paths should empty", document.getPaths().size() == 0);
             assertNotNull("Repositories should not be null", document
                     .getRepositories());
-            assertNotNull("Repositories should empty", document
-                    .getRepositories().size() == 0);
+            assertTrue("Repositories should empty", document.getRepositories()
+                    .size() == 0);
             assertNotNull("Users should not be null", document.getUsers());
-            assertNotNull("Users should empty", document.getUsers().size() == 0);
+            assertTrue("Users should empty", document.getUsers().size() == 0);
             assertFalse("Document should not have any unsaved changes",
                     document.hasUnsavedChanges());
 
-            document.createGroup("group");
-            document.createRepository("repository");
+            final AuthzGroup group = document.createGroup("group");
+            final AuthzRepository repository = document
+                    .createRepository("repository");
             document.createUser("user", null);
+            final AuthzPath path = document.createPath(repository, "/");
+            document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
 
+            assertNotNull("Access rules should not be null", document
+                    .getAccessRules());
+            assertTrue("Access rules should contain one access rule", document
+                    .getAccessRules().size() == 1);
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should contain one group", document
-                    .getGroups().size() == 1);
+            assertTrue("Groups should contain one group", document.getGroups()
+                    .size() == 1);
+            assertNotNull("Paths should not be null", document.getPaths());
+            assertTrue("Paths should contain one path", document.getPaths()
+                    .size() == 1);
             assertNotNull("Repositories should not be null", document
                     .getRepositories());
-            assertNotNull("Repositories should empty", document
+            assertTrue("Repositories should contain one repository", document
                     .getRepositories().size() == 1);
             assertNotNull("Users should not be null", document.getUsers());
-            assertNotNull("Users should contain one user", document.getUsers()
+            assertTrue("Users should contain one user", document.getUsers()
                     .size() == 1);
             assertTrue("Document should have unsaved changes", document
                     .hasUnsavedChanges());
 
             document.initialize();
 
+            assertNotNull("Access rules should not be null", document
+                    .getAccessRules());
+            assertTrue("Access rules should be empty", document
+                    .getAccessRules().size() == 0);
             assertNotNull("Groups should not be null", document.getGroups());
-            assertNotNull("Groups should empty",
-                    document.getGroups().size() == 0);
+            assertTrue("Groups should empty", document.getGroups().size() == 0);
+            assertNotNull("Paths should not be null", document.getPaths());
+            assertTrue("Paths should empty", document.getPaths().size() == 0);
             assertNotNull("Repositories should not be null", document
                     .getRepositories());
-            assertNotNull("Repositories should empty", document
-                    .getRepositories().size() == 0);
+            assertTrue("Repositories should empty", document.getRepositories()
+                    .size() == 0);
             assertNotNull("Users should not be null", document.getUsers());
-            assertNotNull("Users should empty", document.getUsers().size() == 0);
+            assertTrue("Users should empty", document.getUsers().size() == 0);
             assertFalse("Document should not have any unsaved changes",
                     document.hasUnsavedChanges());
         }
@@ -2202,8 +2275,12 @@ public class AuthzDocumentTest {
         assertNotNull("Should not be null for empty document", document
                 .toString());
 
+        assertTrue("Should contain access rule information", document
+                .toString().contains("accessRules"));
         assertTrue("Should contain group information", document.toString()
                 .contains("groups"));
+        assertTrue("Should contain path information", document.toString()
+                .contains("paths"));
         assertTrue("Should contain repository information", document.toString()
                 .contains("repositories"));
         assertTrue("Should contain user information", document.toString()
