@@ -1,4 +1,4 @@
-package org.suafe.core;
+package org.suafe.core.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,6 +6,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.suafe.core.AuthzPathIF;
+import org.suafe.core.AuthzRepositoryIF;
+import org.suafe.core.impl.AuthzPath;
+import org.suafe.core.impl.AuthzRepository;
 
 /**
  * Unit test for AuthzPath.
@@ -13,13 +17,13 @@ import org.junit.Test;
 public class AuthzPathTest {
     @Test
     public void testAuthzPathRepositoryString() {
-        final AuthzPath path = new AuthzPath(null, "/path");
+        final AuthzPathIF path = new AuthzPath(null, "/path");
 
         assertNull("repository should be null", path.getRepository());
         assertEquals("path should be valid", "/path", path.getPath());
 
-        final AuthzRepository repository = new AuthzRepository("repository");
-        final AuthzPath path2 = new AuthzPath(repository, "/path2");
+        final AuthzRepositoryIF repository = new AuthzRepository("repository");
+        final AuthzPathIF path2 = new AuthzPath(repository, "/path2");
 
         assertEquals("repository should be valid", repository, path2
                 .getRepository());
@@ -33,7 +37,7 @@ public class AuthzPathTest {
         assertTrue("Paths with same path should match", new AuthzPath(null,
                 "/path").compareTo(new AuthzPath(null, "/path")) == 0);
 
-        final AuthzRepository repository = new AuthzRepository("repository");
+        final AuthzRepositoryIF repository = new AuthzRepository("repository");
 
         assertTrue("Paths with same repository and path should match",
                 new AuthzPath(repository, "/path").compareTo(new AuthzPath(
@@ -55,7 +59,7 @@ public class AuthzPathTest {
         assertFalse("Values should not match", new AuthzPath(null, "name")
                 .equals(new AuthzPath(null, "name2")));
 
-        final AuthzPath path = new AuthzPath(null, "name");
+        final AuthzPathIF path = new AuthzPath(null, "name");
 
         assertTrue("Value should match self", path.equals(path));
 
@@ -98,8 +102,8 @@ public class AuthzPathTest {
 
     @Test
     public void testToString() {
-        final AuthzRepository repository = new AuthzRepository("myRepository");
-        final AuthzPath path = new AuthzPath(repository, "myName");
+        final AuthzRepositoryIF repository = new AuthzRepository("myRepository");
+        final AuthzPathIF path = new AuthzPath(repository, "myName");
 
         assertTrue("toString() should output repository", path.toString()
                 .contains("myRepository"));

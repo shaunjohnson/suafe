@@ -1,13 +1,14 @@
-package org.suafe.core;
+package org.suafe.core.impl;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.suafe.core.AuthzUserIF;
 
 /**
  * Authz user object.
  * 
  * @since 2.0
  */
-public final class AuthzUser extends AuthzGroupMember {
+public final class AuthzUser extends AuthzGroupMember implements AuthzUserIF {
     /** Serialization ID. */
     private static final long serialVersionUID = 7672296029756141807L;
 
@@ -62,12 +63,11 @@ public final class AuthzUser extends AuthzGroupMember {
         return true;
     }
 
-    /**
-     * Gets the user alias.
-     * 
-     * @return User alias
-     */
-    public String getAlias() {
+    /* (non-Javadoc)
+	 * @see org.suafe.core.impl.AuthzUserIF#getAlias()
+	 */
+    @Override
+	public String getAlias() {
         return alias;
     }
 

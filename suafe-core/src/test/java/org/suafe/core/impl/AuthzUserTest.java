@@ -1,10 +1,12 @@
-package org.suafe.core;
+package org.suafe.core.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.suafe.core.AuthzUserIF;
+import org.suafe.core.impl.AuthzUser;
 
 /**
  * Unit test for AuthzUser.
@@ -80,7 +82,7 @@ public class AuthzUserTest {
 
     @Test
     public void testToString() {
-        final AuthzUser user = new AuthzUser("myName", "myAlias");
+        final AuthzUserIF user = new AuthzUser("myName", "myAlias");
 
         assertTrue("toString() should output name", user.toString().contains(
                 "myName"));

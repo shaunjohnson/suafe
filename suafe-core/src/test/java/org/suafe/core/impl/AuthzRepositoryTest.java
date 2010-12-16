@@ -1,10 +1,12 @@
-package org.suafe.core;
+package org.suafe.core.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.suafe.core.AuthzRepositoryIF;
+import org.suafe.core.impl.AuthzRepository;
 
 /**
  * Unit test for AuthzRepository.
@@ -12,7 +14,7 @@ import org.junit.Test;
 public class AuthzRepositoryTest {
     @Test
     public void testAuthzRepositoryString() {
-        final AuthzRepository repository = new AuthzRepository("name");
+        final AuthzRepositoryIF repository = new AuthzRepository("name");
 
         assertEquals("name should be valid", "name", repository.getName());
     }
@@ -62,7 +64,7 @@ public class AuthzRepositoryTest {
 
     @Test
     public void testToString() {
-        final AuthzRepository repository = new AuthzRepository("myName");
+        final AuthzRepositoryIF repository = new AuthzRepository("myName");
 
         assertTrue("toString() should output name", repository.toString()
                 .contains("myName"));

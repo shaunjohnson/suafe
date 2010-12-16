@@ -15,7 +15,7 @@
  * ====================================================================
  * @endcopyright
  */
-package org.suafe.core;
+package org.suafe.core.impl;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -23,6 +23,10 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.suafe.core.constants.AuthzAccessLevel;
+import org.suafe.core.impl.AuthzAccessRule;
+import org.suafe.core.impl.AuthzGroup;
+import org.suafe.core.impl.AuthzPath;
+import org.suafe.core.impl.AuthzUser;
 
 /**
  * The Class AuthzAccessRuleTest.

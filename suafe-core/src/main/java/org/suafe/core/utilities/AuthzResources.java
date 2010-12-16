@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.suafe.core.AuthzDocument;
+import org.suafe.core.impl.AuthzDocument;
 
 /**
  * Authz resource bundle interface.
