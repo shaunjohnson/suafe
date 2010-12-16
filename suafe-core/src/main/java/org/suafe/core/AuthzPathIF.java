@@ -1,7 +1,8 @@
 package org.suafe.core;
 
+import java.io.Serializable;
 
-public interface AuthzPathIF extends Comparable<AuthzPathIF> {
+public interface AuthzPathIF extends Comparable<AuthzPathIF>, Serializable {
 
 	/**
 	 * Gets the path.

@@ -1,7 +1,5 @@
 package org.suafe.core.impl;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.suafe.core.AuthzRepositoryIF;
 
@@ -13,7 +11,7 @@ import com.google.common.collect.ComparisonChain;
  * 
  * @since 2.0
  */
-public final class AuthzRepository implements Serializable, AuthzRepositoryIF {
+public final class AuthzRepository implements AuthzRepositoryIF {
 	/** Serialization ID. */
 	private static final long serialVersionUID = 1252145167842473309L;
 

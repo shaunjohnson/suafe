@@ -34,6 +34,9 @@ import com.google.common.collect.Ordering;
  */
 public class AuthzAccessRule implements AuthzAccessRuleIF {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 893630563253107467L;
+
 	/** The access level. */
 	private final AuthzAccessLevelIF accessLevel;
 

@@ -1,6 +1,5 @@
 package org.suafe.core.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,7 +20,7 @@ import com.google.common.collect.ComparisonChain;
  * 
  * @since 2.0
  */
-public abstract class AuthzGroupMember implements Serializable, AuthzGroupMemberIF {
+public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	/** Logger handle. */
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzGroupMember.class);
 

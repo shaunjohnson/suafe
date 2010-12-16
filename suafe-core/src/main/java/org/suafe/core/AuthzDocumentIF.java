@@ -1,5 +1,6 @@
 package org.suafe.core;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
 
-public interface AuthzDocumentIF {
+public interface AuthzDocumentIF extends Serializable {
 
 	/**
 	 * Add a new member to a group.

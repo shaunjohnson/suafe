@@ -1,7 +1,5 @@
 package org.suafe.core.impl;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.suafe.core.AuthzPathIF;
 import org.suafe.core.AuthzRepositoryIF;
@@ -15,7 +13,7 @@ import com.google.common.collect.Ordering;
  * 
  * @since 2.0
  */
-public final class AuthzPath implements Serializable, AuthzPathIF {
+public final class AuthzPath implements AuthzPathIF {
 	/** Serialization ID. */
 	private static final long serialVersionUID = 9125579229041836584L;
 

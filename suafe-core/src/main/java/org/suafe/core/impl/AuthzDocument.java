@@ -1,6 +1,5 @@
 package org.suafe.core.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,7 +42,7 @@ import com.google.common.collect.ImmutableList;
  * 
  * @since 2.0
  */
-public final class AuthzDocument implements Serializable, AuthzDocumentIF {
+public final class AuthzDocument implements AuthzDocumentIF {
 	/** Logger handle. */
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzDocument.class);
 

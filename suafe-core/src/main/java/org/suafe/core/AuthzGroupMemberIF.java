@@ -1,8 +1,9 @@
 package org.suafe.core;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public interface AuthzGroupMemberIF extends Comparable<AuthzGroupMemberIF> {
+public interface AuthzGroupMemberIF extends Comparable<AuthzGroupMemberIF>, Serializable {
 
 	/**
 	 * Returns an immutable collection of AuthzGroup objects.

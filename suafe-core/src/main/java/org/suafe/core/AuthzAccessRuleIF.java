@@ -1,8 +1,10 @@
 package org.suafe.core;
 
+import java.io.Serializable;
+
 import org.suafe.core.constants.AuthzAccessLevelIF;
 
-public interface AuthzAccessRuleIF extends Comparable<AuthzAccessRuleIF> {
+public interface AuthzAccessRuleIF extends Comparable<AuthzAccessRuleIF>, Serializable {
 
 	/**
 	 * Gets the access level.
