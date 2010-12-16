@@ -57,7 +57,7 @@ public abstract class AuthzGroupMember implements Comparable<AuthzGroupMember>,
      * @throws AuthzAlreadyMemberOfGroupException If this object is already a
      *         member of the group
      */
-    public final boolean addGroup(final AuthzGroup group)
+    protected final boolean addGroup(final AuthzGroup group)
             throws AuthzAlreadyMemberOfGroupException {
         LOGGER.debug("addGroup() entered. group={}", group);
 
@@ -122,7 +122,7 @@ public abstract class AuthzGroupMember implements Comparable<AuthzGroupMember>,
      * @throws AuthzNotMemberOfGroupException If this object is not a member of
      *         the provided group
      */
-    public final boolean removeGroup(final AuthzGroup group)
+    protected final boolean removeGroup(final AuthzGroup group)
             throws AuthzNotMemberOfGroupException {
         LOGGER.debug("removeGroup() entered. group={}", group);
 

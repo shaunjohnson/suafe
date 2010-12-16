@@ -49,7 +49,7 @@ public class AuthzAccessRule implements Comparable<AuthzAccessRule> {
      * @param group the group
      * @param accessLevel the access level
      */
-    public AuthzAccessRule(final AuthzPath path, final AuthzGroup group,
+    protected AuthzAccessRule(final AuthzPath path, final AuthzGroup group,
             final AuthzAccessLevelIF accessLevel) {
         super();
 
@@ -70,7 +70,7 @@ public class AuthzAccessRule implements Comparable<AuthzAccessRule> {
      * @param user the user
      * @param accessLevel the access level
      */
-    public AuthzAccessRule(final AuthzPath path, final AuthzUser user,
+    protected AuthzAccessRule(final AuthzPath path, final AuthzUser user,
             final AuthzAccessLevelIF accessLevel) {
         super();
 

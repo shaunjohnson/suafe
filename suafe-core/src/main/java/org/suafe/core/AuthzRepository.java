@@ -25,7 +25,7 @@ public final class AuthzRepository implements Serializable,
      * 
      * @param name User name
      */
-    public AuthzRepository(final String name) {
+    protected AuthzRepository(final String name) {
         super();
 
         Preconditions.checkNotNull(name);

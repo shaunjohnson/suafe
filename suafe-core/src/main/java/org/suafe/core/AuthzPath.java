@@ -29,7 +29,7 @@ public final class AuthzPath implements Serializable, Comparable<AuthzPath> {
      * @param repository Repository
      * @param path Path
      */
-    public AuthzPath(final AuthzRepository repository, final String path) {
+    protected AuthzPath(final AuthzRepository repository, final String path) {
         super();
 
         Preconditions.checkNotNull(path);

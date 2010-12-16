@@ -7,7 +7,7 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * 
  * @since 2.0
  */
-public class AuthzInvalidPathException extends AuthzException {
+public final class AuthzInvalidPathException extends AuthzException {
     /** Serialization ID. */
     private static final long serialVersionUID = 8571977492960412772L;
 

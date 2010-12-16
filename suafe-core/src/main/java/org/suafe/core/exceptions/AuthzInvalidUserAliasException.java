@@ -7,7 +7,7 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * 
  * @since 2.0
  */
-public class AuthzInvalidUserAliasException extends AuthzException {
+public final class AuthzInvalidUserAliasException extends AuthzException {
     /** Serialization ID. */
     private static final long serialVersionUID = -6049137782831395610L;
 

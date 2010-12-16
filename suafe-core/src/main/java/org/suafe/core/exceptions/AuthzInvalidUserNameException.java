@@ -7,7 +7,7 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * 
  * @since 2.0
  */
-public class AuthzInvalidUserNameException extends AuthzException {
+public final class AuthzInvalidUserNameException extends AuthzException {
     /** Serialization ID. */
     private static final long serialVersionUID = -1997616239658102044L;
 

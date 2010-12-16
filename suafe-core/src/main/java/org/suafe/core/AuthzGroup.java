@@ -34,7 +34,7 @@ public final class AuthzGroup extends AuthzGroupMember {
      * 
      * @param name User name
      */
-    public AuthzGroup(final String name) {
+    protected AuthzGroup(final String name) {
         super(name);
     }
 
@@ -46,7 +46,7 @@ public final class AuthzGroup extends AuthzGroupMember {
      * @throws AuthzGroupMemberAlreadyExistsException If group member already
      *         exists
      */
-    public boolean addMember(final AuthzGroupMember member)
+    protected boolean addMember(final AuthzGroupMember member)
             throws AuthzGroupMemberAlreadyExistsException {
         LOGGER.debug("addMember() entered. member={}", member);
 
@@ -127,7 +127,7 @@ public final class AuthzGroup extends AuthzGroupMember {
      * @throws AuthzNotGroupMemberException If provided member object is not a
      *         member of this group.
      */
-    public boolean removeMember(final AuthzGroupMember member)
+    protected boolean removeMember(final AuthzGroupMember member)
             throws AuthzNotGroupMemberException {
         LOGGER.debug("removeMember() entered. member={}", member);
 

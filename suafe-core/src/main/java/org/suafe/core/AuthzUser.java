@@ -20,7 +20,7 @@ public final class AuthzUser extends AuthzGroupMember {
      * @param name User name
      * @param alias User alias
      */
-    public AuthzUser(final String name, final String alias) {
+    protected AuthzUser(final String name, final String alias) {
         super(name);
 
         this.alias = alias;

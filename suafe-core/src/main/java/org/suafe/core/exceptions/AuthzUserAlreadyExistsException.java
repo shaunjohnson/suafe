@@ -7,7 +7,7 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * 
  * @since 2.0
  */
-public class AuthzUserAlreadyExistsException extends AuthzException {
+public final class AuthzUserAlreadyExistsException extends AuthzException {
     /** Serialization ID. */
     private static final long serialVersionUID = 1654342842804875089L;
 

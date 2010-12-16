@@ -7,7 +7,7 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * 
  * @since 2.0
  */
-public class AuthzInvalidRepositoryNameException extends AuthzException {
+public final class AuthzInvalidRepositoryNameException extends AuthzException {
     /** Serialization ID. */
     private static final long serialVersionUID = -3054546921304701329L;
 

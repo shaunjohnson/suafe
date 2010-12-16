@@ -7,7 +7,7 @@ import org.suafe.core.utilities.AuthzErrorResourceKey;
  * 
  * @since 2.0
  */
-public class AuthzInvalidGroupNameException extends AuthzException {
+public final class AuthzInvalidGroupNameException extends AuthzException {
     /** Serialization ID. */
     private static final long serialVersionUID = 5730475688736835597L;
 
