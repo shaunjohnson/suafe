@@ -25,34 +25,34 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.suafe.core.AuthzGroupIF;
-import org.suafe.core.AuthzGroupMemberIF;
+import org.suafe.core.AuthzGroup;
+import org.suafe.core.AuthzGroupMember;
 import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzNotGroupMemberException;
 
 import com.google.common.base.Preconditions;
 
 /**
- * Authz group object.
+ * Authz group object implementation.
  * 
  * @since 2.0
  */
-public final class AuthzGroup extends AuthzGroupMember implements AuthzGroupIF {
+public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzGroup {
 	/** Logger handle. */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzGroup.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzGroupImpl.class);
 
 	/** Serialization ID. */
 	private static final long serialVersionUID = 7033919638521713150L;
 
 	/** Collection of members. */
-	private final List<AuthzGroupMemberIF> members = new ArrayList<AuthzGroupMemberIF>();
+	private final List<AuthzGroupMember> members = new ArrayList<AuthzGroupMember>();
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param name User name
 	 */
-	protected AuthzGroup(final String name) {
+	protected AuthzGroupImpl(final String name) {
 		super(name);
 	}
 
@@ -63,7 +63,7 @@ public final class AuthzGroup extends AuthzGroupMember implements AuthzGroupIF {
 	 * @return True if member added
 	 * @throws AuthzGroupMemberAlreadyExistsException If group member already exists
 	 */
-	protected boolean addMember(final AuthzGroupMemberIF member) throws AuthzGroupMemberAlreadyExistsException {
+	protected boolean addMember(final AuthzGroupMember member) throws AuthzGroupMemberAlreadyExistsException {
 		LOGGER.debug("addMember() entered. member={}", member);
 
 		Preconditions.checkNotNull(member, "Member is null");
@@ -101,7 +101,7 @@ public final class AuthzGroup extends AuthzGroupMember implements AuthzGroupIF {
 		if (getClass() != object.getClass()) {
 			return false;
 		}
-		final AuthzGroup other = (AuthzGroup) object;
+		final AuthzGroupImpl other = (AuthzGroupImpl) object;
 		if (name == null) {
 			if (other.name != null) {
 				return false;
@@ -118,7 +118,7 @@ public final class AuthzGroup extends AuthzGroupMember implements AuthzGroupIF {
 	 * @see org.suafe.core.impl.AuthzGroupIF#getMembers()
 	 */
 	@Override
-	public Collection<AuthzGroupMemberIF> getMembers() {
+	public Collection<AuthzGroupMember> getMembers() {
 		return Collections.unmodifiableCollection(members);
 	}
 
@@ -142,7 +142,7 @@ public final class AuthzGroup extends AuthzGroupMember implements AuthzGroupIF {
 	 * @return True if member removed
 	 * @throws AuthzNotGroupMemberException If provided member object is not a member of this group.
 	 */
-	protected boolean removeMember(final AuthzGroupMemberIF member) throws AuthzNotGroupMemberException {
+	protected boolean removeMember(final AuthzGroupMember member) throws AuthzNotGroupMemberException {
 		LOGGER.debug("removeMember() entered. member={}", member);
 
 		Preconditions.checkNotNull(member, "Member is null");

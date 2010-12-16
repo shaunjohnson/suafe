@@ -23,25 +23,25 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.suafe.core.constants.AuthzAccessLevel;
-import org.suafe.core.impl.AuthzAccessRule;
-import org.suafe.core.impl.AuthzGroup;
-import org.suafe.core.impl.AuthzPath;
-import org.suafe.core.impl.AuthzUser;
+import org.suafe.core.impl.AuthzAccessRuleImpl;
+import org.suafe.core.impl.AuthzGroupImpl;
+import org.suafe.core.impl.AuthzPathImpl;
+import org.suafe.core.impl.AuthzUserImpl;
 
 /**
  * The Class AuthzAccessRuleTest.
  */
-public class AuthzAccessRuleTest {
+public class AuthzAccessRuleImplTest {
 
     /** The blank path. */
-    private AuthzPath blankPath;
+    private AuthzPathImpl blankPath;
 
     /**
      * Sets the up.
      */
     @Before
     public void setUp() {
-        blankPath = new AuthzPath(null, "/");
+        blankPath = new AuthzPathImpl(null, "/");
     }
 
     /**
@@ -51,7 +51,7 @@ public class AuthzAccessRuleTest {
     public void testAuthzAccessRuleForGroup() {
         // Test all three null values
         try {
-            new AuthzAccessRule(null, (AuthzGroup) null, null);
+            new AuthzAccessRuleImpl(null, (AuthzGroupImpl) null, null);
 
             fail("Unexpectedly success");
         }
@@ -64,7 +64,7 @@ public class AuthzAccessRuleTest {
 
         // Test with non-null path
         try {
-            new AuthzAccessRule(blankPath, (AuthzGroup) null, null);
+            new AuthzAccessRuleImpl(blankPath, (AuthzGroupImpl) null, null);
 
             fail("Unexpectedly success");
         }
@@ -77,7 +77,7 @@ public class AuthzAccessRuleTest {
 
         // Test with non-null path and group
         try {
-            new AuthzAccessRule(blankPath, new AuthzGroup("group"), null);
+            new AuthzAccessRuleImpl(blankPath, new AuthzGroupImpl("group"), null);
 
             fail("Unexpectedly success");
         }
@@ -90,7 +90,7 @@ public class AuthzAccessRuleTest {
 
         // Test valid values
         try {
-            new AuthzAccessRule(blankPath, new AuthzGroup("group"),
+            new AuthzAccessRuleImpl(blankPath, new AuthzGroupImpl("group"),
                     AuthzAccessLevel.DENY_ACCESS);
         }
         catch (final Exception e) {
@@ -105,7 +105,7 @@ public class AuthzAccessRuleTest {
     public void testAuthzAccessRuleForUser() {
         // Test all three null values
         try {
-            new AuthzAccessRule(null, (AuthzUser) null, null);
+            new AuthzAccessRuleImpl(null, (AuthzUserImpl) null, null);
 
             fail("Unexpectedly success");
         }
@@ -118,7 +118,7 @@ public class AuthzAccessRuleTest {
 
         // Test with non-null path
         try {
-            new AuthzAccessRule(blankPath, (AuthzUser) null, null);
+            new AuthzAccessRuleImpl(blankPath, (AuthzUserImpl) null, null);
 
             fail("Unexpectedly success");
         }
@@ -131,7 +131,7 @@ public class AuthzAccessRuleTest {
 
         // Test with non-null path and group
         try {
-            new AuthzAccessRule(blankPath, new AuthzUser("user", null), null);
+            new AuthzAccessRuleImpl(blankPath, new AuthzUserImpl("user", null), null);
 
             fail("Unexpectedly success");
         }
@@ -144,7 +144,7 @@ public class AuthzAccessRuleTest {
 
         // Test valid values
         try {
-            new AuthzAccessRule(blankPath, new AuthzUser("user", null),
+            new AuthzAccessRuleImpl(blankPath, new AuthzUserImpl("user", null),
                     AuthzAccessLevel.DENY_ACCESS);
         }
         catch (final Exception e) {

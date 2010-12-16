@@ -40,9 +40,9 @@ import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
 
 /**
- * The Interface AuthzDocumentIF.
+ * The Interface AuthzDocument.
  */
-public interface AuthzDocumentIF extends Serializable {
+public interface AuthzDocument extends Serializable {
 
 	/**
 	 * Add a new member to a group.
@@ -52,13 +52,13 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
 	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
 	 */
-	void addGroupMember(final AuthzGroupIF group, final AuthzGroupMemberIF member)
+	void addGroupMember(final AuthzGroup group, final AuthzGroupMember member)
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
 
 	/**
 	 * Clones the provided group.
 	 * 
-	 * @param groupToCLone Group to be cloned
+	 * @param groupToClone Group to be cloned
 	 * @param cloneGroupName Name for the group clone
 	 * @return the group clone
 	 * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
@@ -66,7 +66,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
 	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
 	 */
-	AuthzGroupIF cloneGroup(final AuthzGroupIF groupToClone, final String cloneGroupName)
+	AuthzGroup cloneGroup(final AuthzGroup groupToClone, final String cloneGroupName)
 			throws AuthzGroupAlreadyExistsException, AuthzInvalidGroupNameException,
 			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
 
@@ -83,7 +83,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
 	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
 	 */
-	AuthzUserIF cloneUser(final AuthzUserIF userToClone, final String cloneUserName, final String cloneAlias)
+	AuthzUser cloneUser(final AuthzUser userToClone, final String cloneUserName, final String cloneAlias)
 			throws AuthzInvalidUserNameException, AuthzUserAlreadyExistsException,
 			AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException,
 			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
@@ -98,9 +98,8 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzAccessRuleAlreadyExistsException the authz access rule already exists exception
 	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
 	 */
-	AuthzAccessRuleIF createAccessRule(final AuthzPathIF path, final AuthzGroupIF group,
-			final AuthzAccessLevelIF accessLevel) throws AuthzAccessRuleAlreadyExistsException,
-			AuthzAccessRuleAlreadyAppliedException;
+	AuthzAccessRule createAccessRule(final AuthzPath path, final AuthzGroup group, final AuthzAccessLevelIF accessLevel)
+			throws AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException;
 
 	/**
 	 * Creates a new group.
@@ -110,7 +109,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
 	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
 	 */
-	AuthzGroupIF createGroup(final String name) throws AuthzGroupAlreadyExistsException, AuthzInvalidGroupNameException;
+	AuthzGroup createGroup(final String name) throws AuthzGroupAlreadyExistsException, AuthzInvalidGroupNameException;
 
 	/**
 	 * Creates the path.
@@ -121,8 +120,8 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzInvalidPathException the authz invalid path exception
 	 * @throws AuthzPathAlreadyExistsException the authz path already exists exception
 	 */
-	AuthzPathIF createPath(final AuthzRepositoryIF repository, final String pathString)
-			throws AuthzInvalidPathException, AuthzPathAlreadyExistsException;
+	AuthzPath createPath(final AuthzRepository repository, final String pathString) throws AuthzInvalidPathException,
+			AuthzPathAlreadyExistsException;
 
 	/**
 	 * Creates a new repository.
@@ -132,7 +131,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
 	 * @throws AuthzRepositoryAlreadyExistsException If repository with the provided name already exists
 	 */
-	AuthzRepositoryIF createRepository(final String name) throws AuthzInvalidRepositoryNameException,
+	AuthzRepository createRepository(final String name) throws AuthzInvalidRepositoryNameException,
 			AuthzRepositoryAlreadyExistsException;
 
 	/**
@@ -146,7 +145,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzUserAliasAlreadyExistsException If user with the provided alias already exists
 	 * @throws AuthzInvalidUserAliasException the authz invalid user alias exception
 	 */
-	AuthzUserIF createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
+	AuthzUser createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
 			AuthzUserAlreadyExistsException, AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException;
 
 	/**
@@ -156,7 +155,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @param group Group that is assigned to the access rule
 	 * @return True if the access rule with the provided path and group exists, otherwise false
 	 */
-	boolean doesAccessRuleExist(final AuthzPathIF path, final AuthzGroupIF group);
+	boolean doesAccessRuleExist(final AuthzPath path, final AuthzGroup group);
 
 	/**
 	 * Determines if a group with the provided name exists.
@@ -175,7 +174,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @return True if path with the provided arguments exists, otherwise false
 	 * @throws AuthzInvalidPathException If provided path is invalid
 	 */
-	boolean doesPathExist(final AuthzRepositoryIF repository, final String path) throws AuthzInvalidPathException;
+	boolean doesPathExist(final AuthzRepository repository, final String path) throws AuthzInvalidPathException;
 
 	/**
 	 * Determines if a repository with the provided name exists.
@@ -209,7 +208,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * 
 	 * @return Immutable collection of AuthzAccessRuleIF objects
 	 */
-	List<AuthzAccessRuleIF> getAccessRules();
+	List<AuthzAccessRule> getAccessRules();
 
 	/**
 	 * Returns the access rule with the provided path and group.
@@ -218,14 +217,14 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @param group Group assigned to the access rule to find
 	 * @return AuthzAccessRule if found, otherwise null
 	 */
-	AuthzAccessRuleIF getAccessRuleWithGroup(final AuthzPathIF path, final AuthzGroupIF group);
+	AuthzAccessRule getAccessRuleWithGroup(final AuthzPath path, final AuthzGroup group);
 
 	/**
 	 * Returns an immutable collection of AuthGroup objects.
 	 * 
 	 * @return Immutable collection of AuthGroup objects
 	 */
-	Collection<AuthzGroupIF> getGroups();
+	Collection<AuthzGroup> getGroups();
 
 	/**
 	 * Returns the group with the provided name.
@@ -234,7 +233,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @return AuthzGroup if found, otherwise null
 	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
 	 */
-	AuthzGroupIF getGroupWithName(final String name) throws AuthzInvalidGroupNameException;
+	AuthzGroup getGroupWithName(final String name) throws AuthzInvalidGroupNameException;
 
 	/**
 	 * Returns the path with the provided path and repository.
@@ -244,21 +243,21 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @return AuthzPath if found, otherwise null
 	 * @throws AuthzInvalidPathException If provided path is invalid
 	 */
-	AuthzPathIF getPath(final AuthzRepositoryIF repository, final String path) throws AuthzInvalidPathException;
+	AuthzPath getPath(final AuthzRepository repository, final String path) throws AuthzInvalidPathException;
 
 	/**
 	 * Returns an immutable collection of AuthzPath objects.
 	 * 
 	 * @return Immutable collection of AuthzPath objects
 	 */
-	Collection<AuthzPathIF> getPaths();
+	Collection<AuthzPath> getPaths();
 
 	/**
 	 * Returns an immutable collection of AuthzRepository objects.
 	 * 
 	 * @return Immutable collection of AuthzRepository objects
 	 */
-	Collection<AuthzRepositoryIF> getRepositories();
+	Collection<AuthzRepository> getRepositories();
 
 	/**
 	 * Returns the repository with the provided name.
@@ -267,14 +266,14 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @return AuthzRepository if found, otherwise null
 	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
 	 */
-	AuthzRepositoryIF getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException;
+	AuthzRepository getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException;
 
 	/**
 	 * Returns an immutable collection of AuthzUser objects.
 	 * 
 	 * @return Immutable collection of AuthzUser objects
 	 */
-	Collection<AuthzUserIF> getUsers();
+	Collection<AuthzUser> getUsers();
 
 	/**
 	 * Returns the user with the provided alias.
@@ -283,7 +282,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @return AuthzUser if found, otherwise null
 	 * @throws AuthzInvalidUserAliasException If provided user alias is invalid
 	 */
-	AuthzUserIF getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException;
+	AuthzUser getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException;
 
 	/**
 	 * Returns the user with the provided name.
@@ -292,7 +291,7 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @return AuthzUser if found, otherwise null
 	 * @throws AuthzInvalidUserNameException If provided user name is invalid
 	 */
-	AuthzUserIF getUserWithName(final String name) throws AuthzInvalidUserNameException;
+	AuthzUser getUserWithName(final String name) throws AuthzInvalidUserNameException;
 
 	/**
 	 * Returns "has unsaved changes" flag.
@@ -314,6 +313,6 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @throws AuthzNotMemberOfGroupException If member isn't member of group
 	 * @throws AuthzNotGroupMemberException If group doesn't have member
 	 */
-	void removeGroupMember(final AuthzGroupIF group, final AuthzGroupMemberIF member)
+	void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException;
 }

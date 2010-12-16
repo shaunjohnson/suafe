@@ -20,9 +20,9 @@ package org.suafe.core;
 import java.io.Serializable;
 
 /**
- * The Interface AuthzRepositoryIF.
+ * The Interface AuthzRepository.
  */
-public interface AuthzRepositoryIF extends Comparable<AuthzRepositoryIF>, Serializable {
+public interface AuthzRepository extends Comparable<AuthzRepository>, Serializable {
 
 	/**
 	 * Gets the name.

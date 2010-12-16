@@ -17,17 +17,15 @@
  */
 package org.suafe.core;
 
-import java.io.Serializable;
-
 /**
- * The Interface AuthzDocumentFactoryIF.
+ * The Interface AuthzUser.
  */
-public interface AuthzDocumentFactoryIF extends Serializable {
+public interface AuthzUser extends AuthzGroupMember {
 
 	/**
-	 * Creates the.
+	 * Gets the user alias.
 	 * 
-	 * @return the authz document if
+	 * @return User alias
 	 */
-	AuthzDocumentIF create();
+	String getAlias();
 }

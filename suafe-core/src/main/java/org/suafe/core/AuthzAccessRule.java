@@ -19,22 +19,38 @@ package org.suafe.core;
 
 import java.io.Serializable;
 
+import org.suafe.core.constants.AuthzAccessLevelIF;
+
 /**
- * The Interface AuthzPathIF.
+ * The Interface AuthzAccessRule.
  */
-public interface AuthzPathIF extends Comparable<AuthzPathIF>, Serializable {
+public interface AuthzAccessRule extends Comparable<AuthzAccessRule>, Serializable {
+
+	/**
+	 * Gets the access level.
+	 * 
+	 * @return the access level
+	 */
+	AuthzAccessLevelIF getAccessLevel();
+
+	/**
+	 * Gets the group.
+	 * 
+	 * @return the group
+	 */
+	AuthzGroup getGroup();
 
 	/**
 	 * Gets the path.
 	 * 
-	 * @return Path
+	 * @return the path
 	 */
-	String getPath();
+	AuthzPath getPath();
 
 	/**
-	 * Gets the repository.
+	 * Gets the user.
 	 * 
-	 * @return Repository
+	 * @return the user
 	 */
-	AuthzRepositoryIF getRepository();
+	AuthzUser getUser();
 }

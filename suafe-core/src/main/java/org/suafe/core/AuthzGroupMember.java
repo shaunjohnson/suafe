@@ -17,17 +17,31 @@
  */
 package org.suafe.core;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * The Interface AuthzGroupIF.
+ * The Interface AuthzGroupMember.
  */
-public interface AuthzGroupIF extends AuthzGroupMemberIF {
+public interface AuthzGroupMember extends Comparable<AuthzGroupMember>, Serializable {
+	/**
+	 * Returns an immutable collection of AuthzAccessRuleIF objects.
+	 * 
+	 * @return Immutable collection of AuthzAccessRuleIF object.
+	 */
+	Collection<AuthzAccessRule> getAccessRules();
 
 	/**
-	 * Returns an immutable collection of AuthzGroupMember objects.
+	 * Returns an immutable collection of AuthzGroupIF objects.
 	 * 
-	 * @return Immutable collection of AuthzGroupMember objects
+	 * @return Immutable collection of AuthzGroupIF object.
 	 */
-	Collection<AuthzGroupMemberIF> getMembers();
+	Collection<AuthzGroup> getGroups();
+
+	/**
+	 * Gets the user name.
+	 * 
+	 * @return User name
+	 */
+	String getName();
 }

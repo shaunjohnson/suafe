@@ -10,12 +10,12 @@ import static org.junit.Assert.fail;
 import java.util.Collection;
 
 import org.junit.Test;
-import org.suafe.core.AuthzAccessRuleIF;
-import org.suafe.core.AuthzDocumentIF;
-import org.suafe.core.AuthzGroupIF;
-import org.suafe.core.AuthzPathIF;
-import org.suafe.core.AuthzRepositoryIF;
-import org.suafe.core.AuthzUserIF;
+import org.suafe.core.AuthzAccessRule;
+import org.suafe.core.AuthzDocument;
+import org.suafe.core.AuthzGroup;
+import org.suafe.core.AuthzPath;
+import org.suafe.core.AuthzRepository;
+import org.suafe.core.AuthzUser;
 import org.suafe.core.constants.AuthzAccessLevel;
 import org.suafe.core.constants.AuthzAccessLevelIF;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
@@ -38,13 +38,13 @@ import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
 /**
  * Unit test for AuthzDocument
  */
-public class AuthzDocumentTest {
+public class AuthzDocumentImplTest {
 	@Test
 	public void testAddGroupMember() {
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.addGroupMember(null, new AuthzUser("name", null));
+			document.addGroupMember(null, new AuthzUserImpl("name", null));
 
 			fail("Successfully added member to null group");
 		}
@@ -56,9 +56,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.addGroupMember(new AuthzGroup("name"), null);
+			document.addGroupMember(new AuthzGroupImpl("name"), null);
 
 			fail("Successfully added null member to a group");
 		}
@@ -70,18 +70,18 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.addGroupMember(new AuthzGroup("name"), new AuthzUser("name", null));
+			document.addGroupMember(new AuthzGroupImpl("name"), new AuthzUserImpl("name", null));
 		}
 		catch (final Exception e) {
 			fail("Unexpected Exception");
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = new AuthzGroup("name");
-			final AuthzUser user = new AuthzUser("user", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
+			final AuthzUserImpl user = new AuthzUserImpl("user", null);
 
 			group.addMember(user);
 
@@ -97,9 +97,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = new AuthzGroup("name");
-			final AuthzUser user = new AuthzUser("user", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
+			final AuthzUserImpl user = new AuthzUserImpl("user", null);
 
 			user.addGroup(group);
 
@@ -118,7 +118,7 @@ public class AuthzDocumentTest {
 	@Test
 	public void testClearHasUnsavedChanges() {
 		try {
-			final AuthzDocument document = new AuthzDocument();
+			final AuthzDocumentImpl document = new AuthzDocumentImpl();
 
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
@@ -132,7 +132,7 @@ public class AuthzDocumentTest {
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
 			// Test create group
-			final AuthzGroup group = document.createGroup("group");
+			final AuthzGroupImpl group = document.createGroup("group");
 
 			assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
 
@@ -141,7 +141,7 @@ public class AuthzDocumentTest {
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
 			// Test create repository
-			final AuthzRepositoryIF repository = document.createRepository("repository");
+			final AuthzRepository repository = document.createRepository("repository");
 
 			assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
 
@@ -150,7 +150,7 @@ public class AuthzDocumentTest {
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
 			// Test create path
-			final AuthzPath path = document.createPath(repository, "/path");
+			final AuthzPathImpl path = document.createPath(repository, "/path");
 
 			assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
 
@@ -176,7 +176,7 @@ public class AuthzDocumentTest {
 	public void testCreateAccessRuleGroup() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createAccessRule(null, document.createGroup("name"), AuthzAccessLevel.READ_WRITE);
 
@@ -190,9 +190,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.createAccessRule(new AuthzPath(null, "/"), null, AuthzAccessLevel.READ_WRITE);
+			document.createAccessRule(new AuthzPathImpl(null, "/"), null, AuthzAccessLevel.READ_WRITE);
 
 			fail("Unexpected sucessfully created access rule");
 		}
@@ -204,9 +204,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.createAccessRule(new AuthzPath(null, "/"), new AuthzGroup("name"), null);
+			document.createAccessRule(new AuthzPathImpl(null, "/"), new AuthzGroupImpl("name"), null);
 
 			fail("Unexpected sucessfully created access rule");
 		}
@@ -219,13 +219,13 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzPath path = new AuthzPath(null, "/");
-			final AuthzGroup group = new AuthzGroup("name");
+			final AuthzPathImpl path = new AuthzPathImpl(null, "/");
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
 			final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
 
-			final AuthzAccessRuleIF accessRule = document.createAccessRule(path, group, accessLevel);
+			final AuthzAccessRule accessRule = document.createAccessRule(path, group, accessLevel);
 
 			assertNotNull("access rule expected to be not null", accessRule);
 			assertEquals("path should match", path, accessRule.getPath());
@@ -238,11 +238,11 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzPath path = new AuthzPath(null, "/");
-			final AuthzPath pathWithRepo = new AuthzPath(new AuthzRepository("name"), "/");
-			final AuthzGroup group = new AuthzGroup("name");
+			final AuthzPathImpl path = new AuthzPathImpl(null, "/");
+			final AuthzPathImpl pathWithRepo = new AuthzPathImpl(new AuthzRepositoryImpl("name"), "/");
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
 			final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
 
 			document.createAccessRule(path, group, accessLevel);
@@ -254,10 +254,10 @@ public class AuthzDocumentTest {
 
 		// Test for duplicate values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzPath path = new AuthzPath(null, "/");
-			final AuthzGroup group = new AuthzGroup("name");
+			final AuthzPathImpl path = new AuthzPathImpl(null, "/");
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
 			final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
 
 			document.createAccessRule(path, group, accessLevel);
@@ -273,10 +273,10 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzPath path = new AuthzPath(null, "/");
-			final AuthzGroup group = new AuthzGroup("name");
+			final AuthzPathImpl path = new AuthzPathImpl(null, "/");
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
 
 			document.createAccessRule(path, group, AuthzAccessLevel.READ_ONLY);
 			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
@@ -295,7 +295,7 @@ public class AuthzDocumentTest {
 	public void testCreateGroup() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createGroup(null);
 
@@ -309,7 +309,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createGroup("");
 
@@ -323,7 +323,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createGroup("  ");
 
@@ -338,9 +338,9 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzGroupIF group = document.createGroup("name");
+			final AuthzGroup group = document.createGroup("name");
 
 			assertNotNull("Group should not be null", group);
 			assertEquals("Group name should be valid", "name", group.getName());
@@ -354,7 +354,7 @@ public class AuthzDocumentTest {
 
 		// Test for exiting group exception
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createGroup("name");
 			document.createGroup("name");
@@ -373,7 +373,7 @@ public class AuthzDocumentTest {
 	public void testCreatePath() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createPath(null, null);
 
@@ -387,7 +387,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createPath(null, "");
 
@@ -401,7 +401,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createPath(null, "  ");
 
@@ -416,9 +416,9 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzPathIF path = document.createPath(null, "/path");
+			final AuthzPath path = document.createPath(null, "/path");
 
 			assertNotNull("Path should not be null", path);
 			assertEquals("Path string should be valid", "/path", path.getPath());
@@ -431,10 +431,10 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzPathIF path1 = document.createPath(document.createRepository("repository1"), "/path");
-			final AuthzPathIF path2 = document.createPath(document.createRepository("repository2"), "/path");
+			final AuthzPath path1 = document.createPath(document.createRepository("repository1"), "/path");
+			final AuthzPath path2 = document.createPath(document.createRepository("repository2"), "/path");
 
 			assertFalse("Paths with same path string in different repos should not match", path1.equals(path2));
 		}
@@ -450,7 +450,7 @@ public class AuthzDocumentTest {
 
 		// Test for exiting repository exception
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createPath(null, "/path");
 			document.createPath(null, "/path");
@@ -465,9 +465,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzRepositoryIF repository = document.createRepository("repository");
+			final AuthzRepository repository = document.createRepository("repository");
 
 			document.createPath(repository, "/path");
 			document.createPath(repository, "/path");
@@ -489,7 +489,7 @@ public class AuthzDocumentTest {
 	public void testCreateRepository() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createRepository(null);
 
@@ -503,7 +503,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createRepository("");
 
@@ -517,7 +517,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createRepository("  ");
 
@@ -532,9 +532,9 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzRepositoryIF repository = document.createRepository("name");
+			final AuthzRepository repository = document.createRepository("name");
 
 			assertNotNull("Repository should not be null", repository);
 			assertEquals("Repository name should be valid", "name", repository.getName());
@@ -548,7 +548,7 @@ public class AuthzDocumentTest {
 
 		// Test for exiting repository exception
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createRepository("name");
 			document.createRepository("name");
@@ -567,7 +567,7 @@ public class AuthzDocumentTest {
 	public void testCreateUser() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createUser(null, null);
 
@@ -587,7 +587,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createUser("", "");
 
@@ -607,7 +607,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createUser("  ", "  ");
 
@@ -628,8 +628,8 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzUserIF user = document.createUser("name", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzUser user = document.createUser("name", null);
 
 			assertNotNull("User should not be null", user);
 			assertEquals("User name should be valid", "name", user.getName());
@@ -649,8 +649,8 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzUserIF user = document.createUser("name", "alias");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzUser user = document.createUser("name", "alias");
 
 			assertNotNull("User should not be null", user);
 			assertEquals("User name should be valid", "name", user.getName());
@@ -671,7 +671,7 @@ public class AuthzDocumentTest {
 
 		// Test for exiting user and alias exceptions
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createUser("name", null);
 			document.createUser("name", null);
@@ -693,7 +693,7 @@ public class AuthzDocumentTest {
 
 		// Test for exiting user and alias exceptions
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.createUser("name1", "alias");
 			document.createUser("name2", "alias");
@@ -718,7 +718,7 @@ public class AuthzDocumentTest {
 	public void testDoesAccessRuleExistGroup() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesAccessRuleExist(null, null);
 		}
@@ -730,9 +730,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.doesAccessRuleExist(new AuthzPath(null, "/"), null);
+			document.doesAccessRuleExist(new AuthzPathImpl(null, "/"), null);
 		}
 		catch (final NullPointerException e) {
 			assertNotNull("Expected not null exception", e.getMessage());
@@ -742,7 +742,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesAccessRuleExist(null, null);
 		}
@@ -755,25 +755,25 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzRepositoryIF repository = document.createRepository("name");
-			final AuthzPathIF path = document.createPath(repository, "/");
-			final AuthzGroupIF group = document.createGroup("name");
+			final AuthzRepository repository = document.createRepository("name");
+			final AuthzPath path = document.createPath(repository, "/");
+			final AuthzGroup group = document.createGroup("name");
 			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
 
-			assertFalse(document.doesAccessRuleExist(path, new AuthzGroup("name2")));
+			assertFalse(document.doesAccessRuleExist(path, new AuthzGroupImpl("name2")));
 		}
 		catch (final Exception e) {
 			fail("Unexpected exception");
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzRepositoryIF repository = document.createRepository("name");
-			final AuthzPathIF path = document.createPath(repository, "/");
-			final AuthzGroupIF group = document.createGroup("name");
+			final AuthzRepository repository = document.createRepository("name");
+			final AuthzPath path = document.createPath(repository, "/");
+			final AuthzGroup group = document.createGroup("name");
 			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
 
 			assertTrue(document.doesAccessRuleExist(path, group));
@@ -787,7 +787,7 @@ public class AuthzDocumentTest {
 	public void testDoesGroupNameExist() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesGroupNameExist(null);
 
@@ -798,7 +798,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesGroupNameExist("");
 
@@ -809,7 +809,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesGroupNameExist("  ");
 
@@ -821,7 +821,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("Group should not exist", document.doesGroupNameExist("name"));
 
@@ -834,7 +834,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("Group should not exist", document.doesGroupNameExist("  name  "));
 
@@ -851,7 +851,7 @@ public class AuthzDocumentTest {
 	public void testDoesPathExist() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesPathExist(null, null);
 
@@ -862,7 +862,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesPathExist(null, "");
 
@@ -873,7 +873,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesPathExist(null, "  ");
 
@@ -885,7 +885,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("Path with path string /test should not exist", document.doesPathExist(null, "/test"));
 
@@ -898,9 +898,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzRepositoryIF repository = document.createRepository("repository");
+			final AuthzRepository repository = document.createRepository("repository");
 
 			assertFalse("Path with non-null repository and path string /test should not exist",
 					document.doesPathExist(repository, "/test"));
@@ -925,7 +925,7 @@ public class AuthzDocumentTest {
 	public void testDoesRepositoryNameExist() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesRepositoryNameExist(null);
 
@@ -936,7 +936,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesRepositoryNameExist("");
 
@@ -947,7 +947,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesRepositoryNameExist("  ");
 
@@ -959,7 +959,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("Repository with name should not exist", document.doesRepositoryNameExist("name"));
 
@@ -972,7 +972,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("Repository with name should not exist", document.doesRepositoryNameExist("  name  "));
 
@@ -989,7 +989,7 @@ public class AuthzDocumentTest {
 	public void testDoesUserAliasExist() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesUserAliasExist(null);
 
@@ -1000,7 +1000,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesUserAliasExist("");
 
@@ -1011,7 +1011,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesUserAliasExist("  ");
 
@@ -1023,7 +1023,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("User with alias should not exist", document.doesUserAliasExist("alias"));
 
@@ -1036,7 +1036,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("User with name should not exist", document.doesUserAliasExist("  alias  "));
 
@@ -1053,7 +1053,7 @@ public class AuthzDocumentTest {
 	public void testDoesUserNameExist() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesUserNameExist(null);
 
@@ -1064,7 +1064,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesUserNameExist("");
 
@@ -1075,7 +1075,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.doesUserNameExist("  ");
 
@@ -1087,7 +1087,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("User with name should not exist", document.doesUserNameExist("name"));
 
@@ -1100,7 +1100,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("User with name should not exist", document.doesUserNameExist("  name  "));
 
@@ -1116,13 +1116,13 @@ public class AuthzDocumentTest {
 	@Test
 	public void testGetAccessRules() {
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNotNull("Access rules should not be null", document.getAccessRules());
 			assertTrue("Access rules should be empty", document.getAccessRules().size() == 0);
 
-			final AuthzPathIF path = document.createPath(document.createRepository("name"), "/");
-			final AuthzGroupIF group = document.createGroup("name");
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
+			final AuthzGroup group = document.createGroup("name");
 			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
 
 			assertNotNull("Access rules should not be null", document.getAccessRules());
@@ -1134,15 +1134,15 @@ public class AuthzDocumentTest {
 
 		// Test immutibility of access rules collection
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			Collection<AuthzAccessRuleIF> accessRules = document.getAccessRules();
+			Collection<AuthzAccessRule> accessRules = document.getAccessRules();
 
 			assertNotNull("Access rules should not be null", accessRules);
 			assertNotNull("Access rules should empty", accessRules.size() == 0);
 
-			final AuthzPathIF path = document.createPath(document.createRepository("name"), "/");
-			final AuthzGroupIF group = document.createGroup("name");
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
+			final AuthzGroup group = document.createGroup("name");
 			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
 
 			assertNotNull("Access rules should remain empty", accessRules.size() == 0);
@@ -1153,7 +1153,7 @@ public class AuthzDocumentTest {
 			assertNotNull("Access rules should contain one group", document.getGroups().size() == 1);
 
 			try {
-				accessRules.add(new AuthzAccessRule(path, group, AuthzAccessLevel.READ_WRITE));
+				accessRules.add(new AuthzAccessRuleImpl(path, group, AuthzAccessLevel.READ_WRITE));
 
 				fail("Successfully modified access rules list; should not have worked since collection is immutable");
 			}
@@ -1162,7 +1162,7 @@ public class AuthzDocumentTest {
 			}
 
 			try {
-				for (final AuthzAccessRuleIF accessRule : accessRules) {
+				for (final AuthzAccessRule accessRule : accessRules) {
 					accessRules.remove(accessRule);
 				}
 
@@ -1181,7 +1181,7 @@ public class AuthzDocumentTest {
 	public void testGetAccessRuleWithGroup() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getAccessRuleWithGroup(null, null);
 
@@ -1192,7 +1192,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getAccessRuleWithGroup(null, document.createGroup("name"));
 
@@ -1206,9 +1206,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			final AuthzPathIF path = document.createPath(document.createRepository("name"), "/");
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
 
 			document.getAccessRuleWithGroup(path, null);
 
@@ -1223,9 +1223,9 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzPathIF path = document.createPath(document.createRepository("name"), "/");
-			final AuthzGroupIF group = document.createGroup("name");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
+			final AuthzGroup group = document.createGroup("name");
 
 			assertNull("Access rule should not exist", document.getAccessRuleWithGroup(path, group));
 
@@ -1238,9 +1238,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzPathIF path = document.createPath(document.createRepository("name"), "/");
-			final AuthzGroupIF group = document.createGroup("name");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
+			final AuthzGroup group = document.createGroup("name");
 
 			assertNull("Access rule should not exist", document.getAccessRuleWithGroup(path, group));
 
@@ -1256,7 +1256,7 @@ public class AuthzDocumentTest {
 	@Test
 	public void testGetGroups() {
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNotNull("Groups should not be null", document.getGroups());
 			assertTrue("Groups should be empty", document.getGroups().size() == 0);
@@ -1272,9 +1272,9 @@ public class AuthzDocumentTest {
 
 		// Test immutibility of groups collection
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			Collection<AuthzGroupIF> groups = document.getGroups();
+			Collection<AuthzGroup> groups = document.getGroups();
 
 			assertNotNull("Groups should not be null", groups);
 			assertNotNull("Groups should empty", groups.size() == 0);
@@ -1289,7 +1289,7 @@ public class AuthzDocumentTest {
 			assertNotNull("Groups should contain one group", document.getGroups().size() == 1);
 
 			try {
-				groups.add(new AuthzGroup("name"));
+				groups.add(new AuthzGroupImpl("name"));
 
 				fail("Successfully modified groups list; should not have worked since collection is immutable");
 			}
@@ -1298,7 +1298,7 @@ public class AuthzDocumentTest {
 			}
 
 			try {
-				for (final AuthzGroupIF group : groups) {
+				for (final AuthzGroup group : groups) {
 					groups.remove(group);
 				}
 
@@ -1317,7 +1317,7 @@ public class AuthzDocumentTest {
 	public void testGetGroupWithName() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getGroupWithName(null);
 
@@ -1328,7 +1328,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getGroupWithName("");
 
@@ -1339,7 +1339,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getGroupWithName("  ");
 
@@ -1351,7 +1351,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("Group with name should not exist", document.getGroupWithName("name"));
 
@@ -1364,7 +1364,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("Group with name should not exist", document.getGroupWithName("  name  "));
 
@@ -1381,7 +1381,7 @@ public class AuthzDocumentTest {
 	public void testGetPath() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getPath(null, null);
 
@@ -1392,7 +1392,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getPath(null, "");
 
@@ -1403,7 +1403,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getPath(null, "  ");
 
@@ -1415,7 +1415,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("Path with path /path should not exist", document.getPath(null, "/path"));
 
@@ -1434,7 +1434,7 @@ public class AuthzDocumentTest {
 	@Test
 	public void testGetPaths() {
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNotNull("Paths should not be null", document.getPaths());
 			assertNotNull("Paths should empty", document.getPaths().size() == 0);
@@ -1450,9 +1450,9 @@ public class AuthzDocumentTest {
 
 		// Test immutibility of repositories collection
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			Collection<AuthzPathIF> paths = document.getPaths();
+			Collection<AuthzPath> paths = document.getPaths();
 
 			assertNotNull("Paths should not be null", paths);
 			assertNotNull("Paths should empty", paths.size() == 0);
@@ -1467,7 +1467,7 @@ public class AuthzDocumentTest {
 			assertNotNull("Paths should contain one repository", document.getPaths().size() == 1);
 
 			try {
-				paths.add(new AuthzPath(null, "/test"));
+				paths.add(new AuthzPathImpl(null, "/test"));
 
 				fail("Successfully modified paths list; should not have worked since collection is immutable");
 			}
@@ -1476,7 +1476,7 @@ public class AuthzDocumentTest {
 			}
 
 			try {
-				for (final AuthzPathIF path : paths) {
+				for (final AuthzPath path : paths) {
 					paths.remove(path);
 				}
 
@@ -1494,7 +1494,7 @@ public class AuthzDocumentTest {
 	@Test
 	public void testGetRepositories() {
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNotNull("Repositories should not be null", document.getRepositories());
 			assertNotNull("Repositories should empty", document.getRepositories().size() == 0);
@@ -1510,9 +1510,9 @@ public class AuthzDocumentTest {
 
 		// Test immutibility of repositories collection
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			Collection<AuthzRepositoryIF> repositories = document.getRepositories();
+			Collection<AuthzRepository> repositories = document.getRepositories();
 
 			assertNotNull("Repositories should not be null", repositories);
 			assertNotNull("Repositories should empty", repositories.size() == 0);
@@ -1527,7 +1527,7 @@ public class AuthzDocumentTest {
 			assertNotNull("Repositories should contain one repository", document.getRepositories().size() == 1);
 
 			try {
-				repositories.add(new AuthzRepository("repository"));
+				repositories.add(new AuthzRepositoryImpl("repository"));
 
 				fail("Successfully modified repositories list; should not have worked since collection is immutable");
 			}
@@ -1536,7 +1536,7 @@ public class AuthzDocumentTest {
 			}
 
 			try {
-				for (final AuthzRepositoryIF repository : repositories) {
+				for (final AuthzRepository repository : repositories) {
 					repositories.remove(repository);
 				}
 
@@ -1555,7 +1555,7 @@ public class AuthzDocumentTest {
 	public void testGetRepositoryWithName() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getRepositoryWithName(null);
 
@@ -1566,7 +1566,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getRepositoryWithName("");
 
@@ -1577,7 +1577,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getRepositoryWithName("  ");
 
@@ -1589,7 +1589,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("Repository with name should not exist", document.getRepositoryWithName("name"));
 
@@ -1602,7 +1602,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("Repository with name should not exist", document.getRepositoryWithName("  name  "));
 
@@ -1618,7 +1618,7 @@ public class AuthzDocumentTest {
 	@Test
 	public void testGetUsers() {
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNotNull("Users should not be null", document.getUsers());
 			assertNotNull("Users should empty", document.getUsers().size() == 0);
@@ -1634,9 +1634,9 @@ public class AuthzDocumentTest {
 
 		// Test immutibility of users collection
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			Collection<AuthzUserIF> users = document.getUsers();
+			Collection<AuthzUser> users = document.getUsers();
 
 			assertNotNull("Users should not be null", users);
 			assertNotNull("Users should empty", users.size() == 0);
@@ -1651,7 +1651,7 @@ public class AuthzDocumentTest {
 			assertNotNull("Users should contain one user", document.getUsers().size() == 1);
 
 			try {
-				users.add(new AuthzUser("name", "alias"));
+				users.add(new AuthzUserImpl("name", "alias"));
 
 				fail("Successfully modified users list; should not have worked since collection is immutable");
 			}
@@ -1660,7 +1660,7 @@ public class AuthzDocumentTest {
 			}
 
 			try {
-				for (final AuthzUserIF user : users) {
+				for (final AuthzUser user : users) {
 					users.remove(user);
 				}
 
@@ -1679,7 +1679,7 @@ public class AuthzDocumentTest {
 	public void testGetUserWithAlias() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getUserWithAlias(null);
 
@@ -1690,7 +1690,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getUserWithAlias("");
 
@@ -1701,7 +1701,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getUserWithAlias("  ");
 
@@ -1713,7 +1713,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("User with alias should not exist", document.getUserWithAlias("alias"));
 
@@ -1726,7 +1726,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("User with alias should not exist", document.getUserWithAlias("  alias  "));
 
@@ -1743,7 +1743,7 @@ public class AuthzDocumentTest {
 	public void testGetUserWithName() {
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getUserWithName(null);
 
@@ -1754,7 +1754,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getUserWithName("");
 
@@ -1765,7 +1765,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			document.getUserWithName("  ");
 
@@ -1777,7 +1777,7 @@ public class AuthzDocumentTest {
 
 		// Test valid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("User with name should not exist", document.getUserWithName("name"));
 
@@ -1790,7 +1790,7 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNull("User with name should not exist", document.getUserWithName("  name  "));
 
@@ -1807,7 +1807,7 @@ public class AuthzDocumentTest {
 	public void testHasUnsavedChanges() {
 		// Test has unsaved changes flag when creating a user
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
@@ -1821,7 +1821,7 @@ public class AuthzDocumentTest {
 
 		// Test has unsaved changes flag when creating a group
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
@@ -1835,7 +1835,7 @@ public class AuthzDocumentTest {
 
 		// Test has unsaved changes flag when creating a repository
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
@@ -1849,8 +1849,8 @@ public class AuthzDocumentTest {
 
 		// Test has unsaved changes flag when creating a path
 		try {
-			final AuthzDocument document = new AuthzDocument();
-			final AuthzRepositoryIF repository = document.createRepository("name");
+			final AuthzDocumentImpl document = new AuthzDocumentImpl();
+			final AuthzRepository repository = document.createRepository("name");
 
 			document.clearHasUnsavedChanges();
 
@@ -1866,9 +1866,9 @@ public class AuthzDocumentTest {
 
 		// Test has unsaved changes flag when creating a group access rule
 		try {
-			final AuthzDocument document = new AuthzDocument();
-			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
-			final AuthzGroup group = document.createGroup("name");
+			final AuthzDocumentImpl document = new AuthzDocumentImpl();
+			final AuthzPathImpl path = document.createPath(document.createRepository("name"), "/");
+			final AuthzGroupImpl group = document.createGroup("name");
 
 			document.clearHasUnsavedChanges();
 
@@ -1886,7 +1886,7 @@ public class AuthzDocumentTest {
 	@Test
 	public void testInitialize() {
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
 			assertNotNull("Access rules should not be null", document.getAccessRules());
 			assertTrue("Access rules should be empty", document.getAccessRules().size() == 0);
@@ -1900,10 +1900,10 @@ public class AuthzDocumentTest {
 			assertTrue("Users should empty", document.getUsers().size() == 0);
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
-			final AuthzGroupIF group = document.createGroup("group");
-			final AuthzRepositoryIF repository = document.createRepository("repository");
+			final AuthzGroup group = document.createGroup("group");
+			final AuthzRepository repository = document.createRepository("repository");
 			document.createUser("user", null);
-			final AuthzPathIF path = document.createPath(repository, "/");
+			final AuthzPath path = document.createPath(repository, "/");
 			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
 
 			assertNotNull("Access rules should not be null", document.getAccessRules());
@@ -1939,7 +1939,7 @@ public class AuthzDocumentTest {
 
 	@Test
 	public void testIsValidGroupName() {
-		final AuthzDocument document = new AuthzDocument();
+		final AuthzDocumentImpl document = new AuthzDocumentImpl();
 
 		// Test invalid values
 		assertFalse("Null group name is invalid", document.isValidGroupName(null));
@@ -1953,7 +1953,7 @@ public class AuthzDocumentTest {
 
 	@Test
 	public void testIsValidPath() {
-		final AuthzDocument document = new AuthzDocument();
+		final AuthzDocumentImpl document = new AuthzDocumentImpl();
 
 		// Test invalid values
 		assertFalse("Null path is invalid", document.isValidPath(null));
@@ -1973,7 +1973,7 @@ public class AuthzDocumentTest {
 
 	@Test
 	public void testIsValidRepositoryName() {
-		final AuthzDocument document = new AuthzDocument();
+		final AuthzDocumentImpl document = new AuthzDocumentImpl();
 
 		// Test invalid values
 		assertFalse("Null repository name is invalid", document.isValidRepositoryName(null));
@@ -1987,7 +1987,7 @@ public class AuthzDocumentTest {
 
 	@Test
 	public void testIsValidUserAlias() {
-		final AuthzDocument document = new AuthzDocument();
+		final AuthzDocumentImpl document = new AuthzDocumentImpl();
 
 		// Test invalid values
 		assertFalse("Null user alias is invalid", document.isValidUserAlias(null));
@@ -2001,7 +2001,7 @@ public class AuthzDocumentTest {
 
 	@Test
 	public void testIsValidUserName() {
-		final AuthzDocument document = new AuthzDocument();
+		final AuthzDocumentImpl document = new AuthzDocumentImpl();
 
 		// Test invalid values
 		assertFalse("Null user name is invalid", document.isValidUserName(null));
@@ -2016,9 +2016,9 @@ public class AuthzDocumentTest {
 	@Test
 	public void testRemoveGroupMember() {
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.removeGroupMember(null, new AuthzUser(null, null));
+			document.removeGroupMember(null, new AuthzUserImpl(null, null));
 
 			fail("Successfully removed user from a null group");
 		}
@@ -2030,9 +2030,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
+			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.removeGroupMember(new AuthzGroup("name"), null);
+			document.removeGroupMember(new AuthzGroupImpl("name"), null);
 
 			fail("Successfully removed null from a group");
 		}
@@ -2044,9 +2044,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = new AuthzGroup("name");
-			final AuthzUser user = new AuthzUser("name", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
+			final AuthzUserImpl user = new AuthzUserImpl("name", null);
 
 			user.addGroup(group);
 
@@ -2060,9 +2060,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = new AuthzGroup("name");
-			final AuthzUser user = new AuthzUser("name", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
+			final AuthzUserImpl user = new AuthzUserImpl("name", null);
 
 			group.addMember(user);
 
@@ -2076,9 +2076,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = new AuthzGroup("name");
-			final AuthzUser user = new AuthzUser("name", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
+			final AuthzUserImpl user = new AuthzUserImpl("name", null);
 
 			group.addMember(user);
 			user.addGroup(group);
@@ -2090,9 +2090,9 @@ public class AuthzDocumentTest {
 		}
 
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = new AuthzGroup("name");
-			final AuthzUser user = new AuthzUser("name", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = new AuthzGroupImpl("name");
+			final AuthzUserImpl user = new AuthzUserImpl("name", null);
 
 			document.addGroupMember(group, user);
 			document.removeGroupMember(group, user);
@@ -2104,7 +2104,7 @@ public class AuthzDocumentTest {
 
 	@Test
 	public void testSetHasUnsavedChanges() {
-		final AuthzDocument document = new AuthzDocument();
+		final AuthzDocumentImpl document = new AuthzDocumentImpl();
 
 		assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
@@ -2115,7 +2115,7 @@ public class AuthzDocumentTest {
 
 	@Test
 	public void testToString() {
-		final AuthzDocumentIF document = new AuthzDocument();
+		final AuthzDocument document = new AuthzDocumentImpl();
 
 		assertNotNull("Should not be null for empty document", document.toString());
 

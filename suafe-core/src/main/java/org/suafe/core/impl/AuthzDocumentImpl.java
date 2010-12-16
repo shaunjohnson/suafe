@@ -27,13 +27,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.suafe.core.AuthzAccessRuleIF;
-import org.suafe.core.AuthzDocumentIF;
-import org.suafe.core.AuthzGroupIF;
-import org.suafe.core.AuthzGroupMemberIF;
-import org.suafe.core.AuthzPathIF;
-import org.suafe.core.AuthzRepositoryIF;
-import org.suafe.core.AuthzUserIF;
+import org.suafe.core.AuthzAccessRule;
+import org.suafe.core.AuthzDocument;
+import org.suafe.core.AuthzGroup;
+import org.suafe.core.AuthzGroupMember;
+import org.suafe.core.AuthzPath;
+import org.suafe.core.AuthzRepository;
+import org.suafe.core.AuthzUser;
 import org.suafe.core.constants.AuthzAccessLevelIF;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
@@ -56,34 +56,34 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 /**
- * Authz document file.
+ * Authz document implementation.
  * 
  * @since 2.0
  */
-public final class AuthzDocument implements AuthzDocumentIF {
+public final class AuthzDocumentImpl implements AuthzDocument {
 	/** Logger handle. */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzDocument.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzDocumentImpl.class);
 
 	/** Serialization ID. */
 	private static final long serialVersionUID = -1396450094914018451L;
 
 	/** The access rules. */
-	private List<AuthzAccessRuleIF> accessRules;
+	private List<AuthzAccessRule> accessRules;
 
 	/** Collection of groups. */
-	private List<AuthzGroupIF> groups;
+	private List<AuthzGroup> groups;
 
 	/** Unsaved changes indicator. */
 	private boolean hasUnsavedChanges;
 
 	/** Collection of paths. */
-	private List<AuthzPathIF> paths;
+	private List<AuthzPath> paths;
 
 	/** Collection of repositories. */
-	private List<AuthzRepositoryIF> repositories;
+	private List<AuthzRepository> repositories;
 
 	/** Collection of users. */
-	private List<AuthzUserIF> users;
+	private List<AuthzUser> users;
 
 	/** Regular expression pattern for matching valid path values. */
 	private final Pattern VALID_PATH_PATTERN = Pattern.compile("^(/)|(/.*[^/])$");
@@ -91,7 +91,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	/**
 	 * Default constructor.
 	 */
-	protected AuthzDocument() {
+	protected AuthzDocumentImpl() {
 		super();
 
 		initialize();
@@ -103,19 +103,19 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * org.suafe.core.impl.AuthzGroupMember)
 	 */
 	@Override
-	public void addGroupMember(final AuthzGroupIF group, final AuthzGroupMemberIF member)
+	public void addGroupMember(final AuthzGroup group, final AuthzGroupMember member)
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
 		LOGGER.debug("addGroupMember() entered. group={}, member={}", group, member);
 
 		Preconditions.checkNotNull(group, "Group is null");
 		Preconditions.checkNotNull(member, "Member is null");
 
-		if (group instanceof AuthzGroup) {
-			((AuthzGroup) group).addMember(member);
+		if (group instanceof AuthzGroupImpl) {
+			((AuthzGroupImpl) group).addMember(member);
 		}
 
-		if (member instanceof AuthzGroupMember) {
-			((AuthzGroupMember) member).addGroup(group);
+		if (member instanceof AuthzGroupMemberImpl) {
+			((AuthzGroupMemberImpl) member).addGroup(group);
 		}
 
 		LOGGER.debug("addGroupMember() exited.");
@@ -137,18 +137,18 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.AuthzDocumentIF#cloneGroup(org.suafe.core.AuthzGroupIF, java.lang.String)
 	 */
 	@Override
-	public AuthzGroupIF cloneGroup(final AuthzGroupIF groupToClone, final String cloneGroupName)
+	public AuthzGroup cloneGroup(final AuthzGroup groupToClone, final String cloneGroupName)
 			throws AuthzGroupAlreadyExistsException, AuthzInvalidGroupNameException,
 			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
 		LOGGER.debug("cloneGroup() entered. groupToClone=\"{}\", cloneGroupName=\"{}\"", groupToClone, cloneGroupName);
 
-		final AuthzGroupIF cloneGroup = createGroup(cloneGroupName);
+		final AuthzGroup cloneGroup = createGroup(cloneGroupName);
 
-		for (final AuthzGroupIF group : groupToClone.getGroups()) {
+		for (final AuthzGroup group : groupToClone.getGroups()) {
 			addGroupMember(group, cloneGroup);
 		}
 
-		for (final AuthzGroupMemberIF authzGroupMember : groupToClone.getMembers()) {
+		for (final AuthzGroupMember authzGroupMember : groupToClone.getMembers()) {
 			addGroupMember(cloneGroup, authzGroupMember);
 		}
 
@@ -164,15 +164,15 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.AuthzDocumentIF#cloneUser(org.suafe.core.AuthzUserIF, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public AuthzUserIF cloneUser(final AuthzUserIF userToClone, final String cloneUserName, final String cloneAlias)
+	public AuthzUser cloneUser(final AuthzUser userToClone, final String cloneUserName, final String cloneAlias)
 			throws AuthzInvalidUserNameException, AuthzUserAlreadyExistsException,
 			AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException,
 			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
 		LOGGER.debug("cloneUser() entered. userToClone=\"{}\", cloneUserName=\"{}\"", userToClone, cloneUserName);
 
-		final AuthzUserIF cloneUser = createUser(cloneUserName, cloneAlias);
+		final AuthzUser cloneUser = createUser(cloneUserName, cloneAlias);
 
-		for (final AuthzGroupIF group : userToClone.getGroups()) {
+		for (final AuthzGroup group : userToClone.getGroups()) {
 			addGroupMember(group, cloneUser);
 		}
 
@@ -189,7 +189,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * org.suafe.core.constants.AuthzAccessLevelIF)
 	 */
 	@Override
-	public AuthzAccessRuleIF createAccessRule(final AuthzPathIF path, final AuthzGroupIF group,
+	public AuthzAccessRule createAccessRule(final AuthzPath path, final AuthzGroup group,
 			final AuthzAccessLevelIF accessLevel) throws AuthzAccessRuleAlreadyExistsException,
 			AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("createAccessRule() entered. path=\"{}\", group=\"{}\"", path, group);
@@ -204,10 +204,10 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzAccessRuleAlreadyExistsException();
 		}
 
-		final AuthzAccessRuleIF accessRule = new AuthzAccessRule(path, group, accessLevel);
+		final AuthzAccessRule accessRule = new AuthzAccessRuleImpl(path, group, accessLevel);
 
-		if (group instanceof AuthzGroupMember) {
-			((AuthzGroupMember) group).addAccessRule(accessRule);
+		if (group instanceof AuthzGroupMemberImpl) {
+			((AuthzGroupMemberImpl) group).addAccessRule(accessRule);
 		}
 
 		accessRules.add(accessRule);
@@ -226,7 +226,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#createGroup(java.lang.String)
 	 */
 	@Override
-	public AuthzGroup createGroup(final String name) throws AuthzGroupAlreadyExistsException,
+	public AuthzGroupImpl createGroup(final String name) throws AuthzGroupAlreadyExistsException,
 			AuthzInvalidGroupNameException {
 		LOGGER.debug("createGroup() entered. name=\"{}\"", name);
 
@@ -245,7 +245,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzGroupAlreadyExistsException();
 		}
 
-		final AuthzGroup group = new AuthzGroup(nameTrimmed);
+		final AuthzGroupImpl group = new AuthzGroupImpl(nameTrimmed);
 
 		groups.add(group);
 
@@ -263,7 +263,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#createPath(org.suafe.core.impl.AuthzRepository, java.lang.String)
 	 */
 	@Override
-	public AuthzPath createPath(final AuthzRepositoryIF repository, final String pathString)
+	public AuthzPathImpl createPath(final AuthzRepository repository, final String pathString)
 			throws AuthzInvalidPathException, AuthzPathAlreadyExistsException {
 		LOGGER.debug("createPath() entered, repository={}, path={}", repository, pathString);
 
@@ -282,7 +282,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzPathAlreadyExistsException();
 		}
 
-		final AuthzPath path = new AuthzPath(repository, pathStringTrimmed);
+		final AuthzPathImpl path = new AuthzPathImpl(repository, pathStringTrimmed);
 
 		paths.add(path);
 
@@ -300,7 +300,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#createRepository(java.lang.String)
 	 */
 	@Override
-	public AuthzRepositoryIF createRepository(final String name) throws AuthzInvalidRepositoryNameException,
+	public AuthzRepository createRepository(final String name) throws AuthzInvalidRepositoryNameException,
 			AuthzRepositoryAlreadyExistsException {
 		LOGGER.debug("createRepository() entered, name=\"{}\"", name);
 
@@ -320,7 +320,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzRepositoryAlreadyExistsException();
 		}
 
-		final AuthzRepository repository = new AuthzRepository(nameTrimmed);
+		final AuthzRepositoryImpl repository = new AuthzRepositoryImpl(nameTrimmed);
 
 		repositories.add(repository);
 
@@ -338,7 +338,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#createUser(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public AuthzUser createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
+	public AuthzUserImpl createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
 			AuthzUserAlreadyExistsException, AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException {
 		LOGGER.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name, alias);
 
@@ -371,7 +371,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzUserAliasAlreadyExistsException();
 		}
 
-		final AuthzUser user = new AuthzUser(nameTrimmed, aliasTrimmed);
+		final AuthzUserImpl user = new AuthzUserImpl(nameTrimmed, aliasTrimmed);
 
 		users.add(user);
 
@@ -390,7 +390,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * org.suafe.core.impl.AuthzGroup)
 	 */
 	@Override
-	public boolean doesAccessRuleExist(final AuthzPathIF path, final AuthzGroupIF group) {
+	public boolean doesAccessRuleExist(final AuthzPath path, final AuthzGroup group) {
 		LOGGER.debug("doesAccessRuleExist() entered. path=\"{}\", group=\"{}\"", path, group);
 
 		final boolean doesAccessRuleExist = getAccessRuleWithGroup(path, group) != null;
@@ -420,8 +420,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#doesPathExist(org.suafe.core.impl.AuthzRepository, java.lang.String)
 	 */
 	@Override
-	public boolean doesPathExist(final AuthzRepositoryIF repository, final String path)
-			throws AuthzInvalidPathException {
+	public boolean doesPathExist(final AuthzRepository repository, final String path) throws AuthzInvalidPathException {
 		LOGGER.debug("doesPathExist() entered. repositor{}, name=\"{}\"", repository, path);
 
 		final boolean doesPathExist = getPath(repository, path) != null;
@@ -481,10 +480,10 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getAccessRules()
 	 */
 	@Override
-	public List<AuthzAccessRuleIF> getAccessRules() {
+	public List<AuthzAccessRule> getAccessRules() {
 		LOGGER.debug("getAccessRules() entered, returning accessRules with {} access rule objects", accessRules.size());
 
-		return new ImmutableList.Builder<AuthzAccessRuleIF>().addAll(accessRules).build();
+		return new ImmutableList.Builder<AuthzAccessRule>().addAll(accessRules).build();
 	}
 
 	/*
@@ -493,15 +492,15 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * org.suafe.core.impl.AuthzGroup)
 	 */
 	@Override
-	public AuthzAccessRuleIF getAccessRuleWithGroup(final AuthzPathIF path, final AuthzGroupIF group) {
+	public AuthzAccessRule getAccessRuleWithGroup(final AuthzPath path, final AuthzGroup group) {
 		LOGGER.debug("getAccessRuleWithGroup() entered. path=\"{}\", group=\"{}\"", path, group);
 
 		Preconditions.checkNotNull(path, "Path is null");
 		Preconditions.checkNotNull(group, "Group is null");
 
-		AuthzAccessRuleIF foundAccessRule = null;
+		AuthzAccessRule foundAccessRule = null;
 
-		for (final AuthzAccessRuleIF accessRule : accessRules) {
+		for (final AuthzAccessRule accessRule : accessRules) {
 			if (accessRule.getPath().equals(path) && accessRule.getGroup() != null
 					&& accessRule.getGroup().equals(group)) {
 				foundAccessRule = accessRule;
@@ -519,10 +518,10 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getGroups()
 	 */
 	@Override
-	public Collection<AuthzGroupIF> getGroups() {
+	public Collection<AuthzGroup> getGroups() {
 		LOGGER.debug("getGroups() entered, returning groups with {} group objects", groups.size());
 
-		return new ImmutableList.Builder<AuthzGroupIF>().addAll(groups).build();
+		return new ImmutableList.Builder<AuthzGroup>().addAll(groups).build();
 	}
 
 	/*
@@ -530,7 +529,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getGroupWithName(java.lang.String)
 	 */
 	@Override
-	public AuthzGroupIF getGroupWithName(final String name) throws AuthzInvalidGroupNameException {
+	public AuthzGroup getGroupWithName(final String name) throws AuthzInvalidGroupNameException {
 		LOGGER.debug("getGroupWithName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -541,9 +540,9 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzInvalidGroupNameException();
 		}
 
-		AuthzGroupIF foundGroup = null;
+		AuthzGroup foundGroup = null;
 
-		for (final AuthzGroupIF group : groups) {
+		for (final AuthzGroup group : groups) {
 			if (group.getName().equals(nameTrimmed)) {
 				foundGroup = group;
 				break;
@@ -560,7 +559,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getPath(org.suafe.core.impl.AuthzRepository, java.lang.String)
 	 */
 	@Override
-	public AuthzPathIF getPath(final AuthzRepositoryIF repository, final String path) throws AuthzInvalidPathException {
+	public AuthzPath getPath(final AuthzRepository repository, final String path) throws AuthzInvalidPathException {
 		LOGGER.debug("getPath() entered. repository=\"{}\" path=\"{}\"", repository, path);
 
 		final String pathTrimmed = StringUtils.trimToNull(path);
@@ -571,10 +570,10 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzInvalidPathException();
 		}
 
-		AuthzPathIF foundPath = null;
+		AuthzPath foundPath = null;
 
 		if (repository == null) {
-			for (final AuthzPathIF pathObject : paths) {
+			for (final AuthzPath pathObject : paths) {
 				if (pathTrimmed.equals(pathObject.getPath()) && pathObject.getRepository() == null) {
 					foundPath = pathObject;
 					break;
@@ -582,7 +581,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			}
 		}
 		else {
-			for (final AuthzPathIF pathObject : paths) {
+			for (final AuthzPath pathObject : paths) {
 				if (pathTrimmed.equals(pathObject.getPath()) && repository.equals(pathObject.getRepository())) {
 					foundPath = pathObject;
 					break;
@@ -600,10 +599,10 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getPaths()
 	 */
 	@Override
-	public Collection<AuthzPathIF> getPaths() {
+	public Collection<AuthzPath> getPaths() {
 		LOGGER.debug("getPaths() entered, returning paths with " + "{} path objects", paths.size());
 
-		return new ImmutableList.Builder<AuthzPathIF>().addAll(paths).build();
+		return new ImmutableList.Builder<AuthzPath>().addAll(paths).build();
 	}
 
 	/*
@@ -611,11 +610,11 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getRepositories()
 	 */
 	@Override
-	public Collection<AuthzRepositoryIF> getRepositories() {
+	public Collection<AuthzRepository> getRepositories() {
 		LOGGER.debug("getRepositories() entered, returning repositories with " + "{} repository objects",
 				repositories.size());
 
-		return new ImmutableList.Builder<AuthzRepositoryIF>().addAll(repositories).build();
+		return new ImmutableList.Builder<AuthzRepository>().addAll(repositories).build();
 	}
 
 	/*
@@ -623,7 +622,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getRepositoryWithName(java.lang.String)
 	 */
 	@Override
-	public AuthzRepositoryIF getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException {
+	public AuthzRepository getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException {
 		LOGGER.debug("getRepositoryWithName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -634,9 +633,9 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzInvalidRepositoryNameException();
 		}
 
-		AuthzRepositoryIF foundRepository = null;
+		AuthzRepository foundRepository = null;
 
-		for (final AuthzRepositoryIF repository : repositories) {
+		for (final AuthzRepository repository : repositories) {
 			if (repository.getName().equals(nameTrimmed)) {
 				foundRepository = repository;
 				break;
@@ -653,10 +652,10 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getUsers()
 	 */
 	@Override
-	public Collection<AuthzUserIF> getUsers() {
+	public Collection<AuthzUser> getUsers() {
 		LOGGER.debug("getUsers() entered, returning users with {} user objects", users.size());
 
-		return new ImmutableList.Builder<AuthzUserIF>().addAll(users).build();
+		return new ImmutableList.Builder<AuthzUser>().addAll(users).build();
 	}
 
 	/*
@@ -664,7 +663,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getUserWithAlias(java.lang.String)
 	 */
 	@Override
-	public AuthzUserIF getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException {
+	public AuthzUser getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException {
 		LOGGER.debug("getUserWithAlias() entered. alias=\"{}\"", alias);
 
 		final String aliasTrimmed = StringUtils.trimToNull(alias);
@@ -675,9 +674,9 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzInvalidUserAliasException();
 		}
 
-		AuthzUserIF foundUser = null;
+		AuthzUser foundUser = null;
 
-		for (final AuthzUserIF user : users) {
+		for (final AuthzUser user : users) {
 			if (user.getAlias().equals(aliasTrimmed)) {
 				foundUser = user;
 				break;
@@ -694,7 +693,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * @see org.suafe.core.impl.AuthzDocumentIF#getUserWithName(java.lang.String)
 	 */
 	@Override
-	public AuthzUserIF getUserWithName(final String name) throws AuthzInvalidUserNameException {
+	public AuthzUser getUserWithName(final String name) throws AuthzInvalidUserNameException {
 		LOGGER.debug("getUserWithName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -705,9 +704,9 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throw new AuthzInvalidUserNameException();
 		}
 
-		AuthzUserIF foundUser = null;
+		AuthzUser foundUser = null;
 
-		for (final AuthzUserIF user : users) {
+		for (final AuthzUser user : users) {
 			if (user.getName().equals(nameTrimmed)) {
 				foundUser = user;
 				break;
@@ -738,11 +737,11 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	public void initialize() {
 		LOGGER.debug("initialize() entered.");
 
-		accessRules = new ArrayList<AuthzAccessRuleIF>();
-		groups = new ArrayList<AuthzGroupIF>();
-		paths = new ArrayList<AuthzPathIF>();
-		repositories = new ArrayList<AuthzRepositoryIF>();
-		users = new ArrayList<AuthzUserIF>();
+		accessRules = new ArrayList<AuthzAccessRule>();
+		groups = new ArrayList<AuthzGroup>();
+		paths = new ArrayList<AuthzPath>();
+		repositories = new ArrayList<AuthzRepository>();
+		users = new ArrayList<AuthzUser>();
 
 		clearHasUnsavedChanges();
 
@@ -836,19 +835,19 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	 * org.suafe.core.impl.AuthzGroupMember)
 	 */
 	@Override
-	public void removeGroupMember(final AuthzGroupIF group, final AuthzGroupMemberIF member)
+	public void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
 		LOGGER.debug("removeGroupMember() entered. group={}, member={}", group, member);
 
 		Preconditions.checkNotNull(group, "Group is null");
 		Preconditions.checkNotNull(member, "Member is null");
 
-		if (group instanceof AuthzGroup) {
-			((AuthzGroup) group).removeMember(member);
+		if (group instanceof AuthzGroupImpl) {
+			((AuthzGroupImpl) group).removeMember(member);
 		}
 
-		if (group instanceof AuthzGroupMember) {
-			((AuthzGroupMember) member).removeGroup(group);
+		if (group instanceof AuthzGroupMemberImpl) {
+			((AuthzGroupMemberImpl) member).removeGroup(group);
 		}
 
 		LOGGER.debug("removeGroupMember() exited.");

@@ -18,14 +18,14 @@
 package org.suafe.core.impl;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.suafe.core.AuthzUserIF;
+import org.suafe.core.AuthzUser;
 
 /**
- * Authz user object.
+ * Authz user object implementation.
  * 
  * @since 2.0
  */
-public final class AuthzUser extends AuthzGroupMember implements AuthzUserIF {
+public final class AuthzUserImpl extends AuthzGroupMemberImpl implements AuthzUser {
 	/** Serialization ID. */
 	private static final long serialVersionUID = 7672296029756141807L;
 
@@ -38,7 +38,7 @@ public final class AuthzUser extends AuthzGroupMember implements AuthzUserIF {
 	 * @param name User name
 	 * @param alias User alias
 	 */
-	protected AuthzUser(final String name, final String alias) {
+	protected AuthzUserImpl(final String name, final String alias) {
 		super(name);
 
 		this.alias = alias;
@@ -60,7 +60,7 @@ public final class AuthzUser extends AuthzGroupMember implements AuthzUserIF {
 		if (getClass() != object.getClass()) {
 			return false;
 		}
-		final AuthzUser other = (AuthzUser) object;
+		final AuthzUserImpl other = (AuthzUserImpl) object;
 		if (alias == null) {
 			if (other.alias != null) {
 				return false;

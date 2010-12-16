@@ -18,17 +18,17 @@
 package org.suafe.core.impl;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.suafe.core.AuthzRepositoryIF;
+import org.suafe.core.AuthzRepository;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
 
 /**
- * Authz repository object.
+ * Authz repository object implementation.
  * 
  * @since 2.0
  */
-public final class AuthzRepository implements AuthzRepositoryIF {
+public final class AuthzRepositoryImpl implements AuthzRepository {
 	/** Serialization ID. */
 	private static final long serialVersionUID = 1252145167842473309L;
 
@@ -40,7 +40,7 @@ public final class AuthzRepository implements AuthzRepositoryIF {
 	 * 
 	 * @param name User name
 	 */
-	protected AuthzRepository(final String name) {
+	protected AuthzRepositoryImpl(final String name) {
 		super();
 
 		Preconditions.checkNotNull(name);
@@ -56,7 +56,7 @@ public final class AuthzRepository implements AuthzRepositoryIF {
 	 *         than 0 if this repository is greater
 	 */
 	@Override
-	public int compareTo(final AuthzRepositoryIF that) {
+	public int compareTo(final AuthzRepository that) {
 		return ComparisonChain.start().compare(this.name, that.getName()).result();
 	}
 
@@ -77,7 +77,7 @@ public final class AuthzRepository implements AuthzRepositoryIF {
 		if (getClass() != object.getClass()) {
 			return false;
 		}
-		final AuthzRepository other = (AuthzRepository) object;
+		final AuthzRepositoryImpl other = (AuthzRepositoryImpl) object;
 		if (name == null) {
 			if (other.name != null) {
 				return false;

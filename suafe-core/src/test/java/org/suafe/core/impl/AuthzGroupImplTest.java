@@ -7,22 +7,22 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.suafe.core.AuthzDocumentIF;
-import org.suafe.core.AuthzGroupIF;
-import org.suafe.core.AuthzGroupMemberIF;
+import org.suafe.core.AuthzDocument;
+import org.suafe.core.AuthzGroup;
+import org.suafe.core.AuthzGroupMember;
 import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzNotGroupMemberException;
 
 /**
  * Unit test for AuthzGroup.
  */
-public class AuthzGroupTest {
+public class AuthzGroupImplTest {
 	@Test
 	public void testAddMember() {
 		// Test happy path
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = (AuthzGroup) document.createGroup("name");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
 
 			assertTrue("addMember() should reutrn true", group.addMember(document.createGroup("group")));
 			assertTrue("addMember() should return true", group.addMember(document.createUser("user", null)));
@@ -33,9 +33,9 @@ public class AuthzGroupTest {
 
 		// Test check for duplicate group
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = (AuthzGroup) document.createGroup("name");
-			final AuthzGroupMember member = (AuthzGroupMember) document.createGroup("group");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
+			final AuthzGroupMemberImpl member = (AuthzGroupMemberImpl) document.createGroup("group");
 
 			assertTrue("addMember() should reutrn true", group.addMember(member));
 			assertTrue("addMember() should reutrn true", group.addMember(member));
@@ -51,9 +51,9 @@ public class AuthzGroupTest {
 
 		// Test check for duplicate user
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = (AuthzGroup) document.createGroup("name");
-			final AuthzGroupMemberIF member = document.createUser("user", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
+			final AuthzGroupMember member = document.createUser("user", null);
 
 			assertTrue("addMember() should reutrn true", group.addMember(member));
 			assertTrue("addMember() should reutrn true", group.addMember(member));
@@ -69,8 +69,8 @@ public class AuthzGroupTest {
 
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = (AuthzGroup) document.createGroup("name");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
 
 			group.addMember(null);
 
@@ -86,49 +86,49 @@ public class AuthzGroupTest {
 
 	@Test
 	public void testAuthzGroupString() {
-		final AuthzGroup group = new AuthzGroup("name");
+		final AuthzGroupImpl group = new AuthzGroupImpl("name");
 
 		assertEquals("name should be valid", "name", group.getName());
 	}
 
 	@Test
 	public void testCompareTo() {
-		assertTrue("Empty groups should match", new AuthzGroup("").compareTo(new AuthzGroup("")) == 0);
-		assertTrue("Groups with same name should match", new AuthzGroup("name").compareTo(new AuthzGroup("name")) == 0);
+		assertTrue("Empty groups should match", new AuthzGroupImpl("").compareTo(new AuthzGroupImpl("")) == 0);
+		assertTrue("Groups with same name should match", new AuthzGroupImpl("name").compareTo(new AuthzGroupImpl("name")) == 0);
 		assertTrue("Groups with same name and alias should match",
-				new AuthzGroup("name").compareTo(new AuthzGroup("name")) == 0);
+				new AuthzGroupImpl("name").compareTo(new AuthzGroupImpl("name")) == 0);
 
-		assertTrue("Groups should not match", new AuthzGroup("name").compareTo(new AuthzGroup("same")) < 0);
-		assertTrue("Groups should not match", new AuthzGroup("same").compareTo(new AuthzGroup("name")) > 0);
+		assertTrue("Groups should not match", new AuthzGroupImpl("name").compareTo(new AuthzGroupImpl("same")) < 0);
+		assertTrue("Groups should not match", new AuthzGroupImpl("same").compareTo(new AuthzGroupImpl("name")) > 0);
 	}
 
 	@Test
 	public void testEquals() {
-		assertTrue("Values should match", new AuthzGroup("name").equals(new AuthzGroup("name")));
-		assertTrue("Values should match", new AuthzGroup("").equals(new AuthzGroup("")));
-		assertFalse("Values should not match", new AuthzGroup("name").equals(new AuthzGroup("name2")));
+		assertTrue("Values should match", new AuthzGroupImpl("name").equals(new AuthzGroupImpl("name")));
+		assertTrue("Values should match", new AuthzGroupImpl("").equals(new AuthzGroupImpl("")));
+		assertFalse("Values should not match", new AuthzGroupImpl("name").equals(new AuthzGroupImpl("name2")));
 
 		// Test invalid values
-		assertFalse("Values should not match", new AuthzGroup("name").equals(null));
-		assertFalse("Values should not match", new AuthzGroup("name").equals(""));
-		assertFalse("Values should not match", new AuthzGroup("name").equals(new AuthzGroup("name").toString()));
+		assertFalse("Values should not match", new AuthzGroupImpl("name").equals(null));
+		assertFalse("Values should not match", new AuthzGroupImpl("name").equals(""));
+		assertFalse("Values should not match", new AuthzGroupImpl("name").equals(new AuthzGroupImpl("name").toString()));
 	}
 
 	@Test
 	public void testHashCode() {
 		assertTrue("HashCode values should match",
-				new AuthzGroup("name").hashCode() == new AuthzGroup("name").hashCode());
+				new AuthzGroupImpl("name").hashCode() == new AuthzGroupImpl("name").hashCode());
 		assertFalse("HashCode values should not match",
-				new AuthzGroup("name").hashCode() == new AuthzGroup("name2").hashCode());
+				new AuthzGroupImpl("name").hashCode() == new AuthzGroupImpl("name2").hashCode());
 	}
 
 	@Test
 	public void testRemoveMember() {
 		// Test happy path
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = (AuthzGroup) document.createGroup("name");
-			final AuthzGroupMemberIF member = document.createUser("user", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
+			final AuthzGroupMember member = document.createUser("user", null);
 
 			assertTrue("members should be empty", group.getMembers().size() == 0);
 
@@ -146,8 +146,8 @@ public class AuthzGroupTest {
 
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = (AuthzGroup) document.createGroup("name");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
 
 			group.removeMember(null);
 
@@ -162,8 +162,8 @@ public class AuthzGroupTest {
 
 		// Test for not a member exception
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroup group = (AuthzGroup) document.createGroup("name");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
 
 			group.removeMember(document.createUser("name", null));
 
@@ -179,7 +179,7 @@ public class AuthzGroupTest {
 
 	@Test
 	public void testToString() {
-		final AuthzGroupIF group = new AuthzGroup("myName");
+		final AuthzGroup group = new AuthzGroupImpl("myName");
 
 		assertTrue("toString() should output name", group.toString().contains("myName"));
 	}

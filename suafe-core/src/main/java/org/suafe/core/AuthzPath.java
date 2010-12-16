@@ -17,15 +17,24 @@
  */
 package org.suafe.core;
 
+import java.io.Serializable;
+
 /**
- * The Interface AuthzUserIF.
+ * The Interface AuthzPath.
  */
-public interface AuthzUserIF extends AuthzGroupMemberIF {
+public interface AuthzPath extends Comparable<AuthzPath>, Serializable {
 
 	/**
-	 * Gets the user alias.
+	 * Gets the path.
 	 * 
-	 * @return User alias
+	 * @return Path
 	 */
-	String getAlias();
+	String getPath();
+
+	/**
+	 * Gets the repository.
+	 * 
+	 * @return Repository
+	 */
+	AuthzRepository getRepository();
 }

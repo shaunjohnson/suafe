@@ -18,19 +18,19 @@
 package org.suafe.core.impl;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.suafe.core.AuthzPathIF;
-import org.suafe.core.AuthzRepositoryIF;
+import org.suafe.core.AuthzPath;
+import org.suafe.core.AuthzRepository;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 
 /**
- * Authz path object.
+ * Authz path object implementation.
  * 
  * @since 2.0
  */
-public final class AuthzPath implements AuthzPathIF {
+public final class AuthzPathImpl implements AuthzPath {
 	/** Serialization ID. */
 	private static final long serialVersionUID = 9125579229041836584L;
 
@@ -38,7 +38,7 @@ public final class AuthzPath implements AuthzPathIF {
 	private final String path;
 
 	/** Repository object. */
-	private final AuthzRepositoryIF repository;
+	private final AuthzRepository repository;
 
 	/**
 	 * Constructor.
@@ -46,7 +46,7 @@ public final class AuthzPath implements AuthzPathIF {
 	 * @param repository Repository
 	 * @param path Path
 	 */
-	protected AuthzPath(final AuthzRepositoryIF repository, final String path) {
+	protected AuthzPathImpl(final AuthzRepository repository, final String path) {
 		super();
 
 		Preconditions.checkNotNull(path);
@@ -63,7 +63,7 @@ public final class AuthzPath implements AuthzPathIF {
 	 *         path is greater
 	 */
 	@Override
-	public int compareTo(final AuthzPathIF that) {
+	public int compareTo(final AuthzPath that) {
 		return ComparisonChain.start().compare(this.repository, that.getRepository(), Ordering.natural().nullsLast())
 				.compare(this.path, that.getPath()).result();
 	}
@@ -85,7 +85,7 @@ public final class AuthzPath implements AuthzPathIF {
 		if (getClass() != object.getClass()) {
 			return false;
 		}
-		final AuthzPath other = (AuthzPath) object;
+		final AuthzPathImpl other = (AuthzPathImpl) object;
 		if (path == null) {
 			if (other.path != null) {
 				return false;
@@ -119,7 +119,7 @@ public final class AuthzPath implements AuthzPathIF {
 	 * @see org.suafe.core.impl.AuthzPathIF#getRepository()
 	 */
 	@Override
-	public AuthzRepositoryIF getRepository() {
+	public AuthzRepository getRepository() {
 		return repository;
 	}
 

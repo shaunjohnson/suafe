@@ -24,9 +24,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.suafe.core.AuthzAccessRuleIF;
-import org.suafe.core.AuthzGroupIF;
-import org.suafe.core.AuthzGroupMemberIF;
+import org.suafe.core.AuthzAccessRule;
+import org.suafe.core.AuthzGroup;
+import org.suafe.core.AuthzGroupMember;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
@@ -35,22 +35,23 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
 
 /**
- * Authz group member object. Instances of this class or its subclasses are eligible to be a member of a group.
+ * Authz group member object implementation. Instances of this class or its subclasses are eligible to be a member of a
+ * group.
  * 
  * @since 2.0
  */
-public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
+public abstract class AuthzGroupMemberImpl implements AuthzGroupMember {
 	/** Logger handle. */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzGroupMember.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzGroupMemberImpl.class);
 
 	/** Serialization ID. */
 	private static final long serialVersionUID = -4348242302006857451L;
 
 	/** Collection of access rules that apply to this member. */
-	private final List<AuthzAccessRuleIF> accessRules = new ArrayList<AuthzAccessRuleIF>();
+	private final List<AuthzAccessRule> accessRules = new ArrayList<AuthzAccessRule>();
 
 	/** Collection of groups of which is a member. */
-	private final List<AuthzGroupIF> groups = new ArrayList<AuthzGroupIF>();
+	private final List<AuthzGroup> groups = new ArrayList<AuthzGroup>();
 
 	/** Name of this user. */
 	protected final String name;
@@ -60,7 +61,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	 * 
 	 * @param name User name
 	 */
-	protected AuthzGroupMember(final String name) {
+	protected AuthzGroupMemberImpl(final String name) {
 		super();
 
 		Preconditions.checkNotNull(name, "Name is null");
@@ -75,7 +76,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	 * @return True if access rule added
 	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
 	 */
-	protected boolean addAccessRule(final AuthzAccessRuleIF accessRule) throws AuthzAccessRuleAlreadyAppliedException {
+	protected boolean addAccessRule(final AuthzAccessRule accessRule) throws AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("addAccessRule() entered. accessRule={}", accessRule);
 
 		Preconditions.checkNotNull(accessRule, "Access Rule is null");
@@ -103,7 +104,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	 * @return True if group added
 	 * @throws AuthzAlreadyMemberOfGroupException If this object is already a member of the group
 	 */
-	protected final boolean addGroup(final AuthzGroupIF group) throws AuthzAlreadyMemberOfGroupException {
+	protected final boolean addGroup(final AuthzGroup group) throws AuthzAlreadyMemberOfGroupException {
 		LOGGER.debug("addGroup() entered. group={}", group);
 
 		Preconditions.checkNotNull(group, "Group is null");
@@ -132,7 +133,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	 *         this repository is greater
 	 */
 	@Override
-	public int compareTo(final AuthzGroupMemberIF that) {
+	public int compareTo(final AuthzGroupMember that) {
 		return ComparisonChain.start().compare(this.name, that.getName()).result();
 	}
 
@@ -141,7 +142,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	 * @see org.suafe.core.AuthzGroupMemberIF#getAccessRules()
 	 */
 	@Override
-	public final Collection<AuthzAccessRuleIF> getAccessRules() {
+	public final Collection<AuthzAccessRule> getAccessRules() {
 		return Collections.unmodifiableCollection(accessRules);
 	}
 
@@ -150,7 +151,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	 * @see org.suafe.core.impl.AuthzGroupMemberIF#getGroups()
 	 */
 	@Override
-	public final Collection<AuthzGroupIF> getGroups() {
+	public final Collection<AuthzGroup> getGroups() {
 		return Collections.unmodifiableCollection(groups);
 	}
 
@@ -170,7 +171,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	 * @return True if group is removed
 	 * @throws AuthzNotMemberOfGroupException If this object is not a member of the provided group
 	 */
-	protected final boolean removeGroup(final AuthzGroupIF group) throws AuthzNotMemberOfGroupException {
+	protected final boolean removeGroup(final AuthzGroup group) throws AuthzNotMemberOfGroupException {
 		LOGGER.debug("removeGroup() entered. group={}", group);
 
 		Preconditions.checkNotNull(group, "Group is null");

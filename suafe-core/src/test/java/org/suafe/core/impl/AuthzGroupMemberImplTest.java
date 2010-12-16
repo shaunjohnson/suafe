@@ -5,19 +5,19 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.suafe.core.AuthzDocumentIF;
-import org.suafe.core.AuthzGroupIF;
+import org.suafe.core.AuthzDocument;
+import org.suafe.core.AuthzGroup;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
 
-public class AuthzGroupMemberTest {
+public class AuthzGroupMemberImplTest {
 	@Test
 	public void testAddGroup() {
 		// Test happy path
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzUser user = (AuthzUser) document.createUser("user", null);
-			final AuthzGroupIF group = document.createGroup("group");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzUserImpl user = (AuthzUserImpl) document.createUser("user", null);
+			final AuthzGroup group = document.createGroup("group");
 
 			assertTrue("Groups should be empty", user.getGroups().size() == 0);
 
@@ -31,8 +31,8 @@ public class AuthzGroupMemberTest {
 
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzUser user = (AuthzUser) document.createUser("user", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzUserImpl user = (AuthzUserImpl) document.createUser("user", null);
 
 			user.addGroup(null);
 
@@ -47,9 +47,9 @@ public class AuthzGroupMemberTest {
 
 		// Test exception
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzUser user = (AuthzUser) document.createUser("user", null);
-			final AuthzGroupIF group = document.createGroup("group");
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzUserImpl user = (AuthzUserImpl) document.createUser("user", null);
+			final AuthzGroup group = document.createGroup("group");
 
 			user.addGroup(group);
 			user.addGroup(group);
@@ -68,9 +68,9 @@ public class AuthzGroupMemberTest {
 	public void testRemoveGroup() {
 		// Test happy path
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzGroupIF group = document.createGroup("name");
-			final AuthzUser user = (AuthzUser) document.createUser("user", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzGroup group = document.createGroup("name");
+			final AuthzUserImpl user = (AuthzUserImpl) document.createUser("user", null);
 
 			assertTrue("groups should be empty", user.getGroups().size() == 0);
 
@@ -88,8 +88,8 @@ public class AuthzGroupMemberTest {
 
 		// Test invalid values
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzUser user = (AuthzUser) document.createUser("name", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzUserImpl user = (AuthzUserImpl) document.createUser("name", null);
 
 			user.removeGroup(null);
 
@@ -104,8 +104,8 @@ public class AuthzGroupMemberTest {
 
 		// Test for not a member exception
 		try {
-			final AuthzDocumentIF document = new AuthzDocument();
-			final AuthzUser user = (AuthzUser) document.createUser("name", null);
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzUserImpl user = (AuthzUserImpl) document.createUser("name", null);
 
 			user.removeGroup(document.createGroup("group"));
 

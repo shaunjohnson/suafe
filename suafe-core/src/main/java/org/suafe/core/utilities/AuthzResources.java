@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.suafe.core.impl.AuthzDocument;
+import org.suafe.core.impl.AuthzDocumentImpl;
 
 import com.google.common.base.Preconditions;
 
@@ -33,7 +33,7 @@ import com.google.common.base.Preconditions;
  */
 public final class AuthzResources {
 	/** Logger handle. */
-	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzDocument.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzDocumentImpl.class);
 
 	/** Resource bundle. */
 	private static final ResourceBundle RESOURCE_BUNDLE;

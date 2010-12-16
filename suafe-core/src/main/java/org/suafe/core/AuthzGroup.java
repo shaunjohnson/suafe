@@ -17,40 +17,17 @@
  */
 package org.suafe.core;
 
-import java.io.Serializable;
-
-import org.suafe.core.constants.AuthzAccessLevelIF;
+import java.util.Collection;
 
 /**
- * The Interface AuthzAccessRuleIF.
+ * The Interface AuthzGroup.
  */
-public interface AuthzAccessRuleIF extends Comparable<AuthzAccessRuleIF>, Serializable {
+public interface AuthzGroup extends AuthzGroupMember {
 
 	/**
-	 * Gets the access level.
+	 * Returns an immutable collection of AuthzGroupMember objects.
 	 * 
-	 * @return the access level
+	 * @return Immutable collection of AuthzGroupMember objects
 	 */
-	AuthzAccessLevelIF getAccessLevel();
-
-	/**
-	 * Gets the group.
-	 * 
-	 * @return the group
-	 */
-	AuthzGroupIF getGroup();
-
-	/**
-	 * Gets the path.
-	 * 
-	 * @return the path
-	 */
-	AuthzPathIF getPath();
-
-	/**
-	 * Gets the user.
-	 * 
-	 * @return the user
-	 */
-	AuthzUserIF getUser();
+	Collection<AuthzGroupMember> getMembers();
 }
