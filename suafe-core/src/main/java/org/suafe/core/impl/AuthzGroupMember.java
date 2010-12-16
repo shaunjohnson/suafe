@@ -24,8 +24,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.suafe.core.AuthzAccessRuleIF;
 import org.suafe.core.AuthzGroupIF;
 import org.suafe.core.AuthzGroupMemberIF;
+import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
 
@@ -44,17 +46,19 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	/** Serialization ID. */
 	private static final long serialVersionUID = -4348242302006857451L;
 
+	/** Collection of access rules that apply to this member. */
+	private final List<AuthzAccessRuleIF> accessRules = new ArrayList<AuthzAccessRuleIF>();
+
 	/** Collection of groups of which is a member. */
 	private final List<AuthzGroupIF> groups = new ArrayList<AuthzGroupIF>();
 
-	/** Name of this user */
+	/** Name of this user. */
 	protected final String name;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param name User name
-	 * @param alias User alias
 	 */
 	protected AuthzGroupMember(final String name) {
 		super();
@@ -62,6 +66,38 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 		Preconditions.checkNotNull(name, "Name is null");
 
 		this.name = name;
+	}
+
+	/**
+	 * Adds access rule to collection access rules.
+	 * 
+	 * @param accessRule Access rule to add to collection
+	 * @return True if access rule added
+	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
+	 */
+	protected boolean addAccessRule(final AuthzAccessRuleIF accessRule) throws AuthzAccessRuleAlreadyAppliedException {
+		LOGGER.debug("addAccessRule() entered. accessRule={}", accessRule);
+
+		if (accessRule == null) {
+			LOGGER.error("addAccessRule() accessRule is null");
+
+			throw new NullPointerException("AccessRule is null");
+		}
+
+		if (accessRules.contains(accessRule)) {
+			LOGGER.error("addAccessRule() already a member of group");
+
+			throw new AuthzAccessRuleAlreadyAppliedException();
+		}
+
+		if (accessRules.add(accessRule)) {
+			Collections.sort(accessRules);
+
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**
@@ -106,6 +142,15 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	@Override
 	public int compareTo(final AuthzGroupMemberIF that) {
 		return ComparisonChain.start().compare(this.name, that.getName()).result();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzGroupMemberIF#getAccessRules()
+	 */
+	@Override
+	public final Collection<AuthzAccessRuleIF> getAccessRules() {
+		return Collections.unmodifiableCollection(accessRules);
 	}
 
 	/*

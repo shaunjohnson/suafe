@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.suafe.core.constants.AuthzAccessLevelIF;
+import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
@@ -95,9 +96,11 @@ public interface AuthzDocumentIF extends Serializable {
 	 * @param accessLevel the access level
 	 * @return the authz access rule
 	 * @throws AuthzAccessRuleAlreadyExistsException the authz access rule already exists exception
+	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
 	 */
 	AuthzAccessRuleIF createAccessRule(final AuthzPathIF path, final AuthzGroupIF group,
-			final AuthzAccessLevelIF accessLevel) throws AuthzAccessRuleAlreadyExistsException;
+			final AuthzAccessLevelIF accessLevel) throws AuthzAccessRuleAlreadyExistsException,
+			AuthzAccessRuleAlreadyAppliedException;
 
 	/**
 	 * Creates a new group.

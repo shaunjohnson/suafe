@@ -35,6 +35,7 @@ import org.suafe.core.AuthzPathIF;
 import org.suafe.core.AuthzRepositoryIF;
 import org.suafe.core.AuthzUserIF;
 import org.suafe.core.constants.AuthzAccessLevelIF;
+import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzGroupAlreadyExistsException;
@@ -184,12 +185,13 @@ public final class AuthzDocument implements AuthzDocumentIF {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#createAccessRule(org.suafe.core.impl.AuthzPath,
-	 * org.suafe.core.impl.AuthzGroup, org.suafe.core.constants.AuthzAccessLevelIF)
+	 * @see org.suafe.core.AuthzDocumentIF#createAccessRule(org.suafe.core.AuthzPathIF, org.suafe.core.AuthzGroupIF,
+	 * org.suafe.core.constants.AuthzAccessLevelIF)
 	 */
 	@Override
 	public AuthzAccessRuleIF createAccessRule(final AuthzPathIF path, final AuthzGroupIF group,
-			final AuthzAccessLevelIF accessLevel) throws AuthzAccessRuleAlreadyExistsException {
+			final AuthzAccessLevelIF accessLevel) throws AuthzAccessRuleAlreadyExistsException,
+			AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("createAccessRule() entered. path=\"{}\", group=\"{}\"", path, group);
 
 		Preconditions.checkNotNull(path, "Path is null");
@@ -203,6 +205,10 @@ public final class AuthzDocument implements AuthzDocumentIF {
 		}
 
 		final AuthzAccessRuleIF accessRule = new AuthzAccessRule(path, group, accessLevel);
+
+		if (group instanceof AuthzGroupMember) {
+			((AuthzGroupMember) group).addAccessRule(accessRule);
+		}
 
 		accessRules.add(accessRule);
 

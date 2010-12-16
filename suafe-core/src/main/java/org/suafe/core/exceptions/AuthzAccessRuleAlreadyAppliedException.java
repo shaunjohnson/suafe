@@ -15,33 +15,24 @@
  * ====================================================================
  * @endcopyright
  */
-package org.suafe.core;
+package org.suafe.core.exceptions;
 
-import java.io.Serializable;
-import java.util.Collection;
+import org.suafe.core.utilities.AuthzErrorResourceKey;
 
 /**
- * The Interface AuthzGroupMemberIF.
+ * Access rule already applied to the member exception.
+ * 
+ * @since 2.0
  */
-public interface AuthzGroupMemberIF extends Comparable<AuthzGroupMemberIF>, Serializable {
-	/**
-	 * Returns an immutable collection of AuthzAccessRuleIF objects.
-	 * 
-	 * @return Immutable collection of AuthzAccessRuleIF object.
-	 */
-	Collection<AuthzAccessRuleIF> getAccessRules();
+public final class AuthzAccessRuleAlreadyAppliedException extends AuthzException {
+
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 5270879056637583428L;
 
 	/**
-	 * Returns an immutable collection of AuthzGroupIF objects.
-	 * 
-	 * @return Immutable collection of AuthzGroupIF object.
+	 * Create exception with message text loaded using messageKey.
 	 */
-	Collection<AuthzGroupIF> getGroups();
-
-	/**
-	 * Gets the user name.
-	 * 
-	 * @return User name
-	 */
-	String getName();
+	public AuthzAccessRuleAlreadyAppliedException() {
+		super(AuthzErrorResourceKey.INVALID_GROUP_NAME);
+	}
 }

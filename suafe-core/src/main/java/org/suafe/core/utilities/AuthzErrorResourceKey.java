@@ -23,42 +23,63 @@ package org.suafe.core.utilities;
  * @since 2.0
  */
 public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
+
+	/** The Constant ACCESS_RULE_ALREADY_APPLIED. */
+	public static final AuthzResourceKeyIF ACCESS_RULE_ALREADY_APPLIED = new AuthzErrorResourceKey(
+			"errorAccessRuleAlreadyApplied");
+
+	/** The Constant ACCESS_RULE_ALREADY_EXISTS. */
 	public static final AuthzResourceKeyIF ACCESS_RULE_ALREADY_EXISTS = new AuthzErrorResourceKey(
 			"errorAccessRuleAlreadyExists");
 
+	/** The Constant ALREADY_MEMBER_OF_GROUP. */
 	public static final AuthzResourceKeyIF ALREADY_MEMBER_OF_GROUP = new AuthzErrorResourceKey(
 			"errorAlreadyMemberOfGroup");
 
+	/** The Constant GROUP_ALREADY_EXISTS. */
 	public static final AuthzResourceKeyIF GROUP_ALREADY_EXISTS = new AuthzErrorResourceKey("errorGroupAlreadyExists");
 
+	/** The Constant GROUP_MEMBER_ALREADY_EXISTS. */
 	public static final AuthzResourceKeyIF GROUP_MEMBER_ALREADY_EXISTS = new AuthzErrorResourceKey(
 			"errorGroupMemberAlreadyExists");
 
+	/** The Constant INVALID_GROUP_NAME. */
 	public static final AuthzResourceKeyIF INVALID_GROUP_NAME = new AuthzErrorResourceKey("errorInvalidGroupName");
 
+	/** The Constant INVALID_PATH. */
 	public static final AuthzResourceKeyIF INVALID_PATH = new AuthzErrorResourceKey("errorInvalidPath");
 
+	/** The Constant INVALID_REPOSITORY_NAME. */
 	public static final AuthzResourceKeyIF INVALID_REPOSITORY_NAME = new AuthzErrorResourceKey(
 			"errorInvalidRepositoryName");
 
+	/** The Constant INVALID_USER_ALIAS. */
 	public static final AuthzResourceKeyIF INVALID_USER_ALIAS = new AuthzErrorResourceKey("errorInvalidUserAlias");
 
+	/** The Constant INVALID_USER_NAME. */
 	public static final AuthzResourceKeyIF INVALID_USER_NAME = new AuthzErrorResourceKey("errorInvalidUserName");
 
+	/** The Constant NOT_GROUP_MEMBER. */
 	public static final AuthzResourceKeyIF NOT_GROUP_MEMBER = new AuthzErrorResourceKey("errorNotGroupMember");
 
+	/** The Constant NOT_MEMBER_OF_GROUP. */
 	public static final AuthzResourceKeyIF NOT_MEMBER_OF_GROUP = new AuthzErrorResourceKey("errorNotMemberOfGroup");
 
+	/** The Constant PATH_ALREADY_EXISTS. */
 	public static final AuthzResourceKeyIF PATH_ALREADY_EXISTS = new AuthzErrorResourceKey("errorPathAlreadyExists");
 
+	/** The Constant REPOSITORY_ALREADY_EXISTS. */
 	public static final AuthzResourceKeyIF REPOSITORY_ALREADY_EXISTS = new AuthzErrorResourceKey(
 			"errorRepositoryAlreadyExists");
 
+	/** The Constant USER_ALIAS_ALREADY_EXISTS. */
 	public static final AuthzResourceKeyIF USER_ALIAS_ALREADY_EXISTS = new AuthzErrorResourceKey(
 			"errorUserAliasAlreadyExists");
 
+	/** The Constant USER_ALREADY_EXISTS. */
 	public static final AuthzResourceKeyIF USER_ALREADY_EXISTS = new AuthzErrorResourceKey("errorUserAlreadyExists");
 
+	/** The key. */
 	private final String key;
 
 	/**
