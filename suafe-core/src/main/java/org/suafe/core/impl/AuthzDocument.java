@@ -133,6 +133,57 @@ public final class AuthzDocument implements AuthzDocumentIF {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocumentIF#cloneGroup(org.suafe.core.AuthzGroupIF, java.lang.String)
+	 */
+	@Override
+	public AuthzGroupIF cloneGroup(final AuthzGroupIF groupToClone, final String cloneGroupName)
+			throws AuthzGroupAlreadyExistsException, AuthzInvalidGroupNameException,
+			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+		LOGGER.debug("cloneGroup() entered. groupToClone=\"{}\", cloneGroupName=\"{}\"", groupToClone, cloneGroupName);
+
+		final AuthzGroupIF cloneGroup = createGroup(cloneGroupName);
+
+		for (final AuthzGroupIF group : groupToClone.getGroups()) {
+			addGroupMember(group, cloneGroup);
+		}
+
+		for (final AuthzGroupMemberIF authzGroupMember : groupToClone.getMembers()) {
+			addGroupMember(cloneGroup, authzGroupMember);
+		}
+
+		// TODO Clone access rules
+
+		LOGGER.debug("cloneGroup() group clone created successfully, returning {}", cloneGroup);
+
+		return cloneGroup;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocumentIF#cloneUser(org.suafe.core.AuthzUserIF, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public AuthzUserIF cloneUser(final AuthzUserIF userToClone, final String cloneUserName, final String cloneAlias)
+			throws AuthzInvalidUserNameException, AuthzUserAlreadyExistsException,
+			AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException,
+			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+		LOGGER.debug("cloneUser() entered. userToClone=\"{}\", cloneUserName=\"{}\"", userToClone, cloneUserName);
+
+		final AuthzUserIF cloneUser = createUser(cloneUserName, cloneAlias);
+
+		for (final AuthzGroupIF group : userToClone.getGroups()) {
+			addGroupMember(group, cloneUser);
+		}
+
+		// TODO Clone access rules
+
+		LOGGER.debug("cloneUser() user clone created successfully, returning {}", cloneUser);
+
+		return cloneUser;
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.suafe.core.impl.AuthzDocumentIF#createAccessRule(org.suafe.core.impl.AuthzPath,
 	 * org.suafe.core.impl.AuthzGroup, org.suafe.core.constants.AuthzAccessLevelIF)
 	 */

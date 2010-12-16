@@ -55,6 +55,39 @@ public interface AuthzDocumentIF extends Serializable {
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
 
 	/**
+	 * Clones the provided group.
+	 * 
+	 * @param groupToCLone Group to be cloned
+	 * @param cloneGroupName Name for the group clone
+	 * @return the group clone
+	 * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
+	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
+	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
+	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+	 */
+	AuthzGroupIF cloneGroup(final AuthzGroupIF groupToClone, final String cloneGroupName)
+			throws AuthzGroupAlreadyExistsException, AuthzInvalidGroupNameException,
+			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
+
+	/**
+	 * Clones the provided user.
+	 * 
+	 * @param userToClone User to be cloned
+	 * @param cloneUserName Name for the user clone
+	 * @param cloneAlias Alias for the user clone
+	 * @return the user clone * @throws AuthzInvalidUserNameException If provided user name is invalid
+	 * @throws AuthzUserAlreadyExistsException If user with the provided name already exists
+	 * @throws AuthzUserAliasAlreadyExistsException If user with the provided alias already exists
+	 * @throws AuthzInvalidUserAliasException the authz invalid user alias exception
+	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
+	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+	 */
+	AuthzUserIF cloneUser(final AuthzUserIF userToClone, final String cloneUserName, final String cloneAlias)
+			throws AuthzInvalidUserNameException, AuthzUserAlreadyExistsException,
+			AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException,
+			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
+
+	/**
 	 * Creates the access rule.
 	 * 
 	 * @param path the path
