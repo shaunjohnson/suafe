@@ -24,6 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.suafe.core.impl.AuthzDocument;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Authz resource bundle interface.
  * 
@@ -61,11 +63,7 @@ public final class AuthzResources {
 	 * @return String value for the provided key
 	 */
 	public static String getString(final AuthzResourceKeyIF messageKey) {
-		if (messageKey == null) {
-			LOGGER.error("getString(AuthzResourceKeyIF) messageKey is null");
-
-			throw new NullPointerException("messageKey is null");
-		}
+		Preconditions.checkNotNull(messageKey, "Message key is null");
 
 		try {
 			return RESOURCE_BUNDLE.getString(messageKey.toString());

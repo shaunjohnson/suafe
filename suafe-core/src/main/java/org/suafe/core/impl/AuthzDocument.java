@@ -840,17 +840,8 @@ public final class AuthzDocument implements AuthzDocumentIF {
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
 		LOGGER.debug("removeGroupMember() entered. group={}, member={}", group, member);
 
-		if (group == null) {
-			LOGGER.error("addGroupMember() group is null");
-
-			throw new NullPointerException("Group is null");
-		}
-
-		if (member == null) {
-			LOGGER.error("addGroupMember() member is null");
-
-			throw new NullPointerException("Member is null");
-		}
+		Preconditions.checkNotNull(group, "Group is null");
+		Preconditions.checkNotNull(member, "Member is null");
 
 		if (group instanceof AuthzGroup) {
 			((AuthzGroup) group).removeMember(member);

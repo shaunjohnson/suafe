@@ -78,11 +78,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	protected boolean addAccessRule(final AuthzAccessRuleIF accessRule) throws AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("addAccessRule() entered. accessRule={}", accessRule);
 
-		if (accessRule == null) {
-			LOGGER.error("addAccessRule() accessRule is null");
-
-			throw new NullPointerException("AccessRule is null");
-		}
+		Preconditions.checkNotNull(accessRule, "Access Rule is null");
 
 		if (accessRules.contains(accessRule)) {
 			LOGGER.error("addAccessRule() already a member of group");
@@ -110,11 +106,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	protected final boolean addGroup(final AuthzGroupIF group) throws AuthzAlreadyMemberOfGroupException {
 		LOGGER.debug("addGroup() entered. group={}", group);
 
-		if (group == null) {
-			LOGGER.error("addGroup() group is null");
-
-			throw new NullPointerException("Group is null");
-		}
+		Preconditions.checkNotNull(group, "Group is null");
 
 		if (groups.contains(group)) {
 			LOGGER.error("addGroup() already a member of group");
@@ -181,11 +173,7 @@ public abstract class AuthzGroupMember implements AuthzGroupMemberIF {
 	protected final boolean removeGroup(final AuthzGroupIF group) throws AuthzNotMemberOfGroupException {
 		LOGGER.debug("removeGroup() entered. group={}", group);
 
-		if (group == null) {
-			LOGGER.error("removeGroup() group is null");
-
-			throw new NullPointerException("Group is null");
-		}
+		Preconditions.checkNotNull(group, "Group is null");
 
 		if (!groups.contains(group)) {
 			LOGGER.error("removeGroup() this object is not a member of the group");
