@@ -1,10 +1,12 @@
-package org.suafe.core.utilities;
+package org.suafe.core.enums;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.suafe.core.enums.AuthzErrorResourceKey;
+import org.suafe.core.utilities.AuthzResources;
 
 public class AuthzErrorResourceKeyTest {
 	@Test

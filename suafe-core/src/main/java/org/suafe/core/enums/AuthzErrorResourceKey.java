@@ -15,7 +15,7 @@
  * ====================================================================
  * @endcopyright
  */
-package org.suafe.core.utilities;
+package org.suafe.core.enums;
 
 /**
  * Resource key enumeration used for error messages.

@@ -35,7 +35,7 @@ import org.suafe.core.AuthzPath;
 import org.suafe.core.AuthzPermissionable;
 import org.suafe.core.AuthzRepository;
 import org.suafe.core.AuthzUser;
-import org.suafe.core.constants.AuthzAccessLevel;
+import org.suafe.core.enums.AuthzAccessLevel;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;

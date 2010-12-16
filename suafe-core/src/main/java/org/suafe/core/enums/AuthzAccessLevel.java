@@ -15,7 +15,7 @@
  * ====================================================================
  * @endcopyright
  */
-package org.suafe.core.constants;
+package org.suafe.core.enums;
 
 /**
  * Access level enumeration.

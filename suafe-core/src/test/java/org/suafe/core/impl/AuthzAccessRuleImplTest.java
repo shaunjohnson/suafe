@@ -22,7 +22,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.suafe.core.constants.AuthzAccessLevel;
+import org.suafe.core.enums.AuthzAccessLevel;
 import org.suafe.core.impl.AuthzAccessRuleImpl;
 import org.suafe.core.impl.AuthzGroupImpl;
 import org.suafe.core.impl.AuthzPathImpl;

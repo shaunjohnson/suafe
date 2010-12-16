@@ -20,7 +20,7 @@ package org.suafe.core.impl;
 import org.suafe.core.AuthzAccessRule;
 import org.suafe.core.AuthzPath;
 import org.suafe.core.AuthzPermissionable;
-import org.suafe.core.constants.AuthzAccessLevel;
+import org.suafe.core.enums.AuthzAccessLevel;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;

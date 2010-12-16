@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.suafe.core.constants.AuthzAccessLevel;
+import org.suafe.core.enums.AuthzAccessLevel;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;

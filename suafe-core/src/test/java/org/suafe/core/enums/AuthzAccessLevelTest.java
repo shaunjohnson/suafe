@@ -15,13 +15,14 @@
  * ====================================================================
  * @endcopyright
  */
-package org.suafe.core.constants;
+package org.suafe.core.enums;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.suafe.core.enums.AuthzAccessLevel;
 
 /**
  * The Class AuthzAccessLevelTest.

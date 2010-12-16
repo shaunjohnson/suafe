@@ -19,7 +19,7 @@ package org.suafe.core;
 
 import java.io.Serializable;
 
-import org.suafe.core.constants.AuthzAccessLevel;
+import org.suafe.core.enums.AuthzAccessLevel;
 
 /**
  * The Interface AuthzAccessRule.

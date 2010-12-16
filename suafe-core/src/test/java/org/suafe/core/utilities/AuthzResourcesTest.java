@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.suafe.core.enums.AuthzErrorResourceKey;
 
 public class AuthzResourcesTest {
     @Test

@@ -17,7 +17,7 @@
  */
 package org.suafe.core.exceptions;
 
-import org.suafe.core.utilities.AuthzErrorResourceKey;
+import org.suafe.core.enums.AuthzErrorResourceKey;
 
 /**
  * Group already exists exception.

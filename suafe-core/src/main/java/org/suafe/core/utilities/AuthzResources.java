@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.suafe.core.enums.AuthzErrorResourceKey;
 import org.suafe.core.impl.AuthzDocumentImpl;
 
 import com.google.common.base.Preconditions;
