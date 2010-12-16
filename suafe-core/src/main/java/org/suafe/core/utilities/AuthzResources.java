@@ -62,7 +62,7 @@ public final class AuthzResources {
 	 * @param messageKey Resource bundle key
 	 * @return String value for the provided key
 	 */
-	public static String getString(final AuthzResourceKeyIF messageKey) {
+	public static String getString(final AuthzErrorResourceKey messageKey) {
 		Preconditions.checkNotNull(messageKey, "Message key is null");
 
 		try {

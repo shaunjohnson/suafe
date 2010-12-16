@@ -17,7 +17,7 @@
  */
 package org.suafe.core.exceptions;
 
-import org.suafe.core.utilities.AuthzResourceKeyIF;
+import org.suafe.core.utilities.AuthzErrorResourceKey;
 import org.suafe.core.utilities.AuthzResources;
 
 /**
@@ -34,7 +34,7 @@ public abstract class AuthzException extends Exception {
 	 * 
 	 * @param messageKey Resource key for message text
 	 */
-	public AuthzException(final AuthzResourceKeyIF messageKey) {
+	public AuthzException(final AuthzErrorResourceKey messageKey) {
 		super(AuthzResources.getString(messageKey));
 	}
 }

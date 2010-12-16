@@ -18,121 +18,70 @@
 package org.suafe.core.utilities;
 
 /**
- * Typesafe enumeration resource key constants for error messages.
+ * Resource key enumeration used for error messages.
  * 
  * @since 2.0
  */
-public final class AuthzErrorResourceKey implements AuthzResourceKeyIF {
+public enum AuthzErrorResourceKey {
 
-	/** The Constant ACCESS_RULE_ALREADY_APPLIED. */
-	public static final AuthzResourceKeyIF ACCESS_RULE_ALREADY_APPLIED = new AuthzErrorResourceKey(
-			"errorAccessRuleAlreadyApplied");
+	/** The ACCESS_RULE_ALREADY_APPLIED. */
+	ACCESS_RULE_ALREADY_APPLIED("errorAccessRuleAlreadyApplied"),
 
-	/** The Constant ACCESS_RULE_ALREADY_EXISTS. */
-	public static final AuthzResourceKeyIF ACCESS_RULE_ALREADY_EXISTS = new AuthzErrorResourceKey(
-			"errorAccessRuleAlreadyExists");
+	/** The ACCESS_RULE_ALREADY_EXISTS. */
+	ACCESS_RULE_ALREADY_EXISTS("errorAccessRuleAlreadyExists"),
 
-	/** The Constant ALREADY_MEMBER_OF_GROUP. */
-	public static final AuthzResourceKeyIF ALREADY_MEMBER_OF_GROUP = new AuthzErrorResourceKey(
-			"errorAlreadyMemberOfGroup");
+	/** The ALREADY_MEMBER_OF_GROUP. */
+	ALREADY_MEMBER_OF_GROUP("errorAlreadyMemberOfGroup"),
 
-	/** The Constant GROUP_ALREADY_EXISTS. */
-	public static final AuthzResourceKeyIF GROUP_ALREADY_EXISTS = new AuthzErrorResourceKey("errorGroupAlreadyExists");
+	/** The GROUP_ALREADY_EXISTS. */
+	GROUP_ALREADY_EXISTS("errorGroupAlreadyExists"),
 
-	/** The Constant GROUP_MEMBER_ALREADY_EXISTS. */
-	public static final AuthzResourceKeyIF GROUP_MEMBER_ALREADY_EXISTS = new AuthzErrorResourceKey(
-			"errorGroupMemberAlreadyExists");
+	/** The GROUP_MEMBER_ALREADY_EXISTS. */
+	GROUP_MEMBER_ALREADY_EXISTS("errorGroupMemberAlreadyExists"),
 
-	/** The Constant INVALID_GROUP_NAME. */
-	public static final AuthzResourceKeyIF INVALID_GROUP_NAME = new AuthzErrorResourceKey("errorInvalidGroupName");
+	/** The INVALID_GROUP_NAME. */
+	INVALID_GROUP_NAME("errorInvalidGroupName"),
 
-	/** The Constant INVALID_PATH. */
-	public static final AuthzResourceKeyIF INVALID_PATH = new AuthzErrorResourceKey("errorInvalidPath");
+	/** The INVALID_PATH. */
+	INVALID_PATH("errorInvalidPath"),
 
-	/** The Constant INVALID_REPOSITORY_NAME. */
-	public static final AuthzResourceKeyIF INVALID_REPOSITORY_NAME = new AuthzErrorResourceKey(
-			"errorInvalidRepositoryName");
+	/** The INVALID_REPOSITORY_NAME. */
+	INVALID_REPOSITORY_NAME("errorInvalidRepositoryName"),
 
-	/** The Constant INVALID_USER_ALIAS. */
-	public static final AuthzResourceKeyIF INVALID_USER_ALIAS = new AuthzErrorResourceKey("errorInvalidUserAlias");
+	/** The INVALID_USER_ALIAS. */
+	INVALID_USER_ALIAS("errorInvalidUserAlias"),
 
-	/** The Constant INVALID_USER_NAME. */
-	public static final AuthzResourceKeyIF INVALID_USER_NAME = new AuthzErrorResourceKey("errorInvalidUserName");
+	/** The INVALID_USER_NAME. */
+	INVALID_USER_NAME("errorInvalidUserName"),
 
-	/** The Constant NOT_GROUP_MEMBER. */
-	public static final AuthzResourceKeyIF NOT_GROUP_MEMBER = new AuthzErrorResourceKey("errorNotGroupMember");
+	/** The NOT_GROUP_MEMBER. */
+	NOT_GROUP_MEMBER("errorNotGroupMember"),
 
-	/** The Constant NOT_MEMBER_OF_GROUP. */
-	public static final AuthzResourceKeyIF NOT_MEMBER_OF_GROUP = new AuthzErrorResourceKey("errorNotMemberOfGroup");
+	/** The NOT_MEMBER_OF_GROUP. */
+	NOT_MEMBER_OF_GROUP("errorNotMemberOfGroup"),
 
-	/** The Constant PATH_ALREADY_EXISTS. */
-	public static final AuthzResourceKeyIF PATH_ALREADY_EXISTS = new AuthzErrorResourceKey("errorPathAlreadyExists");
+	/** The PATH_ALREADY_EXISTS. */
+	PATH_ALREADY_EXISTS("errorPathAlreadyExists"),
 
-	/** The Constant REPOSITORY_ALREADY_EXISTS. */
-	public static final AuthzResourceKeyIF REPOSITORY_ALREADY_EXISTS = new AuthzErrorResourceKey(
-			"errorRepositoryAlreadyExists");
+	/** The REPOSITORY_ALREADY_EXISTS. */
+	REPOSITORY_ALREADY_EXISTS("errorRepositoryAlreadyExists"),
 
-	/** The Constant USER_ALIAS_ALREADY_EXISTS. */
-	public static final AuthzResourceKeyIF USER_ALIAS_ALREADY_EXISTS = new AuthzErrorResourceKey(
-			"errorUserAliasAlreadyExists");
+	/** The USER_ALIAS_ALREADY_EXISTS. */
+	USER_ALIAS_ALREADY_EXISTS("errorUserAliasAlreadyExists"),
 
-	/** The Constant USER_ALREADY_EXISTS. */
-	public static final AuthzResourceKeyIF USER_ALREADY_EXISTS = new AuthzErrorResourceKey("errorUserAlreadyExists");
+	/** The USER_ALREADY_EXISTS. */
+	USER_ALREADY_EXISTS("errorUserAlreadyExists");
 
 	/** The key. */
 	private final String key;
 
 	/**
-	 * Private constructor used to create static typesafe enumeration values.
+	 * Private constructor used to create enumeration values.
 	 * 
 	 * @param key Resource file key
 	 */
 	private AuthzErrorResourceKey(final String key) {
-		super();
-
 		this.key = key;
-	}
-
-	/**
-	 * Compares this object with the provided AuthzErrorResourceKey object for equality.
-	 * 
-	 * @param object Object to compare
-	 * @return True if this object matches the provided object, otherwise false
-	 */
-	@Override
-	public boolean equals(final Object object) {
-		if (this == object) {
-			return true;
-		}
-		if (object == null) {
-			return false;
-		}
-		if (getClass() != object.getClass()) {
-			return false;
-		}
-		final AuthzErrorResourceKey other = (AuthzErrorResourceKey) object;
-		if (key == null) {
-			if (other.key != null) {
-				return false;
-			}
-		}
-		else if (!key.equals(other.key)) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Calculates hashCode value of this resource key.
-	 * 
-	 * @return Hashcode of this object
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (key == null ? 0 : key.hashCode());
-		return result;
 	}
 
 	/**
