@@ -69,12 +69,12 @@ public final class AuthzUserImpl extends AuthzGroupMemberImpl implements AuthzUs
 		else if (!alias.equals(other.alias)) {
 			return false;
 		}
-		if (name == null) {
-			if (other.name != null) {
+		if (getName() == null) {
+			if (other.getName() != null) {
 				return false;
 			}
 		}
-		else if (!name.equals(other.name)) {
+		else if (!getName().equals(other.getName())) {
 			return false;
 		}
 		return true;
@@ -99,7 +99,7 @@ public final class AuthzUserImpl extends AuthzGroupMemberImpl implements AuthzUs
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (alias == null ? 0 : alias.hashCode());
-		result = prime * result + (name == null ? 0 : name.hashCode());
+		result = prime * result + (getName() == null ? 0 : getName().hashCode());
 		return result;
 	}
 
@@ -112,7 +112,7 @@ public final class AuthzUserImpl extends AuthzGroupMemberImpl implements AuthzUs
 	public String toString() {
 		final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
 
-		toStringBuilder.append("name", name).append("alias", alias);
+		toStringBuilder.append("name", getName()).append("alias", alias);
 
 		return toStringBuilder.toString();
 	}

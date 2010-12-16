@@ -31,7 +31,7 @@ public abstract class AuthzAbstractNamedImpl implements AuthzNamed {
 	private static final long serialVersionUID = -1113521141460005479L;
 
 	/** Name of this user. */
-	protected final String name;
+	private final String name;
 
 	/**
 	 * Constructor.

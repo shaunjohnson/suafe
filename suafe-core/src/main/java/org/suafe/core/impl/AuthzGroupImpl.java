@@ -102,12 +102,12 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 			return false;
 		}
 		final AuthzGroupImpl other = (AuthzGroupImpl) object;
-		if (name == null) {
-			if (other.name != null) {
+		if (getName() == null) {
+			if (other.getName() != null) {
 				return false;
 			}
 		}
-		else if (!name.equals(other.name)) {
+		else if (!getName().equals(other.getName())) {
 			return false;
 		}
 		return true;
@@ -131,7 +131,7 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (name == null ? 0 : name.hashCode());
+		result = prime * result + (getName() == null ? 0 : getName().hashCode());
 		return result;
 	}
 
@@ -165,7 +165,7 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	public String toString() {
 		final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
 
-		toStringBuilder.append("name", name);
+		toStringBuilder.append("name", getName());
 
 		return toStringBuilder.toString();
 	}

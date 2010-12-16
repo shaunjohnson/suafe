@@ -87,7 +87,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	private List<AuthzUser> users;
 
 	/** Regular expression pattern for matching valid path values. */
-	private final Pattern VALID_PATH_PATTERN = Pattern.compile("^(/)|(/.*[^/])$");
+	private static final Pattern VALID_PATH_PATTERN = Pattern.compile("^(/)|(/.*[^/])$");
 
 	/**
 	 * Default constructor.

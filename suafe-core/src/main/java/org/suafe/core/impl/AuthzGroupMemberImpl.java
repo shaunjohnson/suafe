@@ -68,7 +68,7 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	 * @return True if access rule added
 	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
 	 */
-	protected boolean addAccessRule(final AuthzAccessRule accessRule) throws AuthzAccessRuleAlreadyAppliedException {
+	protected final boolean addAccessRule(final AuthzAccessRule accessRule) throws AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("addAccessRule() entered. accessRule={}", accessRule);
 
 		Preconditions.checkNotNull(accessRule, "Access Rule is null");

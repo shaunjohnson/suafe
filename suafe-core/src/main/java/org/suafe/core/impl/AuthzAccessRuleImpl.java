@@ -31,7 +31,7 @@ import com.google.common.collect.Ordering;
  * 
  * @since 2.0
  */
-public class AuthzAccessRuleImpl implements AuthzAccessRule {
+public final class AuthzAccessRuleImpl implements AuthzAccessRule {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 893630563253107467L;
