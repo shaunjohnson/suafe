@@ -34,7 +34,7 @@ import org.suafe.core.AuthzGroupMember;
 import org.suafe.core.AuthzPath;
 import org.suafe.core.AuthzRepository;
 import org.suafe.core.AuthzUser;
-import org.suafe.core.constants.AuthzAccessLevelIF;
+import org.suafe.core.constants.AuthzAccessLevel;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
@@ -190,7 +190,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public AuthzAccessRule createAccessRule(final AuthzPath path, final AuthzGroup group,
-			final AuthzAccessLevelIF accessLevel) throws AuthzAccessRuleAlreadyExistsException,
+			final AuthzAccessLevel accessLevel) throws AuthzAccessRuleAlreadyExistsException,
 			AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("createAccessRule() entered. path=\"{}\", group=\"{}\"", path, group);
 

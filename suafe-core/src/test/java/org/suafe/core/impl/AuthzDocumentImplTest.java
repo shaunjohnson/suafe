@@ -17,7 +17,6 @@ import org.suafe.core.AuthzPath;
 import org.suafe.core.AuthzRepository;
 import org.suafe.core.AuthzUser;
 import org.suafe.core.constants.AuthzAccessLevel;
-import org.suafe.core.constants.AuthzAccessLevelIF;
 import org.suafe.core.exceptions.AuthzAccessRuleAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzException;
@@ -223,7 +222,7 @@ public class AuthzDocumentImplTest {
 
 			final AuthzPathImpl path = new AuthzPathImpl(null, "/");
 			final AuthzGroupImpl group = new AuthzGroupImpl("name");
-			final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
+			final AuthzAccessLevel accessLevel = AuthzAccessLevel.READ_WRITE;
 
 			final AuthzAccessRule accessRule = document.createAccessRule(path, group, accessLevel);
 
@@ -243,7 +242,7 @@ public class AuthzDocumentImplTest {
 			final AuthzPathImpl path = new AuthzPathImpl(null, "/");
 			final AuthzPathImpl pathWithRepo = new AuthzPathImpl(new AuthzRepositoryImpl("name"), "/");
 			final AuthzGroupImpl group = new AuthzGroupImpl("name");
-			final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
+			final AuthzAccessLevel accessLevel = AuthzAccessLevel.READ_WRITE;
 
 			document.createAccessRule(path, group, accessLevel);
 			document.createAccessRule(pathWithRepo, group, accessLevel);
@@ -258,7 +257,7 @@ public class AuthzDocumentImplTest {
 
 			final AuthzPathImpl path = new AuthzPathImpl(null, "/");
 			final AuthzGroupImpl group = new AuthzGroupImpl("name");
-			final AuthzAccessLevelIF accessLevel = AuthzAccessLevel.READ_WRITE;
+			final AuthzAccessLevel accessLevel = AuthzAccessLevel.READ_WRITE;
 
 			document.createAccessRule(path, group, accessLevel);
 			document.createAccessRule(path, group, accessLevel);

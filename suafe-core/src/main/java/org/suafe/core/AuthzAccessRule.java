@@ -19,7 +19,7 @@ package org.suafe.core;
 
 import java.io.Serializable;
 
-import org.suafe.core.constants.AuthzAccessLevelIF;
+import org.suafe.core.constants.AuthzAccessLevel;
 
 /**
  * The Interface AuthzAccessRule.
@@ -31,7 +31,7 @@ public interface AuthzAccessRule extends Comparable<AuthzAccessRule>, Serializab
 	 * 
 	 * @return the access level
 	 */
-	AuthzAccessLevelIF getAccessLevel();
+	AuthzAccessLevel getAccessLevel();
 
 	/**
 	 * Gets the group.

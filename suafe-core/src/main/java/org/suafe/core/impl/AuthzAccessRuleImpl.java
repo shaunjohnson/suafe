@@ -21,7 +21,7 @@ import org.suafe.core.AuthzAccessRule;
 import org.suafe.core.AuthzGroup;
 import org.suafe.core.AuthzPath;
 import org.suafe.core.AuthzUser;
-import org.suafe.core.constants.AuthzAccessLevelIF;
+import org.suafe.core.constants.AuthzAccessLevel;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
@@ -38,7 +38,7 @@ public class AuthzAccessRuleImpl implements AuthzAccessRule {
 	private static final long serialVersionUID = 893630563253107467L;
 
 	/** The access level. */
-	private final AuthzAccessLevelIF accessLevel;
+	private final AuthzAccessLevel accessLevel;
 
 	/** The group. */
 	private final AuthzGroup group;
@@ -56,7 +56,7 @@ public class AuthzAccessRuleImpl implements AuthzAccessRule {
 	 * @param group the group
 	 * @param accessLevel the access level
 	 */
-	protected AuthzAccessRuleImpl(final AuthzPath path, final AuthzGroup group, final AuthzAccessLevelIF accessLevel) {
+	protected AuthzAccessRuleImpl(final AuthzPath path, final AuthzGroup group, final AuthzAccessLevel accessLevel) {
 		super();
 
 		Preconditions.checkNotNull(path, "Path is null");
@@ -76,7 +76,7 @@ public class AuthzAccessRuleImpl implements AuthzAccessRule {
 	 * @param user the user
 	 * @param accessLevel the access level
 	 */
-	protected AuthzAccessRuleImpl(final AuthzPath path, final AuthzUser user, final AuthzAccessLevelIF accessLevel) {
+	protected AuthzAccessRuleImpl(final AuthzPath path, final AuthzUser user, final AuthzAccessLevel accessLevel) {
 		super();
 
 		Preconditions.checkNotNull(path, "Path is null");
@@ -113,7 +113,7 @@ public class AuthzAccessRuleImpl implements AuthzAccessRule {
 	 * @see org.suafe.core.impl.AuthzAccessRuleIF#getAccessLevel()
 	 */
 	@Override
-	public AuthzAccessLevelIF getAccessLevel() {
+	public AuthzAccessLevel getAccessLevel() {
 		return accessLevel;
 	}
 
