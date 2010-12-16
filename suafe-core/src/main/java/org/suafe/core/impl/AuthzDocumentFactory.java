@@ -15,23 +15,21 @@
  * ====================================================================
  * @endcopyright
  */
-package org.suafe.core.exceptions;
+package org.suafe.core.impl;
 
-import org.suafe.core.utilities.AuthzErrorResourceKey;
+import org.suafe.core.AuthzDocumentIF;
 
 /**
- * Group member already exists exception.
- * 
- * @since 2.0
+ * A factory for creating AuthzDocument objects.
  */
-public final class AuthzGroupMemberAlreadyExistsException extends AuthzException {
-	/** Serialization ID. */
-	private static final long serialVersionUID = 3059355374678547921L;
+public final class AuthzDocumentFactory {
 
 	/**
-	 * Create exception with message text loaded using messageKey.
+	 * Creates the.
+	 * 
+	 * @return the authz document if
 	 */
-	public AuthzGroupMemberAlreadyExistsException() {
-		super(AuthzErrorResourceKey.GROUP_MEMBER_ALREADY_EXISTS);
+	public AuthzDocumentIF create() {
+		return new AuthzDocument();
 	}
 }
