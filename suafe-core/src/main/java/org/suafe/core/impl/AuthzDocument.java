@@ -90,7 +90,7 @@ public final class AuthzDocument implements AuthzDocumentIF {
 	/**
 	 * Default constructor.
 	 */
-	public AuthzDocument() {
+	protected AuthzDocument() {
 		super();
 
 		initialize();

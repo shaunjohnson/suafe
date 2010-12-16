@@ -17,18 +17,41 @@
  */
 package org.suafe.core.impl;
 
+import org.suafe.core.AuthzDocumentFactoryIF;
 import org.suafe.core.AuthzDocumentIF;
 
 /**
  * A factory for creating AuthzDocument objects.
  */
-public final class AuthzDocumentFactory {
+public final class AuthzDocumentFactory implements AuthzDocumentFactoryIF {
+
+	/** The Constant INSTANCE. */
+	private static final AuthzDocumentFactoryIF INSTANCE = new AuthzDocumentFactory();
+
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6403023091737261902L;
 
 	/**
-	 * Creates the.
+	 * Gets the single instance of AuthzDocumentFactory.
 	 * 
-	 * @return the authz document if
+	 * @return single instance of AuthzDocumentFactory
 	 */
+	public static AuthzDocumentFactoryIF getInstance() {
+		return INSTANCE;
+	}
+
+	/**
+	 * Instantiates a new authz document factory.
+	 */
+	private AuthzDocumentFactory() {
+		super();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.impl.AuthzDocumentFactoryIF#create()
+	 */
+	@Override
 	public AuthzDocumentIF create() {
 		return new AuthzDocument();
 	}
