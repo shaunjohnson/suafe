@@ -32,7 +32,6 @@ import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ComparisonChain;
 
 /**
  * Authz group member object implementation. Instances of this class or its subclasses are eligible to be a member of a
@@ -40,7 +39,7 @@ import com.google.common.collect.ComparisonChain;
  * 
  * @since 2.0
  */
-public abstract class AuthzGroupMemberImpl implements AuthzGroupMember {
+public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implements AuthzGroupMember {
 	/** Logger handle. */
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzGroupMemberImpl.class);
 
@@ -53,20 +52,13 @@ public abstract class AuthzGroupMemberImpl implements AuthzGroupMember {
 	/** Collection of groups of which is a member. */
 	private final List<AuthzGroup> groups = new ArrayList<AuthzGroup>();
 
-	/** Name of this user. */
-	protected final String name;
-
 	/**
 	 * Constructor.
 	 * 
 	 * @param name User name
 	 */
 	protected AuthzGroupMemberImpl(final String name) {
-		super();
-
-		Preconditions.checkNotNull(name, "Name is null");
-
-		this.name = name;
+		super(name);
 	}
 
 	/**
@@ -125,18 +117,6 @@ public abstract class AuthzGroupMemberImpl implements AuthzGroupMember {
 		}
 	}
 
-	/**
-	 * Compares this object with the provided AuthzGroupMember object.
-	 * 
-	 * @param that AuthzGroupMember to compare
-	 * @return Returns 0 if members are equal, less than 0 if this member is less than the other or greater than 0 if
-	 *         this repository is greater
-	 */
-	@Override
-	public int compareTo(final AuthzGroupMember that) {
-		return ComparisonChain.start().compare(this.name, that.getName()).result();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.suafe.core.AuthzGroupMemberIF#getAccessRules()
@@ -153,15 +133,6 @@ public abstract class AuthzGroupMemberImpl implements AuthzGroupMember {
 	@Override
 	public final Collection<AuthzGroup> getGroups() {
 		return Collections.unmodifiableCollection(groups);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzGroupMemberIF#getName()
-	 */
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	/**

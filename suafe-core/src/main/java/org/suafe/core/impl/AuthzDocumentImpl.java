@@ -32,6 +32,7 @@ import org.suafe.core.AuthzDocument;
 import org.suafe.core.AuthzGroup;
 import org.suafe.core.AuthzGroupMember;
 import org.suafe.core.AuthzPath;
+import org.suafe.core.AuthzPermissionable;
 import org.suafe.core.AuthzRepository;
 import org.suafe.core.AuthzUser;
 import org.suafe.core.constants.AuthzAccessLevel;
@@ -185,29 +186,29 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.AuthzDocumentIF#createAccessRule(org.suafe.core.AuthzPathIF, org.suafe.core.AuthzGroupIF,
-	 * org.suafe.core.constants.AuthzAccessLevelIF)
+	 * @see org.suafe.core.AuthzDocument#createAccessRule(org.suafe.core.AuthzPath, org.suafe.core.AuthzPermissionable,
+	 * org.suafe.core.constants.AuthzAccessLevel)
 	 */
 	@Override
-	public AuthzAccessRule createAccessRule(final AuthzPath path, final AuthzGroup group,
+	public AuthzAccessRule createAccessRule(final AuthzPath path, final AuthzPermissionable permissionable,
 			final AuthzAccessLevel accessLevel) throws AuthzAccessRuleAlreadyExistsException,
 			AuthzAccessRuleAlreadyAppliedException {
-		LOGGER.debug("createAccessRule() entered. path=\"{}\", group=\"{}\"", path, group);
+		LOGGER.debug("createAccessRule() entered. path=\"{}\", permissionable=\"{}\"", path, permissionable);
 
 		Preconditions.checkNotNull(path, "Path is null");
-		Preconditions.checkNotNull(group, "Group is null");
+		Preconditions.checkNotNull(permissionable, "Permissionable is null");
 		Preconditions.checkNotNull(accessLevel, "AccessLevel is null");
 
-		if (doesAccessRuleExist(path, group)) {
+		if (doesAccessRuleExist(path, permissionable)) {
 			LOGGER.info("createAccessRule() access rule already exists");
 
 			throw new AuthzAccessRuleAlreadyExistsException();
 		}
 
-		final AuthzAccessRule accessRule = new AuthzAccessRuleImpl(path, group, accessLevel);
+		final AuthzAccessRule accessRule = new AuthzAccessRuleImpl(path, permissionable, accessLevel);
 
-		if (group instanceof AuthzGroupMemberImpl) {
-			((AuthzGroupMemberImpl) group).addAccessRule(accessRule);
+		if (permissionable instanceof AuthzGroupMemberImpl) {
+			((AuthzGroupMemberImpl) permissionable).addAccessRule(accessRule);
 		}
 
 		accessRules.add(accessRule);
@@ -386,14 +387,14 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#doesAccessRuleExist(org.suafe.core.impl.AuthzPath,
-	 * org.suafe.core.impl.AuthzGroup)
+	 * @see org.suafe.core.AuthzDocument#doesAccessRuleExist(org.suafe.core.AuthzPath,
+	 * org.suafe.core.AuthzPermissionable)
 	 */
 	@Override
-	public boolean doesAccessRuleExist(final AuthzPath path, final AuthzGroup group) {
-		LOGGER.debug("doesAccessRuleExist() entered. path=\"{}\", group=\"{}\"", path, group);
+	public boolean doesAccessRuleExist(final AuthzPath path, final AuthzPermissionable permissionable) {
+		LOGGER.debug("doesAccessRuleExist() entered. path=\"{}\", group=\"{}\"", path, permissionable);
 
-		final boolean doesAccessRuleExist = getAccessRuleWithGroup(path, group) != null;
+		final boolean doesAccessRuleExist = getAccessRule(path, permissionable) != null;
 
 		LOGGER.debug("doesAccessRuleExist() exiting, returning {}", doesAccessRuleExist);
 
@@ -477,32 +478,20 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getAccessRules()
+	 * @see org.suafe.core.AuthzDocument#getAccessRule(org.suafe.core.AuthzPath, org.suafe.core.AuthzPermissionable)
 	 */
 	@Override
-	public List<AuthzAccessRule> getAccessRules() {
-		LOGGER.debug("getAccessRules() entered, returning accessRules with {} access rule objects", accessRules.size());
-
-		return new ImmutableList.Builder<AuthzAccessRule>().addAll(accessRules).build();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getAccessRuleWithGroup(org.suafe.core.impl.AuthzPath,
-	 * org.suafe.core.impl.AuthzGroup)
-	 */
-	@Override
-	public AuthzAccessRule getAccessRuleWithGroup(final AuthzPath path, final AuthzGroup group) {
-		LOGGER.debug("getAccessRuleWithGroup() entered. path=\"{}\", group=\"{}\"", path, group);
+	public AuthzAccessRule getAccessRule(final AuthzPath path, final AuthzPermissionable permissionable) {
+		LOGGER.debug("getAccessRuleWithGroup() entered. path=\"{}\", group=\"{}\"", path, permissionable);
 
 		Preconditions.checkNotNull(path, "Path is null");
-		Preconditions.checkNotNull(group, "Group is null");
+		Preconditions.checkNotNull(permissionable, "Permissionable is null");
 
 		AuthzAccessRule foundAccessRule = null;
 
 		for (final AuthzAccessRule accessRule : accessRules) {
-			if (accessRule.getPath().equals(path) && accessRule.getGroup() != null
-					&& accessRule.getGroup().equals(group)) {
+			if (accessRule.getPath().equals(path) && accessRule.getPermissionable() != null
+					&& accessRule.getPermissionable().equals(permissionable)) {
 				foundAccessRule = accessRule;
 				break;
 			}
@@ -511,6 +500,17 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		LOGGER.debug("getAccessRuleWithGroup() exiting, returning {}", foundAccessRule);
 
 		return foundAccessRule;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.impl.AuthzDocumentIF#getAccessRules()
+	 */
+	@Override
+	public List<AuthzAccessRule> getAccessRules() {
+		LOGGER.debug("getAccessRules() entered, returning accessRules with {} access rule objects", accessRules.size());
+
+		return new ImmutableList.Builder<AuthzAccessRule>().addAll(accessRules).build();
 	}
 
 	/*

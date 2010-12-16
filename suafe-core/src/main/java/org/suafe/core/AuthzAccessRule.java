@@ -34,13 +34,6 @@ public interface AuthzAccessRule extends Comparable<AuthzAccessRule>, Serializab
 	AuthzAccessLevel getAccessLevel();
 
 	/**
-	 * Gets the group.
-	 * 
-	 * @return the group
-	 */
-	AuthzGroup getGroup();
-
-	/**
 	 * Gets the path.
 	 * 
 	 * @return the path
@@ -48,9 +41,9 @@ public interface AuthzAccessRule extends Comparable<AuthzAccessRule>, Serializab
 	AuthzPath getPath();
 
 	/**
-	 * Gets the user.
+	 * Gets the permissionable.
 	 * 
-	 * @return the user
+	 * @return the permissionable
 	 */
-	AuthzUser getUser();
+	AuthzPermissionable getPermissionable();
 }

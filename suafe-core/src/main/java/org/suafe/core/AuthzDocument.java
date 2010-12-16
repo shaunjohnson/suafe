@@ -98,8 +98,9 @@ public interface AuthzDocument extends Serializable {
 	 * @throws AuthzAccessRuleAlreadyExistsException the authz access rule already exists exception
 	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
 	 */
-	AuthzAccessRule createAccessRule(final AuthzPath path, final AuthzGroup group, final AuthzAccessLevel accessLevel)
-			throws AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException;
+	AuthzAccessRule createAccessRule(final AuthzPath path, final AuthzPermissionable permissionable,
+			final AuthzAccessLevel accessLevel) throws AuthzAccessRuleAlreadyExistsException,
+			AuthzAccessRuleAlreadyAppliedException;
 
 	/**
 	 * Creates a new group.
@@ -152,10 +153,10 @@ public interface AuthzDocument extends Serializable {
 	 * Determines if an access rule with the provided path and group exists.
 	 * 
 	 * @param path Path of access rule to find
-	 * @param group Group that is assigned to the access rule
+	 * @param permissionable Permissionable object that is assigned to the access rule
 	 * @return True if the access rule with the provided path and group exists, otherwise false
 	 */
-	boolean doesAccessRuleExist(final AuthzPath path, final AuthzGroup group);
+	boolean doesAccessRuleExist(final AuthzPath path, final AuthzPermissionable permissionable);
 
 	/**
 	 * Determines if a group with the provided name exists.
@@ -204,20 +205,20 @@ public interface AuthzDocument extends Serializable {
 	boolean doesUserNameExist(final String name) throws AuthzInvalidUserNameException;
 
 	/**
+	 * Returns the access rule with the provided path and group.
+	 * 
+	 * @param path Path of access rule to find
+	 * @param permissionable Permissionable object assigned to the access rule to find
+	 * @return AuthzAccessRule if found, otherwise null
+	 */
+	AuthzAccessRule getAccessRule(final AuthzPath path, final AuthzPermissionable permissionable);
+
+	/**
 	 * Returns an immutable collection of AuthzAccessRuleIF objects.
 	 * 
 	 * @return Immutable collection of AuthzAccessRuleIF objects
 	 */
 	List<AuthzAccessRule> getAccessRules();
-
-	/**
-	 * Returns the access rule with the provided path and group.
-	 * 
-	 * @param path Path of access rule to find
-	 * @param group Group assigned to the access rule to find
-	 * @return AuthzAccessRule if found, otherwise null
-	 */
-	AuthzAccessRule getAccessRuleWithGroup(final AuthzPath path, final AuthzGroup group);
 
 	/**
 	 * Returns an immutable collection of AuthGroup objects.

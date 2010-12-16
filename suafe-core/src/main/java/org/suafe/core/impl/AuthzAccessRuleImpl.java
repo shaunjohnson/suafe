@@ -18,9 +18,8 @@
 package org.suafe.core.impl;
 
 import org.suafe.core.AuthzAccessRule;
-import org.suafe.core.AuthzGroup;
 import org.suafe.core.AuthzPath;
-import org.suafe.core.AuthzUser;
+import org.suafe.core.AuthzPermissionable;
 import org.suafe.core.constants.AuthzAccessLevel;
 
 import com.google.common.base.Preconditions;
@@ -40,52 +39,29 @@ public class AuthzAccessRuleImpl implements AuthzAccessRule {
 	/** The access level. */
 	private final AuthzAccessLevel accessLevel;
 
-	/** The group. */
-	private final AuthzGroup group;
-
 	/** The path. */
 	private final AuthzPath path;
 
-	/** The user. */
-	private final AuthzUser user;
+	/** The group. */
+	private final AuthzPermissionable permissionable;
 
 	/**
 	 * Instantiates a new authz access rule.
 	 * 
 	 * @param path the path
-	 * @param group the group
+	 * @param permissionable the permissionable object
 	 * @param accessLevel the access level
 	 */
-	protected AuthzAccessRuleImpl(final AuthzPath path, final AuthzGroup group, final AuthzAccessLevel accessLevel) {
+	protected AuthzAccessRuleImpl(final AuthzPath path, final AuthzPermissionable permissionable,
+			final AuthzAccessLevel accessLevel) {
 		super();
 
 		Preconditions.checkNotNull(path, "Path is null");
-		Preconditions.checkNotNull(group, "Group is null");
+		Preconditions.checkNotNull(permissionable, "Permissionable is null");
 		Preconditions.checkNotNull(accessLevel, "Access level is null");
 
 		this.path = path;
-		this.group = group;
-		this.user = null;
-		this.accessLevel = accessLevel;
-	}
-
-	/**
-	 * Instantiates a new authz access rule.
-	 * 
-	 * @param path the path
-	 * @param user the user
-	 * @param accessLevel the access level
-	 */
-	protected AuthzAccessRuleImpl(final AuthzPath path, final AuthzUser user, final AuthzAccessLevel accessLevel) {
-		super();
-
-		Preconditions.checkNotNull(path, "Path is null");
-		Preconditions.checkNotNull(user, "User is null");
-		Preconditions.checkNotNull(accessLevel, "Access level is null");
-
-		this.path = path;
-		this.group = null;
-		this.user = user;
+		this.permissionable = permissionable;
 		this.accessLevel = accessLevel;
 	}
 
@@ -101,8 +77,8 @@ public class AuthzAccessRuleImpl implements AuthzAccessRule {
 		final ComparisonChain comparisonChain = ComparisonChain.start();
 
 		comparisonChain.compare(this.path, authzAccessRule.getPath());
-		comparisonChain.compare(this.group, authzAccessRule.getGroup(), Ordering.natural().nullsLast());
-		comparisonChain.compare(this.user, authzAccessRule.getUser(), Ordering.natural().nullsLast());
+		comparisonChain.compare(this.permissionable, authzAccessRule.getPermissionable(), Ordering.natural()
+				.nullsLast());
 		comparisonChain.compare(this.accessLevel, authzAccessRule.getAccessLevel());
 
 		return comparisonChain.result();
@@ -119,15 +95,6 @@ public class AuthzAccessRuleImpl implements AuthzAccessRule {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzAccessRuleIF#getGroup()
-	 */
-	@Override
-	public AuthzGroup getGroup() {
-		return group;
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.suafe.core.impl.AuthzAccessRuleIF#getPath()
 	 */
 	@Override
@@ -135,12 +102,8 @@ public class AuthzAccessRuleImpl implements AuthzAccessRule {
 		return path;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzAccessRuleIF#getUser()
-	 */
 	@Override
-	public AuthzUser getUser() {
-		return user;
+	public AuthzPermissionable getPermissionable() {
+		return permissionable;
 	}
 }

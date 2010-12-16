@@ -172,7 +172,7 @@ public class AuthzDocumentImplTest {
 	}
 
 	@Test
-	public void testCreateAccessRuleGroup() {
+	public void testCreateAccessRule() {
 		// Test invalid values
 		try {
 			final AuthzDocument document = new AuthzDocumentImpl();
@@ -228,8 +228,7 @@ public class AuthzDocumentImplTest {
 
 			assertNotNull("access rule expected to be not null", accessRule);
 			assertEquals("path should match", path, accessRule.getPath());
-			assertEquals("group should match", group, accessRule.getGroup());
-			assertNull("user should be null", accessRule.getUser());
+			assertEquals("group should match", group, accessRule.getPermissionable());
 			assertEquals("access level should match", accessLevel, accessRule.getAccessLevel());
 		}
 		catch (final Exception e) {
@@ -714,7 +713,7 @@ public class AuthzDocumentImplTest {
 	}
 
 	@Test
-	public void testDoesAccessRuleExistGroup() {
+	public void testDoesAccessRuleExist() {
 		// Test invalid values
 		try {
 			final AuthzDocument document = new AuthzDocumentImpl();
@@ -1113,6 +1112,82 @@ public class AuthzDocumentImplTest {
 	}
 
 	@Test
+	public void testGetAccessRule() {
+		// Test invalid values
+		try {
+			final AuthzDocument document = new AuthzDocumentImpl();
+
+			document.getAccessRule(null, null);
+
+			fail("Unexpected success calling getAccessRuleWithGroup() with null path and group");
+		}
+		catch (final NullPointerException e) {
+			assertNotNull("Expected a non-null exception", e.getMessage());
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocumentImpl();
+
+			document.getAccessRule(null, document.createGroup("name"));
+
+			fail("Unexpected success calling getAccessRuleWithGroup() with null path");
+		}
+		catch (final NullPointerException e) {
+			assertNotNull("Expected a non-null exception", e.getMessage());
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocumentImpl();
+
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
+
+			document.getAccessRule(path, null);
+
+			fail("Unexpected success calling getAccessRuleWithGroup() with null group");
+		}
+		catch (final NullPointerException e) {
+			assertNotNull("Expected a non-null exception", e.getMessage());
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+
+		// Test valid values
+		try {
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
+			final AuthzGroup group = document.createGroup("name");
+
+			assertNull("Access rule should not exist", document.getAccessRule(path, group));
+
+			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
+
+			assertNotNull("Access rule should exist", document.getAccessRule(path, group));
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+
+		try {
+			final AuthzDocument document = new AuthzDocumentImpl();
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
+			final AuthzGroup group = document.createGroup("name");
+
+			assertNull("Access rule should not exist", document.getAccessRule(path, group));
+
+			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
+
+			assertNotNull("Access rule should exist", document.getAccessRule(path, group));
+		}
+		catch (final AuthzException e) {
+			fail("Unexpected AuthzException");
+		}
+	}
+
+	@Test
 	public void testGetAccessRules() {
 		try {
 			final AuthzDocument document = new AuthzDocumentImpl();
@@ -1170,82 +1245,6 @@ public class AuthzDocumentImplTest {
 			catch (final UnsupportedOperationException e) {
 				assertNotNull("Expected a non-null exception", e);
 			}
-		}
-		catch (final AuthzException e) {
-			fail("Unexpected AuthzException");
-		}
-	}
-
-	@Test
-	public void testGetAccessRuleWithGroup() {
-		// Test invalid values
-		try {
-			final AuthzDocument document = new AuthzDocumentImpl();
-
-			document.getAccessRuleWithGroup(null, null);
-
-			fail("Unexpected success calling getAccessRuleWithGroup() with null path and group");
-		}
-		catch (final NullPointerException e) {
-			assertNotNull("Expected a non-null exception", e.getMessage());
-		}
-
-		try {
-			final AuthzDocument document = new AuthzDocumentImpl();
-
-			document.getAccessRuleWithGroup(null, document.createGroup("name"));
-
-			fail("Unexpected success calling getAccessRuleWithGroup() with null path");
-		}
-		catch (final NullPointerException e) {
-			assertNotNull("Expected a non-null exception", e.getMessage());
-		}
-		catch (final AuthzException e) {
-			fail("Unexpected AuthzException");
-		}
-
-		try {
-			final AuthzDocument document = new AuthzDocumentImpl();
-
-			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
-
-			document.getAccessRuleWithGroup(path, null);
-
-			fail("Unexpected success calling getAccessRuleWithGroup() with null group");
-		}
-		catch (final NullPointerException e) {
-			assertNotNull("Expected a non-null exception", e.getMessage());
-		}
-		catch (final AuthzException e) {
-			fail("Unexpected AuthzException");
-		}
-
-		// Test valid values
-		try {
-			final AuthzDocument document = new AuthzDocumentImpl();
-			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
-			final AuthzGroup group = document.createGroup("name");
-
-			assertNull("Access rule should not exist", document.getAccessRuleWithGroup(path, group));
-
-			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
-
-			assertNotNull("Access rule should exist", document.getAccessRuleWithGroup(path, group));
-		}
-		catch (final AuthzException e) {
-			fail("Unexpected AuthzException");
-		}
-
-		try {
-			final AuthzDocument document = new AuthzDocumentImpl();
-			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
-			final AuthzGroup group = document.createGroup("name");
-
-			assertNull("Access rule should not exist", document.getAccessRuleWithGroup(path, group));
-
-			document.createAccessRule(path, group, AuthzAccessLevel.READ_WRITE);
-
-			assertNotNull("Access rule should exist", document.getAccessRuleWithGroup(path, group));
 		}
 		catch (final AuthzException e) {
 			fail("Unexpected AuthzException");

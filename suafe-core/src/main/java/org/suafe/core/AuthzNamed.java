@@ -17,16 +17,16 @@
  */
 package org.suafe.core;
 
-import java.util.Collection;
+import java.io.Serializable;
 
 /**
- * The Interface AuthzGroupMember.
+ * The Interface AuthzNamed.
  */
-public interface AuthzGroupMember extends AuthzPermissionable {
+public interface AuthzNamed extends Comparable<AuthzNamed>, Serializable {
 	/**
-	 * Returns an immutable collection of AuthzGroupIF objects.
+	 * Gets the user name.
 	 * 
-	 * @return Immutable collection of AuthzGroupIF object.
+	 * @return User name
 	 */
-	Collection<AuthzGroup> getGroups();
+	String getName();
 }
