@@ -314,28 +314,16 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 * @see org.suafe.core.impl.AuthzDocument#createGroup(java.lang.String)
 	 */
 	@Override
-	public AuthzGroupImpl createGroup(final String name) throws AuthzGroupAlreadyExistsException,
+	public AuthzGroup createGroup(final String name) throws AuthzGroupAlreadyExistsException,
 			AuthzInvalidGroupNameException {
 		assert groups != null;
 
 		LOGGER.debug("createGroup() entered. name=\"{}\"", name);
 
-		final String nameTrimmed = StringUtils.trimToNull(name);
-
 		// Validate group name
-		if (!isValidGroupName(nameTrimmed)) {
-			LOGGER.error("createGroup() invalid group name");
+		validateGroupName(name);
 
-			throw new AuthzInvalidGroupNameException();
-		}
-
-		if (doesGroupNameExist(nameTrimmed)) {
-			LOGGER.info("createGroup() group already exists");
-
-			throw new AuthzGroupAlreadyExistsException();
-		}
-
-		final AuthzGroupImpl group = new AuthzGroupImpl(nameTrimmed);
+		final AuthzGroup group = new AuthzGroupImpl(name.trim());
 
 		groups.add(group);
 
@@ -353,7 +341,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 * @see org.suafe.core.impl.AuthzDocument#createPath(org.suafe.core.impl.AuthzRepository, java.lang.String)
 	 */
 	@Override
-	public AuthzPathImpl createPath(final AuthzRepository repository, final String pathString)
+	public AuthzPath createPath(final AuthzRepository repository, final String pathString)
 			throws AuthzInvalidPathException, AuthzPathAlreadyExistsException {
 		assert paths != null;
 
@@ -433,7 +421,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 * @see org.suafe.core.impl.AuthzDocument#createUser(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public AuthzUserImpl createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
+	public AuthzUser createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
 			AuthzUserAlreadyExistsException, AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException {
 		assert users != null;
 
@@ -1138,6 +1126,45 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		LOGGER.debug("removeGroupMembers() exited.");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#renameGroup(org.suafe.core.AuthzGroup, java.lang.String)
+	 */
+	@Override
+	public void renameGroup(final AuthzGroup group, final String newGroupName) throws AuthzInvalidGroupNameException,
+			AuthzGroupAlreadyExistsException {
+		LOGGER.debug("renameGroup() entered. group={}, name=\"{}\"", group, newGroupName);
+
+		// Validate group name
+		validateGroupName(newGroupName);
+
+		if (group instanceof AuthzGroupImpl) {
+			((AuthzGroupImpl) group).setName(newGroupName.trim());
+		}
+
+		setHasUnsavedChanges();
+
+		LOGGER.debug("renameGroup() exited");
+	}
+
+	@Override
+	public void renameRepository(final AuthzRepository repository, final String newRepositoryName) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void renameUser(final AuthzUser user, final String newUserName) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void renameUserAlias(final AuthzUser user, final String newAlias) {
+		// TODO Auto-generated method stub
+
+	}
+
 	/**
 	 * Sets "has unsaved changes" flag to true.
 	 */
@@ -1172,5 +1199,33 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		toStringBuilder.append("hasUnsavedChanges", hasUnsavedChanges);
 
 		return toStringBuilder.toString();
+	}
+
+	/**
+	 * Validates that the provided group name is valid and is not already in use.
+	 * 
+	 * @param name Name to validate
+	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
+	 * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
+	 */
+	protected void validateGroupName(final String name) throws AuthzInvalidGroupNameException,
+			AuthzGroupAlreadyExistsException {
+		LOGGER.debug("validateGroupName() entered. name={}", name);
+
+		final String nameTrimmed = StringUtils.trimToNull(name);
+
+		if (!isValidGroupName(nameTrimmed)) {
+			LOGGER.error("validateGroupName() invalid group name");
+
+			throw new AuthzInvalidGroupNameException();
+		}
+
+		if (doesGroupNameExist(nameTrimmed)) {
+			LOGGER.info("validateGroupName() group already exists");
+
+			throw new AuthzGroupAlreadyExistsException();
+		}
+
+		LOGGER.debug("validateGroupName() exited.");
 	}
 }

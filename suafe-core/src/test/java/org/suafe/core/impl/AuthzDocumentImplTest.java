@@ -131,7 +131,7 @@ public class AuthzDocumentImplTest {
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
 			// Test create group
-			final AuthzGroupImpl group = document.createGroup("group");
+			final AuthzGroup group = document.createGroup("group");
 
 			assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
 
@@ -149,7 +149,7 @@ public class AuthzDocumentImplTest {
 			assertFalse("Document should not have any unsaved changes", document.hasUnsavedChanges());
 
 			// Test create path
-			final AuthzPathImpl path = document.createPath(repository, "/path");
+			final AuthzPath path = document.createPath(repository, "/path");
 
 			assertTrue("Document should have unsaved changes", document.hasUnsavedChanges());
 
@@ -1865,8 +1865,8 @@ public class AuthzDocumentImplTest {
 		// Test has unsaved changes flag when creating a group access rule
 		try {
 			final AuthzDocumentImpl document = new AuthzDocumentImpl();
-			final AuthzPathImpl path = document.createPath(document.createRepository("name"), "/");
-			final AuthzGroupImpl group = document.createGroup("name");
+			final AuthzPath path = document.createPath(document.createRepository("name"), "/");
+			final AuthzGroup group = document.createGroup("name");
 
 			document.clearHasUnsavedChanges();
 

@@ -31,7 +31,7 @@ public abstract class AuthzAbstractNamedImpl implements AuthzNamed {
 	private static final long serialVersionUID = -1113521141460005479L;
 
 	/** Name of this user. */
-	private final String name;
+	private String name;
 
 	/**
 	 * Constructor.
@@ -62,5 +62,14 @@ public abstract class AuthzAbstractNamedImpl implements AuthzNamed {
 	@Override
 	public final String getName() {
 		return name;
+	}
+
+	/**
+	 * Sets the name.
+	 * 
+	 * @param name the new name
+	 */
+	protected void setName(final String name) {
+		this.name = name;
 	}
 }

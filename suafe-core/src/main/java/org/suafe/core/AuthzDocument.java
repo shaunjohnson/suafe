@@ -437,4 +437,39 @@ public interface AuthzDocument extends Serializable {
 	 */
 	void removeGroupMembers(final AuthzGroup group, final Collection<AuthzGroupMember> members)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException;
+
+	/**
+	 * Renames a group.
+	 * 
+	 * @param group Group to rename
+	 * @param newGroupName New name for group
+	 * @throws AuthzGroupAlreadyExistsException If group with the provided group name already exists
+	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
+	 */
+	void renameGroup(AuthzGroup group, String newGroupName) throws AuthzInvalidGroupNameException,
+			AuthzGroupAlreadyExistsException;
+
+	/**
+	 * Renames a repository.
+	 * 
+	 * @param repository Repository to rename
+	 * @param newRepositoryName new name for repository
+	 */
+	void renameRepository(AuthzRepository repository, String newRepositoryName);
+
+	/**
+	 * Renames the user name.
+	 * 
+	 * @param user User to rename
+	 * @param newUserName New name for user
+	 */
+	void renameUser(AuthzUser user, String newUserName);
+
+	/**
+	 * Renames the user alias.
+	 * 
+	 * @param user User to rename
+	 * @param newAlias New alias for user
+	 */
+	void renameUserAlias(AuthzUser user, String newAlias);
 }
