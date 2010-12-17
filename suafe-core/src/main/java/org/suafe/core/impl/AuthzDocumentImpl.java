@@ -323,7 +323,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		// Validate group name
 		validateGroupName(name);
 
-		final AuthzGroup group = new AuthzGroupImpl(name.trim());
+		final AuthzGroup group = new AuthzGroupImpl(StringUtils.trim(name));
 
 		groups.add(group);
 
@@ -427,36 +427,16 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		LOGGER.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name, alias);
 
-		final String nameTrimmed = StringUtils.trimToNull(name);
+		// Validate user name and alias
+		validateUserName(name);
+
 		final String aliasTrimmed = StringUtils.trimToNull(alias);
 
-		// Validate user name and alias
-		if (!isValidUserName(nameTrimmed)) {
-			LOGGER.error("createUser() invalid user name");
-
-			throw new AuthzInvalidUserNameException();
+		if (aliasTrimmed != null) {
+			validateUserAlias(alias);
 		}
 
-		if (aliasTrimmed != null && !isValidUserAlias(aliasTrimmed)) {
-			LOGGER.error("createUser() invalid user alias");
-
-			throw new AuthzInvalidUserAliasException();
-		}
-
-		// Check for existing users with same user name or alias
-		if (doesUserNameExist(nameTrimmed)) {
-			LOGGER.info("createUser() user already exists");
-
-			throw new AuthzUserAlreadyExistsException();
-		}
-
-		if (aliasTrimmed != null && doesUserAliasExist(aliasTrimmed)) {
-			LOGGER.info("createUser() user alias already exists");
-
-			throw new AuthzUserAliasAlreadyExistsException();
-		}
-
-		final AuthzUserImpl user = new AuthzUserImpl(nameTrimmed, aliasTrimmed);
+		final AuthzUserImpl user = new AuthzUserImpl(StringUtils.trim(name), aliasTrimmed);
 
 		users.add(user);
 
@@ -1133,13 +1113,13 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void renameGroup(final AuthzGroup group, final String newGroupName) throws AuthzInvalidGroupNameException,
 			AuthzGroupAlreadyExistsException {
-		LOGGER.debug("renameGroup() entered. group={}, name=\"{}\"", group, newGroupName);
+		LOGGER.debug("renameGroup() entered. group={}, newGroupName=\"{}\"", group, newGroupName);
 
 		// Validate group name
 		validateGroupName(newGroupName);
 
-		if (group instanceof AuthzGroupImpl) {
-			((AuthzGroupImpl) group).setName(newGroupName.trim());
+		if (group instanceof AuthzAbstractNamedImpl) {
+			((AuthzAbstractNamedImpl) group).setName(newGroupName.trim());
 		}
 
 		setHasUnsavedChanges();
@@ -1153,16 +1133,46 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#renameUser(org.suafe.core.AuthzUser, java.lang.String)
+	 */
 	@Override
-	public void renameUser(final AuthzUser user, final String newUserName) {
-		// TODO Auto-generated method stub
+	public void renameUser(final AuthzUser user, final String newUserName) throws AuthzUserAlreadyExistsException,
+			AuthzInvalidUserNameException {
+		LOGGER.debug("renameUser() entered. user={}, newUserName=\"{}\"", user, newUserName);
 
+		// Validate new user name
+		validateUserName(newUserName);
+
+		if (user instanceof AuthzAbstractNamedImpl) {
+			((AuthzAbstractNamedImpl) user).setName(newUserName.trim());
+		}
+
+		setHasUnsavedChanges();
+
+		LOGGER.debug("renameUser() exited");
 	}
 
 	@Override
-	public void renameUserAlias(final AuthzUser user, final String newAlias) {
-		// TODO Auto-generated method stub
+	public void renameUserAlias(final AuthzUser user, final String newAlias)
+			throws AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException {
+		LOGGER.debug("renameUserAlias() entered. user={}, newAlias=\"{}\"", user, newAlias);
 
+		final String aliasTrimmed = StringUtils.trimToNull(newAlias);
+
+		// Validate new user alias if not null. Aliases may be null.
+		if (aliasTrimmed != null) {
+			validateUserAlias(newAlias);
+		}
+
+		if (user instanceof AuthzUserImpl) {
+			((AuthzUserImpl) user).setAlias(aliasTrimmed);
+		}
+
+		setHasUnsavedChanges();
+
+		LOGGER.debug("renameUserAlias() exited");
 	}
 
 	/**
@@ -1227,5 +1237,62 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		}
 
 		LOGGER.debug("validateGroupName() exited.");
+	}
+
+	/**
+	 * Validates that the provided user name is valid and is not already in use.
+	 * 
+	 * @param name Name to validate
+	 * @throws AuthzUserAliasAlreadyExistsException If user with the provided alias already exists
+	 * @throws AuthzInvalidUserAliasException the authz invalid user alias exception
+	 */
+	protected void validateUserAlias(final String alias) throws AuthzUserAliasAlreadyExistsException,
+			AuthzInvalidUserAliasException {
+		LOGGER.debug("validateUserAlias() entered. alias={}", alias);
+
+		final String aliasTrimmed = StringUtils.trimToNull(alias);
+
+		if (!isValidUserAlias(aliasTrimmed)) {
+			LOGGER.error("validateUserAlias() invalid user alias");
+
+			throw new AuthzInvalidUserAliasException();
+		}
+
+		if (doesUserAliasExist(aliasTrimmed)) {
+			LOGGER.info("validateUserAlias() user alias already exists");
+
+			throw new AuthzUserAliasAlreadyExistsException();
+		}
+
+		LOGGER.debug("validateUserAlias() exited.");
+	}
+
+	/**
+	 * Validates that the provided user name is valid and is not already in use.
+	 * 
+	 * @param name Name to validate
+	 * @throws AuthzUserAlreadyExistsException If user with the provided name already exists
+	 * @throws AuthzInvalidUserNameException If provided user name is invalid@throws AuthzInvalidUserNameException
+	 */
+	protected void validateUserName(final String name) throws AuthzUserAlreadyExistsException,
+			AuthzInvalidUserNameException {
+		LOGGER.debug("validateUserName() entered. name={}", name);
+
+		final String nameTrimmed = StringUtils.trimToNull(name);
+
+		if (!isValidUserName(nameTrimmed)) {
+			LOGGER.error("validateUserName() invalid user name");
+
+			throw new AuthzInvalidUserNameException();
+		}
+
+		// Check for existing users with same user name or alias
+		if (doesUserNameExist(nameTrimmed)) {
+			LOGGER.info("validateUserName() user already exists");
+
+			throw new AuthzUserAlreadyExistsException();
+		}
+
+		LOGGER.debug("validateUserName() exited.");
 	}
 }

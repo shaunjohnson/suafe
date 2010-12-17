@@ -462,14 +462,20 @@ public interface AuthzDocument extends Serializable {
 	 * 
 	 * @param user User to rename
 	 * @param newUserName New name for user
+	 * @throws AuthzInvalidUserNameException If provided user name is invalid
+	 * @throws AuthzUserAlreadyExistsException If user with the provided name already exists
 	 */
-	void renameUser(AuthzUser user, String newUserName);
+	void renameUser(AuthzUser user, String newUserName) throws AuthzInvalidUserNameException,
+			AuthzUserAlreadyExistsException;
 
 	/**
 	 * Renames the user alias.
 	 * 
 	 * @param user User to rename
 	 * @param newAlias New alias for user
+	 * @throws AuthzUserAliasAlreadyExistsException If user with the provided alias already exists
+	 * @throws AuthzInvalidUserAliasException the authz invalid user alias exception
 	 */
-	void renameUserAlias(AuthzUser user, String newAlias);
+	void renameUserAlias(AuthzUser user, String newAlias) throws AuthzUserAliasAlreadyExistsException,
+			AuthzInvalidUserAliasException;
 }

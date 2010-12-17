@@ -30,7 +30,7 @@ public final class AuthzUserImpl extends AuthzGroupMemberImpl implements AuthzUs
 	private static final long serialVersionUID = 7672296029756141807L;
 
 	/** Alias of this user. */
-	private final String alias;
+	private String alias;
 
 	/**
 	 * Constructor.
@@ -101,6 +101,13 @@ public final class AuthzUserImpl extends AuthzGroupMemberImpl implements AuthzUs
 		result = prime * result + (alias == null ? 0 : alias.hashCode());
 		result = prime * result + (getName() == null ? 0 : getName().hashCode());
 		return result;
+	}
+
+	/**
+	 * Sets the alias.
+	 */
+	protected void setAlias(final String alias) {
+		this.alias = alias;
 	}
 
 	/**
