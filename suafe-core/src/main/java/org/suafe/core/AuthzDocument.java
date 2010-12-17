@@ -56,6 +56,53 @@ public interface AuthzDocument extends Serializable {
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
 
 	/**
+	 * Add a new member to a collection of groups.
+	 * 
+	 * @param groups Collection of groups to add a member to
+	 * @param member Member to add to group
+	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
+	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+	 */
+	void addGroupMember(final Collection<AuthzGroup> groups, final AuthzGroupMember member)
+			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
+
+	/**
+	 * Add new members to a group.
+	 * 
+	 * @param group Group to add a member to
+	 * @param members Collection of members to add to group
+	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
+	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+	 */
+	void addGroupMembers(final AuthzGroup group, final Collection<AuthzGroupMember> members)
+			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
+
+	/**
+	 * Clones an existing access rule and applies the rule to the provided permissionable object.
+	 * 
+	 * @param authzAccessRule Access rule to clone
+	 * @param permissionable Permissionable to apply new rule against
+	 * @return Clone access rule
+	 * @throws AuthzAccessRuleAlreadyExistsException the authz access rule already exists exception
+	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
+	 */
+	AuthzAccessRule cloneAccessRule(final AuthzAccessRule authzAccessRule, final AuthzPermissionable permissionable)
+			throws AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException;
+
+	/**
+	 * Clones a collection of existing access rules and applies the rules to the provided permissionable object.
+	 * 
+	 * @param authzAccessRules Access rules to clone
+	 * @param permissionable Permissionable to apply new rules against
+	 * @return Clone access rules
+	 * @throws AuthzAccessRuleAlreadyExistsException the authz access rule already exists exception
+	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
+	 */
+	Collection<AuthzAccessRule> cloneAccessRules(final Collection<AuthzAccessRule> authzAccessRule,
+			final AuthzPermissionable permissionable) throws AuthzAccessRuleAlreadyExistsException,
+			AuthzAccessRuleAlreadyAppliedException;;
+
+	/**
 	 * Clones the provided group.
 	 * 
 	 * @param groupToClone Group to be cloned
@@ -65,10 +112,13 @@ public interface AuthzDocument extends Serializable {
 	 * @throws AuthzInvalidGroupNameException If provided group name is invalid
 	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
 	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+	 * @throws AuthzAccessRuleAlreadyExistsException the authz access rule already exists exception
+	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
 	 */
 	AuthzGroup cloneGroup(final AuthzGroup groupToClone, final String cloneGroupName)
 			throws AuthzGroupAlreadyExistsException, AuthzInvalidGroupNameException,
-			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
+			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException,
+			AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException;
 
 	/**
 	 * Clones the provided user.
@@ -82,11 +132,14 @@ public interface AuthzDocument extends Serializable {
 	 * @throws AuthzInvalidUserAliasException the authz invalid user alias exception
 	 * @throws AuthzGroupMemberAlreadyExistsException If group already has member
 	 * @throws AuthzAlreadyMemberOfGroupException If member is already in the group
+	 * @throws AuthzAccessRuleAlreadyExistsException the authz access rule already exists exception
+	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
 	 */
 	AuthzUser cloneUser(final AuthzUser userToClone, final String cloneUserName, final String cloneAlias)
 			throws AuthzInvalidUserNameException, AuthzUserAlreadyExistsException,
 			AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException,
-			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException;
+			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException,
+			AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException;
 
 	/**
 	 * Creates the access rule.
@@ -225,7 +278,7 @@ public interface AuthzDocument extends Serializable {
 	 * 
 	 * @return Immutable collection of AuthGroup objects
 	 */
-	Collection<AuthzGroup> getGroups();
+	List<AuthzGroup> getGroups();
 
 	/**
 	 * Returns the group with the provided name.
@@ -251,14 +304,14 @@ public interface AuthzDocument extends Serializable {
 	 * 
 	 * @return Immutable collection of AuthzPath objects
 	 */
-	Collection<AuthzPath> getPaths();
+	List<AuthzPath> getPaths();
 
 	/**
 	 * Returns an immutable collection of AuthzRepository objects.
 	 * 
 	 * @return Immutable collection of AuthzRepository objects
 	 */
-	Collection<AuthzRepository> getRepositories();
+	List<AuthzRepository> getRepositories();
 
 	/**
 	 * Returns the repository with the provided name.
@@ -274,7 +327,7 @@ public interface AuthzDocument extends Serializable {
 	 * 
 	 * @return Immutable collection of AuthzUser objects
 	 */
-	Collection<AuthzUser> getUsers();
+	List<AuthzUser> getUsers();
 
 	/**
 	 * Returns the user with the provided alias.
@@ -315,5 +368,16 @@ public interface AuthzDocument extends Serializable {
 	 * @throws AuthzNotGroupMemberException If group doesn't have member
 	 */
 	void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
+			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException;
+
+	/**
+	 * Remove members from a group.
+	 * 
+	 * @param group Group to remove member from
+	 * @param members Collection of member to remove from group
+	 * @throws AuthzNotMemberOfGroupException If member isn't member of group
+	 * @throws AuthzNotGroupMemberException If group doesn't have member
+	 */
+	void removeGroupMembers(final AuthzGroup group, final Collection<AuthzGroupMember> members)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException;
 }

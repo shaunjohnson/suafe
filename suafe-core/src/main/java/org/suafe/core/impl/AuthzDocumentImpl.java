@@ -68,6 +68,9 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	/** Serialization ID. */
 	private static final long serialVersionUID = -1396450094914018451L;
 
+	/** Regular expression pattern for matching valid path values. */
+	private static final Pattern VALID_PATH_PATTERN = Pattern.compile("^(/)|(/.*[^/])$");
+
 	/** The access rules. */
 	private List<AuthzAccessRule> accessRules;
 
@@ -86,9 +89,6 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	/** Collection of users. */
 	private List<AuthzUser> users;
 
-	/** Regular expression pattern for matching valid path values. */
-	private static final Pattern VALID_PATH_PATTERN = Pattern.compile("^(/)|(/.*[^/])$");
-
 	/**
 	 * Default constructor.
 	 */
@@ -100,7 +100,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#addGroupMember(org.suafe.core.impl.AuthzGroup,
+	 * @see org.suafe.core.impl.AuthzDocument#addGroupMember(org.suafe.core.impl.AuthzGroup,
 	 * org.suafe.core.impl.AuthzGroupMember)
 	 */
 	@Override
@@ -122,6 +122,44 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		LOGGER.debug("addGroupMember() exited.");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#addGroupMember(java.util.Collection, org.suafe.core.AuthzGroupMember)
+	 */
+	@Override
+	public void addGroupMember(final Collection<AuthzGroup> groups, final AuthzGroupMember member)
+			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+		LOGGER.debug("addGroupMember() entered. groups={}, member={}", groups, member);
+
+		Preconditions.checkNotNull(groups, "Groups is null");
+		Preconditions.checkNotNull(member, "Member is null");
+
+		for (final AuthzGroup group : groups) {
+			addGroupMember(group, member);
+		}
+
+		LOGGER.debug("addGroupMember() exited.");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#addGroupMembers(org.suafe.core.AuthzGroup, java.util.Collection)
+	 */
+	@Override
+	public void addGroupMembers(final AuthzGroup group, final Collection<AuthzGroupMember> members)
+			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+		LOGGER.debug("addGroupMembers() entered. group={}, members={}", group, members);
+
+		Preconditions.checkNotNull(group, "Group is null");
+		Preconditions.checkNotNull(members, "Members is null");
+
+		for (final AuthzGroupMember member : members) {
+			addGroupMember(group, member);
+		}
+
+		LOGGER.debug("addGroupMember() exited.");
+	}
+
 	/**
 	 * Sets "has unsaved changes" flag to false.
 	 */
@@ -133,27 +171,59 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		LOGGER.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
 	}
 
+	public AuthzAccessRule cloneAccessRule(final AuthzAccessRule authzAccessRule,
+			final AuthzPermissionable permissionable) throws AuthzAccessRuleAlreadyExistsException,
+			AuthzAccessRuleAlreadyAppliedException {
+		LOGGER.debug("cloneAccessRule() entered. authzAccessRule=\"{}\", permissionable=\"{}\"", authzAccessRule,
+				permissionable);
+
+		Preconditions.checkNotNull(authzAccessRule, "Access rule is null");
+		Preconditions.checkNotNull(permissionable, "Permissionable is null");
+
+		final AuthzAccessRule newAuthzAccessRule = createAccessRule(authzAccessRule.getPath(), permissionable,
+				authzAccessRule.getAccessLevel());
+
+		LOGGER.debug("cloneAccessRule() user clone created successfully, returning {}", newAuthzAccessRule);
+
+		return newAuthzAccessRule;
+	}
+
+	public Collection<AuthzAccessRule> cloneAccessRules(final Collection<AuthzAccessRule> authzAccessRules,
+			final AuthzPermissionable permissionable) throws AuthzAccessRuleAlreadyExistsException,
+			AuthzAccessRuleAlreadyAppliedException {
+		LOGGER.debug("cloneAccessRules() entered. authzAccessRules=\"{}\", permissionable=\"{}\"", authzAccessRules,
+				permissionable);
+
+		Preconditions.checkNotNull(authzAccessRules, "Access rules is null");
+		Preconditions.checkNotNull(permissionable, "Permissionable is null");
+
+		final Collection<AuthzAccessRule> newAuthzAccessRules = new ArrayList<AuthzAccessRule>(authzAccessRules.size());
+
+		for (final AuthzAccessRule authzAccessRule : permissionable.getAccessRules()) {
+			newAuthzAccessRules.add(cloneAccessRule(authzAccessRule, permissionable));
+		}
+
+		LOGGER.debug("cloneAccessRules() user clone created successfully, returning {}", newAuthzAccessRules);
+
+		return newAuthzAccessRules;
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.AuthzDocumentIF#cloneGroup(org.suafe.core.AuthzGroupIF, java.lang.String)
+	 * @see org.suafe.core.AuthzDocument#cloneGroup(org.suafe.core.AuthzGroupIF, java.lang.String)
 	 */
 	@Override
 	public AuthzGroup cloneGroup(final AuthzGroup groupToClone, final String cloneGroupName)
 			throws AuthzGroupAlreadyExistsException, AuthzInvalidGroupNameException,
-			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException,
+			AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("cloneGroup() entered. groupToClone=\"{}\", cloneGroupName=\"{}\"", groupToClone, cloneGroupName);
 
 		final AuthzGroup cloneGroup = createGroup(cloneGroupName);
 
-		for (final AuthzGroup group : groupToClone.getGroups()) {
-			addGroupMember(group, cloneGroup);
-		}
-
-		for (final AuthzGroupMember authzGroupMember : groupToClone.getMembers()) {
-			addGroupMember(cloneGroup, authzGroupMember);
-		}
-
-		// TODO Clone access rules
+		addGroupMember(groupToClone.getGroups(), cloneGroup);
+		addGroupMembers(cloneGroup, groupToClone.getMembers());
+		cloneAccessRules(groupToClone.getAccessRules(), cloneGroup);
 
 		LOGGER.debug("cloneGroup() group clone created successfully, returning {}", cloneGroup);
 
@@ -162,22 +232,20 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.AuthzDocumentIF#cloneUser(org.suafe.core.AuthzUserIF, java.lang.String, java.lang.String)
+	 * @see org.suafe.core.AuthzDocument#cloneUser(org.suafe.core.AuthzUserIF, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public AuthzUser cloneUser(final AuthzUser userToClone, final String cloneUserName, final String cloneAlias)
 			throws AuthzInvalidUserNameException, AuthzUserAlreadyExistsException,
 			AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException,
-			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
+			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException,
+			AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("cloneUser() entered. userToClone=\"{}\", cloneUserName=\"{}\"", userToClone, cloneUserName);
 
 		final AuthzUser cloneUser = createUser(cloneUserName, cloneAlias);
 
-		for (final AuthzGroup group : userToClone.getGroups()) {
-			addGroupMember(group, cloneUser);
-		}
-
-		// TODO Clone access rules
+		addGroupMember(userToClone.getGroups(), cloneUser);
+		cloneAccessRules(userToClone.getAccessRules(), cloneUser);
 
 		LOGGER.debug("cloneUser() user clone created successfully, returning {}", cloneUser);
 
@@ -197,7 +265,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		Preconditions.checkNotNull(path, "Path is null");
 		Preconditions.checkNotNull(permissionable, "Permissionable is null");
-		Preconditions.checkNotNull(accessLevel, "AccessLevel is null");
+		Preconditions.checkNotNull(accessLevel, "Access level is null");
 
 		if (doesAccessRuleExist(path, permissionable)) {
 			LOGGER.info("createAccessRule() access rule already exists");
@@ -224,7 +292,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#createGroup(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#createGroup(java.lang.String)
 	 */
 	@Override
 	public AuthzGroupImpl createGroup(final String name) throws AuthzGroupAlreadyExistsException,
@@ -261,7 +329,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#createPath(org.suafe.core.impl.AuthzRepository, java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#createPath(org.suafe.core.impl.AuthzRepository, java.lang.String)
 	 */
 	@Override
 	public AuthzPathImpl createPath(final AuthzRepository repository, final String pathString)
@@ -298,7 +366,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#createRepository(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#createRepository(java.lang.String)
 	 */
 	@Override
 	public AuthzRepository createRepository(final String name) throws AuthzInvalidRepositoryNameException,
@@ -336,7 +404,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#createUser(java.lang.String, java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#createUser(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public AuthzUserImpl createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
@@ -403,7 +471,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#doesGroupNameExist(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#doesGroupNameExist(java.lang.String)
 	 */
 	@Override
 	public boolean doesGroupNameExist(final String name) throws AuthzInvalidGroupNameException {
@@ -418,7 +486,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#doesPathExist(org.suafe.core.impl.AuthzRepository, java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#doesPathExist(org.suafe.core.impl.AuthzRepository, java.lang.String)
 	 */
 	@Override
 	public boolean doesPathExist(final AuthzRepository repository, final String path) throws AuthzInvalidPathException {
@@ -433,7 +501,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#doesRepositoryNameExist(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#doesRepositoryNameExist(java.lang.String)
 	 */
 	@Override
 	public boolean doesRepositoryNameExist(final String name) throws AuthzInvalidRepositoryNameException {
@@ -448,7 +516,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#doesUserAliasExist(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#doesUserAliasExist(java.lang.String)
 	 */
 	@Override
 	public boolean doesUserAliasExist(final String alias) throws AuthzInvalidUserAliasException {
@@ -463,7 +531,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#doesUserNameExist(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#doesUserNameExist(java.lang.String)
 	 */
 	@Override
 	public boolean doesUserNameExist(final String name) throws AuthzInvalidUserNameException {
@@ -504,7 +572,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getAccessRules()
+	 * @see org.suafe.core.impl.AuthzDocument#getAccessRules()
 	 */
 	@Override
 	public List<AuthzAccessRule> getAccessRules() {
@@ -515,10 +583,10 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getGroups()
+	 * @see org.suafe.core.impl.AuthzDocument#getGroups()
 	 */
 	@Override
-	public Collection<AuthzGroup> getGroups() {
+	public List<AuthzGroup> getGroups() {
 		LOGGER.debug("getGroups() entered, returning groups with {} group objects", groups.size());
 
 		return new ImmutableList.Builder<AuthzGroup>().addAll(groups).build();
@@ -526,7 +594,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getGroupWithName(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#getGroupWithName(java.lang.String)
 	 */
 	@Override
 	public AuthzGroup getGroupWithName(final String name) throws AuthzInvalidGroupNameException {
@@ -556,7 +624,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getPath(org.suafe.core.impl.AuthzRepository, java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#getPath(org.suafe.core.impl.AuthzRepository, java.lang.String)
 	 */
 	@Override
 	public AuthzPath getPath(final AuthzRepository repository, final String path) throws AuthzInvalidPathException {
@@ -596,10 +664,10 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getPaths()
+	 * @see org.suafe.core.impl.AuthzDocument#getPaths()
 	 */
 	@Override
-	public Collection<AuthzPath> getPaths() {
+	public List<AuthzPath> getPaths() {
 		LOGGER.debug("getPaths() entered, returning paths with " + "{} path objects", paths.size());
 
 		return new ImmutableList.Builder<AuthzPath>().addAll(paths).build();
@@ -607,10 +675,10 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getRepositories()
+	 * @see org.suafe.core.impl.AuthzDocument#getRepositories()
 	 */
 	@Override
-	public Collection<AuthzRepository> getRepositories() {
+	public List<AuthzRepository> getRepositories() {
 		LOGGER.debug("getRepositories() entered, returning repositories with " + "{} repository objects",
 				repositories.size());
 
@@ -619,7 +687,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getRepositoryWithName(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#getRepositoryWithName(java.lang.String)
 	 */
 	@Override
 	public AuthzRepository getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException {
@@ -649,10 +717,10 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getUsers()
+	 * @see org.suafe.core.impl.AuthzDocument#getUsers()
 	 */
 	@Override
-	public Collection<AuthzUser> getUsers() {
+	public List<AuthzUser> getUsers() {
 		LOGGER.debug("getUsers() entered, returning users with {} user objects", users.size());
 
 		return new ImmutableList.Builder<AuthzUser>().addAll(users).build();
@@ -660,7 +728,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getUserWithAlias(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#getUserWithAlias(java.lang.String)
 	 */
 	@Override
 	public AuthzUser getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException {
@@ -690,7 +758,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#getUserWithName(java.lang.String)
+	 * @see org.suafe.core.impl.AuthzDocument#getUserWithName(java.lang.String)
 	 */
 	@Override
 	public AuthzUser getUserWithName(final String name) throws AuthzInvalidUserNameException {
@@ -720,7 +788,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#hasUnsavedChanges()
+	 * @see org.suafe.core.impl.AuthzDocument#hasUnsavedChanges()
 	 */
 	@Override
 	public boolean hasUnsavedChanges() {
@@ -731,7 +799,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#initialize()
+	 * @see org.suafe.core.impl.AuthzDocument#initialize()
 	 */
 	@Override
 	public void initialize() {
@@ -831,7 +899,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.suafe.core.impl.AuthzDocumentIF#removeGroupMember(org.suafe.core.impl.AuthzGroup,
+	 * @see org.suafe.core.impl.AuthzDocument#removeGroupMember(org.suafe.core.impl.AuthzGroup,
 	 * org.suafe.core.impl.AuthzGroupMember)
 	 */
 	@Override
@@ -851,6 +919,25 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		}
 
 		LOGGER.debug("removeGroupMember() exited.");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#removeGroupMembers(org.suafe.core.AuthzGroup, java.util.Collection)
+	 */
+	@Override
+	public void removeGroupMembers(final AuthzGroup group, final Collection<AuthzGroupMember> members)
+			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
+		LOGGER.debug("removeGroupMembers() entered. group={}, members={}", group, members);
+
+		Preconditions.checkNotNull(group, "Group is null");
+		Preconditions.checkNotNull(members, "Members is null");
+
+		for (final AuthzGroupMember member : members) {
+			removeGroupMember(group, member);
+		}
+
+		LOGGER.debug("removeGroupMembers() exited.");
 	}
 
 	/**
@@ -878,6 +965,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		toStringBuilder.append("paths", paths.size());
 		toStringBuilder.append("repositories", repositories.size());
 		toStringBuilder.append("users", users.size());
+		toStringBuilder.append("hasUnsavedChanges", hasUnsavedChanges);
 
 		return toStringBuilder.toString();
 	}

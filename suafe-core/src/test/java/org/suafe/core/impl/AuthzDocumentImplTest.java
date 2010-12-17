@@ -43,7 +43,7 @@ public class AuthzDocumentImplTest {
 		try {
 			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.addGroupMember(null, new AuthzUserImpl("name", null));
+			document.addGroupMember((AuthzGroup) null, new AuthzUserImpl("name", null));
 
 			fail("Successfully added member to null group");
 		}
