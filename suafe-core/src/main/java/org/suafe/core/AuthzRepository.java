@@ -17,17 +17,10 @@
  */
 package org.suafe.core;
 
-import java.io.Serializable;
 
 /**
  * The Interface AuthzRepository.
  */
-public interface AuthzRepository extends Comparable<AuthzRepository>, Serializable {
+public interface AuthzRepository extends AuthzNamed {
 
-	/**
-	 * Gets the name.
-	 * 
-	 * @return The name.
-	 */
-	String getName();
 }
