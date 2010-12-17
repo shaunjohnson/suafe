@@ -74,19 +74,19 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	/** The access rules. */
 	private List<AuthzAccessRule> accessRules;
 
-	/** Collection of groups. */
+	/** List of groups. */
 	private List<AuthzGroup> groups;
 
 	/** Unsaved changes indicator. */
 	private boolean hasUnsavedChanges;
 
-	/** Collection of paths. */
+	/** List of paths. */
 	private List<AuthzPath> paths;
 
-	/** Collection of repositories. */
+	/** List of repositories. */
 	private List<AuthzRepository> repositories;
 
-	/** Collection of users. */
+	/** List of users. */
 	private List<AuthzUser> users;
 
 	/**
@@ -230,6 +230,9 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("cloneGroup() entered. groupToClone=\"{}\", cloneGroupName=\"{}\"", groupToClone, cloneGroupName);
 
+		Preconditions.checkNotNull(groupToClone, "Group to clone is null");
+		// Validation of cloneGroupName is done within createGroup
+
 		final AuthzGroup cloneGroup = createGroup(cloneGroupName);
 
 		addGroupMember(groupToClone.getGroups(), cloneGroup);
@@ -252,6 +255,9 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException,
 			AuthzAccessRuleAlreadyExistsException, AuthzAccessRuleAlreadyAppliedException {
 		LOGGER.debug("cloneUser() entered. userToClone=\"{}\", cloneUserName=\"{}\"", userToClone, cloneUserName);
+
+		Preconditions.checkNotNull(userToClone, "User to clone is null");
+		// Validation of cloneUserName and cloneAlias is done within createGroup
 
 		final AuthzUser cloneUser = createUser(cloneUserName, cloneAlias);
 
@@ -347,6 +353,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			throws AuthzInvalidPathException, AuthzPathAlreadyExistsException {
 		LOGGER.debug("createPath() entered, repository={}, path={}", repository, pathString);
 
+		// Repository is not validated as it may be null
 		final String pathStringTrimmed = StringUtils.trimToNull(pathString);
 
 		// Validate path
@@ -473,6 +480,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	public boolean doesAccessRuleExist(final AuthzPath path, final AuthzPermissionable permissionable) {
 		LOGGER.debug("doesAccessRuleExist() entered. path=\"{}\", group=\"{}\"", path, permissionable);
 
+		// Validation of path and permissionable is done within getAccessRule()
+
 		final boolean doesAccessRuleExist = getAccessRule(path, permissionable) != null;
 
 		LOGGER.debug("doesAccessRuleExist() exiting, returning {}", doesAccessRuleExist);
@@ -487,6 +496,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public boolean doesGroupNameExist(final String name) throws AuthzInvalidGroupNameException {
 		LOGGER.debug("doesGroupNameExist() entered. name=\"{}\"", name);
+
+		// Validation of name is done within getGroupWithName()
 
 		final boolean doesGroupNameExist = getGroupWithName(name) != null;
 
@@ -503,6 +514,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	public boolean doesPathExist(final AuthzRepository repository, final String path) throws AuthzInvalidPathException {
 		LOGGER.debug("doesPathExist() entered. repositor{}, name=\"{}\"", repository, path);
 
+		// Validation of repository and path is done within getPath()
+
 		final boolean doesPathExist = getPath(repository, path) != null;
 
 		LOGGER.debug("doesPathExist() exiting, returning {}", doesPathExist);
@@ -517,6 +530,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public boolean doesRepositoryNameExist(final String name) throws AuthzInvalidRepositoryNameException {
 		LOGGER.debug("doesRepositoryNameExist() entered. name=\"{}\"", name);
+
+		// Validation of name is done within getRepositoryWithName()
 
 		final boolean doesNameExist = getRepositoryWithName(name) != null;
 
@@ -533,6 +548,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	public boolean doesUserAliasExist(final String alias) throws AuthzInvalidUserAliasException {
 		LOGGER.debug("doesUserAliasExist() entered. alias=\"{}\"", alias);
 
+		// Validation of alias is done within getUserWithAlias()
+
 		final boolean doesUserAliasExist = getUserWithAlias(alias) != null;
 
 		LOGGER.debug("doesUserAliasExist() exiting, returning {}", doesUserAliasExist);
@@ -547,6 +564,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public boolean doesUserNameExist(final String name) throws AuthzInvalidUserNameException {
 		LOGGER.debug("doesUserNameExist() entered. name=\"{}\"", name);
+
+		// Validation of name is done within getUserWithName()
 
 		final boolean doesUserNameExist = getUserWithName(name) != null;
 
@@ -640,6 +659,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public AuthzPath getPath(final AuthzRepository repository, final String path) throws AuthzInvalidPathException {
 		LOGGER.debug("getPath() entered. repository=\"{}\" path=\"{}\"", repository, path);
+
+		// Repository is not validated as it many be null
 
 		final String pathTrimmed = StringUtils.trimToNull(path);
 
