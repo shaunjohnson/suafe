@@ -100,7 +100,7 @@ public interface AuthzDocument extends Serializable {
 	 */
 	Collection<AuthzAccessRule> cloneAccessRules(final Collection<AuthzAccessRule> authzAccessRule,
 			final AuthzPermissionable permissionable) throws AuthzAccessRuleAlreadyExistsException,
-			AuthzAccessRuleAlreadyAppliedException;;
+			AuthzAccessRuleAlreadyAppliedException;
 
 	/**
 	 * Clones the provided group.
@@ -201,6 +201,52 @@ public interface AuthzDocument extends Serializable {
 	 */
 	AuthzUser createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
 			AuthzUserAlreadyExistsException, AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException;
+
+	/**
+	 * Deletes an existing access rule.
+	 * 
+	 * @param accessRule Access rule to delete
+	 */
+	void deleteAccessRule(AuthzAccessRule accessRule);
+
+	/**
+	 * Deletes all access rules applied to the provided permissionable object.
+	 * 
+	 * @param permissionable Permissionable object with access rules to be deleted.
+	 */
+	void deleteAccessRules(final AuthzPermissionable permissionable);
+
+	/**
+	 * Deletes an existing group.
+	 * 
+	 * @param group Group to delete
+	 * @throws AuthzNotMemberOfGroupException If member isn't member of a group
+	 * @throws AuthzNotGroupMemberException If a group doesn't have member
+	 */
+	void deleteGroup(AuthzGroup group) throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException;
+
+	/**
+	 * Deletes an existing path.
+	 * 
+	 * @param path Path to delete
+	 */
+	void deletePath(AuthzPath path);
+
+	/**
+	 * Deletes an existing repository.
+	 * 
+	 * @param repository Repository to delete
+	 */
+	void deleteRepository(AuthzRepository repository);
+
+	/**
+	 * Deletes an existing user.
+	 * 
+	 * @param user User to delete
+	 * @throws AuthzNotMemberOfGroupException If member isn't member of a group
+	 * @throws AuthzNotGroupMemberException If a group doesn't have member
+	 */
+	void deleteUser(AuthzUser user) throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException;
 
 	/**
 	 * Determines if an access rule with the provided path and group exists.
@@ -368,6 +414,17 @@ public interface AuthzDocument extends Serializable {
 	 * @throws AuthzNotGroupMemberException If group doesn't have member
 	 */
 	void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
+			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException;
+
+	/**
+	 * Remove member from a collection of groups.
+	 * 
+	 * @param groups Collection of groups to remove member from
+	 * @param member Member to remove from groups
+	 * @throws AuthzNotMemberOfGroupException If member isn't member of a group
+	 * @throws AuthzNotGroupMemberException If a group doesn't have member
+	 */
+	void removeGroupMember(final Collection<AuthzGroup> groups, final AuthzGroupMember member)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException;
 
 	/**

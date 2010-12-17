@@ -145,6 +145,24 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	}
 
 	/**
+	 * Removes an access rule from the collection of access rules.
+	 * 
+	 * @param accessRule Access rule to remove
+	 * @return True if access rule removed
+	 */
+	protected final boolean removeAccessRule(final AuthzAccessRule accessRule) {
+		assert accessRule != null;
+
+		LOGGER.debug("addAccessRule() entered. accessRule={}", accessRule);
+
+		final boolean removed = accessRules.remove(accessRule);
+
+		LOGGER.debug("addAccessRule() exited, returning {}", removed);
+
+		return removed;
+	}
+
+	/**
 	 * Remove a group from the collection of groups.
 	 * 
 	 * @param group Group to remove from the collection

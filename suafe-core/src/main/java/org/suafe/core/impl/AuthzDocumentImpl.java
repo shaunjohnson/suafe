@@ -483,6 +483,121 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#deleteAccessRule(org.suafe.core.AuthzAccessRule)
+	 */
+	@Override
+	public void deleteAccessRule(final AuthzAccessRule accessRule) {
+		assert accessRules != null;
+
+		LOGGER.debug("deleteAccessRule() entered. accessRule=\"{}\"", accessRule);
+
+		Preconditions.checkNotNull(accessRule, "Access rule is null");
+
+		final AuthzPermissionable permissionable = accessRule.getPermissionable();
+
+		if (permissionable instanceof AuthzGroupMemberImpl) {
+			((AuthzGroupMemberImpl) permissionable).removeAccessRule(accessRule);
+		}
+
+		accessRules.add(accessRule);
+
+		LOGGER.debug("deleteAccessRule() exiting.");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#deleteAccessRules(org.suafe.core.AuthzPermissionable)
+	 */
+	@Override
+	public void deleteAccessRules(final AuthzPermissionable permissionable) {
+		LOGGER.debug("deleteAccessRules() entered. permissionable=\"{}\"", permissionable);
+
+		Preconditions.checkNotNull(permissionable, "Permissionable is null");
+
+		for (final AuthzAccessRule accessRule : permissionable.getAccessRules()) {
+			deleteAccessRule(accessRule);
+		}
+
+		LOGGER.debug("deleteAccessRules() exiting");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#deleteGroup(org.suafe.core.AuthzGroup)
+	 */
+	@Override
+	public void deleteGroup(final AuthzGroup group) throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
+		assert groups != null;
+
+		LOGGER.debug("deleteGroup() entered. group=\"{}\"", group);
+
+		Preconditions.checkNotNull(group, "Group is null");
+
+		removeGroupMember(group.getGroups(), group);
+		removeGroupMembers(group, group.getMembers());
+		deleteAccessRules(group);
+
+		groups.remove(group);
+
+		LOGGER.debug("deleteGroup() exiting");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#deletePath(org.suafe.core.AuthzPath)
+	 */
+	@Override
+	public void deletePath(final AuthzPath path) {
+		assert paths != null;
+
+		LOGGER.debug("deletePath() entered. path=\"{}\"", path);
+
+		Preconditions.checkNotNull(path, "Path is null");
+
+		paths.remove(path);
+
+		LOGGER.debug("deletePath() exiting");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#deleteRepository(org.suafe.core.AuthzRepository)
+	 */
+	@Override
+	public void deleteRepository(final AuthzRepository repository) {
+		assert repositories != null;
+
+		LOGGER.debug("deleteRepository() entered. repository=\"{}\"", repository);
+
+		Preconditions.checkNotNull(repository, "Repository is null");
+
+		repositories.remove(repository);
+
+		LOGGER.debug("deleteRepository() exiting");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#deleteUser(org.suafe.core.AuthzUser)
+	 */
+	@Override
+	public void deleteUser(final AuthzUser user) throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
+		assert users != null;
+
+		LOGGER.debug("deleteUser() entered. user=\"{}\"", user);
+
+		Preconditions.checkNotNull(user, "User is null");
+
+		removeGroupMember(user.getGroups(), user);
+		deleteAccessRules(user);
+
+		users.remove(user);
+
+		LOGGER.debug("deleteUser() exiting");
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.suafe.core.AuthzDocument#doesAccessRuleExist(org.suafe.core.AuthzPath,
 	 * org.suafe.core.AuthzPermissionable)
 	 */
@@ -980,6 +1095,25 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		if (group instanceof AuthzGroupMemberImpl) {
 			((AuthzGroupMemberImpl) member).removeGroup(group);
+		}
+
+		LOGGER.debug("removeGroupMember() exited.");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#removeGroupMember(java.util.Collection, org.suafe.core.AuthzGroupMember)
+	 */
+	@Override
+	public void removeGroupMember(final Collection<AuthzGroup> groups, final AuthzGroupMember member)
+			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
+		LOGGER.debug("removeGroupMember() entered. groups={}, member={}", groups, member);
+
+		Preconditions.checkNotNull(groups, "Groups is null");
+		Preconditions.checkNotNull(member, "Member is null");
+
+		for (final AuthzGroup group : groups) {
+			removeGroupMember(group, member);
 		}
 
 		LOGGER.debug("removeGroupMember() exited.");

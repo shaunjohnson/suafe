@@ -2016,7 +2016,7 @@ public class AuthzDocumentImplTest {
 		try {
 			final AuthzDocument document = new AuthzDocumentImpl();
 
-			document.removeGroupMember(null, new AuthzUserImpl(null, null));
+			document.removeGroupMember((AuthzGroup) null, new AuthzUserImpl(null, null));
 
 			fail("Successfully removed user from a null group");
 		}
