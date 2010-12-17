@@ -64,6 +64,8 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	 * @throws AuthzGroupMemberAlreadyExistsException If group member already exists
 	 */
 	protected boolean addMember(final AuthzGroupMember member) throws AuthzGroupMemberAlreadyExistsException {
+		assert members != null;
+
 		LOGGER.debug("addMember() entered. member={}", member);
 
 		Preconditions.checkNotNull(member, "Member is null");
@@ -119,6 +121,8 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	 */
 	@Override
 	public Collection<AuthzGroupMember> getMembers() {
+		assert members != null;
+
 		return Collections.unmodifiableCollection(members);
 	}
 
@@ -143,6 +147,8 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	 * @throws AuthzNotGroupMemberException If provided member object is not a member of this group.
 	 */
 	protected boolean removeMember(final AuthzGroupMember member) throws AuthzNotGroupMemberException {
+		assert members != null;
+
 		LOGGER.debug("removeMember() entered. member={}", member);
 
 		Preconditions.checkNotNull(member, "Member is null");

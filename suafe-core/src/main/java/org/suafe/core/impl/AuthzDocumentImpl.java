@@ -278,6 +278,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	public AuthzAccessRule createAccessRule(final AuthzPath path, final AuthzPermissionable permissionable,
 			final AuthzAccessLevel accessLevel) throws AuthzAccessRuleAlreadyExistsException,
 			AuthzAccessRuleAlreadyAppliedException {
+		assert accessRules != null;
+
 		LOGGER.debug("createAccessRule() entered. path=\"{}\", permissionable=\"{}\"", path, permissionable);
 
 		Preconditions.checkNotNull(path, "Path is null");
@@ -314,6 +316,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public AuthzGroupImpl createGroup(final String name) throws AuthzGroupAlreadyExistsException,
 			AuthzInvalidGroupNameException {
+		assert groups != null;
+
 		LOGGER.debug("createGroup() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -351,6 +355,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public AuthzPathImpl createPath(final AuthzRepository repository, final String pathString)
 			throws AuthzInvalidPathException, AuthzPathAlreadyExistsException {
+		assert paths != null;
+
 		LOGGER.debug("createPath() entered, repository={}, path={}", repository, pathString);
 
 		// Repository is not validated as it may be null
@@ -389,6 +395,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public AuthzRepository createRepository(final String name) throws AuthzInvalidRepositoryNameException,
 			AuthzRepositoryAlreadyExistsException {
+		assert repositories != null;
+
 		LOGGER.debug("createRepository() entered, name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -427,6 +435,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public AuthzUserImpl createUser(final String name, final String alias) throws AuthzInvalidUserNameException,
 			AuthzUserAlreadyExistsException, AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException {
+		assert users != null;
+
 		LOGGER.debug("createUser() entered. name=\"{}\", alias=\"{}\"", name, alias);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -580,6 +590,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public AuthzAccessRule getAccessRule(final AuthzPath path, final AuthzPermissionable permissionable) {
+		assert accessRules != null;
+
 		LOGGER.debug("getAccessRuleWithGroup() entered. path=\"{}\", group=\"{}\"", path, permissionable);
 
 		Preconditions.checkNotNull(path, "Path is null");
@@ -606,6 +618,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public List<AuthzAccessRule> getAccessRules() {
+		assert accessRules != null;
+
 		LOGGER.debug("getAccessRules() entered, returning accessRules with {} access rule objects", accessRules.size());
 
 		return new ImmutableList.Builder<AuthzAccessRule>().addAll(accessRules).build();
@@ -617,6 +631,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public List<AuthzGroup> getGroups() {
+		assert groups != null;
+
 		LOGGER.debug("getGroups() entered, returning groups with {} group objects", groups.size());
 
 		return new ImmutableList.Builder<AuthzGroup>().addAll(groups).build();
@@ -628,6 +644,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public AuthzGroup getGroupWithName(final String name) throws AuthzInvalidGroupNameException {
+		assert groups != null;
+
 		LOGGER.debug("getGroupWithName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -658,6 +676,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public AuthzPath getPath(final AuthzRepository repository, final String path) throws AuthzInvalidPathException {
+		assert paths != null;
+
 		LOGGER.debug("getPath() entered. repository=\"{}\" path=\"{}\"", repository, path);
 
 		// Repository is not validated as it many be null
@@ -700,6 +720,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public List<AuthzPath> getPaths() {
+		assert paths != null;
+
 		LOGGER.debug("getPaths() entered, returning paths with " + "{} path objects", paths.size());
 
 		return new ImmutableList.Builder<AuthzPath>().addAll(paths).build();
@@ -711,6 +733,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public List<AuthzRepository> getRepositories() {
+		assert repositories != null;
+
 		LOGGER.debug("getRepositories() entered, returning repositories with " + "{} repository objects",
 				repositories.size());
 
@@ -723,6 +747,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public AuthzRepository getRepositoryWithName(final String name) throws AuthzInvalidRepositoryNameException {
+		assert repositories != null;
+
 		LOGGER.debug("getRepositoryWithName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -753,6 +779,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public List<AuthzUser> getUsers() {
+		assert users != null;
+
 		LOGGER.debug("getUsers() entered, returning users with {} user objects", users.size());
 
 		return new ImmutableList.Builder<AuthzUser>().addAll(users).build();
@@ -764,6 +792,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public AuthzUser getUserWithAlias(final String alias) throws AuthzInvalidUserAliasException {
+		assert users != null;
+
 		LOGGER.debug("getUserWithAlias() entered. alias=\"{}\"", alias);
 
 		final String aliasTrimmed = StringUtils.trimToNull(alias);
@@ -794,6 +824,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public AuthzUser getUserWithName(final String name) throws AuthzInvalidUserNameException {
+		assert users != null;
+
 		LOGGER.debug("getUserWithName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
@@ -990,6 +1022,12 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public String toString() {
+		assert accessRules != null;
+		assert groups != null;
+		assert paths != null;
+		assert repositories != null;
+		assert users != null;
+
 		final ToStringBuilder toStringBuilder = new ToStringBuilder(this);
 
 		toStringBuilder.append("accessRules", accessRules.size());

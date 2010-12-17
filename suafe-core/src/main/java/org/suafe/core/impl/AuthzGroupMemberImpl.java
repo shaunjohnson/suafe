@@ -68,7 +68,10 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	 * @return True if access rule added
 	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
 	 */
-	protected final boolean addAccessRule(final AuthzAccessRule accessRule) throws AuthzAccessRuleAlreadyAppliedException {
+	protected final boolean addAccessRule(final AuthzAccessRule accessRule)
+			throws AuthzAccessRuleAlreadyAppliedException {
+		assert accessRules != null;
+
 		LOGGER.debug("addAccessRule() entered. accessRule={}", accessRule);
 
 		Preconditions.checkNotNull(accessRule, "Access Rule is null");
@@ -97,6 +100,8 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	 * @throws AuthzAlreadyMemberOfGroupException If this object is already a member of the group
 	 */
 	protected final boolean addGroup(final AuthzGroup group) throws AuthzAlreadyMemberOfGroupException {
+		assert groups != null;
+
 		LOGGER.debug("addGroup() entered. group={}", group);
 
 		Preconditions.checkNotNull(group, "Group is null");
@@ -123,6 +128,8 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	 */
 	@Override
 	public final Collection<AuthzAccessRule> getAccessRules() {
+		assert accessRules != null;
+
 		return Collections.unmodifiableCollection(accessRules);
 	}
 
@@ -132,6 +139,8 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	 */
 	@Override
 	public final Collection<AuthzGroup> getGroups() {
+		assert groups != null;
+
 		return Collections.unmodifiableCollection(groups);
 	}
 
@@ -143,6 +152,8 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	 * @throws AuthzNotMemberOfGroupException If this object is not a member of the provided group
 	 */
 	protected final boolean removeGroup(final AuthzGroup group) throws AuthzNotMemberOfGroupException {
+		assert groups != null;
+
 		LOGGER.debug("removeGroup() entered. group={}", group);
 
 		Preconditions.checkNotNull(group, "Group is null");
