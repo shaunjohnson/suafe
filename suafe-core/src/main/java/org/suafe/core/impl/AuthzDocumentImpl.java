@@ -116,6 +116,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			((AuthzGroupMemberImpl) member).addGroup(group);
 		}
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("addGroupMember() exited.");
 	}
 
@@ -135,6 +137,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			addGroupMember(group, member);
 		}
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("addGroupMember() exited.");
 	}
 
@@ -153,6 +157,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		for (final AuthzGroupMember member : members) {
 			addGroupMember(group, member);
 		}
+
+		setHasUnsavedChanges();
 
 		LOGGER.debug("addGroupMember() exited.");
 	}
@@ -186,6 +192,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		final AuthzAccessRule newAuthzAccessRule = createAccessRule(authzAccessRule.getPath(), permissionable,
 				authzAccessRule.getAccessLevel());
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("cloneAccessRule() user clone created successfully, returning {}", newAuthzAccessRule);
 
 		return newAuthzAccessRule;
@@ -210,6 +218,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		for (final AuthzAccessRule authzAccessRule : permissionable.getAccessRules()) {
 			newAuthzAccessRules.add(cloneAccessRule(authzAccessRule, permissionable));
 		}
+
+		setHasUnsavedChanges();
 
 		LOGGER.debug("cloneAccessRules() user clone created successfully, returning {}", newAuthzAccessRules);
 
@@ -236,6 +246,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		addGroupMembers(cloneGroup, groupToClone.getMembers());
 		cloneAccessRules(groupToClone.getAccessRules(), cloneGroup);
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("cloneGroup() group clone created successfully, returning {}", cloneGroup);
 
 		return cloneGroup;
@@ -260,6 +272,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		addGroupMember(userToClone.getGroups(), cloneUser);
 		cloneAccessRules(userToClone.getAccessRules(), cloneUser);
+
+		setHasUnsavedChanges();
 
 		LOGGER.debug("cloneUser() user clone created successfully, returning {}", cloneUser);
 
@@ -453,6 +467,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		accessRules.add(accessRule);
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("deleteAccessRule() exiting.");
 	}
 
@@ -469,6 +485,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		for (final AuthzAccessRule accessRule : permissionable.getAccessRules()) {
 			deleteAccessRule(accessRule);
 		}
+
+		setHasUnsavedChanges();
 
 		LOGGER.debug("deleteAccessRules() exiting");
 	}
@@ -491,6 +509,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		groups.remove(group);
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("deleteGroup() exiting");
 	}
 
@@ -508,6 +528,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		paths.remove(path);
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("deletePath() exiting");
 	}
 
@@ -524,6 +546,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		Preconditions.checkNotNull(repository, "Repository is null");
 
 		repositories.remove(repository);
+
+		setHasUnsavedChanges();
 
 		LOGGER.debug("deleteRepository() exiting");
 	}
@@ -544,6 +568,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		deleteAccessRules(user);
 
 		users.remove(user);
+
+		setHasUnsavedChanges();
 
 		LOGGER.debug("deleteUser() exiting");
 	}
@@ -968,6 +994,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			((AuthzGroupMemberImpl) member).removeGroup(group);
 		}
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("removeGroupMember() exited.");
 	}
 
@@ -987,6 +1015,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			removeGroupMember(group, member);
 		}
 
+		setHasUnsavedChanges();
+
 		LOGGER.debug("removeGroupMember() exited.");
 	}
 
@@ -1005,6 +1035,8 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		for (final AuthzGroupMember member : members) {
 			removeGroupMember(group, member);
 		}
+
+		setHasUnsavedChanges();
 
 		LOGGER.debug("removeGroupMembers() exited.");
 	}
