@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -52,6 +51,7 @@ import org.suafe.core.exceptions.AuthzPathAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzRepositoryAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAliasAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzUserAlreadyExistsException;
+import org.suafe.core.utilities.AuthzValidatorUtils;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -67,9 +67,6 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 	/** Serialization ID. */
 	private static final long serialVersionUID = -1396450094914018451L;
-
-	/** Regular expression pattern for matching valid path values. */
-	private static final Pattern VALID_PATH_PATTERN = Pattern.compile("^(/)|(/.*[^/])$");
 
 	/** The access rules. */
 	private List<AuthzAccessRule> accessRules;
@@ -351,7 +348,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		final String pathStringTrimmed = StringUtils.trimToNull(pathString);
 
 		// Validate path
-		if (!isValidPath(pathStringTrimmed)) {
+		if (!AuthzValidatorUtils.isValidPath(pathStringTrimmed)) {
 			LOGGER.error("createPath() invalid path");
 
 			throw new AuthzInvalidPathException();
@@ -720,7 +717,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
-		if (!isValidGroupName(nameTrimmed)) {
+		if (!AuthzValidatorUtils.isValidGroupName(nameTrimmed)) {
 			LOGGER.error("getGroupWithName() invalid group name");
 
 			throw new AuthzInvalidGroupNameException();
@@ -754,7 +751,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		final String pathTrimmed = StringUtils.trimToNull(path);
 
-		if (!isValidPath(pathTrimmed)) {
+		if (!AuthzValidatorUtils.isValidPath(pathTrimmed)) {
 			LOGGER.error("getPath() invalid path");
 
 			throw new AuthzInvalidPathException();
@@ -823,7 +820,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
-		if (!isValidRepositoryName(nameTrimmed)) {
+		if (!AuthzValidatorUtils.isValidRepositoryName(nameTrimmed)) {
 			LOGGER.error("getRepositoryWithName() invalid repository name");
 
 			throw new AuthzInvalidRepositoryNameException();
@@ -868,7 +865,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		final String aliasTrimmed = StringUtils.trimToNull(alias);
 
-		if (!isValidUserAlias(aliasTrimmed)) {
+		if (!AuthzValidatorUtils.isValidUserAlias(aliasTrimmed)) {
 			LOGGER.error("getUserWithAlias() invalid user alias");
 
 			throw new AuthzInvalidUserAliasException();
@@ -900,7 +897,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
-		if (!isValidUserName(nameTrimmed)) {
+		if (!AuthzValidatorUtils.isValidUserName(nameTrimmed)) {
 			LOGGER.error("getUserWithName() invalid user name");
 
 			throw new AuthzInvalidUserNameException();
@@ -948,87 +945,6 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		clearHasUnsavedChanges();
 
 		LOGGER.debug("initialize() exited.");
-	}
-
-	/**
-	 * Checks group name for validity.
-	 * 
-	 * @param name Group name to check
-	 * @return True if group name is valid, otherwise false
-	 */
-	protected boolean isValidGroupName(final String name) {
-		LOGGER.debug("isValidGroupName() entered. name=\"{}\"", name);
-
-		final boolean isValidGroupName = StringUtils.isNotBlank(name);
-
-		LOGGER.debug("isValidGroupName() exited, returning {}", isValidGroupName);
-
-		return isValidGroupName;
-	}
-
-	/**
-	 * Checks path for validity. Paths must start with a slash (/), but must not end with a slash (/), except for when
-	 * path consists of a single slash (/).
-	 * 
-	 * @param path Path to validate
-	 * @return True if path is valid, otherwise false
-	 */
-	protected boolean isValidPath(final String path) {
-		LOGGER.debug("isValidPath() entered. path=\"{}\"", path);
-
-		final boolean isValidPath = VALID_PATH_PATTERN.matcher(StringUtils.trimToEmpty(path)).matches();
-
-		LOGGER.debug("isValidPath() exited. returning {}", isValidPath);
-
-		return isValidPath;
-	}
-
-	/**
-	 * Checks repository name for validity.
-	 * 
-	 * @param name Repository name to check
-	 * @return True if repository name is valid, otherwise false
-	 */
-	protected boolean isValidRepositoryName(final String name) {
-		LOGGER.debug("isValidRepositoryName() entered. name=\"{}\"", name);
-
-		final boolean isValidRepositoryName = StringUtils.isNotBlank(name);
-
-		LOGGER.debug("isValidRepositoryName() exited, returning {}", isValidRepositoryName);
-
-		return isValidRepositoryName;
-	}
-
-	/**
-	 * Checks user alias for validity.
-	 * 
-	 * @param alias User alias to check
-	 * @return True if user alias is valid, otherwise false
-	 */
-	protected boolean isValidUserAlias(final String alias) {
-		LOGGER.debug("isValidUserAlias() entered. alias=\"{}\"", alias);
-
-		final boolean isValidUserAlias = StringUtils.isNotBlank(alias);
-
-		LOGGER.debug("isValidUserAlias() exited, returning {}", isValidUserAlias);
-
-		return isValidUserAlias;
-	}
-
-	/**
-	 * Checks user name for validity.
-	 * 
-	 * @param name User name to check
-	 * @return True if user name is valid, otherwise false
-	 */
-	protected boolean isValidUserName(final String name) {
-		LOGGER.debug("isValidUserName() entered. name=\"{}\"", name);
-
-		final boolean isValidUserName = StringUtils.isNotBlank(name);
-
-		LOGGER.debug("isValidUserName() exited, returning {}", isValidUserName);
-
-		return isValidUserName;
 	}
 
 	/*
@@ -1227,7 +1143,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
-		if (!isValidGroupName(nameTrimmed)) {
+		if (!AuthzValidatorUtils.isValidGroupName(nameTrimmed)) {
 			LOGGER.error("validateGroupName() invalid group name");
 
 			throw new AuthzInvalidGroupNameException();
@@ -1256,7 +1172,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
 		// Validate repository name
-		if (!isValidRepositoryName(nameTrimmed)) {
+		if (!AuthzValidatorUtils.isValidRepositoryName(nameTrimmed)) {
 			LOGGER.error("validateRepositoryName() invalid repository name");
 
 			throw new AuthzInvalidRepositoryNameException();
@@ -1285,7 +1201,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		final String aliasTrimmed = StringUtils.trimToNull(alias);
 
-		if (!isValidUserAlias(aliasTrimmed)) {
+		if (!AuthzValidatorUtils.isValidUserAlias(aliasTrimmed)) {
 			LOGGER.error("validateUserAlias() invalid user alias");
 
 			throw new AuthzInvalidUserAliasException();
@@ -1313,7 +1229,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
-		if (!isValidUserName(nameTrimmed)) {
+		if (!AuthzValidatorUtils.isValidUserName(nameTrimmed)) {
 			LOGGER.error("validateUserName() invalid user name");
 
 			throw new AuthzInvalidUserNameException();
