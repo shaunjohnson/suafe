@@ -103,7 +103,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void addGroupMember(final AuthzGroup group, final AuthzGroupMember member)
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
-		LOGGER.debug("addGroupMember() entered. group={}, member={}", group, member);
+		LOGGER.debug("addGroupMember() entered. group=\"{}\", member=\"{}\"", group, member);
 
 		Preconditions.checkNotNull(group, "Group is null");
 		Preconditions.checkNotNull(member, "Member is null");
@@ -128,7 +128,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void addGroupMember(final Collection<AuthzGroup> groups, final AuthzGroupMember member)
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
-		LOGGER.debug("addGroupMember() entered. groups={}, member={}", groups, member);
+		LOGGER.debug("addGroupMember() entered. groups=\"{}\", member=\"{}\"", groups, member);
 
 		Preconditions.checkNotNull(groups, "Groups is null");
 		Preconditions.checkNotNull(member, "Member is null");
@@ -149,7 +149,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void addGroupMembers(final AuthzGroup group, final Collection<AuthzGroupMember> members)
 			throws AuthzGroupMemberAlreadyExistsException, AuthzAlreadyMemberOfGroupException {
-		LOGGER.debug("addGroupMembers() entered. group={}, members={}", group, members);
+		LOGGER.debug("addGroupMembers() entered. group=\"{}\", members=\"{}\"", group, members);
 
 		Preconditions.checkNotNull(group, "Group is null");
 		Preconditions.checkNotNull(members, "Members is null");
@@ -167,11 +167,11 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 * Sets "has unsaved changes" flag to false.
 	 */
 	protected void clearHasUnsavedChanges() {
-		LOGGER.debug("clearHasUnsavedChanges() entered. hasUnsavedChanged={}", hasUnsavedChanges);
+		LOGGER.debug("clearHasUnsavedChanges() entered. hasUnsavedChanged=\"{}\"", hasUnsavedChanges);
 
 		hasUnsavedChanges = false;
 
-		LOGGER.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
+		LOGGER.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged=\"{}\"", hasUnsavedChanges);
 	}
 
 	/*
@@ -356,7 +356,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			throws AuthzInvalidPathException, AuthzPathAlreadyExistsException {
 		assert paths != null;
 
-		LOGGER.debug("createPath() entered, repository={}, path={}", repository, pathString);
+		LOGGER.debug("createPath() entered, repository=\"{}\", path=\"{}\"", repository, pathString);
 
 		// Repository is not validated as it may be null
 		final String pathStringTrimmed = StringUtils.trimToNull(pathString);
@@ -949,7 +949,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public boolean hasUnsavedChanges() {
-		LOGGER.debug("hasUnsavedChanges() entered. hasUnsavedChanges={}", hasUnsavedChanges);
+		LOGGER.debug("hasUnsavedChanges() entered. hasUnsavedChanges=\"{}\"", hasUnsavedChanges);
 
 		return hasUnsavedChanges;
 	}
@@ -981,7 +981,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void removeGroupMember(final AuthzGroup group, final AuthzGroupMember member)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
-		LOGGER.debug("removeGroupMember() entered. group={}, member={}", group, member);
+		LOGGER.debug("removeGroupMember() entered. group=\"{}\", member=\"{}\"", group, member);
 
 		Preconditions.checkNotNull(group, "Group is null");
 		Preconditions.checkNotNull(member, "Member is null");
@@ -1006,7 +1006,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void removeGroupMember(final Collection<AuthzGroup> groups, final AuthzGroupMember member)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
-		LOGGER.debug("removeGroupMember() entered. groups={}, member={}", groups, member);
+		LOGGER.debug("removeGroupMember() entered. groups=\"{}\", member=\"{}\"", groups, member);
 
 		Preconditions.checkNotNull(groups, "Groups is null");
 		Preconditions.checkNotNull(member, "Member is null");
@@ -1027,7 +1027,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void removeGroupMembers(final AuthzGroup group, final Collection<AuthzGroupMember> members)
 			throws AuthzNotMemberOfGroupException, AuthzNotGroupMemberException {
-		LOGGER.debug("removeGroupMembers() entered. group={}, members={}", group, members);
+		LOGGER.debug("removeGroupMembers() entered. group=\"{}\", members=\"{}\"", group, members);
 
 		Preconditions.checkNotNull(group, "Group is null");
 		Preconditions.checkNotNull(members, "Members is null");
@@ -1048,7 +1048,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void renameGroup(final AuthzGroup group, final String newGroupName) throws AuthzInvalidGroupNameException,
 			AuthzGroupAlreadyExistsException {
-		LOGGER.debug("renameGroup() entered. group={}, newGroupName=\"{}\"", group, newGroupName);
+		LOGGER.debug("renameGroup() entered. group=\"{}\", newGroupName=\"{}\"", group, newGroupName);
 
 		// Validate group name
 		validateGroupName(newGroupName);
@@ -1069,7 +1069,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void renameRepository(final AuthzRepository repository, final String newRepositoryName)
 			throws AuthzUserAlreadyExistsException, AuthzInvalidUserNameException {
-		LOGGER.debug("renameRepository() entered. repository={}, newRepositoryName=\"{}\"", repository,
+		LOGGER.debug("renameRepository() entered. repository=\"{}\", newRepositoryName=\"{}\"", repository,
 				newRepositoryName);
 
 		// Validate new user name
@@ -1091,7 +1091,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void renameUser(final AuthzUser user, final String newUserName) throws AuthzUserAlreadyExistsException,
 			AuthzInvalidUserNameException {
-		LOGGER.debug("renameUser() entered. user={}, newUserName=\"{}\"", user, newUserName);
+		LOGGER.debug("renameUser() entered. user=\"{}\", newUserName=\"{}\"", user, newUserName);
 
 		// Validate new user name
 		validateUserName(newUserName);
@@ -1108,7 +1108,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	@Override
 	public void renameUserAlias(final AuthzUser user, final String newAlias)
 			throws AuthzUserAliasAlreadyExistsException, AuthzInvalidUserAliasException {
-		LOGGER.debug("renameUserAlias() entered. user={}, newAlias=\"{}\"", user, newAlias);
+		LOGGER.debug("renameUserAlias() entered. user=\"{}\", newAlias=\"{}\"", user, newAlias);
 
 		final String aliasTrimmed = StringUtils.trimToNull(newAlias);
 
@@ -1130,11 +1130,11 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 * Sets "has unsaved changes" flag to true.
 	 */
 	protected void setHasUnsavedChanges() {
-		LOGGER.debug("setHasUnsavedChanges() entered. hasUnsavedChanged={}", hasUnsavedChanges);
+		LOGGER.debug("setHasUnsavedChanges() entered. hasUnsavedChanged=\"{}\"", hasUnsavedChanges);
 
 		hasUnsavedChanges = true;
 
-		LOGGER.debug("setHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
+		LOGGER.debug("setHasUnsavedChanges() exited. hasUnsavedChanged=\"{}\"", hasUnsavedChanges);
 	}
 
 	/**
@@ -1171,7 +1171,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	protected void validateGroupName(final String name) throws AuthzInvalidGroupNameException,
 			AuthzGroupAlreadyExistsException {
-		LOGGER.debug("validateGroupName() entered. name={}", name);
+		LOGGER.debug("validateGroupName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
@@ -1199,7 +1199,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	protected void validateRepositoryName(final String name) throws AuthzRepositoryAlreadyExistsException,
 			AuthzInvalidRepositoryNameException {
-		LOGGER.debug("validateRepositoryName() entered. name={}", name);
+		LOGGER.debug("validateRepositoryName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
@@ -1229,7 +1229,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	protected void validateUserAlias(final String alias) throws AuthzUserAliasAlreadyExistsException,
 			AuthzInvalidUserAliasException {
-		LOGGER.debug("validateUserAlias() entered. alias={}", alias);
+		LOGGER.debug("validateUserAlias() entered. alias=\"{}\"", alias);
 
 		final String aliasTrimmed = StringUtils.trimToNull(alias);
 
@@ -1257,7 +1257,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	protected void validateUserName(final String name) throws AuthzUserAlreadyExistsException,
 			AuthzInvalidUserNameException {
-		LOGGER.debug("validateUserName() entered. name={}", name);
+		LOGGER.debug("validateUserName() entered. name=\"{}\"", name);
 
 		final String nameTrimmed = StringUtils.trimToNull(name);
 
