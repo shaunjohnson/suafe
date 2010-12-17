@@ -454,8 +454,11 @@ public interface AuthzDocument extends Serializable {
 	 * 
 	 * @param repository Repository to rename
 	 * @param newRepositoryName new name for repository
+	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+	 * @throws AuthzRepositoryAlreadyExistsException If repository with the provided name already exists
 	 */
-	void renameRepository(AuthzRepository repository, String newRepositoryName);
+	void renameRepository(AuthzRepository repository, String newRepositoryName) throws AuthzUserAlreadyExistsException,
+			AuthzInvalidUserNameException;
 
 	/**
 	 * Renames the user name.

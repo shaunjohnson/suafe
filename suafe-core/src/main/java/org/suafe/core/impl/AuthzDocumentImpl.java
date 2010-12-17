@@ -387,23 +387,10 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		LOGGER.debug("createRepository() entered, name=\"{}\"", name);
 
-		final String nameTrimmed = StringUtils.trimToNull(name);
-
 		// Validate repository name
-		if (!isValidRepositoryName(nameTrimmed)) {
-			LOGGER.error("createRepository() invalid repository name");
+		validateRepositoryName(name);
 
-			throw new AuthzInvalidRepositoryNameException();
-		}
-
-		// Check for existing repositories with same name
-		if (doesRepositoryNameExist(nameTrimmed)) {
-			LOGGER.info("createRepository() repository already exists");
-
-			throw new AuthzRepositoryAlreadyExistsException();
-		}
-
-		final AuthzRepositoryImpl repository = new AuthzRepositoryImpl(nameTrimmed);
+		final AuthzRepositoryImpl repository = new AuthzRepositoryImpl(name.trim());
 
 		repositories.add(repository);
 
@@ -1127,10 +1114,26 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		LOGGER.debug("renameGroup() exited");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#renameRepository(org.suafe.core.AuthzRepository, java.lang.String)
+	 */
 	@Override
-	public void renameRepository(final AuthzRepository repository, final String newRepositoryName) {
-		// TODO Auto-generated method stub
+	public void renameRepository(final AuthzRepository repository, final String newRepositoryName)
+			throws AuthzUserAlreadyExistsException, AuthzInvalidUserNameException {
+		LOGGER.debug("renameRepository() entered. repository={}, newRepositoryName=\"{}\"", repository,
+				newRepositoryName);
 
+		// Validate new user name
+		validateUserName(newRepositoryName);
+
+		if (repository instanceof AuthzAbstractNamedImpl) {
+			((AuthzAbstractNamedImpl) repository).setName(newRepositoryName.trim());
+		}
+
+		setHasUnsavedChanges();
+
+		LOGGER.debug("renameRepository() exited");
 	}
 
 	/*
@@ -1237,6 +1240,36 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		}
 
 		LOGGER.debug("validateGroupName() exited.");
+	}
+
+	/**
+	 * Validates that the provided repository name is valid and is not already in use.
+	 * 
+	 * @param name Name to validate
+	 * @throws AuthzInvalidRepositoryNameException If provided repository name is invalid
+	 * @throws AuthzRepositoryAlreadyExistsException If repository with the provided name already exists
+	 */
+	protected void validateRepositoryName(final String name) throws AuthzRepositoryAlreadyExistsException,
+			AuthzInvalidRepositoryNameException {
+		LOGGER.debug("validateRepositoryName() entered. name={}", name);
+
+		final String nameTrimmed = StringUtils.trimToNull(name);
+
+		// Validate repository name
+		if (!isValidRepositoryName(nameTrimmed)) {
+			LOGGER.error("validateRepositoryName() invalid repository name");
+
+			throw new AuthzInvalidRepositoryNameException();
+		}
+
+		// Check for existing repositories with same name
+		if (doesRepositoryNameExist(nameTrimmed)) {
+			LOGGER.info("validateRepositoryName() repository already exists");
+
+			throw new AuthzRepositoryAlreadyExistsException();
+		}
+
+		LOGGER.debug("validateRepositoryName() exited.");
 	}
 
 	/**
