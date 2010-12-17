@@ -171,6 +171,12 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		LOGGER.debug("clearHasUnsavedChanges() exited. hasUnsavedChanged={}", hasUnsavedChanges);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#cloneAccessRule(org.suafe.core.AuthzAccessRule,
+	 * org.suafe.core.AuthzPermissionable)
+	 */
+	@Override
 	public AuthzAccessRule cloneAccessRule(final AuthzAccessRule authzAccessRule,
 			final AuthzPermissionable permissionable) throws AuthzAccessRuleAlreadyExistsException,
 			AuthzAccessRuleAlreadyAppliedException {
@@ -188,6 +194,11 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 		return newAuthzAccessRule;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzDocument#cloneAccessRules(java.util.Collection, org.suafe.core.AuthzPermissionable)
+	 */
+	@Override
 	public Collection<AuthzAccessRule> cloneAccessRules(final Collection<AuthzAccessRule> authzAccessRules,
 			final AuthzPermissionable permissionable) throws AuthzAccessRuleAlreadyExistsException,
 			AuthzAccessRuleAlreadyAppliedException {
