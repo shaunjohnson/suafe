@@ -1,6 +1,6 @@
 package org.suafe.core;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Object that may have permissions associated with it.
@@ -9,9 +9,9 @@ import java.util.Collection;
  */
 public interface AuthzPermissionable extends AuthzNamed {
 	/**
-	 * Returns an immutable collection of AuthzAccessRule objects.
+	 * Returns an immutable list of AuthzAccessRule objects.
 	 * 
-	 * @return Immutable collection of AuthzAccessRule object.
+	 * @return Immutable list of AuthzAccessRule object.
 	 */
-	Collection<AuthzAccessRule> getAccessRules();
+	List<AuthzAccessRule> getAccessRules();
 }

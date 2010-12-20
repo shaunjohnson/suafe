@@ -309,6 +309,10 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 			((AuthzGroupMemberImpl) permissionable).addAccessRule(accessRule);
 		}
 
+		if (path instanceof AuthzPathImpl) {
+			((AuthzPathImpl) path).addAccessRule(accessRule);
+		}
+
 		accessRules.add(accessRule);
 
 		Collections.sort(accessRules);
@@ -463,6 +467,12 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 
 		if (permissionable instanceof AuthzGroupMemberImpl) {
 			((AuthzGroupMemberImpl) permissionable).removeAccessRule(accessRule);
+		}
+
+		final AuthzPath path = accessRule.getPath();
+
+		if (path instanceof AuthzPathImpl) {
+			((AuthzPathImpl) path).removeAccessRule(accessRule);
 		}
 
 		accessRules.add(accessRule);

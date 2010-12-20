@@ -17,7 +17,7 @@
  */
 package org.suafe.core;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * The Interface AuthzGroup.
@@ -25,23 +25,23 @@ import java.util.Collection;
 public interface AuthzGroup extends AuthzGroupMember {
 
 	/**
-	 * Returns an immutable collection of AuthzGroup objects.
+	 * Returns an immutable list of AuthzGroup objects.
 	 * 
-	 * @return Immutable collection of AuthzGroup objects
+	 * @return Immutable list of AuthzGroup objects
 	 */
-	Collection<AuthzGroup> getGroupMembers();
+	List<AuthzGroup> getGroupMembers();
 
 	/**
-	 * Returns an immutable collection of AuthzGroupMember objects.
+	 * Returns an immutable list of AuthzGroupMember objects.
 	 * 
-	 * @return Immutable collection of AuthzGroupMember objects
+	 * @return Immutable list of AuthzGroupMember objects
 	 */
-	Collection<AuthzGroupMember> getMembers();
+	List<AuthzGroupMember> getMembers();
 
 	/**
-	 * Returns an immutable collection of AuthzUser objects.
+	 * Returns an immutable list of AuthzUser objects.
 	 * 
-	 * @return Immutable collection of AuthzUser objects
+	 * @return Immutable list of AuthzUser objects
 	 */
-	Collection<AuthzUser> getUserMembers();
+	List<AuthzUser> getUserMembers();
 }

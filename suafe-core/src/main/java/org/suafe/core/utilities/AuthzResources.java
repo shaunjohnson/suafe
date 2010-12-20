@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.suafe.core.enums.AuthzErrorResourceKey;
+import org.suafe.core.enums.AuthzMessageResourceKey;
 import org.suafe.core.impl.AuthzDocumentImpl;
 
 import com.google.common.base.Preconditions;
@@ -60,18 +61,38 @@ public final class AuthzResources {
 	/**
 	 * Load string from resource bundle using provided key.
 	 * 
-	 * @param messageKey Resource bundle key
+	 * @param errorMessageKey Resource bundle key
 	 * @return String value for the provided key
 	 */
-	public static String getString(final AuthzErrorResourceKey messageKey) {
-		Preconditions.checkNotNull(messageKey, "Message key is null");
+	public static String getString(final AuthzErrorResourceKey errorMessageKey) {
+		Preconditions.checkNotNull(errorMessageKey, "Error message key is null");
 
 		try {
-			return RESOURCE_BUNDLE.getString(messageKey.toString());
+			return RESOURCE_BUNDLE.getString(errorMessageKey.toString());
 		}
 		catch (final MissingResourceException e) {
-			LOGGER.error("getString(AuthzResourceKeyIF)" + " Unable to locate string with key {}",
-					messageKey.toString());
+			LOGGER.error("getString(AuthzErrorResourceKey) Unable to locate string with key {}",
+					errorMessageKey.toString());
+		}
+
+		return null;
+	}
+
+	/**
+	 * Load string from resource bundle using provided key.
+	 * 
+	 * @param MessageKey Resource bundle key
+	 * @return String value for the provided key
+	 */
+	public static String getString(final AuthzMessageResourceKey MessageKey) {
+		Preconditions.checkNotNull(MessageKey, "Message key is null");
+
+		try {
+			return RESOURCE_BUNDLE.getString(MessageKey.toString());
+		}
+		catch (final MissingResourceException e) {
+			LOGGER.error("getString(AuthzMessageResourceKey) Unable to locate string with key {}",
+					MessageKey.toString());
 		}
 
 		return null;

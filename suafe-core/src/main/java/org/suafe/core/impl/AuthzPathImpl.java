@@ -17,12 +17,20 @@
  */
 package org.suafe.core.impl;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.suafe.core.AuthzAccessRule;
 import org.suafe.core.AuthzPath;
 import org.suafe.core.AuthzRepository;
+import org.suafe.core.exceptions.AuthzAccessRuleAlreadyAppliedException;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 
 /**
@@ -31,8 +39,14 @@ import com.google.common.collect.Ordering;
  * @since 2.0
  */
 public final class AuthzPathImpl implements AuthzPath {
+	/** Logger handle. */
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthzPathImpl.class);
+
 	/** Serialization ID. */
 	private static final long serialVersionUID = 9125579229041836584L;
+
+	/** The access rules. */
+	private List<AuthzAccessRule> accessRules;
 
 	/** Path string. */
 	private final String path;
@@ -53,6 +67,37 @@ public final class AuthzPathImpl implements AuthzPath {
 
 		this.repository = repository;
 		this.path = path;
+	}
+
+	/**
+	 * Adds access rule to collection access rules.
+	 * 
+	 * @param accessRule Access rule to add to collection
+	 * @return True if access rule added
+	 * @throws AuthzAccessRuleAlreadyAppliedException If the access rule is already applied to the member
+	 */
+	protected final boolean addAccessRule(final AuthzAccessRule accessRule)
+			throws AuthzAccessRuleAlreadyAppliedException {
+		assert accessRules != null;
+
+		LOGGER.debug("addAccessRule() entered. accessRule={}", accessRule);
+
+		Preconditions.checkNotNull(accessRule, "Access Rule is null");
+
+		if (accessRules.contains(accessRule)) {
+			LOGGER.error("addAccessRule() already a member of group");
+
+			throw new AuthzAccessRuleAlreadyAppliedException();
+		}
+
+		if (accessRules.add(accessRule)) {
+			Collections.sort(accessRules);
+
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**
@@ -107,6 +152,19 @@ public final class AuthzPathImpl implements AuthzPath {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzPath#getAccessRules()
+	 */
+	@Override
+	public List<AuthzAccessRule> getAccessRules() {
+		assert accessRules != null;
+
+		Collections.unmodifiableCollection(accessRules);
+
+		return new ImmutableList.Builder<AuthzAccessRule>().addAll(accessRules).build();
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.suafe.core.impl.AuthzPathIF#getPath()
 	 */
 	@Override
@@ -135,6 +193,24 @@ public final class AuthzPathImpl implements AuthzPath {
 		result = prime * result + (path == null ? 0 : path.hashCode());
 		result = prime * result + (repository == null ? 0 : repository.hashCode());
 		return result;
+	}
+
+	/**
+	 * Removes an access rule from the collection of access rules.
+	 * 
+	 * @param accessRule Access rule to remove
+	 * @return True if access rule removed
+	 */
+	protected final boolean removeAccessRule(final AuthzAccessRule accessRule) {
+		assert accessRule != null;
+
+		LOGGER.debug("addAccessRule() entered. accessRule={}", accessRule);
+
+		final boolean removed = accessRules.remove(accessRule);
+
+		LOGGER.debug("addAccessRule() exited, returning {}", removed);
+
+		return removed;
 	}
 
 	/**

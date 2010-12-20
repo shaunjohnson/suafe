@@ -15,34 +15,37 @@
  * ====================================================================
  * @endcopyright
  */
-package org.suafe.core;
-
-import java.io.Serializable;
-import java.util.List;
+package org.suafe.core.enums;
 
 /**
- * The Interface AuthzPath.
+ * Resource key enumeration used for messages.
+ * 
+ * @since 2.0
  */
-public interface AuthzPath extends Comparable<AuthzPath>, Serializable {
+public enum AuthzMessageResourceKey {
+
+	/** The APPLICATION_FILE_HEADER. */
+	APPLICATION_FILE_HEADER("applicationFileHeader");
+
+	/** The key. */
+	private final String key;
 
 	/**
-	 * Returns an immutable collection of AuthzAccessRuleIF objects.
+	 * Private constructor used to create enumeration values.
 	 * 
-	 * @return Immutable collection of AuthzAccessRuleIF objects
+	 * @param key Resource file key
 	 */
-	List<AuthzAccessRule> getAccessRules();
+	private AuthzMessageResourceKey(final String key) {
+		this.key = key;
+	}
 
 	/**
-	 * Gets the path.
+	 * Creates a string representation of this resource key.
 	 * 
-	 * @return Path
+	 * @return String representation of this resource key
 	 */
-	String getPath();
-
-	/**
-	 * Gets the repository.
-	 * 
-	 * @return Repository
-	 */
-	AuthzRepository getRepository();
+	@Override
+	public String toString() {
+		return key;
+	}
 }

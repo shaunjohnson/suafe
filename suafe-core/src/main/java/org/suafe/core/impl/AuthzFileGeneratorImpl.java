@@ -23,14 +23,16 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
 import java.util.Iterator;
 
-import org.apache.commons.lang.StringUtils;
+import org.suafe.core.AuthzAccessRule;
 import org.suafe.core.AuthzDocument;
 import org.suafe.core.AuthzGroup;
 import org.suafe.core.AuthzPath;
+import org.suafe.core.AuthzPermissionable;
 import org.suafe.core.AuthzUser;
+import org.suafe.core.enums.AuthzMessageResourceKey;
+import org.suafe.core.utilities.AuthzResources;
 
 public final class AuthzFileGeneratorImpl {
 
@@ -38,7 +40,7 @@ public final class AuthzFileGeneratorImpl {
 
 	private final int DEFAULT_MAX_LINE_LENGTH = 80;
 
-	private AuthzDocument document = null;
+	private final AuthzDocument document;
 
 	public AuthzFileGeneratorImpl(final AuthzDocument document) {
 		super();
@@ -94,15 +96,14 @@ public final class AuthzFileGeneratorImpl {
 
 		try {
 			output.append("# ");
-			// output.append(ResourceUtil.getString("application.fileheader"));
-			output.append(TEXT_NEW_LINE);
-			output.append(TEXT_NEW_LINE);
+			output.append(AuthzResources.getString(AuthzMessageResourceKey.APPLICATION_FILE_HEADER));
+			output.append(TEXT_NEW_LINE).append(TEXT_NEW_LINE);
 
 			// Process alias definitions
 			final StringBuilder aliases = new StringBuilder();
 
 			for (final AuthzUser user : document.getUsers()) {
-				if (StringUtils.isBlank(user.getAlias())) {
+				if (user.getAlias() == null) {
 					continue;
 				}
 
@@ -125,8 +126,6 @@ public final class AuthzFileGeneratorImpl {
 			// Process group definitions
 			output.append("[groups]");
 			output.append(TEXT_NEW_LINE);
-
-			Collections.sort(document.getGroups());
 
 			for (final AuthzGroup group : document.getGroups()) {
 				output.append(group.getName());
@@ -177,8 +176,8 @@ public final class AuthzFileGeneratorImpl {
 
 					while (members.hasNext()) {
 						final AuthzUser memberUser = members.next();
-						final String nameAlias = StringUtils.isBlank(memberUser.getAlias()) ? memberUser.getName()
-								: "&" + memberUser.getAlias();
+						final String nameAlias = memberUser.getAlias() == null ? memberUser.getName() : "&"
+								+ memberUser.getAlias();
 
 						if (maxLineLength > 0 && !isFirstGroupMember
 								&& userLine.length() + nameAlias.length() > maxLineLength) {
@@ -211,9 +210,9 @@ public final class AuthzFileGeneratorImpl {
 
 			// Process access rules
 			for (final AuthzPath path : document.getPaths()) {
-				// if (path.getAccessRules().size() == 0) {
-				// continue;
-				// }
+				if (path.getAccessRules().size() == 0) {
+					continue;
+				}
 
 				if (path.getRepository() == null) {
 					// Server permissions
@@ -232,37 +231,37 @@ public final class AuthzFileGeneratorImpl {
 					output.append(TEXT_NEW_LINE);
 				}
 
-				// for (final AuthzAccessRule rule : path.getAccessRules()) {
-				// final AuthzPermissionable permissionable = rule.getPermissionable();
-				//
-				// if (permissionable instanceof AuthzGroup) {
-				// final AuthzGroup group = (AuthzGroup) permissionable;
-				//
-				// output.append("@");
-				// output.append(group.getName());
-				// output.append(" = ");
-				// output.append(rule.getAccessLevel().getAccessLevelCode());
-				// output.append(TEXT_NEW_LINE);
-				// }
-				// else if (permissionable instanceof AuthzUser) {
-				// final AuthzUser user = (AuthzUser) permissionable;
-				//
-				// if (user.getAlias() == null) {
-				// output.append(user.getName());
-				// }
-				// else {
-				// output.append("&");
-				// output.append(user.getAlias());
-				// }
-				//
-				// output.append(" = ");
-				// output.append(rule.getAccessLevel().getAccessLevelCode());
-				// output.append(TEXT_NEW_LINE);
-				// }
-				// else {
-				// throw new RuntimeException("generator.error");
-				// }
-				// }
+				for (final AuthzAccessRule rule : path.getAccessRules()) {
+					final AuthzPermissionable permissionable = rule.getPermissionable();
+
+					if (permissionable instanceof AuthzGroup) {
+						final AuthzGroup group = (AuthzGroup) permissionable;
+
+						output.append("@");
+						output.append(group.getName());
+						output.append(" = ");
+						output.append(rule.getAccessLevel().getAccessLevelCode());
+						output.append(TEXT_NEW_LINE);
+					}
+					else if (permissionable instanceof AuthzUser) {
+						final AuthzUser user = (AuthzUser) permissionable;
+
+						if (user.getAlias() == null) {
+							output.append(user.getName());
+						}
+						else {
+							output.append("&");
+							output.append(user.getAlias());
+						}
+
+						output.append(" = ");
+						output.append(rule.getAccessLevel().getAccessLevelCode());
+						output.append(TEXT_NEW_LINE);
+					}
+					else {
+						throw new RuntimeException("generator.error");
+					}
+				}
 
 				output.append(TEXT_NEW_LINE);
 			}

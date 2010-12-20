@@ -17,16 +17,16 @@
  */
 package org.suafe.core;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * The Interface AuthzGroupMember.
  */
 public interface AuthzGroupMember extends AuthzPermissionable {
 	/**
-	 * Returns an immutable collection of AuthzGroupIF objects.
+	 * Returns an immutable list of AuthzGroupIF objects.
 	 * 
-	 * @return Immutable collection of AuthzGroupIF object.
+	 * @return Immutable list of AuthzGroupIF object.
 	 */
-	Collection<AuthzGroup> getGroups();
+	List<AuthzGroup> getGroups();
 }

@@ -18,7 +18,6 @@
 package org.suafe.core.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +31,7 @@ import org.suafe.core.exceptions.AuthzAlreadyMemberOfGroupException;
 import org.suafe.core.exceptions.AuthzNotMemberOfGroupException;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 
 /**
  * Authz group member object implementation. Instances of this class or its subclasses are eligible to be a member of a
@@ -127,10 +127,10 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	 * @see org.suafe.core.AuthzGroupMemberIF#getAccessRules()
 	 */
 	@Override
-	public final Collection<AuthzAccessRule> getAccessRules() {
+	public final List<AuthzAccessRule> getAccessRules() {
 		assert accessRules != null;
 
-		return Collections.unmodifiableCollection(accessRules);
+		return new ImmutableList.Builder<AuthzAccessRule>().addAll(accessRules).build();
 	}
 
 	/*
@@ -138,10 +138,10 @@ public abstract class AuthzGroupMemberImpl extends AuthzAbstractNamedImpl implem
 	 * @see org.suafe.core.impl.AuthzGroupMemberIF#getGroups()
 	 */
 	@Override
-	public final Collection<AuthzGroup> getGroups() {
+	public final List<AuthzGroup> getGroups() {
 		assert groups != null;
 
-		return Collections.unmodifiableCollection(groups);
+		return new ImmutableList.Builder<AuthzGroup>().addAll(groups).build();
 	}
 
 	/**

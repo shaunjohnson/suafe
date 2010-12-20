@@ -32,6 +32,7 @@ import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzNotGroupMemberException;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 
 /**
  * Authz group object implementation.
@@ -173,10 +174,10 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	 * @see org.suafe.core.AuthzGroup#getGroupMembers()
 	 */
 	@Override
-	public Collection<AuthzGroup> getGroupMembers() {
+	public List<AuthzGroup> getGroupMembers() {
 		assert groups != null;
 
-		return Collections.unmodifiableCollection(groups);
+		return new ImmutableList.Builder<AuthzGroup>().addAll(groups).build();
 	}
 
 	/*
@@ -184,7 +185,7 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	 * @see org.suafe.core.impl.AuthzGroupIF#getMembers()
 	 */
 	@Override
-	public Collection<AuthzGroupMember> getMembers() {
+	public List<AuthzGroupMember> getMembers() {
 		assert groups != null;
 		assert users != null;
 
@@ -193,7 +194,7 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 		members.addAll(groups);
 		members.addAll(users);
 
-		return Collections.unmodifiableCollection(members);
+		return new ImmutableList.Builder<AuthzGroupMember>().addAll(members).build();
 	}
 
 	/*
@@ -201,10 +202,10 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	 * @see org.suafe.core.AuthzGroup#getUserMembers()
 	 */
 	@Override
-	public Collection<AuthzUser> getUserMembers() {
+	public List<AuthzUser> getUserMembers() {
 		assert users != null;
 
-		return Collections.unmodifiableCollection(users);
+		return new ImmutableList.Builder<AuthzUser>().addAll(users).build();
 	}
 
 	/**
