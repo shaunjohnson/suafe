@@ -25,9 +25,23 @@ import java.util.Collection;
 public interface AuthzGroup extends AuthzGroupMember {
 
 	/**
+	 * Returns an immutable collection of AuthzGroup objects.
+	 * 
+	 * @return Immutable collection of AuthzGroup objects
+	 */
+	Collection<AuthzGroup> getGroupMembers();
+
+	/**
 	 * Returns an immutable collection of AuthzGroupMember objects.
 	 * 
 	 * @return Immutable collection of AuthzGroupMember objects
 	 */
 	Collection<AuthzGroupMember> getMembers();
+
+	/**
+	 * Returns an immutable collection of AuthzUser objects.
+	 * 
+	 * @return Immutable collection of AuthzUser objects
+	 */
+	Collection<AuthzUser> getUserMembers();
 }

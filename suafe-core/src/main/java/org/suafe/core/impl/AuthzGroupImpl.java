@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.suafe.core.AuthzGroup;
 import org.suafe.core.AuthzGroupMember;
+import org.suafe.core.AuthzUser;
 import org.suafe.core.exceptions.AuthzGroupMemberAlreadyExistsException;
 import org.suafe.core.exceptions.AuthzNotGroupMemberException;
 
@@ -44,8 +45,11 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	/** Serialization ID. */
 	private static final long serialVersionUID = 7033919638521713150L;
 
-	/** Collection of members. */
-	private final List<AuthzGroupMember> members = new ArrayList<AuthzGroupMember>();
+	/** The groups. */
+	private final List<AuthzGroup> groups = new ArrayList<AuthzGroup>();
+
+	/** The users. */
+	private final List<AuthzUser> users = new ArrayList<AuthzUser>();
 
 	/**
 	 * Constructor.
@@ -59,25 +63,74 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	/**
 	 * Adds a group member.
 	 * 
-	 * @param member AuthzGroupMember member to add
+	 * @param group AuthzGroup member to add
 	 * @return True if member added
 	 * @throws AuthzGroupMemberAlreadyExistsException If group member already exists
 	 */
-	protected boolean addMember(final AuthzGroupMember member) throws AuthzGroupMemberAlreadyExistsException {
-		assert members != null;
+	protected boolean addMember(final AuthzGroup group) throws AuthzGroupMemberAlreadyExistsException {
+		assert groups != null;
 
-		LOGGER.debug("addMember() entered. member={}", member);
+		LOGGER.debug("addMember(AuthzGroup) entered. group={}", group);
 
-		Preconditions.checkNotNull(member, "Member is null");
+		Preconditions.checkNotNull(group, "Group is null");
 
-		if (members.contains(member)) {
-			LOGGER.error("addMember() group member already exists");
+		if (groups.contains(group)) {
+			LOGGER.error("addMember(AuthzGroup) group member already exists");
 
 			throw new AuthzGroupMemberAlreadyExistsException();
 		}
 
-		if (members.add(member)) {
-			Collections.sort(members);
+		if (groups.add(group)) {
+			Collections.sort(groups);
+
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds a member.
+	 * 
+	 * @param member AuthzGroupMember member to add
+	 * @return True if member added
+	 * @throws AuthzGroupMemberAlreadyExistsException If user member already exists
+	 */
+	protected boolean addMember(final AuthzGroupMember member) throws AuthzGroupMemberAlreadyExistsException {
+		if (member instanceof AuthzGroup) {
+			return addMember((AuthzGroup) member);
+		}
+		else if (member instanceof AuthzUser) {
+			return addMember((AuthzUser) member);
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds a user member.
+	 * 
+	 * @param user AuthzUser member to add
+	 * @return True if member added
+	 * @throws AuthzGroupMemberAlreadyExistsException If user member already exists
+	 */
+	protected boolean addMember(final AuthzUser user) throws AuthzGroupMemberAlreadyExistsException {
+		assert users != null;
+
+		LOGGER.debug("addMember(AuthzUser) entered. user={}", user);
+
+		Preconditions.checkNotNull(user, "User is null");
+
+		if (users.contains(user)) {
+			LOGGER.error("addMember(AuthzUser) user member already exists");
+
+			throw new AuthzGroupMemberAlreadyExistsException();
+		}
+
+		if (users.add(user)) {
+			Collections.sort(users);
 
 			return true;
 		}
@@ -117,13 +170,41 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzGroup#getGroupMembers()
+	 */
+	@Override
+	public Collection<AuthzGroup> getGroupMembers() {
+		assert groups != null;
+
+		return Collections.unmodifiableCollection(groups);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.suafe.core.impl.AuthzGroupIF#getMembers()
 	 */
 	@Override
 	public Collection<AuthzGroupMember> getMembers() {
-		assert members != null;
+		assert groups != null;
+		assert users != null;
+
+		final Collection<AuthzGroupMember> members = new ArrayList<AuthzGroupMember>(groups.size() + users.size());
+
+		members.addAll(groups);
+		members.addAll(users);
 
 		return Collections.unmodifiableCollection(members);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.suafe.core.AuthzGroup#getUserMembers()
+	 */
+	@Override
+	public Collection<AuthzUser> getUserMembers() {
+		assert users != null;
+
+		return Collections.unmodifiableCollection(users);
 	}
 
 	/**
@@ -142,24 +223,66 @@ public final class AuthzGroupImpl extends AuthzGroupMemberImpl implements AuthzG
 	/**
 	 * Remove group member.
 	 * 
-	 * @param member Member to remove
+	 * @param group Member group to remove
 	 * @return True if member removed
 	 * @throws AuthzNotGroupMemberException If provided member object is not a member of this group.
 	 */
-	protected boolean removeMember(final AuthzGroupMember member) throws AuthzNotGroupMemberException {
-		assert members != null;
+	protected boolean removeMember(final AuthzGroup group) throws AuthzNotGroupMemberException {
+		assert groups != null;
 
-		LOGGER.debug("removeMember() entered. member={}", member);
+		LOGGER.debug("removeMember(AuthzGroup) entered. group={}", group);
 
-		Preconditions.checkNotNull(member, "Member is null");
+		Preconditions.checkNotNull(group, "Group is null");
 
-		if (!members.contains(member)) {
-			LOGGER.error("removeMember() member is not a member of this group");
+		if (!groups.contains(group)) {
+			LOGGER.error("removeMember(AuthzGroup) group is not a member of this group");
 
 			throw new AuthzNotGroupMemberException();
 		}
 
-		return members.remove(member);
+		return groups.remove(group);
+	}
+
+	/**
+	 * Removes a member.
+	 * 
+	 * @param member AuthzGroupMember member to remove
+	 * @return True if member removed
+	 * @throws AuthzNotGroupMemberException If user member already exists
+	 */
+	protected boolean removeMember(final AuthzGroupMember member) throws AuthzNotGroupMemberException {
+		if (member instanceof AuthzGroup) {
+			return removeMember((AuthzGroup) member);
+		}
+		else if (member instanceof AuthzUser) {
+			return removeMember((AuthzUser) member);
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Remove user member.
+	 * 
+	 * @param user Member user to remove
+	 * @return True if member removed
+	 * @throws AuthzNotGroupMemberException If provided member object is not a member of this group.
+	 */
+	protected boolean removeMember(final AuthzUser user) throws AuthzNotGroupMemberException {
+		assert users != null;
+
+		LOGGER.debug("removeMember(AuthzUser) entered. user={}", user);
+
+		Preconditions.checkNotNull(user, "User is null");
+
+		if (!users.contains(user)) {
+			LOGGER.error("removeMember(AuthzUser) user is not a member of this group");
+
+			throw new AuthzNotGroupMemberException();
+		}
+
+		return users.remove(user);
 	}
 
 	/**

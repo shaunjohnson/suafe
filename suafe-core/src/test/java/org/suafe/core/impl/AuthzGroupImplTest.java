@@ -72,7 +72,7 @@ public class AuthzGroupImplTest {
 			final AuthzDocument document = new AuthzDocumentImpl();
 			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
 
-			group.addMember(null);
+			group.addMember((AuthzGroupMember) null);
 
 			fail("Unexpected successfully added null member");
 		}
@@ -94,7 +94,8 @@ public class AuthzGroupImplTest {
 	@Test
 	public void testCompareTo() {
 		assertTrue("Empty groups should match", new AuthzGroupImpl("").compareTo(new AuthzGroupImpl("")) == 0);
-		assertTrue("Groups with same name should match", new AuthzGroupImpl("name").compareTo(new AuthzGroupImpl("name")) == 0);
+		assertTrue("Groups with same name should match",
+				new AuthzGroupImpl("name").compareTo(new AuthzGroupImpl("name")) == 0);
 		assertTrue("Groups with same name and alias should match",
 				new AuthzGroupImpl("name").compareTo(new AuthzGroupImpl("name")) == 0);
 
@@ -118,8 +119,8 @@ public class AuthzGroupImplTest {
 	public void testHashCode() {
 		assertTrue("HashCode values should match",
 				new AuthzGroupImpl("name").hashCode() == new AuthzGroupImpl("name").hashCode());
-		assertFalse("HashCode values should not match",
-				new AuthzGroupImpl("name").hashCode() == new AuthzGroupImpl("name2").hashCode());
+		assertFalse("HashCode values should not match", new AuthzGroupImpl("name").hashCode() == new AuthzGroupImpl(
+				"name2").hashCode());
 	}
 
 	@Test
@@ -149,7 +150,7 @@ public class AuthzGroupImplTest {
 			final AuthzDocument document = new AuthzDocumentImpl();
 			final AuthzGroupImpl group = (AuthzGroupImpl) document.createGroup("name");
 
-			group.removeMember(null);
+			group.removeMember((AuthzGroupMember) null);
 
 			fail("Unexpected successfully removed null member");
 		}
