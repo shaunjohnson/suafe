@@ -17,6 +17,7 @@
  */
 package org.suafe.core.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public final class AuthzPathImpl implements AuthzPath {
 	private static final long serialVersionUID = 9125579229041836584L;
 
 	/** The access rules. */
-	private List<AuthzAccessRule> accessRules;
+	private final List<AuthzAccessRule> accessRules = new ArrayList<AuthzAccessRule>();
 
 	/** Path string. */
 	private final String path;

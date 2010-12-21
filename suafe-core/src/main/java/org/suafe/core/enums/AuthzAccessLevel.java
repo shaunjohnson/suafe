@@ -33,6 +33,27 @@ public enum AuthzAccessLevel {
 	/** The Constant READ_WRITE. */
 	READ_WRITE("rw");
 
+	/**
+	 * Gets AuthzAccessLevel by access level code.
+	 * 
+	 * @param code access level code of enum to get
+	 * @return Enum with provided code
+	 */
+	public static AuthzAccessLevel getAccessLevelByCode(final String code) {
+		if (code.equals(DENY_ACCESS.accessLevelCode)) {
+			return DENY_ACCESS;
+		}
+		else if (code.equals(READ_ONLY.accessLevelCode)) {
+			return READ_ONLY;
+		}
+		else if (code.equals(READ_WRITE.accessLevelCode)) {
+			return READ_WRITE;
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
+	}
+
 	/** The access level code. */
 	private final String accessLevelCode;
 

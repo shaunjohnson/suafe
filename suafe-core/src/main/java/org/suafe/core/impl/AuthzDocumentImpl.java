@@ -625,7 +625,7 @@ public final class AuthzDocumentImpl implements AuthzDocument {
 	 */
 	@Override
 	public boolean doesPathExist(final AuthzRepository repository, final String path) throws AuthzInvalidPathException {
-		LOGGER.debug("doesPathExist() entered. repositor{}, name=\"{}\"", repository, path);
+		LOGGER.debug("doesPathExist() entered. repository=\"{}\", name=\"{}\"", repository, path);
 
 		// Validation of repository and path is done within getPath()
 
