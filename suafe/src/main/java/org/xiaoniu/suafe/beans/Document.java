@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xiaoniu.suafe.ActionConstants;
@@ -557,8 +558,7 @@ public final class Document {
 		else {
 			String userAlias = user.getAlias();
 
-			if ((userAlias == null && alias != null)
-					|| (userAlias != null && alias == null || (userAlias.equals(alias)))) {
+			if (!ObjectUtils.equals(userAlias, alias)) {
 				throw new AppException("User already exists, but with a different alias");
 			}
 		}
