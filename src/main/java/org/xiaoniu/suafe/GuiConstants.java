@@ -4,7 +4,7 @@ import java.awt.Font;
 
 public final class GuiConstants {
 	private GuiConstants() {
-		super();
+		throw new AssertionError();
 	}
 	
 	public static final Font FONT_BOLD_LARGE = new Font("Dialog", Font.BOLD, 14);

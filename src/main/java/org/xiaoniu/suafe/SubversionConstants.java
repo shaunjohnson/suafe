@@ -2,7 +2,7 @@ package org.xiaoniu.suafe;
 
 public final class SubversionConstants {
 	private SubversionConstants() {
-		super();
+		throw new AssertionError();
 	}
 
 	public static final String SVN_ACCESS_LEVEL_DENY_ACCESS = "".intern();

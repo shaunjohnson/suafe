@@ -43,6 +43,6 @@ public final class Constants {
 	public static final String TEXT_NEW_LINE = System.getProperty("line.separator");
 
 	private Constants() {
-		super();
+		throw new AssertionError();
 	}
 }
