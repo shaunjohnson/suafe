@@ -10,10 +10,10 @@
     <description>Suafe is a Subversion user authorization file editor.
     </description>
     <inceptionYear>2006</inceptionYear>
-    <url>http://code.google.com/p/suafe</url>
+    <url>https://github.com/shaunjohnson/suafe</url>
     <issueManagement>
-        <system>Google</system>
-        <url>http://code.google.com/p/suafe/issues/list</url>
+        <system>GitHub</system>
+        <url>https://github.com/shaunjohnson/suafe/issues</url>
     </issueManagement>
     <developers>
         <developer>
@@ -34,9 +34,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://suafe.googlecode.com/svn/trunk/</connection>
-        <developerConnection>scm:svn:https://suafe.googlecode.com/svn/trunk/</developerConnection>
-        <url>http://code.google.com/p/suafe/source/browse</url>
+        <url>https://github.com/shaunjohnson/suafe</url>
+        <connection>scm:git:git://github.com/shaunjohnson/suafe.git</connection>
+        <developerConnection>scm:git:git@github.com:shaunjohnson/suafe.git</developerConnection>
     </scm>
     <dependencies>
         <dependency>
