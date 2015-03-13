@@ -36,6 +36,8 @@ import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.exceptions.ParserException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+
 /**
  * Subversion user authentication file parser. Reads and parse auth file and populates the Document object.
  * 
@@ -332,7 +334,7 @@ public final class FileParser {
 	private void parseLine(final Document document, final int lineNumber, String line) throws ParserException,
 			AppException {
 		// Process non-blank lines
-		if (line.equals("")) {
+		if (isBlank(line)) {
 			if (currentState == State.STATE_PROCESS_GROUPS && currentGroup != null) {
 				// Invalid syntax
 				throw ParserException.generateException(lineNumber, "parser.syntaxerror.invalidgroupdefinition");
