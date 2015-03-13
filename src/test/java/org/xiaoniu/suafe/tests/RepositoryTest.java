@@ -28,7 +28,6 @@ import static org.junit.Assert.assertTrue;
  * @author Shaun Johnson
  */
 public class RepositoryTest {
-
     private String repositoryName = "TestRepoName";
 
     @Test

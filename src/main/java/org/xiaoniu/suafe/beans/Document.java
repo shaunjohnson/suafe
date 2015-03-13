@@ -684,7 +684,7 @@ public final class Document {
      */
     public Group cloneGroup(Group group, String groupName) throws AppException {
         if (findGroup(groupName) != null) {
-            throw new AppException("clonegroup.error.useralreadyexists");
+            throw new AppException("clonegroup.error.groupalreadyexists");
         }
 
         List<Group> groupMembers = (group == null) ? null : group.getGroupMembers();

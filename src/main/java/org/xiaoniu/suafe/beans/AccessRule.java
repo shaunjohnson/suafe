@@ -231,4 +231,40 @@ public final class AccessRule implements Comparable<AccessRule> {
     public int compareTo(AccessRule otherAccessRule) {
         return this.toString().compareTo(otherAccessRule.toString());
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final AccessRule that = (AccessRule) o;
+
+        if (group != null ? !group.equals(that.group) : that.group != null) {
+            return false;
+        }
+        if (level != null ? !level.equals(that.level) : that.level != null) {
+            return false;
+        }
+        if (path != null ? !path.equals(that.path) : that.path != null) {
+            return false;
+        }
+        if (user != null ? !user.equals(that.user) : that.user != null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = path != null ? path.hashCode() : 0;
+        result = 31 * result + (group != null ? group.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (level != null ? level.hashCode() : 0);
+        return result;
+    }
 }

@@ -131,6 +131,7 @@ public final class Repository implements Comparable<Repository> {
      * @return true if it is the same object, otherwise false
      */
     public boolean equals(Repository otherRepository) {
-        return name.equals(otherRepository.getName());
+        return name == null ? otherRepository.getName() == null :
+                name.equals(otherRepository.getName());
     }
 }
