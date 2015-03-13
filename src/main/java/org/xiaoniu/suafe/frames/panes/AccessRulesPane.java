@@ -19,7 +19,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.xiaoniu.suafe.ActionConstants;
-import org.xiaoniu.suafe.ApplicationDefaultsContants;
+import org.xiaoniu.suafe.ApplicationDefaultsConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.frames.menus.AccessRulesPopupMenu;
 import org.xiaoniu.suafe.frames.menus.PopupMenuListener;
@@ -159,7 +159,7 @@ public final class AccessRulesPane extends BaseSplitPane {
 			accessRulesTable = new JTable();
 			accessRulesTable.addMouseListener(mouseListener);
 			accessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			accessRulesTable.setRowHeight(ApplicationDefaultsContants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
+			accessRulesTable.setRowHeight(ApplicationDefaultsConstants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
 			accessRulesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			accessRulesTable.getSelectionModel().addListSelectionListener(listSelectionListener);
 			accessRulesTable.setAutoCreateRowSorter(true);

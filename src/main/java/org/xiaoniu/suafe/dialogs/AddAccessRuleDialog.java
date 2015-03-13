@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import org.xiaoniu.suafe.ActionConstants;
-import org.xiaoniu.suafe.ApplicationDefaultsContants;
+import org.xiaoniu.suafe.ApplicationDefaultsConstants;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Document;
 import org.xiaoniu.suafe.beans.Message;
@@ -75,7 +75,7 @@ public final class AddAccessRuleDialog extends ParentDialog implements ActionLis
 
 		if (userObject != null && userObject instanceof Repository) {
 			this.repository = (Repository) userObject;
-			this.path = ApplicationDefaultsContants.DEFAULT_SVN_PATH;
+			this.path = ApplicationDefaultsConstants.DEFAULT_SVN_PATH;
 		}
 		else if (userObject != null && userObject instanceof Path) {
 			Path path = (Path) userObject;
@@ -85,7 +85,7 @@ public final class AddAccessRuleDialog extends ParentDialog implements ActionLis
 		}
 		else {
 			this.repository = null;
-			this.path = ApplicationDefaultsContants.DEFAULT_SVN_PATH;
+			this.path = ApplicationDefaultsConstants.DEFAULT_SVN_PATH;
 		}
 
 		this.document = document;

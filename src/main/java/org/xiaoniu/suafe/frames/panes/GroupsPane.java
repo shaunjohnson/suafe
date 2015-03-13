@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
 import org.xiaoniu.suafe.ActionConstants;
-import org.xiaoniu.suafe.ApplicationDefaultsContants;
+import org.xiaoniu.suafe.ApplicationDefaultsConstants;
 import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
@@ -200,7 +200,7 @@ public final class GroupsPane extends BaseSplitPane {
 		if (groupAccessRulesTable == null) {
 			groupAccessRulesTable = new JTable();
 			groupAccessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			groupAccessRulesTable.setRowHeight(ApplicationDefaultsContants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
+			groupAccessRulesTable.setRowHeight(ApplicationDefaultsConstants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
 			groupAccessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			groupAccessRulesTable.setAutoCreateRowSorter(true);
 		}

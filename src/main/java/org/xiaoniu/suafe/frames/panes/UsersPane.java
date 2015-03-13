@@ -17,7 +17,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 
 import org.xiaoniu.suafe.ActionConstants;
-import org.xiaoniu.suafe.ApplicationDefaultsContants;
+import org.xiaoniu.suafe.ApplicationDefaultsConstants;
 import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
@@ -200,7 +200,7 @@ public final class UsersPane extends BaseSplitPane {
 		if (userAccessRulesTable == null) {
 			userAccessRulesTable = new JTable();
 			userAccessRulesTable.setDefaultRenderer(Object.class, new MyTableCellRenderer());
-			userAccessRulesTable.setRowHeight(ApplicationDefaultsContants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
+			userAccessRulesTable.setRowHeight(ApplicationDefaultsConstants.DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT);
 			userAccessRulesTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			userAccessRulesTable.setAutoCreateRowSorter(true);
 		}

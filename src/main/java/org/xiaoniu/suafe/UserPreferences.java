@@ -101,12 +101,12 @@ public final class UserPreferences {
 	
 	public static int getGroupDetailsDividerLocation() {
 		return Integer.parseInt(prefs.get(GROUP_DETAILS_DIVIDER_LOCATION, 
-				ApplicationDefaultsContants.DEFAULT_DIVIDER_LOCATION));
+				ApplicationDefaultsConstants.DEFAULT_DIVIDER_LOCATION));
 	}
 	
 	public static int getGroupsPaneDividerLocation() {
 		return Integer.parseInt(prefs.get(GROUPS_PANE_DIVIDER_LOCATION, 
-				ApplicationDefaultsContants.DEFAULT_DIVIDER_LOCATION));
+				ApplicationDefaultsConstants.DEFAULT_DIVIDER_LOCATION));
 	}
 	
 	/**
@@ -153,12 +153,12 @@ public final class UserPreferences {
 	
 	public static int getRulesPaneDividerLocation() {
 		return Integer.parseInt(prefs.get(RULES_PANE_DIVIDER_LOCATION, 
-				ApplicationDefaultsContants.DEFAULT_DIVIDER_LOCATION));
+				ApplicationDefaultsConstants.DEFAULT_DIVIDER_LOCATION));
 	}
 	
 	public static int getUserDetailsDividerLocation() {
 		return Integer.parseInt(prefs.get(USER_DETAILS_DIVIDER_LOCATION, 
-				ApplicationDefaultsContants.DEFAULT_DIVIDER_LOCATION));
+				ApplicationDefaultsConstants.DEFAULT_DIVIDER_LOCATION));
 	}
 	
 	/**
@@ -194,7 +194,7 @@ public final class UserPreferences {
 	
 	public static int getUsersPaneDividerLocation() {
 		return Integer.parseInt(prefs.get(USERS_PANE_DIVIDER_LOCATION, 
-				ApplicationDefaultsContants.DEFAULT_DIVIDER_LOCATION));
+				ApplicationDefaultsConstants.DEFAULT_DIVIDER_LOCATION));
 	}
 	
 	public static Point getWindowLocation() {
@@ -219,11 +219,11 @@ public final class UserPreferences {
 	
 	public static Dimension getWindowSize() {
 		String size = prefs.get(WINDOW_SIZE, 
-				ApplicationDefaultsContants.DEFAULT_WIDTH + "," + ApplicationDefaultsContants.DEFAULT_HEIGHT);
+				ApplicationDefaultsConstants.DEFAULT_WIDTH + "," + ApplicationDefaultsConstants.DEFAULT_HEIGHT);
 		
 		String[] sizes = size.split(",");
-		int width = ApplicationDefaultsContants.DEFAULT_WIDTH;
-		int height = ApplicationDefaultsContants.DEFAULT_HEIGHT;
+		int width = ApplicationDefaultsConstants.DEFAULT_WIDTH;
+		int height = ApplicationDefaultsConstants.DEFAULT_HEIGHT;
 		
 		if (sizes.length == 2) {
 			try {
@@ -231,8 +231,8 @@ public final class UserPreferences {
 				height = Integer.parseInt(sizes[1]);
 			}
 			catch(Exception e) {
-				width = ApplicationDefaultsContants.DEFAULT_WIDTH;
-				height = ApplicationDefaultsContants.DEFAULT_HEIGHT;
+				width = ApplicationDefaultsConstants.DEFAULT_WIDTH;
+				height = ApplicationDefaultsConstants.DEFAULT_HEIGHT;
 			}
 		}
 		
