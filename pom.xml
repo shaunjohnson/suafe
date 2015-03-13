@@ -67,6 +67,11 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>54.1.1</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<resources>

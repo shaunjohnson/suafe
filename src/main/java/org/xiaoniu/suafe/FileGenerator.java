@@ -17,12 +17,7 @@
  */
 package org.xiaoniu.suafe;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -94,7 +89,8 @@ public final class FileGenerator {
 		PrintWriter output = null;
 
 		try {
-			output = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+            final Writer outputStreamWriter = new OutputStreamWriter(new FileOutputStream(file), document.getEncoding());
+			output = new PrintWriter(new BufferedWriter(outputStreamWriter));
 
 			// Process group definitions
 			output.print(generate(maxLineLength));

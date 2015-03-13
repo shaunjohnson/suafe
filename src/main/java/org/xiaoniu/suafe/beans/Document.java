@@ -47,6 +47,11 @@ public final class Document {
 
 	private static final Log logger = LogFactory.getLog(Document.class);
 
+    /**
+     * File encoding.
+     */
+    private String encoding;
+
 	/**
 	 * List of all AccessRules.
 	 */
@@ -101,7 +106,15 @@ public final class Document {
 		initialize();
 	}
 
-	/**
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(final String encoding) {
+        this.encoding = encoding;
+    }
+
+    /**
 	 * Adds a new AccessRule specifying group authorization.
 	 * 
 	 * @param path The Path in which the Group will have access.

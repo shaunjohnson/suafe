@@ -17,13 +17,7 @@ parser.syntaxerror.multiplegroupsection * @copyright
  */
 package org.xiaoniu.suafe;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -35,12 +29,13 @@ import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.exceptions.ParserException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
+import org.xiaoniu.suafe.parser.FileEncodingUtils;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
  * Subversion user authentication file parser. Reads and parse auth file and populates the Document object.
- * 
+ *
  * @author Shaun Johnson
  */
 public final class FileParser {
@@ -116,8 +111,10 @@ public final class FileParser {
 		validateReadable(file);
 
 		try {
-			input = new BufferedReader(new FileReader(file));
+            final String encoding = FileEncodingUtils.detect(file, "ISO-8859-1");
+            input = new BufferedReader(new InputStreamReader(new FileInputStream(file), encoding));
 			document = parse(input);
+            document.setEncoding(encoding);
 		}
 		catch (final FileNotFoundException fne) {
 			throw ParserException.generateException(lineNumber, "parser.filenotfound");
