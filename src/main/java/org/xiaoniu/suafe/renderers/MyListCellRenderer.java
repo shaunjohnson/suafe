@@ -17,92 +17,89 @@
  */
 package org.xiaoniu.suafe.renderers;
 
-import java.awt.Component;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-import javax.swing.border.LineBorder;
-
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.beans.User;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+
 /**
  * Default list cell renderer.
- * 
+ *
  * @author Shaun Johnson
  */
 public final class MyListCellRenderer extends JLabel implements ListCellRenderer {
 
-	/**
-	 * Serial ID.
-	 */
-	private static final long serialVersionUID = 2612512361404880700L;
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 2612512361404880700L;
 
-	/**
-	 * Default constructor.
-	 */
-	public MyListCellRenderer() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    public MyListCellRenderer() {
+        super();
+    }
 
-	/**
-	 * Custom cell painter.
-	 * 
-	 * @param list The list being painted
-	 * @param value Value to display
-	 * @param index Cell index
-	 * @param isSelected Indicates whether cell is selected or not
-	 * @param cellHasFocus True if the cell has focus
-	 */
-	public Component getListCellRendererComponent(final JList list, final Object value, // value to display
-			final int index, final boolean isSelected, final boolean cellHasFocus) {
-		setText(value.toString());
+    /**
+     * Custom cell painter.
+     *
+     * @param list         The list being painted
+     * @param value        Value to display
+     * @param index        Cell index
+     * @param isSelected   Indicates whether cell is selected or not
+     * @param cellHasFocus True if the cell has focus
+     */
+    public Component getListCellRendererComponent(final JList list, final Object value, // value to display
+                                                  final int index, final boolean isSelected, final boolean cellHasFocus) {
+        setText(value.toString());
 
-		if (value instanceof User) {
-			setIcon(ResourceUtil.userIcon);
-		}
-		else if (value instanceof Group) {
-			setIcon(ResourceUtil.groupIcon);
-		}
-		else if (value instanceof Repository) {
-			setIcon(ResourceUtil.repositoryIcon);
-		}
-		else if (value instanceof AccessRule) {
-			setIcon(ResourceUtil.accessRuleIcon);
-		}
-		else {
-			setIcon(null);
-		}
+        if (value instanceof User) {
+            setIcon(ResourceUtil.userIcon);
+        }
+        else if (value instanceof Group) {
+            setIcon(ResourceUtil.groupIcon);
+        }
+        else if (value instanceof Repository) {
+            setIcon(ResourceUtil.repositoryIcon);
+        }
+        else if (value instanceof AccessRule) {
+            setIcon(ResourceUtil.accessRuleIcon);
+        }
+        else {
+            setIcon(null);
+        }
 
-		if (isSelected && cellHasFocus) {
-			setBackground(list.getSelectionBackground());
-			setForeground(list.getSelectionForeground());
-			setBorder(new LineBorder(list.getSelectionBackground()));
-		}
-		else if (isSelected && !cellHasFocus) {
-			setBackground(list.getBackground());
-			setForeground(list.getSelectionForeground());
-			setBorder(new LineBorder(list.getSelectionBackground()));
-		}
-		else if (!isSelected && cellHasFocus) {
-			setBackground(list.getBackground());
-			setForeground(list.getForeground());
-			setBorder(new LineBorder(list.getSelectionBackground()));
-		}
-		else {
-			setBackground(list.getBackground());
-			setForeground(list.getForeground());
-			setBorder(new LineBorder(list.getBackground()));
-		}
+        if (isSelected && cellHasFocus) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+            setBorder(new LineBorder(list.getSelectionBackground()));
+        }
+        else if (isSelected && !cellHasFocus) {
+            setBackground(list.getBackground());
+            setForeground(list.getSelectionForeground());
+            setBorder(new LineBorder(list.getSelectionBackground()));
+        }
+        else if (!isSelected && cellHasFocus) {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+            setBorder(new LineBorder(list.getSelectionBackground()));
+        }
+        else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+            setBorder(new LineBorder(list.getBackground()));
+        }
 
-		setEnabled(list.isEnabled());
-		setFont(list.getFont());
-		setOpaque(true);
+        setEnabled(list.isEnabled());
+        setFont(list.getFont());
+        setOpaque(true);
 
-		return this;
-	}
+        return this;
+    }
 }

@@ -17,238 +17,238 @@
  */
 package org.xiaoniu.suafe.tests;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.User;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Shaun Johnson
  */
 public class GroupTest {
 
-	private final String groupName = "TestGroupName";
-	
-	@Test
-	public void testAddRemoveAccessRule() {
-		Group group = new Group();
+    private final String groupName = "TestGroupName";
 
-		assertTrue(group.getAccessRules() != null);
-		assertTrue(group.getAccessRules().size() == 0);
+    @Test
+    public void testAddRemoveAccessRule() {
+        Group group = new Group();
 
-		AccessRule accessRule = new AccessRule();
-		group.addAccessRule(accessRule);
+        assertTrue(group.getAccessRules() != null);
+        assertTrue(group.getAccessRules().size() == 0);
 
-		assertTrue(group.getAccessRules() != null);
-		assertTrue(group.getAccessRules().size() == 1);
-		assertTrue(group.getAccessRules().get(0) == accessRule);
-		assertTrue(group.getAccessRules().get(0).equals(accessRule));
-		
-		group.removeAccessRule(accessRule);
-		
-		assertTrue(group.getAccessRules() != null);
-		assertTrue(group.getAccessRules().size() == 0);
-	}
+        AccessRule accessRule = new AccessRule();
+        group.addAccessRule(accessRule);
 
-	@Test
-	public void testAddRemoveGroup() {
-		Group group = new Group();
+        assertTrue(group.getAccessRules() != null);
+        assertTrue(group.getAccessRules().size() == 1);
+        assertTrue(group.getAccessRules().get(0) == accessRule);
+        assertTrue(group.getAccessRules().get(0).equals(accessRule));
 
-		assertTrue(group.getGroups() != null);
-		assertTrue(group.getGroups().size() == 0);
+        group.removeAccessRule(accessRule);
 
-		Group memberOfGroup = new Group();
-		group.addGroup(memberOfGroup);
+        assertTrue(group.getAccessRules() != null);
+        assertTrue(group.getAccessRules().size() == 0);
+    }
 
-		assertTrue(group.getGroups() != null);
-		assertTrue(group.getGroups().size() == 1);
-		
-		assertTrue(group.getGroups().get(0) == memberOfGroup);
-		assertTrue(group.getGroups().get(0).equals(memberOfGroup));
-		
-		group.removeGroup(memberOfGroup);
-		
-		assertTrue(group.getGroups() != null);
-		assertTrue(group.getGroups().size() == 0);
-	}
+    @Test
+    public void testAddRemoveGroup() {
+        Group group = new Group();
 
-	@Test
-	public void testAddRemoveGroupMember() {
-		Group group = new Group();
+        assertTrue(group.getGroups() != null);
+        assertTrue(group.getGroups().size() == 0);
 
-		assertTrue(group.getGroupMembers() != null);
-		assertTrue(group.getGroupMembers().size() == 0);
+        Group memberOfGroup = new Group();
+        group.addGroup(memberOfGroup);
 
-		Group memberGroup = new Group();
-		group.addGroupMember(memberGroup);
+        assertTrue(group.getGroups() != null);
+        assertTrue(group.getGroups().size() == 1);
 
-		assertTrue(group.getGroupMembers() != null);
-		assertTrue(group.getGroupMembers().size() == 1);
-		assertTrue(group.getGroupMembers().get(0) == memberGroup);
-		assertTrue(group.getGroupMembers().get(0).equals(memberGroup));
-		
-		group.removeGroupMember(memberGroup);
-		
-		assertTrue(group.getGroupMembers() != null);
-		assertTrue(group.getGroupMembers().size() == 0);
-	}
+        assertTrue(group.getGroups().get(0) == memberOfGroup);
+        assertTrue(group.getGroups().get(0).equals(memberOfGroup));
 
-	@Test
-	public void testAddRemoveUserMember() {
-		Group group = new Group();
+        group.removeGroup(memberOfGroup);
 
-		assertTrue(group.getUserMembers() != null);
-		assertTrue(group.getUserMembers().size() == 0);
+        assertTrue(group.getGroups() != null);
+        assertTrue(group.getGroups().size() == 0);
+    }
 
-		User memberUser = new User();
-		group.addUserMember(memberUser);
+    @Test
+    public void testAddRemoveGroupMember() {
+        Group group = new Group();
 
-		assertTrue(group.getUserMembers() != null);
-		assertTrue(group.getUserMembers().size() == 1);
-		assertTrue(group.getUserMembers().get(0) == memberUser);
-		assertTrue(group.getUserMembers().get(0).equals(memberUser));
-		
-		group.removeUserMember(memberUser);
-		
-		assertTrue(group.getUserMembers() != null);
-		assertTrue(group.getUserMembers().size() == 0);
-	}
+        assertTrue(group.getGroupMembers() != null);
+        assertTrue(group.getGroupMembers().size() == 0);
 
-	@Test
-	public void testCompareTo() {
-		Group groupA = new Group();
-		Group groupB = new Group();
+        Group memberGroup = new Group();
+        group.addGroupMember(memberGroup);
 
-		assertTrue(groupA.compareTo(groupB) == 0);
-		assertTrue(groupB.compareTo(groupA) == 0);
+        assertTrue(group.getGroupMembers() != null);
+        assertTrue(group.getGroupMembers().size() == 1);
+        assertTrue(group.getGroupMembers().get(0) == memberGroup);
+        assertTrue(group.getGroupMembers().get(0).equals(memberGroup));
 
-		groupA = new Group("group");
-		groupB = new Group("group");
+        group.removeGroupMember(memberGroup);
 
-		assertTrue(groupA.compareTo(groupB) == 0);
-		assertTrue(groupB.compareTo(groupA) == 0);
+        assertTrue(group.getGroupMembers() != null);
+        assertTrue(group.getGroupMembers().size() == 0);
+    }
 
-		groupA = new Group("groupA");
-		groupB = new Group(null);
+    @Test
+    public void testAddRemoveUserMember() {
+        Group group = new Group();
 
-		assertTrue(groupA.compareTo(groupB) != 0);
-		assertTrue(groupB.compareTo(groupA) != 0);
+        assertTrue(group.getUserMembers() != null);
+        assertTrue(group.getUserMembers().size() == 0);
 
-		groupA = new Group("groupA");
-		groupB = new Group("groupB");
+        User memberUser = new User();
+        group.addUserMember(memberUser);
 
-		assertTrue(groupB.compareTo(groupA) != 0);
-		assertTrue(groupA.compareTo(groupB) != 0);
-		assertTrue(groupA.compareTo(groupB) < 0);
-		assertTrue(groupB.compareTo(groupA) > 0);
-	}
+        assertTrue(group.getUserMembers() != null);
+        assertTrue(group.getUserMembers().size() == 1);
+        assertTrue(group.getUserMembers().get(0) == memberUser);
+        assertTrue(group.getUserMembers().get(0).equals(memberUser));
 
-	@Test
-	public void testEquals() {
-		Group groupA = new Group();
-		Group groupB = new Group();
+        group.removeUserMember(memberUser);
 
-		assertTrue(groupA.equals(groupB));
-		assertTrue(groupB.equals(groupA));
+        assertTrue(group.getUserMembers() != null);
+        assertTrue(group.getUserMembers().size() == 0);
+    }
 
-		groupA = new Group("group");
-		groupB = new Group("group");
+    @Test
+    public void testCompareTo() {
+        Group groupA = new Group();
+        Group groupB = new Group();
 
-		assertTrue(groupA.equals(groupB));
-		assertTrue(groupB.equals(groupA));
-		
-		groupA = new Group("group");
-		groupB = new Group("   group   ");
+        assertTrue(groupA.compareTo(groupB) == 0);
+        assertTrue(groupB.compareTo(groupA) == 0);
 
-		assertTrue(groupA.equals(groupB));
-		assertTrue(groupB.equals(groupA));
-		
-		groupA = new Group("group");
-		groupB = new Group("GROUP");
+        groupA = new Group("group");
+        groupB = new Group("group");
 
-		assertFalse(groupA.equals(groupB));
-		assertFalse(groupB.equals(groupA));
+        assertTrue(groupA.compareTo(groupB) == 0);
+        assertTrue(groupB.compareTo(groupA) == 0);
 
-		groupA = new Group("groupA");
-		groupB = new Group(null);
+        groupA = new Group("groupA");
+        groupB = new Group(null);
 
-		assertFalse(groupA.equals(groupB));
-		assertFalse(groupB.equals(groupA));
+        assertTrue(groupA.compareTo(groupB) != 0);
+        assertTrue(groupB.compareTo(groupA) != 0);
 
-		groupA = new Group("groupA");
-		groupB = new Group("groupB");
+        groupA = new Group("groupA");
+        groupB = new Group("groupB");
 
-		assertFalse(groupB.equals(groupA));
-		assertFalse(groupA.equals(groupB));
-	}
+        assertTrue(groupB.compareTo(groupA) != 0);
+        assertTrue(groupA.compareTo(groupB) != 0);
+        assertTrue(groupA.compareTo(groupB) < 0);
+        assertTrue(groupB.compareTo(groupA) > 0);
+    }
 
-	@Test
-	public void testGetSetName() {
-		Group group = new Group();
+    @Test
+    public void testEquals() {
+        Group groupA = new Group();
+        Group groupB = new Group();
 
-		assertTrue(group.getName() == null);
+        assertTrue(groupA.equals(groupB));
+        assertTrue(groupB.equals(groupA));
 
-		group.setName(groupName);
+        groupA = new Group("group");
+        groupB = new Group("group");
 
-		assertTrue(group.getName() != null);
-		assertTrue(group.getName().equals(groupName));
-		
-		group.setName(null);
-		
-		assertTrue(group.getName() == null);
-	}
+        assertTrue(groupA.equals(groupB));
+        assertTrue(groupB.equals(groupA));
 
-	/*
-	 * Class under test for void Group()
-	 */
-	@Test
-	public void testGroup() {
-		Group group = new Group();
+        groupA = new Group("group");
+        groupB = new Group("   group   ");
 
-		assertTrue(group.getName() == null);
+        assertTrue(groupA.equals(groupB));
+        assertTrue(groupB.equals(groupA));
 
-		assertTrue(group.getAccessRules() != null);
-		assertTrue(group.getAccessRules().size() == 0);
+        groupA = new Group("group");
+        groupB = new Group("GROUP");
 
-		assertTrue(group.getGroups() != null);
-		assertTrue(group.getGroups().size() == 0);
-	}
+        assertFalse(groupA.equals(groupB));
+        assertFalse(groupB.equals(groupA));
 
-	/*
-	 * Class under test for void Group(String)
-	 */
-	@Test
-	public void testGroupString() {
-		Group group = new Group(groupName);
+        groupA = new Group("groupA");
+        groupB = new Group(null);
 
-		assertTrue(group.getName() != null);
-		assertTrue(group.getName().equals(groupName));
+        assertFalse(groupA.equals(groupB));
+        assertFalse(groupB.equals(groupA));
 
-		assertTrue(group.getAccessRules() != null);
-		assertTrue(group.getAccessRules().size() == 0);
+        groupA = new Group("groupA");
+        groupB = new Group("groupB");
 
-		assertTrue(group.getGroups() != null);
-		assertTrue(group.getGroups().size() == 0);
-	}
-	
-	/*
-	 * Class under test for String toString()
-	 */
-	@Test
-	public void testToString() {
-		Group group = new Group();
+        assertFalse(groupB.equals(groupA));
+        assertFalse(groupA.equals(groupB));
+    }
 
-		assertTrue(group.toString() != null);
-		assertTrue(group.toString().equals(""));
-		assertTrue(group.toString() == "");
+    @Test
+    public void testGetSetName() {
+        Group group = new Group();
 
-		Group groupWithName = new Group(groupName);
+        assertTrue(group.getName() == null);
 
-		assertTrue(groupWithName.toString() != null);
-		assertTrue(groupWithName.toString().equals(groupName));
-		assertTrue(groupWithName.toString() == groupName);
-	}
+        group.setName(groupName);
+
+        assertTrue(group.getName() != null);
+        assertTrue(group.getName().equals(groupName));
+
+        group.setName(null);
+
+        assertTrue(group.getName() == null);
+    }
+
+    /*
+     * Class under test for void Group()
+     */
+    @Test
+    public void testGroup() {
+        Group group = new Group();
+
+        assertTrue(group.getName() == null);
+
+        assertTrue(group.getAccessRules() != null);
+        assertTrue(group.getAccessRules().size() == 0);
+
+        assertTrue(group.getGroups() != null);
+        assertTrue(group.getGroups().size() == 0);
+    }
+
+    /*
+     * Class under test for void Group(String)
+     */
+    @Test
+    public void testGroupString() {
+        Group group = new Group(groupName);
+
+        assertTrue(group.getName() != null);
+        assertTrue(group.getName().equals(groupName));
+
+        assertTrue(group.getAccessRules() != null);
+        assertTrue(group.getAccessRules().size() == 0);
+
+        assertTrue(group.getGroups() != null);
+        assertTrue(group.getGroups().size() == 0);
+    }
+
+    /*
+     * Class under test for String toString()
+     */
+    @Test
+    public void testToString() {
+        Group group = new Group();
+
+        assertTrue(group.toString() != null);
+        assertTrue(group.toString().equals(""));
+        assertTrue(group.toString() == "");
+
+        Group groupWithName = new Group(groupName);
+
+        assertTrue(groupWithName.toString() != null);
+        assertTrue(groupWithName.toString().equals(groupName));
+        assertTrue(groupWithName.toString() == groupName);
+    }
 }

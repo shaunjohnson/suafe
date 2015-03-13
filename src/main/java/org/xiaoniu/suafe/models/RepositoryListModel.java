@@ -22,17 +22,17 @@ import org.xiaoniu.suafe.beans.Document;
 /**
  * Repository list for a combo-box. A combo-box containing all repositories
  * from the current document.
- * 
+ *
  * @author Shaun Johnson
  */
 public final class RepositoryListModel extends BaseComboBoxModel {
 
-	/** 
-	 * Default constructor.
-	 */
-	public RepositoryListModel(Document document) {
-		super();
-		
-		itemList = document.getRepositoryObjects();
-	}
+    /**
+     * Default constructor.
+     */
+    public RepositoryListModel(Document document) {
+        super();
+
+        itemList = document.getRepositoryObjects();
+    }
 }

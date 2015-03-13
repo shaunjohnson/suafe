@@ -17,70 +17,67 @@
  */
 package org.xiaoniu.suafe.frames;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import org.xiaoniu.suafe.resources.ResourceUtil;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Base class for all windows. Provides functions useful in all windows.
- * 
+ *
  * @author Shaun Johnson
  */
 public abstract class BaseFrame extends JFrame {
 
-	/**
-	 * Serial ID.
-	 */
-	private static final long serialVersionUID = -6296033233946137131L;
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = -6296033233946137131L;
 
-	/**
-	 * Centers the frame on the user's screen.
-	 */
-	public void center() {
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = toolkit.getScreenSize();
-		
-		int x = (screenSize.width - this.getWidth()) / 2;
-		int y = (screenSize.height - this.getHeight()) / 2;
+    /**
+     * Centers the frame on the user's screen.
+     */
+    public void center() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
 
-		this.setLocation(x, y);
-	}
-	
-	/**
-	 * Generic error message dialog.
-	 * 
-	 * @param message Error message to display.
-	 */
-	protected void displayError(String message) {
-		JOptionPane.showMessageDialog(this, 
-				message, 
-				ResourceUtil.getString("application.error"), 
-				JOptionPane.ERROR_MESSAGE);
-	}
+        int x = (screenSize.width - this.getWidth()) / 2;
+        int y = (screenSize.height - this.getHeight()) / 2;
 
-	/**
-	 * Generic warning message dialog.
-	 * 
-	 * @param message Warning message to display.
-	 */
-	protected void displayWarning(String message) {
-		JOptionPane.showMessageDialog(this, 
-				message, 
-				ResourceUtil.getString("application.warning"), 
-				JOptionPane.WARNING_MESSAGE);
-	}
-	
-	protected int showConfirmDialog(String messageId, String titleId) {
-		return JOptionPane.showConfirmDialog(this, ResourceUtil.getString(messageId), ResourceUtil.getString(titleId),
-				JOptionPane.YES_NO_OPTION);
-	}
+        this.setLocation(x, y);
+    }
 
-	protected int showWarnConfirmDialog(String message) {
-		return JOptionPane.showConfirmDialog(this, message, ResourceUtil.getString("application.warning"),
-				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-	}
+    /**
+     * Generic error message dialog.
+     *
+     * @param message Error message to display.
+     */
+    protected void displayError(String message) {
+        JOptionPane.showMessageDialog(this,
+                message,
+                ResourceUtil.getString("application.error"),
+                JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Generic warning message dialog.
+     *
+     * @param message Warning message to display.
+     */
+    protected void displayWarning(String message) {
+        JOptionPane.showMessageDialog(this,
+                message,
+                ResourceUtil.getString("application.warning"),
+                JOptionPane.WARNING_MESSAGE);
+    }
+
+    protected int showConfirmDialog(String messageId, String titleId) {
+        return JOptionPane.showConfirmDialog(this, ResourceUtil.getString(messageId), ResourceUtil.getString(titleId),
+                JOptionPane.YES_NO_OPTION);
+    }
+
+    protected int showWarnConfirmDialog(String message) {
+        return JOptionPane.showConfirmDialog(this, message, ResourceUtil.getString("application.warning"),
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+    }
 }

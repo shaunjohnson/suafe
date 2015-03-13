@@ -22,29 +22,29 @@ import org.xiaoniu.suafe.exceptions.AppException;
 
 /**
  * Abstract Report class.
- * 
+ *
  * @author Shaun Johnson
  */
 public abstract class GenericReport {
 
-	protected Document document = null;
+    protected Document document = null;
 
-	/**
-	 * Constructor that accepts Document object to be used as source for the report.
-	 * 
-	 * @param document Document object.
-	 */
-	public GenericReport(final Document document) {
-		super();
+    /**
+     * Constructor that accepts Document object to be used as source for the report.
+     *
+     * @param document Document object.
+     */
+    public GenericReport(final Document document) {
+        super();
 
-		this.document = document;
-	}
+        this.document = document;
+    }
 
-	/**
-	 * Generate report and return report HTML contents as String.
-	 * 
-	 * @return Report HTML source.
-	 * @throws AppException
-	 */
-	public abstract String generate() throws AppException;
+    /**
+     * Generate report and return report HTML contents as String.
+     *
+     * @return Report HTML source.
+     * @throws AppException
+     */
+    public abstract String generate() throws AppException;
 }

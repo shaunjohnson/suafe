@@ -20,7 +20,7 @@ package org.xiaoniu.suafe;
 import org.xiaoniu.suafe.beans.Path;
 
 public final class Project {
-	public Path trunk;
-	public Path branches;
-	public Path tags;
+    public Path trunk;
+    public Path branches;
+    public Path tags;
 }

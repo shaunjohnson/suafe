@@ -22,17 +22,17 @@ import org.xiaoniu.suafe.beans.Document;
 /**
  * Group list for a combo-box. A combo-box listing out all Group objects
  * from the current document.
- * 
+ *
  * @author Shaun Johnson
  */
 public final class GroupListModel extends BaseComboBoxModel {
-	
-	/**
-	 * Default constructor.
-	 */
-	public GroupListModel(Document document) {
-		super();
-		
-		itemList = document.getGroupObjects();
-	}
+
+    /**
+     * Default constructor.
+     */
+    public GroupListModel(Document document) {
+        super();
+
+        itemList = document.getGroupObjects();
+    }
 }

@@ -17,103 +17,101 @@
  */
 package org.xiaoniu.suafe.renderers;
 
-import java.awt.Component;
-
-import javax.swing.JLabel;
-import javax.swing.JTree;
-import javax.swing.border.LineBorder;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeCellRenderer;
-
 import org.xiaoniu.suafe.beans.Path;
 import org.xiaoniu.suafe.beans.Repository;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
+import java.awt.*;
+
 /**
  * Default tree cell renderer.
- * 
+ *
  * @author Shaun Johnson
  */
 public final class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
-	/**
-	 * Serial ID.
-	 */
-	private static final long serialVersionUID = -3819189157641390968L;
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = -3819189157641390968L;
 
-	/**
-	 * Copy of default tree cell renderer. Used for reference.
-	 */
-	private DefaultTreeCellRenderer render = null;
+    /**
+     * Copy of default tree cell renderer. Used for reference.
+     */
+    private DefaultTreeCellRenderer render = null;
 
-	/**
-	 * Default constructor.
-	 */
-	public MyTreeCellRenderer() {
-		super();
+    /**
+     * Default constructor.
+     */
+    public MyTreeCellRenderer() {
+        super();
 
-		render = new DefaultTreeCellRenderer();
-	}
+        render = new DefaultTreeCellRenderer();
+    }
 
-	/**
-	 * Renders tree cells.
-	 * 
-	 * @param tree Tree where the cell resides
-	 * @param value Value of the cell
-	 * @param isSelected Indicates whether the cell is selected
-	 * @param expanded Indicates whether the cell is expanded
-	 * @param leaf Indicates whether this is a leaf
-	 * @param row Row number
-	 * @param hasFocus Indicates whether the cell has focus
-	 */
-	public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected,
-			final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
-		final Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
-		setText(value.toString());
+    /**
+     * Renders tree cells.
+     *
+     * @param tree       Tree where the cell resides
+     * @param value      Value of the cell
+     * @param isSelected Indicates whether the cell is selected
+     * @param expanded   Indicates whether the cell is expanded
+     * @param leaf       Indicates whether this is a leaf
+     * @param row        Row number
+     * @param hasFocus   Indicates whether the cell has focus
+     */
+    public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected,
+                                                  final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
+        final Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
+        setText(value.toString());
 
-		if (userObject instanceof Path) {
-			setIcon(ResourceUtil.pathIcon);
-			setToolTipText(((Path) userObject).getPath());
-		}
-		else if (userObject instanceof Repository) {
-			setIcon(ResourceUtil.repositoryIcon);
-			setToolTipText(((Repository) userObject).getName());
-		}
-		else if (userObject instanceof String) {
-			setIcon(ResourceUtil.serverIcon);
-			setToolTipText((String) userObject);
-		}
-		else {
-			setIcon(ResourceUtil.serverIcon);
-		}
+        if (userObject instanceof Path) {
+            setIcon(ResourceUtil.pathIcon);
+            setToolTipText(((Path) userObject).getPath());
+        }
+        else if (userObject instanceof Repository) {
+            setIcon(ResourceUtil.repositoryIcon);
+            setToolTipText(((Repository) userObject).getName());
+        }
+        else if (userObject instanceof String) {
+            setIcon(ResourceUtil.serverIcon);
+            setToolTipText((String) userObject);
+        }
+        else {
+            setIcon(ResourceUtil.serverIcon);
+        }
 
-		if (isSelected && hasFocus) {
-			setBackground(render.getBackgroundSelectionColor());
-			setForeground(render.getTextSelectionColor());
-			setBorder(new LineBorder(render.getBackgroundSelectionColor()));
-		}
-		else if (isSelected && !hasFocus) {
-			setBackground(tree.getBackground());
-			setForeground(render.getTextSelectionColor());
-			setBorder(new LineBorder(render.getBackgroundSelectionColor()));
-		}
-		else if (!isSelected && hasFocus) {
-			setBackground(tree.getBackground());
-			setForeground(tree.getForeground());
-			setBorder(new LineBorder(render.getBackgroundSelectionColor()));
-		}
-		else {
-			setBackground(tree.getBackground());
-			setForeground(tree.getForeground());
-			setBorder(new LineBorder(tree.getBackground()));
-		}
+        if (isSelected && hasFocus) {
+            setBackground(render.getBackgroundSelectionColor());
+            setForeground(render.getTextSelectionColor());
+            setBorder(new LineBorder(render.getBackgroundSelectionColor()));
+        }
+        else if (isSelected && !hasFocus) {
+            setBackground(tree.getBackground());
+            setForeground(render.getTextSelectionColor());
+            setBorder(new LineBorder(render.getBackgroundSelectionColor()));
+        }
+        else if (!isSelected && hasFocus) {
+            setBackground(tree.getBackground());
+            setForeground(tree.getForeground());
+            setBorder(new LineBorder(render.getBackgroundSelectionColor()));
+        }
+        else {
+            setBackground(tree.getBackground());
+            setForeground(tree.getForeground());
+            setBorder(new LineBorder(tree.getBackground()));
+        }
 
-		setEnabled(tree.isEnabled());
-		setFont(tree.getFont());
-		setOpaque(true);
+        setEnabled(tree.isEnabled());
+        setFont(tree.getFont());
+        setOpaque(true);
 
-		return this;
-	}
+        return this;
+    }
 
 }

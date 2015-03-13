@@ -17,214 +17,206 @@
  */
 package org.xiaoniu.suafe.dialogs;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.ApplicationDefaultsConstants;
-import org.xiaoniu.suafe.beans.AccessRule;
-import org.xiaoniu.suafe.beans.Document;
-import org.xiaoniu.suafe.beans.Message;
-import org.xiaoniu.suafe.beans.Path;
-import org.xiaoniu.suafe.beans.Repository;
+import org.xiaoniu.suafe.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Dialog that allows a user to add an access rule.
- * 
+ *
  * @author Shaun Johnson
  */
 public final class AddAccessRuleDialog extends ParentDialog implements ActionListener {
 
-	private static final long serialVersionUID = -1001510687982587543L;
+    private static final long serialVersionUID = -1001510687982587543L;
 
-	private JButton addButton = null;
+    private JButton addButton = null;
 
-	private JPanel buttonPanel = null;
+    private JPanel buttonPanel = null;
 
-	private JPanel buttonSubPanel = null;
+    private JPanel buttonSubPanel = null;
 
-	private JButton cancelButton = null;
+    private JButton cancelButton = null;
 
-	private JPanel formPanel = null;
+    private JPanel formPanel = null;
 
-	private JPanel jContentPane = null;
+    private JPanel jContentPane = null;
 
-	private Message message = null;
-	
-	private AccessRuleForm accessRuleForm = null;
-	
-	private String path = null;
-	
-	private Repository repository = null;
-	
-	private Document document = null;
+    private Message message = null;
 
-	/**
-	 * Default constructor.
-	 */
-	public AddAccessRuleDialog(Document document, Object userObject, Message message) {
-		super();
+    private AccessRuleForm accessRuleForm = null;
 
-		if (userObject != null && userObject instanceof Repository) {
-			this.repository = (Repository) userObject;
-			this.path = ApplicationDefaultsConstants.DEFAULT_SVN_PATH;
-		}
-		else if (userObject != null && userObject instanceof Path) {
-			Path path = (Path) userObject;
+    private String path = null;
 
-			this.repository = path.getRepository();
-			this.path = path.getPath();
-		}
-		else {
-			this.repository = null;
-			this.path = ApplicationDefaultsConstants.DEFAULT_SVN_PATH;
-		}
+    private Repository repository = null;
 
-		this.document = document;
-		this.message = message;
-		this.message.setState(Message.CANCEL);
+    private Document document = null;
 
-		initialize();
-	}
+    /**
+     * Default constructor.
+     */
+    public AddAccessRuleDialog(Document document, Object userObject, Message message) {
+        super();
 
-	/**
-	 * ActionPerformed event handler.
-	 * 
-	 * @param event ActionEvent object.
-	 */
-	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals(ActionConstants.ADD_ACTION)) {
-			try {
-				AccessRule rule = getAccessRuleForm().addAccessRule();
-				
-				message.setUserObject(rule);
-				message.setState(Message.SUCCESS);
-				dispose();
-			}
-			catch (AppException ex) {
-				displayError(ex.getMessage());
-			}
-		}
-		else if (event.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
-			message.setState(Message.CANCEL);
-			dispose();
-		}
-	}
+        if (userObject != null && userObject instanceof Repository) {
+            this.repository = (Repository) userObject;
+            this.path = ApplicationDefaultsConstants.DEFAULT_SVN_PATH;
+        }
+        else if (userObject != null && userObject instanceof Path) {
+            Path path = (Path) userObject;
 
-	/**
-	 * This method initializes addButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getAddButton() {
-		if (addButton == null) {
-			addButton = createButton("button.add", ActionConstants.ADD_ACTION, this);
-		}
+            this.repository = path.getRepository();
+            this.path = path.getPath();
+        }
+        else {
+            this.repository = null;
+            this.path = ApplicationDefaultsConstants.DEFAULT_SVN_PATH;
+        }
 
-		return addButton;
-	}
+        this.document = document;
+        this.message = message;
+        this.message.setState(Message.CANCEL);
 
-	private AccessRuleForm getAccessRuleForm() {
-		if (accessRuleForm == null) {
-			accessRuleForm = new AccessRuleForm(document, repository, path);
-		}
-		
-		return accessRuleForm;
-	}
-	
-	/**
-	 * This method initializes buttonPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getButtonPanel() {
-		if (buttonPanel == null) {
-			buttonPanel = new JPanel(new GridLayout(1, 1));
-			buttonPanel.add(getButtonSubPanel());
-		}
+        initialize();
+    }
 
-		return buttonPanel;
-	}
-	
-	/**
-	 * This method initializes buttonSubPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getButtonSubPanel() {
-		if (buttonSubPanel == null) {
-			buttonSubPanel = new JPanel();
-			buttonSubPanel.add(getAddButton());
-			buttonSubPanel.add(getCancelButton());
-		}
+    /**
+     * ActionPerformed event handler.
+     *
+     * @param event ActionEvent object.
+     */
+    public void actionPerformed(ActionEvent event) {
+        if (event.getActionCommand().equals(ActionConstants.ADD_ACTION)) {
+            try {
+                AccessRule rule = getAccessRuleForm().addAccessRule();
 
-		return buttonSubPanel;
-	}
-	
-	/**
-	 * This method initializes cancelButton.
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getCancelButton() {
-		if (cancelButton == null) {
-			cancelButton = createButton("button.cancel", ActionConstants.CANCEL_ACTION, this);
-		}
+                message.setUserObject(rule);
+                message.setState(Message.SUCCESS);
+                dispose();
+            }
+            catch (AppException ex) {
+                displayError(ex.getMessage());
+            }
+        }
+        else if (event.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
+            message.setState(Message.CANCEL);
+            dispose();
+        }
+    }
 
-		return cancelButton;
-	}
-	
-	/**
-	 * This method initializes formPanel.
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getFormPanel() {
-		if (formPanel == null) {
-			formPanel = new JPanel(new GridLayout(1, 1));
-			formPanel.add(getAccessRuleForm());
-		}
+    /**
+     * This method initializes addButton.
+     *
+     * @return javax.swing.JButton
+     */
+    private JButton getAddButton() {
+        if (addButton == null) {
+            addButton = createButton("button.add", ActionConstants.ADD_ACTION, this);
+        }
 
-		return formPanel;
-	}
-	
-	/**
-	 * This method initializes jContentPane
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJContentPane() {
-		if (jContentPane == null) {
-			jContentPane = new JPanel(new BorderLayout());
-			jContentPane.add(getInstructionsPanel("addaccessrule.instructions"), BorderLayout.NORTH);
-			jContentPane.add(getFormPanel(), BorderLayout.CENTER);
-			jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
-		}
+        return addButton;
+    }
 
-		return jContentPane;
-	}
+    private AccessRuleForm getAccessRuleForm() {
+        if (accessRuleForm == null) {
+            accessRuleForm = new AccessRuleForm(document, repository, path);
+        }
 
-	/**
-	 * This method initializes this
-	 */
-	private void initialize() {
-		this.setResizable(false);
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		this.setTitle(ResourceUtil.getString("addaccessrule.title"));
-		this.setContentPane(getJContentPane());
+        return accessRuleForm;
+    }
 
-		getRootPane().setDefaultButton(addButton);
+    /**
+     * This method initializes buttonPanel.
+     *
+     * @return javax.swing.JPanel
+     */
+    private JPanel getButtonPanel() {
+        if (buttonPanel == null) {
+            buttonPanel = new JPanel(new GridLayout(1, 1));
+            buttonPanel.add(getButtonSubPanel());
+        }
 
-		this.pack();
-		this.setModal(true);
-	}
+        return buttonPanel;
+    }
+
+    /**
+     * This method initializes buttonSubPanel.
+     *
+     * @return javax.swing.JPanel
+     */
+    private JPanel getButtonSubPanel() {
+        if (buttonSubPanel == null) {
+            buttonSubPanel = new JPanel();
+            buttonSubPanel.add(getAddButton());
+            buttonSubPanel.add(getCancelButton());
+        }
+
+        return buttonSubPanel;
+    }
+
+    /**
+     * This method initializes cancelButton.
+     *
+     * @return javax.swing.JButton
+     */
+    private JButton getCancelButton() {
+        if (cancelButton == null) {
+            cancelButton = createButton("button.cancel", ActionConstants.CANCEL_ACTION, this);
+        }
+
+        return cancelButton;
+    }
+
+    /**
+     * This method initializes formPanel.
+     *
+     * @return javax.swing.JPanel
+     */
+    private JPanel getFormPanel() {
+        if (formPanel == null) {
+            formPanel = new JPanel(new GridLayout(1, 1));
+            formPanel.add(getAccessRuleForm());
+        }
+
+        return formPanel;
+    }
+
+    /**
+     * This method initializes jContentPane
+     *
+     * @return javax.swing.JPanel
+     */
+    private JPanel getJContentPane() {
+        if (jContentPane == null) {
+            jContentPane = new JPanel(new BorderLayout());
+            jContentPane.add(getInstructionsPanel("addaccessrule.instructions"), BorderLayout.NORTH);
+            jContentPane.add(getFormPanel(), BorderLayout.CENTER);
+            jContentPane.add(getButtonPanel(), BorderLayout.SOUTH);
+        }
+
+        return jContentPane;
+    }
+
+    /**
+     * This method initializes this
+     */
+    private void initialize() {
+        this.setResizable(false);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setTitle(ResourceUtil.getString("addaccessrule.title"));
+        this.setContentPane(getJContentPane());
+
+        getRootPane().setDefaultButton(addButton);
+
+        this.pack();
+        this.setModal(true);
+    }
 
 }

@@ -20,26 +20,26 @@ package org.xiaoniu.suafe.models;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Extension of the DefaultTableModel, which forces all table cells to be 
+ * Extension of the DefaultTableModel, which forces all table cells to be
  * non-editable.
- * 
+ *
  * @author Shaun Johnson
  */
 public final class NonEditableTableModel extends DefaultTableModel {
 
-	/**
-	 * Serial ID.
-	 */
-	private static final long serialVersionUID = -2240746070531106855L;
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = -2240746070531106855L;
 
-	/**
-	 * Indicates whether the cell is editable or not. This method always
-	 * returns false, ensuring that the cell is never editable.
-	 * 
-	 * @param row Row number
-	 * @param column Column number
-	 */
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
+    /**
+     * Indicates whether the cell is editable or not. This method always
+     * returns false, ensuring that the cell is never editable.
+     *
+     * @param row    Row number
+     * @param column Column number
+     */
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
 }

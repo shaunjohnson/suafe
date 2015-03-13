@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe;
 
+import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -24,61 +25,56 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.TransferHandler;
-
 /**
- * 
- * 
  * @author Shaun Johnson
  */
 public final class FileTransferHandler extends TransferHandler {
-	private static final long serialVersionUID = -6421801541654568376L;
-	
-	private FileOpener fileOpener = null;
+    private static final long serialVersionUID = -6421801541654568376L;
+
+    private FileOpener fileOpener = null;
 
     public FileTransferHandler(FileOpener fileOpener) {
-    	super();
-    	
-    	this.fileOpener = fileOpener;
+        super();
+
+        this.fileOpener = fileOpener;
     }
 
-	@SuppressWarnings("unchecked")
-	public boolean importData(JComponent component, Transferable transferable) {        
+    @SuppressWarnings("unchecked")
+    public boolean importData(JComponent component, Transferable transferable) {
         //A real application would load the file in another
         //thread in order to not block the UI.  This step
         //was omitted here to simplify the code.
         try {
             if (hasFileFlavor(transferable.getTransferDataFlavors())) {
-                List<File> files = (List<File>)transferable.getTransferData(DataFlavor.javaFileListFlavor);
-                
+                List<File> files = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+
                 for (File file : files) {
                     // Process file
                     fileOpener.fileOpen(file);
                 }
-                
+
                 return true;
-                
+
             }
-        } 
+        }
         catch (UnsupportedFlavorException ufe) {
             System.out.println("importData: unsupported data flavor");
-        } 
+        }
         catch (IOException ieo) {
             System.out.println("importData: I/O exception");
         }
-        
+
         return false;
     }
 
     public boolean canImport(JComponent component, DataFlavor[] flavors) {
-        if (hasFileFlavor(flavors)) { 
-        	return true; 
+        if (hasFileFlavor(flavors)) {
+            return true;
         }
 
         return false;
     }
-    
+
     public int getSourceActions(JComponent component) {
         return COPY_OR_MOVE;
     }
@@ -89,7 +85,7 @@ public final class FileTransferHandler extends TransferHandler {
                 return true;
             }
         }
-        
+
         return false;
     }
 }

@@ -20,19 +20,19 @@ package org.xiaoniu.suafe.models;
 import org.xiaoniu.suafe.beans.Document;
 
 /**
- * User list for a combo-box. Combo-box of all User for the current 
+ * User list for a combo-box. Combo-box of all User for the current
  * document.
- * 
+ *
  * @author Shaun Johnson
  */
 public final class UserListModel extends BaseComboBoxModel {
-	
-	/**
-	 * Default constructor.
-	 */
-	public UserListModel(Document document) {
-		super();
-		
-		itemList = document.getUserObjects();
-	}
+
+    /**
+     * Default constructor.
+     */
+    public UserListModel(Document document) {
+        super();
+
+        itemList = document.getUserObjects();
+    }
 }

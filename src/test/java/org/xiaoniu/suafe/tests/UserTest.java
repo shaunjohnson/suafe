@@ -17,205 +17,205 @@
  */
 package org.xiaoniu.suafe.tests;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.xiaoniu.suafe.beans.AccessRule;
 import org.xiaoniu.suafe.beans.Group;
 import org.xiaoniu.suafe.beans.User;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Shaun Johnson
  */
 public class UserTest {
 
-	private final String userName = "TestUserName";
-	
-	@Test
-	public void testAddRemoveAccessRule() {
-		User user = new User();
+    private final String userName = "TestUserName";
 
-		assertTrue(user.getAccessRules() != null);
-		assertTrue(user.getAccessRules().size() == 0);
+    @Test
+    public void testAddRemoveAccessRule() {
+        User user = new User();
 
-		AccessRule accessRule = new AccessRule();
-		user.addAccessRule(accessRule);
+        assertTrue(user.getAccessRules() != null);
+        assertTrue(user.getAccessRules().size() == 0);
 
-		assertTrue(user.getAccessRules() != null);
-		assertTrue(user.getAccessRules().size() == 1);
-		assertTrue(user.getAccessRules().get(0) == accessRule);
-		assertTrue(user.getAccessRules().get(0).equals(accessRule));
-		
-		user.removeAccessRule(accessRule);
-		
-		assertTrue(user.getAccessRules() != null);
-		assertTrue(user.getAccessRules().size() == 0);
-	}
+        AccessRule accessRule = new AccessRule();
+        user.addAccessRule(accessRule);
 
-	@Test
-	public void testAddRemoveGroup() {
-		User user = new User();
+        assertTrue(user.getAccessRules() != null);
+        assertTrue(user.getAccessRules().size() == 1);
+        assertTrue(user.getAccessRules().get(0) == accessRule);
+        assertTrue(user.getAccessRules().get(0).equals(accessRule));
 
-		assertTrue(user.getGroups() != null);
-		assertTrue(user.getGroups().size() == 0);
+        user.removeAccessRule(accessRule);
 
-		Group memberOfGroup = new Group();
-		user.addGroup(memberOfGroup);
+        assertTrue(user.getAccessRules() != null);
+        assertTrue(user.getAccessRules().size() == 0);
+    }
 
-		assertTrue(user.getGroups() != null);
-		assertTrue(user.getGroups().size() == 1);
-		
-		assertTrue(user.getGroups().get(0) == memberOfGroup);
-		assertTrue(user.getGroups().get(0).equals(memberOfGroup));
-		
-		user.removeGroup(memberOfGroup);
-		
-		assertTrue(user.getGroups() != null);
-		assertTrue(user.getGroups().size() == 0);
-	}
+    @Test
+    public void testAddRemoveGroup() {
+        User user = new User();
 
-	@Test
-	public void testCompareTo() {
-		User userA = new User();
-		User userB = new User();
+        assertTrue(user.getGroups() != null);
+        assertTrue(user.getGroups().size() == 0);
 
-		assertTrue(userA.compareTo(userB) == 0);
-		assertTrue(userB.compareTo(userA) == 0);
+        Group memberOfGroup = new Group();
+        user.addGroup(memberOfGroup);
 
-		userA = new User("user");
-		userB = new User("user");
+        assertTrue(user.getGroups() != null);
+        assertTrue(user.getGroups().size() == 1);
 
-		assertTrue(userA.compareTo(userB) == 0);
-		assertTrue(userB.compareTo(userA) == 0);
+        assertTrue(user.getGroups().get(0) == memberOfGroup);
+        assertTrue(user.getGroups().get(0).equals(memberOfGroup));
 
-		userA = new User("userA");
-		userB = new User(null);
+        user.removeGroup(memberOfGroup);
 
-		assertTrue(userA.compareTo(userB) != 0);
-		assertTrue(userB.compareTo(userA) != 0);
+        assertTrue(user.getGroups() != null);
+        assertTrue(user.getGroups().size() == 0);
+    }
 
-		userA = new User("userA");
-		userB = new User("userB");
+    @Test
+    public void testCompareTo() {
+        User userA = new User();
+        User userB = new User();
 
-		assertTrue(userA.compareTo(userB) != 0);
-		assertTrue(userB.compareTo(userA) != 0);
-		assertTrue(userA.compareTo(userB) < 0);
-		assertTrue(userB.compareTo(userA) > 0);
-	}
+        assertTrue(userA.compareTo(userB) == 0);
+        assertTrue(userB.compareTo(userA) == 0);
 
-	@Test
-	public void testEquals() {
-		User userA = new User();
-		User userB = new User();
+        userA = new User("user");
+        userB = new User("user");
 
-		assertTrue(userA.equals(userB));
-		assertTrue(userB.equals(userA));
+        assertTrue(userA.compareTo(userB) == 0);
+        assertTrue(userB.compareTo(userA) == 0);
 
-		userA = new User("user");
-		userB = new User("user");
+        userA = new User("userA");
+        userB = new User(null);
 
-		assertTrue(userA.equals(userB));
-		assertTrue(userB.equals(userA));
-		
-		userA = new User("user");
-		userB = new User("  user  ");
+        assertTrue(userA.compareTo(userB) != 0);
+        assertTrue(userB.compareTo(userA) != 0);
 
-		assertTrue(userA.equals(userB));
-		assertTrue(userB.equals(userA));
+        userA = new User("userA");
+        userB = new User("userB");
 
-		userA = new User("user");
-		userB = new User("USER");
+        assertTrue(userA.compareTo(userB) != 0);
+        assertTrue(userB.compareTo(userA) != 0);
+        assertTrue(userA.compareTo(userB) < 0);
+        assertTrue(userB.compareTo(userA) > 0);
+    }
 
-		assertFalse(userA.equals(userB));
-		assertFalse(userB.equals(userA));
+    @Test
+    public void testEquals() {
+        User userA = new User();
+        User userB = new User();
 
-		userA = new User("userA");
-		userB = new User(null);
+        assertTrue(userA.equals(userB));
+        assertTrue(userB.equals(userA));
 
-		assertFalse(userA.equals(userB));
-		assertFalse(userB.equals(userA));
+        userA = new User("user");
+        userB = new User("user");
 
-		userA = new User("userA");
-		userB = new User("userB");
+        assertTrue(userA.equals(userB));
+        assertTrue(userB.equals(userA));
 
-		assertFalse(userA.equals(userB));
-		assertFalse(userB.equals(userA));
-	}
-	
-	@Test
-	public void testIsAllUsers() {
-		User userA = new User("*");
-		User userB = new User(" * ");
-		User userC = new User("A");
+        userA = new User("user");
+        userB = new User("  user  ");
 
-		assertTrue(userA.isAllUsers());
-		assertTrue(userB.isAllUsers());
-		assertFalse(userC.isAllUsers());
-	}
+        assertTrue(userA.equals(userB));
+        assertTrue(userB.equals(userA));
 
-	@Test
-	public void testGetSetName() {
-		User user = new User();
+        userA = new User("user");
+        userB = new User("USER");
 
-		assertTrue(user.getName() == null);
+        assertFalse(userA.equals(userB));
+        assertFalse(userB.equals(userA));
 
-		user.setName(userName);
+        userA = new User("userA");
+        userB = new User(null);
 
-		assertTrue(user.getName() != null);
-		assertTrue(user.getName().equals(userName));
-		
-		user.setName(null);
-		
-		assertTrue(user.getName() == null);
-	}
+        assertFalse(userA.equals(userB));
+        assertFalse(userB.equals(userA));
 
-	/*
-	 * Class under test for String toString()
-	 */
-	@Test
-	public void testToString() {
-		User user = new User();
+        userA = new User("userA");
+        userB = new User("userB");
 
-		assertTrue(user.toString() != null);
-		assertTrue(user.toString().equals(""));
+        assertFalse(userA.equals(userB));
+        assertFalse(userB.equals(userA));
+    }
 
-		User userWithName = new User(userName);
+    @Test
+    public void testIsAllUsers() {
+        User userA = new User("*");
+        User userB = new User(" * ");
+        User userC = new User("A");
 
-		assertTrue(userWithName.toString() != null);
-		assertTrue(userWithName.toString().equals(userName));
-	}
+        assertTrue(userA.isAllUsers());
+        assertTrue(userB.isAllUsers());
+        assertFalse(userC.isAllUsers());
+    }
 
-	/*
-	 * Class under test for void User()
-	 */
-	@Test
-	public void testUser() {
-		User user = new User();
+    @Test
+    public void testGetSetName() {
+        User user = new User();
 
-		assertTrue(user.getName() == null);
-		
-		assertTrue(user.getAccessRules() != null);
-		assertTrue(user.getAccessRules().size() == 0);
-		
-		assertTrue(user.getGroups() != null);
-		assertTrue(user.getGroups().size() == 0);
-	}
-	
-	/*
-	 * Class under test for void User(String)
-	 */
-	@Test
-	public void testUserString() {
-		User user = new User(userName);
+        assertTrue(user.getName() == null);
 
-		assertTrue(user.getName() != null);
-		assertTrue(user.getName().equals(userName));
-		
-		assertTrue(user.getAccessRules() != null);
-		assertTrue(user.getAccessRules().size() == 0);
-		
-		assertTrue(user.getGroups() != null);
-		assertTrue(user.getGroups().size() == 0);
-	}
+        user.setName(userName);
+
+        assertTrue(user.getName() != null);
+        assertTrue(user.getName().equals(userName));
+
+        user.setName(null);
+
+        assertTrue(user.getName() == null);
+    }
+
+    /*
+     * Class under test for String toString()
+     */
+    @Test
+    public void testToString() {
+        User user = new User();
+
+        assertTrue(user.toString() != null);
+        assertTrue(user.toString().equals(""));
+
+        User userWithName = new User(userName);
+
+        assertTrue(userWithName.toString() != null);
+        assertTrue(userWithName.toString().equals(userName));
+    }
+
+    /*
+     * Class under test for void User()
+     */
+    @Test
+    public void testUser() {
+        User user = new User();
+
+        assertTrue(user.getName() == null);
+
+        assertTrue(user.getAccessRules() != null);
+        assertTrue(user.getAccessRules().size() == 0);
+
+        assertTrue(user.getGroups() != null);
+        assertTrue(user.getGroups().size() == 0);
+    }
+
+    /*
+     * Class under test for void User(String)
+     */
+    @Test
+    public void testUserString() {
+        User user = new User(userName);
+
+        assertTrue(user.getName() != null);
+        assertTrue(user.getName().equals(userName));
+
+        assertTrue(user.getAccessRules() != null);
+        assertTrue(user.getAccessRules().size() == 0);
+
+        assertTrue(user.getGroups() != null);
+        assertTrue(user.getGroups().size() == 0);
+    }
 }
