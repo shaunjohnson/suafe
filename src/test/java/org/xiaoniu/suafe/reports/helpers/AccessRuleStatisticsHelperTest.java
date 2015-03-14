@@ -2,8 +2,8 @@ package org.xiaoniu.suafe.reports.helpers;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xiaoniu.suafe.SubversionConstants;
-import org.xiaoniu.suafe.beans.*;
+import org.xiaoniu.suafe.api.SubversionConstants;
+import org.xiaoniu.suafe.api.beans.*;
 
 import java.util.ArrayList;
 import java.util.List;

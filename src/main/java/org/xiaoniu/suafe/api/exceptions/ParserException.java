@@ -15,8 +15,9 @@
  * ====================================================================
  * @endcopyright
  */
-package org.xiaoniu.suafe.exceptions;
+package org.xiaoniu.suafe.api.exceptions;
 
+import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 /**

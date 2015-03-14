@@ -1,4 +1,4 @@
-package org.xiaoniu.suafe.parser;
+package org.xiaoniu.suafe.api.parser;
 
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;

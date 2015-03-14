@@ -18,8 +18,8 @@
 package org.xiaoniu.suafe.reports;
 
 import org.xiaoniu.suafe.Project;
-import org.xiaoniu.suafe.SubversionConstants;
-import org.xiaoniu.suafe.beans.*;
+import org.xiaoniu.suafe.api.SubversionConstants;
+import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 

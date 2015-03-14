@@ -17,7 +17,7 @@
  */
 package org.xiaoniu.suafe;
 
-import org.xiaoniu.suafe.beans.Path;
+import org.xiaoniu.suafe.api.beans.Path;
 
 public final class Project {
     public Path trunk;

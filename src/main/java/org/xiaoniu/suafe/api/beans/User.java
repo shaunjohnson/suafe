@@ -15,9 +15,9 @@
  * ====================================================================
  * @endcopyright
  */
-package org.xiaoniu.suafe.beans;
+package org.xiaoniu.suafe.api.beans;
 
-import org.xiaoniu.suafe.SubversionConstants;
+import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.utils.StringUtils;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package org.xiaoniu.suafe.reports.helpers;
 
-import org.xiaoniu.suafe.beans.User;
+import org.xiaoniu.suafe.api.beans.User;
 
 import java.util.List;
 

@@ -15,13 +15,13 @@
  * ====================================================================
  * @endcopyright
  */
-package org.xiaoniu.suafe.beans;
+package org.xiaoniu.suafe.api.beans;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xiaoniu.suafe.ActionConstants;
-import org.xiaoniu.suafe.SubversionConstants;
+import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.UndoConstants;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
@@ -33,12 +33,11 @@ import java.io.File;
 import java.util.*;
 
 /**
- * Reprenents a single Subversion user authentication file.
+ * Represents a single Subversion user authentication file.
  *
  * @author Shaun Johnson
  */
 public final class Document {
-
     private static final Log logger = LogFactory.getLog(Document.class);
 
     /**
@@ -117,7 +116,8 @@ public final class Document {
      * @return The newly created AccessRule.
      * @throws AppException
      */
-    public AccessRule addAccessRuleForGroup(Path path, Group group, String level) throws AppException {
+    public AccessRule addAccessRuleForGroup(final Path path, final Group group, final String level) throws
+            AppException {
         if (path == null) {
             throw new ValidatorException("application.error.pathmissing");
         }
@@ -128,7 +128,7 @@ public final class Document {
             throw new ValidatorException("application.error.groupmissing");
         }
 
-        AccessRule accessRule = new AccessRule(path, group, level);
+        final AccessRule accessRule = new AccessRule(path, group, level);
 
         group.addAccessRule(accessRule);
 
@@ -152,7 +152,8 @@ public final class Document {
      * @return The newly created AccessRule.
      * @throws AppException
      */
-    public AccessRule addAccessRuleForGroup(Path path, String groupName, String level) throws AppException {
+    public AccessRule addAccessRuleForGroup(final Path path, final String groupName, final String level) throws
+            AppException {
         if (path == null) {
             throw new ValidatorException("application.error.pathmissing");
         }
@@ -160,7 +161,7 @@ public final class Document {
         Validator.validateGroupName(groupName);
         Validator.validateLevelOfAccess(level);
 
-        Group group = findGroup(groupName);
+        final Group group = findGroup(groupName);
 
         setUnsavedChanges();
 
@@ -177,9 +178,10 @@ public final class Document {
      * @return The newly created AccessRule.
      * @throws AppException
      */
-    public AccessRule addAccessRuleForGroup(Repository repository, String pathString, Group group, String level)
+    public AccessRule addAccessRuleForGroup(final Repository repository, final String pathString, final Group group,
+                                            final String level)
             throws AppException {
-        Path path = addPath(repository, pathString);
+        final Path path = addPath(repository, pathString);
 
         setUnsavedChanges();
 
@@ -195,7 +197,8 @@ public final class Document {
      * @return The newly created AccessRule.
      * @throws AppException
      */
-    public AccessRule addAccessRuleForUser(Path path, String userName, String level) throws AppException {
+    public AccessRule addAccessRuleForUser(final Path path, final String userName, final String level) throws
+            AppException {
         if (path == null) {
             throw new ValidatorException("application.error.pathmissing");
         }
@@ -219,14 +222,14 @@ public final class Document {
      * @return The newly created AccessRule.
      * @throws AppException
      */
-    public AccessRule addAccessRuleForUser(Path path, User user, String level) throws AppException {
+    public AccessRule addAccessRuleForUser(final Path path, final User user, final String level) throws AppException {
         if (path == null) {
             throw new ValidatorException("application.error.pathmissing");
         }
 
         Validator.validateLevelOfAccess(level);
 
-        AccessRule accessRule = new AccessRule(path, user, level);
+        final AccessRule accessRule = new AccessRule(path, user, level);
 
         user.addAccessRule(accessRule);
 
@@ -251,8 +254,8 @@ public final class Document {
      * @return The newly created AccessRule.
      * @throws AppException
      */
-    public AccessRule addAccessRuleForUser(Repository repository, String pathString, User user, String level)
-            throws AppException {
+    public AccessRule addAccessRuleForUser(final Repository repository, final String pathString, final User user,
+                                           final String level) throws AppException {
         Path path = addPath(repository, pathString);
 
         setUnsavedChanges();
@@ -268,14 +271,14 @@ public final class Document {
      * @return Newly created or found Group.
      * @throws AppException
      */
-    public Group addGroup(String groupName) throws AppException {
+    public Group addGroup(final String groupName) throws AppException {
         Validator.validateGroupName(groupName);
 
         Group group = findGroup(groupName);
 
         if (group == null) {
-            List<Group> groupMemberList = new ArrayList<Group>();
-            List<User> userMemberList = new ArrayList<User>();
+            final List<Group> groupMemberList = new ArrayList<Group>();
+            final List<User> userMemberList = new ArrayList<User>();
 
             group = new Group(groupName, groupMemberList, userMemberList);
 
@@ -292,14 +295,15 @@ public final class Document {
         return group;
     }
 
-    public Group addGroup(String groupName, List<Group> groupMembers, List<User> userMembers) throws AppException {
+    public Group addGroup(final String groupName, final List<Group> groupMembers, final List<User> userMembers) throws
+            AppException {
         Validator.validateGroupName(groupName);
 
         Group group = findGroup(groupName);
 
         if (group == null) {
-            List<Group> groupMemberList = new ArrayList<Group>();
-            List<User> userMemberList = new ArrayList<User>();
+            List<Group> groupMemberList = new ArrayList<>();
+            List<User> userMemberList = new ArrayList<>();
 
             group = new Group(groupName, groupMemberList, userMemberList);
 
@@ -332,7 +336,8 @@ public final class Document {
         return group;
     }
 
-    public Group addGroupByName(String groupName, List<String> groupMemberNames, List<String> userMemberNames, List<String> aliasMemberNames)
+    public Group addGroupByName(final String groupName, final List<String> groupMemberNames,
+                                final List<String> userMemberNames, final List<String> aliasMemberNames)
             throws AppException {
         Validator.validateGroupName(groupName);
 
@@ -354,10 +359,11 @@ public final class Document {
         return group;
     }
 
-    public void addMembersByName(Group group, List<String> groupMemberNames, List<String> userMemberNames, List<String> aliasMemberNames)
+    public void addMembersByName(final Group group, final List<String> groupMemberNames,
+                                 final List<String> userMemberNames, final List<String> aliasMemberNames)
             throws AppException {
-        List<Group> groupMemberList = group.getGroupMembers();
-        List<User> userMemberList = group.getUserMembers();
+        final List<Group> groupMemberList = group.getGroupMembers();
+        final List<User> userMemberList = group.getUserMembers();
 
         // Add Group members
         if (groupMemberNames != null) {
@@ -401,7 +407,7 @@ public final class Document {
      * @return The newly create or found Path.
      * @throws AppException
      */
-    public Path addPath(Repository repository, String relativePath) throws AppException {
+    public Path addPath(final Repository repository, final String relativePath) throws AppException {
         Validator.validatePath(relativePath);
 
         Path path = findPath(repository, relativePath);
@@ -429,7 +435,7 @@ public final class Document {
      * @return The newly created or found Repository.
      * @throws AppException
      */
-    public Repository addRepository(String repositoryName) throws AppException {
+    public Repository addRepository(final String repositoryName) throws AppException {
         Validator.validateRepositoryName(repositoryName);
 
         Repository repository = findRepository(repositoryName);
@@ -1746,7 +1752,7 @@ public final class Document {
 
     /**
      * Gets all server AccessRule data as two-dimensional array.
-     * <p/>
+     * <p>
      * Array contents: [0] - Repository object [1] - Path object [2] - User or Group object [3] - Full text name of
      * access level
      *

@@ -1,4 +1,4 @@
-package org.xiaoniu.suafe.beans;
+package org.xiaoniu.suafe.api.beans;
 
 import java.util.HashMap;
 import java.util.Map;

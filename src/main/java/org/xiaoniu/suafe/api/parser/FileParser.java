@@ -15,16 +15,15 @@
  * ====================================================================
  * @endcopyright
  */
-package org.xiaoniu.suafe;
+package org.xiaoniu.suafe.api.parser;
 
-import org.xiaoniu.suafe.beans.Document;
-import org.xiaoniu.suafe.beans.Group;
-import org.xiaoniu.suafe.beans.Path;
-import org.xiaoniu.suafe.beans.Repository;
+import org.xiaoniu.suafe.api.beans.Document;
+import org.xiaoniu.suafe.api.beans.Group;
+import org.xiaoniu.suafe.api.beans.Path;
+import org.xiaoniu.suafe.api.beans.Repository;
 import org.xiaoniu.suafe.exceptions.AppException;
-import org.xiaoniu.suafe.exceptions.ParserException;
+import org.xiaoniu.suafe.api.exceptions.ParserException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
-import org.xiaoniu.suafe.parser.FileEncodingUtils;
 
 import java.io.*;
 import java.util.ArrayList;

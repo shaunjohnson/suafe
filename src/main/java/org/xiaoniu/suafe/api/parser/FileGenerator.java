@@ -15,9 +15,10 @@
  * ====================================================================
  * @endcopyright
  */
-package org.xiaoniu.suafe;
+package org.xiaoniu.suafe.api.parser;
 
-import org.xiaoniu.suafe.beans.*;
+import org.xiaoniu.suafe.Constants;
+import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.utils.StringUtils;

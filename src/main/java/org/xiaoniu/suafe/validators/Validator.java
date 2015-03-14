@@ -17,7 +17,7 @@
  */
 package org.xiaoniu.suafe.validators;
 
-import org.xiaoniu.suafe.SubversionConstants;
+import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 
 import java.util.regex.Matcher;

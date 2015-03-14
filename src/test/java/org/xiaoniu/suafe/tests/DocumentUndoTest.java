@@ -1,11 +1,11 @@
 package org.xiaoniu.suafe.tests;
 
 import org.junit.Test;
-import org.xiaoniu.suafe.SubversionConstants;
-import org.xiaoniu.suafe.beans.Document;
-import org.xiaoniu.suafe.beans.Group;
-import org.xiaoniu.suafe.beans.Repository;
-import org.xiaoniu.suafe.beans.User;
+import org.xiaoniu.suafe.api.SubversionConstants;
+import org.xiaoniu.suafe.api.beans.Document;
+import org.xiaoniu.suafe.api.beans.Group;
+import org.xiaoniu.suafe.api.beans.Repository;
+import org.xiaoniu.suafe.api.beans.User;
 import org.xiaoniu.suafe.exceptions.AppException;
 
 import java.util.ArrayList;

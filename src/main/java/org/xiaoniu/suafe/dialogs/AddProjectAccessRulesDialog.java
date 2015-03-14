@@ -19,7 +19,7 @@ package org.xiaoniu.suafe.dialogs;
 
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.ApplicationDefaultsConstants;
-import org.xiaoniu.suafe.beans.*;
+import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 

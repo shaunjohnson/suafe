@@ -18,8 +18,8 @@
 package org.xiaoniu.suafe.tests;
 
 import org.junit.Test;
-import org.xiaoniu.suafe.beans.Path;
-import org.xiaoniu.suafe.beans.Repository;
+import org.xiaoniu.suafe.api.beans.Path;
+import org.xiaoniu.suafe.api.beans.Repository;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

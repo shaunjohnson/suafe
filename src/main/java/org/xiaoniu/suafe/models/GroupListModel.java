@@ -17,7 +17,7 @@
  */
 package org.xiaoniu.suafe.models;
 
-import org.xiaoniu.suafe.beans.Document;
+import org.xiaoniu.suafe.api.beans.Document;
 
 /**
  * Group list for a combo-box. A combo-box listing out all Group objects

@@ -15,14 +15,29 @@
  * ====================================================================
  * @endcopyright
  */
+package org.xiaoniu.suafe.api.beans;
 
-package org.xiaoniu.suafe.beans;
+import java.util.Comparator;
 
 /**
- * Parent class for User and Group objects.
+ * Comparator for Path objects.
  *
  * @author Shaun Johnson
  */
-public abstract class GroupMemberObject {
+public final class PathComparator implements Comparator<Path> {
+
+    /**
+     * Compares two Path objects. If repostory names and paths match then the
+     * Path objects are considered a match.
+     */
+    public int compare(Path path1, Path path2) {
+        String string1 = ((path1.getRepository() == null) ? "" : path1.getRepository().toString()) + ":" +
+                ((path1.getPath() == null) ? "" : path1.getPath());
+
+        String string2 = ((path2.getRepository() == null) ? "" : path2.getRepository().toString()) + ":" +
+                ((path2.getPath() == null) ? "" : path2.getPath());
+
+        return string1.compareTo(string2);
+    }
 
 }

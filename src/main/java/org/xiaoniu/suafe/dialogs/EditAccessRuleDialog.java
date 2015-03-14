@@ -18,9 +18,9 @@
 package org.xiaoniu.suafe.dialogs;
 
 import org.xiaoniu.suafe.ActionConstants;
-import org.xiaoniu.suafe.beans.AccessRule;
-import org.xiaoniu.suafe.beans.Document;
-import org.xiaoniu.suafe.beans.Message;
+import org.xiaoniu.suafe.api.beans.AccessRule;
+import org.xiaoniu.suafe.api.beans.Document;
+import org.xiaoniu.suafe.api.beans.Message;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 

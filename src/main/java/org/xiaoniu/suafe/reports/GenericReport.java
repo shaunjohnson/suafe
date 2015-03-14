@@ -17,7 +17,7 @@
  */
 package org.xiaoniu.suafe.reports;
 
-import org.xiaoniu.suafe.beans.Document;
+import org.xiaoniu.suafe.api.beans.Document;
 import org.xiaoniu.suafe.exceptions.AppException;
 
 /**

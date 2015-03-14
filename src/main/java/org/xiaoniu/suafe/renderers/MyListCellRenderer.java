@@ -17,10 +17,10 @@
  */
 package org.xiaoniu.suafe.renderers;
 
-import org.xiaoniu.suafe.beans.AccessRule;
-import org.xiaoniu.suafe.beans.Group;
-import org.xiaoniu.suafe.beans.Repository;
-import org.xiaoniu.suafe.beans.User;
+import org.xiaoniu.suafe.api.beans.AccessRule;
+import org.xiaoniu.suafe.api.beans.Group;
+import org.xiaoniu.suafe.api.beans.Repository;
+import org.xiaoniu.suafe.api.beans.User;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
 import javax.swing.*;

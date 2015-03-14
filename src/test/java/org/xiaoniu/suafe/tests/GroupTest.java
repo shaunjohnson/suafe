@@ -18,9 +18,9 @@
 package org.xiaoniu.suafe.tests;
 
 import org.junit.Test;
-import org.xiaoniu.suafe.beans.AccessRule;
-import org.xiaoniu.suafe.beans.Group;
-import org.xiaoniu.suafe.beans.User;
+import org.xiaoniu.suafe.api.beans.AccessRule;
+import org.xiaoniu.suafe.api.beans.Group;
+import org.xiaoniu.suafe.api.beans.User;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

@@ -15,9 +15,9 @@
  * ====================================================================
  * @endcopyright
  */
-package org.xiaoniu.suafe.beans;
+package org.xiaoniu.suafe.api.beans;
 
-import org.xiaoniu.suafe.SubversionConstants;
+import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
@@ -31,7 +31,6 @@ import org.xiaoniu.suafe.validators.Validator;
  * @author Shaun Johsnon
  */
 public final class AccessRule implements Comparable<AccessRule> {
-
     /**
      * Path referenced by the AccessRule.
      */
@@ -72,7 +71,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      * @param path  The Path to be set.
      * @param level The level of access to be set.
      */
-    public AccessRule(Path path, String level) {
+    public AccessRule(final Path path, final String level) {
         super();
 
         this.path = path;
@@ -88,7 +87,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      * @param group The Group to be given access.
      * @param level The level of access to be set.
      */
-    public AccessRule(Path path, Group group, String level) {
+    public AccessRule(final Path path, final Group group, final String level) {
         super();
 
         this.path = path;
@@ -104,7 +103,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      * @param user  The user to be given access.
      * @param level The level of access to be set.
      */
-    public AccessRule(Path path, User user, String level) {
+    public AccessRule(final Path path, final User user, final String level) {
         super();
 
         this.path = path;
@@ -138,7 +137,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      *
      * @param group The Group to set.
      */
-    public void setGroup(Group group) {
+    public void setGroup(final Group group) {
         this.group = group;
     }
 
@@ -156,7 +155,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      *
      * @param user The User to set.
      */
-    public void setUser(User user) {
+    public void setUser(final User user) {
         this.user = user;
     }
 
@@ -174,7 +173,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      *
      * @param path The Path to set.
      */
-    public void setPath(Path path) {
+    public void setPath(final Path path) {
         this.path = path;
     }
 
@@ -217,7 +216,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      * @param level The level of access to set.
      * @throws AppException
      */
-    public void setLevel(String level) throws AppException {
+    public void setLevel(final String level) throws AppException {
         Validator.validateLevelOfAccess(level);
 
         this.level = level;
@@ -228,7 +227,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      *
      * @param otherAccessRule The other AccessRule to use for comparison.
      */
-    public int compareTo(AccessRule otherAccessRule) {
+    public int compareTo(final AccessRule otherAccessRule) {
         return this.toString().compareTo(otherAccessRule.toString());
     }
 
@@ -237,6 +236,7 @@ public final class AccessRule implements Comparable<AccessRule> {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }

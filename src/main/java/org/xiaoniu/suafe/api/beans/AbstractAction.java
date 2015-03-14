@@ -1,10 +1,9 @@
-package org.xiaoniu.suafe.beans;
+package org.xiaoniu.suafe.api.beans;
 
 public abstract class AbstractAction {
-
     protected String action = null;
 
-    public AbstractAction(String action) {
+    public AbstractAction(final String action) {
         super();
 
         this.action = action;
@@ -14,7 +13,7 @@ public abstract class AbstractAction {
         return action;
     }
 
-    public void setAction(String action) {
+    public void setAction(final String action) {
         this.action = action;
     }
 }

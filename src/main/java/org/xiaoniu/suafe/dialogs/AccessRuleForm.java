@@ -2,9 +2,9 @@ package org.xiaoniu.suafe.dialogs;
 
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.GuiConstants;
-import org.xiaoniu.suafe.SubversionConstants;
+import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.UserPreferences;
-import org.xiaoniu.suafe.beans.*;
+import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.models.GroupListModel;
 import org.xiaoniu.suafe.models.RepositoryListModel;

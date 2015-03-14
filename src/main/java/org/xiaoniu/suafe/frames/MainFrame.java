@@ -18,7 +18,9 @@
 package org.xiaoniu.suafe.frames;
 
 import org.xiaoniu.suafe.*;
-import org.xiaoniu.suafe.beans.*;
+import org.xiaoniu.suafe.api.beans.*;
+import org.xiaoniu.suafe.api.parser.FileGenerator;
+import org.xiaoniu.suafe.api.parser.FileParser;
 import org.xiaoniu.suafe.dialogs.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.frames.menus.GroupsPopupMenu;

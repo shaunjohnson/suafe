@@ -1,8 +1,8 @@
 package org.xiaoniu.suafe.reports.helpers;
 
-import org.xiaoniu.suafe.SubversionConstants;
-import org.xiaoniu.suafe.beans.AccessRule;
-import org.xiaoniu.suafe.beans.User;
+import org.xiaoniu.suafe.api.SubversionConstants;
+import org.xiaoniu.suafe.api.beans.AccessRule;
+import org.xiaoniu.suafe.api.beans.User;
 
 import java.util.List;
 

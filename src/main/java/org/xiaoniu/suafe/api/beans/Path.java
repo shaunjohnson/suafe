@@ -15,7 +15,7 @@
  * ====================================================================
  * @endcopyright
  */
-package org.xiaoniu.suafe.beans;
+package org.xiaoniu.suafe.api.beans;
 
 import java.util.ArrayList;
 import java.util.List;

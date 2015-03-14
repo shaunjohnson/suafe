@@ -15,7 +15,7 @@
  * ====================================================================
  * @endcopyright
  */
-package org.xiaoniu.suafe.beans;
+package org.xiaoniu.suafe.api.beans;
 
 /**
  * Represents the outcome of a dialog action.

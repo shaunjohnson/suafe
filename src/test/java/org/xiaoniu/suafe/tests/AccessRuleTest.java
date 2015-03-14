@@ -18,11 +18,11 @@
 package org.xiaoniu.suafe.tests;
 
 import org.junit.Test;
-import org.xiaoniu.suafe.SubversionConstants;
-import org.xiaoniu.suafe.beans.AccessRule;
-import org.xiaoniu.suafe.beans.Group;
-import org.xiaoniu.suafe.beans.Path;
-import org.xiaoniu.suafe.beans.User;
+import org.xiaoniu.suafe.api.SubversionConstants;
+import org.xiaoniu.suafe.api.beans.AccessRule;
+import org.xiaoniu.suafe.api.beans.Group;
+import org.xiaoniu.suafe.api.beans.Path;
+import org.xiaoniu.suafe.api.beans.User;
 import org.xiaoniu.suafe.exceptions.AppException;
 
 import static org.junit.Assert.assertTrue;

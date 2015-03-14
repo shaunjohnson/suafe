@@ -1,4 +1,4 @@
-package org.xiaoniu.suafe;
+package org.xiaoniu.suafe.api;
 
 public final class SubversionConstants {
     private SubversionConstants() {

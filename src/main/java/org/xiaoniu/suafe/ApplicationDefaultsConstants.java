@@ -1,5 +1,7 @@
 package org.xiaoniu.suafe;
 
+import org.xiaoniu.suafe.api.SubversionConstants;
+
 public final class ApplicationDefaultsConstants {
     public static final int DEFAULT_ACCESS_RULE_TABLE_ROW_HEIGHT = 18;
 

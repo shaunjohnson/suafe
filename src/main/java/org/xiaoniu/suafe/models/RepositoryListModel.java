@@ -17,7 +17,7 @@
  */
 package org.xiaoniu.suafe.models;
 
-import org.xiaoniu.suafe.beans.Document;
+import org.xiaoniu.suafe.api.beans.Document;
 
 /**
  * Repository list for a combo-box. A combo-box containing all repositories

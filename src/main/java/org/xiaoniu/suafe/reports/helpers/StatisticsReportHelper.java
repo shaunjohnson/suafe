@@ -1,7 +1,7 @@
 package org.xiaoniu.suafe.reports.helpers;
 
-import org.xiaoniu.suafe.FileParser;
-import org.xiaoniu.suafe.beans.Document;
+import org.xiaoniu.suafe.api.parser.FileParser;
+import org.xiaoniu.suafe.api.beans.Document;
 
 import java.io.File;
 
