@@ -1595,7 +1595,6 @@ public final class CommandLineApplication {
 
             // Miscellaneous Options
             jsap.addSwitchOption(ARGS_VERSION, ARGS_VERSION_SHORTFLAG, ARGS_VERSION, "version");
-            jsap.addSwitchOption(ARGS_NAME, null, ARGS_NAME, "name");
 
             // List of Values Options
             jsap.addListOption(ARGS_GROUPS, null, ARGS_GROUPS, "groups");
@@ -1607,6 +1606,7 @@ public final class CommandLineApplication {
             jsap.addStringOption(ARGS_USER, null, ARGS_USER, "user");
             jsap.addStringOption(ARGS_GROUP, null, ARGS_GROUP, "group");
             jsap.addStringOption(ARGS_ACCESS, null, ARGS_ACCESS, "access");
+            jsap.addStringOption(ARGS_NAME, null, ARGS_NAME, "name");
 
             jsap.addStringOption(ARGS_NEW_NAME, null, ARGS_NEW_NAME, "newname");
             jsap.addStringOption(ARGS_NEW_REPOS, null, ARGS_NEW_REPOS, "newrepos");
