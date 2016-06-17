@@ -17,13 +17,13 @@
  */
 package org.xiaoniu.suafe.dialogs;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
-import org.xiaoniu.suafe.utils.StringUtils;
 import org.xiaoniu.suafe.validators.Validator;
 
 import javax.swing.*;

@@ -17,8 +17,8 @@
  */
 package org.xiaoniu.suafe.api.beans;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xiaoniu.suafe.api.SubversionConstants;
-import org.xiaoniu.suafe.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

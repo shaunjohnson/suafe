@@ -4,8 +4,6 @@ public abstract class AbstractAction {
     protected String action = null;
 
     public AbstractAction(final String action) {
-        super();
-
         this.action = action;
     }
 

@@ -18,15 +18,15 @@
 package org.xiaoniu.suafe.api.beans;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xiaoniu.suafe.ActionConstants;
-import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.UndoConstants;
+import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
-import org.xiaoniu.suafe.utils.StringUtils;
 import org.xiaoniu.suafe.validators.Validator;
 
 import java.io.File;

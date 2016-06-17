@@ -17,11 +17,11 @@
  */
 package org.xiaoniu.suafe.api.parser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xiaoniu.suafe.Constants;
 import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
-import org.xiaoniu.suafe.utils.StringUtils;
 
 import java.io.*;
 import java.util.Collections;
