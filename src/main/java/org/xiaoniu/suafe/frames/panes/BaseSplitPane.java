@@ -2,11 +2,12 @@ package org.xiaoniu.suafe.frames.panes;
 
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public abstract class BaseSplitPane extends JSplitPane {
-
     private static final long serialVersionUID = 6274498016581207351L;
 
     /**
@@ -17,8 +18,10 @@ public abstract class BaseSplitPane extends JSplitPane {
      * @param listener Action listener
      * @return Newly created button
      */
-    protected JButton createButton(String key, String action, ActionListener listener) {
-        JButton button = new JButton();
+    @Nonnull
+    protected JButton createButton(@Nonnull final String key, @Nullable final String action,
+                                   final ActionListener listener) {
+        final JButton button = new JButton();
 
         button.addActionListener(listener);
 
@@ -41,8 +44,10 @@ public abstract class BaseSplitPane extends JSplitPane {
      * @param listener   Action listener
      * @return Newly created button
      */
-    protected JButton createButton(String key, String tooltipKey, ImageIcon icon, String action, ActionListener listener) {
-        JButton button = new JButton();
+    @Nonnull
+    protected JButton createButton(@Nonnull final String key, final String tooltipKey, final ImageIcon icon,
+                                   final String action, final ActionListener listener) {
+        final JButton button = new JButton();
 
         button.addActionListener(listener);
         button.setActionCommand(action);
@@ -59,7 +64,8 @@ public abstract class BaseSplitPane extends JSplitPane {
      * @param key Key used to lookup label test in resource bundle
      * @return Newly created label
      */
-    protected JLabel createLabel(String key) {
+    @Nonnull
+    protected JLabel createLabel(@Nonnull final String key) {
         return new JLabel(ResourceUtil.getString(key));
     }
 }

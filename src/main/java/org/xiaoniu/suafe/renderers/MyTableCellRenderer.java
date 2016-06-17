@@ -34,18 +34,10 @@ import java.awt.*;
  * @author Shaun Johnson
  */
 public final class MyTableCellRenderer extends JLabel implements TableCellRenderer {
-
     /**
      * Serial ID.
      */
     private static final long serialVersionUID = 2879090147475742072L;
-
-    /**
-     * Default constructor.
-     */
-    public MyTableCellRenderer() {
-        super();
-    }
 
     /**
      * Custom cell painter.
@@ -120,5 +112,4 @@ public final class MyTableCellRenderer extends JLabel implements TableCellRender
 
         return this;
     }
-
 }

@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
@@ -39,6 +40,7 @@ public final class Printer implements Printable {
      *
      * @return <code>PageFormat</code> object
      */
+    @Nonnull
     public static PageFormat getFormat() {
         return Printer.format;
     }
@@ -48,7 +50,7 @@ public final class Printer implements Printable {
      *
      * @param format <code>PageFormat</code> object
      */
-    public static void setFormat(PageFormat format) {
+    public static void setFormat(@Nonnull final PageFormat format) {
         Printer.format = format;
     }
 
@@ -59,16 +61,16 @@ public final class Printer implements Printable {
      * @param format    PageFormat object
      * @param pageIndex
      */
-    public int print(Graphics g, PageFormat format, int pageIndex) {
+    public int print(@Nonnull final Graphics g, @Nonnull final PageFormat format, final int pageIndex) {
         int retval = Printable.PAGE_EXISTS;
 
         try {
-//			AttributedString mStyledText = new AttributedString(FileGenerator.generate());
-            AttributedString mStyledText = new AttributedString("not implemented");
+//			final AttributedString mStyledText = new AttributedString(FileGenerator.generate());
+            final AttributedString mStyledText = new AttributedString("not implemented");
 
 			/* We'll assume that Jav2D is available.
 			 */
-            Graphics2D g2d = (Graphics2D) g;
+            final Graphics2D g2d = (Graphics2D) g;
 			
 			/* Move the origin from the corner of the Paper to the corner
 			 * of the imageable area.
@@ -82,13 +84,13 @@ public final class Printer implements Printable {
 			/* Use a LineBreakMeasurer instance to break our text into
 			 * lines that fit the imageable area of the page.
 			 */
-            Point2D.Float pen = new Point2D.Float();
-            AttributedCharacterIterator charIterator = mStyledText.getIterator();
-            LineBreakMeasurer measurer = new LineBreakMeasurer(charIterator, g2d.getFontRenderContext());
-            float wrappingWidth = (float) format.getImageableWidth();
+            final Point2D.Float pen = new Point2D.Float();
+            final AttributedCharacterIterator charIterator = mStyledText.getIterator();
+            final LineBreakMeasurer measurer = new LineBreakMeasurer(charIterator, g2d.getFontRenderContext());
+            final float wrappingWidth = (float) format.getImageableWidth();
 
             while (measurer.getPosition() < charIterator.getEndIndex()) {
-                TextLayout layout = measurer.nextLayout(wrappingWidth);
+                final TextLayout layout = measurer.nextLayout(wrappingWidth);
                 pen.y += layout.getAscent();
                 float dx = layout.isLeftToRight() ? 0 : (wrappingWidth - layout.getAdvance());
 
@@ -97,10 +99,10 @@ public final class Printer implements Printable {
 
             }
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             retval = Printable.NO_SUCH_PAGE;
         }
+
         return retval;
     }
-
 }

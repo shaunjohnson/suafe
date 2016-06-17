@@ -20,23 +20,22 @@ package org.xiaoniu.suafe.reports;
 import org.xiaoniu.suafe.api.beans.Document;
 import org.xiaoniu.suafe.exceptions.AppException;
 
+import javax.annotation.Nonnull;
+
 /**
  * Abstract Report class.
  *
  * @author Shaun Johnson
  */
 public abstract class GenericReport {
-
-    protected Document document = null;
+    protected final Document document;
 
     /**
      * Constructor that accepts Document object to be used as source for the report.
      *
      * @param document Document object.
      */
-    public GenericReport(final Document document) {
-        super();
-
+    public GenericReport(@Nonnull final Document document) {
         this.document = document;
     }
 
@@ -44,7 +43,8 @@ public abstract class GenericReport {
      * Generate report and return report HTML contents as String.
      *
      * @return Report HTML source.
-     * @throws AppException
+     * @throws AppException if error occurs
      */
+    @Nonnull
     public abstract String generate() throws AppException;
 }

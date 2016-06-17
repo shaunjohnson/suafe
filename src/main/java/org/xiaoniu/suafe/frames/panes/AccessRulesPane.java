@@ -9,6 +9,7 @@ import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTreeCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionListener;
@@ -19,53 +20,52 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
 public final class AccessRulesPane extends BaseSplitPane {
-
     private static final long serialVersionUID = 4055338694233688725L;
 
-    private JPanel accessRuleActionsPanel = null;
+    private JPanel accessRuleActionsPanel;
 
-    private JPanel accessRulesFormatPanel = null;
+    private JPanel accessRulesFormatPanel;
 
-    private JPanel accessRulesPanel = null;
+    private JPanel accessRulesPanel;
 
-    private JScrollPane accessRulesScrollPane = null;
+    private JScrollPane accessRulesScrollPane;
 
-    private JTable accessRulesTable = null;
+    private JTable accessRulesTable;
 
-    private JTree accessRulesTree = null;
+    private JTree accessRulesTree;
 
-    private JPanel accessRulesTreeActionsPanel = null;
+    private JPanel accessRulesTreeActionsPanel;
 
-    private JPanel accessRulesTreePanel = null;
+    private JPanel accessRulesTreePanel;
 
-    private AccessRulesPopupMenu accessRulestreePopupMenu = null;
+    private AccessRulesPopupMenu accessRulestreePopupMenu;
 
-    private JScrollPane accessRulesTreeScrollPane = null;
+    private JScrollPane accessRulesTreeScrollPane;
 
-    private ActionListener actionListener = null;
+    private JButton addAccessRuleButton;
 
-    private JButton addAccessRuleButton = null;
+    private JButton addProjectAccessRulesButton;
 
-    private JButton addProjectAccessRulesButton = null;
+    private JButton deleteAccessRuleButton;
 
-    private JButton deleteAccessRuleButton = null;
+    private JButton deleteTreeItemButton;
 
-    private JButton deleteTreeItemButton = null;
+    private JButton editAccessRuleButton;
 
-    private JButton editAccessRuleButton = null;
+    private JButton editTreeItemButton;
 
-    private JButton editTreeItemButton = null;
+    private final ActionListener actionListener;
 
-    private ListSelectionListener listSelectionListener = null;
+    private final ListSelectionListener listSelectionListener;
 
-    private MouseListener mouseListener = null;
+    private final MouseListener mouseListener;
 
-    private TreeSelectionListener treeSelectionListener = null;
+    private final TreeSelectionListener treeSelectionListener;
 
-    public AccessRulesPane(final ActionListener actionListener, final ListSelectionListener listSelectionListener,
-                           final MouseListener mouseListener, final TreeSelectionListener treeSelectionListener) {
-        super();
-
+    public AccessRulesPane(@Nonnull final ActionListener actionListener,
+                           @Nonnull final ListSelectionListener listSelectionListener,
+                           @Nonnull final MouseListener mouseListener,
+                           @Nonnull final TreeSelectionListener treeSelectionListener) {
         this.actionListener = actionListener;
         this.mouseListener = mouseListener;
         this.listSelectionListener = listSelectionListener;

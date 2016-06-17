@@ -22,6 +22,7 @@ import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.reports.helpers.StatisticsReportHelper;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -31,15 +32,14 @@ import java.util.Date;
  * @author Shaun Johnson
  */
 public final class StatisticsReport extends GenericReport {
-
-    private StatisticsReportHelper helper = null;
+    private final StatisticsReportHelper helper;
 
     /**
      * Constructor.
      *
      * @param document Document used as report source.
      */
-    public StatisticsReport(final Document document) {
+    public StatisticsReport(@Nonnull final Document document) {
         super(document);
 
         helper = new StatisticsReportHelper(document);
@@ -52,26 +52,26 @@ public final class StatisticsReport extends GenericReport {
      */
     @Override
     public String generate() throws AppException {
-        final StringBuffer report = new StringBuffer();
+        final StringBuilder report = new StringBuilder();
 
         report.append(ResourceUtil.getString("reports.header"));
         report.append("<head>");
-        report.append("<title>" + ResourceUtil.getString("statisticsreport.title") + "</title>");
+        report.append("<title>").append(ResourceUtil.getString("statisticsreport.title")).append("</title>");
         report.append(ResourceUtil.getString("reports.contenttype"));
         report.append("</head><body>");
-        report.append("<h1>" + ResourceUtil.getString("statisticsreport.title") + "</h1>");
+        report.append("<h1>").append(ResourceUtil.getString("statisticsreport.title")).append("</h1>");
 
-        report.append("<h2>" + ResourceUtil.getString("statisticsreport.users") + "</h2>");
-        report.append("<p>" + helper.getUserCount() + " users</p>");
+        report.append("<h2>").append(ResourceUtil.getString("statisticsreport.users")).append("</h2>");
+        report.append("<p>").append(helper.getUserCount()).append(" users</p>");
 
-        report.append("<h2>" + ResourceUtil.getString("statisticsreport.groups") + "</h2>");
-        report.append("<p>" + helper.getGroupCount() + " groups</p>");
+        report.append("<h2>").append(ResourceUtil.getString("statisticsreport.groups")).append("</h2>");
+        report.append("<p>").append(helper.getGroupCount()).append(" groups</p>");
 
-        report.append("<h2>" + ResourceUtil.getString("statisticsreport.repositories") + "</h2>");
-        report.append("<p>" + helper.getRepoStatistics().getCount() + " repositories</p>");
+        report.append("<h2>").append(ResourceUtil.getString("statisticsreport.repositories")).append("</h2>");
+        report.append("<p>").append(helper.getRepoStatistics().getCount()).append(" repositories</p>");
 
-        report.append("<h2>" + ResourceUtil.getString("statisticsreport.rules") + "</h2>");
-        report.append("<p>" + helper.getAccessRuleCount() + " access rules</p>");
+        report.append("<h2>").append(ResourceUtil.getString("statisticsreport.rules")).append("</h2>");
+        report.append("<p>").append(helper.getAccessRuleCount()).append(" access rules</p>");
 
         final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 

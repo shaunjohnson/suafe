@@ -13,6 +13,8 @@ import org.xiaoniu.suafe.reports.SummaryReport;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.utils.ArgumentParser;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.List;
@@ -140,7 +142,8 @@ public final class CommandLineApplication {
      * @param groupName Name of new group
      * @throws AppException Error occurred
      */
-    private String addGroup(Document document, String groupName) throws AppException, AppException {
+    @Nonnull
+    private String addGroup(@Nonnull final Document document, @Nullable final String groupName) throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
@@ -155,9 +158,11 @@ public final class CommandLineApplication {
      *
      * @param userName   Name of user
      * @param groupNames List of groups
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String addGroups(Document document, String userName, String[] groupNames) throws AppException {
+    @Nonnull
+    private String addGroups(@Nonnull final Document document, @Nullable final String userName,
+                             @Nullable final String[] groupNames) throws AppException {
         if (userName == null) {
             throw new AppException("application.error.userrequired");
         }
@@ -172,8 +177,8 @@ public final class CommandLineApplication {
             user = document.addUser(userName);
         }
 
-        for (String groupName : groupNames) {
-            Group group = document.findGroup(groupName);
+        for (final String groupName : groupNames) {
+            final Group group = document.findGroup(groupName);
 
             if (group == null) {
                 throw new AppException("application.error.unabletofindgroup", groupName);
@@ -193,10 +198,12 @@ public final class CommandLineApplication {
      * @param groupName  Group name to be updated
      * @param userNames  User names of new members
      * @param groupNames Group names of new members
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String addMembers(Document document, String groupName, String[] userNames, String[] groupNames)
-            throws AppException, AppException {
+    @Nonnull
+    private String addMembers(@Nonnull final Document document, @Nullable final String groupName,
+                              @Nullable final String[] userNames, @Nullable final String[] groupNames)
+            throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
@@ -205,13 +212,13 @@ public final class CommandLineApplication {
             throw new AppException("application.error.userorgrouplistrequired");
         }
 
-        Group group = document.findGroup(groupName);
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
         }
 
-        for (String memberUserName : userNames) {
+        for (final String memberUserName : userNames) {
             User memberUser = document.findUser(memberUserName);
 
             if (memberUser == null) {
@@ -222,8 +229,8 @@ public final class CommandLineApplication {
             group.addUserMember(memberUser);
         }
 
-        for (String memberGroupName : groupNames) {
-            Group memberGroup = document.findGroup(memberGroupName);
+        for (final String memberGroupName : groupNames) {
+            final Group memberGroup = document.findGroup(memberGroupName);
 
             if (memberGroup == null) {
                 throw new AppException("application.error.unabletofindgroup", memberGroupName);
@@ -244,10 +251,12 @@ public final class CommandLineApplication {
      * @param userName       User name
      * @param groupName      Group name
      * @param access         Access level
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String addRule(Document document, String repositoryName, String path, String userName, String groupName,
-                           String access) throws AppException, AppException {
+    @Nonnull
+    private String addRule(@Nonnull final Document document, @Nullable final String repositoryName,
+                           @Nullable final String path, @Nullable final String userName,
+                           @Nullable final String groupName, @Nullable final String access) throws AppException {
         if (path == null) {
             throw new AppException("application.error.pathrequired");
         }
@@ -265,25 +274,25 @@ public final class CommandLineApplication {
         }
 
         // Convert "none" to "" if necessary
-        access = access.equals(SubversionConstants.SVN_ACCESS_LEVEL_NONE) ? SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS
-                : access;
+        final String effectiveAccess = access.equals(SubversionConstants.SVN_ACCESS_LEVEL_NONE) ?
+                SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS : access;
 
         if (userName != null) {
             if (repositoryName == null) {
-                document.addAccessRuleForUser(null, path, document.addUser(userName), access);
+                document.addAccessRuleForUser(null, path, document.addUser(userName), effectiveAccess);
             }
             else {
                 document.addAccessRuleForUser(document.addRepository(repositoryName), path, document.addUser(userName),
-                        access);
+                        effectiveAccess);
             }
         }
         else if (groupName != null) {
             if (repositoryName == null) {
-                document.addAccessRuleForGroup(null, path, document.addGroup(groupName), access);
+                document.addAccessRuleForGroup(null, path, document.addGroup(groupName), effectiveAccess);
             }
             else {
                 document.addAccessRuleForGroup(document.addRepository(repositoryName), path, document
-                        .addGroup(groupName), access);
+                        .addGroup(groupName), effectiveAccess);
             }
         }
         else {
@@ -298,9 +307,11 @@ public final class CommandLineApplication {
      *
      * @param groupName Name of group to clone
      * @param cloneName Clone name
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String cloneGroup(Document document, String groupName, String cloneName) throws AppException, AppException {
+    @Nonnull
+    private String cloneGroup(@Nonnull final Document document, @Nullable final String groupName,
+                              @Nullable final String cloneName) throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
@@ -309,7 +320,7 @@ public final class CommandLineApplication {
             throw new AppException("application.error.clonerequired");
         }
 
-        Group group = document.findGroup(groupName);
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
@@ -325,9 +336,11 @@ public final class CommandLineApplication {
      *
      * @param userName  Name of user to be cloned
      * @param cloneName Name for the clone
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String cloneUser(Document document, String userName, String cloneName) throws AppException, AppException {
+    @Nonnull
+    private String cloneUser(@Nonnull final Document document, @Nullable final String userName,
+                             @Nullable final String cloneName) throws AppException {
         if (userName == null) {
             throw new AppException("application.error.userrequired");
         }
@@ -336,7 +349,7 @@ public final class CommandLineApplication {
             throw new AppException("application.error.clonerequired");
         }
 
-        User user = document.findUser(userName);
+        final User user = document.findUser(userName);
 
         if (user == null) {
             throw new AppException("application.error.unabletofinduser", userName);
@@ -350,36 +363,40 @@ public final class CommandLineApplication {
     /**
      * Outputs the number of groups.
      *
-     * @param out Output stream
+     * @param document Document
      */
-    private String countGroups(Document document) {
+    @Nonnull
+    private String countGroups(@Nonnull final Document document) {
         return Integer.toString(document.getGroupObjects().length) + "\n";
     }
 
     /**
      * Counts number of repositories.
      *
-     * @param out Output stream
+     * @param document Document
      */
-    private String countRepositories(Document document) {
+    @Nonnull
+    private String countRepositories(@Nonnull final Document document) {
         return Integer.toString(document.getRepositories().size()) + "\n";
     }
 
     /**
      * Counts number of rules.
      *
-     * @param out Output stream
+     * @param document Document
      */
-    private String countRules(Document document) {
+    @Nonnull
+    private String countRules(@Nonnull final Document document) {
         return Integer.toString(document.getAccessRules().size()) + "\n";
     }
 
     /**
      * Counts number of users.
      *
-     * @param out Output stream
+     * @param document Document
      */
-    private String countUsers(Document document) {
+    @Nonnull
+    private String countUsers(@Nonnull final Document document) {
         return Integer.toString(document.getUserObjects().length) + "\n";
     }
 
@@ -387,14 +404,15 @@ public final class CommandLineApplication {
      * Deletes an existing group.
      *
      * @param groupName Name of group to delete
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String deleteGroup(Document document, String groupName) throws AppException, AppException {
+    @Nonnull
+    private String deleteGroup(@Nonnull final Document document, @Nullable final String groupName) throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
 
-        Group group = document.findGroup(groupName);
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
@@ -409,14 +427,16 @@ public final class CommandLineApplication {
      * Deletes an existing repository.
      *
      * @param repositoryName Name of repository
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String deleteRepository(Document document, String repositoryName) throws AppException, AppException {
+    @Nonnull
+    private String deleteRepository(@Nonnull final Document document, @Nullable final String repositoryName)
+            throws AppException {
         if (repositoryName == null) {
             throw new AppException("application.error.repositoryrequired");
         }
 
-        Repository repository = document.findRepository(repositoryName);
+        final Repository repository = document.findRepository(repositoryName);
 
         if (repository == null) {
             throw new AppException("application.error.unabletofindrepository", repositoryName);
@@ -435,10 +455,13 @@ public final class CommandLineApplication {
      * @param path           Relative path string
      * @param userName       User name
      * @param groupName      Group name
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String deleteRule(Document document, String repositoryName, String path, String userName, String groupName)
-            throws AppException, AppException {
+    @Nonnull
+    private String deleteRule(@Nonnull final Document document, @Nullable final String repositoryName,
+                              @Nullable final String path, @Nullable final String userName,
+                              @Nullable final String groupName)
+            throws AppException {
         if (path == null) {
             throw new AppException("application.error.pathrequired");
         }
@@ -452,13 +475,13 @@ public final class CommandLineApplication {
         }
 
         if (userName != null) {
-            User user = document.findUser(userName);
+            final User user = document.findUser(userName);
 
             if (user == null) {
                 throw new AppException("application.error.unabletofinduser", userName);
             }
 
-            Repository repository = null;
+            Repository repository;
 
             if (repositoryName != null) {
                 repository = document.findRepository(repositoryName);
@@ -471,13 +494,13 @@ public final class CommandLineApplication {
             document.deleteAccessRule(repositoryName, path, null, user);
         }
         else if (groupName != null) {
-            Group group = document.findGroup(groupName);
+            final Group group = document.findGroup(groupName);
 
             if (group == null) {
                 throw new AppException("application.error.unabletofindgroup", groupName);
             }
 
-            Repository repository = null;
+            Repository repository;
 
             if (repositoryName != null) {
                 repository = document.findRepository(repositoryName);
@@ -500,14 +523,15 @@ public final class CommandLineApplication {
      * Deletes an existing user
      *
      * @param userName Name of user
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String deleteUser(Document document, String userName) throws AppException, AppException {
+    @Nonnull
+    private String deleteUser(@Nonnull final Document document, @Nullable final String userName) throws AppException {
         if (userName == null) {
             throw new AppException("application.error.userrequired");
         }
 
-        User user = document.findUser(userName);
+        final User user = document.findUser(userName);
 
         if (user == null) {
             throw new AppException("application.error.unabletofinduser", userName);
@@ -524,7 +548,7 @@ public final class CommandLineApplication {
      * @param stream Output stream
      * @param jsap   JSAP results
      */
-    private void displayUsage(PrintStream stream, JSAP jsap) {
+    private void displayUsage(@Nonnull final PrintStream stream, @Nonnull final JSAP jsap) {
         stream.println();
         stream.println(ResourceUtil.getString("application.nameversion"));
         stream.println();
@@ -542,7 +566,7 @@ public final class CommandLineApplication {
      * @param out  Output stream
      * @param jsap JSAP results.
      */
-    private void displayVerboseHelp(PrintStream out, JSAP jsap) {
+    private void displayVerboseHelp(@Nonnull final PrintStream out, @Nonnull final JSAP jsap) {
         final String SUAFE_EXECUTABLE = ResourceUtil.getString("application.args.executablepath");
 
         displayUsage(System.out, jsap);
@@ -749,7 +773,7 @@ public final class CommandLineApplication {
      *
      * @param stream Output stream
      */
-    private void displayVersion(PrintStream stream) {
+    private void displayVersion(@Nonnull final PrintStream stream) {
         stream.println(ResourceUtil.getString("application.nameversion"));
     }
 
@@ -766,11 +790,15 @@ public final class CommandLineApplication {
      * @param newUserName       New user name
      * @param newGroupName      New group name
      * @param newAccess         New access level
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String editRule(Document document, String repositoryName, String path, String userName, String groupName,
-                            String newRepositoryName, String newPathString, String newUserName, String newGroupName, String newAccess)
-            throws AppException, AppException {
+    @Nonnull
+    private String editRule(@Nonnull final Document document, @Nullable final String repositoryName,
+                            @Nullable final String path, @Nullable final String userName,
+                            @Nullable final String groupName, @Nullable final String newRepositoryName,
+                            @Nullable final String newPathString, @Nullable final String newUserName,
+                            @Nullable final String newGroupName, @Nullable final String newAccess)
+            throws AppException {
         if (path == null) {
             throw new AppException("application.error.pathrequired");
         }
@@ -787,10 +815,10 @@ public final class CommandLineApplication {
             throw new AppException("application.error.newuserorgrouprequired");
         }
 
-        AccessRule rule = null;
+        AccessRule rule;
 
         if (userName != null) {
-            User user = document.findUser(userName);
+            final User user = document.findUser(userName);
 
             if (user == null) {
                 throw new AppException("application.error.unabletofinduser", userName);
@@ -813,7 +841,7 @@ public final class CommandLineApplication {
             }
         }
         else if (groupName != null) {
-            Group group = document.findGroup(groupName);
+            final Group group = document.findGroup(groupName);
 
             if (group == null) {
                 throw new AppException("application.error.unabletofindgroup", groupName);
@@ -840,7 +868,7 @@ public final class CommandLineApplication {
         }
 
         if (newRepositoryName != null) {
-            Repository newRepository = document.findRepository(newRepositoryName);
+            final Repository newRepository = document.findRepository(newRepositoryName);
 
             if (newRepository == null) {
                 throw new AppException("application.error.unabletofindrepository", repositoryName);
@@ -850,13 +878,13 @@ public final class CommandLineApplication {
         }
 
         if (newPathString != null) {
-            Path newPath = document.addPath(rule.getPath().getRepository(), newPathString);
+            final Path newPath = document.addPath(rule.getPath().getRepository(), newPathString);
 
             rule.setPath(newPath);
         }
 
         if (newUserName != null) {
-            User newUser = document.addUser(newUserName);
+            final User newUser = document.addUser(newUserName);
 
             if (newUser == null) {
                 throw new AppException("application.error.unabletofinduser", userName);
@@ -867,7 +895,7 @@ public final class CommandLineApplication {
         }
 
         if (newGroupName != null) {
-            Group newGroup = document.findGroup(newGroupName);
+            final Group newGroup = document.findGroup(newGroupName);
 
             if (newGroup == null) {
                 throw new AppException("application.error.unabletofindgroup", groupName);
@@ -878,8 +906,8 @@ public final class CommandLineApplication {
         }
 
         if (newAccess != null) {
-            String newAccessLevel = (newAccess.equals(SubversionConstants.SVN_ACCESS_LEVEL_NONE)) ? SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS
-                    : newAccess;
+            final String newAccessLevel = (newAccess.equals(SubversionConstants.SVN_ACCESS_LEVEL_NONE)) ?
+                    SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS : newAccess;
 
             rule.setLevel(newAccessLevel);
         }
@@ -901,8 +929,8 @@ public final class CommandLineApplication {
      * @param jsap   JSAP results
      * @param config JSAP configuration
      */
-    private void executeCommands(JSAP jsap, JSAPResult config) {
-        Document document = null;
+    private void executeCommands(@Nonnull final JSAP jsap, @Nonnull final JSAPResult config) {
+        Document document;
         PrintStream out = System.out;
 
         try {
@@ -933,7 +961,7 @@ public final class CommandLineApplication {
             }
 
             // Process the specified command
-            String result = processCommands(document, config);
+            final String result = processCommands(document, config);
 
             // Print output
             out.print(result);
@@ -944,7 +972,7 @@ public final class CommandLineApplication {
                 out = null;
             }
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             System.err.println(e.getMessage());
             System.exit(1);
         }
@@ -953,25 +981,27 @@ public final class CommandLineApplication {
     /**
      * Get list of groups that are a member of a group.
      *
-     * @param out       Output stream
+     * @param document Document
      * @param groupName Name of group
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String getGroupGroupMembers(Document document, String groupName) throws AppException, AppException {
+    @Nonnull
+    private String getGroupGroupMembers(@Nonnull final Document document, @Nullable final String groupName)
+            throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
 
-        StringBuilder builder = new StringBuilder();
-        Group group = document.findGroup(groupName);
+        final StringBuilder builder = new StringBuilder();
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
         }
 
-        List<Group> groupMembers = group.getGroupMembers();
+        final List<Group> groupMembers = group.getGroupMembers();
 
-        for (Group groupMember : groupMembers) {
+        for (final Group groupMember : groupMembers) {
             builder.append(groupMember.getName());
             builder.append("\n");
         }
@@ -982,41 +1012,43 @@ public final class CommandLineApplication {
     /**
      * Get list of members of a group. User and group members are returned.
      *
-     * @param out       Output stream
+     * @param document Document
      * @param groupName Name of group
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String getGroupMembers(Document document, String groupName) throws AppException, AppException {
+    @Nonnull
+    private String getGroupMembers(@Nonnull final Document document, @Nullable final String groupName)
+            throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
 
-        StringBuilder builder = new StringBuilder();
-        Group group = document.findGroup(groupName);
+        final StringBuilder builder = new StringBuilder();
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
         }
 
-        List<Group> groupMembers = group.getGroupMembers();
+        final List<Group> groupMembers = group.getGroupMembers();
 
         if (groupMembers != null && groupMembers.size() > 0) {
             builder.append(ResourceUtil.getString("application.groups"));
             builder.append("\n");
 
-            for (Group groupMember : groupMembers) {
+            for (final Group groupMember : groupMembers) {
                 builder.append(groupMember.getName());
                 builder.append("\n");
             }
         }
 
-        List<User> userMembers = group.getUserMembers();
+        final List<User> userMembers = group.getUserMembers();
 
         if (groupMembers != null && userMembers.size() > 0) {
             builder.append(ResourceUtil.getString("application.users"));
             builder.append("\n");
 
-            for (User userMember : userMembers) {
+            for (final User userMember : userMembers) {
                 builder.append(userMember.getName());
                 builder.append("\n");
             }
@@ -1028,34 +1060,35 @@ public final class CommandLineApplication {
     /**
      * Get access rules for a group.
      *
-     * @param out       Output stream
+     * @param document Document
      * @param groupName Name of group
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String getGroupRules(Document document, String groupName) throws AppException, AppException {
+    @Nonnull
+    private String getGroupRules(@Nonnull final Document document, @Nullable final String groupName) throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
 
-        StringBuilder builder = new StringBuilder();
-        Group group = document.findGroup(groupName);
+        final StringBuilder builder = new StringBuilder();
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
         }
 
-        Object[][] accessRules = document.getGroupAccessRules(group);
+        final Object[][] accessRules = document.getGroupAccessRules(group);
 
-        for (Object[] accessRule : accessRules) {
-            Repository repository = (Repository) accessRule[0];
-            Path path = (Path) accessRule[1];
-            String accessLevel = (String) accessRule[2];
+        for (final Object[] accessRule : accessRules) {
+            final Repository repository = (Repository) accessRule[0];
+            final Path path = (Path) accessRule[1];
+            final String accessLevel = (String) accessRule[2];
 
             builder.append(repository.getName());
             builder.append(" ");
             builder.append(path.getPath());
             builder.append(" ");
-            builder.append(SubversionConstants.SVN_GROUP_REFERENCE_PREFIX + groupName);
+            builder.append(SubversionConstants.SVN_GROUP_REFERENCE_PREFIX).append(groupName);
             builder.append(" ");
             builder.append(accessLevel);
             builder.append("\n");
@@ -1067,13 +1100,14 @@ public final class CommandLineApplication {
     /**
      * Gets list of all groups.
      *
-     * @param out Output stream
+     * @param document Document
      */
-    private String getGroups(Document document) {
-        StringBuilder builder = new StringBuilder();
-        Object[] groupNames = document.getGroupNames();
+    @Nonnull
+    private String getGroups(@Nonnull final Document document) {
+        final StringBuilder builder = new StringBuilder();
+        final Object[] groupNames = document.getGroupNames();
 
-        for (Object groupName : groupNames) {
+        for (final Object groupName : groupNames) {
             builder.append((String) groupName);
             builder.append("\n");
         }
@@ -1084,25 +1118,26 @@ public final class CommandLineApplication {
     /**
      * Get list of users that are a member of a group.
      *
-     * @param out       Output strea
+     * @param document Document
      * @param groupName Name of group
-     * @throws AppException, AppException Exception occurred
+     * @throws AppException Exception occurred
      */
-    private String getGroupUserMembers(Document document, String groupName) throws AppException, AppException {
+    @Nonnull
+    private String getGroupUserMembers(@Nonnull final Document document, @Nullable final String groupName) throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
 
-        StringBuilder builder = new StringBuilder();
-        Group group = document.findGroup(groupName);
+        final StringBuilder builder = new StringBuilder();
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
         }
 
-        List<User> userMembers = group.getUserMembers();
+        final List<User> userMembers = group.getUserMembers();
 
-        for (User userMember : userMembers) {
+        for (final User userMember : userMembers) {
             builder.append(userMember.getName());
             builder.append("\n");
         }
@@ -1113,13 +1148,14 @@ public final class CommandLineApplication {
     /**
      * Gets list of all repositories.
      *
-     * @param out Output stream
+     * @param document Document
      */
-    private String getRepositories(Document document) {
-        StringBuilder builder = new StringBuilder();
-        Object[] repositoryNames = document.getRepositoryNames();
+    @Nonnull
+    private String getRepositories(@Nonnull final Document document) {
+        final StringBuilder builder = new StringBuilder();
+        final Object[] repositoryNames = document.getRepositoryNames();
 
-        for (Object repositoryName : repositoryNames) {
+        for (final Object repositoryName : repositoryNames) {
             builder.append((String) repositoryName);
             builder.append("\n");
         }
@@ -1130,29 +1166,31 @@ public final class CommandLineApplication {
     /**
      * Get access rules for a repository.
      *
-     * @param out            Ouptput stream
+     * @param document Document
      * @param repositoryName Name of repository
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String getRepositoryRules(Document document, String repositoryName) throws AppException, AppException {
+    @Nonnull
+    private String getRepositoryRules(@Nonnull final Document document, @Nullable final String repositoryName)
+            throws AppException {
         if (repositoryName == null) {
             throw new AppException("application.error.repositoryrequired");
         }
 
-        StringBuilder builder = new StringBuilder();
-        Repository repository = document.findRepository(repositoryName);
+        final StringBuilder builder = new StringBuilder();
+        final Repository repository = document.findRepository(repositoryName);
 
         if (repository == null) {
             throw new AppException("application.error.unabletofindrepository", repositoryName);
         }
 
-        Object[][] accessRules = document.getRepositoryAccessRules(repository);
+        final Object[][] accessRules = document.getRepositoryAccessRules(repository);
 
-        for (Object[] accessRule : accessRules) {
-            Path path = (Path) accessRule[0];
-            String accessLevel = (String) accessRule[2];
-            String name = null;
+        for (final Object[] accessRule : accessRules) {
+            final Path path = (Path) accessRule[0];
+            final String accessLevel = (String) accessRule[2];
 
+            final String name;
             if (accessRule[1] instanceof Group) {
                 name = SubversionConstants.SVN_GROUP_REFERENCE_PREFIX + ((Group) accessRule[1]).getName();
             }
@@ -1179,23 +1217,27 @@ public final class CommandLineApplication {
     /**
      * Get all access rules.
      *
-     * @param out Ouptput stream
-     * @throws AppException, AppException Error occurred
+     * @param document Document
+     * @throws AppException Error occurred
      */
-    private String getRules(Document document) throws AppException, AppException {
-        StringBuilder builder = new StringBuilder();
-        List<AccessRule> rules = document.getAccessRules();
+    @Nonnull
+    private String getRules(@Nonnull final Document document) throws AppException {
+        final StringBuilder builder = new StringBuilder();
+        final List<AccessRule> rules = document.getAccessRules();
 
-        for (AccessRule rule : rules) {
-            Path path = rule.getPath();
-            String accessLevel = rule.getLevelFullName();
-            String name = null;
-            String repositoryName = "";
+        for (final AccessRule rule : rules) {
+            final Path path = rule.getPath();
+            final String accessLevel = rule.getLevelFullName();
 
-            if (path.getRepository() != null) {
+            final String repositoryName;
+            if (path.getRepository() == null) {
+                repositoryName = null;
+            }
+            else {
                 repositoryName = path.getRepository().getName();
             }
 
+            final String name;
             if (rule.getGroup() != null) {
                 name = SubversionConstants.SVN_GROUP_REFERENCE_PREFIX + rule.getGroup().getName();
             }
@@ -1222,11 +1264,12 @@ public final class CommandLineApplication {
     /**
      * Get list of groups in which the user is a member.
      *
-     * @param out      Output stream
+     * @param document Document
      * @param userName Name of user
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String getUserGroups(Document document, String userName) throws AppException, AppException {
+    @Nonnull
+    private String getUserGroups(@Nonnull final Document document, @Nullable final String userName) throws AppException {
         if (userName == null) {
             throw new AppException("application.error.userrequired");
         }
@@ -1235,10 +1278,10 @@ public final class CommandLineApplication {
             throw new AppException("application.error.unabletofinduser", userName);
         }
 
-        StringBuilder builder = new StringBuilder();
-        Object[] groupNames = document.getUserGroupNames(userName);
+        final StringBuilder builder = new StringBuilder();
+        final Object[] groupNames = document.getUserGroupNames(userName);
 
-        for (Object groupName : groupNames) {
+        for (final Object groupName : groupNames) {
             builder.append((String) groupName);
             builder.append("\n");
         }
@@ -1249,11 +1292,12 @@ public final class CommandLineApplication {
     /**
      * Gets access rules for a user.
      *
-     * @param out      Output stream
+     * @param document Document
      * @param userName Name of user
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String getUserRules(Document document, String userName) throws AppException, AppException {
+    @Nonnull
+    private String getUserRules(@Nonnull final Document document, @Nullable final String userName) throws AppException {
         if (userName == null) {
             throw new AppException("application.error.userrequired");
         }
@@ -1262,13 +1306,13 @@ public final class CommandLineApplication {
             throw new AppException("application.error.unabletofinduser", userName);
         }
 
-        StringBuilder builder = new StringBuilder();
-        Object[][] accessRules = document.getUserAccessRules(userName);
+        final StringBuilder builder = new StringBuilder();
+        final Object[][] accessRules = document.getUserAccessRules(userName);
 
-        for (Object[] accessRule : accessRules) {
-            Repository repository = (Repository) accessRule[0];
-            Path path = (Path) accessRule[1];
-            String accessLevel = (String) accessRule[2];
+        for (final Object[] accessRule : accessRules) {
+            final Repository repository = (Repository) accessRule[0];
+            final Path path = (Path) accessRule[1];
+            final String accessLevel = (String) accessRule[2];
 
             builder.append(repository.getName());
             builder.append(" ");
@@ -1286,13 +1330,14 @@ public final class CommandLineApplication {
     /**
      * Gets list of all users.
      *
-     * @param out Output stream
+     * @param document Document
      */
-    private String getUsers(Document document) {
-        StringBuilder builder = new StringBuilder();
-        Object[] userNames = document.getUserNames();
+    @Nonnull
+    private String getUsers(@Nonnull final Document document) {
+        final StringBuilder builder = new StringBuilder();
+        final Object[] userNames = document.getUserNames();
 
-        for (Object userName : userNames) {
+        for (final Object userName : userNames) {
             builder.append((String) userName);
             builder.append("\n");
         }
@@ -1300,8 +1345,10 @@ public final class CommandLineApplication {
         return builder.toString();
     }
 
-    private String processCommands(Document document, JSAPResult config) throws AppException, AppException {
-        String retval = null;
+    @Nullable
+    private String processCommands(@Nonnull final Document document, @Nonnull final JSAPResult config)
+            throws AppException {
+        final String retval;
 
         if (config.getBoolean(ARGS_STATISTICS_REPORT)) {
             retval = new StatisticsReport(document).generate();
@@ -1409,6 +1456,9 @@ public final class CommandLineApplication {
         else if (config.getBoolean(ARGS_GET_RULES)) {
             retval = getRules(document);
         }
+        else {
+            retval = null;
+        }
 
         return retval;
     }
@@ -1418,10 +1468,11 @@ public final class CommandLineApplication {
      *
      * @param userName   Name of user
      * @param groupNames List of groups
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String removeGroups(Document document, String userName, String[] groupNames) throws AppException,
-            AppException {
+    @Nonnull
+    private String removeGroups(@Nonnull final Document document, @Nullable final String userName,
+                                @Nullable final String[] groupNames) throws AppException {
         if (userName == null) {
             throw new AppException("application.error.userrequired");
         }
@@ -1430,14 +1481,14 @@ public final class CommandLineApplication {
             throw new AppException("application.error.grouplistrequired");
         }
 
-        User user = document.findUser(userName);
+        final User user = document.findUser(userName);
 
         if (user == null) {
             throw new AppException("application.error.unabletofinduser", userName);
         }
 
-        for (String groupName : groupNames) {
-            Group group = document.findGroup(groupName);
+        for (final String groupName : groupNames) {
+            final Group group = document.findGroup(groupName);
 
             if (group == null) {
                 throw new AppException("application.error.unabletofindgroup", groupName);
@@ -1457,10 +1508,12 @@ public final class CommandLineApplication {
      * @param groupName  Name of group to be updated
      * @param userNames  User names of users to be removed
      * @param groupNames Group names of groups to be removed
-     * @throws AppException, AppException Error occurred.
+     * @throws AppException Error occurred.
      */
-    private String removeMembers(Document document, String groupName, String[] userNames, String[] groupNames)
-            throws AppException, AppException {
+    @Nonnull
+    private String removeMembers(@Nonnull final Document document, @Nullable final String groupName,
+                                 @Nullable final String[] userNames, @Nullable final String[] groupNames)
+            throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
@@ -1469,14 +1522,14 @@ public final class CommandLineApplication {
             throw new AppException("application.error.userorgrouplistrequired");
         }
 
-        Group group = document.findGroup(groupName);
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
         }
 
-        for (String memberUserName : userNames) {
-            User memberUser = document.findUser(memberUserName);
+        for (final String memberUserName : userNames) {
+            final User memberUser = document.findUser(memberUserName);
 
             if (memberUser == null) {
                 throw new AppException("application.error.unabletofinduser", memberUserName);
@@ -1485,8 +1538,8 @@ public final class CommandLineApplication {
             group.removeUserMember(memberUser);
         }
 
-        for (String memberGroupName : groupNames) {
-            Group memberGroup = document.findGroup(memberGroupName);
+        for (final String memberGroupName : groupNames) {
+            final Group memberGroup = document.findGroup(memberGroupName);
 
             if (memberGroup == null) {
                 throw new AppException("application.error.unabletofindgroup", memberGroupName);
@@ -1503,10 +1556,11 @@ public final class CommandLineApplication {
      *
      * @param groupName    Name of group to rename
      * @param newGroupName New name for group
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String renameGroup(Document document, String groupName, String newGroupName) throws AppException,
-            AppException {
+    @Nonnull
+    private String renameGroup(@Nonnull final Document document, @Nullable final String groupName,
+                               @Nullable final String newGroupName) throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
@@ -1515,7 +1569,7 @@ public final class CommandLineApplication {
             throw new AppException("application.error.newgrouprequired");
         }
 
-        Group group = document.findGroup(groupName);
+        final Group group = document.findGroup(groupName);
 
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
@@ -1531,10 +1585,11 @@ public final class CommandLineApplication {
      *
      * @param repositoryName    Name of repository
      * @param newRepositoryName Repository new name
-     * @throws AppException, AppException Error occurred
+     * @throws AppException Error occurred
      */
-    private String renameRepository(Document document, String repositoryName, String newRepositoryName)
-            throws AppException, AppException {
+    @Nonnull
+    private String renameRepository(@Nonnull final Document document, @Nullable final String repositoryName,
+                                    @Nullable final String newRepositoryName) throws AppException {
         if (repositoryName == null) {
             throw new AppException("application.error.repositoryrequired");
         }
@@ -1543,7 +1598,7 @@ public final class CommandLineApplication {
             throw new AppException("application.error.newrepositoryrequired");
         }
 
-        Repository repository = document.findRepository(repositoryName);
+        final Repository repository = document.findRepository(repositoryName);
 
         if (repository == null) {
             throw new AppException("application.error.unabletofindrepository", repositoryName);
@@ -1559,9 +1614,11 @@ public final class CommandLineApplication {
      *
      * @param userName    Name of user
      * @param newUserName User new name
-     * @throws AppException, AppException
+     * @throws AppException Error occurred
      */
-    private String renameUser(Document document, String userName, String newUserName) throws AppException, AppException {
+    @Nonnull
+    private String renameUser(@Nonnull final Document document, @Nullable final String userName,
+                              @Nullable final String newUserName) throws AppException {
         if (userName == null) {
             throw new AppException("application.error.userrequired");
         }
@@ -1570,7 +1627,7 @@ public final class CommandLineApplication {
             throw new AppException("application.error.newuserrequired");
         }
 
-        User user = document.findUser(userName);
+        final User user = document.findUser(userName);
 
         if (user == null) {
             throw new AppException("application.error.unabletofinduser", userName);
@@ -1584,9 +1641,9 @@ public final class CommandLineApplication {
     /**
      * @param args User specified arguments.
      */
-    public void run(String[] args) {
+    public void run(@Nonnull final String[] args) {
         try {
-            ArgumentParser jsap = new ArgumentParser();
+            final ArgumentParser jsap = new ArgumentParser();
 
             // Input and Output Options
             jsap.addStringOption(ARGS_INPUT_FILE, ARGS_INPUT_FILE_SHORTFLAG, ARGS_INPUT_FILE_LONGFLAG, "inputfile");
@@ -1677,7 +1734,7 @@ public final class CommandLineApplication {
             // Arguments parsed properly, continue onto command execution
             executeCommands(jsap, config);
         }
-        catch (JSAPException e) {
+        catch (final JSAPException e) {
             System.err.println();
             System.err.println(ResourceUtil.getString("application.args.invalidsyntax"));
             System.err.println();

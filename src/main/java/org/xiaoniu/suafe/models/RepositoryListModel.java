@@ -19,6 +19,8 @@ package org.xiaoniu.suafe.models;
 
 import org.xiaoniu.suafe.api.beans.Document;
 
+import javax.annotation.Nonnull;
+
 /**
  * Repository list for a combo-box. A combo-box containing all repositories
  * from the current document.
@@ -26,13 +28,10 @@ import org.xiaoniu.suafe.api.beans.Document;
  * @author Shaun Johnson
  */
 public final class RepositoryListModel extends BaseComboBoxModel {
-
     /**
      * Default constructor.
      */
-    public RepositoryListModel(Document document) {
-        super();
-
+    public RepositoryListModel(@Nonnull final Document document) {
         itemList = document.getRepositoryObjects();
     }
 }

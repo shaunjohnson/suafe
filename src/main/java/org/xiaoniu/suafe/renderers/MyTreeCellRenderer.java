@@ -34,7 +34,6 @@ import java.awt.*;
  * @author Shaun Johnson
  */
 public final class MyTreeCellRenderer extends JLabel implements TreeCellRenderer {
-
     /**
      * Serial ID.
      */
@@ -43,16 +42,7 @@ public final class MyTreeCellRenderer extends JLabel implements TreeCellRenderer
     /**
      * Copy of default tree cell renderer. Used for reference.
      */
-    private DefaultTreeCellRenderer render = null;
-
-    /**
-     * Default constructor.
-     */
-    public MyTreeCellRenderer() {
-        super();
-
-        render = new DefaultTreeCellRenderer();
-    }
+    private final DefaultTreeCellRenderer render = new DefaultTreeCellRenderer();
 
     /**
      * Renders tree cells.
@@ -66,7 +56,8 @@ public final class MyTreeCellRenderer extends JLabel implements TreeCellRenderer
      * @param hasFocus   Indicates whether the cell has focus
      */
     public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected,
-                                                  final boolean expanded, final boolean leaf, final int row, final boolean hasFocus) {
+                                                  final boolean expanded, final boolean leaf, final int row,
+                                                  final boolean hasFocus) {
         final Object userObject = ((DefaultMutableTreeNode) value).getUserObject();
         setText(value.toString());
 
@@ -113,5 +104,4 @@ public final class MyTreeCellRenderer extends JLabel implements TreeCellRenderer
 
         return this;
     }
-
 }

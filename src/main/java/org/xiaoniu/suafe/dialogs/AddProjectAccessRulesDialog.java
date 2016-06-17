@@ -23,6 +23,8 @@ import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,41 +36,39 @@ import java.awt.event.ActionListener;
  * @author Shaun Johnson
  */
 public final class AddProjectAccessRulesDialog extends ParentDialog implements ActionListener {
-
     private static final long serialVersionUID = -1001510687982587543L;
 
-    private JButton addButton = null;
+    private JButton addButton;
 
-    private AccessRuleForm branchesForm = null;
+    private AccessRuleForm branchesForm;
 
-    private JPanel buttonPanel = null;
+    private JPanel buttonPanel;
 
-    private JPanel buttonSubPanel = null;
+    private JPanel buttonSubPanel;
 
-    private JButton cancelButton = null;
+    private JButton cancelButton;
 
-    private JPanel formPanel = null;
+    private JPanel formPanel;
 
-    private JPanel jContentPane = null;
+    private JPanel jContentPane;
 
-    private Message message = null;
+    private Message message;
 
-    private AccessRuleForm tagsForm = null;
+    private AccessRuleForm tagsForm;
 
-    private AccessRuleForm trunkForm = null;
+    private AccessRuleForm trunkForm;
 
-    private String path = null;
+    private String path;
 
-    private Repository repository = null;
+    private Repository repository;
 
-    private Document document = null;
+    private Document document;
 
     /**
      * Default constructor.
      */
-    public AddProjectAccessRulesDialog(Document document, Object userObject, Message message) {
-        super();
-
+    public AddProjectAccessRulesDialog(@Nonnull final Document document, @Nullable final Object userObject,
+                                       final Message message) {
         if (userObject != null && userObject instanceof Repository) {
             this.repository = (Repository) userObject;
             this.path = ApplicationDefaultsConstants.DEFAULT_SVN_PATH;
@@ -96,7 +96,7 @@ public final class AddProjectAccessRulesDialog extends ParentDialog implements A
      *
      * @param event ActionEvent object.
      */
-    public void actionPerformed(ActionEvent event) {
+    public void actionPerformed(@Nonnull final ActionEvent event) {
         if (event.getActionCommand().equals(ActionConstants.ADD_ACTION)) {
             try {
                 getBranchesForm().addAccessRule();
@@ -107,7 +107,7 @@ public final class AddProjectAccessRulesDialog extends ParentDialog implements A
                 message.setState(Message.SUCCESS);
                 dispose();
             }
-            catch (AppException ex) {
+            catch (final AppException ex) {
                 displayError(ex.getMessage());
             }
         }
@@ -242,5 +242,4 @@ public final class AddProjectAccessRulesDialog extends ParentDialog implements A
         this.pack();
         this.setModal(true);
     }
-
 }

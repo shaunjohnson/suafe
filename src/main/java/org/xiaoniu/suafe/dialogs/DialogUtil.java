@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe.dialogs;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 
 /**
@@ -26,18 +27,17 @@ import java.awt.*;
  * @author Shaun Johnson
  */
 public final class DialogUtil {
-
     /**
      * Center the specified component on the screen.
      *
      * @param component Component to be centered.
      */
-    public static void center(Component component) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
+    public static void center(@Nonnull final Component component) {
+        final Toolkit toolkit = Toolkit.getDefaultToolkit();
+        final Dimension screenSize = toolkit.getScreenSize();
 
-        int x = (screenSize.width - component.getWidth()) / 2;
-        int y = (screenSize.height - component.getHeight()) / 2;
+        final int x = (screenSize.width - component.getWidth()) / 2;
+        final int y = (screenSize.height - component.getHeight()) / 2;
 
         component.setLocation(x, y);
     }
@@ -48,12 +48,12 @@ public final class DialogUtil {
      * @param parent Parent component
      * @param child  Child component
      */
-    public static void center(Component parent, Component child) {
-        Dimension parentSize = parent.getSize();
-        Point parentLocation = parent.getLocation();
+    public static void center(@Nonnull final Component parent, @Nonnull final Component child) {
+        final Dimension parentSize = parent.getSize();
+        final Point parentLocation = parent.getLocation();
 
-        int x = (parentSize.width - child.getWidth()) / 2;
-        int y = (parentSize.height - child.getHeight()) / 2;
+        final int x = (parentSize.width - child.getWidth()) / 2;
+        final int y = (parentSize.height - child.getHeight()) / 2;
 
         child.setLocation(parentLocation.x + x, parentLocation.y + y);
     }

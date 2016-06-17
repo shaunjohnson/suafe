@@ -4,11 +4,11 @@ import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.api.beans.AccessRule;
 import org.xiaoniu.suafe.api.beans.User;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public final class AccessRuleStatisticsHelper {
-
-    private List<AccessRule> accessRules = null;
+    private final List<AccessRule> accessRules;
 
     private double avgDenyAccess = -1;
 
@@ -48,9 +48,7 @@ public final class AccessRuleStatisticsHelper {
 
     private int minReadWrite = -1;
 
-    public AccessRuleStatisticsHelper(final List<AccessRule> accessRules) {
-        super();
-
+    public AccessRuleStatisticsHelper(@Nullable final List<AccessRule> accessRules) {
         if (accessRules == null) {
             throw new NullPointerException("accessRules may not be null");
         }

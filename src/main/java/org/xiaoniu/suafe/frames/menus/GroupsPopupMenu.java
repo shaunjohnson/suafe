@@ -3,28 +3,26 @@ package org.xiaoniu.suafe.frames.menus;
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public final class GroupsPopupMenu extends JPopupMenu {
-
     private static final long serialVersionUID = -8798702081535764095L;
 
-    private ActionListener actionListener = null;
+    private final ActionListener actionListener;
 
-    private JMenuItem addGroupPopupMenuItem = null;
+    private JMenuItem addGroupPopupMenuItem;
 
-    private JMenuItem addRemoveMembersPopupMenuItem = null;
+    private JMenuItem addRemoveMembersPopupMenuItem;
 
-    private JMenuItem cloneGroupPopupMenuItem = null;
+    private JMenuItem cloneGroupPopupMenuItem;
 
-    private JMenuItem deleteGroupPopupMenuItem = null;
+    private JMenuItem deleteGroupPopupMenuItem;
 
-    private JMenuItem renameGroupPopupMenuItem = null;
+    private JMenuItem renameGroupPopupMenuItem;
 
-    public GroupsPopupMenu(ActionListener actionListener) {
-        super();
-
+    public GroupsPopupMenu(@Nonnull final ActionListener actionListener) {
         this.actionListener = actionListener;
 
         add(getAddGroupPopupMenuItem());

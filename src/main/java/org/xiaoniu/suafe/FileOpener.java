@@ -17,8 +17,9 @@
  */
 package org.xiaoniu.suafe;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 
 public interface FileOpener {
-    public void fileOpen(File file);
+    void fileOpen(@Nonnull final File file);
 }

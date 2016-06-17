@@ -96,6 +96,6 @@ public final class ActionConstants {
     public static final String VIEW_USERS_ACTION = "VIEW_USERS_ACTION";
 
     private ActionConstants() {
-        super();
+        // Deliberately left blank
     }
 }

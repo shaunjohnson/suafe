@@ -23,6 +23,8 @@ import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,34 +39,33 @@ public final class AddAccessRuleDialog extends ParentDialog implements ActionLis
 
     private static final long serialVersionUID = -1001510687982587543L;
 
-    private JButton addButton = null;
+    private JButton addButton;
 
-    private JPanel buttonPanel = null;
+    private JPanel buttonPanel;
 
-    private JPanel buttonSubPanel = null;
+    private JPanel buttonSubPanel;
 
-    private JButton cancelButton = null;
+    private JButton cancelButton;
 
-    private JPanel formPanel = null;
+    private JPanel formPanel;
 
-    private JPanel jContentPane = null;
+    private JPanel jContentPane;
 
-    private Message message = null;
+    private Message message;
 
-    private AccessRuleForm accessRuleForm = null;
+    private AccessRuleForm accessRuleForm;
 
-    private String path = null;
+    private String path;
 
-    private Repository repository = null;
+    private Repository repository;
 
-    private Document document = null;
+    private Document document;
 
     /**
      * Default constructor.
      */
-    public AddAccessRuleDialog(Document document, Object userObject, Message message) {
-        super();
-
+    public AddAccessRuleDialog(@Nonnull final Document document, @Nullable final Object userObject,
+                               final Message message) {
         if (userObject != null && userObject instanceof Repository) {
             this.repository = (Repository) userObject;
             this.path = ApplicationDefaultsConstants.DEFAULT_SVN_PATH;
@@ -92,7 +93,7 @@ public final class AddAccessRuleDialog extends ParentDialog implements ActionLis
      *
      * @param event ActionEvent object.
      */
-    public void actionPerformed(ActionEvent event) {
+    public void actionPerformed(@Nonnull final ActionEvent event) {
         if (event.getActionCommand().equals(ActionConstants.ADD_ACTION)) {
             try {
                 AccessRule rule = getAccessRuleForm().addAccessRule();
@@ -218,5 +219,4 @@ public final class AddAccessRuleDialog extends ParentDialog implements ActionLis
         this.pack();
         this.setModal(true);
     }
-
 }

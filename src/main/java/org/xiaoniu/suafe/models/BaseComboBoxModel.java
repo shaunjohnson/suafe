@@ -17,6 +17,8 @@
  */
 package org.xiaoniu.suafe.models;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
 import java.util.ArrayList;
@@ -29,7 +31,6 @@ import java.util.List;
  * @author Shaun Johnson
  */
 public abstract class BaseComboBoxModel implements ComboBoxModel {
-
     /**
      * List values.
      */
@@ -42,18 +43,16 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
 
     /**
      * Array of listeners.
+     * TODO Not thread-safe
      */
-    protected List<ListDataListener> listeners;
+    protected final List<ListDataListener> listeners = new ArrayList<>();
 
     /**
      * Default constructor.
      */
     public BaseComboBoxModel() {
-        super();
-
         this.itemList = null;
         this.selectedItem = -1;
-        this.listeners = new ArrayList<ListDataListener>(1);
     }
 
     /**
@@ -61,7 +60,7 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
      *
      * @param anItem Item to be selected.
      */
-    public void setSelectedItem(Object anItem) {
+    public void setSelectedItem(final Object anItem) {
         if (itemList == null || anItem == null) {
             selectedItem = -1;
         }
@@ -73,6 +72,7 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
     /**
      * Gets the selected item.
      */
+    @Nullable
     public Object getSelectedItem() {
         return (itemList == null || selectedItem == -1) ? null : itemList[selectedItem];
     }
@@ -89,6 +89,7 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
      *
      * @param index Index of object to retrieve.
      */
+    @Nullable
     public Object getElementAt(int index) {
         return (itemList == null) ? null : itemList[index];
     }
@@ -98,7 +99,7 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
      *
      * @param listener Listener to add.
      */
-    public void addListDataListener(ListDataListener listener) {
+    public void addListDataListener(@Nonnull final ListDataListener listener) {
         listeners.add(listener);
     }
 
@@ -107,7 +108,7 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
      *
      * @param listener Listener to remove.
      */
-    public void removeListDataListener(ListDataListener listener) {
+    public void removeListDataListener(@Nonnull final ListDataListener listener) {
         listeners.remove(listeners.indexOf(listener));
     }
 }

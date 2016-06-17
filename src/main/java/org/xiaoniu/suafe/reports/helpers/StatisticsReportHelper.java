@@ -3,18 +3,18 @@ package org.xiaoniu.suafe.reports.helpers;
 import org.xiaoniu.suafe.api.parser.FileParser;
 import org.xiaoniu.suafe.api.beans.Document;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 
 public final class StatisticsReportHelper {
-
     public static void main(String[] args) throws Exception {
-        Document doc = new FileParser().parse(new File("C:/My Documents/authz.svn"));
+        final Document doc = new FileParser().parse(new File("C:/My Documents/authz.svn"));
 
-        StatisticsReportHelper helper = new StatisticsReportHelper(doc);
-        AccessRuleStatisticsHelper accessRuleStatistics = helper.getAccessRuleStatistics();
-        GroupStatisticsHelper groupStatistics = helper.getGroupStatistics();
-        RepositoryStatisticsHelper repoStatistics = helper.getRepoStatistics();
-        UserStatisticsHelper userStatistics = helper.getUserStatistics();
+        final StatisticsReportHelper helper = new StatisticsReportHelper(doc);
+        final AccessRuleStatisticsHelper accessRuleStatistics = helper.getAccessRuleStatistics();
+        final GroupStatisticsHelper groupStatistics = helper.getGroupStatistics();
+        final RepositoryStatisticsHelper repoStatistics = helper.getRepoStatistics();
+        final UserStatisticsHelper userStatistics = helper.getUserStatistics();
 
         System.out.println("Access Rules");
         System.out.println("Access rule count: " + accessRuleStatistics.getCount());
@@ -88,19 +88,17 @@ public final class StatisticsReportHelper {
         System.out.println("Max groups: " + userStatistics.getMaxGroups());
     }
 
-    private AccessRuleStatisticsHelper accessRuleStatistics = null;
+    private final AccessRuleStatisticsHelper accessRuleStatistics;
 
-    private Document document = null;
+    private final Document document;
 
-    private GroupStatisticsHelper groupStatistics = null;
+    private final GroupStatisticsHelper groupStatistics;
 
-    private RepositoryStatisticsHelper repoStatistics = null;
+    private final RepositoryStatisticsHelper repoStatistics;
 
-    private UserStatisticsHelper userStatistics = null;
+    private final UserStatisticsHelper userStatistics;
 
-    public StatisticsReportHelper(Document document) {
-        super();
-
+    public StatisticsReportHelper(@Nonnull final Document document) {
         this.document = document;
         this.accessRuleStatistics = new AccessRuleStatisticsHelper(document.getAccessRules());
         this.groupStatistics = new GroupStatisticsHelper(document.getGroups());
@@ -112,6 +110,7 @@ public final class StatisticsReportHelper {
         return document.getAccessRules().size();
     }
 
+    @Nonnull
     public AccessRuleStatisticsHelper getAccessRuleStatistics() {
         return accessRuleStatistics;
     }
@@ -120,6 +119,7 @@ public final class StatisticsReportHelper {
         return document.getGroups().size();
     }
 
+    @Nonnull
     public GroupStatisticsHelper getGroupStatistics() {
         return groupStatistics;
     }
@@ -128,6 +128,7 @@ public final class StatisticsReportHelper {
         return document.getPaths().size();
     }
 
+    @Nonnull
     public RepositoryStatisticsHelper getRepoStatistics() {
         return repoStatistics;
     }
@@ -136,6 +137,7 @@ public final class StatisticsReportHelper {
         return document.getUsers().size();
     }
 
+    @Nonnull
     public UserStatisticsHelper getUserStatistics() {
         return userStatistics;
     }

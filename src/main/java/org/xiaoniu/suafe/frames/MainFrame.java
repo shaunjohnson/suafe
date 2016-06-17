@@ -68,32 +68,31 @@ import java.util.Stack;
  */
 public final class MainFrame extends BaseFrame implements ActionListener, FileOpener, KeyListener,
         ListSelectionListener, MouseListener, TreeSelectionListener, WindowListener {
-
     private static final long serialVersionUID = -4378074679449146788L;
 
-    private AccessRulesPane accessRulesPane = null;
+    private AccessRulesPane accessRulesPane;
 
-    private TreeModel accessRulesTreeModel = null;
+    private TreeModel accessRulesTreeModel;
 
-    private MainFrameToolBar actionToolBar = null;
+    private MainFrameToolBar actionToolBar;
 
-    private JPanel contentPane = null;
+    private JPanel contentPane;
 
     private Document document = new Document();
 
-    private Stack<String> fileStack = null;
+    private Stack<String> fileStack;
 
-    private FileTransferHandler fileTransferHandler = null;
+    private FileTransferHandler fileTransferHandler;
 
     private Object[] groupAccessRulesColumnNames;
 
-    private GroupsPane groupsPane = null;
+    private GroupsPane groupsPane;
 
-    private GroupsPopupMenu groupsPopupMenu = null;
+    private GroupsPopupMenu groupsPopupMenu;
 
-    private HelpBroker mainHB = null;
+    private HelpBroker mainHB;
 
-    private MainFrameMenuBar menuBar = null;
+    private MainFrameMenuBar menuBar;
 
     private Object[] pathAccessRulesColumnNames;
 
@@ -101,34 +100,32 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 
     private Object[] serverAccessRulesColumnNames;
 
-    private JLabel statusLabel = null;
+    private JLabel statusLabel;
 
-    private JPanel statusPanel = null;
+    private JPanel statusPanel;
 
-    private JTabbedPane tabbedPane = null;
+    private JTabbedPane tabbedPane;
 
-    private JPanel toolbarPanel = null;
+    private JPanel toolbarPanel;
 
     private Object[] userAccessRulesColumnNames;
 
-    private UsersPane usersPane = null;
+    private UsersPane usersPane;
 
-    private UsersPopupMenu usersPopupMenu = null;
+    private UsersPopupMenu usersPopupMenu;
 
     /**
      * Default constructor
      */
     public MainFrame() {
-        super();
-
         initialize();
     }
 
     /**
      * ActionPerformed event handler. Redirects to the appropriate action handler.
      */
-    public void actionPerformed(final ActionEvent e) {
-        final String action = e.getActionCommand();
+    public void actionPerformed(final ActionEvent actionEvent) {
+        final String action = actionEvent.getActionCommand();
 
         if (action.equals(ActionConstants.NEW_FILE_ACTION)) {
             fileNew();
@@ -268,13 +265,13 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
         else if (action.equals(ActionConstants.RESET_SETTINGS_ACTION)) {
             resetSettings();
         }
-        else if (e.getActionCommand().equals(ActionConstants.VIEW_USERS_ACTION)) {
+        else if (actionEvent.getActionCommand().equals(ActionConstants.VIEW_USERS_ACTION)) {
             getMainTabbedPane().setSelectedComponent(getUsersPane());
         }
-        else if (e.getActionCommand().equals(ActionConstants.VIEW_GROUPS_ACTION)) {
+        else if (actionEvent.getActionCommand().equals(ActionConstants.VIEW_GROUPS_ACTION)) {
             getMainTabbedPane().setSelectedComponent(getGroupsPane());
         }
-        else if (e.getActionCommand().equals(ActionConstants.VIEW_RULES_ACTION)) {
+        else if (actionEvent.getActionCommand().equals(ActionConstants.VIEW_RULES_ACTION)) {
             getMainTabbedPane().setSelectedComponent(getAccessRulesPane());
         }
         else {

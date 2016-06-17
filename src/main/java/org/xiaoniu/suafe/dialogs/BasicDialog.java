@@ -26,6 +26,7 @@ import org.xiaoniu.suafe.exceptions.ValidatorException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,7 +38,6 @@ import java.awt.event.ActionListener;
  * @author Shaun Johnson
  */
 public final class BasicDialog extends ParentDialog implements ActionListener {
-
     /**
      * Serial ID.
      */
@@ -61,48 +61,46 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
 
     public static String TYPE_RENAME_USER = "renameuser";
 
-    private JTextField aliasText = null;
+    private JTextField aliasText;
 
-    private JPanel buttonPanel = null;
+    private JPanel buttonPanel;
 
-    private JPanel buttonSubPanel = null;
+    private JPanel buttonSubPanel;
 
-    private JButton cancelButton = null;
+    private JButton cancelButton;
 
-    private Document document = null;
+    private Document document;
 
-    private JPanel formAliasPanel = null;
+    private JPanel formAliasPanel;
 
-    private JPanel formNamePanel = null;
+    private JPanel formNamePanel;
 
-    private JPanel formPanel = null;
+    private JPanel formPanel;
 
-    private Group group = null;
+    private Group group;
 
-    private JPanel iconPanel = null;
+    private JPanel iconPanel;
 
-    private JPanel jContentPane = null;
+    private JPanel jContentPane;
 
     private final Message message;
 
-    private JTextField nameText = null;
+    private JTextField nameText;
 
-    private Path path = null;
+    private Path path;
 
-    private Repository repository = null;
+    private Repository repository;
 
-    private JButton saveButton = null;
+    private JButton saveButton;
 
-    private String type = null;
+    private String type;
 
-    private User user = null;
+    private User user;
 
     /**
      * Group dialog constructor.
      */
-    public BasicDialog(Document document, String type, Group group, Message message) {
-        super();
-
+    public BasicDialog(@Nonnull final Document document, final String type, final Group group, final Message message) {
         this.document = document;
         this.type = type;
         this.group = group;
@@ -115,9 +113,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
     /**
      * Default constructor.
      */
-    public BasicDialog(Document document, String type, Message message) {
-        super();
-
+    public BasicDialog(@Nonnull final Document document, final String type, final Message message) {
         this.document = document;
         this.type = type;
         this.message = message;
@@ -129,9 +125,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
     /**
      * Group dialog constructor.
      */
-    public BasicDialog(Document document, String type, Path path, Message message) {
-        super();
-
+    public BasicDialog(@Nonnull final Document document, final String type, final Path path, final Message message) {
         this.document = document;
         this.type = type;
         this.path = path;
@@ -144,9 +138,8 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
     /**
      * Repository dialog constructor.
      */
-    public BasicDialog(Document document, String type, Repository repository, Message message) {
-        super();
-
+    public BasicDialog(@Nonnull final Document document, final String type, final Repository repository,
+                       final Message message) {
         this.document = document;
         this.type = type;
         this.repository = repository;
@@ -159,9 +152,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
     /**
      * User dialog constructor.
      */
-    public BasicDialog(Document document, String type, User user, Message message) {
-        super();
-
+    public BasicDialog(@Nonnull final Document document, final String type, final User user, final Message message) {
         this.document = document;
         this.type = type;
         this.user = user;
@@ -171,11 +162,11 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         initialize(user.getName(), user.getAlias());
     }
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals(ActionConstants.SAVE_ACTION)) {
+    public void actionPerformed(@Nonnull final ActionEvent actionEvent) {
+        if (actionEvent.getActionCommand().equals(ActionConstants.SAVE_ACTION)) {
             try {
-                String name = getNameText().getText();
-                String alias = getAliasText().getText();
+                final String name = getNameText().getText();
+                final String alias = getAliasText().getText();
 
                 if (type.equals(TYPE_ADD_USER)) {
                     addUser(name, alias);
@@ -205,17 +196,17 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
                     editPath(name);
                 }
             }
-            catch (AppException ex) {
-                displayError(ex.getMessage());
+            catch (final AppException e) {
+                displayError(e.getMessage());
             }
         }
-        else if (e.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
+        else if (actionEvent.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
             message.setState(Message.CANCEL);
             dispose();
         }
     }
 
-    private void addGroup(String groupName) throws AppException {
+    private void addGroup(final String groupName) throws AppException {
         validateGroupName(groupName);
 
         if (document.findGroup(groupName) == null) {
@@ -228,7 +219,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         }
     }
 
-    private void addRepository(String repositoryName) throws AppException {
+    private void addRepository(final String repositoryName) throws AppException {
         validateRepositoryName(repositoryName);
 
         if (document.findRepository(repositoryName) == null) {
@@ -244,7 +235,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         }
     }
 
-    private void addUser(String userName, String alias) throws AppException {
+    private void addUser(final String userName, final String alias) throws AppException {
         validateUserName(userName);
 
         final User user = document.findUser(userName);
@@ -275,10 +266,10 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         }
     }
 
-    private void cloneGroup(String groupName) throws AppException {
+    private void cloneGroup(final String groupName) throws AppException {
         validateGroupName(groupName);
 
-        Group existingGroup = document.findGroup(groupName);
+        final Group existingGroup = document.findGroup(groupName);
 
         if (existingGroup == null || existingGroup == group) {
             message.setUserObject(document.cloneGroup(group, groupName));
@@ -290,7 +281,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         }
     }
 
-    private void cloneUser(String userName, String alias) throws AppException {
+    private void cloneUser(final String userName, final String alias) throws AppException {
         validateUserName(userName);
         validateAlias(alias);
 
@@ -310,7 +301,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         }
     }
 
-    private void editPath(String pathString) throws AppException {
+    private void editPath(final String pathString) throws AppException {
         validatePath(pathString);
 
         Path existingPath = document.findPath(path.getRepository(), pathString);
@@ -329,10 +320,10 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         }
     }
 
-    private void editRepository(String repositoryName) throws AppException {
+    private void editRepository(final String repositoryName) throws AppException {
         validateRepositoryName(repositoryName);
 
-        Repository existingRepository = document.findRepository(repositoryName);
+        final Repository existingRepository = document.findRepository(repositoryName);
 
         if (existingRepository == null || existingRepository == repository) {
             repository.setName(repositoryName);
@@ -468,7 +459,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         if (iconPanel == null) {
             iconPanel = new JPanel();
 
-            JLabel iconLabel = new JLabel();
+            final JLabel iconLabel = new JLabel();
 
             if (type.equals(TYPE_ADD_GROUP)) {
                 iconLabel.setIcon(ResourceUtil.fullSizeGroupIcon);
@@ -565,7 +556,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
     /**
      * This method initializes this
      */
-    private void initialize(String initialText, String alias) {
+    private void initialize(final String initialText, final String alias) {
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setTitle(ResourceUtil.getString(type + ".title"));
@@ -582,7 +573,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         this.setModal(true);
     }
 
-    private void renameGroup(String groupName) throws AppException {
+    private void renameGroup(final String groupName) throws AppException {
         validateGroupName(groupName);
 
         Group existingGroup = document.findGroup(groupName);
@@ -597,7 +588,7 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         }
     }
 
-    private void renameUser(String userName, String alias) throws AppException {
+    private void renameUser(final String userName, final String alias) throws AppException {
         validateUserName(userName);
 
         if (StringUtils.isNotBlank(alias)) {
@@ -620,26 +611,26 @@ public final class BasicDialog extends ParentDialog implements ActionListener {
         }
     }
 
-    private void validateAlias(String alias) throws ValidatorException {
+    private void validateAlias(final String alias) throws ValidatorException {
         Validator.validateAlias(alias);
     }
 
-    private void validateGroupName(String groupName) throws ValidatorException {
+    private void validateGroupName(final String groupName) throws ValidatorException {
         Validator.validateNotEmptyString(ResourceUtil.getString(type + ".label"), groupName);
         Validator.validateGroupName(groupName);
     }
 
-    private void validatePath(String pathString) throws ValidatorException {
+    private void validatePath(final String pathString) throws ValidatorException {
         Validator.validateNotEmptyString(ResourceUtil.getString(type + ".label"), pathString);
         Validator.validatePath(pathString);
     }
 
-    private void validateRepositoryName(String repositoryName) throws ValidatorException {
+    private void validateRepositoryName(final String repositoryName) throws ValidatorException {
         Validator.validateNotEmptyString(ResourceUtil.getString(type + ".label"), repositoryName);
         Validator.validateRepositoryName(repositoryName);
     }
 
-    private void validateUserName(String userName) throws ValidatorException {
+    private void validateUserName(final String userName) throws ValidatorException {
         Validator.validateNotEmptyString(ResourceUtil.getString(type + ".label"), userName);
         Validator.validateUserName(userName);
     }

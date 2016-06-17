@@ -26,7 +26,6 @@ import javax.swing.table.DefaultTableModel;
  * @author Shaun Johnson
  */
 public final class NonEditableTableModel extends DefaultTableModel {
-
     /**
      * Serial ID.
      */
@@ -39,7 +38,7 @@ public final class NonEditableTableModel extends DefaultTableModel {
      * @param row    Row number
      * @param column Column number
      */
-    public boolean isCellEditable(int row, int column) {
+    public boolean isCellEditable(final int row, final int column) {
         return false;
     }
 }

@@ -23,6 +23,7 @@ import org.xiaoniu.suafe.api.beans.*;
 import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import java.text.DateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -35,7 +36,6 @@ import java.util.List;
  * @author Shaun Johnson
  */
 public final class SummaryReport extends GenericReport {
-
     /**
      * Generates HTML anchor tag.
      *
@@ -43,17 +43,18 @@ public final class SummaryReport extends GenericReport {
      * @param text   Anchor text
      * @return HTML anchor tag text
      */
+    @Nonnull
     private static String createAnchor(final String anchor, final String text) {
-        return new String("<a name=\"" + anchor + "\">" + text + "</a>");
+        return "<a name=\"" + anchor + "\">" + text + "</a>";
     }
 
     /**
      * Generates HTML anchor tag for Group.
      *
-     * @param anchor Anchor name
-     * @param text   Anchor text
+     * @param groupName Group name
      * @return HTML anchor tag text
      */
+    @Nonnull
     private static String createGroupAnchor(final String groupName) {
         return createAnchor("group_" + groupName, SubversionConstants.SVN_GROUP_REFERENCE_PREFIX + groupName);
     }
@@ -61,10 +62,10 @@ public final class SummaryReport extends GenericReport {
     /**
      * Creates HTML link tag for Group.
      *
-     * @param href Link href
-     * @param text Link text
+     * @param groupName Group name
      * @return HTML link tag text
      */
+    @Nonnull
     private static String createGroupLink(final String groupName) {
         return createLink("group_" + groupName, SubversionConstants.SVN_GROUP_REFERENCE_PREFIX + groupName);
     }
@@ -76,17 +77,18 @@ public final class SummaryReport extends GenericReport {
      * @param text Link text
      * @return HTML link tag text
      */
+    @Nonnull
     private static String createLink(final String href, final String text) {
-        return new String("<a href=\"#" + href + "\">" + text + "</a>");
+        return "<a href=\"#" + href + "\">" + text + "</a>";
     }
 
     /**
      * Generates HTML anchor tag for Repository.
      *
-     * @param anchor Anchor name
-     * @param text   Anchor text
+     * @param repositoryName Repository name
      * @return HTML anchor tag text
      */
+    @Nonnull
     private static String createReposAnchor(final String repositoryName) {
         return createAnchor("repos_" + repositoryName, repositoryName);
     }
@@ -94,10 +96,10 @@ public final class SummaryReport extends GenericReport {
     /**
      * Creates HTML link tag for Repository.
      *
-     * @param href Link href
-     * @param text Link text
+     * @param repositoryName Repository name
      * @return HTML link tag text
      */
+    @Nonnull
     private static String createReposLink(final String repositoryName) {
         return createLink("repos_" + repositoryName, repositoryName);
     }
@@ -105,10 +107,10 @@ public final class SummaryReport extends GenericReport {
     /**
      * Generates HTML anchor tag for User.
      *
-     * @param anchor Anchor name
-     * @param text   Anchor text
+     * @param userName User name
      * @return HTML anchor tag text
      */
+    @Nonnull
     private static String createUserAnchor(final String userName) {
         if (userName.equals(SubversionConstants.SVN_ALL_USERS_NAME)) {
             return createAnchor("all_users", userName);
@@ -121,10 +123,10 @@ public final class SummaryReport extends GenericReport {
     /**
      * Creates HTML link tag for User.
      *
-     * @param href Link href
-     * @param text Link text
+     * @param userName User name
      * @return HTML link tag text
      */
+    @Nonnull
     private static String createUserLink(final String userName) {
         if (userName.equals(SubversionConstants.SVN_ALL_USERS_NAME)) {
             return createLink("all_users", userName);
@@ -135,47 +137,47 @@ public final class SummaryReport extends GenericReport {
 
     }
 
-    public SummaryReport(final Document document) {
+    public SummaryReport(@Nonnull final Document document) {
         super(document);
     }
 
     /**
      * Generates HTML summary report.
      *
-     * @param out
-     * @throws AppException
+     * @throws AppException if error occurs
      */
     @Override
+    @Nonnull
     public String generate() throws AppException {
         final StringBuffer report = new StringBuffer();
 
         report.append(ResourceUtil.getString("reports.header"));
         report.append("<head>");
-        report.append("<title>" + ResourceUtil.getString("summaryreport.title") + "</title>");
+        report.append("<title>").append(ResourceUtil.getString("summaryreport.title")).append("</title>");
         report.append(ResourceUtil.getString("reports.contenttype"));
         report.append("</head><body>");
-        report.append("<h1>" + ResourceUtil.getString("summaryreport.title") + "</h1>");
+        report.append("<h1>").append(ResourceUtil.getString("summaryreport.title")).append("</h1>");
 
-        report.append("<p>[" + createLink("repositories", "Repositories") + "] " + "["
-                + createLink("groups", ResourceUtil.getString("summaryreport.groups")) + "] " + "["
-                + createLink("users", ResourceUtil.getString("summaryreport.users")) + "] " + "["
-                + createLink("projects", ResourceUtil.getString("summaryreport.projects")) + "] </p>");
+        report.append("<p>[").append(createLink("repositories", "Repositories")).append("] ").append("[")
+                .append(createLink("groups", ResourceUtil.getString("summaryreport.groups"))).append("] ").append("[")
+                .append(createLink("users", ResourceUtil.getString("summaryreport.users"))).append("] ").append("[")
+                .append(createLink("projects", ResourceUtil.getString("summaryreport.projects"))).append("] </p>");
 
         final List<Repository> repositories = document.getRepositories();
         Collections.sort(repositories);
 
-        report.append("<h2>" + createAnchor("repositories", ResourceUtil.getString("summaryreport.repositories"))
-                + "</h2>");
+        report.append("<h2>").append(createAnchor("repositories", ResourceUtil.getString("summaryreport.repositories"))
+               ).append("</h2>");
         report.append("<blockquote>");
 
         if (repositories.size() == 0) {
-            report.append("<p>" + ResourceUtil.getString("summaryreport.norepos") + "</p>");
+            report.append("<p>").append(ResourceUtil.getString("summaryreport.norepos")).append("</p>");
         }
         else {
             report.append("<ul>");
 
             for (final Repository repository : repositories) {
-                report.append("<li>" + createReposLink(repository.getName()) + "</li>");
+                report.append("<li>").append(createReposLink(repository.getName())).append("</li>");
             }
 
             report.append("</ul>");
@@ -183,7 +185,7 @@ public final class SummaryReport extends GenericReport {
 
         report.append("</blockquote>");
 
-        report.append("<h2>" + ResourceUtil.getString("summaryreport.serverrules") + "</h2>");
+        report.append("<h2>").append(ResourceUtil.getString("summaryreport.serverrules")).append("</h2>");
 
         final List<Path> serverPaths = document.getPaths();
         Collections.sort(serverPaths, new PathComparator());
@@ -199,16 +201,16 @@ public final class SummaryReport extends GenericReport {
                 final List<AccessRule> rules = path.getAccessRules();
                 Collections.sort(rules);
 
-                report.append("<p><strong>" + path.getPath() + "</strong></p><ul>");
+                report.append("<p><strong>").append(path.getPath()).append("</strong></p><ul>");
 
                 for (final AccessRule rule : rules) {
                     if (rule.getGroup() != null) {
-                        report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = "
-                                + rule.getLevelFullName() + "</li>");
+                        report.append("<li>").append(createGroupLink(rule.getGroup().getName())).append(" = ")
+                               .append(rule.getLevelFullName()).append("</li>");
                     }
                     else if (rule.getUser() != null) {
-                        report.append("<li>" + createUserLink(rule.getUser().getName()) + " = "
-                                + rule.getLevelFullName() + "</li>");
+                        report.append("<li>").append(createUserLink(rule.getUser().getName())).append(" = ")
+                               .append(rule.getLevelFullName()).append("</li>");
                     }
                     else {
                         throw new AppException("summaryreport.invalidrule");
@@ -223,7 +225,7 @@ public final class SummaryReport extends GenericReport {
 
         if (repositories.size() > 0) {
             for (final Repository repository : repositories) {
-                report.append("<h2>" + createReposAnchor(repository.getName()) + "</h2>");
+                report.append("<h2>").append(createReposAnchor(repository.getName())).append("</h2>");
 
                 final List<Path> paths = repository.getPaths();
                 Collections.sort(paths, new PathComparator());
@@ -234,16 +236,16 @@ public final class SummaryReport extends GenericReport {
                     final List<AccessRule> rules = path.getAccessRules();
                     Collections.sort(rules);
 
-                    report.append("<p><strong>" + path.getPath() + "</strong></p><ul>");
+                    report.append("<p><strong>").append(path.getPath()).append("</strong></p><ul>");
 
                     for (final AccessRule rule : rules) {
                         if (rule.getGroup() != null) {
-                            report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = "
-                                    + rule.getLevelFullName() + "</li>");
+                            report.append("<li>").append(createGroupLink(rule.getGroup().getName())).append(" = ")
+                                   .append(rule.getLevelFullName()).append("</li>");
                         }
                         else if (rule.getUser() != null) {
-                            report.append("<li>" + createUserLink(rule.getUser().getName()) + " = "
-                                    + rule.getLevelFullName() + "</li>");
+                            report.append("<li>").append(createUserLink(rule.getUser().getName())).append(" = ")
+                                   .append(rule.getLevelFullName()).append("</li>");
                         }
                         else {
                             throw new AppException("summaryreport.invalidrule");
@@ -260,11 +262,11 @@ public final class SummaryReport extends GenericReport {
         final List<Group> groups = document.getGroups();
         Collections.sort(groups);
 
-        report.append("<h2>" + createAnchor("groups", ResourceUtil.getString("summaryreport.groups")) + "</h2>");
+        report.append("<h2>").append(createAnchor("groups", ResourceUtil.getString("summaryreport.groups"))).append("</h2>");
         report.append("<blockquote>");
 
         for (final Group group : groups) {
-            report.append("<p><strong>" + createGroupAnchor(group.getName()) + "</strong></p>");
+            report.append("<p><strong>").append(createGroupAnchor(group.getName())).append("</strong></p>");
 
             final List<Group> groupMembers = group.getGroupMembers();
             final List<User> userMembers = group.getUserMembers();
@@ -277,40 +279,40 @@ public final class SummaryReport extends GenericReport {
             report.append("<blockquote><p>Members</p>");
 
             if (groupMembers.size() == 0 && userMembers.size() == 0) {
-                report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.nomembers")
-                        + "</p></blockquote>");
+                report.append("<blockquote><p>").append(ResourceUtil.getString("summaryreport.nomembers"))
+                       .append("</p></blockquote>");
             }
             else {
                 report.append("<ul>");
 
                 for (final Group groupMember : groupMembers) {
-                    report.append("<li>" + createGroupLink(groupMember.getName()) + "</li>");
+                    report.append("<li>").append(createGroupLink(groupMember.getName())).append("</li>");
                 }
 
                 for (final User userMember : userMembers) {
-                    report.append("<li>" + createUserLink(userMember.getName()) + "</li>");
+                    report.append("<li>").append(createUserLink(userMember.getName())).append("</li>");
                 }
 
                 report.append("</ul>");
             }
 
-            report.append("<p>" + ResourceUtil.getString("summaryreport.rules") + "</p>");
+            report.append("<p>").append(ResourceUtil.getString("summaryreport.rules")).append("</p>");
 
             if (rules.size() == 0) {
-                report
-                        .append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules")
-                                + "</p></blockquote>");
+                report.append("<blockquote><p>")
+                        .append(ResourceUtil.getString("summaryreport.norules"))
+                        .append("</p></blockquote>");
             }
             else {
                 report.append("<ul>");
 
                 for (final AccessRule rule : rules) {
                     final String repositoryName = (rule.getPath().getRepository() == null) ? "" : rule.getPath()
-                            .getRepository().getName()
-                            + ":";
+                            .getRepository().getName() + ":";
                     final String path = rule.getPath().getPath();
 
-                    report.append("<li>[" + repositoryName + path + "] = " + rule.getLevelFullName() + "</li>");
+                    report.append("<li>[").append(repositoryName).append(path).append("] = ")
+                            .append(rule.getLevelFullName()).append("</li>");
                 }
 
                 report.append("</ul>");
@@ -324,11 +326,11 @@ public final class SummaryReport extends GenericReport {
         final List<User> users = document.getUsers();
         Collections.sort(users);
 
-        report.append("<h2>" + createAnchor("users", ResourceUtil.getString("summaryreport.users")) + "</h2>");
+        report.append("<h2>").append(createAnchor("users", ResourceUtil.getString("summaryreport.users"))).append("</h2>");
         report.append("<blockquote>");
 
         for (final User user : users) {
-            report.append("<p><strong>" + createUserAnchor(user.getName()) + "</strong></p>");
+            report.append("<p><strong>").append(createUserAnchor(user.getName())).append("</strong></p>");
 
             final List<Group> userGroups = user.getGroups();
             final List<AccessRule> rules = user.getAccessRules();
@@ -336,39 +338,38 @@ public final class SummaryReport extends GenericReport {
             Collections.sort(userGroups);
             Collections.sort(rules);
 
-            report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.groups") + "</p>");
+            report.append("<blockquote><p>").append(ResourceUtil.getString("summaryreport.groups")).append("</p>");
 
             if (userGroups.size() == 0) {
-                report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.nogroups")
-                        + "</p></blockquote>");
+                report.append("<blockquote><p>").append(ResourceUtil.getString("summaryreport.nogroups"))
+                       .append("</p></blockquote>");
             }
             else {
                 report.append("<ul>");
 
                 for (final Group userGroup : userGroups) {
-                    report.append("<li>" + createGroupLink(userGroup.getName()) + "</li>");
+                    report.append("<li>").append(createGroupLink(userGroup.getName())).append("</li>");
                 }
 
                 report.append("</ul>");
             }
 
-            report.append("<p>" + ResourceUtil.getString("summaryreport.rules") + "</p>");
+            report.append("<p>").append(ResourceUtil.getString("summaryreport.rules")).append("</p>");
 
             if (rules.size() == 0) {
-                report
-                        .append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules")
-                                + "</p></blockquote>");
+                report.append("<blockquote><p>").append(ResourceUtil.getString("summaryreport.norules"))
+                               .append("</p></blockquote>");
             }
             else {
                 report.append("<ul>");
 
                 for (final AccessRule rule : rules) {
-                    final String repositoryName = (rule.getPath().getRepository() == null) ? "" : rule.getPath()
-                            .getRepository().getName()
-                            + ":";
+                    final String repositoryName = (rule.getPath().getRepository() == null) ? "" :
+                            rule.getPath().getRepository().getName() + ":";
                     final String path = rule.getPath().getPath();
 
-                    report.append("<li>[" + repositoryName + path + "] = " + rule.getLevelFullName() + "</li>");
+                    report.append("<li>[").append(repositoryName).append(path).append("] = ")
+                            .append(rule.getLevelFullName()).append("</li>");
                 }
 
                 report.append("</ul>");
@@ -379,7 +380,7 @@ public final class SummaryReport extends GenericReport {
 
         report.append("</blockquote>");
 
-        report.append("<h2>" + createAnchor("projects", ResourceUtil.getString("summaryreport.projects")) + "</h2>");
+        report.append("<h2>").append(createAnchor("projects", ResourceUtil.getString("summaryreport.projects"))).append("</h2>");
 
         if (repositories.size() > 0) {
             for (final Repository repository : repositories) {
@@ -447,40 +448,40 @@ public final class SummaryReport extends GenericReport {
                     }
                 }
 
-                report.append("<h3>" + createReposAnchor(repository.getName()) + "</h3>");
+                report.append("<h3>").append(createReposAnchor(repository.getName())).append("</h3>");
 
                 report.append("<blockquote>");
 
                 if (projects.size() == 0) {
-                    report.append("<p>" + ResourceUtil.getString("summaryreport.noprojects") + "</p>");
+                    report.append("<p>").append(ResourceUtil.getString("summaryreport.noprojects")).append("</p>");
                 }
 
                 for (final String key : projects.keySet()) {
                     final Project projectBean = projects.get(key);
                     List<AccessRule> rules = null;
 
-                    report.append("<p><strong>" + key + "</strong></p><blockquote>");
+                    report.append("<p><strong>").append(key).append("</strong></p><blockquote>");
 
                     if (projectBean.branches != null) {
-                        report.append("<p>" + ResourceUtil.getString("summaryreport.branches") + "</p>");
+                        report.append("<p>").append(ResourceUtil.getString("summaryreport.branches")).append("</p>");
                         rules = projectBean.branches.getAccessRules();
                         Collections.sort(rules);
 
                         if (rules.size() == 0) {
-                            report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules")
-                                    + "</p></blockquote>>");
+                            report.append("<blockquote><p>").append(ResourceUtil.getString("summaryreport.norules"))
+                                    .append("</p></blockquote>>");
                         }
                         else {
                             report.append("<ul>");
 
                             for (final AccessRule rule : rules) {
                                 if (rule.getGroup() != null) {
-                                    report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = "
-                                            + rule.getLevelFullName() + "</li>");
+                                    report.append("<li>").append(createGroupLink(rule.getGroup().getName()))
+                                            .append(" = ").append(rule.getLevelFullName()).append("</li>");
                                 }
                                 else if (rule.getUser() != null) {
-                                    report.append("<li>" + createUserLink(rule.getUser().getName()) + " = "
-                                            + rule.getLevelFullName() + "</li>");
+                                    report.append("<li>").append(createUserLink(rule.getUser().getName()))
+                                            .append(" = ").append(rule.getLevelFullName()).append("</li>");
                                 }
                                 else {
                                     throw new AppException("summaryreport.invalidrule");
@@ -492,25 +493,25 @@ public final class SummaryReport extends GenericReport {
                     }
 
                     if (projectBean.tags != null) {
-                        report.append("<p>" + ResourceUtil.getString("summaryreport.tags") + "</p>");
+                        report.append("<p>").append(ResourceUtil.getString("summaryreport.tags")).append("</p>");
                         rules = projectBean.tags.getAccessRules();
                         Collections.sort(rules);
 
                         if (rules.size() == 0) {
-                            report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules")
-                                    + "</p></blockquote>>");
+                            report.append("<blockquote><p>").append(ResourceUtil.getString("summaryreport.norules"))
+                                   .append("</p></blockquote>>");
                         }
                         else {
                             report.append("<ul>");
 
                             for (final AccessRule rule : rules) {
                                 if (rule.getGroup() != null) {
-                                    report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = "
-                                            + rule.getLevelFullName() + "</li>");
+                                    report.append("<li>").append(createGroupLink(rule.getGroup().getName()))
+                                            .append(" = ").append(rule.getLevelFullName()).append("</li>");
                                 }
                                 else if (rule.getUser() != null) {
-                                    report.append("<li>" + createUserLink(rule.getUser().getName()) + " = "
-                                            + rule.getLevelFullName() + "</li>");
+                                    report.append("<li>").append(createUserLink(rule.getUser().getName()))
+                                            .append(" = ").append(rule.getLevelFullName()).append("</li>");
                                 }
                                 else {
                                     throw new AppException("summaryreport.invalidrule");
@@ -522,25 +523,25 @@ public final class SummaryReport extends GenericReport {
                     }
 
                     if (projectBean.trunk != null) {
-                        report.append("<p>" + ResourceUtil.getString("summaryreport.trunk") + "</p>");
+                        report.append("<p>").append(ResourceUtil.getString("summaryreport.trunk")).append("</p>");
                         rules = projectBean.trunk.getAccessRules();
                         Collections.sort(rules);
 
                         if (rules.size() == 0) {
-                            report.append("<blockquote><p>" + ResourceUtil.getString("summaryreport.norules")
-                                    + "</p></blockquote>>");
+                            report.append("<blockquote><p>").append(ResourceUtil.getString("summaryreport.norules")
+                                   ).append("</p></blockquote>>");
                         }
                         else {
                             report.append("<ul>");
 
                             for (final AccessRule rule : rules) {
                                 if (rule.getGroup() != null) {
-                                    report.append("<li>" + createGroupLink(rule.getGroup().getName()) + " = "
-                                            + rule.getLevelFullName() + "</li>");
+                                    report.append("<li>").append(createGroupLink(rule.getGroup().getName()))
+                                            .append(" = ").append(rule.getLevelFullName()).append("</li>");
                                 }
                                 else if (rule.getUser() != null) {
-                                    report.append("<li>" + createUserLink(rule.getUser().getName()) + " = "
-                                            + rule.getLevelFullName() + "</li>");
+                                    report.append("<li>").append(createUserLink(rule.getUser().getName()))
+                                            .append(" = ").append(rule.getLevelFullName()).append("</li>");
                                 }
                                 else {
                                     throw new AppException("summaryreport.invalidrule");
@@ -558,10 +559,10 @@ public final class SummaryReport extends GenericReport {
             }
         }
 
-        final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+        final DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
 
         final Object[] args = new Object[3];
-        args[0] = df.format(new Date());
+        args[0] = dateFormat.format(new Date());
         args[1] = ResourceUtil.getString("application.url");
         args[2] = ResourceUtil.getString("application.nameversion");
 

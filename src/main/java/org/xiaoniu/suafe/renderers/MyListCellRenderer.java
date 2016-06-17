@@ -33,18 +33,10 @@ import java.awt.*;
  * @author Shaun Johnson
  */
 public final class MyListCellRenderer extends JLabel implements ListCellRenderer {
-
     /**
      * Serial ID.
      */
     private static final long serialVersionUID = 2612512361404880700L;
-
-    /**
-     * Default constructor.
-     */
-    public MyListCellRenderer() {
-        super();
-    }
 
     /**
      * Custom cell painter.

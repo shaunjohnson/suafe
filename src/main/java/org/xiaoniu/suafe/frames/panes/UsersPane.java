@@ -8,6 +8,7 @@ import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -16,57 +17,56 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 public final class UsersPane extends BaseSplitPane {
-
     private static final long serialVersionUID = 7496096861009879724L;
 
-    private ActionListener actionListener = null;
+    private JButton addUserButton;
 
-    private JButton addUserButton = null;
+    private JButton changeMembershipButton;
 
-    private JButton changeMembershipButton = null;
+    private JButton cloneUserButton;
 
-    private JButton cloneUserButton = null;
+    private JButton deleteUserButton;
 
-    private JButton deleteUserButton = null;
+    private JButton renameUserButton;
 
-    private JButton renameUserButton = null;
+    private JPanel userAccessRulesFormatPanel;
 
-    private KeyListener keyListener = null;
+    private JScrollPane userAccessRulesScrollPane;
 
-    private ListSelectionListener listSelectionListener = null;
+    private JTable userAccessRulesTable;
 
-    private MouseListener mouseListener = null;
+    private JPanel userActionsPanel;
 
-    private JPanel userAccessRulesFormatPanel = null;
+    private JPanel userDetailsPanel;
 
-    private JScrollPane userAccessRulesScrollPane = null;
+    private JSplitPane userDetailsSplitPanel;
 
-    private JTable userAccessRulesTable = null;
+    private JList userGroupList;
 
-    private JPanel userActionsPanel = null;
+    private JPanel userGroupListPanel;
 
-    private JPanel userDetailsPanel = null;
+    private JScrollPane userGroupListScrollPane;
 
-    private JSplitPane userDetailsSplitPanel = null;
+    private JPanel userGroupsActionPanel;
 
-    private JList userGroupList = null;
+    private JList userList;
 
-    private JPanel userGroupListPanel = null;
+    private JPanel userListPanel;
 
-    private JScrollPane userGroupListScrollPane = null;
+    private JScrollPane userListScrollPane;
 
-    private JPanel userGroupsActionPanel = null;
+    private final ActionListener actionListener;
 
-    private JList userList = null;
+    private final KeyListener keyListener;
 
-    private JPanel userListPanel = null;
+    private final ListSelectionListener listSelectionListener;
 
-    private JScrollPane userListScrollPane = null;
+    private final MouseListener mouseListener;
 
-    public UsersPane(ActionListener actionListener, KeyListener keyListener,
-                     ListSelectionListener listSelectionListener, MouseListener mouseListener) {
-        super();
-
+    public UsersPane(@Nonnull final ActionListener actionListener,
+                     @Nonnull final KeyListener keyListener,
+                     @Nonnull final ListSelectionListener listSelectionListener,
+                     @Nonnull final MouseListener mouseListener) {
         this.actionListener = actionListener;
         this.keyListener = keyListener;
         this.listSelectionListener = listSelectionListener;

@@ -6,6 +6,7 @@ import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.UserPreferences;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -18,82 +19,79 @@ import java.util.Stack;
  * @author Shaun Johnson
  */
 public final class MainFrameMenuBar extends JMenuBar {
-
     private static final long serialVersionUID = -70557657703079354L;
 
-    private JMenuItem aboutMenuItem = null;
+    private final ActionListener actionListener;
 
-    private ActionListener actionListener = null;
+    private JMenuItem aboutMenuItem;
 
-    private JMenu actionMenu = null;
+    private JMenu actionMenu;
 
-    private JMenuItem addAccessRuleMenuItem = null;
+    private JMenuItem addAccessRuleMenuItem;
 
-    private JMenuItem addGroupMenuItem = null;
+    private JMenuItem addGroupMenuItem;
 
-    private JMenuItem addProjectAccessRulesMenuItem = null;
+    private JMenuItem addProjectAccessRulesMenuItem;
 
-    private JMenuItem addUserMenuItem = null;
+    private JMenuItem addUserMenuItem;
 
-    private JMenuItem clearRecentFilesMenuItem = null;
+    private JMenuItem clearRecentFilesMenuItem;
 
-    private JMenuItem exitMenuItem = null;
+    private JMenuItem exitMenuItem;
 
-    private JMenu fileMenu = null;
+    private JMenu fileMenu;
 
-    private JMenu helpMenu = null;
+    private JMenu helpMenu;
 
-    private JMenuItem helpMenuItem = null;
+    private JMenuItem helpMenuItem;
 
-    private JMenuItem licenseMenuItem = null;
+    private JMenuItem licenseMenuItem;
 
-    private JRadioButtonMenuItem monospacedRadioButtonMenuItem = null;
+    private JRadioButtonMenuItem monospacedRadioButtonMenuItem;
 
-    private JMenuItem newFileMenuItem = null;
+    private JMenuItem newFileMenuItem;
 
-    private JMenuItem openFileMenuItem = null;
+    private JMenuItem openFileMenuItem;
 
-    private JMenuItem openLastFileMenuItem = null;
+    private JMenuItem openLastFileMenuItem;
 
-    private JMenuItem multiLineGroupDefinitionsMenuItem = null;
+    private JMenuItem multiLineGroupDefinitionsMenuItem;
 
-    private JMenuItem previewMenuItem = null;
+    private JMenuItem previewMenuItem;
 
-    private JMenuItem printMenuItem = null;
+    private JMenuItem printMenuItem;
 
-    private JMenu recentFilesMenu = null;
+    private JMenu recentFilesMenu;
 
-    private JMenuItem reloadMenuItem = null;
+    private JMenuItem reloadMenuItem;
 
-    private JMenu reportsMenu = null;
+    private JMenu reportsMenu;
 
-    private JMenuItem resetSettingsMenuItem = null;
+    private JMenuItem resetSettingsMenuItem;
 
-    private JRadioButtonMenuItem sansSerifRadioButtonMenuItem = null;
+    private JRadioButtonMenuItem sansSerifRadioButtonMenuItem;
 
-    private JMenuItem saveAsMenuItem = null;
+    private JMenuItem saveAsMenuItem;
 
-    private JMenuItem saveFileMenuItem = null;
+    private JMenuItem saveFileMenuItem;
 
-    private JRadioButtonMenuItem serifRadioButtonMenuItem = null;
+    private JRadioButtonMenuItem serifRadioButtonMenuItem;
 
-    private JMenu settingsMenu = null;
+    private JMenu settingsMenu;
 
-    private JMenuItem statisticsMenuItem = null;
+    private JMenuItem statisticsMenuItem;
 
-    private JMenuItem summaryReportMenuItem = null;
+    private JMenuItem summaryReportMenuItem;
 
-    private JMenuItem viewGroupsMenuItem = null;
+    private JMenuItem viewGroupsMenuItem;
 
-    private JMenu viewMenu = null;
+    private JMenu viewMenu;
 
-    private JMenuItem viewRulesMenuItem = null;
+    private JMenuItem viewRulesMenuItem;
 
-    private JMenuItem viewUsersMenuItem = null;
+    private JMenuItem viewUsersMenuItem;
 
-    public MainFrameMenuBar(ActionListener actionListener) {
-        super();
-
+    public MainFrameMenuBar(@Nonnull final ActionListener actionListener) {
         this.actionListener = actionListener;
 
         add(getFileMenu());
@@ -720,7 +718,7 @@ public final class MainFrameMenuBar extends JMenuBar {
      * The text displayed is the file name. The tooltip is the absolute path
      * of the file.
      */
-    public void refreshRecentFiles(Stack<String> fileStack) {
+    public void refreshRecentFiles(@Nonnull final Stack<String> fileStack) {
         getRecentFilesMenu().removeAll();
 
         if (fileStack.isEmpty()) {

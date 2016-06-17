@@ -20,6 +20,8 @@ package org.xiaoniu.suafe.validators;
 import org.xiaoniu.suafe.api.SubversionConstants;
 import org.xiaoniu.suafe.exceptions.ValidatorException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,34 +31,26 @@ import java.util.regex.Pattern;
  * @author Shaun Johnson
  */
 public final class Validator {
-
-    /**
-     * Prevent instantiation.
-     */
-    private Validator() {
-        super();
-    }
-
     /**
      * Validates group names.
      *
      * @param groupName The Group name to validate.
-     * @throws ValidatorException
+     * @throws ValidatorException if group name is invalid
      */
-    public static void validateGroupName(String groupName) throws ValidatorException {
+    public static void validateGroupName(@Nullable final String groupName) throws ValidatorException {
         if (groupName == null) {
             throw new ValidatorException("application.error.groupinvalid");
         }
 
-        String value = groupName.trim();
+        final String value = groupName.trim();
 
         if (value.length() == 0) {
             throw new ValidatorException("application.error.groupinvalid");
         }
 
         // Check group name for invalid characters
-        Pattern pattern = Pattern.compile("=");
-        Matcher matcher = pattern.matcher(value);
+        final Pattern pattern = Pattern.compile("=");
+        final Matcher matcher = pattern.matcher(value);
 
         if (matcher.find()) {
             throw new ValidatorException("application.error.groupinvalidcharacters");
@@ -67,9 +61,9 @@ public final class Validator {
      * Validates the level of access.
      *
      * @param level Level of access to validate.
-     * @throws ValidatorException
+     * @throws ValidatorException if level of access is invalid
      */
-    public static void validateLevelOfAccess(String level) throws ValidatorException {
+    public static void validateLevelOfAccess(@Nullable final String level) throws ValidatorException {
         if (level == null ||
                 (
                         !level.equals(SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS) &&
@@ -85,14 +79,14 @@ public final class Validator {
      * Validates relative paths.
      *
      * @param relativePath The relative path name to validate.
-     * @throws ValidatorException
+     * @throws ValidatorException if relative path is invalid
      */
-//	public static void validateRelativePath(String relativePath) throws ValidatorException {
+//	public static void validateRelativePath(@Nullable final String relativePath) throws ValidatorException {
 //		if (relativePath == null) {
 //			throw new ValidatorException("Invalid path");
 //		}
 //		
-//		String value = relativePath.trim();
+//		final String value = relativePath.trim();
 //			
 //		if (value.length() == 0) {
 //			throw new ValidatorException("Invalid path");
@@ -103,22 +97,22 @@ public final class Validator {
      * Validates repository names.
      *
      * @param repositoryName The Repository name to validate.
-     * @throws ValidatorException
+     * @throws ValidatorException if repository name is invalid
      */
-    public static void validateRepositoryName(String repositoryName) throws ValidatorException {
+    public static void validateRepositoryName(@Nullable final String repositoryName) throws ValidatorException {
         if (repositoryName == null) {
             throw new ValidatorException("application.error.repositoryinvalid");
         }
 
-        String value = repositoryName.trim();
+        final String value = repositoryName.trim();
 
         if (value.length() == 0) {
             throw new ValidatorException("application.error.repositoryinvalid");
         }
 
         // Check repository name for invalid characters
-        Pattern pattern = Pattern.compile(":");
-        Matcher matcher = pattern.matcher(value);
+        final Pattern pattern = Pattern.compile(":");
+        final Matcher matcher = pattern.matcher(value);
 
         if (matcher.find()) {
             throw new ValidatorException("application.error.repositoryinvalidcharacters");
@@ -129,22 +123,22 @@ public final class Validator {
      * Validates aliases.
      *
      * @param alias The User alias to validate.
-     * @throws ValidatorException
+     * @throws ValidatorException if alias is invalid
      */
-    public static void validateAlias(String alias) throws ValidatorException {
+    public static void validateAlias(@Nullable final String alias) throws ValidatorException {
         if (alias == null) {
             throw new ValidatorException("application.error.aliasinvalid");
         }
 
-        String value = alias.trim();
+        final String value = alias.trim();
 
         if (value.length() == 0) {
             throw new ValidatorException("application.error.aliasinvalid");
         }
 
         // Check user name for invalid characters
-        Pattern pattern = Pattern.compile("=");
-        Matcher matcher = pattern.matcher(value);
+        final Pattern pattern = Pattern.compile("=");
+        final Matcher matcher = pattern.matcher(value);
 
         if (matcher.find()) {
             throw new ValidatorException("application.error.aliasinvalidcharacters");
@@ -155,22 +149,22 @@ public final class Validator {
      * Validates user names.
      *
      * @param userName The User name to validate.
-     * @throws ValidatorException
+     * @throws ValidatorException if user name is invalid
      */
-    public static void validateUserName(String userName) throws ValidatorException {
+    public static void validateUserName(@Nullable final String userName) throws ValidatorException {
         if (userName == null) {
             throw new ValidatorException("application.error.userinvalid");
         }
 
-        String value = userName.trim();
+        final String value = userName.trim();
 
         if (value.length() == 0) {
             throw new ValidatorException("application.error.userinvalid");
         }
 
         // Check user name for invalid characters
-        Pattern pattern = Pattern.compile("=");
-        Matcher matcher = pattern.matcher(value);
+        final Pattern pattern = Pattern.compile("=");
+        final Matcher matcher = pattern.matcher(value);
 
         if (matcher.find()) {
             throw new ValidatorException("application.error.userinvalidcharacters");
@@ -181,9 +175,10 @@ public final class Validator {
      * Validates that the value is not null and not an empty String.
      *
      * @param value The value to validate.
-     * @throws ValidatorException
+     * @throws ValidatorException if string value is blank
      */
-    public static void validateNotEmptyString(String field, String value) throws ValidatorException {
+    public static void validateNotEmptyString(@Nonnull final String field, @Nullable final String value)
+            throws ValidatorException {
         if (value == null || value.trim().length() == 0) {
             throw new ValidatorException("application.error.fieldrequired", field);
         }
@@ -194,9 +189,10 @@ public final class Validator {
      *
      * @param fieldName Name of field being validated
      * @param value     Field value
-     * @throws ValidatorException
+     * @throws ValidatorException if value is null
      */
-    public static void validateNotNull(String fieldName, Object value) throws ValidatorException {
+    public static void validateNotNull(@Nonnull final String fieldName, @Nullable final Object value)
+            throws ValidatorException {
         if (value == null) {
             throw new ValidatorException("validation.error.fieldrequired", fieldName);
         }
@@ -206,20 +202,20 @@ public final class Validator {
      * @param path
      * @throws ValidatorException
      */
-    public static void validatePath(String path) throws ValidatorException {
+    public static void validatePath(@Nullable final String path) throws ValidatorException {
         if (path == null) {
             throw new ValidatorException("application.error.pathinvalid");
         }
 
-        String value = path.trim();
+        final String value = path.trim();
 
         if (value.length() == 0) {
             throw new ValidatorException("application.error.pathinvalid");
         }
 
         // Check path for invalid characters
-        Pattern pattern = Pattern.compile("=");
-        Matcher matcher = pattern.matcher(value);
+        final Pattern pattern = Pattern.compile("=");
+        final Matcher matcher = pattern.matcher(value);
 
         if (matcher.find()) {
             throw new ValidatorException("application.error.pathinvalidcharacters");
@@ -232,5 +228,12 @@ public final class Validator {
         if (value.length() > 1 && value.charAt(value.length() - 1) == '/') {
             throw new ValidatorException("application.error.pathinvalid.endslash");
         }
+    }
+
+    /**
+     * Prevent instantiation.
+     */
+    private Validator() {
+        // Deliberately left blank
     }
 }

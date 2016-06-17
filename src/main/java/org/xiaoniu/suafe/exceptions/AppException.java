@@ -2,13 +2,14 @@ package org.xiaoniu.suafe.exceptions;
 
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
+
 /**
  * Exception thrown when a general error occurs.
  *
  * @author Shaun Johnson
  */
 public class AppException extends Exception {
-
     /**
      * Serial ID.
      */
@@ -19,7 +20,7 @@ public class AppException extends Exception {
      *
      * @param key Error message key.
      */
-    public AppException(String key) {
+    public AppException(@Nonnull final String key) {
         super(ResourceUtil.getString(key));
     }
 
@@ -29,7 +30,7 @@ public class AppException extends Exception {
      * @param key      Error message key.
      * @param argument Argument value
      */
-    public AppException(String key, Object argument) {
+    public AppException(@Nonnull final String key, @Nonnull final Object argument) {
         super(ResourceUtil.getFormattedString(key, argument));
     }
 
@@ -37,9 +38,10 @@ public class AppException extends Exception {
      * Constructor that accepts a message key and argument.
      *
      * @param key      Error message key.
-     * @param argument Argument value
+     * @param argument1 Argument value 1
+     * @param argument2 Argument value 2
      */
-    public AppException(String key, Object argument1, Object argument2) {
+    public AppException(@Nonnull final String key, @Nonnull final Object argument1, @Nonnull final Object argument2) {
         super(ResourceUtil.getFormattedString(key, argument1, argument2));
     }
 
@@ -49,7 +51,7 @@ public class AppException extends Exception {
      * @param key       Error message key.
      * @param arguments Argument values
      */
-    public AppException(String key, Object[] arguments) {
+    public AppException(@Nonnull final String key, @Nonnull final Object[] arguments) {
         super(ResourceUtil.getFormattedString(key, arguments));
     }
 }

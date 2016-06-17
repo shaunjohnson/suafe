@@ -14,6 +14,6 @@ public final class ApplicationDefaultsConstants {
     public static final int DEFAULT_WIDTH = 840;
 
     private ApplicationDefaultsConstants() {
-        super();
+        // Deliberately left blank
     }
 }

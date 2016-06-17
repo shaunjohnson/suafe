@@ -6,12 +6,14 @@ import com.martiansoftware.jsap.JSAPException;
 import com.martiansoftware.jsap.Switch;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * Extension of JSAP used in order to add helper methods to JSAP.
- * * @author Shaun Johnson
+ * @author Shaun Johnson
  */
 public final class ArgumentParser extends JSAP {
-
     private static final char LIST_SEPARATOR = ',';
 
     /**
@@ -22,12 +24,13 @@ public final class ArgumentParser extends JSAP {
      * @param shortFlag Switch short flag
      * @param longFlag  Switch long flag
      * @param help      Resource file key for switch help
-     * @throws JSAPException
+     * @throws JSAPException if error occurs
      */
-    public void addSwitchOption(String name, Character shortFlag, String longFlag, String help) throws JSAPException {
+    public void addSwitchOption(@Nonnull final String name, @Nullable final Character shortFlag,
+                                @Nonnull final String longFlag, @Nonnull final String help) throws JSAPException {
         final Switch opt = new Switch(name);
 
-        opt.setShortFlag(shortFlag == null ? JSAP.NO_SHORTFLAG : shortFlag.charValue());
+        opt.setShortFlag(shortFlag == null ? JSAP.NO_SHORTFLAG : shortFlag);
         opt.setLongFlag(longFlag);
 
         opt.setHelp(ResourceUtil.getString("application.args." + help + ".help"));
@@ -43,12 +46,13 @@ public final class ArgumentParser extends JSAP {
      * @param shortFlag Option short flag
      * @param longFlag  Option long flag
      * @param help      Resource file key for option help
-     * @throws JSAPException
+     * @throws JSAPException if error occurs
      */
-    public void addStringOption(String name, Character shortFlag, String longFlag, String help) throws JSAPException {
+    public void addStringOption(@Nonnull final String name, @Nullable final Character shortFlag,
+                                @Nonnull final String longFlag, @Nonnull final String help) throws JSAPException {
         final FlaggedOption opt = new FlaggedOption(name)
                 .setStringParser(JSAP.STRING_PARSER)
-                .setShortFlag(shortFlag == null ? JSAP.NO_SHORTFLAG : shortFlag.charValue())
+                .setShortFlag(shortFlag == null ? JSAP.NO_SHORTFLAG : shortFlag)
                 .setLongFlag(longFlag);
 
         opt.setHelp(ResourceUtil.getString("application.args." + help + ".help"));
@@ -64,12 +68,13 @@ public final class ArgumentParser extends JSAP {
      * @param shortFlag Option short flag
      * @param longFlag  Option long flag
      * @param help      Resource file key for option help
-     * @throws JSAPException
+     * @throws JSAPException if error occurs
      */
-    public void addListOption(String name, Character shortFlag, String longFlag, String help) throws JSAPException {
+    public void addListOption(@Nonnull final String name, @Nullable final Character shortFlag,
+                              @Nonnull final String longFlag, @Nonnull final String help) throws JSAPException {
         final FlaggedOption opt = new FlaggedOption(name)
                 .setStringParser(JSAP.STRING_PARSER)
-                .setShortFlag(shortFlag == null ? JSAP.NO_SHORTFLAG : shortFlag.charValue())
+                .setShortFlag(shortFlag == null ? JSAP.NO_SHORTFLAG : shortFlag)
                 .setLongFlag(longFlag)
                 .setList(true)
                 .setListSeparator(LIST_SEPARATOR);

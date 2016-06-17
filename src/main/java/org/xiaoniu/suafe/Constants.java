@@ -23,7 +23,6 @@ package org.xiaoniu.suafe;
  * @author Shaun Johnson
  */
 public final class Constants {
-
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
 
     public static final String MIME_HTML = "text/html";
@@ -43,6 +42,6 @@ public final class Constants {
     public static final String TEXT_NEW_LINE = System.getProperty("line.separator");
 
     private Constants() {
-        throw new AssertionError();
+        // Deliberately left blank
     }
 }

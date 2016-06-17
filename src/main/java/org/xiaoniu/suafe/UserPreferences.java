@@ -15,9 +15,10 @@
  * ====================================================================
  * @endcopyright
  */
-
 package org.xiaoniu.suafe;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
@@ -29,48 +30,47 @@ import java.util.prefs.Preferences;
  * @author Shaun Johnson
  */
 public final class UserPreferences {
-
     /**
      * Prefix for recent file preferences. This prefix is appened with a
      * number from 0-max.
      */
-    public static final String RECENT_FILE_PREFIX = "recent.file.";
+    private static final String RECENT_FILE_PREFIX = "recent.file.";
 
     /**
      * Preference name for the "open last edited file" setting.
      */
-    public static final String OPEN_LAST_FILE = "open.last.file";
+    private static final String OPEN_LAST_FILE = "open.last.file";
 
     /**
      * Preference name for the "".
      */
-    public static final String MULTILINE_GROUP_DEFINITIONS = "multiline.group.defintions";
+    private static final String MULTILINE_GROUP_DEFINITIONS = "multiline.group.defintions";
 
     /**
      * Preference name for the user selected font style.
      */
-    public static final String FONT_STYLE = "font.style";
+    private static final String FONT_STYLE = "font.style";
 
-    public static final String WINDOW_LOCATION = "window.location";
+    private static final String WINDOW_LOCATION = "window.location";
 
     /**
      * Preference name for the last window state.
      */
-    public static final String WINDOW_STATE = "window.state";
+    private static final String WINDOW_STATE = "window.state";
 
     /**
      * Preference name for the last window dimension.
      */
-    public static final String WINDOW_SIZE = "window.size";
+    private static final String WINDOW_SIZE = "window.size";
 
     /**
      * Preference names for divider locations;
      */
-    public static final String USERS_PANE_DIVIDER_LOCATION = "users.pane.divider.location";
-    public static final String GROUPS_PANE_DIVIDER_LOCATION = "groups.pane.divider.location";
-    public static final String RULES_PANE_DIVIDER_LOCATION = "rules.pane.divider.location";
-    public static final String USER_DETAILS_DIVIDER_LOCATION = "user.details.divider.location";
-    public static final String GROUP_DETAILS_DIVIDER_LOCATION = "group.details.divider.location";
+    private static final String USERS_PANE_DIVIDER_LOCATION = "users.pane.divider.location";
+    private static final String GROUPS_PANE_DIVIDER_LOCATION = "groups.pane.divider.location";
+    private static final String RULES_PANE_DIVIDER_LOCATION = "rules.pane.divider.location";
+    private static final String USER_DETAILS_DIVIDER_LOCATION = "user.details.divider.location";
+    private static final String GROUP_DETAILS_DIVIDER_LOCATION = "group.details.divider.location";
 
     /**
      * Maximum number of files remembered in the recent files list.
@@ -80,7 +80,7 @@ public final class UserPreferences {
     /**
      * Default font style.
      */
-    public static final String DEFAULT_FONT_STYLE = GuiConstants.FONT_FAMILY_MONOSPACED;
+    private static final String DEFAULT_FONT_STYLE = GuiConstants.FONT_FAMILY_MONOSPACED;
 
     private static Font userFont = null;
 
@@ -88,7 +88,6 @@ public final class UserPreferences {
      * Handle to the Preferences node for the application.
      */
     private static Preferences prefs = Preferences.userNodeForPackage(UserPreferences.class);
-    ;
 
     public static void clearRecentFiles() {
         // Remove all slots
@@ -113,7 +112,7 @@ public final class UserPreferences {
      * @return true if setting is enabled, otherwise false
      */
     public static boolean getMultipleLineGroupDefinitions() {
-        String selected = prefs.get(MULTILINE_GROUP_DEFINITIONS, Boolean.toString(true));
+        final String selected = prefs.get(MULTILINE_GROUP_DEFINITIONS, Boolean.toString(true));
 
         return Boolean.parseBoolean(selected);
     }
@@ -124,7 +123,7 @@ public final class UserPreferences {
      * @return true if setting is enabled, otherwise false
      */
     public static boolean getOpenLastFile() {
-        String selected = prefs.get(OPEN_LAST_FILE, Boolean.toString(true));
+        final String selected = prefs.get(OPEN_LAST_FILE, Boolean.toString(true));
 
         return Boolean.parseBoolean(selected);
     }
@@ -135,8 +134,9 @@ public final class UserPreferences {
      *
      * @return Stack containing paths for recently opened files.
      */
+    @Nonnull
     public static Stack<String> getRecentFiles() {
-        Stack<String> fileStack = new Stack<String>();
+        final Stack<String> fileStack = new Stack<>();
 
         for (int slot = 0; slot < MAXIMUM_RECENT_FILES; slot++) {
             String value = prefs.get(RECENT_FILE_PREFIX + slot, null);
@@ -177,8 +177,9 @@ public final class UserPreferences {
      *
      * @return user font style
      */
+    @Nonnull
     public static String getUserFontStyle() {
-        String fontStyle = prefs.get(FONT_STYLE, DEFAULT_FONT_STYLE);
+        final String fontStyle = prefs.get(FONT_STYLE, DEFAULT_FONT_STYLE);
 
         if (fontStyle.equals(GuiConstants.FONT_FAMILY_MONOSPACED) ||
                 fontStyle.equals(GuiConstants.FONT_FAMILY_SERIF) ||
@@ -195,19 +196,20 @@ public final class UserPreferences {
                 ApplicationDefaultsConstants.DEFAULT_DIVIDER_LOCATION));
     }
 
+    @Nullable
     public static Point getWindowLocation() {
         Point location = null;
-        String locationValue = prefs.get(WINDOW_LOCATION, "");
-        String[] locationValues = locationValue.split(",");
+        final String locationValue = prefs.get(WINDOW_LOCATION, "");
+        final String[] locationValues = locationValue.split(",");
 
         if (locationValues.length == 2) {
             try {
-                int x = Integer.parseInt(locationValues[0]);
-                int y = Integer.parseInt(locationValues[1]);
+                final int x = Integer.parseInt(locationValues[0]);
+                final int y = Integer.parseInt(locationValues[1]);
 
                 location = new Point(x, y);
             }
-            catch (Exception e) {
+            catch (final Exception e) {
                 location = null;
             }
         }
@@ -215,11 +217,12 @@ public final class UserPreferences {
         return location;
     }
 
+    @Nonnull
     public static Dimension getWindowSize() {
-        String size = prefs.get(WINDOW_SIZE,
+        final String size = prefs.get(WINDOW_SIZE,
                 ApplicationDefaultsConstants.DEFAULT_WIDTH + "," + ApplicationDefaultsConstants.DEFAULT_HEIGHT);
 
-        String[] sizes = size.split(",");
+        final String[] sizes = size.split(",");
         int width = ApplicationDefaultsConstants.DEFAULT_WIDTH;
         int height = ApplicationDefaultsConstants.DEFAULT_HEIGHT;
 
@@ -228,7 +231,7 @@ public final class UserPreferences {
                 width = Integer.parseInt(sizes[0]);
                 height = Integer.parseInt(sizes[1]);
             }
-            catch (Exception e) {
+            catch (final Exception e) {
                 width = ApplicationDefaultsConstants.DEFAULT_WIDTH;
                 height = ApplicationDefaultsConstants.DEFAULT_HEIGHT;
             }
@@ -242,7 +245,7 @@ public final class UserPreferences {
             return Integer.parseInt(prefs.get(WINDOW_STATE,
                     Integer.toString(JFrame.MAXIMIZED_BOTH)));
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             return JFrame.MAXIMIZED_BOTH;
         }
     }
@@ -260,11 +263,11 @@ public final class UserPreferences {
         prefs.remove(WINDOW_STATE);
     }
 
-    public static void setGroupDetailsDividerLocation(int location) {
+    public static void setGroupDetailsDividerLocation(final int location) {
         prefs.put(GROUP_DETAILS_DIVIDER_LOCATION, Integer.toString(location));
     }
 
-    public static void setGroupsPaneDividerLocation(int location) {
+    public static void setGroupsPaneDividerLocation(final int location) {
         prefs.put(GROUPS_PANE_DIVIDER_LOCATION, Integer.toString(location));
     }
 
@@ -273,7 +276,7 @@ public final class UserPreferences {
      *
      * @param selected true if setting is enabled.
      */
-    public static void setMultipleLineGroupDefinitions(boolean selected) {
+    public static void setMultipleLineGroupDefinitions(final boolean selected) {
         prefs.put(MULTILINE_GROUP_DEFINITIONS, Boolean.toString(selected));
     }
 
@@ -282,7 +285,7 @@ public final class UserPreferences {
      *
      * @param selected true if setting is enabled.
      */
-    public static void setOpenLastFile(boolean selected) {
+    public static void setOpenLastFile(final boolean selected) {
         prefs.put(OPEN_LAST_FILE, Boolean.toString(selected));
     }
 
@@ -291,11 +294,11 @@ public final class UserPreferences {
      *
      * @param fileStack List of paths for recently opened files.
      */
-    public static void setRecentFiles(Stack<String> fileStack) {
+    public static void setRecentFiles(@Nonnull final Stack<String> fileStack) {
         int slot = 0;
 
         // Put each file in its own slot
-        for (String value : fileStack) {
+        for (final String value : fileStack) {
             if (slot >= MAXIMUM_RECENT_FILES) {
                 break;
             }
@@ -310,11 +313,11 @@ public final class UserPreferences {
         }
     }
 
-    public static void setRulesPaneDividerLocation(int location) {
+    public static void setRulesPaneDividerLocation(final int location) {
         prefs.put(RULES_PANE_DIVIDER_LOCATION, Integer.toString(location));
     }
 
-    public static void setUserDetailsDividerLocation(int location) {
+    public static void setUserDetailsDividerLocation(final int location) {
         prefs.put(USER_DETAILS_DIVIDER_LOCATION, Integer.toString(location));
     }
 
@@ -324,7 +327,7 @@ public final class UserPreferences {
      *
      * @param fontStyle User selected font style
      */
-    public static void setUserFontStyle(String fontStyle) {
+    public static void setUserFontStyle(@Nonnull final String fontStyle) {
         if (fontStyle.equals(GuiConstants.FONT_FAMILY_MONOSPACED) ||
                 fontStyle.equals(GuiConstants.FONT_FAMILY_SERIF) ||
                 fontStyle.equals(GuiConstants.FONT_FAMILY_SANS_SERIF)) {
@@ -335,19 +338,23 @@ public final class UserPreferences {
         }
     }
 
-    public static void setUsersPaneDividerLocation(int location) {
+    public static void setUsersPaneDividerLocation(final int location) {
         prefs.put(USERS_PANE_DIVIDER_LOCATION, Integer.toString(location));
     }
 
-    public static void setWindowLocation(Point location) {
+    public static void setWindowLocation(@Nonnull final Point location) {
         prefs.put(WINDOW_LOCATION, (int) location.getX() + "," + (int) location.getY());
     }
 
-    public static void setWindowSize(Dimension size) {
+    public static void setWindowSize(@Nonnull final Dimension size) {
         prefs.put(WINDOW_SIZE, (int) size.getWidth() + "," + (int) size.getHeight());
     }
 
-    public static void setWindowState(int windowState) {
+    public static void setWindowState(final int windowState) {
         prefs.put(WINDOW_STATE, Integer.toString(windowState));
+    }
+
+    private UserPreferences() {
+        // Deliberately left blank
     }
 }

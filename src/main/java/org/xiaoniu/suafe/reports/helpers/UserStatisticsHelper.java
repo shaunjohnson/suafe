@@ -2,17 +2,17 @@ package org.xiaoniu.suafe.reports.helpers;
 
 import org.xiaoniu.suafe.api.beans.User;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public final class UserStatisticsHelper {
+    private final List<User> users;
 
     private double avgAccessRules = -1;
 
     private double avgGroups = -1;
 
     private int count = -1;
-
-    private List<User> users = null;
 
     private int maxAccessRules = -1;
 
@@ -22,9 +22,7 @@ public final class UserStatisticsHelper {
 
     private int minGroups = -1;
 
-    public UserStatisticsHelper(List<User> users) {
-        super();
-
+    public UserStatisticsHelper(@Nonnull final List<User> users) {
         this.users = users;
     }
 

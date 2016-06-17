@@ -20,6 +20,7 @@ package org.xiaoniu.suafe.dialogs;
 import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -35,8 +36,6 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      * Dialog that implements listeners to provide Escape key functionality.
      */
     public ParentDialog() {
-        super();
-
         addListeners(this);
     }
 
@@ -45,7 +44,7 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      *
      * @param containerEvent ContainerEvent object.
      */
-    public void componentAdded(ContainerEvent containerEvent) {
+    public void componentAdded(@Nonnull final ContainerEvent containerEvent) {
         addListeners(containerEvent.getChild());
     }
 
@@ -54,7 +53,7 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      *
      * @param containerEvent ContainerEvent object.
      */
-    public void componentRemoved(ContainerEvent containerEvent) {
+    public void componentRemoved(@Nonnull final ContainerEvent containerEvent) {
         removeListeners(containerEvent.getChild());
     }
 
@@ -63,15 +62,15 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      *
      * @param component Child component to which listeners are added.
      */
-    private void addListeners(Component component) {
+    private void addListeners(@Nonnull final Component component) {
         component.addKeyListener(this);
 
         if (component instanceof Container) {
-            Container container = (Container) component;
+            final  Container container = (Container) component;
 
             container.addContainerListener(this);
 
-            for (Component child : container.getComponents()) {
+            for (final Component child : container.getComponents()) {
                 addListeners(child);
             }
         }
@@ -84,10 +83,11 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      * @param action Action code to associate with the button
      * @return Newly created button
      */
-    protected JButton createButton(String key, String action, ActionListener listener) {
+    protected JButton createButton(@Nonnull final String key, @Nonnull final String action,
+                                   @Nonnull final ActionListener actionListener) {
         JButton button = new JButton();
 
-        button.addActionListener(listener);
+        button.addActionListener(actionListener);
         button.setActionCommand(action);
         button.setText(ResourceUtil.getString(key));
 
@@ -99,16 +99,15 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      *
      * @param component Child component from which listeners are removed.
      */
-    private void removeListeners(Component component) {
+    private void removeListeners(@Nonnull final Component component) {
         component.removeKeyListener(this);
 
         if (component instanceof Container) {
-
-            Container container = (Container) component;
+            final Container container = (Container) component;
 
             container.removeContainerListener(this);
 
-            for (Component child : container.getComponents()) {
+            for (final Component child : container.getComponents()) {
                 removeListeners(child);
             }
         }
@@ -119,7 +118,7 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      *
      * @param keyEvent KeyEvent object.
      */
-    public void keyPressed(KeyEvent keyEvent) {
+    public void keyPressed(@Nonnull final KeyEvent keyEvent) {
         int keyCode = keyEvent.getKeyCode();
 
         if (keyCode == KeyEvent.VK_ESCAPE) {
@@ -132,7 +131,7 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      *
      * @param keyEvent KeyEvent object.
      */
-    public void keyReleased(KeyEvent keyEvent) {
+    public void keyReleased(@Nonnull final KeyEvent keyEvent) {
         // Do nothing
     }
 
@@ -141,7 +140,7 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      *
      * @param keyEvent KeyEvent object.
      */
-    public void keyTyped(KeyEvent keyEvent) {
+    public void keyTyped(@Nonnull final KeyEvent keyEvent) {
         // Do nothing
     }
 
@@ -150,26 +149,26 @@ public abstract class ParentDialog extends JDialog implements ContainerListener,
      *
      * @param message Error message to be displayed.
      */
-    protected void displayError(String message) {
+    protected void displayError(@Nonnull final String message) {
         JOptionPane.showMessageDialog(this, message, ResourceUtil.getString("application.error"),
                 JOptionPane.ERROR_MESSAGE);
     }
 
     private JPanel instructionsPanel = null;
 
-    protected JPanel getInstructionsPanel(String textId) {
+    protected JPanel getInstructionsPanel(@Nonnull final String textId) {
         return getInstructionsPanelImpl(ResourceUtil.getString(textId));
     }
 
-    protected JPanel getInstructionsPanel(String textId, String arg) {
+    protected JPanel getInstructionsPanel(@Nonnull final String textId, @Nonnull final String arg) {
         return getInstructionsPanelImpl(ResourceUtil.getFormattedString(textId, arg));
     }
 
-    private JPanel getInstructionsPanelImpl(String text) {
+    private JPanel getInstructionsPanelImpl(@Nonnull final String text) {
         if (instructionsPanel == null) {
             instructionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-            JLabel instructionsLabel = new JLabel(text);
+            final JLabel instructionsLabel = new JLabel(text);
             instructionsLabel.setFont(GuiConstants.FONT_BOLD_LARGE);
 
             instructionsPanel.add(instructionsLabel);

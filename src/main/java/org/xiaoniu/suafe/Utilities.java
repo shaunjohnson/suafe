@@ -19,6 +19,7 @@ package org.xiaoniu.suafe;
 
 import org.xiaoniu.suafe.exceptions.AppException;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,7 +41,8 @@ public final class Utilities {
      * @return Array of <T> objects
      */
     @SuppressWarnings("unchecked")
-    public static <T> T[] convertToArray(Object[] array, T[] typeSample) {
+    public static <T> T[] convertToArray(@Nonnull final Object[] array, @Nonnull T[] typeSample) {
+        // TODO why is this not returning a new typeSample?
         if (typeSample.length < array.length) {
             typeSample = (T[]) Array.newInstance(typeSample.getClass().getComponentType(), array.length);
         }
@@ -61,8 +63,9 @@ public final class Utilities {
      * @return Output stream for file
      * @throws AppException Error occurred
      */
-    public static PrintStream openOutputFile(String filePath) throws AppException {
-        PrintStream output = null;
+    @Nonnull
+    public static PrintStream openOutputFile(@Nonnull final String filePath) throws AppException {
+        final PrintStream output;
 
         try {
             output = new PrintStream(new File(filePath));
@@ -84,8 +87,9 @@ public final class Utilities {
      * @return Output stream for file
      * @throws AppException Error occurred
      */
-    public static PrintStream openOutputFile(File file) throws AppException {
-        PrintStream output = null;
+    @Nonnull
+    public static PrintStream openOutputFile(@Nonnull final File file) throws AppException {
+        final PrintStream output;
 
         try {
             output = openOutputFile(file.getCanonicalPath());
@@ -95,5 +99,9 @@ public final class Utilities {
         }
 
         return output;
+    }
+
+    private Utilities() {
+        // Deliberately left blank
     }
 }

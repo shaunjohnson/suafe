@@ -8,6 +8,7 @@ import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.renderers.MyTableCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -16,57 +17,56 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
 public final class GroupsPane extends BaseSplitPane {
-
     private static final long serialVersionUID = -743618351601446392L;
 
-    private ActionListener actionListener = null;
+    private JButton addGroupButton;
 
-    private JButton addGroupButton = null;
+    private JButton addRemoveMembersButton;
 
-    private JButton addRemoveMembersButton = null;
+    private JButton cloneGroupButton;
 
-    private JButton cloneGroupButton = null;
+    private JButton deleteGroupButton;
 
-    private JButton deleteGroupButton = null;
+    private JButton renameGroupButton;
 
-    private JButton renameGroupButton = null;
+    private JPanel groupAccessRulesPanel;
 
-    private JPanel groupAccessRulesPanel = null;
+    private JScrollPane groupAccessRulesScrollPane;
 
-    private JScrollPane groupAccessRulesScrollPane = null;
+    private JTable groupAccessRulesTable;
 
-    private JTable groupAccessRulesTable = null;
+    private JPanel groupActionsPanel;
 
-    private JPanel groupActionsPanel = null;
+    private JPanel groupDetailsPanel;
 
-    private JPanel groupDetailsPanel = null;
+    private JSplitPane groupDetailsSplitPanel;
 
-    private JSplitPane groupDetailsSplitPanel = null;
+    private JList groupList;
 
-    private JList groupList = null;
+    private JPanel groupListPanel;
 
-    private JPanel groupListPanel = null;
+    private JScrollPane groupListScrollPane;
 
-    private JScrollPane groupListScrollPane = null;
+    private JList groupMemberList;
 
-    private JList groupMemberList = null;
+    private JPanel groupMemberListActionsPanel;
 
-    private JPanel groupMemberListActionsPanel = null;
+    private JScrollPane groupMemberListScrollPane;
 
-    private JScrollPane groupMemberListScrollPane = null;
+    private JPanel groupMembersPanel;
 
-    private JPanel groupMembersPanel = null;
+    private final ActionListener actionListener;
 
-    private KeyListener keyListener = null;
+    private final KeyListener keyListener;
 
-    private ListSelectionListener listSelectionListener = null;
+    private final ListSelectionListener listSelectionListener;
 
-    private MouseListener mouseListener = null;
+    private final MouseListener mouseListener;
 
-    public GroupsPane(ActionListener actionListener, KeyListener keyListener,
-                      ListSelectionListener listSelectionListener, MouseListener mouseListener) {
-        super();
-
+    public GroupsPane(@Nonnull final ActionListener actionListener,
+                      @Nonnull final KeyListener keyListener,
+                      @Nonnull final ListSelectionListener listSelectionListener,
+                      @Nonnull final MouseListener mouseListener) {
         this.actionListener = actionListener;
         this.keyListener = keyListener;
         this.listSelectionListener = listSelectionListener;

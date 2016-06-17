@@ -28,6 +28,7 @@ import org.xiaoniu.suafe.exceptions.AppException;
 import org.xiaoniu.suafe.renderers.MyListCellRenderer;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -41,58 +42,56 @@ import java.util.Vector;
  *
  * @author Shaun Johnson
  */
-public final class ChangeMembershipDialog extends ParentDialog implements
-        ActionListener, KeyListener, MouseListener {
-
+public final class ChangeMembershipDialog extends ParentDialog implements ActionListener, KeyListener, MouseListener {
     /**
      * Serial ID.
      */
     private static final long serialVersionUID = 4595558087993098499L;
 
-    private JPanel actionPanel = null;
+    private JPanel actionPanel;
 
-    private JPanel actionSubPanel = null;
+    private JPanel actionSubPanel;
 
-    private JButton assignButton = null;
+    private JButton assignButton;
 
-    private JPanel buttonPanel = null;
+    private JPanel buttonPanel;
 
-    private JButton cancelButton = null;
+    private JButton cancelButton;
 
-    private Document document = null;
+    private Document document;
 
-    private JPanel formPanel = null;
+    private JPanel formPanel;
 
-    private JPanel jContentPane = null;
+    private JPanel jContentPane;
 
-    private JScrollPane memberListScrollPane = null;
+    private JScrollPane memberListScrollPane;
 
-    private Vector<Group> memberOf = null;
+    private Vector<Group> memberOf;
 
-    private JList memberOfList = null;
+    private JList memberOfList;
 
-    private JPanel memberPanel = null;
+    private JPanel memberPanel;
 
-    private Message message = null;
+    private Message message;
 
-    private JScrollPane nonMemberListScrollPane = null;
+    private JScrollPane nonMemberListScrollPane;
 
-    private JPanel nonMemberPanel = null;
+    private JPanel nonMemberPanel;
 
-    private Vector<Group> notMemberOf = null;
+    private Vector<Group> notMemberOf;
 
-    private JList notMemberOfList = null;
+    private JList notMemberOfList;
 
-    private JButton saveButton = null;
+    private JButton saveButton;
 
-    private JButton unassignButton = null;
+    private JButton unassignButton;
 
-    private User user = null;
+    private User user;
 
     /**
      * This is the default constructor
      */
-    public ChangeMembershipDialog(Document document, User user, Message message) {
+    public ChangeMembershipDialog(@Nonnull final Document document, final User user, final Message message) {
         super();
 
         this.document = document;
@@ -106,14 +105,14 @@ public final class ChangeMembershipDialog extends ParentDialog implements
     /**
      * ActionPerformed event handler.
      */
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals(ActionConstants.ASSIGN_ACTION)) {
+    public void actionPerformed(@Nonnull final ActionEvent actionEvent) {
+        if (actionEvent.getActionCommand().equals(ActionConstants.ASSIGN_ACTION)) {
             assign();
         }
-        else if (e.getActionCommand().equals(ActionConstants.UNASSIGN_ACTION)) {
+        else if (actionEvent.getActionCommand().equals(ActionConstants.UNASSIGN_ACTION)) {
             unassign();
         }
-        else if (e.getActionCommand().equals(ActionConstants.SAVE_ACTION)) {
+        else if (actionEvent.getActionCommand().equals(ActionConstants.SAVE_ACTION)) {
             try {
                 document.changeUserMembership(user, memberOf);
                 message.setUserObject(user);
@@ -124,7 +123,7 @@ public final class ChangeMembershipDialog extends ParentDialog implements
                 displayError(ex.getMessage());
             }
         }
-        else if (e.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
+        else if (actionEvent.getActionCommand().equals(ActionConstants.CANCEL_ACTION)) {
             message.setState(Message.CANCEL);
             dispose();
         }
@@ -135,8 +134,8 @@ public final class ChangeMembershipDialog extends ParentDialog implements
      */
     private void assign() {
         if (!getNotMemberOfList().isSelectionEmpty()) {
-            Group[] groupObjects = Utilities.convertToArray(getNotMemberOfList().getSelectedValues(), new Group[0]);
-            List<Group> values = Arrays.asList(groupObjects);
+            final Group[] groupObjects = Utilities.convertToArray(getNotMemberOfList().getSelectedValues(), new Group[0]);
+            final List<Group> values = Arrays.asList(groupObjects);
 
             memberOf.addAll(values);
             notMemberOf.removeAll(values);
@@ -383,22 +382,22 @@ public final class ChangeMembershipDialog extends ParentDialog implements
      */
     private void initialize() {
         try {
-            Group[] groups = document.getUserGroupsArray(user);
+            final Group[] groups = document.getUserGroupsArray(user);
 
             if (groups != null) {
-                List<Group> memberOfList = Arrays.asList(groups);
-                memberOf = new Vector<Group>(memberOfList);
+                final List<Group> memberOfList = Arrays.asList(groups);
+                memberOf = new Vector<>(memberOfList);
                 Collections.sort(memberOf);
             }
             else {
                 memberOf = new Vector<Group>();
             }
 
-            Group[] allGroups = document.getGroupsArray();
+            final Group[] allGroups = document.getGroupsArray();
 
             if (allGroups != null) {
-                List<Group> notMemberOfList = Arrays.asList(allGroups);
-                notMemberOf = new Vector<Group>(notMemberOfList);
+                final List<Group> notMemberOfList = Arrays.asList(allGroups);
+                notMemberOf = new Vector<>(notMemberOfList);
                 Collections.sort(notMemberOf);
                 notMemberOf.removeAll(memberOf);
             }
@@ -406,7 +405,7 @@ public final class ChangeMembershipDialog extends ParentDialog implements
                 notMemberOf = new Vector<Group>();
             }
         }
-        catch (AppException e) {
+        catch (final AppException e) {
             displayError(ResourceUtil.getFormattedString("changemembership.error.errorloadinggroups", e.getMessage()));
         }
 
@@ -425,53 +424,53 @@ public final class ChangeMembershipDialog extends ParentDialog implements
     /**
      * KeyPressed event handler.
      *
-     * @param event KeyEvent object.
+     * @param keyEvent KeyEvent object.
      */
-    public void keyPressed(KeyEvent event) {
-        int code = event.getKeyCode();
+    public void keyPressed(@Nonnull final KeyEvent keyEvent) {
+        final int code = keyEvent.getKeyCode();
 
         if (code == KeyEvent.VK_SPACE) {
-            if (event.getComponent() == getMemberOfList()) {
+            if (keyEvent.getComponent() == getMemberOfList()) {
                 unassign();
             }
-            else if (event.getComponent() == getNotMemberOfList()) {
+            else if (keyEvent.getComponent() == getNotMemberOfList()) {
                 assign();
             }
         }
         else {
-            super.keyPressed(event);
+            super.keyPressed(keyEvent);
         }
     }
 
     /**
      * KeyReleased event handler. Not used.
      *
-     * @param event KeyEvent object.
+     * @param keyEvent KeyEvent object.
      */
-    public void keyReleased(KeyEvent event) {
+    public void keyReleased(@Nonnull final KeyEvent keyEvent) {
         // Unused
     }
 
     /**
      * KeyTyped event handler. Not used.
      *
-     * @param event KeyEvent object.
+     * @param keyEvent KeyEvent object.
      */
-    public void keyTyped(KeyEvent event) {
+    public void keyTyped(@Nonnull final KeyEvent keyEvent) {
         // Unused
     }
 
     /**
      * MouseClicked event handler.
      *
-     * @param event MouseEvent object.
+     * @param mouseEvent MouseEvent object.
      */
-    public void mouseClicked(MouseEvent event) {
-        if (event.getClickCount() == 2) {
-            if (event.getSource() == getNotMemberOfList()) {
+    public void mouseClicked(@Nonnull final MouseEvent mouseEvent) {
+        if (mouseEvent.getClickCount() == 2) {
+            if (mouseEvent.getSource() == getNotMemberOfList()) {
                 assign();
             }
-            else if (event.getSource() == getMemberOfList()) {
+            else if (mouseEvent.getSource() == getMemberOfList()) {
                 unassign();
             }
         }
@@ -480,36 +479,36 @@ public final class ChangeMembershipDialog extends ParentDialog implements
     /**
      * MouseEntered event handler. Not used.
      *
-     * @param event MouseEvent object.
+     * @param mouseEvent MouseEvent object.
      */
-    public void mouseEntered(MouseEvent event) {
+    public void mouseEntered(@Nonnull final MouseEvent mouseEvent) {
         // Not used
     }
 
     /**
      * MouseExited event handler. Not used.
      *
-     * @param event MouseEvent object.
+     * @param mouseEvent MouseEvent object.
      */
-    public void mouseExited(MouseEvent event) {
+    public void mouseExited(@Nonnull final MouseEvent mouseEvent) {
         // Not used
     }
 
     /**
      * MousePressed event handler. Not used.
      *
-     * @param event MouseEvent object.
+     * @param mouseEvent MouseEvent object.
      */
-    public void mousePressed(MouseEvent event) {
+    public void mousePressed(@Nonnull final MouseEvent mouseEvent) {
         // Not used
     }
 
     /**
      * MouseReleased event handler. Not used.
      *
-     * @param event MouseEvent object.
+     * @param mouseEvent MouseEvent object.
      */
-    public void mouseReleased(MouseEvent event) {
+    public void mouseReleased(@Nonnull final MouseEvent mouseEvent) {
         // Not used
     }
 
@@ -518,8 +517,8 @@ public final class ChangeMembershipDialog extends ParentDialog implements
      */
     private void unassign() {
         if (!getMemberOfList().isSelectionEmpty()) {
-            Group[] groupObjects = Utilities.convertToArray(getMemberOfList().getSelectedValues(), new Group[0]);
-            List<Group> values = Arrays.asList(groupObjects);
+            final Group[] groupObjects = Utilities.convertToArray(getMemberOfList().getSelectedValues(), new Group[0]);
+            final List<Group> values = Arrays.asList(groupObjects);
 
             memberOf.removeAll(values);
             notMemberOf.addAll(values);

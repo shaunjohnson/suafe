@@ -18,13 +18,14 @@
 package org.xiaoniu.suafe.exceptions;
 
 
+import javax.annotation.Nonnull;
+
 /**
  * Exception that is thrown when a validation fails.
  *
  * @author Shaun Johnson
  */
 public final class ValidatorException extends AppException {
-
     /**
      * Serial ID.
      */
@@ -35,7 +36,7 @@ public final class ValidatorException extends AppException {
      *
      * @param key Error message.
      */
-    public ValidatorException(String key) {
+    public ValidatorException(@Nonnull final String key) {
         super(key);
     }
 
@@ -45,7 +46,7 @@ public final class ValidatorException extends AppException {
      * @param key      Error message key.
      * @param argument Argument value
      */
-    public ValidatorException(String key, Object argument) {
+    public ValidatorException(@Nonnull final String key, @Nonnull final Object argument) {
         super(key, argument);
     }
 
@@ -53,9 +54,11 @@ public final class ValidatorException extends AppException {
      * Constructor that accepts a message key and argument.
      *
      * @param key      Error message key.
-     * @param argument Argument value
+     * @param argument1 Argument value 1
+     * @param argument2 Argument value 2
      */
-    public ValidatorException(String key, Object argument1, Object argument2) {
+    public ValidatorException(@Nonnull final String key, @Nonnull final Object argument1,
+                              @Nonnull final Object argument2) {
         super(key, argument1, argument2);
     }
 
@@ -65,7 +68,7 @@ public final class ValidatorException extends AppException {
      * @param key       Error message key.
      * @param arguments Argument values
      */
-    public ValidatorException(String key, Object[] arguments) {
+    public ValidatorException(@Nonnull final String key, @Nonnull final Object[] arguments) {
         super(key, arguments);
     }
 }

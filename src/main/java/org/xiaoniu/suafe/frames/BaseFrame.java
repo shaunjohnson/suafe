@@ -19,6 +19,7 @@ package org.xiaoniu.suafe.frames;
 
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,7 +29,6 @@ import java.awt.*;
  * @author Shaun Johnson
  */
 public abstract class BaseFrame extends JFrame {
-
     /**
      * Serial ID.
      */
@@ -38,11 +38,11 @@ public abstract class BaseFrame extends JFrame {
      * Centers the frame on the user's screen.
      */
     public void center() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
+        final Toolkit toolkit = Toolkit.getDefaultToolkit();
+        final Dimension screenSize = toolkit.getScreenSize();
 
-        int x = (screenSize.width - this.getWidth()) / 2;
-        int y = (screenSize.height - this.getHeight()) / 2;
+        final int x = (screenSize.width - this.getWidth()) / 2;
+        final int y = (screenSize.height - this.getHeight()) / 2;
 
         this.setLocation(x, y);
     }
@@ -52,7 +52,7 @@ public abstract class BaseFrame extends JFrame {
      *
      * @param message Error message to display.
      */
-    protected void displayError(String message) {
+    protected void displayError(@Nonnull final String message) {
         JOptionPane.showMessageDialog(this,
                 message,
                 ResourceUtil.getString("application.error"),
@@ -64,19 +64,19 @@ public abstract class BaseFrame extends JFrame {
      *
      * @param message Warning message to display.
      */
-    protected void displayWarning(String message) {
+    protected void displayWarning(@Nonnull final String message) {
         JOptionPane.showMessageDialog(this,
                 message,
                 ResourceUtil.getString("application.warning"),
                 JOptionPane.WARNING_MESSAGE);
     }
 
-    protected int showConfirmDialog(String messageId, String titleId) {
+    protected int showConfirmDialog(@Nonnull final String messageId, @Nonnull final String titleId) {
         return JOptionPane.showConfirmDialog(this, ResourceUtil.getString(messageId), ResourceUtil.getString(titleId),
                 JOptionPane.YES_NO_OPTION);
     }
 
-    protected int showWarnConfirmDialog(String message) {
+    protected int showWarnConfirmDialog(@Nonnull final String message) {
         return JOptionPane.showConfirmDialog(this, message, ResourceUtil.getString("application.warning"),
                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
     }

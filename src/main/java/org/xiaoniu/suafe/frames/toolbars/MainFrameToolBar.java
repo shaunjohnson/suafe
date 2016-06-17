@@ -3,34 +3,32 @@ package org.xiaoniu.suafe.frames.toolbars;
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public final class MainFrameToolBar extends JToolBar {
-
     private static final long serialVersionUID = 4040931707131792923L;
 
-    private ActionListener actionListener = null;
+    private JButton addAccessRuleToolbarButton;
 
-    private JButton addAccessRuleToolbarButton = null;
+    private JButton addGroupToolbarButton;
 
-    private JButton addGroupToolbarButton = null;
+    private JButton addUserToolbarButton;
 
-    private JButton addUserToolbarButton = null;
+    private JButton newFileToolbarButton;
 
-    private JButton newFileToolbarButton = null;
+    private JButton openFileToolbarButton;
 
-    private JButton openFileToolbarButton = null;
+    private JButton previewToolbarButton;
 
-    private JButton previewToolbarButton = null;
+    private JButton saveFileAsToolbarButton;
 
-    private JButton saveFileAsToolbarButton = null;
+    private JButton saveFileToolbarButton;
 
-    private JButton saveFileToolbarButton = null;
+    private ActionListener actionListener;
 
-    public MainFrameToolBar(ActionListener actionListener) {
-        super();
-
+    public MainFrameToolBar(@Nonnull final ActionListener actionListener) {
         this.actionListener = actionListener;
 
         setFloatable(false);

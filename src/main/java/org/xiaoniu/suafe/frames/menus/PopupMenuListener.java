@@ -1,5 +1,6 @@
 package org.xiaoniu.suafe.frames.menus;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,7 +11,6 @@ import java.awt.event.MouseEvent;
  * @author Shaun Johnson
  */
 public final class PopupMenuListener extends MouseAdapter {
-
     private final JPopupMenu popupMenu;
 
     /**
@@ -18,7 +18,7 @@ public final class PopupMenuListener extends MouseAdapter {
      *
      * @param popupMenu Menu displayed upon click
      */
-    public PopupMenuListener(final JPopupMenu popupMenu) {
+    public PopupMenuListener(@Nonnull final JPopupMenu popupMenu) {
         this.popupMenu = popupMenu;
     }
 
@@ -27,7 +27,7 @@ public final class PopupMenuListener extends MouseAdapter {
      *
      * @param event MountEvent that triggered this
      */
-    private void maybeShowPopup(final MouseEvent event) {
+    private void maybeShowPopup(@Nonnull final MouseEvent event) {
         if (event.isPopupTrigger()) {
             popupMenu.show(event.getComponent(), event.getX(), event.getY());
         }
@@ -37,7 +37,7 @@ public final class PopupMenuListener extends MouseAdapter {
      * Mouse button pressed event handler.
      */
     @Override
-    public void mousePressed(final MouseEvent e) {
+    public void mousePressed(@Nonnull final MouseEvent e) {
         maybeShowPopup(e);
     }
 
@@ -45,7 +45,7 @@ public final class PopupMenuListener extends MouseAdapter {
      * Mouse button released event handler.
      */
     @Override
-    public void mouseReleased(final MouseEvent e) {
+    public void mouseReleased(@Nonnull final MouseEvent e) {
         maybeShowPopup(e);
     }
 }

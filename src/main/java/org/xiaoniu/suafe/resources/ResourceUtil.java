@@ -19,6 +19,8 @@ package org.xiaoniu.suafe.resources;
 
 import org.xiaoniu.suafe.Constants;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.text.MessageFormat;
@@ -30,14 +32,6 @@ import java.util.ResourceBundle;
  * @author Shaun Johnson
  */
 public final class ResourceUtil {
-
-    /**
-     * Prevent instantiation.
-     */
-    private ResourceUtil() {
-        super();
-    }
-
     public static final ImageIcon aboutIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/About16.gif"));
 
     public static final ImageIcon accessRuleIcon = new ImageIcon(ResourceUtil.class.getResource(Constants.PATH_RESOURCE_IMAGE_DIR + "/Reversed.gif"));
@@ -139,6 +133,7 @@ public final class ResourceUtil {
      *
      * @return
      */
+    @Nonnull
     protected static ResourceBundle getBundle() {
         if (bundle == null) {
             bundle = ResourceBundle.getBundle(Constants.PATH_RESOURCE_BUNDLE);
@@ -155,7 +150,9 @@ public final class ResourceUtil {
      * @param argument2 String argument
      * @return Formatted string.
      */
-    public static String getFormattedString(String name, Object argument1, Object argument2) {
+    @Nonnull
+    public static String getFormattedString(@Nonnull final String name, @Nullable final Object argument1,
+                                            @Nullable final Object argument2) {
         Object[] args = new Object[2];
 
         args[0] = argument1;
@@ -171,7 +168,8 @@ public final class ResourceUtil {
      * @param args String arguments
      * @return Formatted string.
      */
-    public static String getFormattedString(String name, Object[] args) {
+    @Nonnull
+    public static String getFormattedString(@Nonnull final String name, @Nonnull final Object[] args) {
         return MessageFormat.format(getBundle().getString(name), args);
     }
 
@@ -182,7 +180,8 @@ public final class ResourceUtil {
      * @param arg  String argument
      * @return Formatted string.
      */
-    public static String getFormattedString(String name, Object arg) {
+    @Nonnull
+    public static String getFormattedString(@Nonnull final String name, @Nullable final Object arg) {
         Object[] args = new Object[1];
 
         args[0] = arg;
@@ -196,7 +195,15 @@ public final class ResourceUtil {
      * @param name Name of string.
      * @return String from resource bundle.
      */
-    public static String getString(String name) {
+    @Nonnull
+    public static String getString(@Nonnull final String name) {
         return getBundle().getString(name);
+    }
+
+    /**
+     * Prevent instantiation.
+     */
+    private ResourceUtil() {
+        // Deliberately left blank
     }
 }

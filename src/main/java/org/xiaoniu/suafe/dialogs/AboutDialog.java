@@ -21,6 +21,7 @@ import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -32,7 +33,6 @@ import java.awt.event.ActionListener;
  * @author Shaun Johnson
  */
 public final class AboutDialog extends ParentDialog implements ActionListener {
-
     /**
      * Unique ID.
      */
@@ -41,39 +41,38 @@ public final class AboutDialog extends ParentDialog implements ActionListener {
     /**
      * Main content panel.
      */
-    private JPanel jContentPane = null;
+    private JPanel jContentPane;
 
     /**
      * Action button panel.
      */
-    private JPanel buttonPanel = null;
+    private JPanel buttonPanel;
 
     /**
      * Confirmation button.
      */
-    private JButton okButton = null;
+    private JButton okButton;
 
     /**
      * Content panel.
      */
-    private JPanel contentPanel = null;
+    private JPanel contentPanel;
 
     /**
      * Title panel.
      */
-    private JLabel titleLabel = null;
+    private JLabel titleLabel;
 
     /**
      * Description label.
      */
-    private JLabel descriptionLabel = null;
+    private JLabel descriptionLabel;
 
 
     /**
      * Default constructor.
      */
     public AboutDialog() {
-        super();
         initialize();
     }
 
@@ -159,10 +158,10 @@ public final class AboutDialog extends ParentDialog implements ActionListener {
     /**
      * ActionPerformed event handler.
      *
-     * @param event ActionEvent object.
+     * @param actionEvent ActionEvent object.
      */
-    public void actionPerformed(ActionEvent event) {
-        if (event.getActionCommand().equals(ActionConstants.OK_ACTION)) {
+    public void actionPerformed(@Nonnull final ActionEvent actionEvent) {
+        if (actionEvent.getActionCommand().equals(ActionConstants.OK_ACTION)) {
             dispose();
         }
     }

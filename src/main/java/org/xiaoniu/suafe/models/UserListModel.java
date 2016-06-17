@@ -19,6 +19,8 @@ package org.xiaoniu.suafe.models;
 
 import org.xiaoniu.suafe.api.beans.Document;
 
+import javax.annotation.Nonnull;
+
 /**
  * User list for a combo-box. Combo-box of all User for the current
  * document.
@@ -26,13 +28,10 @@ import org.xiaoniu.suafe.api.beans.Document;
  * @author Shaun Johnson
  */
 public final class UserListModel extends BaseComboBoxModel {
-
     /**
      * Default constructor.
      */
-    public UserListModel(Document document) {
-        super();
-
+    public UserListModel(@Nonnull final Document document) {
         itemList = document.getUserObjects();
     }
 }

@@ -19,6 +19,8 @@ package org.xiaoniu.suafe.models;
 
 import org.xiaoniu.suafe.api.beans.Document;
 
+import javax.annotation.Nonnull;
+
 /**
  * Group list for a combo-box. A combo-box listing out all Group objects
  * from the current document.
@@ -26,13 +28,10 @@ import org.xiaoniu.suafe.api.beans.Document;
  * @author Shaun Johnson
  */
 public final class GroupListModel extends BaseComboBoxModel {
-
     /**
      * Default constructor.
      */
-    public GroupListModel(Document document) {
-        super();
-
+    public GroupListModel(@Nonnull final Document document) {
         itemList = document.getGroupObjects();
     }
 }

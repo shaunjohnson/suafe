@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe.frames;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
@@ -30,7 +31,6 @@ import java.awt.event.KeyListener;
  * @author Shaun Johnson
  */
 public abstract class ParentFrame extends BaseFrame implements ContainerListener, KeyListener {
-
     /**
      * Serial ID
      */
@@ -40,8 +40,6 @@ public abstract class ParentFrame extends BaseFrame implements ContainerListener
      * Dialog that implements listeners to provide Escape key functionality.
      */
     public ParentFrame() {
-        super();
-
         addListeners(this);
     }
 
@@ -51,7 +49,7 @@ public abstract class ParentFrame extends BaseFrame implements ContainerListener
      *
      * @param containerEvent ContainerEvent object.
      */
-    public void componentAdded(ContainerEvent containerEvent) {
+    public void componentAdded(@Nonnull final ContainerEvent containerEvent) {
         addListeners(containerEvent.getChild());
     }
 
@@ -61,7 +59,7 @@ public abstract class ParentFrame extends BaseFrame implements ContainerListener
      *
      * @param containerEvent ContainerEvent object.
      */
-    public void componentRemoved(ContainerEvent containerEvent) {
+    public void componentRemoved(@Nonnull final ContainerEvent containerEvent) {
         removeListeners(containerEvent.getChild());
     }
 
@@ -70,7 +68,7 @@ public abstract class ParentFrame extends BaseFrame implements ContainerListener
      *
      * @param component Child component to which listeners are added.
      */
-    private void addListeners(Component component) {
+    private void addListeners(@Nonnull final Component component) {
         component.addKeyListener(this);
 
         if (component instanceof Container) {
@@ -89,7 +87,7 @@ public abstract class ParentFrame extends BaseFrame implements ContainerListener
      *
      * @param component Child component from which listeners are removed.
      */
-    private void removeListeners(Component component) {
+    private void removeListeners(@Nonnull final Component component) {
         component.removeKeyListener(this);
 
         if (component instanceof Container) {
@@ -110,7 +108,7 @@ public abstract class ParentFrame extends BaseFrame implements ContainerListener
      *
      * @param keyEvent KeyEvent object.
      */
-    public void keyPressed(KeyEvent keyEvent) {
+    public void keyPressed(@Nonnull final KeyEvent keyEvent) {
         int keyCode = keyEvent.getKeyCode();
 
         if (keyCode == KeyEvent.VK_ESCAPE) {
@@ -123,7 +121,7 @@ public abstract class ParentFrame extends BaseFrame implements ContainerListener
      *
      * @param keyEvent KeyEvent object.
      */
-    public void keyReleased(KeyEvent keyEvent) {
+    public void keyReleased(@Nonnull final KeyEvent keyEvent) {
         // Do nothing
     }
 
@@ -132,7 +130,7 @@ public abstract class ParentFrame extends BaseFrame implements ContainerListener
      *
      * @param keyEvent KeyEvent object.
      */
-    public void keyTyped(KeyEvent keyEvent) {
+    public void keyTyped(@Nonnull final KeyEvent keyEvent) {
         // Do nothing
     }
 }

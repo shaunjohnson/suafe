@@ -12,18 +12,19 @@ import org.xiaoniu.suafe.models.UserListModel;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 import org.xiaoniu.suafe.validators.Validator;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public final class AccessRuleForm extends JPanel implements ActionListener {
+    private static final long serialVersionUID = 2833102288856456199L;
 
     private static final String ALL_USERS_ACTION = "ALL_USERS_ACTION";
 
     private static final String GROUP_ACTION = "USER_ACTION";
-
-    private static final long serialVersionUID = 2833102288856456199L;
 
     private static final String USER_ACTION = "USER_ACTION";
 
@@ -33,75 +34,73 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
 
     private static final String TYPE_EDIT_RULE = "editaccessrule";
 
-    private AccessRule accessRule = null;
+    private AccessRule accessRule;
 
-    private String type = null;
+    private String type;
 
-    private ButtonGroup accessLevelButtonGroup = null;
+    private ButtonGroup accessLevelButtonGroup;
 
-    private JButton addRepositoryButton = null;
+    private JButton addRepositoryButton;
 
-    private JRadioButton allUsersRadioButton = null;
+    private JRadioButton allUsersRadioButton;
 
-    private JLabel applyToLabel = null;
+    private JLabel applyToLabel;
 
-    private JPanel applyToPanel = null;
+    private JPanel applyToPanel;
 
-    private JRadioButton denyAccessRadioButton = null;
+    private JRadioButton denyAccessRadioButton;
 
-    private JComboBox groupComboBox = null;
+    private JComboBox groupComboBox;
 
-    private JLabel groupLabel = null;
+    private JLabel groupLabel;
 
-    private JPanel groupPanel = null;
+    private JPanel groupPanel;
 
-    private JRadioButton groupRadioButton = null;
+    private JRadioButton groupRadioButton;
 
-    private ButtonGroup groupUserButtonGroup = null;
+    private ButtonGroup groupUserButtonGroup;
 
     private JPanel headerPanel;
 
-    private JLabel levelOfAccessLabel = null;
+    private JLabel levelOfAccessLabel;
 
-    private JPanel levelOfAccessPanel = null;
+    private JPanel levelOfAccessPanel;
 
-    private JPanel levelOfAccessSubPanel = null;
+    private JPanel levelOfAccessSubPanel;
 
     private String name;
 
-    private String path = null;
+    private String path;
 
-    private JLabel pathLabel = null;
+    private JLabel pathLabel;
 
-    private JPanel pathPanel = null;
+    private JPanel pathPanel;
 
-    private JTextField pathTextField = null;
+    private JTextField pathTextField;
 
-    private JRadioButton readOnlyRadioButton = null;
+    private JRadioButton readOnlyRadioButton;
 
-    private JRadioButton readWriteRadioButton = null;
+    private JRadioButton readWriteRadioButton;
 
-    private Repository repository = null;
+    private Repository repository;
 
-    private JComboBox repositoryComboBox = null;
+    private JComboBox repositoryComboBox;
 
-    private JLabel repositoryLabel = null;
+    private JLabel repositoryLabel;
 
-    private JPanel repositoryPanel = null;
+    private JPanel repositoryPanel;
 
-    private JComboBox userComboBox = null;
+    private JComboBox userComboBox;
 
-    private JLabel userLabel = null;
+    private JLabel userLabel;
 
-    private JPanel userPanel = null;
+    private JPanel userPanel;
 
-    private JRadioButton userRadioButton = null;
+    private JRadioButton userRadioButton;
 
-    private Document document = null;
+    private Document document;
 
-    public AccessRuleForm(Document document, Repository repository, String path) {
-        super();
-
+    public AccessRuleForm(@Nonnull final Document document, Repository repository, String path) {
         this.document = document;
         this.type = TYPE_ADD_RULE;
         this.repository = repository;
@@ -110,9 +109,7 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
         initialize();
     }
 
-    public AccessRuleForm(Document document, String name, Repository repository, String path) {
-        super();
-
+    public AccessRuleForm(@Nonnull final Document document, String name, Repository repository, String path) {
         this.document = document;
         this.type = TYPE_ADD_PROJECT_RULES;
         this.name = name;
@@ -122,9 +119,7 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
         initialize();
     }
 
-    public AccessRuleForm(Document document, AccessRule accessRule) {
-        super();
-
+    public AccessRuleForm(@Nonnull final Document document, @Nonnull final AccessRule accessRule) {
         this.document = document;
         this.type = TYPE_EDIT_RULE;
         this.accessRule = accessRule;
@@ -139,28 +134,29 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
      *
      * @param event ActionEvent object.
      */
-    public void actionPerformed(ActionEvent event) {
+    public void actionPerformed(@Nonnull final ActionEvent event) {
         if (event.getActionCommand().equals(GROUP_ACTION)) {
-            refereshApplyToPanels();
+            refreshApplyToPanels();
         }
         else if (event.getActionCommand().equals(USER_ACTION)) {
-            refereshApplyToPanels();
+            refreshApplyToPanels();
         }
         else if (event.getActionCommand().equals(ALL_USERS_ACTION)) {
-            refereshApplyToPanels();
+            refreshApplyToPanels();
         }
         else if (event.getActionCommand().equals(ActionConstants.ADD_REPOSITORY_ACTION)) {
             addRepository();
         }
     }
 
+    @Nonnull
     public AccessRule addAccessRule() throws AppException {
-        Repository repository = (Repository) getRepositoryComboBox().getSelectedItem();
-        String pathString = (String) getPathTextField().getText();
-        String levelOfAccess = null;
+        final Repository repository = (Repository) getRepositoryComboBox().getSelectedItem();
+        final String pathString = getPathTextField().getText();
+        String levelOfAccess;
         Group group = null;
         User user = null;
-        AccessRule rule = null;
+        AccessRule rule;
 
         Validator.validateNotEmptyString(ResourceUtil.getString(type + ".path"), pathString);
 
@@ -209,10 +205,11 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
         return rule;
     }
 
+    @Nonnull
     public AccessRule editAccessRule() throws AppException {
-        Repository repository = (Repository) getRepositoryComboBox().getSelectedItem();
-        String pathString = (String) getPathTextField().getText();
-        String levelOfAccess = null;
+        final Repository repository = (Repository) getRepositoryComboBox().getSelectedItem();
+        final String pathString = getPathTextField().getText();
+        String levelOfAccess;
         Group group = null;
         User user = null;
 
@@ -295,9 +292,9 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
      * Adds a new Repository.
      */
     private void addRepository() {
-        Message message = new Message();
+        final Message message = new Message();
 
-        JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_ADD_REPOSITORY, message);
+        final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_ADD_REPOSITORY, message);
         DialogUtil.center(this, dialog);
         dialog.setVisible(true);
 
@@ -387,7 +384,7 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
                 }
             }
 
-            refereshApplyToPanels();
+            refreshApplyToPanels();
         }
 
         return applyToPanel;
@@ -721,7 +718,7 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
     /**
      * Displays selection lists depending on user selection.
      */
-    private void refereshApplyToPanels() {
+    private void refreshApplyToPanels() {
         if (getGroupRadioButton().isSelected()) {
             getGroupPanel().setVisible(true);
             getUserPanel().setVisible(false);
@@ -741,7 +738,7 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
      *
      * @param repository Repository to select.
      */
-    private void refreshRepositoryList(Repository repository) {
+    private void refreshRepositoryList(@Nullable final Repository repository) {
         getRepositoryComboBox().setModel(new RepositoryListModel(document));
 
         if (repository != null) {

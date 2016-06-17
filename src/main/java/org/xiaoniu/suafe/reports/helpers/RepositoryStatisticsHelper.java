@@ -2,9 +2,11 @@ package org.xiaoniu.suafe.reports.helpers;
 
 import org.xiaoniu.suafe.api.beans.Repository;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public final class RepositoryStatisticsHelper {
+    private final List<Repository> repositories;
 
     private double avgPaths = -1;
 
@@ -14,11 +16,7 @@ public final class RepositoryStatisticsHelper {
 
     private int minPaths = -1;
 
-    private List<Repository> repositories = null;
-
-    public RepositoryStatisticsHelper(List<Repository> repositories) {
-        super();
-
+    public RepositoryStatisticsHelper(@Nonnull final List<Repository> repositories) {
         this.repositories = repositories;
     }
 

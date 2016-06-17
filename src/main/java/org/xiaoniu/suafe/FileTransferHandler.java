@@ -17,6 +17,7 @@
  */
 package org.xiaoniu.suafe;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -33,41 +34,38 @@ public final class FileTransferHandler extends TransferHandler {
 
     private FileOpener fileOpener = null;
 
-    public FileTransferHandler(FileOpener fileOpener) {
-        super();
-
+    public FileTransferHandler(@Nonnull final FileOpener fileOpener) {
         this.fileOpener = fileOpener;
     }
 
     @SuppressWarnings("unchecked")
-    public boolean importData(JComponent component, Transferable transferable) {
+    public boolean importData(@Nonnull final JComponent component, @Nonnull final Transferable transferable) {
         //A real application would load the file in another
         //thread in order to not block the UI.  This step
         //was omitted here to simplify the code.
         try {
             if (hasFileFlavor(transferable.getTransferDataFlavors())) {
-                List<File> files = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+                final List<File> files = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
 
-                for (File file : files) {
+                for (final File file : files) {
                     // Process file
                     fileOpener.fileOpen(file);
                 }
 
                 return true;
-
             }
         }
-        catch (UnsupportedFlavorException ufe) {
+        catch (final UnsupportedFlavorException ufe) {
             System.out.println("importData: unsupported data flavor");
         }
-        catch (IOException ieo) {
+        catch (final IOException ieo) {
             System.out.println("importData: I/O exception");
         }
 
         return false;
     }
 
-    public boolean canImport(JComponent component, DataFlavor[] flavors) {
+    public boolean canImport(@Nonnull final JComponent component, @Nonnull final DataFlavor[] flavors) {
         if (hasFileFlavor(flavors)) {
             return true;
         }
@@ -75,11 +73,11 @@ public final class FileTransferHandler extends TransferHandler {
         return false;
     }
 
-    public int getSourceActions(JComponent component) {
+    public int getSourceActions(@Nonnull final JComponent component) {
         return COPY_OR_MOVE;
     }
 
-    private boolean hasFileFlavor(DataFlavor[] flavors) {
+    private boolean hasFileFlavor(@Nonnull final DataFlavor[] flavors) {
         for (int i = 0; i < flavors.length; i++) {
             if (DataFlavor.javaFileListFlavor.equals(flavors[i])) {
                 return true;

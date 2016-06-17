@@ -23,6 +23,7 @@ import org.xiaoniu.suafe.GuiConstants;
 import org.xiaoniu.suafe.Utilities;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
@@ -40,36 +41,33 @@ import java.net.URL;
  * @author Shaun Johnson
  */
 public final class ViewerFrame extends ParentFrame implements ActionListener, HyperlinkListener {
-
     /**
      * Serial ID.
      */
     private static final long serialVersionUID = 5057005120918134417L;
 
-    private String title = null;
+    private String title;
 
-    private String content = null;
+    private String content;
 
-    private String contentType = null;
+    private String contentType;
 
-    private JPanel jContentPane = null;
+    private JPanel jContentPane;
 
-    private JPanel buttonPanel = null;
+    private JPanel buttonPanel;
 
-    private JButton closeButton = null;
+    private JButton closeButton;
 
-    private JScrollPane contentScrollPane = null;
+    private JScrollPane contentScrollPane;
 
-    private JEditorPane contentEditorPane = null;
+    private JEditorPane contentEditorPane;
 
-    private JButton saveButton = null;
+    private JButton saveButton;
 
     /**
      * Default constructor.
      */
-    public ViewerFrame(String title, String content, String contentType) {
-        super();
-
+    public ViewerFrame(@Nonnull final String title, @Nonnull final String content, @Nonnull final String contentType) {
         this.title = title;
         this.content = content;
         this.contentType = contentType;

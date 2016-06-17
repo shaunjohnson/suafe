@@ -3,28 +3,26 @@ package org.xiaoniu.suafe.frames.menus;
 import org.xiaoniu.suafe.ActionConstants;
 import org.xiaoniu.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public final class UsersPopupMenu extends JPopupMenu {
-
     private static final long serialVersionUID = 6018077204492947280L;
 
-    private ActionListener actionListener;
+    private final ActionListener actionListener;
 
-    private JMenuItem addUserPopupMenuItem = null;
+    private JMenuItem addUserPopupMenuItem;
 
-    private JMenuItem changeMembershipPopupMenuItem = null;
+    private JMenuItem changeMembershipPopupMenuItem;
 
-    private JMenuItem cloneUserPopupMenuItem = null;
+    private JMenuItem cloneUserPopupMenuItem;
 
-    private JMenuItem deleteUserPopupMenuItem = null;
+    private JMenuItem deleteUserPopupMenuItem;
 
-    private JMenuItem renameUserPopupMenuItem = null;
+    private JMenuItem renameUserPopupMenuItem;
 
-    public UsersPopupMenu(ActionListener actionListener) {
-        super();
-
+    public UsersPopupMenu(@Nonnull final ActionListener actionListener) {
         this.actionListener = actionListener;
 
         add(getAddUserPopupMenuItem());

@@ -19,6 +19,7 @@ package org.xiaoniu.suafe;
 
 import org.xiaoniu.suafe.frames.MainFrame;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 
 /**
@@ -33,7 +34,7 @@ public final class Application {
      *
      * @param args Application arguments
      */
-    public static void main(final String[] args) {
+    public static void main(@Nonnull final String[] args) {
         if (args.length == 0) {
             try {
                 UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
