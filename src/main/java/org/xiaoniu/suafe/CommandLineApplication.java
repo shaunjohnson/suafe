@@ -816,15 +816,18 @@ public final class CommandLineApplication {
         }
 
         AccessRule rule;
+        Repository repository= null;
+        User user = null;
+        Group group = null;
+        Path newPath = null;
+        Repository newRepository = null;
 
         if (userName != null) {
-            final User user = document.findUser(userName);
+            user = document.findUser(userName);
 
             if (user == null) {
                 throw new AppException("application.error.unabletofinduser", userName);
             }
-
-            Repository repository = null;
 
             if (repositoryName != null) {
                 repository = document.findRepository(repositoryName);
@@ -839,15 +842,14 @@ public final class CommandLineApplication {
             if (rule == null) {
                 throw new AppException("application.error.unabletofindrule");
             }
+            document.deleteAccessRule(repositoryName, path, null, user);
         }
         else if (groupName != null) {
-            final Group group = document.findGroup(groupName);
+            group = document.findGroup(groupName);
 
             if (group == null) {
                 throw new AppException("application.error.unabletofindgroup", groupName);
             }
-
-            Repository repository = null;
 
             if (repositoryName != null) {
                 repository = document.findRepository(repositoryName);
@@ -862,13 +864,14 @@ public final class CommandLineApplication {
             if (rule == null) {
                 throw new AppException("application.error.unabletofindrule");
             }
+            document.deleteAccessRule(repositoryName, path, group, null);
         }
         else {
             throw new AppException("application.error.userorgrouprequired");
         }
 
         if (newRepositoryName != null) {
-            final Repository newRepository = document.findRepository(newRepositoryName);
+            newRepository = document.findRepository(newRepositoryName);
 
             if (newRepository == null) {
                 throw new AppException("application.error.unabletofindrepository", repositoryName);
@@ -878,9 +881,9 @@ public final class CommandLineApplication {
         }
 
         if (newPathString != null) {
-            final Path newPath = document.addPath(rule.getPath().getRepository(), newPathString);
-
+            newPath = document.addPath(rule.getPath().getRepository(), newPathString);
             rule.setPath(newPath);
+            newPath.addAccessRule(rule);            
         }
 
         if (newUserName != null) {
@@ -892,6 +895,8 @@ public final class CommandLineApplication {
 
             rule.setUser(newUser);
             rule.setGroup(null);
+            String access = rule.getLevel();
+            document.addAccessRuleForUser(repository, path, newUser, access);
         }
 
         if (newGroupName != null) {
@@ -903,6 +908,8 @@ public final class CommandLineApplication {
 
             rule.setUser(null);
             rule.setGroup(newGroup);
+            String access = rule.getLevel();
+            document.addAccessRuleForGroup(repository, path, newGroup, access);
         }
 
         if (newAccess != null) {
@@ -910,7 +917,18 @@ public final class CommandLineApplication {
                     SubversionConstants.SVN_ACCESS_LEVEL_DENY_ACCESS : newAccess;
 
             rule.setLevel(newAccessLevel);
+            String access = rule.getLevel();
+
+            if (group != null) {
+                document.addAccessRuleForGroup(repository, path, group, access);
+            }
+
+            if (user != null) {
+                document.addAccessRuleForUser(repository, path, user, access);
+            }
         }
+
+        document.addAccessRule(rule);
 
         return new FileGenerator(document).generate(true);
     }

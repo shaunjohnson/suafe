@@ -262,6 +262,18 @@ public final class Document {
 
         return addAccessRuleForUser(path, user, level);
     }
+    
+    /**
+     * Adds a new AccessRule.
+     *
+     * @param rule Rule to to be added
+     * @throws AppException
+     */
+    public void addAccessRule(final AccessRule rule) throws AppException {
+        accessRules.add(rule);
+
+        setUnsavedChanges();
+    }
 
     /**
      * Adds a new Group if one by the same name doesn't already exist. If an existing group exists it will be returned

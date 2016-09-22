@@ -243,14 +243,26 @@ public final class AccessRule implements Comparable<AccessRule> {
 
         final AccessRule that = (AccessRule) o;
 
+        if ( (group != null & that.group == null) | (group == null & that.group != null) ) {
+        	return false;
+        }
         if (group != null ? !group.equals(that.group) : that.group != null) {
             return false;
+        }
+        if ( (level != null & that.level == null) | (level == null & that.level != null) ) {
+        	return false;
         }
         if (level != null ? !level.equals(that.level) : that.level != null) {
             return false;
         }
+        if ( (path != null & that.path == null) | (path == null & that.path != null) ) {
+        	return false;
+        }
         if (path != null ? !path.equals(that.path) : that.path != null) {
             return false;
+        }
+        if ( (user != null & that.user == null) | (user == null & that.user != null) ) {
+        	return false;
         }
         if (user != null ? !user.equals(that.user) : that.user != null) {
             return false;
