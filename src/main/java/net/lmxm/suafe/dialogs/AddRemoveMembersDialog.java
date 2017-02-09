@@ -22,7 +22,7 @@ import net.lmxm.suafe.ActionConstants;
 import net.lmxm.suafe.UserPreferences;
 import net.lmxm.suafe.api.beans.*;
 import net.lmxm.suafe.exceptions.AppException;
-import net.lmxm.suafe.renderers.MyListCellRenderer;
+import net.lmxm.suafe.renderers.GroupMemberListCellRenderer;
 import net.lmxm.suafe.resources.ResourceUtil;
 
 import javax.annotation.Nonnull;
@@ -67,7 +67,7 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
 
     private JPanel jContentPane;
 
-    private JList memberList;
+    private JList<GroupMemberObject> memberList;
 
     private JScrollPane memberListScrollPane;
 
@@ -77,7 +77,7 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
 
     private Message message;
 
-    private JList nonMemberList;
+    private JList<GroupMemberObject> nonMemberList;
 
     private JScrollPane nonMemberListScrollPane;
 
@@ -140,16 +140,16 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
      */
     private void assignMembers() {
         if (!getNonMemberList().isSelectionEmpty()) {
-            final List<Object> values = Arrays.asList(getNonMemberList().getSelectedValues());
+            final List<GroupMemberObject> values = getNonMemberList().getSelectedValuesList();
 
-            for (final Object object : values) {
-                if (object instanceof Group) {
-                    groupMembers.add((Group) object);
-                    groupNonMembers.remove(object);
+            for (final GroupMemberObject groupMember : values) {
+                if (groupMember instanceof Group) {
+                    groupMembers.add((Group) groupMember);
+                    groupNonMembers.remove(groupMember);
                 }
-                if (object instanceof User) {
-                    userMembers.add((User) object);
-                    userNonMembers.remove(object);
+                if (groupMember instanceof User) {
+                    userMembers.add((User) groupMember);
+                    userNonMembers.remove(groupMember);
                 }
             }
 
@@ -270,12 +270,12 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
      *
      * @return javax.swing.JList
      */
-    private JList getMemberList() {
+    private JList<GroupMemberObject> getMemberList() {
         if (memberList == null) {
-            memberList = new JList(members);
+            memberList = new JList<>(members);
             memberList.addKeyListener(this);
             memberList.addMouseListener(this);
-            memberList.setCellRenderer(new MyListCellRenderer());
+            memberList.setCellRenderer(new GroupMemberListCellRenderer());
             memberList.setFont(UserPreferences.getUserFont());
         }
 
@@ -316,12 +316,12 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
      *
      * @return javax.swing.JList
      */
-    private JList getNonMemberList() {
+    private JList<GroupMemberObject> getNonMemberList() {
         if (nonMemberList == null) {
-            nonMemberList = new JList(nonMembers);
+            nonMemberList = new JList<>(nonMembers);
             nonMemberList.addKeyListener(this);
             nonMemberList.addMouseListener(this);
-            nonMemberList.setCellRenderer(new MyListCellRenderer());
+            nonMemberList.setCellRenderer(new GroupMemberListCellRenderer());
             nonMemberList.setFont(UserPreferences.getUserFont());
         }
 
@@ -396,18 +396,18 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
 
             if (groupMembersObjects != null) {
                 List<Group> groupMembersList = Arrays.asList(groupMembersObjects);
-                groupMembers = new Vector<Group>(groupMembersList);
+                groupMembers = new Vector<>(groupMembersList);
                 Collections.sort(groupMembers);
             }
             else {
-                groupMembers = new Vector<Group>();
+                groupMembers = new Vector<>();
             }
 
             final Group[] groupObjects = document.getGroupsArray();
 
             if (groupObjects != null) {
                 List<Group> groupNonMembersList = Arrays.asList(groupObjects);
-                groupNonMembers = new Vector<Group>(groupNonMembersList);
+                groupNonMembers = new Vector<>(groupNonMembersList);
 
                 // Remove group being edited
                 groupNonMembers.remove(group);
@@ -416,10 +416,10 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
                 groupNonMembers.removeAll(groupMembers);
 
                 // Remove the group being edited.
-                groupNonMembers.remove(group.getName());
+                groupNonMembers.remove(group);
             }
             else {
-                groupNonMembers = new Vector<Group>();
+                groupNonMembers = new Vector<>();
             }
 
             // Initialize users
@@ -427,27 +427,27 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
 
             if (userMembersObjects != null) {
                 List<User> userMembersList = Arrays.asList(userMembersObjects);
-                userMembers = new Vector<User>(userMembersList);
+                userMembers = new Vector<>(userMembersList);
                 Collections.sort(userMembers);
             }
             else {
-                userMembers = new Vector<User>();
+                userMembers = new Vector<>();
             }
 
             final User[] userObjects = document.getUserObjectsExcludeAllUsers();
 
             if (userObjects != null) {
                 List<User> userNonMembersList = Arrays.asList(userObjects);
-                userNonMembers = new Vector<User>(userNonMembersList);
+                userNonMembers = new Vector<>(userNonMembersList);
                 Collections.sort(userNonMembers);
                 userNonMembers.removeAll(userMembers);
             }
             else {
-                userNonMembers = new Vector<User>();
+                userNonMembers = new Vector<>();
             }
 
-            members = new Vector<GroupMemberObject>(groupMembers.size() + userMembers.size());
-            nonMembers = new Vector<GroupMemberObject>(groupNonMembers.size() + userNonMembers.size());
+            members = new Vector<>(groupMembers.size() + userMembers.size());
+            nonMembers = new Vector<>(groupNonMembers.size() + userNonMembers.size());
 
             members.addAll(groupMembers);
             members.addAll(userMembers);
@@ -588,16 +588,16 @@ public final class AddRemoveMembersDialog extends ParentDialog implements Action
      */
     private void unassignMembers() {
         if (!getMemberList().isSelectionEmpty()) {
-            final List<Object> values = Arrays.asList(getMemberList().getSelectedValues());
+            final List<GroupMemberObject> values = getMemberList().getSelectedValuesList();
 
-            for (final Object object : values) {
-                if (object instanceof Group) {
-                    groupMembers.remove(object);
-                    groupNonMembers.add((Group) object);
+            for (final GroupMemberObject groupMember : values) {
+                if (groupMember instanceof Group) {
+                    groupMembers.remove(groupMember);
+                    groupNonMembers.add((Group) groupMember);
                 }
-                if (object instanceof User) {
-                    userMembers.remove(object);
-                    userNonMembers.add((User) object);
+                if (groupMember instanceof User) {
+                    userMembers.remove(groupMember);
+                    userNonMembers.add((User) groupMember);
                 }
             }
 

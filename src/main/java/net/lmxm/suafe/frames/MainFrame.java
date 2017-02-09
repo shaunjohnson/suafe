@@ -21,23 +21,24 @@ package net.lmxm.suafe.frames;
 import net.lmxm.suafe.*;
 import net.lmxm.suafe.api.beans.*;
 import net.lmxm.suafe.api.parser.FileGenerator;
+import net.lmxm.suafe.api.parser.FileParser;
 import net.lmxm.suafe.dialogs.*;
 import net.lmxm.suafe.exceptions.AppException;
 import net.lmxm.suafe.frames.menus.GroupsPopupMenu;
+import net.lmxm.suafe.frames.menus.MainFrameMenuBar;
 import net.lmxm.suafe.frames.menus.PopupMenuListener;
+import net.lmxm.suafe.frames.menus.UsersPopupMenu;
 import net.lmxm.suafe.frames.panes.AccessRulesPane;
 import net.lmxm.suafe.frames.panes.GroupsPane;
 import net.lmxm.suafe.frames.panes.UsersPane;
 import net.lmxm.suafe.frames.toolbars.MainFrameToolBar;
 import net.lmxm.suafe.models.NonEditableTableModel;
+import net.lmxm.suafe.reports.GenericReport;
 import net.lmxm.suafe.reports.StatisticsReport;
 import net.lmxm.suafe.reports.SummaryReport;
-import net.lmxm.suafe.api.parser.FileParser;
-import net.lmxm.suafe.frames.menus.MainFrameMenuBar;
-import net.lmxm.suafe.frames.menus.UsersPopupMenu;
-import net.lmxm.suafe.reports.GenericReport;
 import net.lmxm.suafe.resources.ResourceUtil;
 
+import javax.annotation.Nonnull;
 import javax.help.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -358,18 +359,18 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      * Add/Remove Members action handler. Displays AddRemoveMembers dialog.
      */
     private void addRemoveMembers() {
-        final Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
+        final List<Group> selectedGroups = getGroupsPane().getGroupList().getSelectedValuesList();
 
-        if (selectedItems.length == 0) {
+        if (selectedGroups.size() == 0) {
             displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
         }
         else {
             Group selectedGroup = null;
 
-            for (final Object selectedItem : selectedItems) {
+            for (final Group group : selectedGroups) {
                 final Message message = new Message();
 
-                final JDialog dialog = new AddRemoveMembersDialog(document, (Group) selectedItem, message);
+                final JDialog dialog = new AddRemoveMembersDialog(document, group, message);
                 DialogUtil.center(this, dialog);
                 dialog.setVisible(true);
 
@@ -377,7 +378,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
                     selectedGroup = (Group) message.getUserObject();
                 }
                 else if (message.getUserObject() == null) {
-                    selectedGroup = (Group) selectedItem;
+                    selectedGroup = group;
                 }
 
                 // Don't edit any other groups if Cancel was clicked
@@ -480,17 +481,17 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      * Change Membership action handler. Displays ChangeMembership dialog.
      */
     private void changeMembership() {
-        final Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
+        final List<User> selectedUsers = getUsersPane().getUserList().getSelectedValuesList();
 
-        if (selectedItems.length == 0) {
+        if (selectedUsers.size() == 0) {
             displayWarning(ResourceUtil.getString("mainframe.warning.nouserselected"));
         }
         else {
             User selectedUser = null;
 
-            for (final Object selectedItem : selectedItems) {
+            for (final User user : selectedUsers) {
                 final Message message = new Message();
-                final JDialog dialog = new ChangeMembershipDialog(document, (User) selectedItem, message);
+                final JDialog dialog = new ChangeMembershipDialog(document, user, message);
                 DialogUtil.center(this, dialog);
                 dialog.setVisible(true);
 
@@ -498,7 +499,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
                     selectedUser = (User) message.getUserObject();
                 }
                 else if (message.getUserObject() == null) {
-                    selectedUser = (User) selectedItem;
+                    selectedUser = user;
                 }
 
                 // Don't edit any other users if Cancel was clicked
@@ -556,18 +557,18 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      * Clone group action handler.
      */
     private void cloneGroup() {
-        final Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
+        final List<Group> selectGroups = getGroupsPane().getGroupList().getSelectedValuesList();
 
-        if (selectedItems.length == 0) {
+        if (selectGroups.size() == 0) {
             return;
         }
         else {
             Group selectedGroup = null;
 
-            for (final Object selectedItem : selectedItems) {
+            for (final Group group : selectGroups) {
                 final Message message = new Message();
 
-                final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_GROUP, (Group) selectedItem,
+                final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_GROUP, group,
                         message);
                 DialogUtil.center(this, dialog);
                 dialog.setVisible(true);
@@ -576,7 +577,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
                     selectedGroup = (Group) message.getUserObject();
                 }
                 else if (message.getUserObject() == null) {
-                    selectedGroup = (Group) selectedItem;
+                    selectedGroup = group;
                 }
 
                 // Don't edit any other groups if Cancel was clicked
@@ -596,18 +597,17 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      * Clone user action handler.
      */
     private void cloneUser() {
-        final Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
+        final List<User> selectedUsers = getUsersPane().getUserList().getSelectedValuesList();
 
-        if (selectedItems.length == 0) {
+        if (selectedUsers.size() == 0) {
             return;
         }
         else {
             User selectedUser = null;
 
-            for (final Object selectedItem : selectedItems) {
+            for (final User user : selectedUsers) {
                 final Message message = new Message();
-                final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_USER, (User) selectedItem,
-                        message);
+                final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_CLONE_USER, user, message);
                 DialogUtil.center(this, dialog);
                 dialog.setVisible(true);
 
@@ -615,7 +615,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
                     selectedUser = (User) message.getUserObject();
                 }
                 else if (message.getUserObject() == null) {
-                    selectedUser = (User) selectedItem;
+                    selectedUser = user;
                 }
 
                 // Don't edit any other users if Cancel was clicked
@@ -716,10 +716,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
         }
         else {
-            final Object[] values = getGroupsPane().getGroupList().getSelectedValues();
+            final List<Group> selectedGroups = getGroupsPane().getGroupList().getSelectedValuesList();
             int choice;
 
-            if (values.length == 1) {
+            if (selectedGroups.size() == 1) {
                 choice = showConfirmDialog("mainframe.deletegroup.prompt", "mainframe.deletegroup.title");
             }
             else {
@@ -728,7 +728,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 
             if (choice == JOptionPane.YES_OPTION) {
                 try {
-                    document.deleteGroups(values);
+                    document.deleteGroups(selectedGroups);
                 }
                 catch (final AppException ae) {
                     displayError(ResourceUtil.getString("mainframe.error.errordeletinggroup"));
@@ -817,10 +817,10 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayWarning(ResourceUtil.getString("mainframe.warning.nouserselected"));
         }
         else {
-            final Object[] values = getUsersPane().getUserList().getSelectedValues();
+            final List<User> values = getUsersPane().getUserList().getSelectedValuesList();
             int choice;
 
-            if (values.length == 1) {
+            if (values.size() == 1) {
                 choice = showConfirmDialog("mainframe.deleteuser.prompt", "mainframe.deleteuser.title");
             }
             else {
@@ -1074,7 +1074,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
     /**
      * File open action handler.
      */
-    public void fileOpen(final File file) {
+    public void fileOpen(@Nonnull final File file) {
         checkForUnsavedChanges();
 
         try {
@@ -1109,26 +1109,26 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      */
     private void filePrint() {
         /*
-		 * Get the representation of the current printer and the current print job.
+         * Get the representation of the current printer and the current print job.
 		 */
         final PrinterJob printerJob = PrinterJob.getPrinterJob();
 
 		/*
-		 * Build a book containing pairs of page painters (Printables) and PageFormats. This example has a single page
+         * Build a book containing pairs of page painters (Printables) and PageFormats. This example has a single page
 		 * containing text.
 		 */
         final Book book = new Book();
         book.append(new Printer(), new PageFormat());
 
 		/*
-		 * Set the object to be printed (the Book) into the PrinterJob. Doing this before bringing up the print dialog
+         * Set the object to be printed (the Book) into the PrinterJob. Doing this before bringing up the print dialog
 		 * allows the print dialog to correctly display the page range to be printed and to dissallow any print settings
 		 * not appropriate for the pages to be printed.
 		 */
         printerJob.setPageable(book);
 
 		/*
-		 * Show the print dialog to the user. This is an optional step and need not be done if the application wants to
+         * Show the print dialog to the user. This is an optional step and need not be done if the application wants to
 		 * perform 'quiet' printing. If the user cancels the print dialog then false is returned. If true is returned we
 		 * go ahead and print.
 		 */
@@ -1715,21 +1715,18 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
         }
         else {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        final JFrame frame = new ViewerFrame(
-                                ResourceUtil.getString("preview.title"),
-                                new FileGenerator(document).generate(UserPreferences.getMultipleLineGroupDefinitions()),
-                                Constants.MIME_TEXT);
-                        frame.setVisible(true);
-                    }
-                    catch (final AppException e) {
-                        displayError(e.getMessage());
-                    }
+            new Thread(() -> {
+                try {
+                    final JFrame frame = new ViewerFrame(
+                            ResourceUtil.getString("preview.title"),
+                            new FileGenerator(document).generate(UserPreferences.getMultipleLineGroupDefinitions()),
+                            Constants.MIME_TEXT);
+                    frame.setVisible(true);
                 }
-            }.start();
+                catch (final AppException e) {
+                    displayError(e.getMessage());
+                }
+            }).start();
         }
     }
 
@@ -1757,8 +1754,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             }
 
             final List<Path> pathList = repository.getPaths();
-
-            Collections.sort(pathList, new PathComparator());
+            pathList.sort(new PathComparator());
 
             for (final Path path : pathList) {
                 final DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(path);
@@ -1793,13 +1789,13 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      * Refresh group details for selected group.
      */
     private void refreshGroupDetails() {
-        final Group group = (Group) getGroupsPane().getGroupList().getSelectedValue();
+        final Group group = getGroupsPane().getGroupList().getSelectedValue();
 
         try {
-            getGroupsPane().getGroupMemberList().setModel(new DefaultListModel());
+            getGroupsPane().getGroupMemberList().setModel(new DefaultListModel<>());
 
             if (!getGroupsPane().getGroupList().isSelectionEmpty()) {
-                final Object[] listData = document.getGroupMemberObjects(group);
+                final GroupMemberObject[] listData = document.getGroupMemberObjects(group);
 
                 if (listData != null) {
                     getGroupsPane().getGroupMemberList().setListData(listData);
@@ -1810,7 +1806,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayError(ResourceUtil.getString("mainframe.error.errorloadinggroupmembers"));
         }
 
-        toggleGroupActions(getGroupsPane().getGroupList().isSelectionEmpty() == false);
+        toggleGroupActions(!getGroupsPane().getGroupList().isSelectionEmpty());
 
         final DefaultTableModel model = new NonEditableTableModel();
 
@@ -1832,7 +1828,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      */
     private void refreshGroupList(final Group selectedGroup) {
         getGroupsPane().getGroupList().setListData(document.getGroupObjects());
-        toggleGroupActions(getGroupsPane().getGroupList().isSelectionEmpty() == false);
+        toggleGroupActions(!getGroupsPane().getGroupList().isSelectionEmpty());
 
         if (selectedGroup != null) {
             getGroupsPane().getGroupList().setSelectedValue(selectedGroup, true);
@@ -1919,13 +1915,13 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      * Refresh user details for selected user.
      */
     private void refreshUserDetails() {
-        final User user = (User) getUsersPane().getUserList().getSelectedValue();
+        final User user = getUsersPane().getUserList().getSelectedValue();
 
         try {
-            getUsersPane().getUserGroupList().setModel(new DefaultListModel());
+            getUsersPane().getUserGroupList().setModel(new DefaultListModel<>());
 
             if (!getUsersPane().getUserList().isSelectionEmpty()) {
-                final Object[] listData = document.getUserGroupObjects(user);
+                final Group[] listData = document.getUserGroupObjects(user);
 
                 if (listData != null) {
                     getUsersPane().getUserGroupList().setListData(listData);
@@ -1936,7 +1932,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayError(ResourceUtil.getString("mainframe.error.errorloadingusers"));
         }
 
-        final boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
+        final boolean enabled = !getUsersPane().getUserList().isSelectionEmpty();
         toggleUserActions(enabled, (user == null) ? enabled : enabled && !user.isAllUsers());
 
         final DefaultTableModel model = new NonEditableTableModel();
@@ -1960,7 +1956,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
     private void refreshUserList(final User selectedUser) {
         getUsersPane().getUserList().setListData(document.getUserObjects());
 
-        final boolean enabled = getUsersPane().getUserList().isSelectionEmpty() == false;
+        final boolean enabled = !getUsersPane().getUserList().isSelectionEmpty();
         toggleUserActions(enabled, (selectedUser == null) ? enabled : enabled && !selectedUser.isAllUsers());
 
         if (selectedUser != null) {
@@ -2010,11 +2006,11 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayWarning(ResourceUtil.getString("mainframe.warning.nogroupselected"));
         }
         else {
-            final Object[] values = getUsersPane().getUserGroupList().getSelectedValues();
-            final User user = (User) getUsersPane().getUserList().getSelectedValue();
+            final List<Group> selectedGroups = getUsersPane().getUserGroupList().getSelectedValuesList();
+            final User user = getUsersPane().getUserList().getSelectedValue();
             int choice;
 
-            if (values.length == 1) {
+            if (selectedGroups.size() == 1) {
                 choice = showConfirmDialog("mainframe.removefromgroup.prompt", "mainframe.removefromgroup.title");
             }
             else {
@@ -2023,14 +2019,14 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 
             if (choice == JOptionPane.YES_OPTION) {
                 try {
-                    document.removeFromGroups(user, values);
+                    document.removeFromGroups(user, selectedGroups);
                 }
                 catch (final AppException ae) {
                     displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
                 }
 
-                refreshUserList((User) getUsersPane().getUserList().getSelectedValue());
-                refreshGroupList((Group) getGroupsPane().getGroupList().getSelectedValue());
+                refreshUserList(getUsersPane().getUserList().getSelectedValue());
+                refreshGroupList(getGroupsPane().getGroupList().getSelectedValue());
                 refreshAccessRuleTree(null);
             }
         }
@@ -2046,11 +2042,11 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayWarning(ResourceUtil.getString("mainframe.warning.nomemberselected"));
         }
         else {
-            final Object[] values = getGroupsPane().getGroupMemberList().getSelectedValues();
-            final Group group = (Group) getGroupsPane().getGroupList().getSelectedValue();
+            final List<GroupMemberObject> selectedGroupMembers = getGroupsPane().getGroupMemberList().getSelectedValuesList();
+            final Group group = getGroupsPane().getGroupList().getSelectedValue();
             int choice;
 
-            if (values.length == 1) {
+            if (selectedGroupMembers.size() == 1) {
                 choice = showConfirmDialog("mainframe.removemember.prompt", "mainframe.removemember.title");
             }
             else {
@@ -2059,14 +2055,14 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
 
             if (choice == JOptionPane.YES_OPTION) {
                 try {
-                    document.removeGroupMembers(group, values);
+                    document.removeGroupMembers(group, selectedGroupMembers);
                 }
                 catch (final AppException ae) {
                     displayError(ResourceUtil.getString("mainframe.error.errorremovingmember"));
                 }
 
-                refreshUserList((User) getUsersPane().getUserList().getSelectedValue());
-                refreshGroupList((Group) getGroupsPane().getGroupList().getSelectedValue());
+                refreshUserList(getUsersPane().getUserList().getSelectedValue());
+                refreshGroupList(getGroupsPane().getGroupList().getSelectedValue());
                 refreshAccessRuleTree(null);
             }
         }
@@ -2078,18 +2074,18 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      * Rename group action handler.
      */
     private void renameGroup() {
-        final Object[] selectedItems = getGroupsPane().getGroupList().getSelectedValues();
+        final List<Group> selectedGroups = getGroupsPane().getGroupList().getSelectedValuesList();
 
-        if (selectedItems.length == 0) {
+        if (selectedGroups.size() == 0) {
             return;
         }
         else {
             Group selectedGroup = null;
 
-            for (final Object selectedItem : selectedItems) {
+            for (final Group group : selectedGroups) {
                 final Message message = new Message();
 
-                final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_GROUP, (Group) selectedItem,
+                final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_GROUP, group,
                         message);
                 DialogUtil.center(this, dialog);
                 dialog.setVisible(true);
@@ -2099,7 +2095,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
                     document.setUnsavedChanges();
                 }
                 else if (message.getUserObject() == null) {
-                    selectedGroup = (Group) selectedItem;
+                    selectedGroup = group;
                 }
 
                 // Don't edit any other groups if Cancel was clicked
@@ -2151,18 +2147,17 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
      * Edit user action handler.
      */
     private void renameUser() {
-        final Object[] selectedItems = getUsersPane().getUserList().getSelectedValues();
+        final List<User> selectedUsers = getUsersPane().getUserList().getSelectedValuesList();
 
-        if (selectedItems.length == 0) {
+        if (selectedUsers.size() == 0) {
             return;
         }
         else {
             User selectedUser = null;
 
-            for (final Object selectedItem : selectedItems) {
+            for (final User user : selectedUsers) {
                 final Message message = new Message();
-                final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_USER, (User) selectedItem,
-                        message);
+                final JDialog dialog = new BasicDialog(document, BasicDialog.TYPE_RENAME_USER, user, message);
                 DialogUtil.center(this, dialog);
                 dialog.setVisible(true);
 
@@ -2171,7 +2166,7 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
                     document.setUnsavedChanges();
                 }
                 else if (message.getUserObject() == null) {
-                    selectedUser = (User) selectedItem;
+                    selectedUser = user;
                 }
 
                 // Don't edit any other users if Cancel was clicked
@@ -2232,20 +2227,17 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
         }
         else {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        final GenericReport report = new StatisticsReport(document);
-                        final JFrame frame = new ViewerFrame(ResourceUtil.getString("statisticsreport.title"), report
-                                .generate(), Constants.MIME_HTML);
-                        frame.setVisible(true);
-                    }
-                    catch (final AppException e) {
-                        displayError(e.getMessage());
-                    }
+            new Thread(() -> {
+                try {
+                    final GenericReport report = new StatisticsReport(document);
+                    final JFrame frame = new ViewerFrame(ResourceUtil.getString("statisticsreport.title"), report
+                            .generate(), Constants.MIME_HTML);
+                    frame.setVisible(true);
                 }
-            }.start();
+                catch (final AppException e) {
+                    displayError(e.getMessage());
+                }
+            }).start();
         }
     }
 
@@ -2257,23 +2249,20 @@ public final class MainFrame extends BaseFrame implements ActionListener, FileOp
             displayWarning(ResourceUtil.getString("mainframe.warning.documentisempty"));
         }
         else {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        final GenericReport report = new SummaryReport(document);
-                        final JFrame frame = new ViewerFrame(ResourceUtil.getString("summaryreport.title"), report
-                                .generate(), Constants.MIME_HTML);
-                        frame.setVisible(true);
-                    }
-                    catch (final AppException ae) {
-                        displayError(ae.getMessage());
-                    }
-                    catch (final Exception e) {
-                        displayError(e.getMessage());
-                    }
+            new Thread(() -> {
+                try {
+                    final GenericReport report = new SummaryReport(document);
+                    final JFrame frame = new ViewerFrame(ResourceUtil.getString("summaryreport.title"), report
+                            .generate(), Constants.MIME_HTML);
+                    frame.setVisible(true);
                 }
-            }.start();
+                catch (final AppException ae) {
+                    displayError(ae.getMessage());
+                }
+                catch (final Exception e) {
+                    displayError(e.getMessage());
+                }
+            }).start();
         }
     }
 

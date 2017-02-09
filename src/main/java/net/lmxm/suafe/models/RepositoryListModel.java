@@ -19,6 +19,7 @@
 package net.lmxm.suafe.models;
 
 import net.lmxm.suafe.api.beans.Document;
+import net.lmxm.suafe.api.beans.Repository;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +29,7 @@ import javax.annotation.Nonnull;
  *
  * @author Shaun Johnson
  */
-public final class RepositoryListModel extends BaseComboBoxModel {
+public final class RepositoryListModel extends BaseComboBoxModel<Repository> {
     /**
      * Default constructor.
      */

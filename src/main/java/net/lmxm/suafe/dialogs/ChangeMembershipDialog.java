@@ -20,13 +20,12 @@ package net.lmxm.suafe.dialogs;
 
 import net.lmxm.suafe.ActionConstants;
 import net.lmxm.suafe.UserPreferences;
-import net.lmxm.suafe.Utilities;
 import net.lmxm.suafe.api.beans.Document;
-import net.lmxm.suafe.api.beans.Message;
-import net.lmxm.suafe.exceptions.AppException;
 import net.lmxm.suafe.api.beans.Group;
+import net.lmxm.suafe.api.beans.Message;
 import net.lmxm.suafe.api.beans.User;
-import net.lmxm.suafe.renderers.MyListCellRenderer;
+import net.lmxm.suafe.exceptions.AppException;
+import net.lmxm.suafe.renderers.GroupListCellRenderer;
 import net.lmxm.suafe.resources.ResourceUtil;
 
 import javax.annotation.Nonnull;
@@ -44,9 +43,6 @@ import java.util.Vector;
  * @author Shaun Johnson
  */
 public final class ChangeMembershipDialog extends ParentDialog implements ActionListener, KeyListener, MouseListener {
-    /**
-     * Serial ID.
-     */
     private static final long serialVersionUID = 4595558087993098499L;
 
     private JPanel actionPanel;
@@ -69,7 +65,7 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
 
     private Vector<Group> memberOf;
 
-    private JList memberOfList;
+    private JList<Group> memberOfList;
 
     private JPanel memberPanel;
 
@@ -81,7 +77,7 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
 
     private Vector<Group> notMemberOf;
 
-    private JList notMemberOfList;
+    private JList<Group> notMemberOfList;
 
     private JButton saveButton;
 
@@ -92,9 +88,8 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
     /**
      * This is the default constructor
      */
-    public ChangeMembershipDialog(@Nonnull final Document document, final User user, final Message message) {
-        super();
-
+    public ChangeMembershipDialog(@Nonnull final Document document, @Nonnull final User user,
+                                  @Nonnull final Message message) {
         this.document = document;
         this.message = message;
         this.message.setState(Message.CANCEL);
@@ -135,8 +130,7 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
      */
     private void assign() {
         if (!getNotMemberOfList().isSelectionEmpty()) {
-            final Group[] groupObjects = Utilities.convertToArray(getNotMemberOfList().getSelectedValues(), new Group[0]);
-            final List<Group> values = Arrays.asList(groupObjects);
+            final List<Group> values = getNotMemberOfList().getSelectedValuesList();
 
             memberOf.addAll(values);
             notMemberOf.removeAll(values);
@@ -274,12 +268,12 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
      *
      * @return javax.swing.JList
      */
-    private JList getMemberOfList() {
+    private JList<Group> getMemberOfList() {
         if (memberOfList == null) {
-            memberOfList = new JList();
+            memberOfList = new JList<>();
             memberOfList.setListData(memberOf);
             memberOfList.addMouseListener(this);
-            memberOfList.setCellRenderer(new MyListCellRenderer());
+            memberOfList.setCellRenderer(new GroupListCellRenderer());
             memberOfList.setFont(UserPreferences.getUserFont());
         }
 
@@ -337,12 +331,12 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
      *
      * @return javax.swing.JList
      */
-    private JList getNotMemberOfList() {
+    private JList<Group> getNotMemberOfList() {
         if (notMemberOfList == null) {
-            notMemberOfList = new JList();
+            notMemberOfList = new JList<>();
             notMemberOfList.setListData(notMemberOf);
             notMemberOfList.addMouseListener(this);
-            notMemberOfList.setCellRenderer(new MyListCellRenderer());
+            notMemberOfList.setCellRenderer(new GroupListCellRenderer());
             notMemberOfList.setFont(UserPreferences.getUserFont());
         }
 
@@ -391,7 +385,7 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
                 Collections.sort(memberOf);
             }
             else {
-                memberOf = new Vector<Group>();
+                memberOf = new Vector<>();
             }
 
             final Group[] allGroups = document.getGroupsArray();
@@ -403,7 +397,7 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
                 notMemberOf.removeAll(memberOf);
             }
             else {
-                notMemberOf = new Vector<Group>();
+                notMemberOf = new Vector<>();
             }
         }
         catch (final AppException e) {
@@ -518,8 +512,7 @@ public final class ChangeMembershipDialog extends ParentDialog implements Action
      */
     private void unassign() {
         if (!getMemberOfList().isSelectionEmpty()) {
-            final Group[] groupObjects = Utilities.convertToArray(getMemberOfList().getSelectedValues(), new Group[0]);
-            final List<Group> values = Arrays.asList(groupObjects);
+            final List<Group> values = getMemberOfList().getSelectedValuesList();
 
             memberOf.removeAll(values);
             notMemberOf.addAll(values);

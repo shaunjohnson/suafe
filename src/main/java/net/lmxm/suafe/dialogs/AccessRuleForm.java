@@ -20,13 +20,13 @@
 package net.lmxm.suafe.dialogs;
 
 import net.lmxm.suafe.ActionConstants;
-import net.lmxm.suafe.api.SubversionConstants;
-import net.lmxm.suafe.api.beans.*;
-import net.lmxm.suafe.models.RepositoryListModel;
 import net.lmxm.suafe.GuiConstants;
 import net.lmxm.suafe.UserPreferences;
+import net.lmxm.suafe.api.SubversionConstants;
+import net.lmxm.suafe.api.beans.*;
 import net.lmxm.suafe.exceptions.AppException;
 import net.lmxm.suafe.models.GroupListModel;
+import net.lmxm.suafe.models.RepositoryListModel;
 import net.lmxm.suafe.models.UserListModel;
 import net.lmxm.suafe.resources.ResourceUtil;
 import net.lmxm.suafe.validators.Validator;
@@ -103,7 +103,7 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
 
     private Repository repository;
 
-    private JComboBox repositoryComboBox;
+    private JComboBox<Repository> repositoryComboBox;
 
     private JLabel repositoryLabel;
 
@@ -619,7 +619,7 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
      *
      * @return javax.swing.JComboBox
      */
-    private JComboBox getRepositoryComboBox() {
+    private JComboBox<Repository> getRepositoryComboBox() {
         if (repositoryComboBox == null) {
             repositoryComboBox = createComboBox(new RepositoryListModel(document));
 
@@ -657,8 +657,8 @@ public final class AccessRuleForm extends JPanel implements ActionListener {
      * @param model
      * @return
      */
-    private JComboBox createComboBox(ComboBoxModel model) {
-        JComboBox comboBox = new JComboBox(model);
+    private <T> JComboBox<T> createComboBox(final ComboBoxModel<T> model) {
+        final JComboBox<T> comboBox = new JComboBox<>(model);
         comboBox.setBackground(Color.white);
         comboBox.setFont(UserPreferences.getUserFont());
 

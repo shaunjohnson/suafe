@@ -20,11 +20,14 @@
 package net.lmxm.suafe.frames.panes;
 
 import net.lmxm.suafe.ActionConstants;
-import net.lmxm.suafe.GuiConstants;
-import net.lmxm.suafe.renderers.MyTableCellRenderer;
 import net.lmxm.suafe.ApplicationDefaultsConstants;
+import net.lmxm.suafe.GuiConstants;
 import net.lmxm.suafe.UserPreferences;
-import net.lmxm.suafe.renderers.MyListCellRenderer;
+import net.lmxm.suafe.api.beans.Group;
+import net.lmxm.suafe.api.beans.User;
+import net.lmxm.suafe.renderers.GroupListCellRenderer;
+import net.lmxm.suafe.renderers.MyTableCellRenderer;
+import net.lmxm.suafe.renderers.UserListCellRenderer;
 import net.lmxm.suafe.resources.ResourceUtil;
 
 import javax.annotation.Nonnull;
@@ -60,7 +63,7 @@ public final class UsersPane extends BaseSplitPane {
 
     private JSplitPane userDetailsSplitPanel;
 
-    private JList userGroupList;
+    private JList<Group> userGroupList;
 
     private JPanel userGroupListPanel;
 
@@ -68,7 +71,7 @@ public final class UsersPane extends BaseSplitPane {
 
     private JPanel userGroupsActionPanel;
 
-    private JList userList;
+    private JList<User> userList;
 
     private JPanel userListPanel;
 
@@ -177,7 +180,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getUserAccessRulesFormatPanel() {
+    private JPanel getUserAccessRulesFormatPanel() {
         if (userAccessRulesFormatPanel == null) {
             userAccessRulesFormatPanel = new JPanel(new BorderLayout());
             userAccessRulesFormatPanel.setBorder(BorderFactory.createEmptyBorder(7, 0, 0, 0));
@@ -193,7 +196,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JScrollPane
      */
-    public JScrollPane getUserAccessRulesScrollPane() {
+    private JScrollPane getUserAccessRulesScrollPane() {
         if (userAccessRulesScrollPane == null) {
             userAccessRulesScrollPane = new JScrollPane(getUserAccessRulesTable());
         }
@@ -223,7 +226,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getUserActionsPanel() {
+    private JPanel getUserActionsPanel() {
         if (userActionsPanel == null) {
             userActionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             userActionsPanel.add(getAddUserButton());
@@ -240,7 +243,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getUserDetailsPanel() {
+    private JPanel getUserDetailsPanel() {
         if (userDetailsPanel == null) {
             userDetailsPanel = new JPanel(new BorderLayout());
             userDetailsPanel.add(getUserDetailsSplitPanel(), BorderLayout.CENTER);
@@ -272,12 +275,12 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JList
      */
-    public JList getUserGroupList() {
+    public JList<Group> getUserGroupList() {
         if (userGroupList == null) {
-            userGroupList = new JList();
+            userGroupList = new JList<>();
             userGroupList.addKeyListener(keyListener);
             userGroupList.addMouseListener(mouseListener);
-            userGroupList.setCellRenderer(new MyListCellRenderer());
+            userGroupList.setCellRenderer(new GroupListCellRenderer());
             userGroupList.setFont(GuiConstants.FONT_PLAIN);
         }
 
@@ -289,7 +292,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getUserGroupListPanel() {
+    private JPanel getUserGroupListPanel() {
         if (userGroupListPanel == null) {
             userGroupListPanel = new JPanel(new BorderLayout());
             userGroupListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 7, 0));
@@ -306,7 +309,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JScrollPane
      */
-    public JScrollPane getUserGroupListScrollPane() {
+    private JScrollPane getUserGroupListScrollPane() {
         if (userGroupListScrollPane == null) {
             userGroupListScrollPane = new JScrollPane(getUserGroupList());
         }
@@ -319,7 +322,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getUserGroupsActionPanel() {
+    private JPanel getUserGroupsActionPanel() {
         if (userGroupsActionPanel == null) {
             userGroupsActionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             userGroupsActionPanel.add(getChangeMembershipButton());
@@ -333,13 +336,13 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JList
      */
-    public JList getUserList() {
+    public JList<User> getUserList() {
         if (userList == null) {
-            userList = new JList();
+            userList = new JList<>();
             userList.addKeyListener(keyListener);
             userList.addListSelectionListener(listSelectionListener);
             userList.addMouseListener(mouseListener);
-            userList.setCellRenderer(new MyListCellRenderer());
+            userList.setCellRenderer(new UserListCellRenderer());
             userList.setFont(GuiConstants.FONT_PLAIN);
         }
 
@@ -351,7 +354,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getUserListPanel() {
+    private JPanel getUserListPanel() {
         if (userListPanel == null) {
             userListPanel = new JPanel(new BorderLayout());
             userListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
@@ -368,7 +371,7 @@ public final class UsersPane extends BaseSplitPane {
      *
      * @return javax.swing.JScrollPane
      */
-    public JScrollPane getUserListScrollPane() {
+    private JScrollPane getUserListScrollPane() {
         if (userListScrollPane == null) {
             userListScrollPane = new JScrollPane(getUserList());
             userListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

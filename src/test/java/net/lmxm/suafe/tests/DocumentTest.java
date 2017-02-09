@@ -21,8 +21,8 @@ package net.lmxm.suafe.tests;
 
 import net.lmxm.suafe.api.SubversionConstants;
 import net.lmxm.suafe.api.beans.*;
-import org.junit.Test;
 import net.lmxm.suafe.exceptions.AppException;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1215,7 +1215,8 @@ public class DocumentTest {
         try {
             document.initialize();
 
-            Object[] groups = {new Group()};
+            final List<Group> groups = new ArrayList<>();
+            groups.add(new Group());
 
             document.deleteGroups(groups);
         }
@@ -1231,7 +1232,8 @@ public class DocumentTest {
 
             Group group = document.addGroup(groupName);
 
-            Object[] groups = {group};
+            final List<Group> groups = new ArrayList<>();
+            groups.add(group);
 
             document.deleteGroups(groups);
 
@@ -1257,7 +1259,8 @@ public class DocumentTest {
             assertTrue(document.getAccessRules().size() == 1);
             assertTrue(document.getAccessRules().get(0).getGroup().equals(group));
 
-            Object[] groups = {group};
+            final List<Group> groups = new ArrayList<>();
+            groups.add(group);
 
             document.deleteGroups(groups);
 
@@ -1586,7 +1589,8 @@ public class DocumentTest {
         try {
             document.initialize();
 
-            Object[] users = {new User()};
+            final List<User> users = new ArrayList<>();
+            users.add(new User());
 
             document.deleteUsers(users);
         }
@@ -1602,7 +1606,8 @@ public class DocumentTest {
 
             User user = document.addUser(userName);
 
-            Object[] users = {user};
+            final List<User> users = new ArrayList<>();
+            users.add(user);
 
             document.deleteUsers(users);
 
@@ -1628,7 +1633,8 @@ public class DocumentTest {
             assertTrue(document.getAccessRules().size() == 1);
             assertTrue(document.getAccessRules().get(0).getUser().equals(user));
 
-            Object[] users = {user};
+            final List<User> users = new ArrayList<>();
+            users.add(user);
 
             document.deleteUsers(users);
 

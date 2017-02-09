@@ -20,11 +20,14 @@
 package net.lmxm.suafe.frames.panes;
 
 import net.lmxm.suafe.ActionConstants;
-import net.lmxm.suafe.GuiConstants;
-import net.lmxm.suafe.renderers.MyTableCellRenderer;
 import net.lmxm.suafe.ApplicationDefaultsConstants;
+import net.lmxm.suafe.GuiConstants;
 import net.lmxm.suafe.UserPreferences;
-import net.lmxm.suafe.renderers.MyListCellRenderer;
+import net.lmxm.suafe.api.beans.Group;
+import net.lmxm.suafe.api.beans.GroupMemberObject;
+import net.lmxm.suafe.renderers.GroupListCellRenderer;
+import net.lmxm.suafe.renderers.GroupMemberListCellRenderer;
+import net.lmxm.suafe.renderers.MyTableCellRenderer;
 import net.lmxm.suafe.resources.ResourceUtil;
 
 import javax.annotation.Nonnull;
@@ -60,13 +63,13 @@ public final class GroupsPane extends BaseSplitPane {
 
     private JSplitPane groupDetailsSplitPanel;
 
-    private JList groupList;
+    private JList<Group> groupList;
 
     private JPanel groupListPanel;
 
     private JScrollPane groupListScrollPane;
 
-    private JList groupMemberList;
+    private JList<GroupMemberObject> groupMemberList;
 
     private JPanel groupMemberListActionsPanel;
 
@@ -102,7 +105,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JButton
      */
-    public JButton getAddGroupButton() {
+    private JButton getAddGroupButton() {
         if (addGroupButton == null) {
             addGroupButton = createButton("button.add", "mainframe.button.addgroup.tooltip", ResourceUtil.addGroupIcon,
                     ActionConstants.ADD_GROUP_ACTION, actionListener);
@@ -177,7 +180,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getGroupAccessRulesPanel() {
+    private JPanel getGroupAccessRulesPanel() {
         if (groupAccessRulesPanel == null) {
             groupAccessRulesPanel = new JPanel(new BorderLayout());
             groupAccessRulesPanel.setBorder(BorderFactory.createEmptyBorder(7, 0, 0, 0));
@@ -193,7 +196,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JScrollPane
      */
-    public JScrollPane getGroupAccessRulesScrollPane() {
+    private JScrollPane getGroupAccessRulesScrollPane() {
         if (groupAccessRulesScrollPane == null) {
             groupAccessRulesScrollPane = new JScrollPane(getGroupAccessRulesTable());
         }
@@ -223,7 +226,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getGroupActionsPanel() {
+    private JPanel getGroupActionsPanel() {
         if (groupActionsPanel == null) {
             groupActionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             groupActionsPanel.add(getAddGroupButton());
@@ -240,7 +243,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getGroupDetailsPanel() {
+    private JPanel getGroupDetailsPanel() {
         if (groupDetailsPanel == null) {
             groupDetailsPanel = new JPanel(new BorderLayout());
             groupDetailsPanel.add(getGroupDetailsSplitPanel(), BorderLayout.CENTER);
@@ -272,13 +275,13 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JList
      */
-    public JList getGroupList() {
+    public JList<Group> getGroupList() {
         if (groupList == null) {
-            groupList = new JList();
+            groupList = new JList<>();
             groupList.addKeyListener(keyListener);
             groupList.addListSelectionListener(listSelectionListener);
             groupList.addMouseListener(mouseListener);
-            groupList.setCellRenderer(new MyListCellRenderer());
+            groupList.setCellRenderer(new GroupListCellRenderer());
             groupList.setFont(GuiConstants.FONT_PLAIN);
         }
 
@@ -290,7 +293,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getGroupListPanel() {
+    private JPanel getGroupListPanel() {
         if (groupListPanel == null) {
             groupListPanel = new JPanel(new BorderLayout());
             groupListPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
@@ -307,7 +310,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JScrollPane
      */
-    public JScrollPane getGroupListScrollPane() {
+    private JScrollPane getGroupListScrollPane() {
         if (groupListScrollPane == null) {
             groupListScrollPane = new JScrollPane(getGroupList());
             groupListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -321,12 +324,12 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JList
      */
-    public JList getGroupMemberList() {
+    public JList<GroupMemberObject> getGroupMemberList() {
         if (groupMemberList == null) {
-            groupMemberList = new JList();
+            groupMemberList = new JList<>();
             groupMemberList.addKeyListener(keyListener);
             groupMemberList.addMouseListener(mouseListener);
-            groupMemberList.setCellRenderer(new MyListCellRenderer());
+            groupMemberList.setCellRenderer(new GroupMemberListCellRenderer());
             groupMemberList.setFont(GuiConstants.FONT_PLAIN);
         }
 
@@ -338,7 +341,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getGroupMemberListActionsPanel() {
+    private JPanel getGroupMemberListActionsPanel() {
         if (groupMemberListActionsPanel == null) {
             groupMemberListActionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             groupMemberListActionsPanel.add(getAddRemoveMembersButton());
@@ -352,7 +355,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JScrollPane
      */
-    public JScrollPane getGroupMemberListScrollPane() {
+    private JScrollPane getGroupMemberListScrollPane() {
         if (groupMemberListScrollPane == null) {
             groupMemberListScrollPane = new JScrollPane(getGroupMemberList());
         }
@@ -365,7 +368,7 @@ public final class GroupsPane extends BaseSplitPane {
      *
      * @return javax.swing.JPanel
      */
-    public JPanel getGroupMembersPanel() {
+    private JPanel getGroupMembersPanel() {
         if (groupMembersPanel == null) {
             groupMembersPanel = new JPanel(new BorderLayout());
             groupMembersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 7, 0));

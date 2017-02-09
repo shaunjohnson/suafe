@@ -21,15 +21,18 @@ package net.lmxm.suafe.api.beans;
 import net.lmxm.suafe.ActionConstants;
 import net.lmxm.suafe.UndoConstants;
 import net.lmxm.suafe.api.SubversionConstants;
+import net.lmxm.suafe.exceptions.AppException;
 import net.lmxm.suafe.exceptions.ValidatorException;
+import net.lmxm.suafe.resources.ResourceUtil;
+import net.lmxm.suafe.validators.Validator;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import net.lmxm.suafe.exceptions.AppException;
-import net.lmxm.suafe.resources.ResourceUtil;
-import net.lmxm.suafe.validators.Validator;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.*;
 
@@ -873,13 +876,13 @@ public final class Document {
      * @param groups Array of Groups to be deleted.
      * @throws AppException
      */
-    public void deleteGroups(Object[] groups) throws AppException {
+    public void deleteGroups(final List<Group> groups) throws AppException {
         if (groups == null) {
             throw new ValidatorException("application.error.groupsmissing");
         }
 
-        for (Object group : groups) {
-            deleteGroup((Group) group);
+        for (final Group group : groups) {
+            deleteGroup(group);
         }
 
         setUnsavedChanges();
@@ -1089,13 +1092,13 @@ public final class Document {
      * @param users Users to be deleted.
      * @throws AppException
      */
-    public void deleteUsers(Object[] users) throws AppException {
+    public void deleteUsers(final List<User> users) throws AppException {
         if (users == null) {
             throw new ValidatorException("application.error.usersmissing");
         }
 
-        for (Object user : users) {
-            deleteUser((User) user);
+        for (final User user : users) {
+            deleteUser(user);
         }
 
         setUnsavedChanges();
@@ -1492,7 +1495,8 @@ public final class Document {
      * @return Group object array containg all member Groups.
      * @throws AppException
      */
-    public Object[] getGroupMemberObjects(Group group) throws AppException {
+    @CheckForNull
+    public GroupMemberObject[] getGroupMemberObjects(@Nullable final Group group) throws AppException {
         if (group == null || group.getGroupMembers() == null) {
             return null;
         }
@@ -1500,12 +1504,12 @@ public final class Document {
             Collections.sort(group.getGroupMembers());
             Collections.sort(group.getUserMembers());
 
-            List<Object> combinedList = new ArrayList<Object>();
+            List<GroupMemberObject> combinedList = new ArrayList<>();
 
             combinedList.addAll(group.getGroupMembers());
             combinedList.addAll(group.getUserMembers());
 
-            return combinedList.toArray();
+            return combinedList.toArray(new GroupMemberObject[0]);
         }
     }
 
@@ -1583,14 +1587,14 @@ public final class Document {
      *
      * @return Group object array.
      */
-    public Object[] getGroupObjects() {
+    public Group[] getGroupObjects() {
         if (groups == null) {
             return null;
         }
         else {
             Collections.sort(groups);
 
-            return groups.toArray();
+            return groups.toArray(new Group[0]);
         }
     }
 
@@ -1740,14 +1744,14 @@ public final class Document {
      *
      * @return Array of Repository objects.
      */
-    public Object[] getRepositoryObjects() {
+    public Repository[] getRepositoryObjects() {
         if (repositories == null) {
             return null;
         }
         else {
             Collections.sort(repositories);
 
-            return repositories.toArray();
+            return repositories.toArray(new Repository[0]);
         }
     }
 
@@ -1927,7 +1931,7 @@ public final class Document {
      * @return Array of Group objects in which the User is a member.
      * @throws AppException
      */
-    public Object[] getUserGroupObjects(User user) throws AppException {
+    public Group[] getUserGroupObjects(User user) throws AppException {
         if (user == null || user.getGroups() == null) {
             return null;
         }
@@ -1936,7 +1940,7 @@ public final class Document {
 
             Collections.sort(groups);
 
-            return groups.toArray();
+            return groups.toArray(new Group[0]);
         }
     }
 
@@ -1988,14 +1992,14 @@ public final class Document {
      *
      * @return Array of all User objects.
      */
-    public Object[] getUserObjects() {
+    public User[] getUserObjects() {
         if (users == null) {
             return null;
         }
         else {
             Collections.sort(users);
 
-            return users.toArray();
+            return users.toArray(new User[0]);
         }
     }
 
@@ -2098,7 +2102,7 @@ public final class Document {
         return isUndoEnabled;
     }
 
-    public void removeFromGroups(User user, Object[] groups) throws AppException {
+    public void removeFromGroups(final User user, final List<Group> groups) throws AppException {
         for (Object groupObject : groups) {
             if (groupObject instanceof Group) {
                 Group group = (Group) groupObject;
@@ -2140,8 +2144,10 @@ public final class Document {
         setUnsavedChanges();
     }
 
-    public void removeGroupMembers(Group group, Object[] members) throws AppException {
-        for (Object member : members) {
+    public void removeGroupMembers(@Nonnull final Group group,
+                                   @Nonnull final List<? extends GroupMemberObject> groupMembers)
+            throws AppException {
+        for (final GroupMemberObject member : groupMembers) {
             if (member instanceof Group) {
                 Group groupMember = (Group) member;
 
@@ -2183,7 +2189,7 @@ public final class Document {
     /**
      * Renames the provided group to the new groupName.
      *
-     * @param user         Group to be renamed
+     * @param group        Group to be renamed
      * @param newGroupName New group name
      * @return Renamed group
      * @throws AppException

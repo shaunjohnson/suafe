@@ -18,9 +18,8 @@
  */
 package net.lmxm.suafe.renderers;
 
-import net.lmxm.suafe.api.beans.AccessRule;
-import net.lmxm.suafe.api.beans.Repository;
 import net.lmxm.suafe.api.beans.Group;
+import net.lmxm.suafe.api.beans.GroupMemberObject;
 import net.lmxm.suafe.api.beans.User;
 import net.lmxm.suafe.resources.ResourceUtil;
 
@@ -29,40 +28,32 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
- * Default list cell renderer.
+ * Group list cell renderer.
  *
  * @author Shaun Johnson
  */
-public final class MyListCellRenderer extends JLabel implements ListCellRenderer {
-    /**
-     * Serial ID.
-     */
-    private static final long serialVersionUID = 2612512361404880700L;
+public final class GroupMemberListCellRenderer extends JLabel implements ListCellRenderer<GroupMemberObject> {
+    private static final long serialVersionUID = 3771533905718129448L;
 
     /**
      * Custom cell painter.
      *
      * @param list         The list being painted
-     * @param value        Value to display
+     * @param groupMember  Group member to display
      * @param index        Cell index
      * @param isSelected   Indicates whether cell is selected or not
      * @param cellHasFocus True if the cell has focus
      */
-    public Component getListCellRendererComponent(final JList list, final Object value, // value to display
-                                                  final int index, final boolean isSelected, final boolean cellHasFocus) {
-        setText(value.toString());
+    public Component getListCellRendererComponent(final JList list, final GroupMemberObject groupMember,
+                                                  final int index, final boolean isSelected,
+                                                  final boolean cellHasFocus) {
+        setText(groupMember.toString());
 
-        if (value instanceof User) {
+        if (groupMember instanceof User) {
             setIcon(ResourceUtil.userIcon);
         }
-        else if (value instanceof Group) {
+        else if (groupMember instanceof Group) {
             setIcon(ResourceUtil.groupIcon);
-        }
-        else if (value instanceof Repository) {
-            setIcon(ResourceUtil.repositoryIcon);
-        }
-        else if (value instanceof AccessRule) {
-            setIcon(ResourceUtil.accessRuleIcon);
         }
         else {
             setIcon(null);

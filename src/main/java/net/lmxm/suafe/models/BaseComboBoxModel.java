@@ -31,11 +31,11 @@ import java.util.List;
  *
  * @author Shaun Johnson
  */
-public abstract class BaseComboBoxModel implements ComboBoxModel {
+public abstract class BaseComboBoxModel<T> implements ComboBoxModel<T> {
     /**
      * List values.
      */
-    protected Object[] itemList;
+    protected T[] itemList;
 
     /**
      * Selected item index.
@@ -61,6 +61,7 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
      *
      * @param anItem Item to be selected.
      */
+    @Override
     public void setSelectedItem(final Object anItem) {
         if (itemList == null || anItem == null) {
             selectedItem = -1;
@@ -73,6 +74,7 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
     /**
      * Gets the selected item.
      */
+    @Override
     @Nullable
     public Object getSelectedItem() {
         return (itemList == null || selectedItem == -1) ? null : itemList[selectedItem];
@@ -91,7 +93,7 @@ public abstract class BaseComboBoxModel implements ComboBoxModel {
      * @param index Index of object to retrieve.
      */
     @Nullable
-    public Object getElementAt(int index) {
+    public T getElementAt(int index) {
         return (itemList == null) ? null : itemList[index];
     }
 
