@@ -18,6 +18,8 @@
  */
 package net.lmxm.suafe;
 
+import net.lmxm.suafe.gui.GuiConstants;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;

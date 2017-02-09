@@ -16,38 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with Suafe.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.lmxm.suafe;
+package net.lmxm.suafe.gui.models;
 
-import net.lmxm.suafe.gui.frames.MainFrame;
+import net.lmxm.suafe.api.beans.Document;
+import net.lmxm.suafe.api.beans.User;
 
 import javax.annotation.Nonnull;
-import javax.swing.*;
 
 /**
- * Application starting point. If no arguments are specified then the application GUI is initiated. Otherwise, the
- * command line application equivalent is initiated.
+ * User list for a combo-box. Combo-box of all User for the current
+ * document.
  *
  * @author Shaun Johnson
  */
-public final class Application {
+public final class UserListModel extends BaseComboBoxModel<User> {
     /**
-     * Application starting point.
-     *
-     * @param args Application arguments
+     * Default constructor.
      */
-    public static void main(@Nonnull final String[] args) {
-        if (args.length == 0) {
-            try {
-                UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-            }
-            catch (Exception e) {
-                // Do nothing
-            }
-
-            new MainFrame().setVisible(true);
-        }
-        else {
-            new CommandLineApplication().run(args);
-        }
+    public UserListModel(@Nonnull final Document document) {
+        itemList = document.getUserObjects();
     }
 }

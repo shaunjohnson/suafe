@@ -18,7 +18,7 @@
  */
 package net.lmxm.suafe.api.beans;
 
-import net.lmxm.suafe.ActionConstants;
+import net.lmxm.suafe.gui.ActionConstants;
 import net.lmxm.suafe.UndoConstants;
 import net.lmxm.suafe.api.SubversionConstants;
 import net.lmxm.suafe.exceptions.AppException;

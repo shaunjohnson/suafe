@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 
 /**
  * Generic utility methods.
@@ -33,30 +32,6 @@ import java.lang.reflect.Array;
  * @author Shaun Johnson
  */
 public final class Utilities {
-    /**
-     * Converts an array of Objects into an array of <T>.
-     *
-     * @param <T>        Any type
-     * @param array      Array of <T> objects
-     * @param typeSample Sample type, matching <T>
-     * @return Array of <T> objects
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> T[] convertToArray(@Nonnull final Object[] array, @Nonnull T[] typeSample) {
-        // TODO why is this not returning a new typeSample?
-        if (typeSample.length < array.length) {
-            typeSample = (T[]) Array.newInstance(typeSample.getClass().getComponentType(), array.length);
-        }
-
-        System.arraycopy(array, 0, typeSample, 0, array.length);
-
-        if (typeSample.length > array.length) {
-            typeSample[array.length] = null;
-        }
-
-        return typeSample;
-    }
-
     /**
      * Open output file.
      *
