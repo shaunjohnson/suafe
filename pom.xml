@@ -138,7 +138,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.xiaoniu.suafe.Application</mainClass>
+                            <mainClass>net.lmxm.suafe.Application</mainClass>
                             <packageName>org.xiaoniu.suafe</packageName>
                         </manifest>
                         <manifestEntries>
@@ -154,7 +154,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.xiaoniu.suafe.Application</mainClass>
+                            <mainClass>net.lmxm.suafe.Application</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,0 +1,80 @@
+<!--
+  ~ Copyright (c) 2006-2017 by LMXM LLC <suafe@lmxm.net>
+  ~
+  ~ This file is part of Suafe.
+  ~
+  ~ Suafe is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Suafe is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Suafe.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<html>
+<head>
+<title>Groups Tab</title>
+</head>
+<body>
+<h1>Groups Tab</h1>
+
+<h2>Overview</h2>
+<p>
+The Groups Tab consists of three sections. The far left list displays all 
+current defined groups. The upper right section displays all members of the
+currently selected group. The lower right section displays all access rules 
+that reference the currently selected group. Selecting a different group
+automatically refreshes the two right sections.
+</p>
+
+<img src="images/groups_tab.png" alt="Groups tab" />
+
+<h2>Actions</h2>
+<p>
+Located group list are the group action buttons. Clicking on Add
+allows you to add another group. Clicking edit displays the edit screen for all
+currently selected groups. Clicking delete deletes all currently selected 
+groups.
+</p>
+
+<img src="images/add_group.png" />
+<br/>
+
+<img src="images/edit_group.png" />
+
+<p>
+Below the group members list is the Add/Remove Members action button. This
+allows you to add and remove members from the selected groups. Double-click a 
+group or user name to add or remove the group or user from the list of members, 
+or highlight and click the appropriate button. You may also change group 
+membership by highlighting the member/non-member and hitting the space bar.
+</p>
+
+<img src="images/add_remove_members.png" />
+
+<p>
+Double-clicking on a group in the group list displays the edit screen for the
+selected group. Double-clicking on a member name in the member list displays
+the member. Selected groups and group details are displayed in the Groups tab
+and users and user details are displayed in the 
+<a href="users_tab.html">Users Tab</a>.
+</p>
+
+<h2>Considerations</h2>
+<p>
+Groups with no members and groups that are not referenced are persisted.
+</p>
+
+<p>
+Deleting a group also deletes all access rules that reference that group. Group
+members are not deleted.
+</p>
+
+</body>
+</html>

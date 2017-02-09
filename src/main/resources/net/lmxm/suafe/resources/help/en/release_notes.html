@@ -1,0 +1,163 @@
+<!--
+  ~ Copyright (c) 2006-2017 by LMXM LLC <suafe@lmxm.net>
+  ~
+  ~ This file is part of Suafe.
+  ~
+  ~ Suafe is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Suafe is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Suafe.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<html>
+<head>
+<title>Release Notes</title>
+</head>
+<body>
+<h1>Release Notes</h1>
+
+<h2>Release 1.2.0 - TBD</h2>
+<p>What's new in this release:</p>
+<ul>
+<li>Help files have been updated and expanded.</li>
+<li>Changed to use Javahelp for help file presentation.</li>
+<li>Add access rules for a project (branches, tags and trunk) at one time.</li>
+<li>Enable delete key to delete selected object(s).</li>
+<li>Changed parser to allow for parsing of multi-line group definitions.</li>
+<li>Changed generator to allow big group defitions to span multiple lines.</li>
+<li>Added new setting to enable/disable generation of multi-line group definitions.</li>
+
+</ul>
+
+<h2>Release 1.1.2 - 2008.11.17</h2>
+<p>What's new in this release:</p>
+<ul>
+<li>Bug groups were added twice is fixed.</li>
+</ul>
+
+<h2>Release 1.1.1 - 2008.11.14</h2>
+<p>What's new in this release:</p>
+<ul>
+<li>Bug where add/edit access rules stopped working correctly when table was sorted is fixed.</li>
+</ul>
+
+<h2>Release 1.1.0 - 2007.08.12</h2>
+<p>What's new in this release:</p>
+<ul>
+<li>Suafe now has a command line interface. All edit and report functions are available through a scriptable, command line interface. Input/output directly from/to files or through STDIN and STDOUT.</li>
+<li>A recent files list feature has been added. This lists out the last 10 files that were edited using Suafe.</li>
+<li>The last file edited is opened automatically upon startup. This feature can be disabled.</li>
+<li>New reports:
+<ul>
+<li>Summary Report provides a comprehensive,  HTML summary of all the information within an authz file.</li>
+<li>Statistics Report provides a simple summary of user, group, repository and access rule counts.</li>
+</ul>
+</li>
+
+<li>Upon saving changes Suafe warns you if any unreferenced users, repositories or paths exist.</li>
+<li>Fonts are now configurable. You're no longer limited to the default Java font. By default all values are displayed in a monospace font.</li>
+<li>User, Group and Access Rule counts are displayed in the title of each tab. A quick reference to see how many of each object exists.
+<li>Clone user and clone group buttons are now available on the users and groups tabs.</li>
+<li>Preview and report screens are now resizeable.
+<li>Tables are now sortable by column. Just click the header within a table to resort the data.</li>
+<li>Table column widths now size themselves to more accurrately display the data within the table.</li>
+<li>Application status bar at the bottom of the main window displays the full path of the file currently being edited.</li>
+<li>Window size, location and state as well as divider location are now saved when the application is closed. These saved settings can be cleared at anytime.</li>
+<li>The application now checks for circular references. i.e. If group A is a member of group B then group B cannot be a member of group A or any group that is a member of group A.</li>
+<li>Change Membership and Add/Remove Users dialogs are now resizeable. Resize the dialog to accommodate larger amounts of data.</li>
+<li>Drag and drop an authz file from the operating system onto Suafe to open it.</li>
+<li>You may now click the delete key to delete items and change group memberships.</li>
+
+</ul>
+
+<p>What's fixed in this release:</p>
+<ul>
+<li>Dialogs such as the add/edit access rule dialogs now resize themselves according to the size of the data.</li>
+<li>Line numbers reported within error messages displayed when parsing/opening a file now correctly indicate the line number where the problem was encountered.</li>
+<li>Bug where group definitions contained other groups were not being parsed correctly has been addressed.</li>
+<li>Bug where a user and groups appear repeatedly if group or user is assigned to the same group more than once.</li>
+</ul>
+
+<h2>Release 1.0.0 - 2007.01.27</h2>
+<p>What's new in this release:&nbsp;</p>
+<ul>
+<li>Bug: Allow deletion of server level access rules</li>
+<li>Suafe starts maximized</li>
+<li>All dialogs and the help screen can be closed with a hit of the escape key</li>
+<li>Suafe now keeps track of changes that you make. It'll prompt you to
+save the file before doing anything that would clear the memory like
+closing the application</li>
+<li>More help screens</li>
+<li>Fixed bug with edit access rule</li>
+<li>Fixed bug where the screens didn't change when using cursor keys</li>
+<li>Widened the clone dialogs. Added an icon for the clone menu items</li>
+<li>Corrected a problem with the resource files</li>
+</ul>
+
+<p>What's gone missing in this release:</p>
+<ul>
+<li>Repository browser has been removed. This wasn't available so
+nobody should miss it. Trouble getting the browser to work properly and
+poor performance of the JavaSVN library lead me to remove this feature.
+It is also something that isn't all that important; I don't think it
+would be used much.</li>
+<li>The print function was removed. Printing an authz file is
+interesting, but again not important. It's more important to have a
+good editor than to be able to print files which are unlikely to be
+read by anybody.</li>
+</ul>
+
+<h2>Release 0.4 - 2006.10.03</h2>
+<p>What's gone missing in this release:</p>
+<ul>
+<li>If the current file opened is changed then add an indicator to the title bar</li>
+<li>Prompt user to save the current file if it contains unsaved changes when closing the window</li>
+<li>Enlarged many of the screens so that long names and paths can be viewed in their entirety</li>
+<li>Bug: Editing access rules and paths now works as expected</li>
+<li>Added copyright to source</li>
+<li>Updated to comply with Java 5 standards</li>
+</ul>
+
+<p>Known issues:</p>
+<ul>
+<li>Installer isn't the greatest and isn't complete. Use at your own risk</li>
+<li>The about screen still displays 0.3 even though this is the 0.4 release</li>
+</ul>
+
+<h2>Release 0.3 - 2006.09.12</h2>
+<ul><li>Added ability to clone a user or group. The clone has all the same access as the original</li>
+<li>All strings are moved into the resources files</li>
+<li>Implemented Edit Path feature</li>
+<li>Parser now gives the line number when encountering a problem</li>
+<li>Parser now detects duplicate groups and duplicate group members</li>
+<li>Repositioned various buttons on the screens to avoid confusion</li>
+<li>Double-clicking an access rule opens the Edit Access Rule dialog</li>
+<li>Bug: Fix problem where resource file is missing when running within a non-English locale</li>
+<li>Bug: File-New no longer leaves data in the lists</li>
+<li>Bug: Cancel button now cancels all actions instead of just the current action</li>
+<li>Bug: Deleting a user now also deletes all access rules for the user</li>
+<li>Bug: A group can no longer be a member of itself</li>
+<li>Bug: Access rule structure tree now scrolls to the displayed item</li>
+</ul>
+
+<h2>Release 0.2 - 2006.08.25</h2>
+<ul>
+<li>Minor updates</li>
+</ul>
+
+<h2>Release 0.1 - 2006.08.18</h2>
+
+<ul>
+<li>Initial release</li>
+</ul>
+
+</body>
+</html>

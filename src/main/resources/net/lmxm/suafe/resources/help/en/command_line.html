@@ -1,0 +1,694 @@
+<!--
+  ~ Copyright (c) 2006-2017 by LMXM LLC <suafe@lmxm.net>
+  ~
+  ~ This file is part of Suafe.
+  ~
+  ~ Suafe is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Suafe is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Suafe.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<html>
+<head>
+<title>Command Line</title>
+</head>
+<body>
+<h1>Command Line</h1>
+
+<p>
+Suafe can be used on the command line as well as a GUI. All functionality is
+available through the command line. By default Suafe accepts input from STDIN
+and writes output to STDOUT making it simple to pipe Suafe together with other
+commands. Suafe can also read and write from files.
+</p>
+
+<p>
+Click the task below to view which parameters are required to perform the
+action.
+</p>
+
+<p>
+<strong>General Options</strong>
+</p>
+
+<ul>
+	<li><a href="#input_output">Input and Output streams</a></li>
+</ul>
+
+<p><strong>User Actions</strong></p>
+<ul>
+	<li><a href="#add_user">Add new user</a></li>
+	<li><a href="#clone_user">Clone existing user</a></li>
+	<li><a href="#rename_user">Rename existing user</a></li>
+	<li><a href="#delete_user">Delete existing user</a></li>
+	<li><a href="#add_groups">Add user to groups</a></li>
+	<li><a href="#remove_groups">Remove user from groups</a></li>
+	<li><a href="#count_users">Count number of users</a></li>
+	<li><a href="#get_users">Get list of users</a></li>
+	<li><a href="#get_user_groups">Get list of groups of which a user is a 
+	member</a></li>
+	<li><a href="#get_user_rules">Get list of access rules in which the user is 
+	directly referenced</a></li>
+</ul>
+
+<p><strong>Group Actions</strong></p>
+<ul>
+	<li><a href="#add_group">Add new group</a></li>
+	<li><a href="#clone_group">Clone existing group</a></li>
+	<li><a href="#rename_group">Rename existing group</a></li>
+	<li><a href="#delete_group">Delete existing group</a></li>
+	<li><a href="#add_members">Add members to group</a></li>
+	<li><a href="#remove_members">Remove members from group</a></li>
+	<li><a href="#count_groups">Count number of groups</a></li>
+	<li><a href="#get_groups">Get list of groups</a></li>
+	<li><a href="#get_group_members">Get list of group members</a></li>
+	<li><a href="#get_group_group_members">Get list of groups that are members 
+	of a specified group</a></li>
+	<li><a href="#get_group_user_members">Get list of users that are members of 
+	a specified group</a></li>
+	<li><a href="#get_group_rules">Get list of access rules in which the group
+	is directly referenced</a></li>
+</ul>
+
+<p><strong>Repository Actions</strong></p>
+<ul>
+	<li><a href="#add_repos">Add new repository</a></li>
+	<li><a href="#rename_repos">Rename existing repository</a></li>
+	<li><a href="#delete_repos">Delete existing repository</a></li>
+	<li><a href="#count_repos">Count number of repositories</a></li>
+	<li><a href="#get_repos">Get list of repositories</a></li>
+	<li><a href="#get_repos_rules">Get list of access rules in which the 
+	repository is directly referenced</a></li>
+</ul>
+
+<p><strong>Access Rule Actions</strong></p>
+<ul>
+	<li><a href="#add_rule">Add access rule</a></li>
+	<li><a href="#edit_rule">Edit access rule</a></li>
+	<li><a href="#delete_rule">Delete access rule</a></li>
+	<li><a href="#count_rules">Count number of access rules</a></li>
+	<li><a href="#get_rules">Get list of access rules</a></li>
+</ul>
+
+<p><strong>Report Actions</strong></p>
+<ul>
+	<li><a href="#statistics_report">Statistics Report</a></li>
+	<li><a href="#summary_report">Summary Report</a></li>
+</ul>
+
+<h3><a name="input_output">Input and Output streams</a></h3>
+<p>
+Suafe accepts input from STDIN or from a file, and will send output to STDOUT or 
+to a file.<br>
+<br>
+Flags:
+<ul>
+	<li>input : Path to input file. If not specified then suafe reads input from 
+	STDIN.</li>
+	<li>output : Path to output file. If not specified then suafe writes output 
+	to STDOUT.</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --input /svn/authz --output /svn/authz --cloneuser --name shaun --newname john
+
+	cat /svn/authz | java -jar suafe.jar --countusers | wc
+</pre>
+</p>
+
+<h3><a name="add_user">Add new user</a></h3>
+<p>
+Users don't exist in an authz file unless they are a member of a group or 
+referenced by an access rule. Add a new user by adding the account to a group 
+or by defining an access rule for the user.
+</p>
+
+<h3><a name="clone_user">Clone existing user</a></h3>
+<p>
+Creates a complete duplicate of an existing user. The clone will be a member
+of the same groups and have the same access to the same paths.<br>
+<br>
+Flags:
+<ul>
+	<li>cloneuser : Clone user command</li>
+	<li>name : Name of user to be cloned</li>
+	<li>newname : Name of the clone</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --cloneuser --name shaun --newname john
+</pre>
+</p>
+
+<h3><a name="rename_user">Rename existing user</a></h3>
+<p>
+Changes the name of an existing user.<br>
+<br>
+Flags:
+<ul>
+	<li>renameuser : Rename user command</li>
+	<li>name : Name of user to be renamed</li>
+	<li>newname : New name for the user</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --renameuser --name shaun --newname john
+</pre>
+
+
+<h3><a name="delete_user">Delete existing user</a></h3>
+<p>
+Deletes an existing user. The user will be removed along with all of the 
+user's memberships and access rules.<br>
+<br>
+Flags:
+<ul>
+	<li>deleteuser : Delete user command</li>
+	<li>name : Name of user to be deleted</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --deleteuser --name shaun
+</pre>
+</p>
+
+<h3><a name="add_groups">Add user to groups</a></h3>
+<p>
+Adds a user to one or more existing groups.<br>
+<br>
+Flags:
+<ul>
+	<li>addgroups : Add groups command</li>
+	<li>name : Name of user to be added to group(s)</li>
+	<li>groups : One or more groups</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --addgroups --name shaun --groups developer,manager
+</pre>
+</p>
+
+<h3><a name="remove_groups">Remove user from groups</a></h3>
+<p>
+Removes a user from one or more existing groups.<br>
+<br>
+Flags:
+<ul>
+	<li>removegroups : Remove groups command</li>
+	<li>name : Name of user to be removed from group(s)</li>
+	<li>groups : One or more groups</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --removegroups --name shaun --groups developer,manager
+</pre>
+</p>
+
+<h3><a name="count_users">Count number of users</a></h3>
+<p>
+Counts the number of users.<br>
+<br>
+Flags:
+<ul>
+	<li>countusers : Count users command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --countusers
+</pre>
+</p>
+
+<h3><a name="get_users">Get list of users</a></h3>
+<p>
+Returns a list of all users mentioned in the authz file.<br>
+<br>
+Flags:
+<ul>
+	<li>getusers : Get users command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getusers
+</pre>
+</p>
+
+<h3><a name="get_user_groups">Get list of groups of which a user is a member</a></h3>
+<p>
+Returns a list of groups of which a specified user is a member.<br>
+<br>
+Flags:
+<ul>
+	<li>getusergroups : Get user groups command</li>
+	<li>name : Name of user</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getusergroups --name shaun
+</pre>
+</p>
+
+<h3><a name="get_user_rules">Get list of access rules in which the user is 
+directly referenced</a></h3>
+<p>
+Returns a list of access rules in which the specified user is directly 
+referenced.<br>
+<br>
+Flags:
+<ul>
+	<li>getuserrules : Get user access rules command</li>
+	<li>name : Name of user</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getuserrules --name shaun
+</pre>
+</p>
+
+<h3><a name="add_group">Add new group</a></h3>
+<p>
+Adds a new group.<br>
+<br>
+Flags:
+<ul>
+	<li>getuserrules : Add group command</li>
+	<li>name : Name of group to be created</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getuserrules --name manager
+</pre>
+</p>
+
+<h3><a name="clone_group">Clone existing group</a></h3>
+<p>
+Creates a complete duplicate of an existing group. The clone will be a member 
+of the same groups and have the same access to the same paths.<br>
+<br>
+Flags:
+<ul>
+	<li>clonegroup : Clone group command</li>
+	<li>name : Name of group to be cloned</li>
+	<li>newname : Name of the clone</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --clonegroup --name developer --newname qa
+</pre>
+</p>	
+
+<h3><a name="rename_group">Rename existing group</a></h3>
+<p>
+Changes the name of an existing group.<br>
+<br>
+Flags:
+<ul>
+	<li>renamegroup : Rename group command</li>
+	<li>name : Name of group to be renamed</li>
+	<li>newname : New name for the group</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --renamegroup --name developer --newname qa
+</pre>
+</p>
+
+<h3><a name="delete_group">Delete existing group</a></h3>
+<p>
+Deletes an existing group. The group will be removed along with all of the 
+groups memberships and access rules.<br>
+<br>
+Flags:
+<ul>
+	<li>deletegroup : Delete group command</li>
+	<li>name : Name of group to be deleted</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --deletegroup --name developer
+</pre>
+</p>
+
+<h3><a name="add_members">Add members to group</a></h3>
+<p>
+Adds new members to existing group. Both users and groups may be added at the
+same time.<br>
+<br>
+Flags:
+<ul>
+	<li>addmembers : Add members command</li>
+	<li>users : One or more users</li>
+	<li>groups : One or more groups</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --addmembers --users shaun,robert --groups qa,manager
+</pre>
+</p>
+
+<h3><a name="remove_members">Remove members from group</a></h3>
+<p>
+Removes members from a group. Users and groups may be removed at the same time.
+<br>
+<br>
+Flags:
+<ul>
+	<li>removemembers : Remove members command</li>
+	<li>users : One or more users</li>
+	<li>groups : One or more groups</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --removemembers --users shaun,robert --groups qa,manager
+</pre>
+</p>
+
+<h3><a name="count_groups">Count number of groups</a></h3>
+<p>
+Counts the number of groups.<br>
+<br>
+Flags:
+<ul>
+	<li>countgroups : Count groups command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --countgroups
+</pre>
+</p>
+
+<h3><a name="get_groups">Get list of groups</a></h3>
+<p>
+Returns a list of all groups mentioned in the authz file.<br>
+<br>
+Flags:
+<ul>
+	<li>getgroups : Get groups command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getgroups
+</pre>
+</p>
+
+<h3><a name="get_group_members">Get list of group members</a></h3>
+<p>
+Returns a list of all members of a group. Both user and group members are 
+returned.<br>
+<br>
+Flags:
+<ul>
+	<li>getgroupmembers : Get group members command</li>
+	<li>name : Name of group</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getgroupmembers --name developer
+</pre>
+</p>
+
+<h3><a name="get_group_group_members">Get list of groups that are members of a 
+specified group</a></h3>
+<p>
+Returns a list of all group members of a group. Only group members are 
+returned.<br>
+<br>
+Flags:
+<ul>
+	<li>getgroupgroupmembers : Get group's group members command</li>
+	<li>name : Name of group</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getgroupgroupmembers --name developer
+</pre>
+</p>
+
+<h3><a name="get_group_user_members">Get list of users that are members of a 
+specified group</a></h3>
+<p>
+Returns a list of all user members of a group. Only user members are 
+returned.<br>
+<br>
+Flags:
+<ul>
+	<li>getgroupusermembers : Get group's user members command</li>
+	<li>name : Name of group</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getgroupusermembers --name developer
+</pre>
+</p>
+
+<h3><a name="get_group_rules">Get list of access rules in which the group is 
+directly referenced</a></h3>
+<p>
+Returns a list of access rules in which the specified group is directly 
+referenced.<br>
+<br>
+Flags:
+<ul>
+	<li>getgrouprules : Get group access rules command</li>
+	<li>name : Name of group</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getgrouprules --name developer
+</pre>
+</p>
+
+<h3><a name="add_repos">Add new repository</a></h3>
+<p>
+Repositories don't exist in an authz file unless they are referenced by an 
+access rule. Add a new repository by defining an access rule for the 
+repository.
+</p>
+
+<h3><a name="rename_repos">Rename existing repository</a></h3>
+<p>
+Changes the name of an existing repository.<br>
+<br>
+Flags:
+<ul>
+	<li>renamerepos : Rename repository command</li>
+	<li>name : Name of repository to be renamed</li>
+	<li>newname : New name for the repository</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --renamerepos --name mcm --newname mcmprod
+</pre>
+</p>
+
+<h3><a name="delete_repos">Delete existing repository</a></h3>
+<p>
+Deletes an existing repository. The repository will be removed along with all of 
+the repository's access rules.<br>
+<br>
+Flags:
+<ul>
+	<li>deleterepos : Delete repository command</li>
+	<li>name : Name of repository to be deleted</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --deleterepos --name mcm
+</pre>
+</p>
+
+<h3><a name="count_repos">Count number of repositories</a></h3>
+<p>
+Counts the number of repositories.<br>
+<br>
+Flags:
+<ul>
+	<li>countrepos : Count repositories command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --countrepos
+</pre>
+</p>
+
+<h3><a name="get_repos">Get list of repositories</a></h3>
+<p>
+Returns a list of all repositories mentioned in the authz file.<br>
+<br>
+Flags:
+<ul>
+	<li>getrepos : Get repositories command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getrepos
+</pre>
+</p>
+
+<h3><a name="get_repos_rules">Get list of access rules in which the repository 
+is directly referenced</a></h3>
+<p>
+Returns a list of access rules in which the specified repository is directly 
+referenced. Omit repository name for server level rules.<br>
+<br>
+Flags:
+<ul>
+	<li>getreposrules : Get repository access rules command</li>
+	<li>name : Name of repository</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getreposrules --name mcm
+</pre>
+</p>
+
+<h3><a name="add_rule">Add access rule</a></h3>
+<p>
+Adds a new access rule. If repository is omitted then the new rule applies to 
+all repositories.<br>
+<br>
+Flags:
+<ul>
+	<li>addrule : Add access rule command</li>
+	<li>repos : Name of repository. If omitted, the rule will apply to all
+	repositories.</li>
+	<li>path : Path within the repository</li>
+	<li>user : Name of user</li>
+	<li>group : Name of group</li>
+	<li>access : Access level (r | rw | none)</li>
+</ul>
+Example:<br>
+<br>
+Give user shaun read-write access to [mcm:/trunk]
+<pre>
+	java -jar suafe.jar --addrule --repos mcm --path /trunk --user shaun --access rw
+</pre>
+Deny all users access to [mcm:/tags]
+<pre>
+	java -jar suafe.jar --addrule --repos mcm --path /tags --user * --access none
+</pre>
+Give group manager read-only access to [mcm:/branches]
+<pre>
+	java -jar suafe.jar --addrule --repos mcm --path /branches --group manager --access r
+</pre>
+</p>
+
+<h3><a name="edit_rule">Edit access rule</a></h3>
+<p>
+Edits an existing access rule. The repository, path, and user/group arguments 
+are used to match the rule to edit. Arguments prefixed with "new" specify 
+changes to the rule.<br>
+<br>
+Flags:
+<ul>
+	<li>editrule : Edit access rule command</li>
+	<li>repos : Name of repository. Omit for server level rules.</li>
+	<li>path : Path within the repository</li>
+	<li>user : Name of user</li>
+	<li>group : Name of group</li>
+	<li>newrepos : New repository name.</li>
+	<li>newpath : New path within the repository</li>
+	<li>newuser : Name of user</li>
+	<li>newgroup : Name of group</li>
+	<li>newaccess : New access level (r | rw | none)</li>
+</ul>
+Example:<br>
+Change user access from read-write to read-only<br>
+<pre>
+	java -jar suafe.jar --editrule --repos mcm --path /trunk --user shaun --newaccess r
+</pre>
+Change access rule path from /tags to /management
+<pre>
+	java -jar suafe.jar --editrule --repos mcm --path /tags --group manager --newpath /management
+</pre>
+Change rule to apply to user robert instead of group manager
+<pre>
+	java -jar suafe.jar --editrule --repos mcm --path /branches --group manager --newuser robert
+</pre>
+</p>	
+
+<h3><a name="delete_rule">Delete access rule</a></h3>
+<p>
+Deletes an existing access rule. The repository, path, and user/group arguments 
+are used to match the rule to delete.<br>
+<br>
+Flags:
+<ul>
+	<li>deleterule : Delete access rule command</li>
+	<li>repos : Name of repository. Omit for server level rules.</li>
+	<li>path : Path within the repository</li>
+	<li>user : Name of user</li>
+	<li>group : Name of group</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --deleterule --repos mcm --path /trunk --user shaun
+</pre>
+</p>
+
+<h3><a name="count_rules">Count number of access rules</a></h3>
+<p>
+Counts the number of access rules.<br>
+<br>
+Flags:
+<ul>
+	<li>countrules : Count access rules command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --countrules
+</pre>
+</p>
+
+<h3><a name="get_rules">Get list of access rules</a></h3>
+<p>
+Returns a list of all access rules.<br>
+<br>
+Flags:
+<ul>
+	<li>getrules : Get access rules command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --getrules
+</pre>
+</p>
+
+<h3><a name="statistics_report">Statistics Report</a></h3>
+<p>
+Provides an XHTML statistics report regarding the authz file.<br>
+<br>
+Flags:<br>
+<ul>
+	<li>statisticsreport : Generate statistics report command</li>
+</ul>
+Example:
+<pre>
+    java -jar suafe.jar --statisticsreport
+</pre>
+</p>
+
+<h3><a name="summary_report">Summary Report</a></h3>
+<p>
+Provides an XHTML summary report regarding the authz file.<br>
+<br>
+Flags:
+<ul>
+	<li>summaryreport : Generate summary report command</li>
+</ul>
+Example:
+<pre>
+	java -jar suafe.jar --summaryreport
+</pre>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!--
+  ~ Copyright (c) 2006-2017 by LMXM LLC <suafe@lmxm.net>
+  ~
+  ~ This file is part of Suafe.
+  ~
+  ~ Suafe is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ Suafe is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with Suafe.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<html>
+<head>
+<title>Authorization Files</title>
+</head>
+<body>
+<h1>Authorization Files</h1>
+
+<h2>Overview</h2>
+<p>
+Suafe can read and write Subversion Authorization (authz) files, however,
+comments are never saved. If your current authz file contains comments,
+opening it up and saving it with Suafe will result in a file with no comments
+(<a href="limitations.html">see limitations</a>).
+</p>
+
+<p>
+Authz files are outputted in the following format. File contents are organized
+alphabetically. For example, group definitions are organized by group name 
+alphabetically, as well as group members are listed alphabetically.
+</p>
+
+<strong>&lt;document&gt;</strong>
+<pre>
+    "[group]"
+    (&lt;group_definition&gt;)*
+    (&lt;section_definition&gt;)*
+</pre>
+
+<strong>&lt;group_definition&gt;</strong>
+<pre>
+    &lt;group_name&gt; = (&lt;group_name&gt, )* (&lt;user_name&gt;)*;
+</pre>
+
+<strong>&lt;section_definition&gt;</strong>
+<pre>
+    ([&lt;relative_path&gt;]) | ([&lt;repository_name&gt;:&lt;relative_path&gt;])
+    (&lt;access_rule&gt;)*
+</pre>
+
+<strong>&lt;access_rule&gt;</strong>
+<pre>
+    (&lt;group_name&gt;) | (&lt;user_name&gt;) = ("rw" | "r" | "")
+</body>
+</html>
