@@ -18,6 +18,8 @@
  */
 package net.lmxm.suafe.api.beans;
 
+import javax.annotation.CheckForNull;
+
 /**
  * Represents the outcome of a dialog action.
  * When a dialog returns focus back to the main application the dialog returns
@@ -26,7 +28,6 @@ package net.lmxm.suafe.api.beans;
  * @author Shaun Johnson
  */
 public final class Message {
-
     /**
      * Status indicating that the user cancelled the operation.
      */
@@ -50,17 +51,7 @@ public final class Message {
     /**
      * Current state of the message.
      */
-    private int state;
-
-    /**
-     * Default constructor.
-     */
-    public Message() {
-        super();
-
-        this.userObject = null;
-        this.state = UNKNOWN;
-    }
+    private int state = UNKNOWN;
 
     /**
      * Returns the current state.
@@ -76,7 +67,7 @@ public final class Message {
      *
      * @param state The state to set.
      */
-    public void setState(int state) {
+    public void setState(final int state) {
         this.state = state;
     }
 
@@ -85,6 +76,7 @@ public final class Message {
      *
      * @return Returns the userObject.
      */
+    @CheckForNull
     public Object getUserObject() {
         return userObject;
     }
@@ -94,7 +86,7 @@ public final class Message {
      *
      * @param userObject The userObject to set.
      */
-    public void setUserObject(Object userObject) {
+    public void setUserObject(final Object userObject) {
         this.userObject = userObject;
     }
 }

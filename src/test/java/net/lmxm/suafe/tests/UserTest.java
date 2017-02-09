@@ -18,24 +18,25 @@
  */
 package net.lmxm.suafe.tests;
 
-import org.junit.Test;
 import net.lmxm.suafe.api.beans.AccessRule;
 import net.lmxm.suafe.api.beans.Group;
 import net.lmxm.suafe.api.beans.User;
+import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * User unit tests.
+ *
  * @author Shaun Johnson
  */
-public class UserTest {
-
+public final class UserTest {
     private final String userName = "TestUserName";
 
     @Test
     public void testAddRemoveAccessRule() {
-        User user = new User();
+        final User user = new User();
 
         assertTrue(user.getAccessRules() != null);
         assertTrue(user.getAccessRules().size() == 0);
@@ -56,12 +57,12 @@ public class UserTest {
 
     @Test
     public void testAddRemoveGroup() {
-        User user = new User();
+        final User user = new User();
 
         assertTrue(user.getGroups() != null);
         assertTrue(user.getGroups().size() == 0);
 
-        Group memberOfGroup = new Group();
+        final Group memberOfGroup = new Group();
         user.addGroup(memberOfGroup);
 
         assertTrue(user.getGroups() != null);
@@ -146,9 +147,9 @@ public class UserTest {
 
     @Test
     public void testIsAllUsers() {
-        User userA = new User("*");
-        User userB = new User(" * ");
-        User userC = new User("A");
+        final User userA = new User("*");
+        final User userB = new User(" * ");
+        final User userC = new User("A");
 
         assertTrue(userA.isAllUsers());
         assertTrue(userB.isAllUsers());
@@ -157,7 +158,7 @@ public class UserTest {
 
     @Test
     public void testGetSetName() {
-        User user = new User();
+        final User user = new User();
 
         assertTrue(user.getName() == null);
 
@@ -176,12 +177,12 @@ public class UserTest {
      */
     @Test
     public void testToString() {
-        User user = new User();
+        final User user = new User();
 
         assertTrue(user.toString() != null);
         assertTrue(user.toString().equals(""));
 
-        User userWithName = new User(userName);
+        final User userWithName = new User(userName);
 
         assertTrue(userWithName.toString() != null);
         assertTrue(userWithName.toString().equals(userName));
@@ -192,7 +193,7 @@ public class UserTest {
      */
     @Test
     public void testUser() {
-        User user = new User();
+        final User user = new User();
 
         assertTrue(user.getName() == null);
 
@@ -208,7 +209,7 @@ public class UserTest {
      */
     @Test
     public void testUserString() {
-        User user = new User(userName);
+        final User user = new User(userName);
 
         assertTrue(user.getName() != null);
         assertTrue(user.getName().equals(userName));

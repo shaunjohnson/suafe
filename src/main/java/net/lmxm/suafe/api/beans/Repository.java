@@ -20,6 +20,9 @@ package net.lmxm.suafe.api.beans;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static org.apache.commons.lang3.StringUtils.trimToNull;
 
 /**
  * Represents a single Subversion repository.
@@ -29,7 +32,6 @@ import java.util.List;
  * @author Shaun Johnson
  */
 public final class Repository implements Comparable<Repository> {
-
     /**
      * Name of the Repository. This field must contain a unique value.
      */
@@ -38,16 +40,13 @@ public final class Repository implements Comparable<Repository> {
     /**
      * List of paths in which the Repository is referenced.
      */
-    protected List<Path> paths;
+    protected List<Path> paths = new ArrayList<>();
 
     /**
-     * Default Constuctor.
+     * Default Constructor.
      */
     public Repository() {
-        super();
 
-        setName(null);
-        this.paths = new ArrayList<Path>();
     }
 
     /**
@@ -55,18 +54,8 @@ public final class Repository implements Comparable<Repository> {
      *
      * @param name The name of the Repository.
      */
-    public Repository(String name) {
-        super();
-
+    public Repository(final String name) {
         setName(name);
-        this.paths = new ArrayList<Path>();
-    }
-
-    /**
-     * Returns the Repository object as a String.
-     */
-    public String toString() {
-        return (name == null) ? "" : name;
     }
 
     /**
@@ -83,8 +72,8 @@ public final class Repository implements Comparable<Repository> {
      *
      * @param name The Repository's new name.
      */
-    public void setName(String name) {
-        this.name = (name == null) ? null : name.trim().intern();
+    public void setName(final String name) {
+        this.name = trimToNull(name);
     }
 
     /**
@@ -102,7 +91,7 @@ public final class Repository implements Comparable<Repository> {
      *
      * @param path Path to add to the list.
      */
-    public void addPath(Path path) {
+    public void addPath(final Path path) {
         paths.add(path);
     }
 
@@ -112,7 +101,7 @@ public final class Repository implements Comparable<Repository> {
      *
      * @param path Path to be removed.
      */
-    public void removePath(Path path) {
+    public void removePath(final Path path) {
         paths.remove(path);
     }
 
@@ -121,18 +110,33 @@ public final class Repository implements Comparable<Repository> {
      *
      * @param otherRepository The other Repository to which this is compared.
      */
-    public int compareTo(Repository otherRepository) {
+    public int compareTo(final Repository otherRepository) {
         return this.toString().compareTo(otherRepository.toString());
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final Repository that = (Repository) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
     /**
-     * Compares this to another object.
-     *
-     * @param otherRepository The other Repository to which this is compared.
-     * @return true if it is the same object, otherwise false
+     * Returns the Repository object as a String.
      */
-    public boolean equals(Repository otherRepository) {
-        return name == null ? otherRepository.getName() == null :
-                name.equals(otherRepository.getName());
+    @Override
+    public String toString() {
+        return (name == null) ? "" : name;
     }
 }

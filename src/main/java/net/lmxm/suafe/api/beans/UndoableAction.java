@@ -23,13 +23,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class UndoableAction extends AbstractAction {
+    private Map<String, Object> values = new HashMap<>();
 
-    private Map<String, Object> values = null;
-
-    public UndoableAction(String action) {
+    public UndoableAction(final String action) {
         super(action);
-
-        values = new HashMap<String, Object>();
     }
 
     public String getActionName() {
@@ -37,11 +34,11 @@ public final class UndoableAction extends AbstractAction {
         return action;
     }
 
-    public void addValue(String name, Object value) {
+    public void addValue(final String name, final Object value) {
         values.put(name, value);
     }
 
-    public Object getValue(String name) {
+    public Object getValue(final String name) {
         return values.get(name);
     }
 }

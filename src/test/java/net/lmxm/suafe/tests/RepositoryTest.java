@@ -26,19 +26,21 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Repository unit tests.
+ *
  * @author Shaun Johnson
  */
-public class RepositoryTest {
+public final class RepositoryTest {
     private String repositoryName = "TestRepoName";
 
     @Test
     public void testAddRemovePath() {
-        Repository repository = new Repository();
+        final Repository repository = new Repository();
 
         assertTrue(repository.getPaths() != null);
         assertTrue(repository.getPaths().size() == 0);
 
-        Path path = new Path();
+        final Path path = new Path();
 
         repository.addPath(path);
 
@@ -47,7 +49,7 @@ public class RepositoryTest {
         assertTrue(repository.getPaths().get(0) == path);
         assertTrue(repository.getPaths().get(0).equals(path));
 
-        Path path2 = new Path(repository, "path");
+        final Path path2 = new Path(repository, "path");
 
         repository.addPath(path2);
 
@@ -149,7 +151,7 @@ public class RepositoryTest {
      */
     @Test
     public void testRepository() {
-        Repository repository = new Repository();
+        final Repository repository = new Repository();
 
         assertTrue(repository.getName() == null);
         assertTrue(repository.getPaths() != null);
@@ -161,7 +163,7 @@ public class RepositoryTest {
      */
     @Test
     public void testRepositoryString() {
-        Repository repository = new Repository(repositoryName);
+        final Repository repository = new Repository(repositoryName);
 
         assertTrue(repository.getName() != null);
         assertTrue(repository.getName().equals(repositoryName));
@@ -172,7 +174,7 @@ public class RepositoryTest {
 
     @Test
     public void testSetName() {
-        Repository repository = new Repository();
+        final Repository repository = new Repository();
 
         assertTrue(repository.getName() == null);
 

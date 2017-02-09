@@ -20,16 +20,15 @@ package net.lmxm.suafe.api.beans;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a single Path within a Repository.
- * A Path consists of a Repository and a relative path within
- * the repository.
+ * A Path consists of a Repository and a relative path within the repository.
  *
  * @author Shaun Johnson
  */
 public final class Path implements Comparable<Path> {
-
     /**
      * Repository in which the Path exists.
      */
@@ -43,17 +42,13 @@ public final class Path implements Comparable<Path> {
     /**
      * List of AccessRules in which the Path is referenced.
      */
-    protected List<AccessRule> accessRules;
+    private List<AccessRule> accessRules = new ArrayList<>();
 
     /**
      * Default Constructor.
      */
     public Path() {
-        super();
 
-        this.repository = null;
-        this.path = null;
-        this.accessRules = new ArrayList<AccessRule>();
     }
 
     /**
@@ -63,11 +58,8 @@ public final class Path implements Comparable<Path> {
      * @param path       The relative path within the Repository.
      */
     public Path(Repository repository, String path) {
-        super();
-
         this.repository = repository;
         this.path = path;
-        this.accessRules = new ArrayList<AccessRule>();
     }
 
     /**
@@ -84,7 +76,7 @@ public final class Path implements Comparable<Path> {
      *
      * @param path The new value for path.
      */
-    public void setPath(String path) {
+    public void setPath(final String path) {
         this.path = path;
     }
 
@@ -102,7 +94,7 @@ public final class Path implements Comparable<Path> {
      *
      * @param repository The repository to set.
      */
-    public void setRepository(Repository repository) {
+    public void setRepository(final Repository repository) {
         this.repository = repository;
     }
 
@@ -121,7 +113,7 @@ public final class Path implements Comparable<Path> {
      *
      * @param accessRule AccessRule to be added.
      */
-    public void addAccessRule(AccessRule accessRule) {
+    public void addAccessRule(final AccessRule accessRule) {
         accessRules.add(accessRule);
     }
 
@@ -131,25 +123,46 @@ public final class Path implements Comparable<Path> {
      *
      * @param accessRule AccessRule to be removed.
      */
-    public void removeAccessRule(AccessRule accessRule) {
+    public void removeAccessRule(final AccessRule accessRule) {
         accessRules.remove(accessRule);
-    }
-
-    /**
-     * Returns the Path object as a String.
-     */
-    public String toString() {
-        return (path == null) ? "" : path;
     }
 
     /**
      * Compares this to the specified object.
      * Used when sorting lists of Path objects.
      *
-     * @param other Other Path object to which this is compared.
+     * @param otherPath Other Path object to which this is compared.
      * @throws ClassCastException Other is not an instance of Path.
      */
-    public int compareTo(Path otherPath) throws ClassCastException {
+    @Override
+    public int compareTo(final Path otherPath) throws ClassCastException {
         return this.toString().compareTo(otherPath.toString());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final Path path1 = (Path) o;
+        return Objects.equals(repository, path1.repository) &&
+                Objects.equals(path, path1.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(repository, path);
+    }
+
+    /**
+     * Returns the Path object as a String.
+     */
+    @Override
+    public String toString() {
+        return (path == null) ? "" : path;
     }
 }

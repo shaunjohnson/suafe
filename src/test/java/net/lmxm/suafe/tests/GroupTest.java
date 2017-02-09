@@ -20,27 +20,28 @@ package net.lmxm.suafe.tests;
 
 import net.lmxm.suafe.api.beans.AccessRule;
 import net.lmxm.suafe.api.beans.Group;
-import org.junit.Test;
 import net.lmxm.suafe.api.beans.User;
+import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Group unit tests.
+ *
  * @author Shaun Johnson
  */
-public class GroupTest {
-
+public final class GroupTest {
     private final String groupName = "TestGroupName";
 
     @Test
     public void testAddRemoveAccessRule() {
-        Group group = new Group();
+        final Group group = new Group();
 
         assertTrue(group.getAccessRules() != null);
         assertTrue(group.getAccessRules().size() == 0);
 
-        AccessRule accessRule = new AccessRule();
+        final AccessRule accessRule = new AccessRule();
         group.addAccessRule(accessRule);
 
         assertTrue(group.getAccessRules() != null);
@@ -56,12 +57,12 @@ public class GroupTest {
 
     @Test
     public void testAddRemoveGroup() {
-        Group group = new Group();
+        final Group group = new Group();
 
         assertTrue(group.getGroups() != null);
         assertTrue(group.getGroups().size() == 0);
 
-        Group memberOfGroup = new Group();
+        final Group memberOfGroup = new Group();
         group.addGroup(memberOfGroup);
 
         assertTrue(group.getGroups() != null);
@@ -78,12 +79,12 @@ public class GroupTest {
 
     @Test
     public void testAddRemoveGroupMember() {
-        Group group = new Group();
+        final Group group = new Group();
 
         assertTrue(group.getGroupMembers() != null);
         assertTrue(group.getGroupMembers().size() == 0);
 
-        Group memberGroup = new Group();
+        final Group memberGroup = new Group();
         group.addGroupMember(memberGroup);
 
         assertTrue(group.getGroupMembers() != null);
@@ -99,12 +100,12 @@ public class GroupTest {
 
     @Test
     public void testAddRemoveUserMember() {
-        Group group = new Group();
+        final Group group = new Group();
 
         assertTrue(group.getUserMembers() != null);
         assertTrue(group.getUserMembers().size() == 0);
 
-        User memberUser = new User();
+        final User memberUser = new User();
         group.addUserMember(memberUser);
 
         assertTrue(group.getUserMembers() != null);
@@ -188,7 +189,7 @@ public class GroupTest {
 
     @Test
     public void testGetSetName() {
-        Group group = new Group();
+        final Group group = new Group();
 
         assertTrue(group.getName() == null);
 
@@ -207,7 +208,7 @@ public class GroupTest {
      */
     @Test
     public void testGroup() {
-        Group group = new Group();
+        final Group group = new Group();
 
         assertTrue(group.getName() == null);
 
@@ -223,7 +224,7 @@ public class GroupTest {
      */
     @Test
     public void testGroupString() {
-        Group group = new Group(groupName);
+        final Group group = new Group(groupName);
 
         assertTrue(group.getName() != null);
         assertTrue(group.getName().equals(groupName));
@@ -240,13 +241,13 @@ public class GroupTest {
      */
     @Test
     public void testToString() {
-        Group group = new Group();
+        final Group group = new Group();
 
         assertTrue(group.toString() != null);
         assertTrue(group.toString().equals(""));
         assertTrue(group.toString() == "");
 
-        Group groupWithName = new Group(groupName);
+        final Group groupWithName = new Group(groupName);
 
         assertTrue(groupWithName.toString() != null);
         assertTrue(groupWithName.toString().equals(groupName));

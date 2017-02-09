@@ -21,6 +21,9 @@ package net.lmxm.suafe.api.beans;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static org.apache.commons.lang3.StringUtils.trimToNull;
 
 /**
  * Represents a single Subversion user Group.
@@ -30,7 +33,6 @@ import java.util.List;
  * @author Shaun Johnson
  */
 public final class Group extends GroupMemberObject implements Comparable<Group> {
-
     /**
      * Name of the group.
      */
@@ -39,34 +41,28 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
     /**
      * List of Groups in which this Group is a member.
      */
-    protected List<Group> groups;
+    protected List<Group> groups = new ArrayList<>();
 
     /**
      * List of Users that are a member of the Group.
      */
-    protected List<User> userMembers;
+    private List<User> userMembers = new ArrayList<>();
 
     /**
      * List of Groups that are a member of the Group.
      */
-    protected List<Group> groupMembers;
+    private List<Group> groupMembers = new ArrayList<>();
 
     /**
      * List of AccessRules that reference the Group.
      */
-    protected List<AccessRule> accessRules;
+    private List<AccessRule> accessRules = new ArrayList<>();
 
     /**
      * Default Constructor.
      */
     public Group() {
-        super();
 
-        setName(null);
-        this.groups = new ArrayList<Group>();
-        this.userMembers = new ArrayList<User>();
-        this.groupMembers = new ArrayList<Group>();
-        this.accessRules = new ArrayList<AccessRule>();
     }
 
     /**
@@ -74,14 +70,8 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param name Name of the group.
      */
-    public Group(String name) {
-        super();
-
+    public Group(final String name) {
         setName(name);
-        this.groups = new ArrayList<Group>();
-        this.userMembers = new ArrayList<User>();
-        this.groupMembers = new ArrayList<Group>();
-        this.accessRules = new ArrayList<AccessRule>();
     }
 
     /**
@@ -91,21 +81,10 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      * @param groupMembers List of Groups that are a member of the Group.
      * @param userMembers  List of Users that are a member of the Group.
      */
-    public Group(String name, List<Group> groupMembers, List<User> userMembers) {
-        super();
-
+    public Group(final String name, final List<Group> groupMembers, final List<User> userMembers) {
         setName(name);
-        this.groups = new ArrayList<Group>();
         this.userMembers = userMembers;
         this.groupMembers = groupMembers;
-        this.accessRules = new ArrayList<AccessRule>();
-    }
-
-    /**
-     * Returns the Group object as a String.
-     */
-    public String toString() {
-        return (name == null) ? "" : name;
     }
 
     /**
@@ -122,8 +101,8 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param name The new name for the Group.
      */
-    public void setName(String name) {
-        this.name = (name == null) ? null : name.trim().intern();
+    public void setName(final String name) {
+        this.name = trimToNull(name);
     }
 
     /**
@@ -140,7 +119,7 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param group Group to which the Group is assigned.
      */
-    public void addGroup(Group group) {
+    public void addGroup(final Group group) {
         groups.add(group);
     }
 
@@ -149,7 +128,7 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param group Group to be removed.
      */
-    public void removeGroup(Group group) {
+    public void removeGroup(final Group group) {
         groups.remove(group);
     }
 
@@ -167,7 +146,7 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param group Group to be added to the list of Group members.
      */
-    public void addGroupMember(Group group) {
+    public void addGroupMember(final Group group) {
         this.groupMembers.add(group);
     }
 
@@ -176,7 +155,7 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param group Group to be removed.
      */
-    public void removeGroupMember(Group group) {
+    public void removeGroupMember(final Group group) {
         this.groupMembers.remove(group);
     }
 
@@ -194,7 +173,7 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param user User to be added to the list of User members.
      */
-    public void addUserMember(User user) {
+    public void addUserMember(final User user) {
         this.userMembers.add(user);
     }
 
@@ -203,7 +182,7 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param user User to be removed.
      */
-    public void removeUserMember(User user) {
+    public void removeUserMember(final User user) {
         this.userMembers.remove(user);
     }
 
@@ -222,7 +201,7 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param accessRule The AccessRule to add.
      */
-    public void addAccessRule(AccessRule accessRule) {
+    public void addAccessRule(final AccessRule accessRule) {
         accessRules.add(accessRule);
     }
 
@@ -232,7 +211,7 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param accessRule The AccessRule to remove.
      */
-    public void removeAccessRule(AccessRule accessRule) {
+    public void removeAccessRule(final AccessRule accessRule) {
         accessRules.remove(accessRule);
     }
 
@@ -241,17 +220,34 @@ public final class Group extends GroupMemberObject implements Comparable<Group> 
      *
      * @param otherGroup The other Group to use for comparison.
      */
-    public int compareTo(Group otherGroup) {
+    @Override
+    public int compareTo(final Group otherGroup) {
         return this.toString().compareTo(otherGroup.toString());
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final Group group = (Group) o;
+        return Objects.equals(name, group.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
     /**
-     * Compares this object to another.
-     *
-     * @param otherGroup The other Group to use for comparison.
-     * @return true if the same group, other false
+     * Returns the Group object as a String.
      */
-    public boolean equals(Group otherGroup) {
-        return name == otherGroup.getName();
+    @Override
+    public String toString() {
+        return (name == null) ? "" : name;
     }
 }

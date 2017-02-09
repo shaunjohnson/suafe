@@ -23,6 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static org.apache.commons.lang3.StringUtils.trimToNull;
 
 /**
  * Represents a single Subversion user object. User objects are not persisted unless they are a member of a group or
@@ -31,21 +34,20 @@ import java.util.List;
  * @author Shaun Johnson
  */
 public final class User extends GroupMemberObject implements Comparable<User> {
-
     /**
      * List of AccessRules in which the User is referenced.
      */
-    protected List<AccessRule> accessRules;
+    private List<AccessRule> accessRules = new ArrayList<>();
 
     /**
      * The User's alias. This field must be unique.
      */
-    protected String alias;
+    private String alias;
 
     /**
      * List of Groups to which the User is assigned.
      */
-    protected List<Group> groups;
+    protected List<Group> groups = new ArrayList<>();
 
     /**
      * The User's name. This field must contain a unique value.
@@ -56,12 +58,7 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      * Default constructor.
      */
     public User() {
-        super();
 
-        this.alias = null;
-        this.name = null;
-        this.groups = new ArrayList<Group>();
-        this.accessRules = new ArrayList<AccessRule>();
     }
 
     /**
@@ -69,12 +66,8 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param name Name of the user.
      */
-    public User(String name) {
-        super();
-
+    public User(final String name) {
         setName(name);
-        setGroups(new ArrayList<Group>());
-        setAccessRules(new ArrayList<AccessRule>());
     }
 
     /**
@@ -82,13 +75,9 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param name Name of the user.
      */
-    public User(String name, String alias) {
-        super();
-
-        setAlias(alias);
+    public User(final String name, final String alias) {
         setName(name);
-        setGroups(new ArrayList<Group>());
-        setAccessRules(new ArrayList<AccessRule>());
+        setAlias(alias);
     }
 
     /**
@@ -96,7 +85,7 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param accessRule AccessRule in which the User is referenced.
      */
-    public void addAccessRule(AccessRule accessRule) {
+    public void addAccessRule(final AccessRule accessRule) {
         accessRules.add(accessRule);
     }
 
@@ -105,27 +94,8 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param group Group to which the User is assigned.
      */
-    public void addGroup(Group group) {
+    public void addGroup(final Group group) {
         groups.add(group);
-//		group.addUserMember(this);
-    }
-
-    /**
-     * Compares this to another object.
-     *
-     * @param otherUser The other User to which this is compared.
-     */
-    public int compareTo(User otherUser) {
-        return this.toString().compareTo(otherUser.toString());
-    }
-
-    /**
-     * Compares this to another object.
-     *
-     * @param otherUser The other User to which this is compared.
-     */
-    public boolean equals(User otherUser) {
-        return name == otherUser.getName();
     }
 
     /**
@@ -168,7 +138,7 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      * @return Returns true if users is "*" (All SVN Users)
      */
     public boolean isAllUsers() {
-        return name == SubversionConstants.SVN_ALL_USERS_NAME;
+        return SubversionConstants.SVN_ALL_USERS_NAME.equals(name);
     }
 
     /**
@@ -176,7 +146,7 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param accessRule AccessRule which to remove from the list.
      */
-    public void removeAccessRule(AccessRule accessRule) {
+    public void removeAccessRule(final AccessRule accessRule) {
         accessRules.remove(accessRule);
     }
 
@@ -185,7 +155,7 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param group Group which to remove from the list.
      */
-    public void removeGroup(Group group) {
+    public void removeGroup(final Group group) {
         groups.remove(group);
     }
 
@@ -194,15 +164,15 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param accessRules New list of AccessRules in which the user is referenced.
      */
-    public void setAccessRules(List<AccessRule> accessRules) {
+    public void setAccessRules(final List<AccessRule> accessRules) {
         this.accessRules = accessRules;
     }
 
     /**
      * @param alias the alias to set
      */
-    public final void setAlias(String alias) {
-        this.alias = alias;
+    public final void setAlias(final String alias) {
+        this.alias = trimToNull(alias);
     }
 
     /**
@@ -210,7 +180,7 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param groups New list of groups to which the user is assigned.
      */
-    public void setGroups(List<Group> groups) {
+    public void setGroups(final List<Group> groups) {
         this.groups = groups;
     }
 
@@ -219,8 +189,36 @@ public final class User extends GroupMemberObject implements Comparable<User> {
      *
      * @param name The User's new name.
      */
-    public void setName(String name) {
-        this.name = (name == null) ? null : name.trim().intern();
+    public void setName(final String name) {
+        this.name = trimToNull(name);
+    }
+
+    /**
+     * Compares this to another object.
+     *
+     * @param otherUser The other User to which this is compared.
+     */
+    @Override
+    public int compareTo(final User otherUser) {
+        return this.toString().compareTo(otherUser.toString());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final User user = (User) o;
+        return Objects.equals(name, user.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     /**

@@ -25,9 +25,8 @@ import net.lmxm.suafe.validators.Validator;
 
 /**
  * Represents a single Subversion AccessRule.
- * An AccessRule consists of a Path (repository and relative path),
- * a User or Group, and the level of access. AccessRules are always
- * persisted.
+ * An AccessRule consists of a Path (repository and relative path), a User or Group, and the level of access.
+ * AccessRules are always persisted.
  *
  * @author Shaun Johsnon
  */
@@ -58,12 +57,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      * Default Constructor.
      */
     public AccessRule() {
-        super();
 
-        this.path = null;
-        this.group = null;
-        this.user = null;
-        this.level = null;
     }
 
     /**
@@ -73,11 +67,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      * @param level The level of access to be set.
      */
     public AccessRule(final Path path, final String level) {
-        super();
-
         this.path = path;
-        this.group = null;
-        this.user = null;
         this.level = level;
     }
 
@@ -89,11 +79,8 @@ public final class AccessRule implements Comparable<AccessRule> {
      * @param level The level of access to be set.
      */
     public AccessRule(final Path path, final Group group, final String level) {
-        super();
-
         this.path = path;
         this.group = group;
-        this.user = null;
         this.level = level;
     }
 
@@ -105,10 +92,7 @@ public final class AccessRule implements Comparable<AccessRule> {
      * @param level The level of access to be set.
      */
     public AccessRule(final Path path, final User user, final String level) {
-        super();
-
         this.path = path;
-        this.group = null;
         this.user = user;
         this.level = level;
     }
