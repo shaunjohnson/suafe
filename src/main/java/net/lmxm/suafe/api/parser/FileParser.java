@@ -26,6 +26,7 @@ import net.lmxm.suafe.api.exceptions.ParserException;
 import net.lmxm.suafe.exceptions.AppException;
 import net.lmxm.suafe.exceptions.ValidatorException;
 
+import javax.annotation.Nonnull;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,6 +140,15 @@ public final class FileParser {
         }
 
         return document;
+    }
+
+    public Document parse(@Nonnull final String input) throws ParserException, ValidatorException {
+        try (final ByteArrayInputStream stringReader = new ByteArrayInputStream(input.getBytes())) {
+            return parse(stringReader);
+        }
+        catch (IOException e) {
+            throw ParserException.generateException(-1, "parser.error");
+        }
     }
 
     public Document parse(final InputStream inputStream) throws ParserException, ValidatorException {

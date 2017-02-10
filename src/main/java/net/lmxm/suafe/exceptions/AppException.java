@@ -29,10 +29,9 @@ import javax.annotation.Nonnull;
  * @author Shaun Johnson
  */
 public class AppException extends Exception {
-    /**
-     * Serial ID.
-     */
     private static final long serialVersionUID = -7928884482694610184L;
+
+    private final String key;
 
     /**
      * Constructor that accepts a message key.
@@ -41,6 +40,7 @@ public class AppException extends Exception {
      */
     public AppException(@Nonnull final String key) {
         super(ResourceUtil.getString(key));
+        this.key = key;
     }
 
     /**
@@ -51,6 +51,7 @@ public class AppException extends Exception {
      */
     public AppException(@Nonnull final String key, @Nonnull final Object argument) {
         super(ResourceUtil.getFormattedString(key, argument));
+        this.key = key;
     }
 
     /**
@@ -62,6 +63,7 @@ public class AppException extends Exception {
      */
     public AppException(@Nonnull final String key, @Nonnull final Object argument1, @Nonnull final Object argument2) {
         super(ResourceUtil.getFormattedString(key, argument1, argument2));
+        this.key = key;
     }
 
     /**
@@ -72,5 +74,11 @@ public class AppException extends Exception {
      */
     public AppException(@Nonnull final String key, @Nonnull final Object[] arguments) {
         super(ResourceUtil.getFormattedString(key, arguments));
+        this.key = key;
+    }
+
+    @Nonnull
+    public String getKey() {
+        return key;
     }
 }

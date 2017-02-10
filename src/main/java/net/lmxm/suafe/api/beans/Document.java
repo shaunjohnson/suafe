@@ -35,6 +35,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * Represents a single Subversion user authentication file.
@@ -1141,6 +1144,29 @@ public final class Document {
     }
 
     /**
+     * Finds existing groups by name.
+     *
+     * @param groupNames Name of groups to find
+     * @return List of matching groups
+     * @throws AppException if error occurs
+     */
+    public List<Group> findGroups(@Nonnull final List<String> groupNames) throws AppException {
+        final List<Group> groups = new ArrayList<>();
+
+        for (final String groupName : groupNames) {
+            final Group group = findGroup(groupName);
+
+            if (group != null) {
+                groups.add(group);
+            }
+        }
+
+        Collections.sort(groups);
+
+        return groups;
+    }
+
+    /**
      * Locates an AccessRules by Repository, path and Group.
      *
      * @param repository Respository referenced by AccessRule.
@@ -1591,7 +1617,9 @@ public final class Document {
      * @return List of Groups.
      */
     public List<Group> getGroups() {
-        return groups;
+        return groups.stream()
+                .sorted()
+                .collect(toList());
     }
 
     /**

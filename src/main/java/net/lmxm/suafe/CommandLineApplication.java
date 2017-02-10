@@ -24,18 +24,19 @@ import com.martiansoftware.jsap.JSAPException;
 import com.martiansoftware.jsap.JSAPResult;
 import net.lmxm.suafe.api.SubversionConstants;
 import net.lmxm.suafe.api.beans.*;
-import net.lmxm.suafe.reports.StatisticsReport;
-import net.lmxm.suafe.reports.SummaryReport;
-import net.lmxm.suafe.utils.ArgumentParser;
 import net.lmxm.suafe.api.parser.FileGenerator;
 import net.lmxm.suafe.api.parser.FileParser;
 import net.lmxm.suafe.exceptions.AppException;
+import net.lmxm.suafe.reports.StatisticsReport;
+import net.lmxm.suafe.reports.SummaryReport;
 import net.lmxm.suafe.resources.ResourceUtil;
+import net.lmxm.suafe.utils.ArgumentParser;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.List;
 
 public final class CommandLineApplication {
@@ -162,7 +163,7 @@ public final class CommandLineApplication {
      * @throws AppException Error occurred
      */
     @Nonnull
-    private String addGroup(@Nonnull final Document document, @Nullable final String groupName) throws AppException {
+    static String addGroup(@Nonnull final Document document, @Nullable final String groupName) throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
         }
@@ -180,8 +181,8 @@ public final class CommandLineApplication {
      * @throws AppException Error occurred
      */
     @Nonnull
-    private String addGroups(@Nonnull final Document document, @Nullable final String userName,
-                             @Nullable final String[] groupNames) throws AppException {
+    static String addGroups(@Nonnull final Document document, @Nullable final String userName,
+                            @Nullable final String[] groupNames) throws AppException {
         if (userName == null) {
             throw new AppException("application.error.userrequired");
         }
@@ -220,8 +221,8 @@ public final class CommandLineApplication {
      * @throws AppException Error occurred
      */
     @Nonnull
-    private String addMembers(@Nonnull final Document document, @Nullable final String groupName,
-                              @Nullable final String[] userNames, @Nullable final String[] groupNames)
+    static String addMembers(@Nonnull final Document document, @Nullable final String groupName,
+                             @Nullable final String[] userNames, @Nullable final String[] groupNames)
             throws AppException {
         if (groupName == null) {
             throw new AppException("application.error.grouprequired");
@@ -232,7 +233,6 @@ public final class CommandLineApplication {
         }
 
         final Group group = document.findGroup(groupName);
-
         if (group == null) {
             throw new AppException("application.error.unabletofindgroup", groupName);
         }
@@ -247,6 +247,8 @@ public final class CommandLineApplication {
 
             group.addUserMember(memberUser);
         }
+
+        document.checkForCircularReference(group, document.findGroups(Arrays.asList(groupNames)));
 
         for (final String memberGroupName : groupNames) {
             final Group memberGroup = document.findGroup(memberGroupName);
@@ -273,18 +275,14 @@ public final class CommandLineApplication {
      * @throws AppException Error occurred
      */
     @Nonnull
-    private String addRule(@Nonnull final Document document, @Nullable final String repositoryName,
-                           @Nullable final String path, @Nullable final String userName,
-                           @Nullable final String groupName, @Nullable final String access) throws AppException {
+    static String addRule(@Nonnull final Document document, @Nullable final String repositoryName,
+                          @Nullable final String path, @Nullable final String userName,
+                          @Nullable final String groupName, @Nullable final String access) throws AppException {
         if (path == null) {
             throw new AppException("application.error.pathrequired");
         }
 
-        if (userName == null && groupName == null) {
-            throw new AppException("application.error.userorgrouprequired");
-        }
-
-        if (userName != null && groupName != null) {
+        if ((userName == null && groupName == null) || (userName != null && groupName != null)) {
             throw new AppException("application.error.userorgrouprequired");
         }
 
@@ -305,7 +303,7 @@ public final class CommandLineApplication {
                         effectiveAccess);
             }
         }
-        else if (groupName != null) {
+        else {
             if (repositoryName == null) {
                 document.addAccessRuleForGroup(null, path, document.addGroup(groupName), effectiveAccess);
             }
@@ -313,9 +311,6 @@ public final class CommandLineApplication {
                 document.addAccessRuleForGroup(document.addRepository(repositoryName), path, document
                         .addGroup(groupName), effectiveAccess);
             }
-        }
-        else {
-            throw new AppException("application.error.userorgrouprequired");
         }
 
         return new FileGenerator(document).generate(true);
@@ -1000,7 +995,7 @@ public final class CommandLineApplication {
     /**
      * Get list of groups that are a member of a group.
      *
-     * @param document Document
+     * @param document  Document
      * @param groupName Name of group
      * @throws AppException Error occurred
      */
@@ -1031,7 +1026,7 @@ public final class CommandLineApplication {
     /**
      * Get list of members of a group. User and group members are returned.
      *
-     * @param document Document
+     * @param document  Document
      * @param groupName Name of group
      * @throws AppException Error occurred
      */
@@ -1079,7 +1074,7 @@ public final class CommandLineApplication {
     /**
      * Get access rules for a group.
      *
-     * @param document Document
+     * @param document  Document
      * @param groupName Name of group
      * @throws AppException Error occurred
      */
@@ -1137,7 +1132,7 @@ public final class CommandLineApplication {
     /**
      * Get list of users that are a member of a group.
      *
-     * @param document Document
+     * @param document  Document
      * @param groupName Name of group
      * @throws AppException Exception occurred
      */
@@ -1185,7 +1180,7 @@ public final class CommandLineApplication {
     /**
      * Get access rules for a repository.
      *
-     * @param document Document
+     * @param document       Document
      * @param repositoryName Name of repository
      * @throws AppException Error occurred
      */
@@ -1415,12 +1410,14 @@ public final class CommandLineApplication {
             retval = deleteGroup(document, config.getString(ARGS_NAME));
         }
         else if (config.getBoolean(ARGS_ADD_MEMBERS)) {
-            retval = addMembers(document, config.getString(ARGS_NAME), config.getStringArray(ARGS_USERS), config
-                    .getStringArray(ARGS_GROUPS));
+            retval = addMembers(document, config.getString(ARGS_NAME),
+                    config.getStringArray(ARGS_USERS),
+                    config.getStringArray(ARGS_GROUPS));
         }
         else if (config.getBoolean(ARGS_REMOVE_MEMBERS)) {
-            retval = removeMembers(document, config.getString(ARGS_NAME), config.getStringArray(ARGS_USERS), config
-                    .getStringArray(ARGS_GROUPS));
+            retval = removeMembers(document, config.getString(ARGS_NAME),
+                    config.getStringArray(ARGS_USERS),
+                    config.getStringArray(ARGS_GROUPS));
         }
         else if (config.getBoolean(ARGS_COUNT_GROUPS)) {
             retval = countGroups(document);

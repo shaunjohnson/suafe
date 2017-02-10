@@ -1652,6 +1652,11 @@ public class DocumentTest {
     }
 
     @Test
+    public void testFindGroups() {
+
+    }
+
+    @Test
     public void testFindGroupAccessRule() {
 
     }
