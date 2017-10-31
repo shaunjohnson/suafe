@@ -24,7 +24,7 @@
     <groupId>org.xiaoniu</groupId>
     <artifactId>suafe</artifactId>
     <packaging>jar</packaging>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.1</version>
     <name>Suafe</name>
     <description>Suafe is a Subversion user authorization file editor.</description>
     <inceptionYear>2006</inceptionYear>
